@@ -1,0 +1,11 @@
+pandas
+django
+django-crispy-forms
+django-debug-toolbar
+crispy-bootstrap5
+django-select2
+mysqlclient
+numpy
+xlsxwriter
+openpyxl
+reportlab

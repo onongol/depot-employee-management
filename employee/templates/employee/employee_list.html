@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Employee List{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between mb-3 align-items-center">
+  <h2 id="employee-list-title">Employee List</h2>
+  <a class="btn btn-primary" href="{% url 'create_employee' %}">Create Employee</a>
+</div>
+
+<!-- Filter Form -->
+<form method="get" class="mb-3" aria-labelledby="employee-list-title">
+  <div class="row">
+    <div class="col">
+      <label for="filter-employee-id" class="visually-hidden">Employee ID</label>
+      <input
+        type="number"
+        name="employee_id"
+        id="filter-employee-id"
+        class="form-control"
+        placeholder="Employee ID"
+        value="{{ request.GET.employee_id }}"
+        min="1"
+      />
+    </div>
+    <div class="col">
+      <label for="filter-employee-name" class="visually-hidden">Employee Name</label>
+      <input
+        type="text"
+        name="employee_name"
+        id="filter-employee-name"
+        class="form-control"
+        placeholder="Employee Name"
+        value="{{ request.GET.employee_name }}"
+      />
+    </div>
+    <div class="col">
+      <label for="filter-department" class="visually-hidden">Department</label>
+      <select name="department" id="filter-department" class="form-control">
+        <option value="">All Departments</option>
+        {% for department in departments %}
+        <option value="{{ department }}" {% if request.GET.department == department %}selected{% endif %}>
+          {{ department }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col">
+      <label for="filter-job-title" class="visually-hidden">Job Title</label>
+      <select name="job_title" id="filter-job-title" class="form-control">
+        <option value="">All Job Titles</option>
+        {% for title in job_titles %}
+        <option value="{{ title }}" {% if request.GET.job_title == title %}selected{% endif %}>
+          {{ title }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col">
+      <button type="submit" class="btn btn-light">Filter</button>
+    </div>
+  </div>
+</form>
+
+<!-- Delete Messages -->
+{% include "partials/delete_attention.html" %}
+
+<table class="table table-bordered table-striped" aria-describedby="employee-list-title">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Employee ID</th>
+      <th scope="col">Employee Name</th>
+      <th scope="col">Department</th>
+      <th scope="col">Job Title</th>
+      <th scope="col">Rank</th>
+      <th scope="col">Money per Hour</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if employees %}
+      {% for employee in employees %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ employee.employee_id }}</td>
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.department }}</td>
+          <td>{{ employee.job_title }}</td>
+          <td>{{ employee.rank }}</td>
+          <td>{{ employee.money_per_hour }}</td>
+          <td>
+            <div class="d-flex gap-2">
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#updateModal"
+                data-id="{{ employee.pk }}"
+                data-name="{{ employee.name }}"
+                data-url="{% url 'update_employee' employee.pk %}"
+                aria-label="Edit {{ employee.name }}"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal"
+                data-id="{{ employee.pk }}"
+                data-name="{{ employee.name }}"
+                data-url="{% url 'delete_employee' employee.pk %}"
+                aria-label="Delete {{ employee.name }}"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="8" class="text-center">No employees found...</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<!-- Include Pagination -->
+<nav aria-label="Employee list pagination">
+  {% include "partials/pagination.html" %}
+</nav>
+
+<!-- Include modals for delete and update -->
+{% include "partials/modals.html" %}
+
+{% endblock %}

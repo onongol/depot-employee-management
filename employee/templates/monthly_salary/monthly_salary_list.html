@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}Monthly Salary List{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h2 id="monthly-salary-list-title">Monthly Salary List</h2>
+  <a class="btn btn-primary" href="{% url 'create_monthly_salary' %}">Create Monthly Salary</a>
+</div>
+
+<!-- Filter Form -->
+<form method="get" class="mb-3" aria-labelledby="monthly-salary-list-title">
+  <div class="row">
+    <div class="col">
+      <label for="filter-employee-id" class="visually-hidden">Employee ID</label>
+      <input
+        type="number"
+        name="employee_id"
+        id="filter-employee-id"
+        class="form-control"
+        placeholder="Employee ID"
+        value="{{ request.GET.employee_id }}"
+        min="1"
+      />
+    </div>
+    <div class="col">
+      <label for="filter-employee-name" class="visually-hidden">Employee Name</label>
+      <input
+        type="text"
+        name="employee_name"
+        id="filter-employee-name"
+        class="form-control"
+        placeholder="Employee Name"
+        value="{{ request.GET.employee_name }}"
+      />
+    </div>
+    <div class="col">
+      <label for="filter-month" class="visually-hidden">Month</label>
+      <select name="month" id="filter-month" class="form-control">
+        <option value="">All Months</option>
+        {% for value, name in months %}
+        <option value="{{ value }}" {% if request.GET.month == value|stringformat:'d' %}selected{% endif %}>
+          {{ name }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col">
+      <label for="filter-year" class="visually-hidden">Year</label>
+      <select name="year" id="filter-year" class="form-control">
+        <option value="" {% if not request.GET.year %}selected{% endif %}>All Years</option>
+        {% for year in years %}
+        <option value="{{ year }}" {% if request.GET.year == year|stringformat:'d' %}selected{% endif %}>
+          {{ year }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col">
+      <label for="filter-record-date" class="visually-hidden">Record Date</label>
+      <input
+        type="date"
+        name="record_date"
+        id="filter-record-date"
+        class="form-control"
+        value="{{ request.GET.record_date }}"
+      />
+    </div>
+    <div class="col">
+      <button type="submit" class="btn btn-light">Filter</button>
+    </div>
+  </div>
+</form>
+
+<!-- Delete Messages -->
+{% include "partials/delete_attention.html" %}
+
+<table class="table table-bordered table-striped" aria-describedby="monthly-salary-list-title">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Employee ID</th>
+      <th scope="col">Employee Name</th>
+      <th scope="col">Hours per Month</th>
+      <th scope="col">Salary Month</th>
+      <th scope="col">
+        <a href="?order_by=month&amp;direction={% if request.GET.order_by == 'month' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
+          Month
+          <span class="sorting-arrows">
+            <span class="{% if request.GET.order_by == 'month' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
+            <span class="{% if request.GET.order_by == 'month' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
+          </span>
+        </a>
+      </th>
+      <th scope="col">
+        <a href="?order_by=year&amp;direction={% if request.GET.order_by == 'year' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
+          Year
+          <span class="sorting-arrows">
+            <span class="{% if request.GET.order_by == 'year' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
+            <span class="{% if request.GET.order_by == 'year' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
+          </span>
+        </a>
+      </th>
+      <th scope="col">
+        <a href="?order_by=record_date&amp;direction={% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
+          Record Date
+          <span class="sorting-arrows">
+            <span class="{% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
+            <span class="{% if request.GET.order_by == 'record_date' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
+          </span>
+        </a>
+      </th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if monthly_salaries %}
+      {% for monthly_salary in monthly_salaries %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ monthly_salary.employee.employee_id }}</td>
+          <td>{{ monthly_salary.employee.name }}</td>
+          <td>{{ monthly_salary.hours_per_month }}</td>
+          <td>{{ monthly_salary.salary_month }}</td>
+          <td>{{ monthly_salary.get_month_display }}</td>
+          <td>{{ monthly_salary.year }}</td>
+          <td>{{ monthly_salary.record_date|date:"Y.m.d" }}</td>
+          <td>
+            <div class="d-flex gap-2">
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#updateModal"
+                data-id="{{ monthly_salary.employee.employee_id }}"
+                data-name="{{ monthly_salary.employee.name }}, {{ monthly_salary.year }}/{{ monthly_salary.month }}"
+                data-url="{% url 'update_monthly_salary' monthly_salary.pk %}"
+                aria-label="Edit {{ monthly_salary.employee.name }}, {{ monthly_salary.year }}/{{ monthly_salary.month }}"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal"
+                data-id="{{ monthly_salary.employee.employee_id }}"
+                data-name="{{ monthly_salary.employee.name }}, {{ monthly_salary.year }}/{{ monthly_salary.month }}"
+                data-url="{% url 'delete_monthly_salary' monthly_salary.pk %}"
+                aria-label="Delete {{ monthly_salary.employee.name }}, {{ monthly_salary.year }}/{{ monthly_salary.month }}"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="9" class="text-center">No monthly salaries found...</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<!-- Include Pagination -->
+<nav aria-label="Monthly salary list pagination">
+  {% include "partials/pagination.html" %}
+</nav>
+
+<!-- Include modals for delete and update -->
+{% include "partials/modals.html" %}
+
+{% endblock %}

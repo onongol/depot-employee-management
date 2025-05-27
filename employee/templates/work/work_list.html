@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Work List{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h2 id="work-list-title">Work List</h2>
+  <a class="btn btn-primary" href="{% url 'create_work' %}">Create Work</a>
+</div>
+
+<!-- Filter Form -->
+<form method="get" class="mb-3" aria-labelledby="work-list-title">
+  <div class="row">
+    <div class="col">
+      <label for="filter-department" class="visually-hidden">Department</label>
+      <select name="department" id="filter-department" class="form-control">
+        <option value="">All Departments</option>
+        {% for department in departments %}
+        <option value="{{ department }}" {% if request.GET.department == department %}selected{% endif %}>
+          {{ department }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col">
+      <label for="filter-work-name" class="visually-hidden">Work Name</label>
+      <input
+        type="text"
+        name="work_name"
+        id="filter-work-name"
+        class="form-control"
+        placeholder="Work Name"
+        value="{{ request.GET.work_name }}"
+      />
+    </div>
+    <div class="col">
+      <button type="submit" class="btn btn-light">Filter</button>
+    </div>
+  </div>
+</form>
+
+<!-- Delete Messages -->
+{% include "partials/delete_attention.html" %}
+
+<table class="table table-bordered table-striped" aria-describedby="work-list-title">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Department</th>
+      <th scope="col">Work Name</th>
+      <th scope="col">Type Material</th>
+      <th scope="col">Usage Material</th>
+      <th scope="col">Standard Time</th>
+      <th scope="col">Price</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if works %}
+      {% for work in works %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ work.department }}</td>
+          <td>{{ work.work_name }}</td>
+          <td>{{ work.type_material }}</td>
+          <td>{{ work.usage_material }}</td>
+          <td>{{ work.standard_time }}</td>
+          <td>{{ work.price }}</td>
+          <td>
+            <div class="d-flex gap-2">
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#updateModal"
+                data-id="{{ work.pk }}"
+                data-name="{{ work.work_name }}"
+                data-url="{% url 'update_work' work.pk %}"
+                aria-label="Edit {{ work.work_name }}"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal"
+                data-id="{{ work.pk }}"
+                data-name="{{ work.work_name }}"
+                data-url="{% url 'delete_work' work.pk %}"
+                aria-label="Delete {{ work.work_name }}"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="8" class="text-center">No work found...</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<!-- Include Pagination -->
+<nav aria-label="Work list pagination">
+  {% include "partials/pagination.html" %}
+</nav>
+
+<!-- Include modals for delete and update -->
+{% include "partials/modals.html" %}
+
+{% endblock %}
