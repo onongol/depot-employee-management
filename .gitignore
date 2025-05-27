@@ -44,5 +44,14 @@ coverage.xml
 *.swp
 *.tmp
 
+# Migrations
+migrations/
+*.migrations/
+*_initial.py
+
 # Other
 *.py_*
+
+
+
+
