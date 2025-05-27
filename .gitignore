@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+.venv
+*.venv
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# VS Code
+.vscode/
+.history/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# Database
+*.sqlite3
+*.db
+
+# Coverage
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+
+# Misc
+*.bak
+*.swp
+*.tmp
+
+# Other
+*.py_*
