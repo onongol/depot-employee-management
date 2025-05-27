@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Piecework List{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h2 id="piecework-list-title">Piecework {{ selected_department }}</h2>
+  <a class="btn btn-primary mb-3" href="{% url 'create_piecework' %}?department={{ selected_department|urlencode }}">
+    Create Piecework for {{ selected_department }}
+  </a>
+</div>
+
+<!-- Filter Form -->
+<form method="get" class="mb-3" aria-labelledby="piecework-list-title">
+  <input type="hidden" name="department" value="{{ selected_department }}">
+  <div class="row">
+    <div class="col">
+      <label for="filter-employee-id" class="visually-hidden">Employee ID</label>
+      <input
+        type="number"
+        name="employee_id"
+        id="filter-employee-id"
+        class="form-control"
+        placeholder="Employee ID"
+        value="{{ request.GET.employee_id }}"
+        min="1"
+      />
+    </div>
+    <div class="col">
+      <label for="filter-employee-name" class="visually-hidden">Employee Name</label>
+      <input
+        type="text"
+        name="employee_name"
+        id="filter-employee-name"
+        class="form-control"
+        placeholder="Employee Name"
+        value="{{ request.GET.employee_name }}"
+      />
+    </div>
+    <div class="col">
+      <label for="filter-work" class="visually-hidden">Work</label>
+      <input
+        type="text"
+        name="work"
+        id="filter-work"
+        class="form-control"
+        placeholder="Work"
+        value="{{ request.GET.work }}"
+      />
+    </div>
+    <div class="col">
+      <label for="filter-type-work" class="visually-hidden">Type Work</label>
+      <select name="type_work" id="filter-type-work" class="form-control">
+        <option value="">All Type Works</option>
+        {% for type in type_works %}
+        <option value="{{ type }}" {% if request.GET.type_work == type %}selected{% endif %}>
+          {{ type }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col">
+      <label for="filter-type-material" class="visually-hidden">Type Material</label>
+      <select name="type_material" id="filter-type-material" class="form-control">
+        <option value="">All Type Materials</option>
+        {% for type in type_materials %}
+        <option value="{{ type }}" {% if request.GET.type_material == type %}selected{% endif %}>
+          {{ type }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col">
+      <label for="filter-work-date" class="visually-hidden">Work Date</label>
+      <div class="input-group">
+        <span class="input-group-text">Work Date</span>
+        <input
+          type="date"
+          name="work_date"
+          id="filter-work-date"
+          class="form-control"
+          value="{{ request.GET.work_date }}"
+        />
+      </div>
+    </div>
+    <div class="col">
+      <label for="filter-record-date" class="visually-hidden">Record Date</label>
+      <div class="input-group">
+        <span class="input-group-text">Record Date</span>
+        <input
+          type="date"
+          name="record_date"
+          id="filter-record-date"
+          class="form-control"
+          value="{{ request.GET.record_date }}"
+        />
+      </div>
+    </div>
+    <div class="col">
+      <button type="submit" class="btn btn-light">Filter</button>
+    </div>
+  </div>
+</form>
+
+<!-- Delete Messages -->
+{% include "partials/delete_attention.html" %}
+
+<table class="table table-bordered table-striped" aria-describedby="piecework-list-title">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Employee ID</th>
+      <th scope="col">Employee Name</th>
+      <th scope="col">Work</th>
+      <th scope="col">Type Work</th>
+      <th scope="col">Type Material</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Amount Price</th>
+      <th scope="col">Amount Material</th>
+      <th scope="col">
+        <a href="?order_by=work_date&amp;direction={% if request.GET.order_by == 'work_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department }}" class="sorting-link">
+          Work Date
+          <span class="sorting-arrows">
+            <span class="{% if request.GET.order_by == 'work_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
+            <span class="{% if request.GET.order_by == 'work_date' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
+          </span>
+        </a>
+      </th>
+      <th scope="col">
+        <a href="?order_by=record_date&amp;direction={% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department }}" class="sorting-link">
+          Record Date
+          <span class="sorting-arrows">
+            <span class="{% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
+            <span class="{% if request.GET.order_by == 'record_date' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
+          </span>
+        </a>
+      </th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if pieceworks %}
+      {% for piecework in pieceworks %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ piecework.employee.employee_id }}</td>
+          <td>{{ piecework.employee.name }}</td>
+          <td>{{ piecework.work.work_name }}</td>
+          <td>{{ piecework.type_work }}</td>
+          <td>{{ piecework.work.type_material }}</td>
+          <td>{{ piecework.amount }}</td>
+          <td>{{ piecework.amount_price }}</td>
+          <td>{{ piecework.amount_material }}</td>
+          <td>{{ piecework.work_date|date:"Y.m.d" }}</td>
+          <td>{{ piecework.record_date|date:"Y.m.d H:i" }}</td>
+          <td>
+            <div class="d-flex gap-2">
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#updateModal"
+                data-id="{{ piecework.employee.employee_id }}"
+                data-name="{{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
+                data-url="{% url 'update_piecework' piecework.pk %}?department={{ selected_department }}"
+                aria-label="Edit {{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal"
+                data-id="{{ piecework.employee.employee_id }}"
+                data-name="{{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
+                data-url="{% url 'delete_piecework' piecework.pk %}?department={{ selected_department }}"
+                aria-label="Delete {{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="12" class="text-center">No piecework records found...</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<!-- Include Pagination --><!-- Include Pagination -->
+<nav aria-label="Piecework list pagination">
+  {% include "partials/pagination.html" %}
+</nav>
+
+<!-- Include modals for delete and update --><!-- Include modals for delete and update -->
+{% include "partials/modals.html" %}
+
+{% endblock %}

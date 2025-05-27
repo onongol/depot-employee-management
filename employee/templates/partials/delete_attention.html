@@ -1,0 +1,17 @@
+{% if messages %}
+  {% for message in messages %}
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+      <div class="alert alert-dismissible alert-primary" role="alert" aria-live="polite">
+        <h4 class="alert-heading">Attention!</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ message|safe }}
+      </div>
+    {% else %}
+      <div class="alert alert-dismissible alert-warning" role="alert" aria-live="polite">
+        <h4 class="alert-heading">Warning!</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ message|safe }}
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}

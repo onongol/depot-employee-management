@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Calculation Materials{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h2 id="page-title">Calculate Material Amount</h2>
+</div>
+
+<form method="get" class="row g-3 mb-4" aria-labelledby="page-title">
+  <div class="col-md-4">
+    <label for="type_material" class="form-label visually-hidden">Type Material</label>
+    <select class="form-select" id="type_material" name="type_material">
+      <option value="all" {% if request.GET.type_material == "all" or not request.GET.type_material %}selected{% endif %}>All Type Material</option>
+      {% for type in type_materials %}
+        <option value="{{ type }}" {% if request.GET.type_material == type %}selected{% endif %}>{{ type }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-3">
+    <label for="start_date" class="form-label visually-hidden">Start Date</label>
+    <div class="input-group">
+      <span class="input-group-text" id="from-label">From</span>
+      <input
+        type="date"
+        class="form-control"
+        id="start_date"
+        name="start_date"
+        value="{{ request.GET.start_date }}"
+        aria-labelledby="from-label"
+      >
+    </div>
+  </div>
+  <div class="col-md-3">
+    <label for="end_date" class="form-label visually-hidden">End Date</label>
+    <div class="input-group">
+      <span class="input-group-text" id="to-label">To</span>
+      <input
+        type="date"
+        class="form-control"
+        id="end_date"
+        name="end_date"
+        value="{{ request.GET.end_date }}"
+        aria-labelledby="to-label"
+      >
+    </div>
+  </div>
+  <div class="col-md-2 d-grid align-items-end">
+    <button type="submit" class="btn btn-primary">Calculate</button>
+  </div>
+</form>
+
+{% if pieceworks %}
+  <table class="table table-bordered table-striped mt-3" aria-describedby="page-title">
+    <colgroup>
+      <col style="width: 25%;">
+      <col style="width: 50%;">
+      <col style="width: 25%;">
+    </colgroup>
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Type Material</th>
+        <th scope="col">Amount Material</th>
+      </tr>
+    <tbody>
+      {% if sum_amount is not None and page_obj.number == 1 %}
+      <tr class="table-primary">
+        <td>
+          <strong>{{ start_date|date:"Y.m.d" }}</strong> - <strong>{{ end_date|date:"Y.m.d" }}</strong>
+        </td>
+        <td><strong>{{ selected_type }}</strong></td>
+        <td>Total: <strong>{{ sum_amount|floatformat:2 }}</strong></td>
+      </tr>
+      {% endif %}
+      {% for pw in pieceworks %}
+        <tr>
+          <td>{{ pw.work_date|date:"Y.m.d" }}</td>
+          <td>{{ pw.work.type_material }}</td>
+          <td>{{ pw.amount_material }}</td>
+        </tr>
+      {% endfor %}
+      {% if page_obj.number == page_obj.paginator.num_pages %}
+        <tr class="table-primary">
+          <td>
+            <strong>{{ start_date|date:"Y.m.d" }}</strong> - <strong>{{ end_date|date:"Y.m.d" }}</strong>
+          </td>
+          <td><strong>{{ selected_type }}</strong></td>
+          <td>Total: <strong> {{ sum_amount|floatformat:2 }}</strong></td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endif %}
+
+<!-- Include Pagination -->
+<nav aria-label="Calculation materials pagination">
+  {% include "partials/pagination.html" %}
+</nav>
+
+{% endblock %}
