@@ -1,0 +1,33 @@
+from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from datetime import date
+from decimal import Decimal
+
+from .employee_models import Employee
+
+
+class DailySalary(models.Model):
+    salary_id = models.AutoField(primary_key=True, editable=False)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    hours_per_day = models.IntegerField(
+        default=11,
+        validators=[MinValueValidator(0), MaxValueValidator(24)]
+    )
+    salary_day = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        editable=False
+    )
+    salary_date = models.DateField(default=date.today)
+    record_date = models.DateField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        self.salary_day = Decimal(self.hours_per_day) * self.employee.money_per_hour
+        super().save(*args, **kwargs)
+
+    class Meta:
+        unique_together = (('employee', 'salary_date'),)
+
+    def __str__(self):
+        return f"{self.employee.name} - {self.salary_date}"

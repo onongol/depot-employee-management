@@ -59,7 +59,7 @@
               <a class="nav-link{% if request.resolver_match.url_name == 'work_list' %} active{% endif %}" href="{% url 'work_list' %}" role="menuitem">Work</a>
             </li>
             <li class="nav-item" role="none">
-              <a class="nav-link{% if request.resolver_match.url_name == 'monthly_salary_list' %} active{% endif %}" href="{% url 'monthly_salary_list' %}" role="menuitem">Monthly Salary</a>
+              <a class="nav-link{% if request.resolver_match.url_name == 'daily_salary_list' %} active{% endif %}" href="{% url 'daily_salary_list' %}" role="menuitem">Daily Salary</a>
             </li>
             <li class="nav-item dropdown" role="none">
               <a class="nav-link dropdown-toggle{% if request.resolver_match.url_name == 'piecework_list' %} active{% endif %}" href="#" id="pieceworkDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

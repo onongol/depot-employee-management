@@ -1,23 +1,16 @@
-from django.http import HttpResponse
-import openpyxl
-
+# Example usage for employee salaries:
 from employee.views.filtered_employee_salaries import get_filtered_employee_salaries
+from employee.views.export_excel import export_to_excel
 
 
 def export_employee_salaries_excel(request):
-    """Export filtered employee salaries to an Excel file."""
     employee_salaries = get_filtered_employee_salaries(request)
-
-    wb = openpyxl.Workbook()
-    ws = wb.active
-    ws.title = "Employee Salaries"
-    ws.append([
+    headers = [
         "Employee ID", "Name", "Department", "Job Title", "Month", "Year",
         "Base Salary", "Piecework Amount", "Total Salary"
-    ])
-
-    for item in employee_salaries:
-        ws.append([
+    ]
+    data = [
+        [
             item['employee'].employee_id,
             item['employee'].name,
             item['employee'].department,
@@ -27,13 +20,8 @@ def export_employee_salaries_excel(request):
             item['monthly_salary'].salary_month,
             item['total_piecework_amount'],
             item['total_salary'],
-        ])
-    response = HttpResponse(
-        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    )
-    response['Content-Disposition'] = (
-        'attachment; filename=employee_salaries.xlsx'
-    )
-    wb.save(response)
+        ]
+        for item in employee_salaries
+    ]
+    return export_to_excel(data, headers, "employee_salaries.xlsx", "Employee Salaries")
     
-    return response

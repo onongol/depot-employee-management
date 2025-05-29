@@ -19,6 +19,17 @@
     </ul>
   </div>
 {% endif %}
+<!-- Error messages block -->
+{% if errors %}
+  <div class="alert alert-danger" role="alert" aria-live="assertive">
+    <h4 class="alert-heading">Error!</h4>
+    <ul>
+      {% for error in errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
 
 <!-- Dynamic Message for Piecework -->
 {% block form_alert %}

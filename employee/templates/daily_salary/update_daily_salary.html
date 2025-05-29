@@ -1,0 +1,18 @@
+{% extends "forms/update_form.html" %}
+
+{% block title %}Update Daily Salary{% endblock %}
+
+{% block form_fields %}
+<div class="form-group row mb-3">
+  <label for="{{ form.hours_per_day.id_for_label }}" class="col-sm-2 col-form-label">Hours per Day</label>
+  <div class="col-sm-10">
+    {{ form.hours_per_day }}
+  </div>
+</div>
+<div class="form-group row mb-3">
+  <label for="{{ form.salary_date.id_for_label }}" class="col-sm-2 col-form-label">Salary Date</label>
+  <div class="col-sm-10">
+    {{ form.salary_date }}
+  </div>
+</div>
+{% endblock %}

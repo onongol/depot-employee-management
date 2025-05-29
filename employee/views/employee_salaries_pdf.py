@@ -1,152 +1,33 @@
-from django.http import HttpResponse
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4, landscape
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Spacer, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch # Useful for spacing
-from reportlab.lib.enums import TA_CENTER
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-import os
-from io import BytesIO
-
+from employee.views.export_pdf import export_to_pdf
 from employee.views.filtered_employee_salaries import get_filtered_employee_salaries
-
-# Register a Cyrillic-capable font (ensure the path is correct)
-FONT_DIR = os.path.join(os.path.dirname(__file__), '..', 'fonts')
-FONT_PATH = os.path.join(FONT_DIR, 'DejaVuSans.ttf')
-pdfmetrics.registerFont(TTFont('DejaVuSans', FONT_PATH))
 
 
 def export_employee_salaries_pdf(request):
-    """Export filtered employee salaries to a PDF file."""
     employee_salaries = get_filtered_employee_salaries(request)
-    buffer = BytesIO()
-    
-    # 1. Use SimpleDocTemplate for managing document flow and pages
-    doc = SimpleDocTemplate(
-        buffer, 
-        pagesize=landscape(A4),
-        leftMargin=30, 
-        rightMargin=30,
-        topMargin=40,
-        bottomMargin=30
-    )
-
-    styles = getSampleStyleSheet()
-    # Use DejaVuSans for all styles
-    for style_name in styles.byName:
-        styles[style_name].fontName = 'DejaVuSans'
-
-    elements = [] # List to hold all flowables (paragraphs, tables, etc.)
-
-    # Add a title
-    title_style = styles['h1']
-    title_style.alignment = TA_CENTER # Center the title
-    elements.append(Paragraph("Employee Salaries", title_style))
-    elements.append(Spacer(1, 0.2 * inch)) # Add some space after the title
-
     headers = [
         "ID", "Name", "Department", "Job Title", "Rank", "Salary Month", "Total Piecework", "Total Salary", "Month", "Year"
     ]
-
-    # Define column widths (in points, 1/72 inch). Adjust as needed.
-    # The original col_widths sum to 690, which is reasonable for A4 landscape (width ~842 points).
     col_widths = [40, 100, 120, 120, 40, 100, 100, 100, 40, 40]
-
-    # Define a style for the table cells
-    cell_style = ParagraphStyle(
-        'CellStyle',
-        fontName='DejaVuSans',
-        fontSize=10,
-        leading=12,
-        wordWrap= 'CJK',  # Enable word wrapping for CJK characters
-    )
-    
-    # Prepare data for the Table (list of lists)
-    table_data = []
-    table_data.append(headers) # Add headers as the first row
-
-    for item in employee_salaries:
-        row = [
-            str(item['employee'].employee_id),
-            Paragraph(item['employee'].name, cell_style),
-            Paragraph(item['employee'].department, cell_style),
-            Paragraph(item['employee'].job_title, cell_style),
-            str(item['employee'].rank),
-            str(item['monthly_salary'].salary_month),
-            str(item['total_piecework_amount']),
-            str(item['total_salary']),
-            f"{int(item['monthly_salary'].month):02d}", # Ensure two-digit month
-            str(item['monthly_salary'].year),
+    data = [
+        [
+            item['employee'].employee_id,
+            item['employee'].name,
+            item['employee'].department,
+            item['employee'].job_title,
+            item['employee'].rank,
+            item['monthly_salary'].salary_month,
+            item['total_piecework_amount'],
+            item['total_salary'],
+            item['monthly_salary'].month,
+            item['monthly_salary'].year,
         ]
-        table_data.append(row)
-
-    # Create the Table object
-    table = Table(table_data, colWidths=col_widths)
-
-    # Apply TableStyle for formatting
-    base_table_style = [
-        # Header styles
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
-        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, 0), 'DejaVuSans'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 6), # Add some padding below header text
-        ('TOPPADDING', (0, 0), (-1, 0), 6),
-        
-        # All cell borders
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
-        
-        # Body text styles
-        ('FONTNAME', (0, 1), (-1, -1), 'DejaVuSans'),
-        ('FONTSIZE', (0, 1), (-1, -1), 10),
-        ('LEFTPADDING', (0, 1), (-1, -1), 2), # Small left padding for text
-        ('RIGHTPADDING', (0, 1), (-1, -1), 2), # Small right padding for text
-        ('TOPPADDING', (0, 1), (-1, -1), 3),
-        ('BOTTOMPADDING', (0, 1), (-1, -1), 3),
-
-        # Column specific alignments (start from row 1 for body)
-        ('ALIGN', (0, 1), (0, -1), 'CENTER'), # ID column centered
-        ('ALIGN', (4, 1), (4, -1), 'CENTER'), # Rank column centered
-        ('ALIGN', (5, 1), (7, -1), 'RIGHT'), # Salary Month, Total Piecework and Total Salary right-aligned
-        ('ALIGN', (8, 1), (9, -1), 'CENTER'), # Month and Year centered (assuming they are display numbers)
-        ('ALIGN', (1, 1), (3, -1), 'LEFT'), # Name, Department, Job Title left-aligned
-     ]
-
-    # Alternating row colors
-    # Iterate through rows starting from index 1 (after header)
-    # Apply background to odd-indexed rows (visual odd rows)
-    # ReportLab's row index for data starts from 0 for the first row, so the header is row 0.
-    # Data rows start from row 1.
-    # Alternating row colors for odd rows (excluding header)
-    alternating_row_styles = [
-        ('BACKGROUND', (0, i), (-1, i), colors.whitesmoke)
-        for i in range(1, len(table_data)) if i % 2 == 1
+        for item in employee_salaries
     ]
-
-    # Add the alternating row styles to the base table style
-    table_style = TableStyle(base_table_style + alternating_row_styles)
-    table.setStyle(table_style)
-    elements.append(table)
-
-    # Add some space after the table
-    def add_page_number(canvas, doc):
-        page_num_text = f"{doc.page}"
-        canvas.saveState()
-        canvas.setFont('DejaVuSans', 9)
-        canvas.drawRightString(
-            doc.pagesize[0] - 40,  # 40 points from the right edge
-            20,                    # 20 points from the bottom
-            page_num_text
-        )
-        canvas.restoreState()
-
-    # Build the PDF document with page numbers
-    doc.build(elements, onFirstPage=add_page_number, onLaterPages=add_page_number)
-
-    buffer.seek(0)
-    response = HttpResponse(buffer, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename=employee_salaries.pdf'
-    
-    return response
+    col_alignments = [
+        ('ALIGN', (0, 1), (0, -1), 'CENTER'),   # ID column centered
+        ('ALIGN', (1, 1), (3, -1), 'LEFT'),     # Name, Department, Job Title left-aligned
+        ('ALIGN', (4, 1), (4, -1), 'CENTER'),   # Rank column centered
+        ('ALIGN', (5, 1), (7, -1), 'RIGHT'),    # Salary Month, Total Piecework, Total Salary right-aligned
+        ('ALIGN', (8, 1), (9, -1), 'CENTER'),     # Month and Year centered
+    ]
+    return export_to_pdf(data, headers, col_widths, col_alignments, "Employee Salaries", "employee_salaries.pdf")

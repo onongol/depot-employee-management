@@ -139,11 +139,11 @@
       <td>{{ employee_salary.employee.department }}</td>
       <td>{{ employee_salary.employee.job_title }}</td>
       <td>{{ employee_salary.employee.rank }}</td>
-      <td>{{ employee_salary.total_salary_day }}</td>
+      <td>{{ employee_salary.monthly_salary.salary_month }}</td>
       <td>{{ employee_salary.total_piecework_amount }}</td>
       <td>{{ employee_salary.total_salary }}</td>
-      <td>{{ employee_salary.month }}</td>
-      <td>{{ employee_salary.year }}</td>
+      <td>{{ employee_salary.monthly_salary.get_month_display }}</td>
+      <td>{{ employee_salary.monthly_salary.year }}</td>
     </tr>
     {% endfor %}
     {% else %}

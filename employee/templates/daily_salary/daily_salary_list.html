@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Daily Salary List{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h2 id="daily-salary-list-title">Daily Salary List</h2>
+  <a class="btn btn-primary" href="{% url 'create_daily_salary' %}">Create Daily Salary</a>
+</div>
+
+<!-- Filter Form -->
+<form method="get" class="mb-3" aria-labelledby="daily-salary-list-title">
+  <div class="row">
+    <div class="col">
+      <label for="filter-employee-id" class="visually-hidden">Employee ID</label>
+      <input
+        type="number"
+        name="employee_id"
+        id="filter-employee-id"
+        class="form-control"
+        placeholder="Employee ID"
+        value="{{ request.GET.employee_id }}"
+        min="1"
+      />
+    </div>
+    <div class="col">
+      <label for="filter-employee-name" class="visually-hidden">Employee Name</label>
+      <input
+        type="text"
+        name="employee_name"
+        id="filter-employee-name"
+        class="form-control"
+        placeholder="Employee Name"
+        value="{{ request.GET.employee_name }}"
+      />
+    </div>
+    <div class="col">
+      <label for="filter-department" class="visually-hidden">Department</label>
+      <select name="department" id="filter-department" class="form-control">
+        <option value="">All Departments</option>
+        {% for department in departments %}
+        <option value="{{ department }}" {% if request.GET.department == department %}selected{% endif %}>
+          {{ department }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col">
+      <label for="filter-salary-date" class="visually-hidden">Salary Date</label>
+      <input
+        type="date"
+        name="salary_date"
+        id="filter-salary-date"
+        class="form-control"
+        value="{{ request.GET.salary_date }}"
+      />
+    </div>
+    <div class="col">
+      <label for="filter-record-date" class="visually-hidden">Record Date</label>
+      <input
+        type="date"
+        name="record_date"
+        id="filter-record-date"
+        class="form-control"
+        value="{{ request.GET.record_date }}"
+      />
+    </div>
+    <div class="col">
+      <button type="submit" class="btn btn-light">Filter</button>
+    </div>
+  </div>
+</form>
+
+<!-- Delete Messages -->
+{% include "partials/delete_attention.html" %}
+
+<table class="table table-bordered table-striped" aria-describedby="daily-salary-list-title">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Employee ID</th>
+      <th scope="col">Employee Name</th>
+      <th scope="col">Department</th>
+      <th scope="col">Hours per Day</th>
+      <th scope="col">Salary Day</th>
+      <th scope="col">
+        <a href="?order_by=salary_date&amp;direction={% if request.GET.order_by == 'salary_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
+          Salary Date
+          <span class="sorting-arrows">
+            <span class="{% if request.GET.order_by == 'salary_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
+            <span class="{% if request.GET.order_by == 'salary_date' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
+          </span>
+        </a>
+      </th>
+      <th scope="col">
+        <a href="?order_by=record_date&amp;direction={% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
+          Record Date
+          <span class="sorting-arrows">
+            <span class="{% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
+            <span class="{% if request.GET.order_by == 'record_date' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
+          </span>
+        </a>
+      </th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if daily_salaries %}
+      {% for daily_salary in daily_salaries %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ daily_salary.employee.employee_id }}</td>
+          <td>{{ daily_salary.employee.name }}</td>
+          <td>{{ daily_salary.employee.department }}</td>
+          <td>{{ daily_salary.hours_per_day }}</td>
+          <td>{{ daily_salary.salary_day }}</td>
+          <td>{{ daily_salary.salary_date|date:"Y.m.d" }}</td>
+          <td>{{ daily_salary.record_date|date:"Y.m.d" }}</td>
+          <td>
+            <div class="d-flex gap-2">
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#updateModal"
+                data-id="{{ daily_salary.employee.employee_id }}"
+                data-name="{{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
+                data-url="{% url 'update_daily_salary' daily_salary.pk %}"
+                aria-label="Edit {{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal"
+                data-id="{{ daily_salary.employee.employee_id }}"
+                data-name="{{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
+                data-url="{% url 'delete_daily_salary' daily_salary.pk %}"
+                aria-label="Delete {{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="9" class="text-center">No daily salaries found...</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<!-- Include Pagination -->
+<nav aria-label="Daily salary list pagination">
+  {% include "partials/pagination.html" %}
+</nav>
+
+<!-- Include modals for delete and update -->
+{% include "partials/modals.html" %}
+
+{% endblock %}

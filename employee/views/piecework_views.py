@@ -8,6 +8,7 @@ from decimal import Decimal
 from employee.models import Employee
 from employee.models import Piecework
 from employee.models import Work
+from employee.models import DailySalary
 from employee.forms import PieceworkForm, UpdatePieceworkForm
 from employee.views.delete_attention import send_delete_warning
 
@@ -32,27 +33,22 @@ def create_piecework(request):
         work_date = request.POST.get('work_date')
         type_work = request.POST.get('type_work')
 
-        # Validation
-        if not employee_ids:
-            errors.append("At least one employee is required.")
-        if not work_date:
-            errors.append("Work date is required.")
-        if not selected_works:
-            errors.append("At least one work must be selected.")
-        for work_id in selected_works:
-            if not amounts[work_id]:
-                errors.append(f"Amount for work {work_id} is required.")
-
         if not errors:
-            employees = Employee.objects.filter(pk__in=employee_ids)
+            employees = DailySalary.objects.filter(
+                employee__employee_id__in=employee_ids,
+                salary_date=work_date,
+                )
+            if not employees.exists():
+                errors.append(f"First create Daily Salary of this employee(s) {employee_ids} for the selected date {work_date}.")
+
             # Calculate total money per hour for employees
-            employees_money_sum = sum(emp.money_per_hour for emp in employees)
+            employees_money_sum = sum(emp.salary_day for emp in employees)
 
             # Calculate percentage for each employee
             employee_percentages = {}
             if employees_money_sum > 0:
                 for emp in employees:
-                    employee_percentages[emp.pk] = round((emp.money_per_hour / employees_money_sum) * 100, 2)
+                    employee_percentages[emp.pk] = round((emp.salary_day / employees_money_sum) * 100, 2)
             else:
                 for emp in employees:
                     employee_percentages[emp.pk] = 0
@@ -76,7 +72,7 @@ def create_piecework(request):
                     employee_work_prices[employee.pk][work_id] = value,
 
                     Piecework.objects.create(
-                        employee=employee,
+                        employee=employee.employee,
                         work=work,
                         amount=amount_decimal,
                         amount_price=amount_price,
