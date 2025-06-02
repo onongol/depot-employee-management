@@ -8,6 +8,7 @@ def export_employee_salaries_pdf(request):
         "ID", "Name", "Department", "Job Title", "Rank", "Salary Month", "Total Piecework", "Total Salary", "Month", "Year"
     ]
     col_widths = [40, 100, 120, 120, 40, 100, 100, 100, 40, 40]
+    
     data = [
         [
             item['employee'].employee_id,
@@ -15,14 +16,15 @@ def export_employee_salaries_pdf(request):
             item['employee'].department,
             item['employee'].job_title,
             item['employee'].rank,
-            item['monthly_salary'].salary_month,
+            item['total_salary_day'],
             item['total_piecework_amount'],
             item['total_salary'],
-            item['monthly_salary'].month,
-            item['monthly_salary'].year,
+            item['month'],
+            item['year'],
         ]
         for item in employee_salaries
     ]
+
     col_alignments = [
         ('ALIGN', (0, 1), (0, -1), 'CENTER'),   # ID column centered
         ('ALIGN', (1, 1), (3, -1), 'LEFT'),     # Name, Department, Job Title left-aligned
@@ -30,4 +32,5 @@ def export_employee_salaries_pdf(request):
         ('ALIGN', (5, 1), (7, -1), 'RIGHT'),    # Salary Month, Total Piecework, Total Salary right-aligned
         ('ALIGN', (8, 1), (9, -1), 'CENTER'),     # Month and Year centered
     ]
+
     return export_to_pdf(data, headers, col_widths, col_alignments, "Employee Salaries", "employee_salaries.pdf")

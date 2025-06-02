@@ -3,8 +3,8 @@ from django.urls import path
 from .views import home
 from .views import employee_list, create_employee, update_employee,  delete_employee
 from .views import work_list, create_work, update_work, delete_work
-from .views import daily_salary_list, create_daily_salary, update_daily_salary, delete_daily_salary
-from .views import piecework_list, create_piecework, update_piecework, delete_piecework
+from .views import daily_salary_list, update_daily_salary, delete_daily_salary, create_daily_salary_bulk
+from .views import piecework_list, update_piecework, delete_piecework, create_piecework_bulk
 from .views import employee_salary_list, export_employee_salaries_excel, export_employee_salaries_pdf
 from .views import calculation_materials
 
@@ -24,14 +24,18 @@ urlpatterns = [
     path('delete_work/<str:pk>/', delete_work, name="delete_work"),
     # DailySalary URLs
     path('daily_salary_list/', daily_salary_list, name="daily_salary_list"),
-    path('create_daily_salary/', create_daily_salary, name="create_daily_salary"),
+    #path('create_daily_salary/', create_daily_salary, name="create_daily_salary"),
     path('update_daily_salary/<int:pk>/', update_daily_salary, name="update_daily_salary"),
     path('delete_daily_salary/<int:pk>/', delete_daily_salary, name="delete_daily_salary"),
+    path('daily_salary/create_bulk/', create_daily_salary_bulk, name='create_daily_salary_bulk'),
     # Piecework URLs
     path('piecework_list/', piecework_list, name="piecework_list"),
-    path('create_piecework/', create_piecework, name="create_piecework"),
+    #path('create_piecework/', create_piecework, name="create_piecework"),
     path('update_piecework/<int:pk>/', update_piecework, name="update_piecework"),
     path('delete_piecework/<int:pk>/', delete_piecework, name="delete_piecework"),
+    # ...existing code...
+    path('piecework/create_bulk/', create_piecework_bulk, name='create_piecework_bulk'),
+# ...existing code...
     # EmployeeSalary URLs
     path('employee_salary_list/', employee_salary_list, name="employee_salary_list"),
     path('export_employee_salaries_excel/', export_employee_salaries_excel, name="export_employee_salaries_excel"),

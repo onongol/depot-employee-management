@@ -16,6 +16,7 @@ def create_employee(request):
             return redirect('employee_list')
     else:
         form = EmployeeForm()
+
     return render(
         request, 
         'employee/create_employee.html', 
@@ -50,7 +51,6 @@ def employee_list(request):
     departments = Employee.objects.values_list('department', flat=True).distinct()
     job_titles = Employee.objects.values_list('job_title', flat=True).distinct()
 
-    # Paginate the queryset
     paginator = Paginator(employees, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -70,6 +70,7 @@ def employee_list(request):
 def update_employee(request, pk):
     """View to update an existing employee."""
     employee = get_object_or_404(Employee, pk=pk)
+
     if request.method == 'POST':
         form = UpdateEmployeeForm(request.POST, instance=employee)
         if form.is_valid():
@@ -77,6 +78,7 @@ def update_employee(request, pk):
             return redirect('employee_list')
     else:
         form = UpdateEmployeeForm(instance=employee)
+
     return render(
         request,
         'employee/update_employee.html',
@@ -92,8 +94,10 @@ def update_employee(request, pk):
 def delete_employee(request, pk):
     """View to delete an employee."""
     employee = get_object_or_404(Employee, pk=pk)
+
     if request.method == "POST":
         object_name = f"{employee.employee_id} {employee.name}"
         employee.delete()
         send_delete_warning(request, object_name)
+        
         return redirect('employee_list')

@@ -18,6 +18,7 @@ def create_work(request):
             return redirect('work_list')
     else:
         form = WorkForm()
+
     return render(
         request,
         'work/create_work.html',
@@ -42,12 +43,8 @@ def work_list(request):
     if work_name:
         works = works.filter(work_name__icontains=work_name)
 
-    departments = (
-        Work.objects.values_list('department', flat=True)
-        .distinct()
-    )
+    departments = Work.objects.values_list('department', flat=True).distinct()
 
-    # Paginate the queryset
     paginator = Paginator(works, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -66,6 +63,7 @@ def work_list(request):
 def update_work(request, pk):
     """View to update an existing work."""
     work = get_object_or_404(Work, pk=pk)
+
     if request.method == 'POST':
         form = UpdateWorkForm(request.POST, instance=work)
         if form.is_valid():
@@ -73,6 +71,7 @@ def update_work(request, pk):
             return redirect('work_list')
     else:
         form = UpdateWorkForm(instance=work)
+        
     return render(
         request,
         'work/update_work.html',

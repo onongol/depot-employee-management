@@ -1,7 +1,7 @@
 from django.db.models import Sum
 from datetime import datetime
 
-from employee.models import Employee, Piecework
+from employee.models import Employee, Piecework, DailySalary
 
 
 def get_filtered_employee_salaries(request):
@@ -16,7 +16,7 @@ def get_filtered_employee_salaries(request):
     month = request.GET.get('month', '')
     year = request.GET.get('year', str(current_year))
 
-    employees = Employee.objects.prefetch_related('monthlysalary_set').all()
+    employees = Employee.objects.prefetch_related('dailysalary_set').all()
     
     if employee_id:
         employees = employees.filter(employee_id__exact=employee_id)
@@ -30,22 +30,39 @@ def get_filtered_employee_salaries(request):
     # Prepare the data for the template
     employee_salaries = []
     for employee in employees:
-        for monthly_salary in employee.monthlysalary_set.all():
-            if (month and str(monthly_salary.month) != month) or (year and str(monthly_salary.year) != year):
-                continue
+        # Filter daily salaries by month and year if provided
+        daily_salaries = employee.dailysalary_set.all()
+        if month:
+            daily_salaries = daily_salaries.filter(salary_date__month=month)
+        if year:
+            daily_salaries = daily_salaries.filter(salary_date__year=year)
+
+        # Group by month and year, sum salary_day
+        grouped = (
+            daily_salaries
+            .values('salary_date__year', 'salary_date__month')
+            .annotate(
+                total_salary_day=Sum('salary_day'),
+            )
+        )
+        for group in grouped:
+            group_month = group['salary_date__month']
+            group_year = group['salary_date__year']
+
             total_piecework_amount = Piecework.objects.filter(
                 employee=employee,
-                work_date__month=monthly_salary.month,
-                work_date__year=monthly_salary.year
+                work_date__month=group_month,
+                work_date__year=group_year
             ).aggregate(total_amount=Sum('amount_price'))['total_amount'] or 0
+
             employee_salaries.append(
                 {
                     'employee': employee,
-                    'monthly_salary': monthly_salary,
+                    'month': group_month,
+                    'year': group_year,
+                    'total_salary_day': round(group['total_salary_day'] or 0, 2),
                     'total_piecework_amount': round(total_piecework_amount, 2),
-                    'total_salary': round(
-                        monthly_salary.salary_month + total_piecework_amount, 2
-                    ),
+                    'total_salary': round((group['total_salary_day'] or 0) + total_piecework_amount, 2),
                 }
             )
 

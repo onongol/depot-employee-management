@@ -28,13 +28,15 @@ def employee_salary_list(request):
 
     # Query Employee and prefetch related DailySalary data
     employees = Employee.objects.prefetch_related('dailysalary_set').all()
-
+    
     # Get all unique department names that exist in DailySalary
+    
     departments = (
         Employee.objects.filter(dailysalary__isnull=False)
         .values_list('department', flat=True)
         .distinct()
     )
+    
     # Get all unique job titles that exist in DailySalary
     job_titles = (
         Employee.objects.filter(dailysalary__isnull=False)
@@ -87,6 +89,7 @@ def employee_salary_list(request):
             employee_salaries.append(
                 {
                     'employee': employee,
+                    'department': employee.department,
                     'month': group_month,
                     'year': group_year,
                     'total_salary_day': round(group['total_salary_day'] or 0, 2),
@@ -98,26 +101,26 @@ def employee_salary_list(request):
     # Handle sorting
     order_by = request.GET.get('order_by')
     direction = request.GET.get('direction')
-
-    if order_by:
+    
+    if order_by in ['employee_id', 'month', 'year']:
         reverse = direction == 'desc'
         if order_by == 'employee_id':
             employee_salaries.sort(
                 key=lambda x: x['employee'].employee_id, reverse=reverse
             )
-        elif order_by == 'month':
+        else:
             employee_salaries.sort(
-                key=lambda x: x['month'], reverse=reverse
+                key=lambda x: (x['month'], x['year']), reverse=reverse
             )
-        elif order_by == 'year':
-            employee_salaries.sort(
-                key=lambda x: x['year'], reverse=reverse
-            )
+    else:
+        # Default sorting by employee_id
+        employee_salaries.sort(
+            key=lambda x: (x['month'], x['year']), reverse=True
+        )
 
-    # Paginate the queryset
     paginator = Paginator(employee_salaries, 10)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)    
+    page_obj = paginator.get_page(page_number)
 
     return render(
         request, 

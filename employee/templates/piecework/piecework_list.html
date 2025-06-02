@@ -5,7 +5,7 @@
 {% block content %}
 <div class="d-flex justify-content-between mb-3">
   <h2 id="piecework-list-title">Piecework {{ selected_department }}</h2>
-  <a class="btn btn-primary mb-3" href="{% url 'create_piecework' %}?department={{ selected_department|urlencode }}">
+  <a class="btn btn-primary mb-3" href="{% url 'create_piecework_bulk' %}?department={{ selected_department|urlencode }}">
     Create Piecework for {{ selected_department }}
   </a>
 </div>
@@ -73,7 +73,7 @@
     <div class="col">
       <label for="filter-work-date" class="visually-hidden">Work Date</label>
       <div class="input-group">
-        <span class="input-group-text">Work Date</span>
+        <span class="input-group-text">Work</span>
         <input
           type="date"
           name="work_date"
@@ -86,7 +86,7 @@
     <div class="col">
       <label for="filter-record-date" class="visually-hidden">Record Date</label>
       <div class="input-group">
-        <span class="input-group-text">Record Date</span>
+        <span class="input-group-text">Record</span>
         <input
           type="date"
           name="record_date"
@@ -106,11 +106,13 @@
 {% include "partials/delete_attention.html" %}
 
 <table class="table table-bordered table-striped" aria-describedby="piecework-list-title">
+  <caption class="visually-hidden">List of piecework records for employees in {{ selected_department }}</caption>
   <thead class="table-dark">
     <tr>
       <th scope="col">#</th>
       <th scope="col">Employee ID</th>
       <th scope="col">Employee Name</th>
+      <th scope="col">Department</th>
       <th scope="col">Work</th>
       <th scope="col">Type Work</th>
       <th scope="col">Type Material</th>
@@ -118,7 +120,7 @@
       <th scope="col">Amount Price</th>
       <th scope="col">Amount Material</th>
       <th scope="col">
-        <a href="?order_by=work_date&amp;direction={% if request.GET.order_by == 'work_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department }}" class="sorting-link">
+        <a href="?order_by=work_date&amp;direction={% if request.GET.order_by == 'work_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department|urlencode }}" class="sorting-link">
           Work Date
           <span class="sorting-arrows">
             <span class="{% if request.GET.order_by == 'work_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
@@ -127,7 +129,7 @@
         </a>
       </th>
       <th scope="col">
-        <a href="?order_by=record_date&amp;direction={% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department }}" class="sorting-link">
+        <a href="?order_by=record_date&amp;direction={% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department|urlencode }}" class="sorting-link">
           Record Date
           <span class="sorting-arrows">
             <span class="{% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
@@ -145,9 +147,10 @@
           <td>{{ forloop.counter }}</td>
           <td>{{ piecework.employee.employee_id }}</td>
           <td>{{ piecework.employee.name }}</td>
+          <td>{{ piecework.employee.department }}</td>
           <td>{{ piecework.work.work_name }}</td>
           <td>{{ piecework.type_work }}</td>
-          <td>{{ piecework.work.type_material }}</td>
+          <td>{{ piecework.work.type_material_display }}</td>
           <td>{{ piecework.amount }}</td>
           <td>{{ piecework.amount_price }}</td>
           <td>{{ piecework.amount_material }}</td>
@@ -162,7 +165,7 @@
                 data-bs-target="#updateModal"
                 data-id="{{ piecework.employee.employee_id }}"
                 data-name="{{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
-                data-url="{% url 'update_piecework' piecework.pk %}?department={{ selected_department }}"
+                data-url="{% url 'update_piecework' piecework.pk %}?department={{ selected_department|urlencode }}"
                 aria-label="Edit {{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
               >
                 Edit
@@ -174,7 +177,7 @@
                 data-bs-target="#deleteModal"
                 data-id="{{ piecework.employee.employee_id }}"
                 data-name="{{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
-                data-url="{% url 'delete_piecework' piecework.pk %}?department={{ selected_department }}"
+                data-url="{% url 'delete_piecework' piecework.pk %}?department={{ selected_department|urlencode }}"
                 aria-label="Delete {{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
               >
                 Delete
@@ -196,7 +199,7 @@
   {% include "partials/pagination.html" %}
 </nav>
 
-<!-- Include modals for delete and update --><!-- Include modals for delete and update -->
+<!-- Include modals for delete and update -->
 {% include "partials/modals.html" %}
 
 {% endblock %}

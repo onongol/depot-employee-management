@@ -27,5 +27,14 @@ class Work(models.Model):
         validators=[MinValueValidator(0.01)]
         )
 
+    def save(self, *args, **kwargs):
+        if not self.type_material:
+            self.type_material = "Not used"
+        super().save(*args, **kwargs)
+
+    @property
+    def type_material_display(self):
+        return self.type_material
+
     def __str__(self):
         return self.work_name

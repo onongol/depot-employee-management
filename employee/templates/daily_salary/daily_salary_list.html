@@ -4,12 +4,13 @@
 
 {% block content %}
 <div class="d-flex justify-content-between mb-3">
-  <h2 id="daily-salary-list-title">Daily Salary List</h2>
-  <a class="btn btn-primary" href="{% url 'create_daily_salary' %}">Create Daily Salary</a>
+  <h2 id="daily-salary-list-title">Daily Salary List {{ selected_department }}</h2>
+  <a class="btn btn-primary" href="{% url 'create_daily_salary_bulk' %}?department={{ selected_department|urlencode }}">Create Daily Salary for {{ selected_department }}</a>
 </div>
 
 <!-- Filter Form -->
 <form method="get" class="mb-3" aria-labelledby="daily-salary-list-title">
+  <input type="hidden" name="department" value="{{ selected_department }}">
   <div class="row">
     <div class="col">
       <label for="filter-employee-id" class="visually-hidden">Employee ID</label>
@@ -35,35 +36,30 @@
       />
     </div>
     <div class="col">
-      <label for="filter-department" class="visually-hidden">Department</label>
-      <select name="department" id="filter-department" class="form-control">
-        <option value="">All Departments</option>
-        {% for department in departments %}
-        <option value="{{ department }}" {% if request.GET.department == department %}selected{% endif %}>
-          {{ department }}
-        </option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="col">
       <label for="filter-salary-date" class="visually-hidden">Salary Date</label>
-      <input
-        type="date"
-        name="salary_date"
-        id="filter-salary-date"
-        class="form-control"
-        value="{{ request.GET.salary_date }}"
-      />
+      <div class="input-group">
+        <span class="input-group-text">Salary</span>
+        <input
+          type="date"
+          name="salary_date"
+          id="filter-salary-date"
+          class="form-control"
+          value="{{ request.GET.salary_date }}"
+        />
+      </div>
     </div>
     <div class="col">
       <label for="filter-record-date" class="visually-hidden">Record Date</label>
-      <input
-        type="date"
-        name="record_date"
-        id="filter-record-date"
-        class="form-control"
-        value="{{ request.GET.record_date }}"
-      />
+      <div class="input-group">
+        <span class="input-group-text">Record</span>
+        <input
+          type="date"
+          name="record_date"
+          id="filter-record-date"
+          class="form-control"
+          value="{{ request.GET.record_date }}"
+        />
+      </div>
     </div>
     <div class="col">
       <button type="submit" class="btn btn-light">Filter</button>
@@ -75,6 +71,7 @@
 {% include "partials/delete_attention.html" %}
 
 <table class="table table-bordered table-striped" aria-describedby="daily-salary-list-title">
+  <caption class="visually-hidden">List of daily salaries for employees in {{ selected_department }}</caption>
   <thead class="table-dark">
     <tr>
       <th scope="col">#</th>
@@ -84,7 +81,7 @@
       <th scope="col">Hours per Day</th>
       <th scope="col">Salary Day</th>
       <th scope="col">
-        <a href="?order_by=salary_date&amp;direction={% if request.GET.order_by == 'salary_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
+        <a href="?order_by=salary_date&amp;direction={% if request.GET.order_by == 'salary_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department|urlencode }}" class="sorting-link">
           Salary Date
           <span class="sorting-arrows">
             <span class="{% if request.GET.order_by == 'salary_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
@@ -93,7 +90,7 @@
         </a>
       </th>
       <th scope="col">
-        <a href="?order_by=record_date&amp;direction={% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
+        <a href="?order_by=record_date&amp;direction={% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department|urlencode }}" class="sorting-link">
           Record Date
           <span class="sorting-arrows">
             <span class="{% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
@@ -115,7 +112,7 @@
           <td>{{ daily_salary.hours_per_day }}</td>
           <td>{{ daily_salary.salary_day }}</td>
           <td>{{ daily_salary.salary_date|date:"Y.m.d" }}</td>
-          <td>{{ daily_salary.record_date|date:"Y.m.d" }}</td>
+          <td>{{ daily_salary.record_date|date:"Y.m.d H:i" }}</td>
           <td>
             <div class="d-flex gap-2">
               <button
@@ -125,7 +122,7 @@
                 data-bs-target="#updateModal"
                 data-id="{{ daily_salary.employee.employee_id }}"
                 data-name="{{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
-                data-url="{% url 'update_daily_salary' daily_salary.pk %}"
+                data-url="{% url 'update_daily_salary' daily_salary.pk %}?department={{ selected_department|urlencode }}"
                 aria-label="Edit {{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
               >
                 Edit
@@ -137,7 +134,7 @@
                 data-bs-target="#deleteModal"
                 data-id="{{ daily_salary.employee.employee_id }}"
                 data-name="{{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
-                data-url="{% url 'delete_daily_salary' daily_salary.pk %}"
+                data-url="{% url 'delete_daily_salary' daily_salary.pk %}?department={{ selected_department|urlencode }}"
                 aria-label="Delete {{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
               >
                 Delete

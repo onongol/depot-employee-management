@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<script>
+  const existingPieceworks = {{ existing_pieceworks_json|safe }};
+</script>
+
+<div class="d-flex justify-content-between mb-3">
+  <h2 id="daily-salary-list-title">Create Piecework for Employees</h2>
+</div>
+
+{% block form_alert %}
+<div class="alert alert-dismissible alert-info" role="alert" aria-live="polite">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <h4 class="alert-heading">Heads up!</h4>
+  If you add Piecework for the same: <strong>Employee(s), Work, Type Work, Work Date</strong>. Make sure this is necessary!
+</div>
+{% endblock %}
+
+{% if form.errors %}
+  <div class="alert alert-danger" role="alert" aria-live="assertive">
+    <h4 class="alert-heading">Error!</h4>
+    <ul>
+      {% for field, errors in form.errors.items %}
+        <li>{{ errors|join:", " }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+{% if errors %}
+  <div class="alert alert-danger" role="alert" aria-live="assertive">
+    <h4 class="alert-heading">Error!</h4>
+    <ul>
+      {% for error in errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<form method="post" class="mb-3" aria-labelledby="daily-salary-list-title" id="create_form">
+  {% csrf_token %}
+  <div class="row mb-3">
+    <div class="col-md-3">
+      <div class="input-group">
+        <label for="work_date" class="input-group-text" id="from-label">Work Date</label>
+        <input 
+          type="date"
+          name="work_date"
+          id="work_date"
+          class="form-control"
+          style="max-width: 200px;"
+          value="{{ work_date|default:today|date:'Y-m-d' }}"
+          required
+          aria-required="true"
+        >
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="input-group">
+        <label for="type_work" class="input-group-text">Type Work</label>
+        {{ form.type_work }}
+      </div>
+    </div>
+  </div>
+
+  <h3>Select Employees</h3>
+  <table class="table table-bordered table-striped">
+    <caption class="visually-hidden">Employee selection for piecework creation</caption>
+    <thead class="table-dark">
+      <tr>
+        <th scope="col" class="text-center" style="width: 10%">
+          <input 
+            type="checkbox" 
+            id="select-all-employees" 
+            onclick="toggleAll(this, 'employee_ids')" 
+            aria-label="Select all employees"
+          >
+          <label 
+            for="select-all-employees" class="visually-hidden">Select all employees</label>
+        </th>
+        <th scope="col" style="width: 10%">Employee ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Department</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emp in employees %}
+      <tr>
+        <td class="align-middle text-center">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="employee_{{ emp.pk }}"
+            name="employee_ids"
+            value="{{ emp.pk }}"
+            aria-labelledby="label_employee_{{ emp.pk }}"
+          >
+        </td>
+        <td>
+          <label id="label_employee_{{ emp.pk }}" for="employee_{{ emp.pk }}" class="visually-hidden">
+            {{ emp.employee_id }}
+          </label>
+          {{ emp.employee_id }}
+        </td>
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.department }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Select Works</h3>
+  <table class="table table-bordered table-striped">
+    <caption class="visually-hidden">Work selection for piecework creation</caption>
+    <thead class="table-dark">
+      <tr>
+        <th scope="col" class="text-center" style="width: 10%">
+          <input 
+            type="checkbox" 
+            id="select-all-works" 
+            onclick="toggleAll(this, 'work_ids')" 
+            aria-label="Select all works"
+          >
+          <label
+            for="select-all-works" class="visually-hidden">Select all works</label>
+        </th>
+        <th scope="col">Work Name</th>
+        <th scope="col">Type Material</th>
+        <th scope="col" style="width: 10%">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for work in work_page_obj %}
+      <tr>
+        <td class="align-middle text-center">
+          <input
+            type="checkbox"
+            class="form-check-input work-checkbox"
+            id="work_{{ work.pk }}"
+            name="work_ids"
+            value="{{ work.pk }}"
+            aria-labelledby="label_work_{{ work.pk }}"
+            data-work-name="{{ work.work_name }}"
+          >
+        </td>
+        <td>
+          <label id="label_work_{{ work.pk }}" for="work_{{ work.pk }}" class="visually-hidden">
+            {{ work.work_name }}
+          </label>
+          {{ work.work_name }}
+        </td>
+        <td>{{ work.type_material }}</td>
+        <td>
+          <label for="amount_{{ work.pk }}" class="visually-hidden">Amount for {{ work.work_name }}</label>
+          <input
+            type="number"
+            id="amount_{{ work.pk }}"
+            name="amount_{{ work.pk }}"
+            min="0"
+            step="any"
+            class="form-control amount-input"
+            style="max-width: 120px;"
+            disabled
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <!-- Pagination -->
+  <nav aria-label="Work table pagination">
+    {% include "partials/pagination.html" with page_obj=work_page_obj %}
+  </nav>
+  <div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>
+
+<!-- Save Duplicate Modal -->
+<div
+  class="modal fade"
+  id="saveDuplicateModal"
+  tabindex="-1"
+  aria-labelledby="saveDuplicateModalLabel"
+  aria-modal="true"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="saveDuplicateModalLabel">Duplicate Entry</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        This employee(s) <strong id="modal-employee"></strong> has already added such work <strong id="modal-work"></strong> type <strong id="modal-type-work"></strong> on this date <strong id="modal-work-date"></strong>!
+        Are you sure you want to save?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmSaveBtn">Yes, save</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Function to toggle all checkboxes with the same name  
+function toggleAll(source, name) {
+  const checkboxes = document.getElementsByName(name);
+  for (let i = 0, n = checkboxes.length; i < n; i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+// Function to toggle all checkboxes with the same name and update amount inputs
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('create_form');
+  const modal = new bootstrap.Modal(document.getElementById('saveDuplicateModal'));
+  const confirmBtn = document.getElementById('confirmSaveBtn');
+
+  let allowSubmit = false;
+
+  form.addEventListener('submit', function (e) {
+    if (allowSubmit) {
+      allowSubmit = false;
+      return;
+    }
+
+    // Gather selected IDs
+    const selectedEmployeeIds = Array.from(document.querySelectorAll('input[name="employee_ids"]:checked')).map(cb => cb.value);
+    const selectedWorkIds = Array.from(document.querySelectorAll('input[name="work_ids"]:checked')).map(cb => cb.value);
+    const typeWork = document.getElementById('type_work').value;
+    const workDate = document.getElementById('work_date').value;
+
+    let isDuplicate = false;
+    for (const empId of selectedEmployeeIds) {
+      for (const workId of selectedWorkIds) {
+        if (existingPieceworks.some(pw =>
+          String(pw.employee_id) === String(empId) &&
+          String(pw.work_id) === String(workId) &&
+          pw.type_work === typeWork &&
+          pw.work_date === workDate
+        )) {
+          isDuplicate = true;
+        }
+      }
+    }
+
+    if (isDuplicate) {
+      e.preventDefault();
+
+      // Fill modal fields with names for user clarity
+      const selectedEmployees = Array.from(document.querySelectorAll('input[name="employee_ids"]:checked')).map(cb => cb.closest('tr').children[2].textContent.trim());
+      const selectedWorks = Array.from(document.querySelectorAll('input[name="work_ids"]:checked')).map(cb => cb.closest('tr').children[1].textContent.trim());
+
+      document.getElementById('modal-employee').textContent = selectedEmployees.join(', ');
+      document.getElementById('modal-work').textContent = selectedWorks.join(', ');
+      document.getElementById('modal-type-work').textContent = typeWork;
+      document.getElementById('modal-work-date').textContent = workDate;
+
+      modal.show();
+    }
+    // else, allow form to submit
+  });
+
+  confirmBtn.addEventListener('click', function () {
+    allowSubmit = true;
+    modal.hide();
+    form.requestSubmit(); // re-submit the form
+  });
+
+  // Enable/disable amount input based on work checkbox
+  document.querySelectorAll('.work-checkbox').forEach(function (checkbox) {
+    const amountInput = document.getElementById('amount_' + checkbox.value);
+    checkbox.addEventListener('change', function () {
+      amountInput.disabled = !checkbox.checked;
+      if (!checkbox.checked) {
+        amountInput.value = '';
+      }
+    });
+  });
+
+  // Optionally, handle "Select all works" checkbox
+  const selectAllWorks = document.getElementById('select-all-works');
+  if (selectAllWorks) {
+    selectAllWorks.addEventListener('change', function () {
+      document.querySelectorAll('.work-checkbox').forEach(function (checkbox) {
+        const amountInput = document.getElementById('amount_' + checkbox.value);
+        amountInput.disabled = !checkbox.checked;
+        if (!checkbox.checked) {
+          amountInput.value = '';
+        }
+      });
+    });
+  }
+});
+</script>
+
+{% endblock %}

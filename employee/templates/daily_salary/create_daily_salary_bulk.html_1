@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h2 id="daily-salary-list-title">Create Daily Salary for Employees</h2>
+</div>
+
+<!-- Error messages -->
+{% if form.errors %}
+  <div class="alert alert-danger" role="alert" aria-live="assertive">
+    <h4 class="alert-heading">Error!</h4>
+    <ul>
+      {% for field, errors in form.errors.items %}
+        <li>{{ errors|join:", " }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+<!-- Error messages block -->
+{% if errors %}
+  <div class="alert alert-danger" role="alert" aria-live="assertive">
+    <h4 class="alert-heading">Error!</h4>
+    <ul>
+      {% for error in errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<form method="post" class="mb-3" aria-labelledby="daily-salary-list-title">
+  {% csrf_token %}
+  <div class="row mb-3">
+    <div class="col-md-3">
+      <div class="input-group">
+        <span class="input-group-text" id="from-label">Date</span>
+        <input 
+          type="date"
+          name="salary_date"
+          id="salary_date"
+          class="form-control"
+          style="max-width: 200px;"
+          value="{{ salary_date|default:today|date:'Y-m-d' }}"
+          required
+          aria-required="true"
+        >
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="input-group">
+        <span class="input-group-text" id="from-label">Time</span>
+        <input 
+          type="number"
+          name="hours_per_day"
+          id="hours_per_day"
+          class="form-control"
+          step="1"
+          min="0"
+          max="24"
+          value="11"
+          style="max-width: 100px;"
+          required
+          aria-required="true"
+        >
+      </div> 
+    </div>
+  </div>
+  <table class="table table-bordered table-striped">
+    <caption class="visually-hidden">Employee selection for daily salary creation</caption>
+    <thead class="table-dark">
+      <tr>
+        <th scope="col" class="text-center" style="width: 10%">Select</th>
+        <th scope="col" style="width: 10%">Employee ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Department</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in page_obj %}
+      <tr>
+        <td class="align-middle text-center">
+          <input 
+            type="checkbox"
+            class="form-check-input"
+            id="employee_{{ employee.pk }}"
+            name="employee_ids"
+            value="{{ employee.pk }}"
+            aria-labelledby="label_employee_{{ employee.pk }}"
+          >
+        </td>
+        <td>
+          <label id="label_employee_{{ employee.pk }}" for="employee_{{ employee.pk }}" class="visually-hidden">
+            {{ employee.employee_id }}
+          </label>
+          {{ employee.employee_id }}
+        </td>
+        <td>{{ employee.name }}</td>
+        <td>{{ employee.department }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <nav aria-label="Daily salary create pagination">
+    {% include "partials/pagination.html" %}
+  </nav>
+  <br>
+  <button type="submit" class="btn btn-primary">Save</button>
+  <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

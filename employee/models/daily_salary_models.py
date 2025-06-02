@@ -20,7 +20,7 @@ class DailySalary(models.Model):
         editable=False
     )
     salary_date = models.DateField(default=date.today)
-    record_date = models.DateField(auto_now_add=True)
+    record_date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         self.salary_day = Decimal(self.hours_per_day) * self.employee.money_per_hour

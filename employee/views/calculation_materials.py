@@ -22,7 +22,11 @@ def calculation_materials(request):
     end_date = request.GET.get('end_date')
 
     # If 'all' is selected, set selected_type to None and amount = 0 for filtering
-    pieceworks = Piecework.objects.exclude(work__type_material__isnull=True).exclude(work__usage_material=0)
+    pieceworks = (
+        Piecework.objects.exclude(work__type_material__isnull=True)
+        .exclude(work__type_material="Not used")
+        .exclude(work__usage_material=0)
+    )
 
     if selected_type != 'all':
         pieceworks = pieceworks.filter(work__type_material=selected_type)

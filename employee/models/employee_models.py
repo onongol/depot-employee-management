@@ -10,7 +10,21 @@ class Employee(models.Model):
         unique=True
         )
     name = models.CharField(max_length=255)
-    department = models.CharField(max_length=255, blank=False, null=True)
+
+    DEPARTMENT_CHOICES = [
+        ('Механик', 'Механик'),
+        ('Авто хяналтын бүс (АКП)', 'Авто хяналтын бүс (АКП)'),
+        ('Засвар 1', 'Засвар 1'),
+        ('Засвар 2', 'Засвар 2'),
+        ('Хос дугуй', 'Хос дугуй'),
+        ('Тэргэнцэр', 'Тэргэнцэр'),
+        ('Автоугсраа', 'Автоугсраа'),
+    ]
+
+    department = models.CharField(
+        max_length=255, 
+        choices=DEPARTMENT_CHOICES, 
+    )
     job_title = models.CharField(max_length=255, blank=False, null=True)
     
     RANK_CHOICES = [
@@ -19,6 +33,7 @@ class Employee(models.Model):
         (5, '5'),
         (6, '6'),
     ]
+
     rank = models.IntegerField(default=3, null=False, choices=RANK_CHOICES)
     money_per_hour = models.DecimalField(max_digits=10, decimal_places=2, null=False, editable=False)
 

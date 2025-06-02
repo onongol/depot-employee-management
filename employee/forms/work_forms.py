@@ -60,6 +60,6 @@ class UpdateWorkForm(forms.ModelForm):
         widgets = { 
             'type_material': forms.TextInput(attrs={'class': 'form-control'}),
             'usage_material': forms.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'min': '0.00'}),
-            'standard_time': forms.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'min': '0.01'}),
+            'standard_time': forms.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'min': '0.00'}),
             'price': forms.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'min': '0.00'}),
         }

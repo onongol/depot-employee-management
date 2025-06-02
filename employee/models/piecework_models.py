@@ -18,6 +18,7 @@ class Piecework(models.Model):
         ('29', '29'),
         ('ТҮГ', 'ТҮГ'),
         ('Нөөц', 'Нөөц'),
+        ('Завод', 'Завод'),
         ('Депо', 'Депо'),
     ]
     type_work = models.CharField(max_length=50, choices=TYPE_WORK_CHOICES)
