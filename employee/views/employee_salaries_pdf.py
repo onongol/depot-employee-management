@@ -3,7 +3,9 @@ from employee.views.filtered_employee_salaries import get_filtered_employee_sala
 
 
 def export_employee_salaries_pdf(request):
+    """Export employee salaries data to PDF."""
     employee_salaries = get_filtered_employee_salaries(request)
+
     headers = [
         "ID", "Name", "Department", "Job Title", "Rank", "Salary Month", "Total Piecework", "Total Salary", "Month", "Year"
     ]

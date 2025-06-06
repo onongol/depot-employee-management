@@ -4,7 +4,9 @@ from employee.views.export_excel import export_to_excel
 
 
 def export_employee_salaries_excel(request):
+    """Export employee salaries data to Excel."""
     employee_salaries = get_filtered_employee_salaries(request)
+
     headers = [
         "Employee ID", "Name", "Department", "Job Title", "Month", "Year",
         "Base Salary", "Piecework Amount", "Total Salary"

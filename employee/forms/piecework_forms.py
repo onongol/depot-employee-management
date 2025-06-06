@@ -12,20 +12,17 @@ class PieceworkForm(forms.ModelForm):
             'employee': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'work': forms.Select(attrs={'class': 'form-control'}),
             'type_work': forms.Select(attrs={'class': 'form-control'}),
-            'work_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'amount': forms.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'min': '0.00'}),
-        }
-
-        error_messages = {
-            'employee': {
-                'required': 'Employee(s) - Please select.',
-            },
-            'work': {
-                'required': 'Work(s) - Please select.',
-            },
-            'amount': {
-                'required': 'Amount - Please enter a valid amount.',
-            },
+            'work_date': forms.DateInput(attrs={
+                'class': 'form-control', 
+                'type': 'date'
+                }
+            ),
+            'amount': forms.NumberInput(attrs={
+                'class': 'form-control', 
+                'type': 'number', 
+                'min': '0.00'
+                }
+            ),
         }
 
     def __init__(self, *args, **kwargs):
@@ -45,8 +42,17 @@ class UpdatePieceworkForm(forms.ModelForm):
         fields = ['type_work', 'amount', 'work_date']
         widgets = {
             'type_work': forms.Select(attrs={'class': 'form-control'}),
-            'amount': forms.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'min': '0.00'}),
-            'work_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'amount': forms.NumberInput(attrs={
+                'class': 'form-control', 
+                'type': 'number', 
+                'min': '0.00'
+                }
+            ),
+            'work_date': forms.DateInput(attrs={
+                'class': 'form-control', 
+                'type': 'date'
+                }
+            ),
         }
 
     def __init__(self, *args, **kwargs):

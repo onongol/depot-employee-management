@@ -4,8 +4,8 @@
 
 {% block content %}
 <div class="d-flex justify-content-between mb-3 align-items-center">
-  <h2 id="employee-list-title">Employee List</h2>
-  <a class="btn btn-primary" href="{% url 'create_employee' %}">Create Employee</a>
+  <h2 id="employee-list-title">Employee {{ selected_department }}</h2>
+  <a class="btn btn-primary" href="{% url 'create_employee' %}?department={{ selected_department|urlencode }}">Create Employee</a>
 </div>
 
 <!-- Filter Form -->
@@ -34,17 +34,7 @@
         value="{{ request.GET.employee_name }}"
       />
     </div>
-    <div class="col">
-      <label for="filter-department" class="visually-hidden">Department</label>
-      <select name="department" id="filter-department" class="form-control">
-        <option value="">All Departments</option>
-        {% for department in departments %}
-        <option value="{{ department }}" {% if request.GET.department == department %}selected{% endif %}>
-          {{ department }}
-        </option>
-        {% endfor %}
-      </select>
-    </div>
+
     <div class="col">
       <label for="filter-job-title" class="visually-hidden">Job Title</label>
       <select name="job_title" id="filter-job-title" class="form-control">

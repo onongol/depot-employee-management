@@ -14,17 +14,21 @@ from employee.forms import PieceworkForm, UpdatePieceworkForm
 from employee.views.delete_attention import send_delete_warning
 
 
-def create_piecework_bulk(request):
+def create_piecework(request):
     """View to create piecework records for multiple employees and works."""
-    department = request.GET.get('department', '')
-    departments = Employee.objects.values_list('department', flat=True).distinct()
+    department = request.GET.get('department') or request.session.get('department')
+    
     employees = (
         Employee.objects.filter(department=department) if department else Employee.objects.none()
         )
     works = (
         Work.objects.filter(department=department) if department else Work.objects.none()
     )
-
+    
+    # Ensure consistent ordering for pagination
+    employees = employees.order_by('employee_id')
+    works = works.order_by('work_name')
+    
     errors = []
     today = timezone.now().date()
 
@@ -52,7 +56,9 @@ def create_piecework_bulk(request):
                     f"First create Daily Salary of these employee(s) {selected_employee_ids} for the selected date {work_date}."
                 )
             else:
+                # Calculate employee sum salary for the given date
                 employees_money_sum = sum(emp.salary_day for emp in employees_salary)
+                # Calculate percentages for each employee
                 employee_percentages = {}
                 if employees_money_sum > 0:
                     for emp in employees_salary:
@@ -60,7 +66,7 @@ def create_piecework_bulk(request):
                 else:
                     for emp in employees_salary:
                         employee_percentages[emp.employee.employee_id] = 0
-
+                # Create Piecework records for each employee and work
                 for emp in employees_salary:
                     emp_id = emp.employee.employee_id
                     percent = employee_percentages[emp_id]
@@ -74,10 +80,13 @@ def create_piecework_bulk(request):
                         except Exception:
                             errors.append(f"Invalid amount for work {work_id}.")
                             continue
-                      
+
+                        # Validate amount
                         work = Work.objects.get(pk=work_id)
+                        # Calculate amount_price
                         value = round((work.price * percent) / 100, 2)
                         amount_price = round(value * amount_decimal, 2)
+                        # Create Piecework record
                         Piecework.objects.create(
                             employee_id=emp_id,
                             work_id=work_id,
@@ -88,7 +97,8 @@ def create_piecework_bulk(request):
                         )
             if not errors:
                 return redirect(f"{reverse('piecework_list')}?department={department}")
-            
+                
+    # Get existing pieceworks for the department  
     existing_pieceworks = list(
         Piecework.objects.values(
             'employee_id', 'work_id', 'type_work', 'work_date'
@@ -97,25 +107,24 @@ def create_piecework_bulk(request):
             
     return render(
         request,
-        'piecework/create_piecework_bulk.html',
+        'piecework/create_piecework.html',
         {   
             'form': PieceworkForm(department=department),
-            'departments': departments,
-            'selected_department': department,
+            'object_type': 'Piecework',
             'employees': employees,
             'work_page_obj': work_page_obj,
             'today': today,
             'errors': errors,
+            'selected_department': department,
+            'cancel_url': reverse('piecework_list'),
             'existing_pieceworks_json': json.dumps(existing_pieceworks, cls=DjangoJSONEncoder),
-            'cancel_url': f"{reverse('piecework_list')}?department={department}",
         }
     )
 
 
 def piecework_list(request):
     """View to list all piecework records with filtering and pagination."""
-    department = request.GET.get('department', '')
-    departments = Piecework.objects.values_list('employee__department', flat=True).distinct()
+    department = request.GET.get('department') or request.session.get('department')
     
     # Only show pieceworks for employees in the selected department
     pieceworks = Piecework.objects.filter(employee__department=department)
@@ -168,7 +177,6 @@ def piecework_list(request):
     else:
         pieceworks = pieceworks.order_by('-record_date')
 
-
     paginator = Paginator(pieceworks, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -181,7 +189,6 @@ def piecework_list(request):
             'page_obj': page_obj,
             'type_works': type_works,
             'type_materials': type_materials,
-            'departments': departments,
             'selected_department': department,
         }
     )
@@ -190,14 +197,45 @@ def piecework_list(request):
 def update_piecework(request, pk):
     """View to update an existing piecework record."""
     piecework = get_object_or_404(Piecework, record_id=pk)
-    department = request.GET.get('department', '')
+    department = request.GET.get('department') or request.session.get('department')
 
     if request.method == 'POST':
         form = UpdatePieceworkForm(request.POST, instance=piecework, department=department)
         if form.is_valid():
+            # Calculate amount_price before saving
+            amount = form.cleaned_data.get('amount')
+            work = piecework.work
+            work_date = piecework.work_date
+            #type_work = piecework.type_work
+            employee = piecework.employee
+
+            # Get DailySalary for this employee and date
+            daily_salary = (
+                DailySalary.objects.filter(employee=employee, salary_date=work_date)
+                .first()
+            )
+            # Get all DailySalary for this date and department
+            employees_salary = DailySalary.objects.filter(
+                employee__department=department,
+                salary_date=work_date,
+            )
+            # Calculate employees_money_sum
+            employees_money_sum = sum(emp.salary_day for emp in employees_salary)
+            # Calculate percent
+            percent = 0
+            if employees_money_sum > 0 and daily_salary:
+                percent = round((daily_salary.salary_day / employees_money_sum) * 100, 2)
+            # Calculate amount_price
+            value = round((work.price * percent) / 100, 2)
+            amount_price = round(value * amount, 2) if amount is not None else 0
+
+            piecework.amount_price = amount_price
+
             form.save()
+
             return redirect(
-                f"{reverse('piecework_list')}?department={department}"
+                #f"{reverse('piecework_list')}?department={department}"
+                'piecework_list'
             )
     else:
         form = UpdatePieceworkForm(instance=piecework, department=department)
@@ -206,14 +244,15 @@ def update_piecework(request, pk):
         request,
         'piecework/update_piecework.html',
         {
-        'form': form,
-        'object_type': 'Piecework',
-        'object_name': (
+            'form': form,
+            'object_type': 'Piecework',
+            'object_name': (
                 f"Employee: {piecework.employee.employee_id} {piecework.employee.name}, "
                 f"Work: {piecework.work.work_name}, "
                 f"Type Work: {piecework.type_work}, Work Date: {piecework.work_date}"
             ),
-        'cancel_url': f"{reverse('piecework_list')}?department={department}",
+            'selected_department': department,
+            'cancel_url': reverse('piecework_list'),
         }
     )
 
@@ -221,7 +260,6 @@ def update_piecework(request, pk):
 def delete_piecework(request, pk):
     """View to delete an existing piecework record."""
     piecework = get_object_or_404(Piecework, record_id=pk)
-    department = request.GET.get('department', '')
 
     if request.method == 'POST':
         object_name = (
@@ -232,4 +270,4 @@ def delete_piecework(request, pk):
         piecework.delete()
         send_delete_warning(request, object_name)
 
-        return redirect(f"{reverse('piecework_list')}?department={department}")
+        return redirect('piecework_list')

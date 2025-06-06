@@ -5,8 +5,10 @@
 {% block title %}Create {{ object_type }}{% endblock %}
 
 {% block content %}
+
 {% load crispy_forms_tags %}
-<h2 id="form-title">Create a new {{ object_type }}</h2>
+
+<h2 id="form-title">Create a new {{ object_type }} {{ selected_department }}</h2>
 
 <!-- Error messages -->
 {% if form.errors %}
@@ -19,6 +21,7 @@
     </ul>
   </div>
 {% endif %}
+
 <!-- Error messages block -->
 {% if errors %}
   <div class="alert alert-danger" role="alert" aria-live="assertive">
@@ -33,14 +36,18 @@
 
 <!-- Dynamic Message for Piecework -->
 {% block form_alert %}
+
 {% endblock %}
 
 <form method="post" class="form-horizontal card p-4" id="create_form" aria-labelledby="form-title" novalidate>
+
   {% csrf_token %}
 
   <!-- Form fields -->
   {% block form_fields %}
+
   {% endblock %}
+
   <div class="form-group row mb-3">
     <div class="col-sm-10 offset-sm-2">
       <button type="submit" class="btn btn-primary">Save</button>

@@ -11,6 +11,8 @@ from employee.views.delete_attention import send_delete_warning
 
 def create_work(request):
     """View to create a new work."""
+    department = request.GET.get('department') or request.session.get('department')
+
     if request.method == 'POST':
         form = WorkForm(request.POST)
         if form.is_valid():
@@ -25,6 +27,7 @@ def create_work(request):
         {
             'form': form,
             'object_type': 'Work',
+            'selected_department': department,
             'cancel_url': reverse('work_list'),
         }
     )
@@ -35,15 +38,16 @@ def work_list(request):
     works = Work.objects.all()
 
     # Filtering
+    department = request.GET.get('department') or request.session.get('department')
     work_name = request.GET.get('work_name')
-    department = request.GET.get('department')
 
     if department:
         works = works.filter(department__icontains=department)
     if work_name:
         works = works.filter(work_name__icontains=work_name)
 
-    departments = Work.objects.values_list('department', flat=True).distinct()
+    # Ensure consistent ordering for pagination
+    works = works.order_by('work_name')
 
     paginator = Paginator(works, 10)
     page_number = request.GET.get('page')
@@ -55,7 +59,7 @@ def work_list(request):
         {
             'works': page_obj,
             'page_obj': page_obj,
-            'departments': departments,
+            'selected_department': department,
         }
     )
 
@@ -63,6 +67,7 @@ def work_list(request):
 def update_work(request, pk):
     """View to update an existing work."""
     work = get_object_or_404(Work, pk=pk)
+    department = request.GET.get('department') or request.session.get('department')
 
     if request.method == 'POST':
         form = UpdateWorkForm(request.POST, instance=work)
@@ -79,6 +84,7 @@ def update_work(request, pk):
             'form': form,
             'object_type': 'Work',
             'object_name': work.work_name,
+            'selected_department': department,
             'cancel_url': reverse('work_list'),
         }
     )
@@ -98,4 +104,5 @@ def delete_work(request, pk):
         object_name = work.work_name
         work.delete()
         send_delete_warning(request, object_name)
+
         return redirect('work_list')

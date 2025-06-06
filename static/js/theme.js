@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     dark: '#moon-stars-fill',
     auto: '#circle-half'
   };
-
   function setTheme(theme) {
     if (theme === 'auto') {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -24,10 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.setAttribute('aria-pressed', btn.getAttribute('data-bs-theme-value') === theme);
     });
   }
-
   let savedTheme = localStorage.getItem('bs-theme') || 'light';
   setTheme(savedTheme);
-
   themeButtons.forEach(btn => {
     btn.addEventListener('click', function() {
       const theme = this.getAttribute('data-bs-theme-value');
@@ -35,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
       setTheme(theme);
     });
   });
-
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     if (localStorage.getItem('bs-theme') === 'auto') {
       setTheme('auto');

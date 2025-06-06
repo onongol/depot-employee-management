@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
       deleteDetails.textContent = `${itemId} ${itemName}`;
     });
   }
-
   // Update Modal Logic
   const updateModal = document.getElementById("updateModal");
   if (updateModal) {

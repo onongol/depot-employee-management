@@ -1,7 +1,7 @@
 from django.db.models import Sum
 from datetime import datetime
 
-from employee.models import Employee, Piecework, DailySalary
+from employee.models import Employee, Piecework
 
 
 def get_filtered_employee_salaries(request):

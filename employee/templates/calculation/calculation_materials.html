@@ -4,6 +4,7 @@
 {% block title %}Calculation Materials{% endblock %}
 
 {% block content %}
+
 <div class="d-flex justify-content-between mb-3">
   <h2 id="page-title">Calculate Material Amount</h2>
 </div>
@@ -53,20 +54,33 @@
 
 {% if pieceworks %}
   <table class="table table-bordered table-striped mt-3" aria-describedby="page-title">
+    <caption class="visually-hidden">Calculation materials results</caption>
     <colgroup>
+      <col style="width: 5%;">
       <col style="width: 25%;">
       <col style="width: 50%;">
-      <col style="width: 25%;">
+      <col style="width: 20%;">
     </colgroup>
     <thead class="table-dark">
       <tr>
-        <th scope="col">Date</th>
+        <th scope="col">#</th>
+        <th scope="col"
+            aria-sort="{% if request.GET.order_by == 'work_date' %}{{ request.GET.direction }}{% else %}none{% endif %}">
+          <a href="?order_by=work_date&direction={% if request.GET.order_by == 'work_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
+            Date
+            <span class="sorting-arrows">
+              <span class="{% if request.GET.order_by == 'work_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
+              <span class="{% if request.GET.order_by == 'work_date' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
+            </span>
+          </a>
+        </th>
         <th scope="col">Type Material</th>
         <th scope="col">Amount Material</th>
       </tr>
     <tbody>
       {% if sum_amount is not None and page_obj.number == 1 %}
       <tr class="table-primary">
+        <td></td>
         <td>
           <strong>{{ start_date|date:"Y.m.d" }}</strong> - <strong>{{ end_date|date:"Y.m.d" }}</strong>
         </td>
@@ -76,6 +90,7 @@
       {% endif %}
       {% for pw in pieceworks %}
         <tr>
+          <td>{{ forloop.counter }}</td>
           <td>{{ pw.work_date|date:"Y.m.d" }}</td>
           <td>{{ pw.work.type_material }}</td>
           <td>{{ pw.amount_material }}</td>
@@ -83,6 +98,7 @@
       {% endfor %}
       {% if page_obj.number == page_obj.paginator.num_pages %}
         <tr class="table-primary">
+          <td></td>
           <td>
             <strong>{{ start_date|date:"Y.m.d" }}</strong> - <strong>{{ end_date|date:"Y.m.d" }}</strong>
           </td>
@@ -98,5 +114,17 @@
 <nav aria-label="Calculation materials pagination">
   {% include "partials/pagination.html" %}
 </nav>
+
+<div class="d-flex flex-column" style="max-width: 150px;">
+  <!-- Export Button Excel -->
+  <a
+    href="{% url 'export_calculation_materials_excel' %}?type_material={{ filters.type_material }}&start_date={{ filters.start_date }}&end_date={{ filters.end_date }}"
+    class="btn btn-success export-excel-btn mb-2"
+    role="button"
+    aria-label="Download filtered calculation materials as Excel"
+  >
+    Download Excel
+  </a>
+</div>
 
 {% endblock %}

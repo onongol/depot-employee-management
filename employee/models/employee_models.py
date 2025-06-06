@@ -25,19 +25,37 @@ class Employee(models.Model):
         max_length=255, 
         choices=DEPARTMENT_CHOICES, 
     )
-    job_title = models.CharField(max_length=255, blank=False, null=True)
-    
+    job_title = models.CharField(
+        max_length=255, 
+        blank=False, 
+        null=True
+    )  
+
     RANK_CHOICES = [
         (3, '3'),
         (4, '4'),
         (5, '5'),
         (6, '6'),
     ]
+    
+    rank = models.IntegerField(
+        default=3, 
+        null=False, 
+        choices=RANK_CHOICES
+    )
+    money_per_hour = models.DecimalField(
+        max_digits=20, 
+        decimal_places=2, 
+        null=False, 
+        editable=False
+    )
 
-    rank = models.IntegerField(default=3, null=False, choices=RANK_CHOICES)
-    money_per_hour = models.DecimalField(max_digits=10, decimal_places=2, null=False, editable=False)
-
-    rank_to_money = {3: 8448.55, 4: 9616.24, 5: 11127.36, 6: 13187.98}
+    rank_to_money = {
+        3: 8448.55, 
+        4: 9616.24, 
+        5: 11127.36, 
+        6: 13187.98
+    }
 
     def save(self, *args, **kwargs):
         self.money_per_hour = self.rank_to_money.get(self.rank, 8448.55)

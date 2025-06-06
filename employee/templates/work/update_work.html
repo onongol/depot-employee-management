@@ -3,28 +3,36 @@
 {% block title %}Update Work{% endblock %}
 
 {% block form_fields %}
-<div class="form-group row mb-3">
-  <label for="{{ form.type_material.id_for_label }}" class="col-sm-2 col-form-label">Type Material</label>
-  <div class="col-sm-10">
-    {{ form.type_material }}
+
+<fieldset>
+  <legend class="visually-hidden">Update Work Details</legend>
+  <div class="form-group row mb-3">
+    <label for="{{ form.type_material.id_for_label }}" class="col-sm-2 col-form-label">Type Material</label>
+    <div class="col-sm-10">
+      {{ form.type_material }}
+    </div>
   </div>
-</div>
-<div class="form-group row mb-3">
-  <label for="{{ form.usage_material.id_for_label }}" class="col-sm-2 col-form-label">Usage Material</label>
-  <div class="col-sm-10">
-    {{ form.usage_material }}
+  <div class="form-group row mb-3">
+    <label for="{{ form.usage_material.id_for_label }}" class="col-sm-2 col-form-label">Usage Material</label>
+    <div class="col-sm-10">
+      {{ form.usage_material }}
+      {% include "partials/field_errors.html" with field=form.usage_material %}
+    </div>
   </div>
-</div>
-<div class="form-group row mb-3">
-  <label for="{{ form.standard_time.id_for_label }}" class="col-sm-2 col-form-label">Standard Time</label>
-  <div class="col-sm-10">
-    {{ form.standard_time }}
+  <div class="form-group row mb-3">
+    <label for="{{ form.standard_time.id_for_label }}" class="col-sm-2 col-form-label">Standard Time</label>
+    <div class="col-sm-10">
+      {{ form.standard_time }}
+      {% include "partials/field_errors.html" with field=form.standard_time %}
+    </div>
   </div>
-</div>
-<div class="form-group row mb-3">
-  <label for="{{ form.price.id_for_label }}" class="col-sm-2 col-form-label">Price</label>
-  <div class="col-sm-10">
-    {{ form.price }}
+  <div class="form-group row mb-3">
+    <label for="{{ form.price.id_for_label }}" class="col-sm-2 col-form-label">Price</label>
+    <div class="col-sm-10">
+      {{ form.price }}
+      {% include "partials/field_errors.html" with field=form.price %}
+    </div>
   </div>
-</div>
+</fieldset>
+
 {% endblock %}

@@ -7,14 +7,20 @@ from .employee_models import Employee
 
 
 class DailySalary(models.Model):
-    salary_id = models.AutoField(primary_key=True, editable=False)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    salary_id = models.AutoField(
+        primary_key=True, 
+        editable=False
+    )
+    employee = models.ForeignKey(
+        Employee, 
+        on_delete=models.CASCADE
+    )
     hours_per_day = models.IntegerField(
         default=11,
         validators=[MinValueValidator(0), MaxValueValidator(24)]
     )
     salary_day = models.DecimalField(
-        max_digits=10,
+        max_digits=20,
         decimal_places=2,
         default=Decimal('0.00'),
         editable=False

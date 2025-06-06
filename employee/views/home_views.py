@@ -3,4 +3,12 @@ from django.shortcuts import render
 
 def home(request):
     """View to render the home page."""
-    return render(request, 'home.html')
+    department = request.GET.get('department') or request.session.get('department')
+
+    return render(
+        request, 
+        'home.html',
+        {
+            'selected_department': department
+        }
+    )

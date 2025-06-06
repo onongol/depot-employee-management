@@ -9,16 +9,17 @@ from employee.forms import DailySalaryForm, UpdateDailySalaryForm
 from employee.views.delete_attention import send_delete_warning
 
 
-def create_daily_salary_bulk(request):
+def create_daily_salary(request):
     """View to create daily salary records for multiple employees, filtered by department."""
-    department = request.GET.get('department', '')
-    # Get all unique departments
-    departments = Employee.objects.values_list('department', flat=True).distinct()
+    department = request.GET.get('department') or request.session.get('department')
 
     # Filter employees by selected department, or show none if not selected
     employees = Employee.objects.none()
     if department:
         employees = Employee.objects.filter(department=department)
+
+    # Ensure consistent ordering for pagination
+    employees = employees.order_by('employee_id')
 
     errors = []
 
@@ -54,23 +55,22 @@ def create_daily_salary_bulk(request):
 
     return render(
         request,
-        'daily_salary/create_daily_salary_bulk.html',
+        'daily_salary/create_daily_salary.html',
         {
             'form': DailySalaryForm(),
+            'object_type': 'Daily Salary',
             'page_obj': page_obj,
             'errors': errors,
             'today': timezone.now().date(),
-            'departments': departments,
             'selected_department': department,
-            'cancel_url': f"{reverse('piecework_list')}?department={department}",
+            'cancel_url': reverse('daily_salary_list'),
         }
     )
 
 
 def daily_salary_list(request):
     """View to list all daily salaries with filtering and pagination."""
-    department = request.GET.get('department', '')
-    departments = DailySalary.objects.values_list('employee__department', flat=True).distinct()
+    department = request.GET.get('department') or request.session.get('department')
 
     daily_salaries = DailySalary.objects.filter(employee__department=department)
 
@@ -114,7 +114,6 @@ def daily_salary_list(request):
             'daily_salaries': page_obj,
             'page_obj': page_obj,
             'years': years,
-            'departments': departments,
             'selected_department': department,
         }
     )
@@ -123,13 +122,16 @@ def daily_salary_list(request):
 def update_daily_salary(request, pk):
     """View to update an existing daily salary record."""
     daily_salary = get_object_or_404(DailySalary, pk=pk)
-    department = request.GET.get('department', '')
+    department = request.GET.get('department') or request.session.get('department')
 
     if request.method == 'POST':
         form = UpdateDailySalaryForm(request.POST, instance=daily_salary)
         if form.is_valid():
             form.save()
-            return redirect(f"{reverse('daily_salary_list')}?department={department}")
+            return redirect(
+                #f"{reverse('daily_salary_list')}?department={department}"
+                'daily_salary_list'
+                )
     else:
         form = UpdateDailySalaryForm(instance=daily_salary)
 
@@ -144,7 +146,8 @@ def update_daily_salary(request, pk):
                 f"{daily_salary.employee.name}, "
                 f"Date: {daily_salary.salary_date}"
             ),
-            'cancel_url': f"{reverse('daily_salary_list')}?department={department}",
+            'selected_department': department,
+            'cancel_url': reverse('daily_salary_list'),
         }
     )
 
@@ -152,7 +155,6 @@ def update_daily_salary(request, pk):
 def delete_daily_salary(request, pk):
     """View to delete an existing daily salary record."""
     daily_salary = get_object_or_404(DailySalary, pk=pk)
-    department = request.GET.get('department', '')
 
     if request.method == 'POST':
         object_name = (
@@ -162,5 +164,5 @@ def delete_daily_salary(request, pk):
         )
         daily_salary.delete()
         send_delete_warning(request, object_name)
-        
-        return redirect(f"{reverse('daily_salary_list')}?department={department}")
+
+        return redirect('daily_salary_list')

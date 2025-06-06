@@ -3,14 +3,14 @@
 {% block title %}Daily Salary List{% endblock %}
 
 {% block content %}
+
 <div class="d-flex justify-content-between mb-3">
   <h2 id="daily-salary-list-title">Daily Salary List {{ selected_department }}</h2>
-  <a class="btn btn-primary" href="{% url 'create_daily_salary_bulk' %}?department={{ selected_department|urlencode }}">Create Daily Salary for {{ selected_department }}</a>
+  <a class="btn btn-primary" href="{% url 'create_daily_salary' %}?department={{ selected_department|urlencode }}">Create Daily Salary</a>
 </div>
 
 <!-- Filter Form -->
 <form method="get" class="mb-3" aria-labelledby="daily-salary-list-title">
-  <input type="hidden" name="department" value="{{ selected_department }}">
   <div class="row">
     <div class="col">
       <label for="filter-employee-id" class="visually-hidden">Employee ID</label>
@@ -80,7 +80,8 @@
       <th scope="col">Department</th>
       <th scope="col">Hours per Day</th>
       <th scope="col">Salary Day</th>
-      <th scope="col">
+      <th scope="col" 
+          aria-sort="{% if request.GET.order_by == 'salary_date' %}{% if request.GET.direction == 'asc' %}ascending{% elif request.GET.direction == 'desc' %}descending{% else %}none{% endif %}{% else %}none{% endif %}">
         <a href="?order_by=salary_date&amp;direction={% if request.GET.order_by == 'salary_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department|urlencode }}" class="sorting-link">
           Salary Date
           <span class="sorting-arrows">
@@ -89,7 +90,8 @@
           </span>
         </a>
       </th>
-      <th scope="col">
+      <th scope="col"
+          aria-sort="{% if request.GET.order_by == 'record_date' %}{% if request.GET.direction == 'asc' %}ascending{% elif request.GET.direction == 'desc' %}descending{% else %}none{% endif %}{% else %}none{% endif %}">
         <a href="?order_by=record_date&amp;direction={% if request.GET.order_by == 'record_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department|urlencode }}" class="sorting-link">
           Record Date
           <span class="sorting-arrows">

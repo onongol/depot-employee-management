@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const saveObjectDetails = document.getElementById("saveObjectDetails");
   const confirmSaveButton = document.getElementById("confirmSaveButton");
   const updateForm = document.getElementById("updateForm");
-
   if (saveModal) {
     saveModal.addEventListener("show.bs.modal", function () {
       const objectName = saveModal.getAttribute("data-object-name");
@@ -13,13 +12,11 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
   if (confirmSaveButton && updateForm) {
     confirmSaveButton.addEventListener("click", function () {
       updateForm.submit();
     });
   }
-
   if (updateForm) {
     updateForm.addEventListener("keydown", function (event) {
       if (

@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
-
   // Optionally, handle "Select all works" checkbox
   const selectAllWorks = document.getElementById('select-all-works');
   if (selectAllWorks) {

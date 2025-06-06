@@ -3,25 +3,15 @@
 {% block title %}Work List{% endblock %}
 
 {% block content %}
+
 <div class="d-flex justify-content-between mb-3">
-  <h2 id="work-list-title">Work List</h2>
-  <a class="btn btn-primary" href="{% url 'create_work' %}">Create Work</a>
+  <h2 id="work-list-title">Work {{ selected_department }}</h2>
+  <a class="btn btn-primary" href="{% url 'create_work' %}?department={{ selected_department|urlencode }}">Create Work</a>
 </div>
 
 <!-- Filter Form -->
 <form method="get" class="mb-3" aria-labelledby="work-list-title">
   <div class="row">
-    <div class="col">
-      <label for="filter-department" class="visually-hidden">Department</label>
-      <select name="department" id="filter-department" class="form-control">
-        <option value="">All Departments</option>
-        {% for department in departments %}
-        <option value="{{ department }}" {% if request.GET.department == department %}selected{% endif %}>
-          {{ department }}
-        </option>
-        {% endfor %}
-      </select>
-    </div>
     <div class="col">
       <label for="filter-work-name" class="visually-hidden">Work Name</label>
       <input

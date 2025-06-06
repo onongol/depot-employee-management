@@ -3,22 +3,30 @@
 {% block title %}Update Piecework{% endblock %}
 
 {% block form_fields %}
-<div class="form-group row mb-3">
-  <label for="{{ form.type_work.id_for_label }}" class="col-sm-2 col-form-label">Type Work</label>
-  <div class="col-sm-10">
-    {{ form.type_work }}
+
+<fieldset>
+  <legend class="visually-hidden">Update Piecework Details</legend>
+  <div class="form-group row mb-3">
+    <label for="{{ form.type_work.id_for_label }}" class="col-sm-2 col-form-label">Type Work</label>
+    <div class="col-sm-10">
+      {{ form.type_work }}
+      {% include "partials/field_errors.html" with field=form.type_work %}
+    </div>
   </div>
-</div>
-<div class="form-group row mb-3">
-  <label for="{{ form.amount.id_for_label }}" class="col-sm-2 col-form-label">Amount</label>
-  <div class="col-sm-10">
-    {{ form.amount }}
+  <div class="form-group row mb-3">
+    <label for="{{ form.amount.id_for_label }}" class="col-sm-2 col-form-label">Amount</label>
+    <div class="col-sm-10">
+      {{ form.amount }}
+      {% include "partials/field_errors.html" with field=form.amount %}
+    </div>
   </div>
-</div>
-<div class="form-group row mb-3">
-  <label for="{{ form.work_date.id_for_label }}" class="col-sm-2 col-form-label">Work Date</label>
-  <div class="col-sm-10">
-    {{ form.work_date }}
+  <div class="form-group row mb-3">
+    <label for="{{ form.work_date.id_for_label }}" class="col-sm-2 col-form-label">Work Date</label>
+    <div class="col-sm-10">
+      {{ form.work_date }}
+      {% include "partials/field_errors.html" with field=form.work_date %}
+    </div>
   </div>
-</div>
+</fieldset>
+
 {% endblock %}

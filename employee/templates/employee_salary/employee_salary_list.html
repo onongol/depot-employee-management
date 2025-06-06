@@ -3,8 +3,9 @@
 {% block title %}Employee Salary List{% endblock %}
 
 {% block content %}
+
 <div class="d-flex justify-content-between mb-3">
-  <h2 id="employee-salary-list-title">Employee Salary List</h2>
+  <h2 id="employee-salary-list-title">Employee Salary {{ selected_department }}</h2>
 </div>
 
 <!-- Filter Form -->
@@ -32,17 +33,6 @@
         placeholder="Employee Name"
         value="{{ filters.employee_name }}"
       />
-    </div>
-    <div class="col">
-      <label for="filter-department" class="visually-hidden">Department</label>
-      <select name="department" id="filter-department" class="form-control">
-        <option value="">All Departments</option>
-        {% for department in departments %}
-        <option value="{{ department }}" {% if filters.department == department %}selected{% endif %}>
-          {{ department }}
-        </option>
-        {% endfor %}
-      </select>
     </div>
     <div class="col">
       <label for="filter-job-title" class="visually-hidden">Job Title</label>
@@ -92,8 +82,9 @@
 <table class="table table-bordered table-striped">
   <thead class="table-dark">
     <tr>
-      <th>#</th>
-      <th>
+      <th scope="col">#</th>
+      <th scope="col"
+          aria-sort="{% if request.GET.order_by == 'employee_id' %}{{ request.GET.direction }}{% else %}none{% endif %}">
         <a href="?order_by=employee_id&direction={% if request.GET.order_by == 'employee_id' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
           Employee ID
           <span class="sorting-arrows">
@@ -102,14 +93,15 @@
           </span>
         </a>
       </th>
-      <th>Employee Name</th>
-      <th>Department</th>
-      <th>Job Title</th>
-      <th>Rank</th>
-      <th>Salary Month</th>
-      <th>Total Amount Price</th>
-      <th>Total Salary</th>
-      <th>
+      <th scope="col">Employee Name</th>
+      <th scope="col">Department</th>
+      <th scope="col">Job Title</th>
+      <th scope="col">Rank</th>
+      <th scope="col">Salary Month</th>
+      <th scope="col">Total Amount Price</th>
+      <th scope="col">Total Salary</th>
+      <th scope="col"
+          aria-sort="{% if request.GET.order_by == 'month' %}{{ request.GET.direction }}{% else %}none{% endif %}">
         <a href="?order_by=month&direction={% if request.GET.order_by == 'month' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
           Month
           <span class="sorting-arrows">
@@ -118,7 +110,8 @@
           </span>
         </a>
       </th>
-      <th>
+      <th scope="col"
+          aria-sort="{% if request.GET.order_by == 'year' %}{{ request.GET.direction }}{% else %}none{% endif %}">
         <a href="?order_by=year&direction={% if request.GET.order_by == 'year' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
           Year
           <span class="sorting-arrows">

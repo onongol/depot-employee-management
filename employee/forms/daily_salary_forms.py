@@ -10,13 +10,19 @@ class DailySalaryForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'employee': forms.Select(attrs={'class': 'form-control'}),
-            'hours_per_day': forms.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'min': '0'}),
-            'salary_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-        }
-        error_messages = {
-            'employee': {
-                'required': 'Employee - Please select.',
-            },
+            'hours_per_day': forms.NumberInput(
+                attrs={
+                    'class': 'form-control', 
+                    'type': 'number', 
+                    'min': '0'
+                }
+            ),
+            'salary_date': forms.DateInput(
+                attrs={
+                    'class': 'form-control', 
+                    'type': 'date'
+                }
+            ),
         }
 
 
@@ -26,6 +32,17 @@ class UpdateDailySalaryForm(forms.ModelForm):
         model = DailySalary
         fields = ['hours_per_day', 'salary_date']
         widgets = {
-            'hours_per_day': forms.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'min': '0'}),
-            'salary_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'hours_per_day': forms.NumberInput(
+                attrs={
+                    'class': 'form-control', 
+                    'type': 'number', 
+                    'min': '0'
+                }
+            ),
+            'salary_date': forms.DateInput(
+                attrs={
+                    'class': 'form-control', 
+                    'type': 'date'
+                }
+            ),
         }

@@ -23,25 +23,25 @@ class Piecework(models.Model):
     ]
     type_work = models.CharField(max_length=50, choices=TYPE_WORK_CHOICES)
     amount = models.DecimalField(
-        max_digits=10, 
+        max_digits=20, 
         decimal_places=2, 
-        default=Decimal('1.00'), 
-        validators=[MinValueValidator(0.0)]
-        )
+        default=Decimal('0.00'), 
+        validators=[MinValueValidator(0.00)],
+    )
     amount_price = models.DecimalField(
-        max_digits=10, 
+        max_digits=20, 
         decimal_places=2, 
         default=Decimal('0.00'), 
-        validators=[MinValueValidator(0.0)], 
+        validators=[MinValueValidator(0.00)], 
         editable=False
-        )
+    )
     amount_material = models.DecimalField(
-        max_digits=10, 
+        max_digits=20, 
         decimal_places=2, 
         default=Decimal('0.00'), 
-        validators=[MinValueValidator(0.0)], 
+        validators=[MinValueValidator(0.00)], 
         editable=False
-        )
+    )
     work_date = models.DateField(default=date.today)
     record_date = models.DateTimeField(auto_now_add=True)
     

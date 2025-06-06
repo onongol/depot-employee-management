@@ -11,48 +11,48 @@ from employee.models import DailySalary
 def employee_salary_list(request):
     """View to list all employee salaries with filters and pagination."""
     MONTH_CHOICES = [
-        (1, '01'), (2, '02'), (3, '03'), (4, '04'),
-        (5, '05'), (6, '06'), (7, '07'), (8, '08'),
-        (9, '09'), (10, '10'), (11, '11'), (12, '12'),
+        (1, '01'), (2, '02'), (3, '03'), (4, '04'), (5, '05'), (6, '06'),
+        (7, '07'), (8, '08'), (9, '09'), (10, '10'), (11, '11'), (12, '12'),
     ]
+
     # Get the current year for default filtering
     current_year = datetime.now().year
 
     # Filtering
+    department = request.GET.get('department') or request.session.get('department')
     employee_id = request.GET.get('employee_id', '')    
     employee_name = request.GET.get('employee_name', '')
-    department = request.GET.get('department', '')
     job_title = request.GET.get('job_title', '')
     month = request.GET.get('month', '')
     year = request.GET.get('year', str(current_year))
 
     # Query Employee and prefetch related DailySalary data
     employees = Employee.objects.prefetch_related('dailysalary_set').all()
-    
-    # Get all unique department names that exist in DailySalary
-    
-    departments = (
-        Employee.objects.filter(dailysalary__isnull=False)
-        .values_list('department', flat=True)
-        .distinct()
-    )
-    
+
     # Get all unique job titles that exist in DailySalary
-    job_titles = (
-        Employee.objects.filter(dailysalary__isnull=False)
-        .values_list('job_title', flat=True)
-        .distinct()
-    )
+    if department:
+        job_titles = (
+            Employee.objects.filter(department=department, dailysalary__isnull=False)
+            .values_list('job_title', flat=True)
+            .distinct()
+        )
+    else:
+        job_titles = (
+            Employee.objects.filter(dailysalary__isnull=False)
+            .values_list('job_title', flat=True)
+            .distinct()
+        )
+
     # Get all unique years that exist in DailySalary
     years = [d.year for d in DailySalary.objects.dates('salary_date', 'year')]
 
     # Apply filters
+    if department:
+        employees = employees.filter(department__icontains=department)
     if employee_id:
         employees = employees.filter(employee_id__exact=employee_id)
     if employee_name:
         employees = employees.filter(name__icontains=employee_name)
-    if department:
-        employees = employees.filter(department__icontains=department)
     if job_title:
         employees = employees.filter(job_title__icontains=job_title)
     
@@ -74,6 +74,7 @@ def employee_salary_list(request):
                 total_salary_day=Sum('salary_day'),
             )
         )
+        
         # Iterate through the grouped data to calculate total salaries
         for group in grouped:
             group_month = group['salary_date__month']
@@ -135,11 +136,11 @@ def employee_salary_list(request):
                 'month': month,
                 'year': year,
             },
-            'departments': departments,
             'job_titles': job_titles,
             'MONTH_CHOICES': MONTH_CHOICES,
             'years': years,
             'current_year': current_year,
             'page_obj': page_obj,
+            'selected_department': department,
         }
     )

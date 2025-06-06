@@ -1,9 +1,11 @@
 {% extends "base.html" %}
+
 {% load static %}
 
 {% block content %}
+
 <div class="d-flex justify-content-between mb-3">
-  <h2 id="daily-salary-list-title">Create Daily Salary for Employees</h2>
+  <h2 id="daily-salary-list-title">Create Daily Salary {{ selected_department }}</h2>
 </div>
 
 <!-- Error messages -->
@@ -17,6 +19,7 @@
     </ul>
   </div>
 {% endif %}
+
 <!-- Error messages block -->
 {% if errors %}
   <div class="alert alert-danger" role="alert" aria-live="assertive">
@@ -34,7 +37,7 @@
   <div class="row mb-3">
     <div class="col-md-3">
       <div class="input-group">
-        <span class="input-group-text" id="from-label">Date</span>
+        <span class="input-group-text" id="date-label">Date</span>
         <input 
           type="date"
           name="salary_date"
@@ -49,7 +52,7 @@
     </div>
     <div class="col-md-3">
       <div class="input-group">
-        <span class="input-group-text" id="from-label">Time</span>
+        <span class="input-group-text" id="time-label">Time</span>
         <input 
           type="number"
           name="hours_per_day"
@@ -66,53 +69,58 @@
       </div> 
     </div>
   </div>
-  <table class="table table-bordered table-striped">
-    <caption class="visually-hidden">Employee selection for daily salary creation</caption>
-    <thead class="table">
-      <tr>
-        <th scope="col" class="text-center" style="width: 10%">
-          <input 
-            type="checkbox"
-            id="select-all-employees"
-            onclick="toggleAll(this, 'employee_ids')"
-            aria-label="Select all employees"
-          >
-          <label for="select-all-employees" class="visually-hidden">Select all employees</label>
-        </th>
-        <th scope="col" style="width: 10%">Employee ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Department</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for employee in page_obj %}
-      <tr>
-        <td class="align-middle text-center">
-          <input 
-            type="checkbox"
-            class="form-check-input"
-            id="employee_{{ employee.pk }}"
-            name="employee_ids"
-            value="{{ employee.pk }}"
-            aria-labelledby="label_employee_{{ employee.pk }}"
-          >
-        </td>
-        <td>
-          <label id="label_employee_{{ employee.pk }}" for="employee_{{ employee.pk }}" class="visually-hidden">
+  <fieldset>
+    <legend class="visually-hidden">Select Employees</legend>
+    <table class="table table-bordered table-striped">
+      <caption class="visually-hidden">Employee selection for daily salary creation</caption>
+      <thead class="table">
+        <tr>
+          <th scope="col" class="text-center" style="width: 10%">
+            <input 
+              type="checkbox"
+              id="select-all-employees"
+              onclick="toggleAll(this, 'employee_ids')"
+              aria-label="Select all employees"
+            >
+            <label for="select-all-employees" class="visually-hidden">Select all employees</label>
+          </th>
+          <th scope="col" style="width: 10%">Employee ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Department</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for employee in page_obj %}
+        <tr>
+          <td class="align-middle text-center">
+            <input 
+              type="checkbox"
+              class="form-check-input"
+              id="employee_{{ employee.pk }}"
+              name="employee_ids"
+              value="{{ employee.pk }}"
+              aria-labelledby="label_employee_{{ employee.pk }}"
+            >
+          </td>
+          <td>
+            <label id="label_employee_{{ employee.pk }}" for="employee_{{ employee.pk }}" class="visually-hidden">
+              {{ employee.employee_id }}
+            </label>
             {{ employee.employee_id }}
-          </label>
-          {{ employee.employee_id }}
-        </td>
-        <td>{{ employee.name }}</td>
-        <td>{{ employee.department }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+          </td>
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.department }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </fieldset>
+
   <nav aria-label="Daily salary create pagination">
     {% include "partials/pagination.html" %}
   </nav>
   <br>
+
   <button type="submit" class="btn btn-primary">Save</button>
   <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
 </form>
