@@ -5,7 +5,7 @@
 {% block content %}
 <div class="d-flex justify-content-between mb-3 align-items-center">
   <h2 id="employee-list-title">Employee {{ selected_department }}</h2>
-  <a class="btn btn-primary" href="{% url 'create_employee' %}?department={{ selected_department|urlencode }}">Create Employee</a>
+  <a class="btn btn-primary" href="{% url 'employee_create' %}?department={{ selected_department|urlencode }}">Create Employee</a>
 </div>
 
 <!-- Filter Form -->
@@ -53,7 +53,7 @@
 </form>
 
 <!-- Delete Messages -->
-{% include "partials/delete_attention.html" %}
+{% include "includes/delete_attention.html" %}
 
 <table class="table table-bordered table-striped" aria-describedby="employee-list-title">
   <thead class="table-dark">
@@ -88,7 +88,7 @@
                 data-bs-target="#updateModal"
                 data-id="{{ employee.pk }}"
                 data-name="{{ employee.name }}"
-                data-url="{% url 'update_employee' employee.pk %}"
+                data-url="{% url 'employee_update' employee.pk %}"
                 aria-label="Edit {{ employee.name }}"
               >
                 Edit
@@ -100,7 +100,7 @@
                 data-bs-target="#deleteModal"
                 data-id="{{ employee.pk }}"
                 data-name="{{ employee.name }}"
-                data-url="{% url 'delete_employee' employee.pk %}"
+                data-url="{% url 'employee_delete' employee.pk %}"
                 aria-label="Delete {{ employee.name }}"
               >
                 Delete
@@ -119,10 +119,10 @@
 
 <!-- Include Pagination -->
 <nav aria-label="Employee list pagination">
-  {% include "partials/pagination.html" %}
+  {% include "includes/pagination.html" %}
 </nav>
 
 <!-- Include modals for delete and update -->
-{% include "partials/modals.html" %}
+{% include "includes/modals.html" %}
 
 {% endblock %}

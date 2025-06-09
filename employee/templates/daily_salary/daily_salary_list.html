@@ -6,7 +6,7 @@
 
 <div class="d-flex justify-content-between mb-3">
   <h2 id="daily-salary-list-title">Daily Salary List {{ selected_department }}</h2>
-  <a class="btn btn-primary" href="{% url 'create_daily_salary' %}?department={{ selected_department|urlencode }}">Create Daily Salary</a>
+  <a class="btn btn-primary" href="{% url 'daily_salary_create' %}?department={{ selected_department|urlencode }}">Create Daily Salary</a>
 </div>
 
 <!-- Filter Form -->
@@ -68,7 +68,7 @@
 </form>
 
 <!-- Delete Messages -->
-{% include "partials/delete_attention.html" %}
+{% include "includes/delete_attention.html" %}
 
 <table class="table table-bordered table-striped" aria-describedby="daily-salary-list-title">
   <caption class="visually-hidden">List of daily salaries for employees in {{ selected_department }}</caption>
@@ -124,7 +124,7 @@
                 data-bs-target="#updateModal"
                 data-id="{{ daily_salary.employee.employee_id }}"
                 data-name="{{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
-                data-url="{% url 'update_daily_salary' daily_salary.pk %}?department={{ selected_department|urlencode }}"
+                data-url="{% url 'daily_salary_update' daily_salary.pk %}?department={{ selected_department|urlencode }}"
                 aria-label="Edit {{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
               >
                 Edit
@@ -136,7 +136,7 @@
                 data-bs-target="#deleteModal"
                 data-id="{{ daily_salary.employee.employee_id }}"
                 data-name="{{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
-                data-url="{% url 'delete_daily_salary' daily_salary.pk %}?department={{ selected_department|urlencode }}"
+                data-url="{% url 'daily_salary_delete' daily_salary.pk %}?department={{ selected_department|urlencode }}"
                 aria-label="Delete {{ daily_salary.employee.name }}, {{ daily_salary.salary_date }}"
               >
                 Delete
@@ -155,10 +155,10 @@
 
 <!-- Include Pagination -->
 <nav aria-label="Daily salary list pagination">
-  {% include "partials/pagination.html" %}
+  {% include "includes/pagination.html" %}
 </nav>
 
 <!-- Include modals for delete and update -->
-{% include "partials/modals.html" %}
+{% include "includes/modals.html" %}
 
 {% endblock %}

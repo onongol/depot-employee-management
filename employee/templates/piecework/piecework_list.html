@@ -6,7 +6,7 @@
 
 <div class="d-flex justify-content-between mb-3">
   <h2 id="piecework-list-title">Piecework {{ selected_department }}</h2>
-  <a class="btn btn-primary mb-3" href="{% url 'create_piecework' %}?department={{ selected_department|urlencode }}">
+  <a class="btn btn-primary mb-3" href="{% url 'piecework_create' %}?department={{ selected_department|urlencode }}">
     Create Piecework
   </a>
 </div>
@@ -103,7 +103,7 @@
 </form>
 
 <!-- Delete Messages -->
-{% include "partials/delete_attention.html" %}
+{% include "includes/delete_attention.html" %}
 
 <table class="table table-bordered table-striped" aria-describedby="piecework-list-title">
   <caption class="visually-hidden">List of piecework records for employees in {{ selected_department }}</caption>
@@ -167,7 +167,7 @@
                 data-bs-target="#updateModal"
                 data-id="{{ piecework.employee.employee_id }}"
                 data-name="{{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
-                data-url="{% url 'update_piecework' piecework.pk %}?department={{ selected_department|urlencode }}"
+                data-url="{% url 'piecework_update' piecework.pk %}?department={{ selected_department|urlencode }}"
                 aria-label="Edit {{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
               >
                 Edit
@@ -179,7 +179,7 @@
                 data-bs-target="#deleteModal"
                 data-id="{{ piecework.employee.employee_id }}"
                 data-name="{{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
-                data-url="{% url 'delete_piecework' piecework.pk %}?department={{ selected_department|urlencode }}"
+                data-url="{% url 'piecework_delete' piecework.pk %}?department={{ selected_department|urlencode }}"
                 aria-label="Delete {{ piecework.employee.name }}, {{ piecework.work.work_name }}, {{ piecework.work_date|date:'Y.m.d' }}"
               >
                 Delete
@@ -198,10 +198,10 @@
 
 <!-- Include Pagination --><!-- Include Pagination -->
 <nav aria-label="Piecework list pagination">
-  {% include "partials/pagination.html" %}
+  {% include "includes/pagination.html" %}
 </nav>
 
 <!-- Include modals for delete and update -->
-{% include "partials/modals.html" %}
+{% include "includes/modals.html" %}
 
 {% endblock %}

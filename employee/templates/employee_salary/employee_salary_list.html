@@ -149,13 +149,13 @@
 
 <!-- Include Pagination -->
 <nav aria-label="Employee salary list pagination">
-  {% include "partials/pagination.html" %}
+  {% include "includes/pagination.html" %}
 </nav>
 
 <div class="d-flex flex-column" style="max-width: 150px;">
   <!-- Export Button Excel -->
   <a
-    href="{% url 'export_employee_salaries_excel' %}?employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}&month={{ filters.month }}&year={{ filters.year }}"
+    href="{% url 'employee_salary_export_excel' %}?employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}&month={{ filters.month }}&year={{ filters.year }}"
     class="btn btn-success export-excel-btn mb-2"
     role="button"
     aria-label="Download filtered employee salaries as Excel"
@@ -165,7 +165,7 @@
 
   <!--  Export Button PDF -->
   <a 
-    href="{% url 'export_employee_salaries_pdf' %}?employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}&month={{ filters.month }}&year={{ filters.year }}" 
+    href="{% url 'employee_salary_export_pdf' %}?employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}&month={{ filters.month }}&year={{ filters.year }}" 
     class="btn btn-danger export-pdf-btn mb-2"
     role="button"
     aria-label="Download filtered employee salaries as PDF" 
