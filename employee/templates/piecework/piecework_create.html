@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<script>
+  const existingPieceworks = {{ existing_pieceworks_json|safe }};
+</script>
+
+<div class="d-flex justify-content-between mb-3">
+  <h2 id="daily-salary-list-title">Create Piecework {{ selected_department }}</h2>
+</div>
+
+{% block form_alert %}
+<div class="alert alert-dismissible alert-info" role="alert" aria-live="polite">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <h4 class="alert-heading">Heads up!</h4>
+  If you add Piecework for the same: <strong>Employee(s), Work, Type Work, Work Date</strong>. Make sure this is necessary!
+</div>
+{% endblock %}
+
+{% if form.errors %}
+  <div class="alert alert-danger" role="alert" aria-live="assertive">
+    <h4 class="alert-heading">Error!</h4>
+    <ul>
+      {% for field, errors in form.errors.items %}
+        <li>{{ errors|join:", " }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+{% if errors %}
+  <div class="alert alert-danger" role="alert" aria-live="assertive">
+    <h4 class="alert-heading">Error!</h4>
+    <ul>
+      {% for error in errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<form method="post" class="mb-3" aria-labelledby="daily-salary-list-title" id="create_form">
+  {% csrf_token %}
+  <div class="row mb-3">
+    <div class="col-md-3">
+      <div class="input-group">
+        <label for="work_date" class="input-group-text" id="from-label">Work Date</label>
+        <input 
+          type="date"
+          name="work_date"
+          id="work_date"
+          class="form-control"
+          style="max-width: 200px;"
+          value="{{ work_date|default:today|date:'Y-m-d' }}"
+          required
+          aria-required="true"
+        >
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="input-group">
+        <label for="type_work" class="input-group-text">Type Work</label>
+        {{ form.type_work }}
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center mb-3">
+    <h4 class="mb-0 me-3">Select Employees</h4>
+    <input
+      type="text"
+      id="employee-search"
+      class="form-control"
+      placeholder="Search employees by ID..."
+      aria-label="Search employees by ID"
+      style="max-width: 250px;"
+    >
+  </div>
+  <div class="mb-3 scrollable-selection-employees">
+    <table class="table table-striped create-table sticky-table-header">
+      <caption class="visually-hidden">Employee selection for piecework creation</caption>
+      <thead class="table-dark">
+        <tr>
+          <th scope="col" class="text-center" style="width: 10%">
+            <input 
+              type="checkbox" 
+              id="select-all-employees" 
+              onclick="toggleAll(this, 'employee_ids')" 
+              aria-label="Select all employees"
+            >
+            <label 
+              for="select-all-employees" class="visually-hidden">Select all employees</label>
+          </th>
+          <th scope="col" style="width: 10%">Employee ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Department</th>
+        </tr>
+      </thead>
+      <tbody id="employees-table-body">
+        {% for emp in employees %}
+        <tr>
+          <td class="align-middle text-center">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="employee_{{ emp.pk }}"
+              name="employee_ids"
+              value="{{ emp.pk }}"
+              aria-labelledby="label_employee_{{ emp.pk }}"
+            >
+          </td>
+          <td>
+            <label id="label_employee_{{ emp.pk }}" for="employee_{{ emp.pk }}" class="visually-hidden">
+              {{ emp.employee_id }}
+            </label>
+            {{ emp.employee_id }}
+          </td>
+          <td>{{ emp.name }}</td>
+          <td>{{ emp.department }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  
+  <div class="d-flex align-items-center mb-3">
+    <h4 class="mb-0 me-3">Select Works</h4>
+    <input
+      type="text"
+      id="work-search"
+      class="form-control"
+      placeholder="Search works by name..."
+      aria-label="Search works by name"
+      style="max-width: 800px;"
+    >
+  </div>
+  <div class="mb-3 scrollable-selection-works">
+    <table class="table table-striped create-table sticky-table-header" id="works-table">
+      <caption class="visually-hidden">Work selection for piecework creation</caption>
+      <thead class="table-dark">
+        <tr>
+          <th scope="col" class="text-center" style="width: 10%">
+            <input 
+              type="checkbox" 
+              id="select-all-works" 
+              onclick="toggleAll(this, 'work_ids')" 
+              aria-label="Select all works"
+            >
+            <label
+              for="select-all-works" class="visually-hidden">Select all works</label>
+          </th>
+          <th scope="col">Work Name</th>
+          <th scope="col">Type Material</th>
+          <th scope="col" style="width: 10%">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for work in works %}
+        <tr>
+          <td class="align-middle text-center">
+            <input
+              type="checkbox"
+              class="form-check-input work-checkbox"
+              id="work_{{ work.pk }}"
+              name="work_ids"
+              value="{{ work.pk }}"
+              aria-labelledby="label_work_{{ work.pk }}"
+              data-work-name="{{ work.work_name }}"
+            >
+          </td>
+          <td>
+            <label id="label_work_{{ work.pk }}" for="work_{{ work.pk }}" class="visually-hidden">
+              {{ work.work_name }}
+            </label>
+            {{ work.work_name }}
+          </td>
+          <td>{{ work.type_material }}</td>
+          <td>
+            <label for="amount_{{ work.pk }}" class="visually-hidden">Amount for {{ work.work_name }}</label>
+            <input
+              type="number"
+              id="amount_{{ work.pk }}"
+              name="amount_{{ work.pk }}"
+              min="0"
+              step="any"
+              class="form-control amount-input"
+              style="max-width: 120px;"
+              disabled
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- Selected summary section -->
+  <div id="selected-summary" class="alert alert-secondary mb-3" style="display:none;">
+    <strong>Selected Employees:</strong>
+    <span id="selected-employees-list"></span>
+    <br>
+    <strong>Selected Works:</strong>
+    <span id="selected-works-list"></span>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>
+
+<!-- Save Duplicate Modal -->
+<div
+  class="modal fade"
+  id="saveDuplicateModal"
+  tabindex="-1"
+  aria-labelledby="saveDuplicateModalLabel"
+  aria-modal="true"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="saveDuplicateModalLabel">Duplicate Entry</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        A piecework entry already exists for:
+        <br>Employee: <strong id="modal-employee"></strong>
+        <br>Work: <strong id="modal-work"></strong>, 
+        <br>Type: <strong id="modal-type-work"></strong>, Date: <strong id="modal-work-date"></strong>.
+        <br>Are you sure you want to create a duplicate entry?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmSaveBtn">Yes, save</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS Script -->
+<script src="{% static 'js/type_work_id.js' %}"></script> 
+<script src="{% static 'js/toggle_all.js' %}"></script>
+<script src="{% static 'js/piecework_form_duplicate.js' %}"></script>
+<script src="{% static 'js/piecework_amount_inputs.js' %}"></script>
+<script src="{% static 'js/employee_search.js' %}"></script>
+<script src="{% static 'js/work_search.js' %}"></script>
+<script src="{% static 'js/summary_selected_employees.js' %}"></script>
+<script src="{% static 'js/summary_selected_works.js' %}"></script>
+
+{% endblock %}

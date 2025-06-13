@@ -25,16 +25,12 @@ def piecework_create(request):
         Work.objects.filter(department=department) if department else Work.objects.none()
     )
     
-    # Ensure consistent ordering for pagination
+    # Ensure consistent ordering
     employees = employees.order_by('employee_id')
     works = works.order_by('work_name')
     
     errors = []
     today = timezone.now().date()
-
-    work_paginator = Paginator(works, 10)
-    work_page_number = request.GET.get('work_page')
-    work_page_obj = work_paginator.get_page(work_page_number)
 
     if request.method == 'POST':
         work_date = request.POST.get('work_date')
@@ -42,9 +38,19 @@ def piecework_create(request):
         selected_employee_ids = request.POST.getlist('employee_ids')
         selected_work_ids = request.POST.getlist('work_ids')
         amounts = {wid: request.POST.get(f'amount_{wid}') for wid in selected_work_ids}
+        
+        missing_amounts = [
+            wid for wid in selected_work_ids if not amounts.get(wid)
+        ]
     
         if not work_date or not type_work or not selected_employee_ids or not selected_work_ids:
-            errors.append("Please select work date, type work, employees, and works.")
+            errors.append("Please select work date, type work, employees, and works.")    
+        elif missing_amounts:
+            # If there are missing amounts, get the work names
+            missing_work_names = [
+                Work.objects.get(pk=wid).work_name for wid in missing_amounts
+            ]
+            errors.append(f"Please fill in the amount for all selected work(s): {', '.join(missing_work_names)}.")
         else:
             # Get DailySalary records for selected employees and date
             employees_salary = DailySalary.objects.filter(
@@ -52,8 +58,11 @@ def piecework_create(request):
                 salary_date=work_date,
             )
             if not employees_salary.exists():
+                employees_ids_names = [
+                    f"{emp.employee_id}/{emp.name}" for emp in Employee.objects.filter(employee_id__in=selected_employee_ids)
+                ]
                 errors.append(
-                    f"First create Daily Salary of these employee(s) {selected_employee_ids} for the selected date {work_date}."
+                    f"First create Daily Salary of these employee(s): {', '.join(employees_ids_names)} for the selected date {work_date}."
                 )
             else:
                 # Calculate employee sum salary for the given date
@@ -73,12 +82,14 @@ def piecework_create(request):
                     for work_id in selected_work_ids:
                         amount = amounts.get(work_id)
                         if not amount:
-                            errors.append(f"Amount required for work {work_id}.")
+                            work = Work.objects.get(pk=work_id)
+                            errors.append(f"Amount required for work {work.work_name}.")
                             continue
                         try:
                             amount_decimal = Decimal(amount)
                         except Exception:
-                            errors.append(f"Invalid amount for work {work_id}.")
+                            work = Work.objects.get(pk=work_id)
+                            errors.append(f"Invalid amount for work {work.work_name}.")
                             continue
 
                         # Validate amount
@@ -105,7 +116,7 @@ def piecework_create(request):
             'employee_id', 'work_id', 'type_work', 'work_date'
         )
     )
-            
+
     return render(
         request,
         'piecework/piecework_create.html',
@@ -113,7 +124,7 @@ def piecework_create(request):
             'form': PieceworkForm(department=department),
             'object_type': 'Piecework',
             'employees': employees,
-            'work_page_obj': work_page_obj,
+            'works': works,
             'today': today,
             'errors': errors,
             'selected_department': department,
@@ -248,7 +259,7 @@ def piecework_update(request, pk):
             'form': form,
             'object_type': 'Piecework',
             'object_name': (
-                f"Employee: {piecework.employee.employee_id} {piecework.employee.name}, "
+                f"Employee: {piecework.employee.employee_id}/{piecework.employee.name}, "
                 f"Work: {piecework.work.work_name}, "
                 f"Type Work: {piecework.type_work}, Work Date: {piecework.work_date}"
             ),
@@ -264,7 +275,7 @@ def piecework_delete(request, pk):
 
     if request.method == 'POST':
         object_name = (
-            f"Employee: {piecework.employee.employee_id} {piecework.employee.name}, "
+            f"Employee: {piecework.employee.employee_id}/{piecework.employee.name}, "
             f"Work: {piecework.work.work_name}, Type Work: {piecework.type_work}, "
             f"Work Date: {piecework.work_date}"
         )

@@ -39,7 +39,7 @@ class Work(models.Model):
         max_digits=20, 
         decimal_places=2, 
         default=Decimal('0.00'), 
-        validators=[MinValueValidator(0.01)]
+        validators=[MinValueValidator(0.00)]
     )
 
     def save(self, *args, **kwargs):

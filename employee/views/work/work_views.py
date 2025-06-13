@@ -83,7 +83,7 @@ def work_update(request, pk):
         {
             'form': form,
             'object_type': 'Work',
-            'object_name': work.work_name,
+            'object_name': f"{work.work_name}",
             'selected_department': department,
             'cancel_url': reverse('work_list'),
         }
@@ -101,7 +101,7 @@ def work_delete(request, pk):
         )
         return redirect('work_list')
     if request.method == 'POST':
-        object_name = work.work_name
+        object_name = f"{work.work_name}"
         work.delete()
         send_delete_warning(request, object_name)
 

@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const deleteForm = document.getElementById("deleteForm");
       const deleteDetails = document.getElementById("deleteDetails");
       deleteForm.action = itemUrl; // Update the URL dynamically
-      deleteDetails.textContent = `${itemId} ${itemName}`;
+      deleteDetails.textContent = `${itemId}/${itemName}`;
     });
   }
   // Update Modal Logic
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const updateLink = document.getElementById("updateLink");
       const updateDetails = document.getElementById("updateDetails");
       updateLink.href = updateUrl; // Update the URL dynamically
-      updateDetails.textContent = `${itemId} ${itemName}`;
+      updateDetails.textContent = `${itemId}/${itemName}`;
     });
   }
 });

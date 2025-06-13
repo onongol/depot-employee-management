@@ -99,7 +99,7 @@ def employee_update(request, pk):
         {
             'form': form,
             'object_type': 'Employee',
-            'object_name': f"{employee.employee_id} {employee.name}",
+            'object_name': f"{employee.employee_id}/{employee.name}",
             'selected_department': department,
             'cancel_url': reverse('employee_list'),
         }
@@ -112,7 +112,7 @@ def employee_delete(request, pk):
     #department = request.GET.get('department') or request.session.get('department')
 
     if request.method == "POST":
-        object_name = f"{employee.employee_id} {employee.name}"
+        object_name = f"{employee.employee_id}/{employee.name}"
         employee.delete()
         send_delete_warning(request, object_name)
 

@@ -30,9 +30,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if (isDuplicate) {
       e.preventDefault();
-      // Fill modal fields with names for user clarity
-      const selectedEmployees = Array.from(document.querySelectorAll('input[name="employee_ids"]:checked')).map(cb => cb.closest('tr').children[2].textContent.trim());
-      const selectedWorks = Array.from(document.querySelectorAll('input[name="work_ids"]:checked')).map(cb => cb.closest('tr').children[1].textContent.trim());
+      // Fill modal fields with IDs and names for user clarity
+      const selectedEmployees = Array.from(document.querySelectorAll('input[name="employee_ids"]:checked')).map(cb => {
+        const tr = cb.closest('tr');
+        const id = cb.value;
+        const name = tr.children[2].textContent.trim();
+        return `${id}/${name}`;
+      });
+      const selectedWorks = Array.from(new Set(
+        Array.from(document.querySelectorAll('input[name="work_ids"]:checked')).map(cb => cb.dataset.workName)
+      ));
       document.getElementById('modal-employee').textContent = selectedEmployees.join(', ');
       document.getElementById('modal-work').textContent = selectedWorks.join(', ');
       document.getElementById('modal-type-work').textContent = typeWork;

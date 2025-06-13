@@ -23,10 +23,6 @@ def daily_salary_create(request):
 
     errors = []
 
-    paginator = Paginator(employees, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
     if request.method == 'POST':
         selected_ids = request.POST.getlist('employee_ids')
         salary_date = request.POST.get('salary_date')
@@ -41,8 +37,9 @@ def daily_salary_create(request):
                     salary_date=salary_date
                 ).first()
                 if exists:
+                    emp = Employee.objects.get(employee_id=emp_id)
                     errors.append(
-                        f"Daily salary record for Employee ID {emp_id} on {salary_date} already exists!"
+                        f"Daily salary record for Employee: {emp_id}/{emp.name} on {salary_date} already exists!"
                     )
                 else:
                     DailySalary.objects.create(
@@ -59,7 +56,7 @@ def daily_salary_create(request):
         {
             'form': DailySalaryForm(),
             'object_type': 'Daily Salary',
-            'page_obj': page_obj,
+            'employees': employees,
             'errors': errors,
             'today': timezone.now().date(),
             'selected_department': department,
@@ -142,7 +139,7 @@ def daily_salary_update(request, pk):
             'form': form,
             'object_type': 'Daily Salary',
             'object_name': (
-                f"Employee: {daily_salary.employee.employee_id} "
+                f"Employee: {daily_salary.employee.employee_id}/"
                 f"{daily_salary.employee.name}, "
                 f"Date: {daily_salary.salary_date}"
             ),
@@ -158,7 +155,7 @@ def daily_salary_delete(request, pk):
 
     if request.method == 'POST':
         object_name = (
-            f"Employee: {daily_salary.employee.employee_id} "
+            f"Employee: {daily_salary.employee.employee_id}/"
             f"{daily_salary.employee.name}, "
             f"Date: {daily_salary.salary_date}"
         )

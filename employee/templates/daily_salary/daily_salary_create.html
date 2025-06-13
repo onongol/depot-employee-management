@@ -69,11 +69,23 @@
       </div> 
     </div>
   </div>
-  <fieldset>
-    <legend class="visually-hidden">Select Employees</legend>
-    <table class="table table-bordered table-striped">
+
+  <!-- Add search input above the employee table -->
+  <div class="d-flex align-items-center mb-3">
+    <h4 class="mb-0 me-3">Select Employees</h4>
+    <input
+      type="text"
+      id="employee-search"
+      class="form-control"
+      placeholder="Search employees by ID..."
+      aria-label="Search employees by ID"
+      style="max-width: 250px;"
+    >
+  </div>
+  <div class="mb-3 scrollable-selection-employees">
+    <table class="table table-striped create-table sticky-table-header">
       <caption class="visually-hidden">Employee selection for daily salary creation</caption>
-      <thead class="table">
+      <thead class="table-dark">
         <tr>
           <th scope="col" class="text-center" style="width: 10%">
             <input 
@@ -89,8 +101,8 @@
           <th scope="col">Department</th>
         </tr>
       </thead>
-      <tbody>
-        {% for employee in page_obj %}
+      <tbody id="employees-table-body">
+        {% for employee in employees %}
         <tr>
           <td class="align-middle text-center">
             <input 
@@ -114,12 +126,13 @@
         {% endfor %}
       </tbody>
     </table>
-  </fieldset>
+  </div>
 
-  <nav aria-label="Daily salary create pagination">
-    {% include "includes/pagination.html" %}
-  </nav>
-  <br>
+  <!-- Selected summary section -->
+  <div id="selected-summary" class="alert alert-secondary mb-3" style="display:none;">
+    <strong>Selected Employees:</strong>
+    <span id="selected-employees-list"></span>
+  </div>
 
   <button type="submit" class="btn btn-primary">Save</button>
   <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
@@ -127,5 +140,8 @@
 
 <!-- JS Script -->
 <script src="{% static 'js/toggle_all.js' %}"></script>
+<script src="{% static 'js/employee_search.js' %}"></script>
+<script src="{% static 'js/summary_selected_employees.js' %}"></script>
+
 
 {% endblock %}

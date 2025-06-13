@@ -69,3 +69,7 @@ staticfiles/
 # Other
 *.py_*
 *.html_*
+*.js_*
+*.css_*
+*.txt_*
+
