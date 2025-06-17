@@ -1,26 +1,49 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.core.paginator import Paginator
 from django.utils import timezone
+from django.views.generic import UpdateView, DeleteView
+from django.db import transaction
 
+from employee.mixins.context_mixins import DailySalaryContextMixin
+from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.models import Employee
 from employee.models import DailySalary
 from employee.forms import DailySalaryForm, UpdateDailySalaryForm
-from employee.utils.delete_attention import send_delete_warning
+from employee.utils.select_department import get_selected_department
+from employee.utils.filters import filter_daily_salaries
+from employee.utils.pagination import paginate_queryset
 
+
+class DailySalaryUpdateView(DailySalaryContextMixin, UpdateView):
+    form_class = UpdateDailySalaryForm
+    template_name = "daily_salary/daily_salary_update.html"
+
+
+class DailySalaryDeleteView(DailySalaryContextMixin, DeleteWarningMixin, DeleteView):
+    template_name = "daily_salary/daily_salary_confirm_delete.html"
+
+    # Handle the deletion and send a warning.
+    def get_redirect_url(self):
+        return self.success_url
+    
+    def get_object_name(self):
+        return (
+            f"Employee: {self.object.employee.employee_id}/{self.object.employee.name}, Date: {self.object.salary_date}"
+        )
+   
 
 def daily_salary_create(request):
     """View to create daily salary records for multiple employees, filtered by department."""
-    department = request.GET.get('department') or request.session.get('department')
+    department = get_selected_department(request)
 
     # Filter employees by selected department, or show none if not selected
     employees = Employee.objects.none()
     if department:
         employees = Employee.objects.filter(department=department)
 
-    # Ensure consistent ordering for pagination
+    # Ensure consistent ordering for pagination or display
     employees = employees.order_by('employee_id')
-
+    
     errors = []
 
     if request.method == 'POST':
@@ -28,27 +51,36 @@ def daily_salary_create(request):
         salary_date = request.POST.get('salary_date')
         hours_per_day = request.POST.get('hours_per_day')
 
+        # Validate required fields
         if not selected_ids or not salary_date or not hours_per_day:
             errors.append("Please select employees, date, and hours!")
         else:
-            for emp_id in selected_ids:
-                exists = DailySalary.objects.filter(
-                    employee_id=emp_id,
-                    salary_date=salary_date
-                ).first()
-                if exists:
-                    emp = Employee.objects.get(employee_id=emp_id)
-                    errors.append(
-                        f"Daily salary record for Employee: {emp_id}/{emp.name} on {salary_date} already exists!"
-                    )
-                else:
-                    DailySalary.objects.create(
-                        employee_id=emp_id,
-                        salary_date=salary_date,
-                        hours_per_day=hours_per_day,
-                    )
-            if not errors:
-                return redirect(f"{reverse('daily_salary_list')}?department={department}")
+            try:
+                # Use atomic transaction to ensure all records are created together
+                with transaction.atomic():
+                    for emp_id in selected_ids:
+                        # Check for duplicate daily salary record for the same employee and date
+                        exists = DailySalary.objects.filter(
+                            employee_id=emp_id,
+                            salary_date=salary_date
+                        ).first()
+                        if exists:
+                            emp = Employee.objects.get(employee_id=emp_id)
+                            errors.append(
+                                f"Daily salary record for Employee: {emp_id}/{emp.name} on {salary_date} already exists!"
+                            )
+                        else:
+                            # Create new DailySalary record
+                            DailySalary.objects.create(
+                                employee_id=emp_id,
+                                salary_date=salary_date,
+                                hours_per_day=hours_per_day,
+                            )
+            except Exception as e:
+                errors.append(f"Error creating daily salary records: {str(e)}")
+        # If no errors, redirect to the list page for the selected department
+        if not errors:
+            return redirect(f"{reverse('daily_salary_list')}?department={department}")
 
     return render(
         request,
@@ -67,28 +99,30 @@ def daily_salary_create(request):
 
 def daily_salary_list(request):
     """View to list all daily salaries with filtering and pagination."""
-    department = request.GET.get('department') or request.session.get('department')
+    department = get_selected_department(request)
 
+    # Filter daily salaries by department
     daily_salaries = DailySalary.objects.filter(employee__department=department)
 
-    # Filtering
+    # Filtering by employee ID, name, salary date, and record date
     employee_id = request.GET.get('employee_id')
     employee_name = request.GET.get('employee_name')
     salary_date = request.GET.get('salary_date')
     record_date = request.GET.get('record_date')
 
+    # Get all distinct years for filter dropdown
     years = DailySalary.objects.values_list('salary_date__year', flat=True).distinct()
 
-    if employee_id:
-        daily_salaries = daily_salaries.filter(employee__employee_id=employee_id)
-    if employee_name:
-        daily_salaries = daily_salaries.filter(employee__name__icontains=employee_name)
-    if salary_date:
-        daily_salaries = daily_salaries.filter(salary_date=salary_date)
-    if record_date:
-        daily_salaries = daily_salaries.filter(record_date__date=record_date)
+    # Apply filters to the daily salaries queryset using reusable filter functions
+    daily_salaries = filter_daily_salaries(
+        daily_salaries, 
+        employee_id=employee_id, 
+        employee_name=employee_name, 
+        salary_date=salary_date, 
+        record_date=record_date
+    )
 
-    # Handle sorting
+    # Sorting logic: allows sorting by salary_date or record_date, default is by record_date descending
     order_by = request.GET.get('order_by')
     direction = request.GET.get('direction')
 
@@ -100,9 +134,8 @@ def daily_salary_list(request):
     else:
         daily_salaries = daily_salaries.order_by('-record_date')
 
-    paginator = Paginator(daily_salaries, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    # Paginate the results, 10 records per page
+    page_obj = paginate_queryset(request, daily_salaries)
 
     return render(
         request,
@@ -114,52 +147,3 @@ def daily_salary_list(request):
             'selected_department': department,
         }
     )
-
-
-def daily_salary_update(request, pk):
-    """View to update an existing daily salary record."""
-    daily_salary = get_object_or_404(DailySalary, pk=pk)
-    department = request.GET.get('department') or request.session.get('department')
-
-    if request.method == 'POST':
-        form = UpdateDailySalaryForm(request.POST, instance=daily_salary)
-        if form.is_valid():
-            form.save()
-            return redirect(
-                #f"{reverse('daily_salary_list')}?department={department}"
-                'daily_salary_list'
-                )
-    else:
-        form = UpdateDailySalaryForm(instance=daily_salary)
-
-    return render(
-        request,
-        'daily_salary/daily_salary_update.html',
-        {
-            'form': form,
-            'object_type': 'Daily Salary',
-            'object_name': (
-                f"Employee: {daily_salary.employee.employee_id}/"
-                f"{daily_salary.employee.name}, "
-                f"Date: {daily_salary.salary_date}"
-            ),
-            'selected_department': department,
-            'cancel_url': reverse('daily_salary_list'),
-        }
-    )
-
-
-def daily_salary_delete(request, pk):
-    """View to delete an existing daily salary record."""
-    daily_salary = get_object_or_404(DailySalary, pk=pk)
-
-    if request.method == 'POST':
-        object_name = (
-            f"Employee: {daily_salary.employee.employee_id}/"
-            f"{daily_salary.employee.name}, "
-            f"Date: {daily_salary.salary_date}"
-        )
-        daily_salary.delete()
-        send_delete_warning(request, object_name)
-
-        return redirect('daily_salary_list')

@@ -8,29 +8,7 @@
   <h2 id="daily-salary-list-title">Create Daily Salary {{ selected_department }}</h2>
 </div>
 
-<!-- Error messages -->
-{% if form.errors %}
-  <div class="alert alert-danger" role="alert" aria-live="assertive">
-    <h4 class="alert-heading">Error!</h4>
-    <ul>
-      {% for field, errors in form.errors.items %}
-        <li>{{ errors|join:", " }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
-
-<!-- Error messages block -->
-{% if errors %}
-  <div class="alert alert-danger" role="alert" aria-live="assertive">
-    <h4 class="alert-heading">Error!</h4>
-    <ul>
-      {% for error in errors %}
-        <li>{{ error }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
+{% include "includes/form_errors.html" %}
 
 <form method="post" class="mb-3" aria-labelledby="daily-salary-list-title">
   {% csrf_token %}

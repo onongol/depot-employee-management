@@ -107,7 +107,7 @@
     {% if daily_salaries %}
       {% for daily_salary in daily_salaries %}
         <tr>
-          <td>{{ forloop.counter }}</td>
+          <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
           <td>{{ daily_salary.employee.employee_id }}</td>
           <td>{{ daily_salary.employee.name }}</td>
           <td>{{ daily_salary.employee.department }}</td>

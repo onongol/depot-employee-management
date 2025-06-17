@@ -7,6 +7,7 @@ from .employee_models import Employee
 
 
 class DailySalary(models.Model):
+    """Model to record daily salary for employees."""
     salary_id = models.AutoField(
         primary_key=True, 
         editable=False

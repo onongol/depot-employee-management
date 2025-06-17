@@ -9,10 +9,6 @@ from .work_models import Work
 
 class Piecework(models.Model):
     """Model to record the piecework done by employees."""
-    record_id = models.AutoField(primary_key=True)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    work = models.ForeignKey(Work, on_delete=models.RESTRICT)
-
     TYPE_WORK_CHOICES = [
         ('84', '84'),
         ('29', '29'),
@@ -21,6 +17,10 @@ class Piecework(models.Model):
         ('Завод', 'Завод'),
         ('Депо', 'Депо'),
     ]
+
+    record_id = models.AutoField(primary_key=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    work = models.ForeignKey(Work, on_delete=models.RESTRICT)
     type_work = models.CharField(max_length=50, choices=TYPE_WORK_CHOICES)
     amount = models.DecimalField(
         max_digits=20, 

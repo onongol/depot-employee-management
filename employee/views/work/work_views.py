@@ -1,58 +1,69 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
-from django.contrib import messages
+from django.shortcuts import render
 from django.core.paginator import Paginator
+from django.views.generic import CreateView, UpdateView, DeleteView
 
+from employee.mixins.context_mixins import WorkContextMixin
+from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
 from employee.models import Work 
 from employee.models import Piecework
 from employee.forms import WorkForm, UpdateWorkForm
-from employee.utils.delete_attention import send_delete_warning
+from employee.utils.select_department import get_selected_department
+from employee.utils.filters import filter_works
+from employee.utils.pagination import paginate_queryset
 
 
-def work_create(request):
-    """View to create a new work."""
-    department = request.GET.get('department') or request.session.get('department')
+class WorkCreateView(WorkContextMixin, CreateView):
+    form_class = WorkForm
+    template_name = "work/work_create.html" 
 
-    if request.method == 'POST':
-        form = WorkForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('work_list')
-    else:
-        form = WorkForm()
 
-    return render(
-        request,
-        'work/work_create.html',
-        {
-            'form': form,
-            'object_type': 'Work',
-            'selected_department': department,
-            'cancel_url': reverse('work_list'),
-        }
-    )
+class WorkUpdateView(WorkContextMixin, UpdateView):
+    form_class = UpdateWorkForm
+    template_name = "work/work_update.html"
+
+
+class WorkDeleteView(WorkContextMixin, DeleteProtectionMixin, DeleteView):
+    template_name = "work/work_confirm_delete.html"
+
+    # Get related piecework records to check if deletion is allowed.
+    def get_related_objects(self):
+        return Piecework.objects.filter(work=self.object)
+    
+    def get_block_message(self):
+        return (
+            f"Cannot delete <b>{self.object.work_name}</b> because it is associated with piecework records. Please remove the piecework records first."
+        )
+    
+    # Handle the deletion and send a warning.
+    def get_redirect_url(self):
+        return self.success_url
+    
+    def get_object_name(self):
+        return f"{self.object.work_name}"
 
 
 def work_list(request):
     """View to list all works with filtering and pagination."""
     works = Work.objects.all()
 
-    # Filtering
-    department = request.GET.get('department') or request.session.get('department')
+    # Extract filter parameters from the request
+    department = get_selected_department(request)
     work_name = request.GET.get('work_name')
 
-    if department:
-        works = works.filter(department__icontains=department)
-    if work_name:
-        works = works.filter(work_name__icontains=work_name)
+    # Apply all filters using a reusable filter function
+    works = filter_works(
+        works, 
+        department=department, 
+        work_name=work_name
+    )
 
     # Ensure consistent ordering for pagination
     works = works.order_by('work_name')
 
-    paginator = Paginator(works, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    # Paginate the results, 10 records per page
+    page_obj = paginate_queryset(request, works)
 
+    # Render the template with all context data
     return render(
         request,
         'work/work_list.html',
@@ -62,47 +73,3 @@ def work_list(request):
             'selected_department': department,
         }
     )
-
-
-def work_update(request, pk):
-    """View to update an existing work."""
-    work = get_object_or_404(Work, pk=pk)
-    department = request.GET.get('department') or request.session.get('department')
-
-    if request.method == 'POST':
-        form = UpdateWorkForm(request.POST, instance=work)
-        if form.is_valid():
-            form.save()
-            return redirect('work_list')
-    else:
-        form = UpdateWorkForm(instance=work)
-        
-    return render(
-        request,
-        'work/work_update.html',
-        {
-            'form': form,
-            'object_type': 'Work',
-            'object_name': f"{work.work_name}",
-            'selected_department': department,
-            'cancel_url': reverse('work_list'),
-        }
-    )
-
-
-def work_delete(request, pk):
-    """View to delete an existing work."""
-    work = get_object_or_404(Work, pk=pk)
-    related_pieceworks = Piecework.objects.filter(work=work)
-    if related_pieceworks.exists():
-        messages.error(
-            request,
-            f"Cannot delete <b>{work.work_name}</b> because it is associated with piecework records."
-        )
-        return redirect('work_list')
-    if request.method == 'POST':
-        object_name = f"{work.work_name}"
-        work.delete()
-        send_delete_warning(request, object_name)
-
-        return redirect('work_list')

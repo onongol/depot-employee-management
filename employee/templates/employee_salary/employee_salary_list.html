@@ -49,9 +49,9 @@
       <label for="filter-month" class="visually-hidden">Month</label>
       <select name="month" id="filter-month" class="form-control">
         <option value="">All Month</option>
-        {% for value, label in MONTH_CHOICES %}
-        <option value="{{ value }}" {% if filters.month == value|stringformat:'d' %}selected{% endif %}>
-          {{ label }}
+        {% for month in months %}
+        <option value="{{ month }}" {% if filters.month == month|stringformat:'d' %}selected{% endif %}>
+          {{ month }}
         </option>
         {% endfor %}
       </select>
@@ -126,7 +126,7 @@
     {% if employee_salaries %}
     {% for employee_salary in employee_salaries %}
     <tr>
-      <td>{{ forloop.counter }}</td>
+      <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
       <td>{{ employee_salary.employee.employee_id }}</td>
       <td>{{ employee_salary.employee.name }}</td>
       <td>{{ employee_salary.employee.department }}</td>

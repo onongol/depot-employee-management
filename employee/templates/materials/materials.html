@@ -90,7 +90,7 @@
       {% endif %}
       {% for pw in pieceworks %}
         <tr>
-          <td>{{ forloop.counter }}</td>
+          <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
           <td>{{ pw.work_date|date:"Y.m.d" }}</td>
           <td>{{ pw.work.type_material }}</td>
           <td>{{ pw.amount_material }}</td>
