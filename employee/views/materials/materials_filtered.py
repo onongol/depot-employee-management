@@ -1,15 +1,30 @@
 from django.db.models import Q
+from datetime import datetime
 
 from employee.models import Piecework
 from employee.utils.filters import filter_material
 
 
-def materials_filtered(request):
-    """Filtered materials data for export."""
-    # Filtering (reuse logic from materials)
+def parse_date(date_str):
+    """Helper function to parse date strings into datetime.date objects."""
+    if not date_str:
+        return None
+    for fmt in ('%Y-%m-%d', '%B %d, %Y', '%b %d, %Y'):
+        try:
+            return datetime.strptime(date_str, fmt).date()
+        except ValueError:
+            continue
+    return None
+
+
+def materials_prepare(request):
+    """Prepare the base queryset and filter parameters for materials."""
+    # Filtering parameters from request
+    work_name = request.GET.get('work_name')
     selected_type = request.GET.get('type_material', 'all')
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
+    start_date = parse_date(request.GET.get('start_date'))
+    end_date = parse_date(request.GET.get('end_date'))
+    print("prepare GET PARAMS:", request.GET)
 
     # Prepare base queryset: exclude records where material is not used or not set
     pieceworks = Piecework.objects.exclude(
@@ -18,9 +33,18 @@ def materials_filtered(request):
         Q(work__usage_material=0)
     )
 
+    return pieceworks, work_name, selected_type, start_date, end_date
+
+
+def materials_filtered(request):
+    """Filtered materials data for export."""
+    # Prepare the base queryset and filter parameters
+    pieceworks, work_name, selected_type, start_date, end_date = materials_prepare(request)
+    
     # Apply reusable filter for materials
     pieceworks = filter_material(
         pieceworks,
+        work_name=work_name,
         selected_type=selected_type,
         start_date=start_date,
         end_date=end_date

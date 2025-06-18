@@ -71,8 +71,10 @@ def filter_pieceworks(queryset, employee_id=None, employee_name=None, work=None,
     return queryset
 
 
-def filter_material(queryset, selected_type='all', start_date=None, end_date=None):
+def filter_material(queryset, work_name=None, selected_type='all', start_date=None, end_date=None):
     """Reusable filter for Material queryset."""
+    if work_name:
+        queryset = queryset.filter(work__work_name__icontains=work_name)
     if selected_type and selected_type != 'all':
         queryset = queryset.filter(work__type_material=selected_type)
     if start_date:

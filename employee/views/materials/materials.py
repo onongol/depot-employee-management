@@ -1,48 +1,24 @@
 from django.shortcuts import render
 from django.db.models import Sum
-from django.core.paginator import Paginator
-from datetime import datetime
-from django.db.models import Q
 
-from employee.models import Piecework
+from .materials_filtered import materials_prepare
 from employee.utils.filters import filter_material
+from employee.utils.pagination import paginate_queryset
 
 
 def materials(request):
     """View for calculating and listing material usage in piecework records,
     with filtering and pagination."""
-    # Filtering parameters from request
-    selected_type = request.GET.get('type_material', 'all')
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
-
-    # Convert date strings to datetime objects for template display and comparison
-    if start_date:
-        try:
-            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-        except ValueError:
-            start_date = None   
-    if end_date:
-        try:
-            end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
-        except ValueError:
-            end_date = None
-
-    # Prepare base queryset: exclude records where material is not used or not set
-    pieceworks_base = Piecework.objects.exclude(
-        Q(work__type_material__isnull=True) |
-        Q(work__type_material="Not used") |
-        Q(work__usage_material=0)
-    )
+    # Prepare the base queryset and filter parameters
+    pieceworks, work_name, selected_type, start_date, end_date = materials_prepare(request)
 
     # Get all distinct type_materials for dropdown filter
-    type_materials = pieceworks_base.values_list('work__type_material', flat=True).distinct()
-
-    pieceworks = pieceworks_base
+    type_materials = pieceworks.values_list('work__type_material', flat=True).distinct()
 
     # Apply reusable filter function
     pieceworks = filter_material(
         pieceworks,
+        work_name=work_name,
         selected_type=selected_type,
         start_date=start_date,
         end_date=end_date
@@ -65,14 +41,11 @@ def materials(request):
         pieceworks = pieceworks.order_by('-work_date')
 
     # Paginate the queryset, default to last page if page not specified
-    paginator = Paginator(pieceworks, 10)
-    page_number = request.GET.get('page')
-    if not page_number:
-        page_number = paginator.num_pages  # last page
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginate_queryset(request, pieceworks)
 
     # Prepare filters for URL and template
     filters = {
+        'work_name': work_name or '',
         'type_material': selected_type,
         'start_date': start_date or '',
         'end_date': end_date or '',

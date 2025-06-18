@@ -28,7 +28,7 @@ def employee_salary_export_pdf(request):
     ]
 
     col_alignments = [
-        ('ALIGN', (0, 1), (0, -1), 'CENTER'),   # ID column centered
+        ('ALIGN', (0, 1), (0, -1), 'RIGHT'),   # ID column centered
         ('ALIGN', (1, 1), (3, -1), 'LEFT'),     # Name, Department, Job Title left-aligned
         ('ALIGN', (4, 1), (4, -1), 'CENTER'),   # Rank column centered
         ('ALIGN', (5, 1), (7, -1), 'RIGHT'),    # Salary Month, Total Piecework, Total Salary right-aligned

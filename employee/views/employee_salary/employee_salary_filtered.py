@@ -6,8 +6,8 @@ from employee.utils.filters import filter_employees
 from employee.utils.filters import filter_month_year
 
 
-def get_filtered_employee_salaries(request):
-    """Return a list of filtered employee salaries based on request parameters."""
+def employee_salaries_prepare(request):
+    """Prepare the base queryset and filter parameters for employee salaries."""
     # Get the current year for default filtering
     current_year = datetime.now().year
 
@@ -21,16 +21,12 @@ def get_filtered_employee_salaries(request):
 
     # Query all employees and prefetch related DailySalary data for efficiency
     employees = Employee.objects.prefetch_related('dailysalary_set').all()
-    
-    # Apply filters to the employee queryset using reusable filter functions
-    employees = filter_employees(
-        employees, 
-        department=department, 
-        employee_id=employee_id, 
-        employee_name=employee_name, 
-        job_title=job_title
-    )
 
+    return employees, employee_id, employee_name, department, job_title, month, year, current_year
+
+
+def employee_salary_calculate(employees, month, year):
+    """Calculate employee salaries based on daily salary records."""
     # Prepare the data for the template
     employee_salaries = []
     for employee in employees:
@@ -68,5 +64,24 @@ def get_filtered_employee_salaries(request):
                     'total_salary': total_salary,
                 }
             )
+
+    return employee_salaries
+
+
+def get_filtered_employee_salaries(request):
+    """Return a list of filtered employee salaries based on request parameters."""
+    # Prepare the base queryset and filter parameters
+    employees, employee_id, employee_name, department, job_title, month, year, current_year = employee_salaries_prepare(request)
+
+    # Apply filters to the employee queryset using reusable filter functions
+    employees = filter_employees(
+        employees, 
+        department=department, 
+        employee_id=employee_id, 
+        employee_name=employee_name, 
+        job_title=job_title
+    )
+
+    employee_salaries = employee_salary_calculate(employees, month, year)
 
     return employee_salaries

@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.db.models import Sum
-from datetime import datetime
 
 from employee.models import Employee
 from employee.models import DailySalary
+from .employee_salary_filtered import employee_salaries_prepare
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_employees
 from employee.utils.filters import filter_month_year
@@ -12,19 +12,11 @@ from employee.utils.pagination import paginate_queryset
 
 def employee_salary_list(request):
     """View to list all employee salaries with filters and pagination."""
-    # Get the current year for default filtering
-    current_year = datetime.now().year
+    # Prepare the base queryset and filter parameters
+    employees, employee_id, employee_name, department, job_title, month, year, current_year = employee_salaries_prepare(request)
 
-    # Extract filter parameters from the request
+    # Get the selected department from the request
     department = get_selected_department(request)
-    employee_id = request.GET.get('employee_id', '')    
-    employee_name = request.GET.get('employee_name', '')
-    job_title = request.GET.get('job_title', '')
-    month = request.GET.get('month', '')
-    year = request.GET.get('year', str(current_year))
-
-    # Query all employees and prefetch related DailySalary data for efficiency
-    employees = Employee.objects.prefetch_related('dailysalary_set').all()
 
     # Get all unique job titles that exist in DailySalary for filter dropdown
     job_titles = (
