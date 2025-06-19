@@ -3,18 +3,7 @@ from datetime import datetime
 
 from employee.models import Piecework
 from employee.utils.filters import filter_material
-
-
-def parse_date(date_str):
-    """Helper function to parse date strings into datetime.date objects."""
-    if not date_str:
-        return None
-    for fmt in ('%Y-%m-%d', '%B %d, %Y', '%b %d, %Y'):
-        try:
-            return datetime.strptime(date_str, fmt).date()
-        except ValueError:
-            continue
-    return None
+from employee.utils.converting_date import parse_date
 
 
 def materials_prepare(request):
@@ -24,7 +13,6 @@ def materials_prepare(request):
     selected_type = request.GET.get('type_material', 'all')
     start_date = parse_date(request.GET.get('start_date'))
     end_date = parse_date(request.GET.get('end_date'))
-    print("prepare GET PARAMS:", request.GET)
 
     # Prepare base queryset: exclude records where material is not used or not set
     pieceworks = Piecework.objects.exclude(

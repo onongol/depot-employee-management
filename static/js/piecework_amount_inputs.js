@@ -23,4 +23,12 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   }
+  // Prevent form submission on Enter key in amount inputs
+  document.querySelectorAll('.amount-input').forEach(function(input) {
+    input.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter' || event.keyCode === 13) {
+        event.preventDefault();
+      }
+    });
+  });
 });

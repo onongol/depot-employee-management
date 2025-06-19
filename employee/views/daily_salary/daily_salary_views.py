@@ -12,6 +12,7 @@ from employee.forms import DailySalaryForm, UpdateDailySalaryForm
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_daily_salaries
 from employee.utils.pagination import paginate_queryset
+from employee.utils.converting_date import parse_date
 
 
 class DailySalaryUpdateView(DailySalaryContextMixin, UpdateView):
@@ -107,11 +108,11 @@ def daily_salary_list(request):
     # Filtering by employee ID, name, salary date, and record date
     employee_id = request.GET.get('employee_id')
     employee_name = request.GET.get('employee_name')
-    salary_date = request.GET.get('salary_date')
-    record_date = request.GET.get('record_date')
+    salary_date = parse_date(request.GET.get('salary_date'))
+    record_date = parse_date(request.GET.get('record_date'))
 
-    # Get all distinct years for filter dropdown
-    years = DailySalary.objects.values_list('salary_date__year', flat=True).distinct()
+    print(f"salary_date from GET: {request.GET.get('salary_date')}, parsed: {salary_date}")  # <-- Добавлено
+    print(f"record_date from GET: {request.GET.get('record_date')}, parsed: {record_date}")  # <-- Добавлено
 
     # Apply filters to the daily salaries queryset using reusable filter functions
     daily_salaries = filter_daily_salaries(
@@ -143,7 +144,6 @@ def daily_salary_list(request):
         {
             'daily_salaries': page_obj,
             'page_obj': page_obj,
-            'years': years,
             'selected_department': department,
         }
     )
