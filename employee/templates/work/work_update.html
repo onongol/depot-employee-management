@@ -3,36 +3,14 @@
 {% block title %}Update Work{% endblock %}
 
 {% block form_fields %}
+  <fieldset class="space-y-4">
+    <legend class="sr-only">Update Work Details</legend>
+    {% include "includes/form_input.html" with id=form.type_material.id_for_label label="Type Material" name="type_material" type="text" value=form.type_material.value %}
 
-<fieldset>
-  <legend class="visually-hidden">Update Work Details</legend>
-  <div class="form-group row mb-3">
-    <label for="{{ form.type_material.id_for_label }}" class="col-sm-2 col-form-label">Type Material</label>
-    <div class="col-sm-10">
-      {{ form.type_material }}
-    </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label for="{{ form.usage_material.id_for_label }}" class="col-sm-2 col-form-label">Usage Material</label>
-    <div class="col-sm-10">
-      {{ form.usage_material }}
-      {% include "includes/field_errors.html" with field=form.usage_material %}
-    </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label for="{{ form.standard_time.id_for_label }}" class="col-sm-2 col-form-label">Standard Time</label>
-    <div class="col-sm-10">
-      {{ form.standard_time }}
-      {% include "includes/field_errors.html" with field=form.standard_time %}
-    </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label for="{{ form.price.id_for_label }}" class="col-sm-2 col-form-label">Price</label>
-    <div class="col-sm-10">
-      {{ form.price }}
-      {% include "includes/field_errors.html" with field=form.price %}
-    </div>
-  </div>
-</fieldset>
+    {% include "includes/form_input.html" with id=form.usage_material.id_for_label label="Usage Material" name="usage_material" type="number" value=form.usage_material.value step="0.01" form_errors=form.usage_material required=True %}
 
+    {% include "includes/form_input.html" with id=form.standard_time.id_for_label label="Standard Time" name="standard_time" type="number" value=form.standard_time.value step="0.0001" form_errors=form.standard_time required=True %}
+
+    {% include "includes/form_input.html" with id=form.price.id_for_label label="Price" name="price" type="number" value=form.price.value step="0.01" form_errors=form.price required=True %}
+  </fieldset>
 {% endblock %}

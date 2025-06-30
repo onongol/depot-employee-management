@@ -87,16 +87,22 @@ def piecework_create(request):
         selected_work_ids = request.POST.getlist('work_ids')
         amounts = {wid: request.POST.get(f'amount_{wid}') for wid in selected_work_ids}
 
+        # Validate required fields
+        if not selected_employee_ids:
+            errors.append("Please select at least one employee.")
+        if not selected_work_ids:
+            errors.append("Please select at least one work.")
+
         # Prefetch all selected works in a single query for efficient access
         works_dict = {str(work.pk): work for work in Work.objects.filter(pk__in=selected_work_ids)}
 
         # Check for missing amounts for any selected work
         missing_amounts = [
             wid for wid in selected_work_ids if not amounts.get(wid)
-        ]
-        # Validate required fields
-        if not work_date or not type_work or not selected_employee_ids or not selected_work_ids:
-            errors.append("Please select work date, type work, employees, and works.")    
+        ]    
+
+        if not work_date or not type_work:
+            errors.append("Please select work date, type work.")    
         elif missing_amounts:
             # If there are missing amounts, get the work names for error reporting
             missing_work_names = [

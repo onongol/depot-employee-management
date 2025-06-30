@@ -15,21 +15,24 @@ class WorkForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control', 
                     'type': 'number', 
-                    'min': '0.00'
+                    'min': '0.00',
+                    'value': '0.00'
                 }
             ),
             'standard_time': forms.NumberInput(
                 attrs={
                     'class': 'form-control', 
                     'type': 'number', 
-                    'min': '0.0000'
+                    'min': '0.0000',
+                    'value': '0.0000'
                 }
             ),
             'price': forms.NumberInput(
                 attrs={
                     'class': 'form-control', 
                     'type': 'number', 
-                    'min': '0.00'
+                    'min': '0.00',
+                    'value': '0.00'
                 }
             ),
         }

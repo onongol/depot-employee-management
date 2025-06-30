@@ -1,20 +1,26 @@
 <!-- Error messages -->
+<!--
 {% if form.errors %}
-  <div class="alert alert-danger" role="alert" aria-live="assertive">
-    <h4 class="alert-heading">Error!</h4>
-    <ul>
+  <div class="mb-4 rounded-md border border-red-200 bg-red-50 p-4 text-red-600" role="alert" aria-live="assertive">
+    <span class="font-semibold">Error!</span>
+    <ul class="list-disc list-inside text-sm ml-4">
       {% for field, errors in form.errors.items %}
         <li>{{ errors|join:", " }}</li>
       {% endfor %}
     </ul>
   </div>
 {% endif %}
+-->
 
 <!-- Error messages block -->
 {% if errors %}
-  <div class="alert alert-danger" role="alert" aria-live="assertive">
-    <h4 class="alert-heading">Error!</h4>
-    <ul>
+  <div
+    class="mb-4 rounded-md border border-red-200 bg-red-50 p-4 text-red-600"
+    role="alert"
+    aria-live="assertive"
+  >
+    <span class="font-semibold">Error!</span>
+    <ul class="list-disc list-inside text-sm ml-4">
       {% for error in errors %}
         <li>{{ error }}</li>
       {% endfor %}

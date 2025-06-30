@@ -33,7 +33,7 @@ class Work(models.Model):
         max_digits=20, 
         decimal_places=4, 
         default=Decimal('0.0000'), 
-        validators=[MinValueValidator(0.0001)]
+        validators=[MinValueValidator(0.0000)]
     )
     price = models.DecimalField(
         max_digits=20, 

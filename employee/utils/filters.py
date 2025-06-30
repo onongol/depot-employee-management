@@ -45,7 +45,7 @@ def filter_pieceworks(queryset, employee_id=None, employee_name=None, work=None,
     if employee_name:
         queryset = queryset.filter(employee__name__icontains=employee_name)
     if work:
-        queryset = queryset.filter(work__work_name=work)
+        queryset = queryset.filter(work__work_name__icontains=work)
     if type_work:
         queryset = queryset.filter(type_work=type_work)
     if type_material:

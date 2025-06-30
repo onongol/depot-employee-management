@@ -1,0 +1,13 @@
+<li>
+  <a
+    href="{% url url_name %}"
+    class="px-4 py-2 rounded-md text-sm font-medium transition-colors
+      {% if request.resolver_match.url_name == url_name %}
+        bg-gray-200 text-gray-700
+      {% else %}
+        text-gray-500 hover:bg-gray-100 hover:text-gray-700
+      {% endif %}"
+  >
+    {{ label }}
+  </a>
+</li>

@@ -1,31 +1,27 @@
-// Delete and Update Modal Logic
+// DaisyUI Modal Logic for Delete and Update
+
 document.addEventListener("DOMContentLoaded", function () {
-  // Delete Modal Logic
-  const deleteModal = document.getElementById("deleteModal");
-  if (deleteModal) {
-    deleteModal.addEventListener("show.bs.modal", function (event) {
-      const button = event.relatedTarget;
-      const itemId = button.getAttribute("data-id");
-      const itemName = button.getAttribute("data-name");
-      const itemUrl = button.getAttribute("data-url");
-      const deleteForm = document.getElementById("deleteForm");
-      const deleteDetails = document.getElementById("deleteDetails");
-      deleteForm.action = itemUrl; // Update the URL dynamically
-      deleteDetails.textContent = `${itemId}/${itemName}`;
-    });
-  }
-  // Update Modal Logic
-  const updateModal = document.getElementById("updateModal");
-  if (updateModal) {
-    updateModal.addEventListener("show.bs.modal", function (event) {
-      const button = event.relatedTarget;
+  // Edit
+  document.querySelectorAll('button[aria-label^="Edit"]').forEach(function (button) {
+    button.addEventListener("click", function () {
       const itemId = button.getAttribute("data-id");
       const itemName = button.getAttribute("data-name");
       const updateUrl = button.getAttribute("data-url");
-      const updateLink = document.getElementById("updateLink");
-      const updateDetails = document.getElementById("updateDetails");
-      updateLink.href = updateUrl; // Update the URL dynamically
-      updateDetails.textContent = `${itemId}/${itemName}`;
+      document.getElementById("updateLink").href = updateUrl;
+      document.getElementById("updateDetails").textContent = `${itemId}/${itemName}`;
+      document.getElementById('updateModal').classList.remove('hidden'); // исправлено
     });
-  }
+  });
+
+  // Delete
+  document.querySelectorAll('button[aria-label^="Delete"]').forEach(function (button) {
+    button.addEventListener("click", function () {
+      const itemId = button.getAttribute("data-id");
+      const itemName = button.getAttribute("data-name");
+      const itemUrl = button.getAttribute("data-url");
+      document.getElementById("deleteForm").action = itemUrl;
+      document.getElementById("deleteDetails").textContent = `${itemId}/${itemName}`;
+      document.getElementById('deleteModal').classList.remove('hidden'); // исправлено
+    });
+  });
 });

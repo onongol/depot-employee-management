@@ -4,102 +4,69 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between mb-3">
-  <h2 id="work-list-title">Work {{ selected_department }}</h2>
-  <a class="btn btn-primary" href="{% url 'work_create' %}?department={{ selected_department|urlencode }}">Create Work</a>
-</div>
+  {% url 'work_create' as create_url %}
+  {% include "includes/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url create_label="Create" %}
 
-<!-- Filter Form -->
-<form method="get" class="mb-3" aria-labelledby="work-list-title">
-  <div class="row">
-    <div class="col">
-      <label for="filter-work-name" class="visually-hidden">Work Name</label>
-      <input
-        type="text"
-        name="work_name"
-        id="filter-work-name"
-        class="form-control"
-        placeholder="Work Name"
-        value="{{ request.GET.work_name }}"
-      />
+  <!-- Filter Form -->
+  <form method="get" class="mb-6" aria-labelledby="employee-list-title">
+    <div class="flex flex-col md:flex-row gap-4">
+      {% include "includes/filter_input.html" with id="filter-work-name" label="Work Name" name="work_name" type="text" value=request.GET.work_name placeholder="Work Name" %}
+      
+      {% include "includes/filter_button.html" %}
     </div>
-    <div class="col">
-      <button type="submit" class="btn btn-light">Filter</button>
-    </div>
-  </div>
-</form>
+  </form>
 
-<!-- Delete Messages -->
-{% include "includes/delete_attention.html" %}
+  <!-- Delete Messages -->
+  {% include "includes/delete_attention.html" %}
 
-<table class="table table-bordered table-striped" aria-describedby="work-list-title">
-  <thead class="table-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Department</th>
-      <th scope="col">Work Name</th>
-      <th scope="col">Type Material</th>
-      <th scope="col">Usage Material</th>
-      <th scope="col">Standard Time</th>
-      <th scope="col">Price</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% if works %}
-      {% for work in works %}
+  <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
+    <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="employee-list-title">
+      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide border border-gray-200">
         <tr>
-          <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
-          <td>{{ work.department }}</td>
-          <td>{{ work.work_name }}</td>
-          <td>{{ work.type_material_display }}</td>
-          <td>{{ work.usage_material }}</td>
-          <td>{{ work.standard_time }}</td>
-          <td>{{ work.price }}</td>
-          <td>
-            <div class="d-flex gap-2">
-              <button
-                type="button"
-                class="btn btn-success btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#updateModal"
-                data-id="{{ work.pk }}"
-                data-name="{{ work.work_name }}"
-                data-url="{% url 'work_update' work.pk %}"
-                aria-label="Edit {{ work.work_name }}"
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#deleteModal"
-                data-id="{{ work.pk }}"
-                data-name="{{ work.work_name }}"
-                data-url="{% url 'work_delete' work.pk %}"
-                aria-label="Delete {{ work.work_name }}"
-              >
-                Delete
-              </button>
-            </div>
-          </td>
+          {% with col_class="px-6 py-3" %}
+            <th scope="col" class="{{ col_class }}">#</th>
+            <th scope="col" class="{{ col_class }}">Department</th>
+            <th scope="col" class="{{ col_class }}">Work</th>
+            <th scope="col" class="{{ col_class }}">Material</th>
+            <th scope="col" class="{{ col_class }}">Usage</th>
+            <th scope="col" class="{{ col_class }}">Time</th>
+            <th scope="col" class="{{ col_class }}">Price</th>
+            <th scope="col" class="{{ col_class }}">Actions</th>
+          {% endwith %}
         </tr>
-      {% endfor %}
-    {% else %}
-      <tr>
-        <td colspan="8" class="text-center">No work found...</td>
-      </tr>
-    {% endif %}
-  </tbody>
-</table>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {% if works %}
+          {% for work in works %}
+            <tr class="odd:bg-white hover:bg-gray-200">
+              {% with col_class="px-6 py-3" %}
+                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                <td class="{{ col_class }}">{{ work.department }}</td>
+                <td class="{{ col_class }}">{{ work.work_name }}</td>
+                <td class="{{ col_class }}">{{ work.type_material_display }}</td>
+                <td class="{{ col_class }}">{{ work.usage_material }}</td>
+                <td class="{{ col_class }}">{{ work.standard_time }}</td>
+                <td class="{{ col_class }}">{{ work.price }}</td>
+                <td class="{{ col_class }}">
+                  {% url 'work_update' work.pk as edit_url %}
+                  {% url 'work_delete' work.pk as delete_url %}
+                  {% include "includes/table_action_buttons.html" with id=work.work_id name=work.work_name edit_url=edit_url delete_url=delete_url %}
+                </td>
+              {% endwith %}
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="8" class="text-center px-3 py-4 text-gray-500">No work found...</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
 
-<!-- Include Pagination -->
-<nav aria-label="Work list pagination">
-  {% include "includes/pagination.html" %}
-</nav>
-
-<!-- Include modals for delete and update -->
-{% include "includes/modals.html" %}
+  <!-- Include Pagination -->
+  <nav aria-label="Work list pagination" class="mt-6">
+    {% include "includes/pagination.html" %}
+  </nav>
 
 {% endblock %}

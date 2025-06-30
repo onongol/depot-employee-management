@@ -5,143 +5,89 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between mb-3">
-  <h2 id="page-title">Amount Materials</h2>
-</div>
+  <div class="flex flex-col sm:flex-row justify-between mb-6 items-center gap-4">
+    <h2 id="employee-salary-list-title" class="text-lg text-gray-700 font-semibold">Materials</h2>
+  </div>
 
-<form method="get" class="row g-3 mb-4" aria-labelledby="page-title">
-  <div class="col-md-3">
-    <label for="work_name" class="form-label visually-hidden">Work Name</label>
-    <input
-      type="text"
-      class="form-control"
-      id="work_name"
-      name="work_name"
-      placeholder="Work Name"
-      value="{{ request.GET.work_name }}"
-      aria-label="Work Name"
+  <!-- Filter Form -->
+  <form method="get" class="mb-6" aria-labelledby="materials-list-title">
+    <div class="flex flex-col md:flex-row gap-4">
+      {% include "includes/filter_input.html" with id="filter-work-name" label="Work Name" name="work_name" type="text" value=request.GET.work_name placeholder="Work Name" %}
+
+      {% include "includes/filter_select.html" with id="filter-type-material" label="Type Material" name="type_material" choices=type_materials selected=request.GET.type_material empty_label="All Materials" %}
+
+      {% include "includes/filter_input_group.html" with id="filter-start-date" label="Start Date" name="start_date" type="date" value=request.GET.start_date prefix="From" %}
+
+      {% include "includes/filter_input_group.html" with id="filter-end-date" label="End Date" name="end_date" type="date" value=request.GET.end_date prefix="To" %}
+      
+      <div class="flex flex-col">
+        <button
+          type="submit"
+          class="items-center px-4 py-2 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 shadow transition-colors focus:ring-2 focus:ring-gray-400"
+        >
+          Calculate
+        </button>
+      </div>
+    </div>
+  </form>
+
+  {% if pieceworks %}
+    <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
+      <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="employee-list-title">
+        <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide border border-gray-200">
+          <tr>
+            {% with col_class="px-6 py-3" %}
+              <th scope="col" class="{{ col_class }}">#</th>
+              <th scope="col" class="{{ col_class }}">
+                {% include "includes/order_by_column.html" with label="Date" field="work_date" col_class=col_class selected_department=selected_department %}
+              </th>
+              <th scope="col" class="{{ col_class }}">Work</th>
+              <th scope="col" class="{{ col_class }}">Material</th>
+              <th scope="col" class="{{ col_class }}">Amount</th>
+            {% endwith %}
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          {% if sum_amount is not None and page_obj.number == 1 %}
+            {% include "includes/materials_total_row.html" %}
+          {% endif %}
+          {% for pw in pieceworks %}
+            <tr class="odd:bg-white hover:bg-gray-200">
+              {% with col_class="px-6 py-3" %}
+                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                <td class="{{ col_class }}">{{ pw.work_date|date:"Y.m.d" }}</td>
+                <td class="{{ col_class }}">{{ pw.work.work_name }}</td>
+                <td class="{{ col_class }}">{{ pw.work.type_material }}</td>
+                <td class="{{ col_class }}">{{ pw.amount_material }}</td>
+              {% endwith %}
+            </tr>
+          {% endfor %}
+          {% if page_obj.number == page_obj.paginator.num_pages %}
+            {% include "includes/materials_total_row.html" %}
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+
+  <!-- Include Pagination -->
+  <nav aria-label="Materials pagination" class="mt-6">
+    {% include "includes/pagination.html" %}
+  </nav>
+
+  <div class="flex gap-2 w-24 mt-4 mb-4">
+    <!-- Export Button Excel -->
+    <a
+      href="{% url 'export_materials_excel' %}?work_name={{ filters.work_name }}&type_material={{ filters.type_material }}&start_date={{ filters.start_date }}&end_date={{ filters.end_date }}"
+      class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400"
+      role="button"
+      aria-label="Download filtered materials as Excel"
     >
+      <svg class="w-5 h-5 mr-1" aria-hidden="true">
+        <use xlink:href="#download" />
+      </svg>
+      <span>Excel</span>
+    </a>
   </div>
-  <div class="col-md-3">
-    <label for="type_material" class="form-label visually-hidden">Type Material</label>
-    <select class="form-select" id="type_material" name="type_material">
-      <option value="all" {% if request.GET.type_material == "all" or not request.GET.type_material %}selected{% endif %}>All Type Material</option>
-      {% for type in type_materials %}
-        <option value="{{ type }}" {% if request.GET.type_material == type %}selected{% endif %}>{{ type }}</option>
-      {% endfor %}
-    </select>
-  </div>
-  <div class="col-md-2">
-    <label for="start_date" class="form-label visually-hidden">Start Date</label>
-    <div class="input-group">
-      <span class="input-group-text" id="from-label">From</span>
-      <input
-        type="date"
-        class="form-control"
-        id="start_date"
-        name="start_date"
-        value="{{ request.GET.start_date }}"
-        aria-labelledby="from-label"
-      >
-    </div>
-  </div>
-  <div class="col-md-2">
-    <label for="end_date" class="form-label visually-hidden">End Date</label>
-    <div class="input-group">
-      <span class="input-group-text" id="to-label">To</span>
-      <input
-        type="date"
-        class="form-control"
-        id="end_date"
-        name="end_date"
-        value="{{ request.GET.end_date }}"
-        aria-labelledby="to-label"
-      >
-    </div>
-  </div>
-  <div class="col-md-2 d-grid align-items-end">
-    <button type="submit" class="btn btn-primary">Calculate</button>
-  </div>
-</form>
-
-{% if pieceworks %}
-  <table class="table table-bordered table-striped mt-3" aria-describedby="page-title">
-    <caption class="visually-hidden">Calculation materials results</caption>
-    <colgroup>
-      <col style="width: 5%;">
-      <col style="width: 20%;">
-      <col style="width: 30%;">
-      <col style="width: 30%;">
-      <col style="width: 15%;">
-    </colgroup>
-    <thead class="table-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col"
-            aria-sort="{% if request.GET.order_by == 'work_date' %}{{ request.GET.direction }}{% else %}none{% endif %}">
-          <a href="?order_by=work_date&direction={% if request.GET.order_by == 'work_date' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
-            Date
-            <span class="sorting-arrows">
-              <span class="{% if request.GET.order_by == 'work_date' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
-              <span class="{% if request.GET.order_by == 'work_date' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
-            </span>
-          </a>
-        </th>
-        <th scope="col">Work Name</th>
-        <th scope="col">Type Material</th>
-        <th scope="col">Amount Material</th>
-      </tr>
-    <tbody>
-      {% if sum_amount is not None and page_obj.number == 1 %}
-      <tr class="table-primary">
-        <td></td>
-        <td>
-          <strong>{{ start_date|date:"Y.m.d" }}</strong> - <strong>{{ end_date|date:"Y.m.d" }}</strong>
-        </td>
-        <td></td>
-        <td><strong>{{ selected_type }}</strong></td>
-        <td>Total: <strong>{{ sum_amount|floatformat:2 }}</strong></td>
-      </tr>
-      {% endif %}
-      {% for pw in pieceworks %}
-        <tr>
-          <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
-          <td>{{ pw.work_date|date:"Y.m.d" }}</td>
-          <td>{{ pw.work.work_name }}</td>
-          <td>{{ pw.work.type_material }}</td>
-          <td>{{ pw.amount_material }}</td>
-        </tr>
-      {% endfor %}
-      {% if page_obj.number == page_obj.paginator.num_pages %}
-        <tr class="table-primary">
-          <td></td>
-          <td>
-            <strong>{{ start_date|date:"Y.m.d" }}</strong> - <strong>{{ end_date|date:"Y.m.d" }}</strong>
-          </td>
-          <td></td>
-          <td><strong>{{ selected_type }}</strong></td>
-          <td>Total: <strong> {{ sum_amount|floatformat:2 }}</strong></td>
-        </tr>
-      {% endif %}
-    </tbody>
-  </table>
-{% endif %}
-
-<!-- Include Pagination -->
-<nav aria-label="Materials pagination">
-  {% include "includes/pagination.html" %}
-</nav>
-
-<div class="d-flex flex-column" style="max-width: 150px;">
-  <!-- Export Button Excel -->
-  <a
-    href="{% url 'export_materials_excel' %}?work_name={{ filters.work_name }}&type_material={{ filters.type_material }}&start_date={{ filters.start_date }}&end_date={{ filters.end_date }}"
-    class="btn btn-success export-excel-btn mb-2"
-    role="button"
-    aria-label="Download filtered materials as Excel"
-  >
-    Download Excel
-  </a>
-</div>
 
 {% endblock %}

@@ -42,9 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'employee',
-    'crispy_forms',
-    'crispy_bootstrap5',
+    #'crispy_forms',
+    #'crispy_bootstrap5',
+    'django_browser_reload',
 ]
+
+# Path to the Node.js package manager (npm)
+NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -55,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'depo_crud.urls'
@@ -77,7 +82,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'depo_crud.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -136,9 +140,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory for collected static files
 
 # WARNING: Add this if you want to serve static files during development
 if DEBUG:
-    STATICFILES_DIRS = [
-        BASE_DIR / "static", 
-    ]
+    STATICFILES_DIRS = [BASE_DIR / "static",]
 
 
 INTERNAL_IPS = [
@@ -153,5 +155,5 @@ INTERNAL_IPS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+#CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]
+#CRISPY_TEMPLATE_PACK = "bootstrap5"

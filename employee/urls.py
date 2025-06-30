@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from .views.home import home
 from .views.department import set_department
@@ -15,6 +15,8 @@ from .views.materials import materials, export_materials_excel
 
 
 urlpatterns = [
+    # Include Django Browser Reload URLs for development
+    path('__reload__/', include('django_browser_reload.urls')),
     # Home URL
     path('', home, name="home"),
     # Department URLs

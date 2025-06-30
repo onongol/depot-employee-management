@@ -1,5 +1,8 @@
 {% if field.errors %}
-  <div id="{{ field.name }}_error" class="invalid-feedback d-block">
+  <div
+    id="{{ field.name }}_error"
+    class="text-red-500 text-sm mt-1"
+  >
     {{ field.errors|join:", " }}
   </div>
 {% endif %}

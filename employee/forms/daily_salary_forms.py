@@ -36,7 +36,8 @@ class UpdateDailySalaryForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control', 
                     'type': 'number', 
-                    'min': '0'
+                    'min': '0',
+                    'max': '24'
                 }
             ),
             'salary_date': forms.DateInput(

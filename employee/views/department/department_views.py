@@ -1,5 +1,6 @@
 from django.shortcuts import redirect
-from django.views.decorators.http import require_POST
+
+from employee.utils.select_department import get_selected_department
 
 DEPARTMENTS = [
     'Механик', 
@@ -11,11 +12,9 @@ DEPARTMENTS = [
     'Автоугсраа'
 ]
 
-
-@require_POST
 def set_department(request):
     """Set the department in the user's session."""
-    department = request.POST.get('department')
+    department = get_selected_department(request)
     if department in DEPARTMENTS:
         request.session['department'] = department
     else:
