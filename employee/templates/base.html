@@ -1,121 +1,55 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{% static 'dist/styles.css' %}" rel="stylesheet" />
     <title>{% block title %}Depot Management{% endblock %}</title>
-    <!-- Bootstrap CSS (Bootswatch Zephyr) -->
-    <link href="https://bootswatch.com/5/zephyr/bootstrap.min.css" rel="stylesheet" type="text/css" crossorigin="anonymous"/>
-    <!-- Select2 Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/>
-    <!-- Custom styles -->
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}"/>
   </head>
-  
-  <body>
-    <nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light" aria-label="Main navigation">
-      <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}" aria-label="Depot Home">
+
+  <body class="mx-auto">
+    <!-- Navbar -->
+    <nav class="bg-gray-50 shadow">
+      <div class="flex items-center mx-auto px-4 py-2">
+        <a href="{% url 'home' %}">
           <img
             src="{% static 'images/logo_light.svg' %}"
             alt="Depot Management logo"
-            width="65"
-            height="65"
-            class="d-inline-block align-text-top"
+            class="inline-block w-12 h-12 align-middle mr-2"
           />
-          <!--<span class="meta ms-2 text-muted fs-6">Depot<br>Depo</span>-->
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarColor03">
-          <!-- Department Selector -->
-          <ul class="navbar-nav">
-            <li class="nav-item me-2 d-flex align-items-center">
-              <form method="post" action="{% url 'set_department' %}" id="departmentForm" class="d-flex align-items-center mb-0">
-                {% csrf_token %}
-                <label for="department-select" class="visually-hidden">Department</label>
-                <select name="department" class="form-select form-select-sm min-width-select" onchange="document.getElementById('departmentForm').submit();">
-                  <option value="" {% if not selected_department %}selected{% endif %}>Select Department</option>
-                  {% for department in departments %}
-                    <option value="{{ department }}" {% if department == selected_department %}selected{% endif %}>{{ department }}</option>
-                  {% endfor %}
-                </select>
-              </form>
-            </li>
-          </ul>
-          <ul class="nav nav-underline me-auto" role="menubar">
-            <li class="nav-item" role="none">
-              <a class="nav-link{% if request.resolver_match.url_name == 'employee_list' %} active{% endif %}" aria-current="page" href="{% url 'employee_list' %}" role="menuitem">Employee</a>
-            </li>
-            <li class="nav-item" role="none">
-              <a class="nav-link{% if request.resolver_match.url_name == 'work_list' %} active{% endif %}" href="{% url 'work_list' %}" role="menuitem">Work</a>
-            </li>
-            <li class="nav-item" role="none">
-              <a class="nav-link{% if request.resolver_match.url_name == 'daily_salary_list' %} active{% endif %}" href="{% url 'daily_salary_list' %}" role="menuitem">
-                Daily Salary
-              </a>
-            </li>
-            <li class="nav-item" role="none">
-              <a class="nav-link{% if request.resolver_match.url_name == 'piecework_list' %} active{% endif %}" href="{% url 'piecework_list' %}" role="menuitem">
-                Piecework
-              </a>
-            </li>
-            <li class="nav-item" role="none">
-              <a class="nav-link{% if request.resolver_match.url_name == 'employee_salary_list' %} active{% endif %}" href="{% url 'employee_salary_list' %}" role="menuitem">Employee Salary</a>
-            </li>
-            <li class="nav-item" role="none">
-              <a class="nav-link{% if request.resolver_match.url_name == 'materials' %} active{% endif %}" href="{% url 'materials' %}" role="menuitem">Materials</a>
-            </li>
-          </ul>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item dropdown" role="none">
-              <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
-                <svg class="bi my-1 theme-icon-active" width="16" height="16" aria-hidden="true"><use href="#sun-fill"></use></svg>
-                <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
-                <li>
-                  <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
-                    <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16" aria-hidden="true"><use href="#sun-fill"></use></svg>
-                    Light
-                  </button>
-                </li>
-                <li>
-                  <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-                    <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16" aria-hidden="true"><use href="#moon-stars-fill"></use></svg>
-                    Dark
-                  </button>
-                </li>
-                <li>
-                  <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-                    <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16" aria-hidden="true"><use href="#circle-half"></use></svg>
-                    Auto
-                  </button>
-                </li>
-              </ul>
-            </li>
-          </ul>
+        <ul class="flex items-center space-x-2 ml-4">
+          <!-- Dropdown for Departments -->
+          {% include "includes/department_dropdown.html" %}
+
+          {% include "includes/menu_link.html" with url_name='employee_list' label='Employee' %}
+
+          {% include "includes/menu_link.html" with url_name='work_list' label='Work' %}
+
+          {% include "includes/menu_link.html" with url_name='daily_salary_list' label='Daily Salary' %}
+
+          {% include "includes/menu_link.html" with url_name='piecework_list' label='Piecework' %}
+
+          {% include "includes/menu_link.html" with url_name='employee_salary_list' label='Employee Salary' %}
+          
+          {% include "includes/menu_link.html" with url_name='materials' label='Materials' %}
+        </ul>
+        <!-- Theme Dropdown -->
+        <div class="ml-auto flex items-center">
+          {% include "includes/theme_dropdown.html" %}
         </div>
       </div>
     </nav>
 
-    <!-- Main content area -->
-    <main class="container mt-4" id="main-content" tabindex="-1">
+    <main class="max-w-7xl mx-auto mt-8 px-4" id="main-content" tabindex="-1">
       {% block content %}{% endblock %}
     </main>
 
-    <!-- SVG symbols for theme icons -->
-    {% include 'includes/svg_symbols.html' %}
-    
-    <!-- Scripts (defer for performance)-->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
-    <!-- Theme script -->
-    <script src="{% static 'js/theme.js' %}" defer></script>
+    {% include "includes/svg_symbols.html" %}
+
+    <script src="{% static 'js/theme.js' %}"></script>
+    <script src="{% static 'js/dropdowns.js' %}"></script>
   </body>
 </html>

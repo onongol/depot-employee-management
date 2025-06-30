@@ -3,126 +3,74 @@
 {% block title %}Employee List{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between mb-3 align-items-center">
-  <h2 id="employee-list-title">Employee {{ selected_department }}</h2>
-  <a class="btn btn-primary" href="{% url 'employee_create' %}?department={{ selected_department|urlencode }}">Create Employee</a>
-</div>
 
-<!-- Filter Form -->
-<form method="get" class="mb-3" aria-labelledby="employee-list-title">
-  <div class="row">
-    <div class="col">
-      <label for="filter-employee-id" class="visually-hidden">Employee ID</label>
-      <input
-        type="number"
-        name="employee_id"
-        id="filter-employee-id"
-        class="form-control"
-        placeholder="Employee ID"
-        value="{{ request.GET.employee_id }}"
-        min="1"
-      />
-    </div>
-    <div class="col">
-      <label for="filter-employee-name" class="visually-hidden">Employee Name</label>
-      <input
-        type="text"
-        name="employee_name"
-        id="filter-employee-name"
-        class="form-control"
-        placeholder="Employee Name"
-        value="{{ request.GET.employee_name }}"
-      />
-    </div>
+  {% url 'employee_create' as create_url %}
 
-    <div class="col">
-      <label for="filter-job-title" class="visually-hidden">Job Title</label>
-      <select name="job_title" id="filter-job-title" class="form-control">
-        <option value="">All Job Titles</option>
-        {% for title in job_titles %}
-        <option value="{{ title }}" {% if request.GET.job_title == title %}selected{% endif %}>
-          {{ title }}
-        </option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="col">
-      <button type="submit" class="btn btn-light">Filter</button>
-    </div>
-  </div>
-</form>
+  {% include "includes/list_header.html" with header_id="employee-list-title" title=selected_department create_url=create_url create_label="Create" %}
 
-<!-- Delete Messages -->
-{% include "includes/delete_attention.html" %}
+  <!-- Filter Form -->
+  <form method="get" class="mb-6" aria-labelledby="employee-list-title">
+    <div class="flex flex-col md:flex-row gap-4">
+      {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
+      
+      {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
 
-<table class="table table-bordered table-striped" aria-describedby="employee-list-title">
-  <thead class="table-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Employee ID</th>
-      <th scope="col">Employee Name</th>
-      <th scope="col">Department</th>
-      <th scope="col">Job Title</th>
-      <th scope="col">Rank</th>
-      <th scope="col">Money per Hour</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% if employees %}
-      {% for employee in employees %}
+      {% include "includes/filter_select.html" with id="filter-job-title" label="Job Title" name="job_title" choices=job_titles selected=request.GET.job_title empty_label="Positions" %}
+      
+      {% include "includes/filter_button.html" %}
+    </div>
+  </form>
+
+  <!-- Delete Messages -->
+  {% include "includes/delete_attention.html" %}
+
+  <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
+    <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="employee-list-title">
+      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide border border-gray-200">
         <tr>
-          <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
-          <td>{{ employee.employee_id }}</td>
-          <td>{{ employee.name }}</td>
-          <td>{{ employee.department }}</td>
-          <td>{{ employee.job_title }}</td>
-          <td>{{ employee.rank }}</td>
-          <td>{{ employee.money_per_hour }}</td>
-          <td>
-            <div class="d-flex gap-2">
-              <button
-                type="button"
-                class="btn btn-success btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#updateModal"
-                data-id="{{ employee.pk }}"
-                data-name="{{ employee.name }}"
-                data-url="{% url 'employee_update' employee.pk %}"
-                aria-label="Edit {{ employee.name }}"
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#deleteModal"
-                data-id="{{ employee.pk }}"
-                data-name="{{ employee.name }}"
-                data-url="{% url 'employee_delete' employee.pk %}"
-                aria-label="Delete {{ employee.name }}"
-              >
-                Delete
-              </button>
-            </div>
-          </td>
+          {% with col_class="px-6 py-3" %}
+            <th scope="col" class="{{ col_class }}">#</th>
+            <th scope="col" class="{{ col_class }}">ID</th>
+            <th scope="col" class="{{ col_class }}">Name</th>
+            <th scope="col" class="{{ col_class }}">Department</th>
+            <th scope="col" class="{{ col_class }}">Position</th>
+            <th scope="col" class="{{ col_class }}">Rank</th>
+            <th scope="col" class="{{ col_class }}">Money/Hour</th>
+            <th scope="col" class="{{ col_class }}">Actions</th>
+          {% endwith %}
         </tr>
-      {% endfor %}
-    {% else %}
-      <tr>
-        <td colspan="8" class="text-center">No employees found...</td>
-      </tr>
-    {% endif %}
-  </tbody>
-</table>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {% if employees %}
+          {% for employee in employees %}
+            <tr class="odd:bg-white hover:bg-gray-200">
+              {% with col_class="px-6 py-3" %}
+                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                <td class="{{ col_class }}">{{ employee.employee_id }}</td>
+                <td class="{{ col_class }}">{{ employee.name }}</td>
+                <td class="{{ col_class }}">{{ employee.department }}</td>
+                <td class="{{ col_class }}">{{ employee.job_title }}</td>
+                <td class="{{ col_class }}">{{ employee.rank }}</td>
+                <td class="{{ col_class }}">{{ employee.money_per_hour }}</td>
+                <td class="{{ col_class }}">
+                  {% url 'employee_update' employee.pk as edit_url %}
+                  {% url 'employee_delete' employee.pk as delete_url %}
+                  {% include "includes/table_action_buttons.html" with id=employee.employee_id name=employee.name edit_url=edit_url delete_url=delete_url %}
+                </td>
+              {% endwith %}
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="8" class="text-center px-3 py-4 text-gray-500">No employees found...</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
 
-<!-- Include Pagination -->
-<nav aria-label="Employee list pagination">
-  {% include "includes/pagination.html" %}
-</nav>
-
-<!-- Include modals for delete and update -->
-{% include "includes/modals.html" %}
-
+  <!-- Include Pagination -->
+  <nav aria-label="Employee list pagination" class="mt-6">
+    {% include "includes/pagination.html" %}
+  </nav>
 {% endblock %}

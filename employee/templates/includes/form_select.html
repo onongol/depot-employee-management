@@ -1,0 +1,22 @@
+<div class="mb-4 flex flex-col md:flex-row items-start md:items-center">
+  <label
+    for="{{ id }}"
+    class="md:w-1/5 mb-1 md:mb-0 text-sm text-gray-700 font-medium"
+  >
+    {{ label }}
+  </label>
+  <div class="w-full">
+    <select
+      name="{{ name }}"
+      id="{{ id }}"
+      class="block w-1/3 rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition"
+      {% if required %}required{% endif %}
+    >
+      {% for value, option_label in choices %}
+        <option value="{{ value }}"{% if value == selected %} selected{% endif %}>
+          {{ option_label }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+</div>

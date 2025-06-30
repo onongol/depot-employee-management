@@ -3,30 +3,12 @@
 {% block title %}Update Piecework{% endblock %}
 
 {% block form_fields %}
+  <fieldset class="space-y-4">
+    <legend class="sr-only">Update Piecework Details</legend>
+    {% include "includes/form_select.html" with id=form.type_work.id_for_label label="Type Work" name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
 
-<fieldset>
-  <legend class="visually-hidden">Update Piecework Details</legend>
-  <div class="form-group row mb-3">
-    <label for="{{ form.type_work.id_for_label }}" class="col-sm-2 col-form-label">Type Work</label>
-    <div class="col-sm-10">
-      {{ form.type_work }}
-      {% include "includes/field_errors.html" with field=form.type_work %}
-    </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label for="{{ form.amount.id_for_label }}" class="col-sm-2 col-form-label">Amount</label>
-    <div class="col-sm-10">
-      {{ form.amount }}
-      {% include "includes/field_errors.html" with field=form.amount %}
-    </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label for="{{ form.work_date.id_for_label }}" class="col-sm-2 col-form-label">Work Date</label>
-    <div class="col-sm-10">
-      {{ form.work_date }}
-      {% include "includes/field_errors.html" with field=form.work_date %}
-    </div>
-  </div>
-</fieldset>
-
+    {% include "includes/form_input.html" with id=form.amount.id_for_label label="Amount" name="amount" type="number" value=form.amount.value form_errors=form.amount required=True %}
+    
+    {% include "includes/form_input.html" with id=form.work_date.id_for_label label="Work Date" name="work_date" type="date" value=form.work_date.value|date:"Y-m-d" form_errors=form.work_date required=True %}
+  </fieldset>
 {% endblock %}

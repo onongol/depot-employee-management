@@ -4,122 +4,121 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between mb-3">
-  <h2 id="daily-salary-list-title">Create Daily Salary {{ selected_department }}</h2>
-</div>
+  <h2 id="form-title" class="text-xl text-gray-700 font-semibold mb-6">
+    New {{ object_type }} ({{ selected_department }})
+  </h2>
 
-{% include "includes/form_errors.html" %}
+  {% include "includes/form_errors.html" %}
 
-<form method="post" class="mb-3" aria-labelledby="daily-salary-list-title">
-  {% csrf_token %}
-  <div class="row mb-3">
-    <div class="col-md-3">
-      <div class="input-group">
-        <span class="input-group-text" id="date-label">Date</span>
-        <input 
-          type="date"
-          name="salary_date"
-          id="salary_date"
-          class="form-control"
-          style="max-width: 200px;"
-          value="{{ salary_date|default:today|date:'Y-m-d' }}"
-          required
-          aria-required="true"
-        >
-      </div>
+  <form
+    method="post"
+    class="bg-white rounded-md border border-gray-100 shadow-md p-6"
+    id="createForm"
+    aria-labelledby="form-title"
+  >
+    {% csrf_token %}
+
+    {% include "includes/form_input.html" with id="salary_date" label="Date" name="salary_date" type="date" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True %}
+    {% include "includes/form_input.html" with id="hours_per_day" label="Time" name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day required=True min="0" max="24" %}
+
+    <!-- Add search input above the employee table -->
+    <div class="flex flex-col w-1/4 mb-4">
+      {% include "includes/filter_input.html" with id="employee-search" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Search employees by ID..." min="1" %}
     </div>
-    <div class="col-md-3">
-      <div class="input-group">
-        <span class="input-group-text" id="time-label">Time</span>
-        <input 
-          type="number"
-          name="hours_per_day"
-          id="hours_per_day"
-          class="form-control"
-          step="1"
-          min="0"
-          max="24"
-          value="11"
-          style="max-width: 100px;"
-          required
-          aria-required="true"
-        >
-      </div> 
+
+    <!-- Employee Table -->
+    <div class="overflow-x-auto max-h-67 overflow-y-auto rounded-md border border-gray-200 bg-white mb-4 employee-table-container">
+      <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="daily-salary-list-title">
+        <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide">
+          <tr class="sticky top-0 z-10 bg-gray-100">
+            {% with col_class="px-6 py-3" %}
+              <th scope="col" class="{{ col_class }} text-center">
+                <input
+                  type="checkbox"
+                  id="select-all-employees"
+                  class="h-4 w-4"
+                  onclick="toggleAll(this, 'employee_ids')"
+                  aria-label="Select all employees"
+                >
+                <label for="select-all-employees" class="sr-only">Select all employees</label>
+              </th>
+              <th scope="col" class="{{ col_class }}">ID</th>
+              <th scope="col" class="{{ col_class }}">Name</th>
+              <th scope="col" class="{{ col_class }}">Department</th>
+            {% endwith %}
+          </tr>
+        </thead>
+        <tbody id="employees-table-body" class="divide-y divide-gray-100">
+          {% for employee in employees %}
+            <tr class="odd:bg-white hover:bg-gray-200">
+              {% with col_class="px-6 py-3" %}
+                <td class="{{ col_class }} align-middle text-center">
+                  <input
+                    type="checkbox"
+                    class="form-checkbox h-4 w-4"
+                    id="employee_{{ employee.pk }}"
+                    name="employee_ids"
+                    value="{{ employee.pk }}"
+                    aria-labelledby="label_employee_{{ employee.pk }}"
+                  >
+                </td>
+                <td class="{{ col_class }}">
+                  <label id="label_employee_{{ employee.pk }}" for="employee_{{ employee.pk }}" class="sr-only">
+                    {{ employee.employee_id }}
+                  </label>
+                  {{ employee.employee_id }}
+                </td>
+                <td class="{{ col_class }}">{{ employee.name }}</td>
+                <td class="{{ col_class }}">{{ employee.department }}</td>
+              {% endwith %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-  </div>
 
-  <!-- Add search input above the employee table -->
-  <div class="d-flex align-items-center mb-3">
-    <h4 class="mb-0 me-3">Select Employees</h4>
-    <input
-      type="text"
-      id="employee-search"
-      class="form-control"
-      placeholder="Search employees by ID..."
-      aria-label="Search employees by ID"
-      style="max-width: 250px;"
-    >
-  </div>
-  <div class="mb-3 scrollable-selection-employees">
-    <table class="table table-striped create-table sticky-table-header">
-      <caption class="visually-hidden">Employee selection for daily salary creation</caption>
-      <thead class="table-dark">
-        <tr>
-          <th scope="col" class="text-center" style="width: 10%">
-            <input 
-              type="checkbox"
-              id="select-all-employees"
-              onclick="toggleAll(this, 'employee_ids')"
-              aria-label="Select all employees"
-            >
-            <label for="select-all-employees" class="visually-hidden">Select all employees</label>
-          </th>
-          <th scope="col" style="width: 10%">Employee ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Department</th>
-        </tr>
-      </thead>
-      <tbody id="employees-table-body">
-        {% for employee in employees %}
-        <tr>
-          <td class="align-middle text-center">
-            <input 
-              type="checkbox"
-              class="form-check-input"
-              id="employee_{{ employee.pk }}"
-              name="employee_ids"
-              value="{{ employee.pk }}"
-              aria-labelledby="label_employee_{{ employee.pk }}"
-            >
-          </td>
-          <td>
-            <label id="label_employee_{{ employee.pk }}" for="employee_{{ employee.pk }}" class="visually-hidden">
-              {{ employee.employee_id }}
-            </label>
-            {{ employee.employee_id }}
-          </td>
-          <td>{{ employee.name }}</td>
-          <td>{{ employee.department }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+    <!-- Selected summary section -->
+    <div id="selected-summary" class="bg-gray-100 border border-gray-300 rounded px-4 py-3 mb-4 text-sm text-gray-700 font-medium">
+      Selected Employees:
+      <span id="selected-employees-list"></span>
+    </div>
 
-  <!-- Selected summary section -->
-  <div id="selected-summary" class="alert alert-secondary mb-3" style="display:none;">
-    <strong>Selected Employees:</strong>
-    <span id="selected-employees-list"></span>
-  </div>
+    <div class="flex flex-col sm:flex-row gap-2 mt-6">
+      <button
+        type="submit"
+        class="px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+      >
+        Save
+      </button>
+      <a
+        href="{{ cancel_url }}"
+        class="px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-center"
+      >
+        Cancel
+      </a>
+    </div>
+  </form>
 
-  <button type="submit" class="btn btn-primary">Save</button>
-  <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
-</form>
+  <!-- JS Script -->
+  <script src="{% static 'js/toggle_all.js' %}"></script>
+  <script src="{% static 'js/summary_selected_employees.js' %}"></script>
+  <script src="{% static 'js/form_navigation.js' %}"></script>
+  <!-- Table Search Script -->
+  <script>
+    window.TABLE_SEARCHES = [
+      ['employee-search', 'employees-table-body', 1],
+    ];
+  </script>
+  <script src="{% static 'js/table_search.js' %}"></script>
+  <!-- Checkbox Validation Script -->
+  <script src="{% static 'js/validate_checkbox_selection.js' %}"></script>
+  <script>
+    setupCheckboxValidation('createForm', 'employee_ids', '.employee-table-container', 'Please select at least one employee.');
+  </script>
 
-<!-- JS Script -->
-<script src="{% static 'js/toggle_all.js' %}"></script>
-<script src="{% static 'js/employee_search.js' %}"></script>
-<script src="{% static 'js/summary_selected_employees.js' %}"></script>
+{% endblock %}
+
+{% block form_alert %}
 
 
 {% endblock %}

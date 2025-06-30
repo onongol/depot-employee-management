@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import CreateView, UpdateView, DeleteView
+from django.urls import reverse
 
 from employee.mixins.context_mixins import EmployeeContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
@@ -67,3 +68,16 @@ def employee_list(request):
             'selected_department': department,
         }
     )
+
+
+def employee_deactivate(request, pk):
+    employee = get_object_or_404(Employee, pk=pk)
+    employee.is_active = False
+    employee.save()
+
+    # Деактивировать связанные записи (пример для DailySalary и Piecework)
+    employee.dailysalary_set.update(is_active=False)
+    employee.piecework_set.update(is_active=False)
+    # Добавьте аналогично для других связанных моделей
+
+    return redirect(reverse('employee_list'))

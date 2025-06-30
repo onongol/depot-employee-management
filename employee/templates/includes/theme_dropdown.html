@@ -1,0 +1,55 @@
+<div class="relative">
+  <button
+    id="theme-dropdown-btn"
+    type="button"
+    class="flex items-center gap-2 px-4 py-2 rounded-md text-sm text-gray-700 transition hover:bg-gray-200 focus:outline-none focus:ring-0"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <span id="current-theme-label"></span>
+  </button>
+  <ul
+    id="theme-dropdown-menu"
+    class="absolute right-0 mt-2 w-24 bg-gray-50 rounded-md shadow-sm z-10 py-2 hidden"
+    tabindex="0"
+  >
+    {% with btn_class="flex items-center gap-2 w-full px-2 py-1 text-sm text-gray-700 hover:bg-gray-200 transition" %}
+      <li>
+        <button
+          type="button"
+          class="{{ btn_class }}"
+          data-theme-value="light"
+        >
+          <svg class="w-4 h-4 ml-2" aria-hidden="true">
+            <use href="#sun-fill"></use>
+          </svg>
+          <span>Light</span>
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="{{ btn_class }}"
+          data-theme-value="dark"
+        >
+          <svg class="w-4 h-4 ml-2" aria-hidden="true">
+            <use href="#moon-stars-fill"></use>
+          </svg>
+          <span>Dark</span>
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="{{ btn_class }}"
+          data-theme-value="auto"
+        >
+          <svg class="w-4 h-4 ml-2" aria-hidden="true">
+            <use href="#circle-half"></use>
+          </svg>
+          <span>Auto</span>
+        </button>
+      </li>
+    {% endwith %}
+  </ul>
+</div>

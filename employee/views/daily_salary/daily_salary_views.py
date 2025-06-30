@@ -52,10 +52,16 @@ def daily_salary_create(request):
         salary_date = request.POST.get('salary_date')
         hours_per_day = request.POST.get('hours_per_day')
 
+        # Check if any employees are selected
+        if not selected_ids:
+            errors.append("Please select at least one employee.")
+
         # Validate required fields
-        if not selected_ids or not salary_date or not hours_per_day:
-            errors.append("Please select employees, date, and hours!")
-        else:
+        if not salary_date or not hours_per_day:
+            errors.append("Please select date and hours!")
+
+        # Validate required fields
+        if not errors:
             try:
                 # Use atomic transaction to ensure all records are created together
                 with transaction.atomic():
@@ -111,8 +117,8 @@ def daily_salary_list(request):
     salary_date = parse_date(request.GET.get('salary_date'))
     record_date = parse_date(request.GET.get('record_date'))
 
-    print(f"salary_date from GET: {request.GET.get('salary_date')}, parsed: {salary_date}")  # <-- Добавлено
-    print(f"record_date from GET: {request.GET.get('record_date')}, parsed: {record_date}")  # <-- Добавлено
+    print(f"salary_date from GET: {request.GET.get('salary_date')}, parsed: {salary_date}") 
+    print(f"record_date from GET: {request.GET.get('record_date')}, parsed: {record_date}")
 
     # Apply filters to the daily salaries queryset using reusable filter functions
     daily_salaries = filter_daily_salaries(

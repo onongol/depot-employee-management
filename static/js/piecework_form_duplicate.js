@@ -1,8 +1,8 @@
 // This script handles the duplicate check for piecework entries in a form.
 document.addEventListener('DOMContentLoaded', function () {
-  const form = document.getElementById('create_form');
+  const form = document.getElementById('createForm');
   if (!form) return;
-  const modal = new bootstrap.Modal(document.getElementById('saveDuplicateModal'));
+  const modalDiv = document.getElementById('saveDuplicateModal');
   const confirmBtn = document.getElementById('confirmSaveBtn');
   let allowSubmit = false;
   form.addEventListener('submit', function (e) {
@@ -44,13 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('modal-work').textContent = selectedWorks.join(', ');
       document.getElementById('modal-type-work').textContent = typeWork;
       document.getElementById('modal-work-date').textContent = workDate;
-      modal.show();
+      document.getElementById('saveDuplicateModal').classList.remove('hidden');
     }
     // else, allow form to submit
   });
   confirmBtn.addEventListener('click', function () {
     allowSubmit = true;
-    modal.hide();
-    form.requestSubmit(); // re-submit the form
+    modalDiv.classList.add('hidden');
+    form.requestSubmit();
   });
 });

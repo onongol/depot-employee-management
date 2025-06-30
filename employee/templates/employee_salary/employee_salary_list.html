@@ -4,175 +4,146 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between mb-3">
-  <h2 id="employee-salary-list-title">Employee Salary {{ selected_department }}</h2>
-</div>
-
-<!-- Filter Form -->
-<form method="get" class="mb-3" aria-labelledby="employee-salary-list-title">
-  <div class="row">
-    <div class="col">
-      <label for="filter-employee-id" class="visually-hidden">Employee ID</label>
-      <input
-        type="number"
-        name="employee_id"
-        id="filter-employee-id"
-        class="form-control"
-        placeholder="Employee ID"
-        value="{{ filters.employee_id }}"
-        min="1"
-      />
-    </div>
-    <div class="col">
-      <label for="filter-employee-name" class="visually-hidden">Employee Name</label>
-      <input
-        type="text"
-        name="employee_name"
-        id="filter-employee-name"
-        class="form-control"
-        placeholder="Employee Name"
-        value="{{ filters.employee_name }}"
-      />
-    </div>
-    <div class="col">
-      <label for="filter-job-title" class="visually-hidden">Job Title</label>
-      <select name="job_title" id="filter-job-title" class="form-control">
-        <option value="">All Job Titles</option>
-        {% for title in job_titles %}
-        <option value="{{ title }}" {% if filters.job_title == title %}selected{% endif %}>
-          {{ title }}
-        </option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="col">
-      <label for="filter-month" class="visually-hidden">Month</label>
-      <select name="month" id="filter-month" class="form-control">
-        <option value="">All Month</option>
-        {% for month in months %}
-        <option value="{{ month }}" {% if filters.month == month|stringformat:'d' %}selected{% endif %}>
-          {{ month }}
-        </option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="col">
-      <label for="filter-year" class="visually-hidden">Year</label>
-      <select name="year" id="filter-year" class="form-control">
-        <option value="" {% if not filters.year %}selected{% endif %}>All Years</option>
-        <option value="{{ current_year }}" {% if filters.year == current_year|stringformat:'d' %}selected{% endif %}>
-          {{ current_year }}
-        </option>
-        {% for year in years %}
-        {% if year != current_year %}
-        <option value="{{ year }}" {% if filters.year == year %}selected{% endif %}>
-          {{ year }}
-        </option>
-        {% endif %}
-        {% endfor %}
-      </select>
-    </div>
-    <div class="col">
-      <button type="submit" class="btn btn-light">Filter</button>
-    </div>
+  <div class="flex flex-col sm:flex-row justify-between mb-6 items-center gap-4">
+    <h2 id="employee-salary-list-title" class="text-lg text-gray-700 font-semibold">{{ selected_department }}</h2>
   </div>
-</form>
 
-<!-- Employee Salary Table -->
-<table class="table table-bordered table-striped">
-  <thead class="table-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col"
-          aria-sort="{% if request.GET.order_by == 'employee_id' %}{{ request.GET.direction }}{% else %}none{% endif %}">
-        <a href="?order_by=employee_id&direction={% if request.GET.order_by == 'employee_id' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
-          Employee ID
-          <span class="sorting-arrows">
-            <span class="{% if request.GET.order_by == 'employee_id' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
-            <span class="{% if request.GET.order_by == 'employee_id' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
-          </span>
-        </a>
-      </th>
-      <th scope="col">Employee Name</th>
-      <th scope="col">Department</th>
-      <th scope="col">Job Title</th>
-      <th scope="col">Rank</th>
-      <th scope="col">Salary Month</th>
-      <th scope="col">Total Amount Price</th>
-      <th scope="col">Total Salary</th>
-      <th scope="col"
-          aria-sort="{% if request.GET.order_by == 'month' %}{{ request.GET.direction }}{% else %}none{% endif %}">
-        <a href="?order_by=month&direction={% if request.GET.order_by == 'month' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
-          Month
-          <span class="sorting-arrows">
-            <span class="{% if request.GET.order_by == 'month' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
-            <span class="{% if request.GET.order_by == 'month' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
-          </span>
-        </a>
-      </th>
-      <th scope="col"
-          aria-sort="{% if request.GET.order_by == 'year' %}{{ request.GET.direction }}{% else %}none{% endif %}">
-        <a href="?order_by=year&direction={% if request.GET.order_by == 'year' and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}" class="sorting-link">
-          Year
-          <span class="sorting-arrows">
-            <span class="{% if request.GET.order_by == 'year' and request.GET.direction == 'asc' %}active{% else %}inactive{% endif %}">▲</span>
-            <span class="{% if request.GET.order_by == 'year' and request.GET.direction == 'desc' %}active{% else %}inactive{% endif %}">▼</span>
-          </span>
-        </a>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    {% if employee_salaries %}
-    {% for employee_salary in employee_salaries %}
-    <tr>
-      <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
-      <td>{{ employee_salary.employee.employee_id }}</td>
-      <td>{{ employee_salary.employee.name }}</td>
-      <td>{{ employee_salary.employee.department }}</td>
-      <td>{{ employee_salary.employee.job_title }}</td>
-      <td>{{ employee_salary.employee.rank }}</td>
-      <td>{{ employee_salary.total_salary_day }}</td>
-      <td>{{ employee_salary.total_piecework_amount }}</td>
-      <td>{{ employee_salary.total_salary }}</td>
-      <td>{{ employee_salary.month }}</td>
-      <td>{{ employee_salary.year }}</td>
-    </tr>
-    {% endfor %}
-    {% else %}
-    <tr>
-      <td colspan="11" class="text-center">No employee salary records found...</td>
-    </tr>
-    {% endif %}
-  </tbody>
-</table>
+  <!-- Filter Form -->
+  <form method="get" class="mb-6" aria-labelledby="employee-list-title">
+    <div class="flex flex-col md:flex-row gap-4">
+      {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
 
-<!-- Include Pagination -->
-<nav aria-label="Employee salary list pagination">
-  {% include "includes/pagination.html" %}
-</nav>
+      {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
+      
+      {% include "includes/filter_select.html" with id="filter-job-title" label="Job Title" name="job_title" choices=job_titles selected=request.GET.job_title empty_label="Positions" %}
 
-<div class="d-flex flex-column" style="max-width: 150px;">
-  <!-- Export Button Excel -->
-  <a
-    href="{% url 'employee_salary_export_excel' %}?employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}&month={{ filters.month }}&year={{ filters.year }}"
-    class="btn btn-success export-excel-btn mb-2"
-    role="button"
-    aria-label="Download filtered employee salaries as Excel"
-  >
-    Download Excel
-  </a>
+      <div class="flex flex-col">
+        <label for="filter-month" class="sr-only">Month</label>
+        <select
+          name="month"
+          id="filter-month"
+          class="block w-full max-w-xs rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition"
+        >
+          <option value="">Months</option>
+          {% for month in months %}
+            <option value="{{ month }}" {% if filters.month == month|stringformat:'d' %}selected{% endif %}>
+              {{ month }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
 
-  <!--  Export Button PDF -->
-  <a 
-    href="{% url 'employee_salary_export_pdf' %}?employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}&month={{ filters.month }}&year={{ filters.year }}" 
-    class="btn btn-danger export-pdf-btn mb-2"
-    role="button"
-    aria-label="Download filtered employee salaries as PDF" 
-    target="_blank"
-  >
-    Download PDF
-  </a>
-</div>
+      <div class="flex flex-col">
+        <label for="filter-year" class="sr-only">Year</label>
+        <select
+          name="year"
+          id="filter-year"
+          class="block w-full max-w-xs rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition"
+        >
+          <option value="" {% if not filters.year %}selected{% endif %}>Years</option>
+          <option value="{{ current_year }}" {% if filters.year == current_year|stringformat:'d' %}selected{% endif %}>
+            {{ current_year }}
+          </option>
+          {% for year in years %}
+            {% if year != current_year %}
+              <option value="{{ year }}" {% if filters.year == year %}selected{% endif %}>
+                {{ year }}
+              </option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+
+      {% include "includes/filter_button.html" %}
+    </div>
+  </form>
+
+  <!-- Employee Salary Table -->
+  <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
+    <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="employee-list-title">
+      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide border border-gray-200">
+        <tr>
+          {% with col_class="px-6 py-3" %}
+            <th scope="col" class="{{ col_class }}">#</th>
+            <th scope="col" class="{{ col_class }}">
+              {% include "includes/order_by_column.html" with label="ID" field="employee_id" col_class=col_class selected_department=selected_department %}
+            </th>
+            <th scope="col" class="{{ col_class }}">Name</th>
+            <th scope="col" class="{{ col_class }}">Department</th>
+            <th scope="col" class="{{ col_class }}">Position</th>
+            <th scope="col" class="{{ col_class }}">Rank</th>
+            <th scope="col" class="{{ col_class }}">Month</th>
+            <th scope="col" class="{{ col_class }}">Piecework</th>
+            <th scope="col" class="{{ col_class }}">Salary</th>
+            <th scope="col" class="{{ col_class }}">
+              {% include "includes/order_by_column.html" with label="Month" field="month" col_class=col_class selected_department=selected_department %}
+            </th>
+            <th scope="col" class="{{ col_class }}">
+              {% include "includes/order_by_column.html" with label="Year" field="year" col_class=col_class selected_department=selected_department %}
+            </th>
+          {% endwith %}
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {% if employee_salaries %}
+          {% for employee_salary in employee_salaries %}
+            <tr class="odd:bg-white hover:bg-gray-200">
+              {% with col_class="px-6 py-3" %}
+                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.employee.employee_id }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.employee.name }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.employee.department }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.employee.job_title }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.employee.rank }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.total_salary_day }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.total_piecework_amount }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.total_salary }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.month }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.year }}</td>
+              {% endwith %}
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="11" class="text-center px-3 py-4 text-gray-500">No employee salary records found...</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Include Pagination -->
+  <nav aria-label="Employee salary list pagination" class="mt-6">
+    {% include "includes/pagination.html" %}
+  </nav>
+
+  <div class="flex gap-2 w-24 mt-4 mb-4">
+    <!-- Export Button Excel -->
+    <a
+      href="{% url 'employee_salary_export_excel' %}?employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}&month={{ filters.month }}&year={{ filters.year }}"
+      class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400"
+      role="button"
+      aria-label="Download filtered employee salaries as Excel"
+    >
+      <svg class="w-5 h-5 mr-1" aria-hidden="true">
+        <use xlink:href="#download" />
+      </svg>
+      <span>Excel</span>
+    </a>
+
+    <!-- Export Button PDF -->
+    <a
+      href="{% url 'employee_salary_export_pdf' %}?employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}&month={{ filters.month }}&year={{ filters.year }}"
+      class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-red-100 hover:text-red-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-red-400"
+      role="button"
+      aria-label="Download filtered employee salaries as PDF"
+      target="_blank"
+    >
+      <svg class="w-5 h-5 mr-1" aria-hidden="true">
+        <use xlink:href="#download" />
+      </svg>
+      <span>PDF</span>
+    </a>
+  </div>
 
 {% endblock %}
