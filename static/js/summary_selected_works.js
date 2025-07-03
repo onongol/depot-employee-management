@@ -2,7 +2,7 @@ function updateSelectedWorksSummary() {
   const workCheckboxes = document.querySelectorAll('input[name="work_ids"]');
   const workChecked = document.querySelectorAll('input[name="work_ids"]:checked');
   const selectAllWork = document.getElementById('select-all-works');
-  let workSummary = 'None';
+  let workSummary = 'No works selected';
   if (selectAllWork && selectAllWork.checked && workChecked.length === workCheckboxes.length && workChecked.length > 0) {
     workSummary = 'Selected all';
   } else {
@@ -21,7 +21,9 @@ function updateSelectedWorksSummary() {
       }
       return '';
     }).filter(Boolean);
-    if (workNames.length) workSummary = workNames.join(', ');
+    // Limit to 5 works for summary
+    if (workNames.length) workSummary = workNames.slice(0, 5).join(', ') + (workNames.length > 5 ? ', ...' : '');
+
   }
   document.getElementById('selected-works-list').textContent = workSummary;
   // Show or hide the summary box (employees handled in employees script)

@@ -51,4 +51,4 @@ class Piecework(models.Model):
         super().save(*args, **kwargs)
     
     def __str__(self):
-        return f"{self.employee.name} - {self.work.work_name} - {self.type_work} on {self.work_date}"
+        return f"{self.employee.employee_id}/{self.employee.name}/{self.work.work_name}/{self.type_work}/{self.work_date}"

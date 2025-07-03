@@ -1,16 +1,16 @@
 <!-- includes/alert_warning_update.html -->
 <div
-  class="relative mb-4 flex items-start rounded-md border border-yellow-300 bg-yellow-50 p-4 text-yellow-800"
+  class="relative w-full mb-4 flex items-start rounded-md border border-yellow-300 bg-yellow-50 p-4 text-yellow-800"
   role="alert"
   aria-live="polite"
 >
   <div>
     <h4 class="font-semibold mb-1">Warning!</h4>
-    <span class="text-sm">
+    <p class="text-sm">
       All records associated with this {{ object_type }}
       <strong>{{ object_name }}</strong>
       will also be updated.
-    </span>
+    </p>
   </div>
   <button
     type="button"
@@ -23,5 +23,3 @@
     </svg>
   </button>
 </div>
-
-{% include "includes/svg_symbols.html" %}

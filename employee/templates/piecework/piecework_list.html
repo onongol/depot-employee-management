@@ -21,9 +21,9 @@
 
       {% include "includes/filter_select.html" with id="filter-type-material" label="Type Material" name="type_material" choices=type_materials value=request.GET.type_material selected=request.GET.type_material empty_label="Materials" %}
 
-      {% include "includes/filter_input.html" with id="filter-work-date" label="Work Date" name="work_date" type="date" value=request.GET.work_date %}
+      {% include "includes/filter_date.html" with id="filter-work-date" label="Date" name="work_date" type="text" value=request.GET.work_date %}
 
-      {% include "includes/filter_input_group.html" with id="filter-record-date" label="Record Date" name="record_date" type="date" value=request.GET.record_date prefix="Record" %}
+      {% include "includes/filter_date.html" with id="filter-record-date" label="Record Date" name="record_date" type="text" value=request.GET.record_date %}
       
       {% include "includes/filter_button.html" %}
     </div>
@@ -33,8 +33,8 @@
   {% include "includes/delete_attention.html" %}
 
   <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
-    <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="daily-salary-list-title">
-      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide border border-gray-200">
+    <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="piecework-list-title">
+      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide">
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
@@ -68,12 +68,12 @@
                 <td class="{{ col_class }}">{{ piecework.type_work }}</td>
                 <td class="{{ col_class }}">{{ piecework.amount }}</td>
                 <td class="{{ col_class }}">{{ piecework.amount_price }}</td>
-                <td class="{{ col_class }}">{{ piecework.work_date|date:"Y.m.d" }}</td>
-                <td class="{{ col_class }}">{{ piecework.record_date|date:"Y.m.d H:i" }}</td>
+                <td class="{{ col_class }}">{{ piecework.work_date|date:"Y-m-d" }}</td>
+                <td class="{{ col_class }}">{{ piecework.record_date|date:"Y-m-d H:i" }}</td>
                 <td class="{{ col_class }}">
                   {% url 'piecework_update' piecework.pk as update_url %}
                   {% url 'piecework_delete' piecework.pk as delete_url %}
-                  {% with work_date=piecework.work_date|date:"Y.m.d" %}
+                  {% with work_date=piecework.work_date|date:"Y-m-d" %}
                     {% include "includes/table_action_buttons.html" with id=piecework.employee.employee_id name=piecework.employee.name|add:", "|add:piecework.work.work_name|add:", "|add:work_date edit_url=update_url delete_url=delete_url %}
                   {% endwith %}
                 </td>

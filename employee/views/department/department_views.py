@@ -9,7 +9,7 @@ DEPARTMENTS = [
     'Засвар 2', 
     'Хос дугуй', 
     'Тэргэнцэр', 
-    'Автоугсраа'
+    'Авто угсраа'
 ]
 
 def set_department(request):

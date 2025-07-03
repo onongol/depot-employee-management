@@ -8,10 +8,9 @@
   aria-modal="true"
   role="dialog"
   aria-hidden="true"
-  tabindex="-1"
   data-object-name="{{ object_name }}"
 >
-  <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
+  <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6" tabindex="0">
     <h5 class="text-lg text-gray-700 font-semibold mb-2" id="saveModalLabel">
       Save
     </h5>
@@ -25,13 +24,15 @@
         type="button"
         class="px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
         id="confirmSaveButton"
+        aria-label="Confirm save"
       >
         Save
       </button>
       <button
         type="button"
         class="px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
-        onclick="document.getElementById('saveModal').classList.add('hidden')"
+        data-modal-cancel
+        aria-label="Cancel"
       >
         Cancel
       </button>

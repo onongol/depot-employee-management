@@ -10,7 +10,7 @@ def materials(request):
     """View for calculating and listing material usage in piecework records,
     with filtering and pagination."""
     # Prepare the base queryset and filter parameters
-    pieceworks, work_name, selected_type, start_date, end_date = materials_prepare(request)
+    pieceworks, work_name, selected_type, range_date = materials_prepare(request)
 
     # Get all distinct type_materials for dropdown filter
     type_materials = pieceworks.values_list('work__type_material', flat=True).distinct()
@@ -20,8 +20,7 @@ def materials(request):
         pieceworks,
         work_name=work_name,
         selected_type=selected_type,
-        start_date=start_date,
-        end_date=end_date
+        range_date=range_date
     )
 
     # Business logic: calculate the total amount of material used in the filtered queryset
@@ -47,8 +46,7 @@ def materials(request):
     filters = {
         'work_name': work_name or '',
         'type_material': selected_type,
-        'start_date': start_date or '',
-        'end_date': end_date or '',
+        'range_date': range_date or '',
     }
 
     # Remove empty values for cleaner URLs
@@ -57,8 +55,7 @@ def materials(request):
     context = {
         'type_materials': type_materials,
         'selected_type': selected_type,
-        'start_date': start_date,
-        'end_date': end_date,
+        'range_date': range_date,
         'sum_amount': sum_amount,   # Total material usage for current filter
         'pieceworks': page_obj.object_list,
         'page_obj': page_obj,

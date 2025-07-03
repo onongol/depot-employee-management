@@ -12,7 +12,7 @@ class Employee(models.Model):
         ('Засвар 2', 'Засвар 2'),
         ('Хос дугуй', 'Хос дугуй'),
         ('Тэргэнцэр', 'Тэргэнцэр'),
-        ('Автоугсраа', 'Автоугсраа'),
+        ('Автоугсраа', 'Авто угсраа'),
     ]
 
     RANK_CHOICES = [
@@ -62,7 +62,7 @@ class Employee(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Id: {self.employee_id} / {self.name}"
+        return f"{self.employee_id}/{self.name}"
     
     def get_total_salary_day(self, month, year):
         """Calculate total salary for the employee for a given month and year."""

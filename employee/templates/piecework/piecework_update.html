@@ -9,6 +9,6 @@
 
     {% include "includes/form_input.html" with id=form.amount.id_for_label label="Amount" name="amount" type="number" value=form.amount.value form_errors=form.amount required=True %}
     
-    {% include "includes/form_input.html" with id=form.work_date.id_for_label label="Work Date" name="work_date" type="date" value=form.work_date.value|date:"Y-m-d" form_errors=form.work_date required=True %}
+    {% include "includes/form_date.html" with id=form.work_date.id_for_label label="Work Date" name="work_date" type="text" value=form.work_date.value|date:"Y-m-d" form_errors=form.work_date required=True %}
   </fieldset>
 {% endblock %}

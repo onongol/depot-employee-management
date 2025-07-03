@@ -34,12 +34,14 @@
       <button
         type="submit"
         class="px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+        aria-label="Save new {{ object_type }}"
       >
         Save
       </button>
       <a
         href="{{ cancel_url }}"
         class="px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-center"
+        aria-label="Cancel and return"
       >
         Cancel
       </a>
@@ -49,4 +51,5 @@
   <!-- Prevent form submission on Enter key and enable field navigation -->
   <script src="{% static 'js/form_navigation.js' %}"></script>
 
-{% endblock %}
+ {% endblock %}
+

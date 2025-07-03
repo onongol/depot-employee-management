@@ -4,7 +4,18 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!form) return;
   const modalDiv = document.getElementById('saveDuplicateModal');
   const confirmBtn = document.getElementById('confirmSaveBtn');
+  const cancelBtn = document.querySelector('#saveDuplicateModal [data-modal-cancel]');
   let allowSubmit = false;
+
+  function openModal() {
+    modalDiv.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+  function closeModal() {
+    modalDiv.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+
   form.addEventListener('submit', function (e) {
     if (allowSubmit) {
       allowSubmit = false;
@@ -44,13 +55,28 @@ document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('modal-work').textContent = selectedWorks.join(', ');
       document.getElementById('modal-type-work').textContent = typeWork;
       document.getElementById('modal-work-date').textContent = workDate;
-      document.getElementById('saveDuplicateModal').classList.remove('hidden');
+      openModal();
     }
     // else, allow form to submit
   });
+
   confirmBtn.addEventListener('click', function () {
     allowSubmit = true;
-    modalDiv.classList.add('hidden');
+    closeModal();
     form.requestSubmit();
+  });
+
+  // Cancel button closes modal and restores scroll
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', function () {
+      closeModal();
+    });
+  }
+
+  // Esc closes modal and restores scroll
+  document.addEventListener('keydown', function (e) {
+    if (!modalDiv.classList.contains('hidden') && e.key === 'Escape') {
+      closeModal();
+    }
   });
 });

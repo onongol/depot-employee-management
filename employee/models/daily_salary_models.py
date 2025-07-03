@@ -37,4 +37,4 @@ class DailySalary(models.Model):
         unique_together = (('employee', 'salary_date'),)
 
     def __str__(self):
-        return f"{self.employee.name} - {self.salary_date}"
+        return f"{self.employee.employee_id}/{self.employee.name}/{self.salary_date}"

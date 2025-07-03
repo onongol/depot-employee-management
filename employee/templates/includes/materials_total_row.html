@@ -1,16 +1,15 @@
-<tr class="bg-blue-100">
+<tr class="bg-blue-100 font-semibold">
   {% with col_class="px-6 py-3" %}
     <td class="{{ col_class }}"></td>
     <td>
-      <strong>{{ start_date|date:"Y.m.d" }}</strong> -
-      <strong>{{ end_date|date:"Y.m.d" }}</strong>
+      {{ range_date }}
     </td>
     <td class="{{ col_class }}"></td>
     <td class="{{ col_class }}">
-      <strong>{{ selected_type }}</strong>
+      {{ selected_type }}
     </td>
     <td class="{{ col_class }}">
-      Total: <strong>{{ sum_amount|floatformat:2 }}</strong>
+      Total: {{ sum_amount|floatformat:2 }}
     </td>
   {% endwith %}
 </tr>

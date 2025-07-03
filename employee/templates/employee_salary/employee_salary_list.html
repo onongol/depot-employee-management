@@ -17,12 +17,12 @@
       
       {% include "includes/filter_select.html" with id="filter-job-title" label="Job Title" name="job_title" choices=job_titles selected=request.GET.job_title empty_label="Positions" %}
 
-      <div class="flex flex-col">
+      <div class="flex flex-col relative">
         <label for="filter-month" class="sr-only">Month</label>
         <select
           name="month"
           id="filter-month"
-          class="block w-full max-w-xs rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition"
+          class="block w-full max-w-xs rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition appearance-none pr-10"
         >
           <option value="">Months</option>
           {% for month in months %}
@@ -31,14 +31,20 @@
             </option>
           {% endfor %}
         </select>
+        <!-- Custom arrow (SVG) -->
+        <div class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2">
+          <svg class="w-4 h-4 ml-1" aria-hidden="true">
+            <use href="#chevron-down"></use>
+          </svg>
+        </div>
       </div>
 
-      <div class="flex flex-col">
+      <div class="flex flex-col relative">
         <label for="filter-year" class="sr-only">Year</label>
         <select
           name="year"
           id="filter-year"
-          class="block w-full max-w-xs rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition"
+          class="block w-full max-w-xs rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition appearance-none pr-10"
         >
           <option value="" {% if not filters.year %}selected{% endif %}>Years</option>
           <option value="{{ current_year }}" {% if filters.year == current_year|stringformat:'d' %}selected{% endif %}>
@@ -52,6 +58,12 @@
             {% endif %}
           {% endfor %}
         </select>
+        <!-- Custom arrow (SVG) -->
+        <div class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2">
+          <svg class="w-4 h-4 ml-1" aria-hidden="true">
+            <use href="#chevron-down"></use>
+          </svg>
+        </div>
       </div>
 
       {% include "includes/filter_button.html" %}
@@ -61,7 +73,7 @@
   <!-- Employee Salary Table -->
   <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
     <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="employee-list-title">
-      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide border border-gray-200">
+      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide">
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>

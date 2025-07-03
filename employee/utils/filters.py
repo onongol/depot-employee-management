@@ -1,5 +1,4 @@
-from django.db.models.functions import TruncDate
-from django.utils import timezone
+from django.utils.dateparse import parse_date
 
 
 def filter_employees(queryset, department=None, employee_id=None, employee_name=None, job_title=None):
@@ -57,17 +56,26 @@ def filter_pieceworks(queryset, employee_id=None, employee_name=None, work=None,
     return queryset
 
 
-def filter_material(queryset, work_name=None, selected_type='all', start_date=None, end_date=None):
-    """Reusable filter for Material queryset."""
+def filter_material(queryset, work_name=None, selected_type='all', range_date=None):
+    """Reusable filter for Material queryset with date range."""
     if work_name:
         queryset = queryset.filter(work__work_name__icontains=work_name)
     if selected_type and selected_type != 'all':
         queryset = queryset.filter(work__type_material=selected_type)
-    if start_date:
-        queryset = queryset.filter(work_date__gte=start_date)
-    if end_date:
-        queryset = queryset.filter(work_date__lte=end_date)
+    if range_date:
+        try:
+            # flatpickr " to "
+            start_str, end_str = [d.strip() for d in range_date.split('to')]
+            start_date = parse_date(start_str)
+            end_date = parse_date(end_str)
+            if start_date:
+                queryset = queryset.filter(work_date__gte=start_date)
+            if end_date:
+                queryset = queryset.filter(work_date__lte=end_date)
+        except Exception:
+            pass
     return queryset
+
 
 
 def filter_month_year(queryset, month=None, year=None):

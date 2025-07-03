@@ -1,6 +1,5 @@
 // Universal form navigation: move to next input/select/textarea on Enter (except textarea itself)
 document.addEventListener('DOMContentLoaded', function () {
-  // List all form IDs you want to enable navigation for
   const formIds = ['createForm', 'updateForm'];
 
   formIds.forEach(function (formId) {
@@ -13,12 +12,15 @@ document.addEventListener('DOMContentLoaded', function () {
         ) {
           event.preventDefault();
           const inputs = Array.from(
-            this.querySelectorAll('input, select, textarea')
-          );
+            this.querySelectorAll(
+              'input:not([type=hidden]):not([disabled]), select:not([disabled]), textarea:not([disabled])'
+            )
+          ).filter((el) => el.offsetParent !== null); // только видимые
           const currentFocus = document.activeElement;
           const currentIndex = inputs.indexOf(currentFocus);
-          const nextIndex = (currentIndex + 1) % inputs.length;
-          inputs[nextIndex].focus();
+          if (currentIndex > -1 && currentIndex < inputs.length - 1) {
+            inputs[currentIndex + 1].focus();
+          }
         }
       });
     }

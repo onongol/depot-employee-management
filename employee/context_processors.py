@@ -5,7 +5,7 @@ DEPARTMENTS = [
     'Засвар 2', 
     'Хос дугуй', 
     'Тэргэнцэр', 
-    'Автоугсраа'
+    'Авто угсраа'
 ]
 
 def global_departments(request):

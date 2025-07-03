@@ -27,7 +27,7 @@
       {% for num in page_obj.paginator.page_range %}
         {% if page_obj.number == num %}
           <li>
-            <span class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-500 bg-gray-200 text-sm text-gray-500 font-semibold">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-500 bg-gray-200 text-sm text-gray-500 font-semibold" aria-current="page">
               {{ num }}
             </span>
           </li>

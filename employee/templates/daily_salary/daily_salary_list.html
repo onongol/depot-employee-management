@@ -9,16 +9,16 @@
   {% include "includes/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url create_label="Create" %}
 
   <!-- Filter Form -->
-  <form method="get" class="mb-6" aria-labelledby="employee-list-title">
+  <form method="get" class="mb-6" aria-labelledby="daily-salary-list-title">
     <div class="flex flex-col md:flex-row gap-4">
       {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
 
       {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
 
-      {% include "includes/filter_input.html" with id="filter-salary-date" label="Salary Date" name="salary_date" type="date" value=request.GET.salary_date %}
+      {% include "includes/filter_date.html" with id="filter-salary-date" label="Date" name="salary_date" type="text" value=request.GET.salary_date %}
 
-      {% include "includes/filter_input_group.html" with id="filter-record-date" label="Record Date" name="record_date" type="date" value=request.GET.record_date prefix="Record" %}
-      
+      {% include "includes/filter_date.html" with id="filter-record-date" label="Record Date" name="record_date" type="text" value=request.GET.record_date %}
+
       {% include "includes/filter_button.html" %}
     </div>
   </form>
@@ -28,7 +28,7 @@
 
   <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
     <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="daily-salary-list-title">
-      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide border border-gray-200">
+      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide">
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
@@ -58,12 +58,12 @@
                 <td class="{{ col_class }}">{{ daily_salary.employee.department }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.hours_per_day }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.salary_day }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.salary_date|date:"Y.m.d" }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.record_date|date:"Y.m.d H:i" }}</td>
+                <td class="{{ col_class }}">{{ daily_salary.salary_date|date:"Y-m-d" }}</td>
+                <td class="{{ col_class }}">{{ daily_salary.record_date|date:"Y-m-d H:i" }}</td>
                 <td class="{{ col_class }}">
                   {% url 'daily_salary_update' daily_salary.pk as update_url %}
                   {% url 'daily_salary_delete' daily_salary.pk as delete_url %}
-                  {% with salary_date=daily_salary.salary_date|date:"Y.m.d" %}
+                  {% with salary_date=daily_salary.salary_date|date:"Y-m-d" %}
                     {% include "includes/table_action_buttons.html" with id=daily_salary.employee.employee_id name=daily_salary.employee.name|add:", "|add:salary_date edit_url=update_url delete_url=delete_url %}
                   {% endwith %}
                 </td>

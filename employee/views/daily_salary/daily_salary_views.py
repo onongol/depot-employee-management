@@ -29,7 +29,7 @@ class DailySalaryDeleteView(DailySalaryContextMixin, DeleteWarningMixin, DeleteV
     
     def get_object_name(self):
         return (
-            f"Employee: {self.object.employee.employee_id}/{self.object.employee.name}, Date: {self.object.salary_date}"
+            f"{self.object.employee.employee_id}/{self.object.employee.name}/{self.object.salary_date}"
         )
    
 

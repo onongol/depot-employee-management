@@ -62,7 +62,7 @@ class PieceworkDeleteView(PieceworkContextMixin, DeleteWarningMixin, DeleteView)
     
     def get_object_name(self):
         return (
-            f"Employee: {self.object.employee.employee_id}/{self.object.employee.name}, Work: {self.object.work.work_name}, Type Work: {self.object.type_work}, Work Date: {self.object.work_date}"
+            f"{self.object.employee.employee_id}/{self.object.employee.name}/{self.object.work.work_name}/{self.object.type_work}/{self.object.work_date}"
         )
 
 

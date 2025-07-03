@@ -5,6 +5,7 @@
     id="department-dropdown-btn"
     aria-haspopup="true"
     aria-expanded="false"
+    aria-controls="department-dropdown-menu"
   >
     {% if selected_department %}
       {{ selected_department }}
@@ -16,8 +17,9 @@
     </svg>
   </button>
   <ul
-    class="absolute left-0 mt-2 w-54 bg-gray-50 rounded-md shadow-sm z-10 py-2 hidden"
+    class="absolute left-0 mt-2 w-56 bg-gray-50 rounded-md shadow-sm z-10 py-2 hidden"
     id="department-dropdown-menu"
+    role="menu"
     tabindex="0"
   >
     {% for department in departments %}

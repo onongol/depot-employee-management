@@ -1,6 +1,18 @@
-// DaisyUI Modal Logic for Delete and Update
-
 document.addEventListener("DOMContentLoaded", function () {
+
+  function openModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+    focusFirst(modalId);
+  }
+
+  function closeAllModals() {
+    document.querySelectorAll('.fixed.inset-0').forEach(function (modal) {
+      modal.classList.add('hidden');
+    });
+    document.body.classList.remove('overflow-hidden');
+  }
+
   // Edit
   document.querySelectorAll('button[aria-label^="Edit"]').forEach(function (button) {
     button.addEventListener("click", function () {
@@ -9,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const updateUrl = button.getAttribute("data-url");
       document.getElementById("updateLink").href = updateUrl;
       document.getElementById("updateDetails").textContent = `${itemId}/${itemName}`;
-      document.getElementById('updateModal').classList.remove('hidden'); // исправлено
+      openModal('updateModal');
     });
   });
 
@@ -21,7 +33,20 @@ document.addEventListener("DOMContentLoaded", function () {
       const itemUrl = button.getAttribute("data-url");
       document.getElementById("deleteForm").action = itemUrl;
       document.getElementById("deleteDetails").textContent = `${itemId}/${itemName}`;
-      document.getElementById('deleteModal').classList.remove('hidden'); // исправлено
+      openModal('deleteModal');
+    });
+  });
+
+  // Close modals with Esc
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeAllModals();
+    }
+  });
+
+  document.querySelectorAll('[data-modal-cancel]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      closeAllModals();
     });
   });
 });

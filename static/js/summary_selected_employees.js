@@ -2,7 +2,7 @@ function updateSelectedEmployeesSummary() {
   const empCheckboxes = document.querySelectorAll('input[name="employee_ids"]');
   const empChecked = document.querySelectorAll('input[name="employee_ids"]:checked');
   const selectAllEmp = document.getElementById('select-all-employees');
-  let empSummary = 'None';
+  let empSummary = 'No employees selected';
   if (selectAllEmp && selectAllEmp.checked && empChecked.length === empCheckboxes.length && empChecked.length > 0) {
     empSummary = 'Selected all';
   } else {

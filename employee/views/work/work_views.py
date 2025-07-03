@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.core.paginator import Paginator
 from django.views.generic import CreateView, UpdateView, DeleteView
 
 from employee.mixins.context_mixins import WorkContextMixin
