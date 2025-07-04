@@ -18,6 +18,9 @@ def employee_salary_list(request):
     # Get the selected department from the request
     department = get_selected_department(request)
 
+    # Only active employees
+    employees = employees.filter(is_active=True)
+
     # Get all unique job titles that exist in DailySalary for filter dropdown
     job_titles = (
         Employee.objects.filter(department=department, dailysalary__isnull=False)

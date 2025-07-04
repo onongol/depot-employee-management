@@ -56,6 +56,7 @@ class Employee(models.Model):
         null=False, 
         editable=False
     )
+    is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         self.money_per_hour = self.rank_to_money.get(self.rank, 8448.55)

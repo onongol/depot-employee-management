@@ -43,7 +43,7 @@
       <tbody class="divide-y divide-gray-100">
         {% if employees %}
           {% for employee in employees %}
-            <tr class="odd:bg-white hover:bg-gray-200">
+            <tr class="{% if not employee.is_active %}bg-gray-200 text-gray-400{% else %}odd:bg-white hover:bg-gray-200{% endif %}">
               {% with col_class="px-6 py-3" %}
                 <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
                 <td class="{{ col_class }}">{{ employee.employee_id }}</td>
@@ -55,7 +55,12 @@
                 <td class="{{ col_class }}">
                   {% url 'employee_update' employee.pk as edit_url %}
                   {% url 'employee_delete' employee.pk as delete_url %}
-                  {% include "includes/table_action_buttons.html" with id=employee.employee_id name=employee.name edit_url=edit_url delete_url=delete_url %}
+                  {% if employee.is_active %}
+                    {% url 'employee_deactivate' employee.pk as deactivate_url %}
+                  {% else %}
+                    {% url 'employee_activate' employee.pk as activate_url %}
+                  {% endif %}
+                  {% include "includes/employee_table_action_buttons.html" with id=employee.employee_id name=employee.name edit_url=edit_url delete_url=delete_url deactivate_url=deactivate_url activate_url=activate_url is_active=employee.is_active %}
                 </td>
               {% endwith %}
             </tr>

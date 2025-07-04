@@ -70,14 +70,22 @@ def employee_list(request):
     )
 
 
+def employee_activate(request, pk):
+    employee = get_object_or_404(Employee, pk=pk)
+    employee.is_active = True
+    employee.save()
+    # Activate related records if needed
+    return redirect(reverse('employee_list'))
+
+
 def employee_deactivate(request, pk):
     employee = get_object_or_404(Employee, pk=pk)
     employee.is_active = False
     employee.save()
 
-    # Деактивировать связанные записи (пример для DailySalary и Piecework)
-    employee.dailysalary_set.update(is_active=False)
-    employee.piecework_set.update(is_active=False)
-    # Добавьте аналогично для других связанных моделей
+    # Deactivate related records if needed
+    #employee.dailysalary_set.update(is_active=False)
+    #employee.piecework_set.update(is_active=False)
+    # Add similar lines for other related models
 
     return redirect(reverse('employee_list'))

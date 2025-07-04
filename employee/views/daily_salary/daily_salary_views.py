@@ -40,7 +40,7 @@ def daily_salary_create(request):
     # Filter employees by selected department, or show none if not selected
     employees = Employee.objects.none()
     if department:
-        employees = Employee.objects.filter(department=department)
+        employees = Employee.objects.filter(department=department, is_active=True)  # Only active employees
 
     # Ensure consistent ordering for pagination or display
     employees = employees.order_by('employee_id')
@@ -109,7 +109,7 @@ def daily_salary_list(request):
     department = get_selected_department(request)
 
     # Filter daily salaries by department
-    daily_salaries = DailySalary.objects.filter(employee__department=department)
+    daily_salaries = DailySalary.objects.filter(employee__department=department, employee__is_active=True)
 
     # Filtering by employee ID, name, salary date, and record date
     employee_id = request.GET.get('employee_id')

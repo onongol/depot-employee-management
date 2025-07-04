@@ -70,7 +70,7 @@ def piecework_create(request):
     """View to create piecework records for multiple employees and works."""
     department = get_selected_department(request)
     employees = (
-        Employee.objects.filter(department=department).order_by('employee_id')
+        Employee.objects.filter(department=department, is_active=True).order_by('employee_id')
         if department else Employee.objects.none()
         )
     works = (
@@ -177,7 +177,7 @@ def piecework_list(request):
     """View to list all piecework records with filtering and pagination."""
     department = get_selected_department(request)
     # Only show pieceworks for employees in the selected department
-    pieceworks = Piecework.objects.select_related('employee', 'work').filter(employee__department=department)
+    pieceworks = Piecework.objects.select_related('employee', 'work').filter(employee__department=department, employee__is_active=True)
 
     # Prepare dropdown data for type_work and type_material filters
     type_works = (

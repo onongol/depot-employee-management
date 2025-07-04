@@ -2,7 +2,9 @@ from django.urls import path, include
 
 from .views.home import home
 from .views.department import set_department
-from .views.employee import employee_list
+
+from .views.employee import employee_list, employee_activate, employee_deactivate
+
 from .views.employee import EmployeeCreateView, EmployeeUpdateView, EmployeeDeleteView
 from .views.work import work_list
 from .views.work import WorkCreateView, WorkUpdateView, WorkDeleteView
@@ -26,6 +28,10 @@ urlpatterns = [
     path('employee_create/', EmployeeCreateView.as_view(), name="employee_create"),
     path('employee_update/<int:pk>/', EmployeeUpdateView.as_view(), name="employee_update"),
     path('employee_delete/<int:pk>/', EmployeeDeleteView.as_view(), name="employee_delete"),
+
+    path('employee/<int:pk>/deactivate/', employee_deactivate, name='employee_deactivate'),
+    path('employee/<int:pk>/activate/', employee_activate, name='employee_activate'),
+
     # Work URLs
     path('work_list/', work_list, name="work_list"),
     path('work_create/', WorkCreateView.as_view(), name="work_create"),
