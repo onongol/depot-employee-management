@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.db.models import Sum
+from django.contrib.auth.decorators import login_required
 
 from .materials_filtered import materials_prepare
 from employee.utils.filters import filter_material
 from employee.utils.pagination import paginate_queryset
 
 
+@login_required(login_url='login')
 def materials(request):
     """View for calculating and listing material usage in piecework records,
     with filtering and pagination."""

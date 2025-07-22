@@ -20,7 +20,10 @@ def employee_salaries_prepare(request):
     year = request.GET.get('year', str(current_year))
 
     # Query all employees and prefetch related DailySalary data for efficiency
-    employees = Employee.objects.prefetch_related('dailysalary_set').filter(is_active=True)
+    if request.user.groups.filter(name='Employees').exists():
+        employees = Employee.objects.prefetch_related('dailysalary_set').filter(user=request.user, is_active=True)
+    else:
+        employees = Employee.objects.prefetch_related('dailysalary_set').filter(is_active=True)
 
     return employees, employee_id, employee_name, department, job_title, month, year, current_year
 

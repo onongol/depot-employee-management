@@ -1,0 +1,30 @@
+<div class="relative"> 
+  <button
+    type="button"
+    class="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 mr-2"
+    id="user-dropdown-btn"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    {{ request.user.get_full_name|default:request.user.username }}
+  </button>
+  <div
+    class="absolute right-0 mt-2 w-32 bg-gray-50 rounded-md shadow-sm z-10 py-2 hidden"
+    id="user-dropdown-menu"
+    tabindex="0"
+    role="menu"
+  >
+    <form action="{% url 'logout' %}" method="post" class="block">
+      {% csrf_token %}
+      <button
+        type="submit"
+        class="flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-gray-200 transition"
+      >
+        <svg class="w-4 h-4" aria-hidden="true">
+          <use href="#singout"></use>
+        </svg> 
+        Sign Out
+      </button>
+    </form>
+  </div>
+</div>

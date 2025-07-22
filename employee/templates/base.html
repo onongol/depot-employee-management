@@ -29,7 +29,9 @@
 
           {% include "includes/menu_link.html" with url_name='employee_list' label='Employee' %}
 
-          {% include "includes/menu_link.html" with url_name='work_list' label='Work' %}
+          {% if not is_employee %}
+            {% include "includes/menu_link.html" with url_name='work_list' label='Work' %}
+          {% endif %}
 
           {% include "includes/menu_link.html" with url_name='daily_salary_list' label='Daily Pay' %}
 
@@ -37,11 +39,22 @@
 
           {% include "includes/menu_link.html" with url_name='employee_salary_list' label='Salary' %}
           
-          {% include "includes/menu_link.html" with url_name='materials' label='Materials' %}
+          {% if not is_employee %}
+            {% include "includes/menu_link.html" with url_name='materials' label='Materials' %}
+          {% endif %}
         </ul>
-        <!-- Theme Dropdown -->
+        <!-- Login/Logout -->
         <div class="ml-auto flex items-center">
-          {% include "includes/theme_dropdown.html" %}
+          {% if request.user.is_authenticated %}
+            {% include "includes/user_dropdown.html" %}
+          {% else %}
+            <a 
+              href="{% url 'login' %}" 
+              class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+            >
+              Sign In
+            </a>
+          {% endif %}
         </div>
       </div>
     </nav>

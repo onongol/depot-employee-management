@@ -45,4 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
   setupDropdown('department-dropdown-btn', 'department-dropdown-menu');
   // For theme dropdown
   setupDropdown('theme-dropdown-btn', 'theme-dropdown-menu');
+  // For user dropdown
+  setupDropdown('user-dropdown-btn', 'user-dropdown-menu');
 });

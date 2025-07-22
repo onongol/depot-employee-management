@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.db.models import Sum
+from django.contrib.auth.models import User
 
 
 class Employee(models.Model):
@@ -12,7 +13,7 @@ class Employee(models.Model):
         ('Засвар 2', 'Засвар 2'),
         ('Хос дугуй', 'Хос дугуй'),
         ('Тэргэнцэр', 'Тэргэнцэр'),
-        ('Автоугсраа', 'Авто угсраа'),
+        ('Авто угсраа', 'Авто угсраа'),
     ]
 
     RANK_CHOICES = [
@@ -56,7 +57,10 @@ class Employee(models.Model):
         null=False, 
         editable=False
     )
+    # Active status of the employee
     is_active = models.BooleanField(default=True)
+    # Connection to the User model
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='employee_profile')
 
     def save(self, *args, **kwargs):
         self.money_per_hour = self.rank_to_money.get(self.rank, 8448.55)

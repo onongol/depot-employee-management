@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from employee.mixins.context_mixins import WorkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
@@ -11,17 +13,20 @@ from employee.utils.filters import filter_works
 from employee.utils.pagination import paginate_queryset
 
 
-class WorkCreateView(WorkContextMixin, CreateView):
+class WorkCreateView(LoginRequiredMixin, WorkContextMixin, CreateView):
+    login_url = 'login'
     form_class = WorkForm
     template_name = "work/work_create.html" 
 
 
-class WorkUpdateView(WorkContextMixin, UpdateView):
+class WorkUpdateView(LoginRequiredMixin, WorkContextMixin, UpdateView):
+    login_url = 'login'
     form_class = UpdateWorkForm
     template_name = "work/work_update.html"
 
 
-class WorkDeleteView(WorkContextMixin, DeleteProtectionMixin, DeleteView):
+class WorkDeleteView(LoginRequiredMixin, WorkContextMixin, DeleteProtectionMixin, DeleteView):
+    login_url = 'login'
     template_name = "work/work_confirm_delete.html"
 
     # Get related piecework records to check if deletion is allowed.
@@ -41,6 +46,7 @@ class WorkDeleteView(WorkContextMixin, DeleteProtectionMixin, DeleteView):
         return f"{self.object.work_name}"
 
 
+@login_required(login_url='login')
 def work_list(request):
     """View to list all works with filtering and pagination."""
     works = Work.objects.all()

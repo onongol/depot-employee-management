@@ -76,6 +76,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'employee.context_processors.global_departments', # Department context processor
+                'employee.context_processors.is_employee',   # Check if user is an employee
             ],
         },
     },
@@ -157,3 +158,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]
 #CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+LOGIN_REDIRECT_URL = 'employee_list'
+LOGOUT_REDIRECT_URL = 'home'

@@ -33,7 +33,6 @@ def filter_daily_salaries(queryset, employee_id=None, employee_name=None, salary
         queryset = queryset.filter(salary_date=salary_date)
     if record_date:
         queryset = queryset.filter(record_date__date=record_date)
-        print(record_date)
     return queryset
 
 

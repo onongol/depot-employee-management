@@ -1,6 +1,8 @@
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
 
 from .views.home import home
+from .views.auth.register_views import register_view
 from .views.department import set_department
 
 from .views.employee import employee_list, employee_activate, employee_deactivate
@@ -21,6 +23,10 @@ urlpatterns = [
     path('__reload__/', include('django_browser_reload.urls')),
     # Home URL
     path('', home, name="home"),
+    # Authentication URLs
+    path('login/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
+    path('register/', register_view, name='register'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     # Department URLs
     path('set_department/', set_department, name="set_department"),
     # Employee URLs
@@ -28,10 +34,9 @@ urlpatterns = [
     path('employee_create/', EmployeeCreateView.as_view(), name="employee_create"),
     path('employee_update/<int:pk>/', EmployeeUpdateView.as_view(), name="employee_update"),
     path('employee_delete/<int:pk>/', EmployeeDeleteView.as_view(), name="employee_delete"),
-
+    # Employee activation/deactivation
     path('employee/<int:pk>/deactivate/', employee_deactivate, name='employee_deactivate'),
     path('employee/<int:pk>/activate/', employee_activate, name='employee_activate'),
-
     # Work URLs
     path('work_list/', work_list, name="work_list"),
     path('work_create/', WorkCreateView.as_view(), name="work_create"),

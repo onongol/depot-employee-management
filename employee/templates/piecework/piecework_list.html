@@ -6,25 +6,29 @@
 
   {% url 'piecework_create' as create_url %}
 
-  {% include "includes/list_header.html" with header_id="piecework-list-title" title=selected_department create_url=create_url create_label="Create" %}
+  {% if not is_employee %}
+    {% include "includes/list_header.html" with header_id="piecework-list-title" title=selected_department create_url=create_url create_label="Create" %}
+  {% endif %}
 
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="piecework-list-title">
     <div class="flex flex-col md:flex-row gap-4">
-      {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
+      {% if not is_employee %}
+        {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
 
-      {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
+        {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
+      {% endif %}
 
       {% include "includes/filter_input.html" with id="filter-work" label="Work" name="work" type="text" value=request.GET.work placeholder="Work Name" %}
 
       {% include "includes/filter_select.html" with id="filter-type-work" label="Type Work" name="type_work" choices=type_works value=request.GET.type_work selected=request.GET.type_work empty_label="Types" %}
 
-      {% include "includes/filter_select.html" with id="filter-type-material" label="Type Material" name="type_material" choices=type_materials value=request.GET.type_material selected=request.GET.type_material empty_label="Materials" %}
-
       {% include "includes/filter_date.html" with id="filter-work-date" label="Date" name="work_date" type="text" value=request.GET.work_date %}
 
-      {% include "includes/filter_date.html" with id="filter-record-date" label="Record Date" name="record_date" type="text" value=request.GET.record_date %}
-      
+      {% if not is_employee %}
+        {% include "includes/filter_date.html" with id="filter-record-date" label="Record Date" name="record_date" type="text" value=request.GET.record_date %}
+      {% endif %}
+
       {% include "includes/filter_button.html" %}
     </div>
   </form>
@@ -48,10 +52,14 @@
             <th scope="col" class="{{ col_class }}">
               {% include "includes/order_by_column.html" with label="Date" field="work_date" col_class=col_class selected_department=selected_department %}
             </th>
-            <th scope="col" class="{{ col_class }}">
-              {% include "includes/order_by_column.html" with label="Record" field="record_date" col_class=col_class selected_department=selected_department %}
-            </th>
-            <th scope="col" class="{{ col_class }}">Actions</th>
+            {% if not is_employee %}
+              <th scope="col" class="{{ col_class }}">
+                {% include "includes/order_by_column.html" with label="Record" field="record_date" col_class=col_class selected_department=selected_department %}
+              </th>
+            {% endif %}
+            {% if not is_employee %}
+              <th scope="col" class="{{ col_class }}">Actions</th>
+            {% endif %}
           {% endwith %}
         </tr>
       </thead>
@@ -69,14 +77,18 @@
                 <td class="{{ col_class }}">{{ piecework.amount }}</td>
                 <td class="{{ col_class }}">{{ piecework.amount_price }}</td>
                 <td class="{{ col_class }}">{{ piecework.work_date|date:"Y-m-d" }}</td>
-                <td class="{{ col_class }}">{{ piecework.record_date|date:"Y-m-d H:i" }}</td>
-                <td class="{{ col_class }}">
-                  {% url 'piecework_update' piecework.pk as update_url %}
-                  {% url 'piecework_delete' piecework.pk as delete_url %}
-                  {% with work_date=piecework.work_date|date:"Y-m-d" %}
-                    {% include "includes/table_action_buttons.html" with id=piecework.employee.employee_id name=piecework.employee.name|add:", "|add:piecework.work.work_name|add:", "|add:work_date edit_url=update_url delete_url=delete_url %}
-                  {% endwith %}
-                </td>
+                {% if not is_employee %}
+                  <td class="{{ col_class }}">{{ piecework.record_date|date:"Y-m-d H:i" }}</td>
+                {% endif %}
+                {% if not is_employee %}
+                  <td class="{{ col_class }}">
+                    {% url 'piecework_update' piecework.pk as update_url %}
+                    {% url 'piecework_delete' piecework.pk as delete_url %}
+                    {% with work_date=piecework.work_date|date:"Y-m-d" %}
+                      {% include "includes/table_action_buttons.html" with id=piecework.employee.employee_id name=piecework.employee.name|add:", "|add:piecework.work.work_name|add:", "|add:work_date edit_url=update_url delete_url=delete_url %}
+                    {% endwith %}
+                  </td>
+                {% endif %}
               {% endwith %}
             </tr>
           {% endfor %}

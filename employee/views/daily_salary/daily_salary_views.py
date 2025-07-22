@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import UpdateView, DeleteView
 from django.db import transaction
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from employee.mixins.context_mixins import DailySalaryContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
@@ -15,12 +17,14 @@ from employee.utils.pagination import paginate_queryset
 from employee.utils.converting_date import parse_date
 
 
-class DailySalaryUpdateView(DailySalaryContextMixin, UpdateView):
+class DailySalaryUpdateView(LoginRequiredMixin, DailySalaryContextMixin, UpdateView):
+    login_url = 'login'
     form_class = UpdateDailySalaryForm
     template_name = "daily_salary/daily_salary_update.html"
 
 
-class DailySalaryDeleteView(DailySalaryContextMixin, DeleteWarningMixin, DeleteView):
+class DailySalaryDeleteView(LoginRequiredMixin, DailySalaryContextMixin, DeleteWarningMixin, DeleteView):
+    login_url = 'login'
     template_name = "daily_salary/daily_salary_confirm_delete.html"
 
     # Handle the deletion and send a warning.
@@ -33,6 +37,7 @@ class DailySalaryDeleteView(DailySalaryContextMixin, DeleteWarningMixin, DeleteV
         )
    
 
+@login_required(login_url='login')
 def daily_salary_create(request):
     """View to create daily salary records for multiple employees, filtered by department."""
     department = get_selected_department(request)
@@ -104,21 +109,23 @@ def daily_salary_create(request):
     )
 
 
+@login_required(login_url='login')
 def daily_salary_list(request):
     """View to list all daily salaries with filtering and pagination."""
     department = get_selected_department(request)
 
-    # Filter daily salaries by department
-    daily_salaries = DailySalary.objects.filter(employee__department=department, employee__is_active=True)
+    # Filter daily salaries by department 
+    if request.user.groups.filter(name='Employees').exists():
+        daily_salaries = DailySalary.objects.filter(employee__user=request.user, employee__department=department, employee__is_active=True)
+    else:
+        # If not an employee, show all daily salaries in the department 
+        daily_salaries = DailySalary.objects.filter(employee__department=department, employee__is_active=True)
 
     # Filtering by employee ID, name, salary date, and record date
     employee_id = request.GET.get('employee_id')
     employee_name = request.GET.get('employee_name')
     salary_date = parse_date(request.GET.get('salary_date'))
     record_date = parse_date(request.GET.get('record_date'))
-
-    print(f"salary_date from GET: {request.GET.get('salary_date')}, parsed: {salary_date}") 
-    print(f"record_date from GET: {request.GET.get('record_date')}, parsed: {record_date}")
 
     # Apply filters to the daily salaries queryset using reusable filter functions
     daily_salaries = filter_daily_salaries(

@@ -4,6 +4,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
 from django.views.generic import UpdateView, DeleteView
 from django.db import transaction
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 
 from employee.mixins.context_mixins import PieceworkContextMixin
@@ -19,7 +21,8 @@ from employee.utils.pagination import paginate_queryset
 from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
 
 
-class PieceworkUpdateView(PieceworkContextMixin, UpdateView):
+class PieceworkUpdateView(LoginRequiredMixin, PieceworkContextMixin, UpdateView):
+    login_url = 'login'
     form_class = UpdatePieceworkForm
     template_name = 'piecework/piecework_update.html'
 
@@ -53,7 +56,8 @@ class PieceworkUpdateView(PieceworkContextMixin, UpdateView):
         return redirect('piecework_list')
 
 
-class PieceworkDeleteView(PieceworkContextMixin, DeleteWarningMixin, DeleteView):
+class PieceworkDeleteView(LoginRequiredMixin, PieceworkContextMixin, DeleteWarningMixin, DeleteView):
+    login_url = 'login'
     template_name = "piecework/piecework_delete.html"
 
     # Handle the deletion and send a warning.
@@ -66,6 +70,7 @@ class PieceworkDeleteView(PieceworkContextMixin, DeleteWarningMixin, DeleteView)
         )
 
 
+@login_required(login_url='login')
 def piecework_create(request):
     """View to create piecework records for multiple employees and works."""
     department = get_selected_department(request)
@@ -173,11 +178,19 @@ def piecework_create(request):
     )
 
 
+@login_required(login_url='login')
 def piecework_list(request):
     """View to list all piecework records with filtering and pagination."""
-    department = get_selected_department(request)
     # Only show pieceworks for employees in the selected department
-    pieceworks = Piecework.objects.select_related('employee', 'work').filter(employee__department=department, employee__is_active=True)
+    department = get_selected_department(request)
+    # If not an employee, show all pieceworks in the department
+    if request.user.groups.filter(name='Employees').exists():
+        pieceworks = Piecework.objects.select_related('employee', 'work').filter(
+            employee__user=request.user, employee__department=department, employee__is_active=True
+        )
+    else:
+        # If not an employee, show all pieceworks in the department
+        pieceworks = Piecework.objects.select_related('employee', 'work').filter(employee__department=department, employee__is_active=True)
 
     # Prepare dropdown data for type_work and type_material filters
     type_works = (

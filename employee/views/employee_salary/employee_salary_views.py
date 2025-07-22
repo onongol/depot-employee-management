@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Sum
+from django.contrib.auth.decorators import login_required
 
 from employee.models import Employee
 from employee.models import DailySalary
@@ -10,6 +11,7 @@ from employee.utils.filters import filter_month_year
 from employee.utils.pagination import paginate_queryset
 
 
+@login_required(login_url='login')
 def employee_salary_list(request):
     """View to list all employee salaries with filters and pagination."""
     # Prepare the base queryset and filter parameters
@@ -19,7 +21,10 @@ def employee_salary_list(request):
     department = get_selected_department(request)
 
     # Only active employees
-    employees = employees.filter(is_active=True)
+    if request.user.groups.filter(name='Employees').exists():
+        employees = employees.filter(user=request.user, is_active=True)
+    else:
+        employees = employees.filter(is_active=True)
 
     # Get all unique job titles that exist in DailySalary for filter dropdown
     job_titles = (

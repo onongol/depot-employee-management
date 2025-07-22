@@ -8,6 +8,7 @@ DEPARTMENTS = [
     'Авто угсраа'
 ]
 
+
 def global_departments(request):
     """Context processor to provide a list of distinct departments."""
     departments_list = DEPARTMENTS
@@ -20,3 +21,10 @@ def global_departments(request):
         'departments': departments_list,
         'request': request,
         }
+
+
+def is_employee(request):
+    """Context processor to check if the user is an employee."""
+    return {
+        'is_employee': request.user.is_authenticated and request.user.groups.filter(name='Employees').exists()
+    }
