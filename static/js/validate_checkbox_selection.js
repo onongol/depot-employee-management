@@ -20,7 +20,10 @@ function setupCheckboxValidation(formId, checkboxName, tableSelector, errorMessa
   }
 
   function hideError() {
-    tableDiv.classList.remove('border-red-500');
+    // Remove red border only if no error amount
+    if (!document.getElementById('amount-error')) {
+      tableDiv.classList.remove('border-red-500');
+    }
     const errorDiv = document.getElementById(`${checkboxName}-selection-error`);
     if (errorDiv) errorDiv.remove();
   }

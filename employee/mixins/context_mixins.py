@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from .mixins import GenericContextMixin
 from employee.models import Employee, Work, DailySalary, Piecework
 
+
 class EmployeeContextMixin(GenericContextMixin):
     model = Employee
     object_type = 'Employee'

@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def parse_date(date_str):
     """Helper function to parse date strings into datetime.date objects."""
     if not date_str:
