@@ -6,7 +6,7 @@
 
   {% url 'employee_create' as create_url %}
 
-  {% if not is_employee %}
+  {% if not is_employee and not is_master %}
     {% include "includes/list_header.html" with header_id="employee-list-title" title=selected_department create_url=create_url create_label="Create" %}
   {% endif %}
   
@@ -40,7 +40,7 @@
             <th scope="col" class="{{ col_class }}">Position</th>
             <th scope="col" class="{{ col_class }}">Rank</th>
             <th scope="col" class="{{ col_class }}">Money/Hour</th>
-            {% if not is_employee %}
+            {% if not is_employee and not is_master %}
               <th scope="col" class="{{ col_class }}">Actions</th>
             {% endif %}
           {% endwith %}
@@ -58,7 +58,7 @@
                 <td class="{{ col_class }}">{{ employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ employee.rank }}</td>
                 <td class="{{ col_class }}">{{ employee.money_per_hour }}</td>
-                {% if not is_employee %}
+                {% if not is_employee and not is_master %}
                   <td class="{{ col_class }}">
                     {% url 'employee_update' employee.pk as edit_url %}
                     {% url 'employee_delete' employee.pk as delete_url %}

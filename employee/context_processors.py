@@ -28,3 +28,10 @@ def is_employee(request):
     return {
         'is_employee': request.user.is_authenticated and request.user.groups.filter(name='Employees').exists()
     }
+
+
+def is_master(request):
+    """Context processor to check if the user is a master."""
+    return {
+        'is_master': request.user.is_authenticated and request.user.groups.filter(name='master').exists()
+    }

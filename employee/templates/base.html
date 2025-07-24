@@ -25,8 +25,10 @@
         </a>
         <ul class="flex items-center space-x-2 ml-4">
           <!-- Dropdown for Departments -->
-          {% include "includes/department_dropdown.html" %}
-
+          {% if not is_employee and not is_master %} 
+            {% include "includes/department_dropdown.html" %}
+          {% endif %}
+          
           {% include "includes/menu_link.html" with url_name='employee_list' label='Employee' %}
 
           {% if not is_employee %}
@@ -39,7 +41,7 @@
 
           {% include "includes/menu_link.html" with url_name='employee_salary_list' label='Salary' %}
           
-          {% if not is_employee %}
+          {% if not is_employee and not is_master %}
             {% include "includes/menu_link.html" with url_name='materials' label='Materials' %}
           {% endif %}
         </ul>

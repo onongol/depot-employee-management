@@ -5,7 +5,10 @@
 {% block content %}
 
   {% url 'work_create' as create_url %}
-  {% include "includes/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url create_label="Create" %}
+
+  {% if not is_master %}
+    {% include "includes/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url create_label="Create" %}
+  {% endif %}
 
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="work-list-title">
@@ -31,7 +34,9 @@
             <th scope="col" class="{{ col_class }}">Usage</th>
             <th scope="col" class="{{ col_class }}">Time</th>
             <th scope="col" class="{{ col_class }}">Price</th>
-            <th scope="col" class="{{ col_class }}">Actions</th>
+            {% if not is_master %}
+              <th scope="col" class="{{ col_class }}">Actions</th>
+            {% endif %}
           {% endwith %}
         </tr>
       </thead>
@@ -47,11 +52,13 @@
                 <td class="{{ col_class }}">{{ work.usage_material }}</td>
                 <td class="{{ col_class }}">{{ work.standard_time }}</td>
                 <td class="{{ col_class }}">{{ work.price }}</td>
-                <td class="{{ col_class }}">
-                  {% url 'work_update' work.pk as edit_url %}
-                  {% url 'work_delete' work.pk as delete_url %}
-                  {% include "includes/table_action_buttons.html" with id=work.work_id name=work.work_name edit_url=edit_url delete_url=delete_url %}
-                </td>
+                {% if not is_master %}
+                  <td class="{{ col_class }}">
+                    {% url 'work_update' work.pk as edit_url %}
+                    {% url 'work_delete' work.pk as delete_url %}
+                    {% include "includes/table_action_buttons.html" with id=work.work_id name=work.work_name edit_url=edit_url delete_url=delete_url %}
+                  </td>
+                {% endif %}
               {% endwith %}
             </tr>
           {% endfor %}

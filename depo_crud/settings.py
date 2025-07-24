@@ -77,6 +77,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'employee.context_processors.global_departments', # Department context processor
                 'employee.context_processors.is_employee',   # Check if user is an employee
+                'employee.context_processors.is_master',    # Check if user is a master
             ],
         },
     },

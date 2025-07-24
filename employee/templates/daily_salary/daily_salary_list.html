@@ -51,7 +51,7 @@
                 {% include "includes/order_by_column.html" with label="Record" field="record_date" col_class=col_class selected_department=selected_department %}
               </th>
             {% endif %}
-            {% if not is_employee %}
+            {% if not is_employee and not is_master %}
               <th scope="col" class="{{ col_class }}">Actions</th>
             {% endif %}
           {% endwith %}
@@ -72,7 +72,7 @@
                 {% if not is_employee %}
                   <td class="{{ col_class }}">{{ daily_salary.record_date|date:"Y-m-d H:i" }}</td>
                 {% endif %}
-                {% if not is_employee %}
+                {% if not is_employee and not is_master%}
                   <td class="{{ col_class }}">
                     {% url 'daily_salary_update' daily_salary.pk as update_url %}
                     {% url 'daily_salary_delete' daily_salary.pk as delete_url %}
