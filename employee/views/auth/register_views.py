@@ -7,6 +7,7 @@ from django.contrib import messages
 from employee.forms.register_forms import CustomUserCreationForm
 from employee.models import Employee
 from employee.models.master_models import Master  
+from employee.models.payroll_models import Payroll
 
 
 def register_view(request):
@@ -45,8 +46,25 @@ def register_view(request):
                     messages.success(request, "Registration successful! Please log in with your new account.")
                     return redirect('login')
                 except Master.DoesNotExist:
-                    form.add_error('employee_id', "Employee or Master not found.")
-                    return render(request, 'auth/register.html', {'form': form})
+
+                    # If Master not found, try Payroll
+                    try:
+                        payroll = Payroll.objects.get(payroll_id=register_id)
+                        if payroll.user:
+                            form.add_error('employee_id', "A user is already linked to this Payroll ID.")
+                            return render(request, 'auth/register.html', {'form': form})
+                        user = form.save()
+                        group, _ = Group.objects.get_or_create(name='Payrolls')
+                        user.groups.add(group)
+                        payroll.user = user
+                        payroll.save()
+                        messages.success(request, "Registration successful! Please log in with your new account.")
+                        return redirect('login')
+                    except Payroll.DoesNotExist:
+
+                        # If Employee, Master, or Payroll not found, return error
+                        form.add_error('employee_id', "Employee, Master, or Payroll not found.")
+                        return render(request, 'auth/register.html', {'form': form})
     else:
         form = CustomUserCreationForm()
     return render(request, 'auth/register.html', {'form': form})

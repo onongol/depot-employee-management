@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Master(models.Model):
-    """This model """
+    """This model represents a master in the system."""
     DEPARTMENT_CHOICES = [
         ('Механик', 'Механик'),
         ('Авто хяналтын бүс (АКП)', 'Авто хяналтын бүс (АКП)'),

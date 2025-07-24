@@ -7,7 +7,7 @@ class EmployeeForm(forms.ModelForm):
     """Form to create a new employee."""
     class Meta:
         model = Employee
-        fields = '__all__'
+        exclude = ['is_active'] # Exclude is_active field from the form
         widgets = {
             'employee_id': forms.NumberInput(
                 attrs={
@@ -32,4 +32,3 @@ class UpdateEmployeeForm(forms.ModelForm):
             'job_title': forms.TextInput(attrs={'class': 'form-control'}),
             'rank': forms.Select(attrs={'class': 'form-control'}),
         }
-     
