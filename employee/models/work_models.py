@@ -5,19 +5,13 @@ from decimal import Decimal
 
 class Work(models.Model):
     """This model represents a work item in the system."""
-    work_id = models.AutoField(
-        primary_key=True, 
-        editable=False
-    )
+    work_id = models.AutoField(primary_key=True, editable=False)
     department = models.CharField(
         max_length=255, 
         blank=False, 
-        null=True
+        null=False
     )
-    work_name = models.CharField(
-        max_length=255, 
-        unique=True
-    )
+    work_name = models.CharField(max_length=255, unique=True)
     type_material = models.CharField(
         max_length=255, 
         blank=True, 

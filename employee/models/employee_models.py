@@ -23,7 +23,7 @@ class Employee(models.Model):
         (6, '6'),
     ]
 
-    rank_to_money = {
+    RANK_TO_MONEY = {
         3: 8448.55, 
         4: 9616.24, 
         5: 11127.36, 
@@ -35,16 +35,13 @@ class Employee(models.Model):
         null=False, 
         validators=[MinValueValidator(1)], 
         unique=True
-        )
-    name = models.CharField(max_length=255)
-    department = models.CharField(
-        max_length=255, 
-        choices=DEPARTMENT_CHOICES, 
     )
+    name = models.CharField(max_length=255)
+    department = models.CharField(max_length=255, choices=DEPARTMENT_CHOICES)
     job_title = models.CharField(
         max_length=255, 
         blank=False, 
-        null=True
+        null=False
     )  
     rank = models.IntegerField(
         default=3, 
@@ -60,10 +57,16 @@ class Employee(models.Model):
     # Active status of the employee
     is_active = models.BooleanField(default=True)
     # Connection to the User model
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='employee_profile')
+    user = models.OneToOneField(
+        User, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name='employee_profile'
+    )
 
     def save(self, *args, **kwargs):
-        self.money_per_hour = self.rank_to_money.get(self.rank, 8448.55)
+        self.money_per_hour = self.RANK_TO_MONEY.get(self.rank, 8448.55)
         super().save(*args, **kwargs)
 
     def __str__(self):

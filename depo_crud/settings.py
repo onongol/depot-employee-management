@@ -23,16 +23,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError("DJANGO_SECRET_KEY environment variable not set")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
 # Currently empty. For production, add your domain or IP.
 ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,8 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'employee',
-    #'crispy_forms',
-    #'crispy_bootstrap5',
     'django_browser_reload',
 ]
 
@@ -92,7 +91,7 @@ WSGI_APPLICATION = 'depo_crud.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'depot_depo_employee_db',
+        'NAME': os.getenv('MYSQL_DATABASE'),
         'USER': os.getenv('MYSQL_USER'),
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
         'HOST': os.getenv('MYSQL_HOST'),
@@ -158,8 +157,6 @@ INTERNAL_IPS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]
-#CRISPY_TEMPLATE_PACK = "bootstrap5"
-
+# Login and logout redirect URLs
 LOGIN_REDIRECT_URL = 'employee_list'
 LOGOUT_REDIRECT_URL = 'home'

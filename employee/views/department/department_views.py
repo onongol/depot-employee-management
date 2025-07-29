@@ -7,7 +7,6 @@ from employee.models import Employee
 from employee.models.master_models import Master
 from employee.utils.select_department import get_selected_department
 
-
 DEPARTMENTS = [
     'Механик', 
     'Авто хяналтын бүс (АКП)', 
@@ -19,30 +18,22 @@ DEPARTMENTS = [
 ]
 
 
+def get_user_department(user):
+    """Get the department of the user from Employee or Master models."""
+    for model in (Employee, Master):
+        try:
+            obj = model.objects.get(user=user, is_active=True)
+            if getattr(obj, 'department', None) in DEPARTMENTS:
+                return obj.department
+        except model.DoesNotExist:
+            continue
+    return None
+
+
 @receiver(user_logged_in)
 def set_department_on_login(sender, user, request, **kwargs):
     """Set the department in the session when a user logs in."""
-    # Try to find Employee
-    try:
-        employee = Employee.objects.get(user=user, is_active=True)
-        if employee.department in DEPARTMENTS:
-            request.session['department'] = employee.department
-            return
-        else:
-            request.session['department'] = None
-            return
-    except Employee.DoesNotExist:
-        pass
-
-    # Try to find Master if not Employee
-    try:
-        master = Master.objects.get(user=user, is_active=True)
-        if master.department in DEPARTMENTS:
-            request.session['department'] = master.department
-        else:
-            request.session['department'] = None
-    except Master.DoesNotExist:
-        request.session['department'] = None
+    request.session['department'] = get_user_department(user)
 
 
 @login_required(login_url='login')

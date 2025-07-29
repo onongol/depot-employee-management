@@ -14,10 +14,10 @@ def export_materials_excel(request):
 
     data = [
         [
-            item.work_date,
-            item.work.work_name,
-            item.work.type_material,
-            item.amount_material,
+            item.work_date or "",
+            item.work.work_name or "",
+            item.work.type_material or "",
+            item.amount_material or 0,
         ]
         for item in pieceworks
     ]

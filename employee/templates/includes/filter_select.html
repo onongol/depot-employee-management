@@ -9,8 +9,8 @@
       <option value="">{{ empty_label }}</option>
     {% endif %}
     {% for value in choices %}
-      <option value="{{ value }}"{% if value == selected %} selected{% endif %}>
-        {{ value }}
+      <option value="{{ value|escape }}"{% if value == selected %} selected{% endif %}>
+        {{ value|escape }}
       </option>
     {% endfor %}
   </select>

@@ -25,7 +25,9 @@ class DailySalaryContextMixin(GenericContextMixin):
     object_type = 'Daily Salary'
     success_url = reverse_lazy('daily_salary_list')
     cancel_url = reverse_lazy('daily_salary_list')
-    object_name_func = staticmethod(lambda obj: f"{obj.employee.employee_id}/{obj.employee.name} - {obj.salary_date}")
+    object_name_func = staticmethod(
+        lambda obj: f"{obj.employee.employee_id}/{obj.employee.name} - {obj.salary_date}"
+    )
 
 
 class PieceworkContextMixin(GenericContextMixin):
@@ -33,4 +35,9 @@ class PieceworkContextMixin(GenericContextMixin):
     object_type = 'Piecework'
     success_url = reverse_lazy('piecework_list')
     cancel_url = reverse_lazy('piecework_list')
-    object_name_func = staticmethod(lambda obj: f"{obj.employee.employee_id}/{obj.employee.name} Work: {obj.work.work_name}, Type Work: {obj.type_work}, Work Date:{obj.work_date}")
+    object_name_func = staticmethod(
+        lambda obj: (
+            f"{obj.employee.employee_id}/{obj.employee.name} "
+            f"Work: {obj.work.work_name}, Type Work: {obj.type_work}, Work Date:{obj.work_date}"
+        )
+    )

@@ -27,6 +27,7 @@
         <a
           href="{% url 'set_department' %}?department={{ department }}"
           class="block w-full px-4 py-2 text-sm hover:bg-gray-200 transition"
+          {% if department == selected_department %}aria-current="true"{% endif %}
         >
           {{ department }}
         </a>

@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from urllib.parse import quote
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Spacer, Paragraph
@@ -9,6 +10,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 import os
 from io import BytesIO
+
 
 # Register font (adjust path as needed)
 FONT_DIR = os.path.join(os.path.dirname(__file__), '..', 'fonts')
@@ -65,8 +67,7 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     table_data = [headers]
     for row in data:
         table_data.append([
-            Paragraph(cell, cell_style) if isinstance(cell, str) else str(cell)
-            for cell in row
+            Paragraph(str(cell), cell_style) for cell in row
         ])
 
     # Create the table with specified column widths
@@ -118,5 +119,5 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     buffer.seek(0)
     # Prepare the HTTP response with the PDF file
     response = HttpResponse(buffer, content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename={filename}'
+    response['Content-Disposition'] = f'attachment; filename="{quote(filename)}"'
     return response

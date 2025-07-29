@@ -1,17 +1,3 @@
-<!-- Error messages -->
-<!--
-{% if form.errors %}
-  <div class="mb-4 rounded-md border border-red-200 bg-red-50 p-4 text-red-600" role="alert" aria-live="assertive">
-    <span class="font-semibold">Error!</span>
-    <ul class="list-disc list-inside text-sm ml-4">
-      {% for field, errors in form.errors.items %}
-        <li>{{ errors|join:", " }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
--->
-
 <!-- Error messages block -->
 {% if errors %}
   <div
@@ -19,6 +5,7 @@
     role="alert"
     aria-live="assertive"
     id="form_error"
+    aria-label="form_error"
   >
     <span class="font-semibold">Error!</span>
     <ul class="list-disc list-inside text-sm ml-4">

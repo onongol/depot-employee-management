@@ -8,14 +8,8 @@ from .employee_models import Employee
 
 class DailySalary(models.Model):
     """Model to record daily salary for employees."""
-    salary_id = models.AutoField(
-        primary_key=True, 
-        editable=False
-    )
-    employee = models.ForeignKey(
-        Employee, 
-        on_delete=models.CASCADE
-    )
+    salary_id = models.AutoField(primary_key=True, editable=False)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     hours_per_day = models.IntegerField(
         default=11,
         validators=[MinValueValidator(0), MaxValueValidator(24)]
@@ -30,11 +24,16 @@ class DailySalary(models.Model):
     record_date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
+        # Ensure that the employee's money_per_hour is not None
+        if self.employee.money_per_hour is None:
+            raise ValueError("Employee's money_per_hour must not be None")
         self.salary_day = Decimal(self.hours_per_day) * self.employee.money_per_hour
         super().save(*args, **kwargs)
 
     class Meta:
-        unique_together = (('employee', 'salary_date'),)
+        constraints = [
+            models.UniqueConstraint(fields=['employee', 'salary_date'], name='unique_employee_salary_date')
+        ]
 
     def __str__(self):
         return f"{self.employee.employee_id}/{self.employee.name}/{self.salary_date}"

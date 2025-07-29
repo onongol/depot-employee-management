@@ -3,10 +3,9 @@ from django.contrib.auth import views as auth_views
 
 from .views.home import home
 from .views.auth.register_views import register_view
+from .views.auth.password_views import CustomPasswordChangeView
 from .views.department import set_department
-
 from .views.employee import employee_list, employee_activate, employee_deactivate
-
 from .views.employee import EmployeeCreateView, EmployeeUpdateView, EmployeeDeleteView
 from .views.work import work_list
 from .views.work import WorkCreateView, WorkUpdateView, WorkDeleteView
@@ -27,6 +26,8 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
     path('register/', register_view, name='register'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    # Password change URLs
+    path('password_change/', CustomPasswordChangeView.as_view(), name='password_change'),
     # Department URLs
     path('set_department/', set_department, name="set_department"),
     # Employee URLs

@@ -1,3 +1,4 @@
+import logging
 from django.utils.dateparse import parse_date
 
 
@@ -71,10 +72,9 @@ def filter_material(queryset, work_name=None, selected_type='all', range_date=No
                 queryset = queryset.filter(work_date__gte=start_date)
             if end_date:
                 queryset = queryset.filter(work_date__lte=end_date)
-        except Exception:
-            pass
+        except Exception as e:
+            logging.warning(f'Invalid date range: {range_date} ({e})')
     return queryset
-
 
 
 def filter_month_year(queryset, month=None, year=None):

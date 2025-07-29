@@ -1,6 +1,4 @@
 from django.shortcuts import render, redirect
-#from django.contrib.auth.forms import UserCreationForm
-#from django.contrib.auth import login
 from django.contrib.auth.models import Group 
 from django.contrib import messages
 
@@ -10,61 +8,39 @@ from employee.models.master_models import Master
 from employee.models.payroll_models import Payroll
 
 
+def link_user_to_instance(user, instance, group_name):
+    """Link user to the given instance and assign the appropriate group."""
+    group, _ = Group.objects.get_or_create(name=group_name)
+    user.groups.add(group)
+    instance.user = user
+    instance.save()
+
+
 def register_view(request):
     """User registration view."""
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             register_id = form.cleaned_data.get('employee_id')
-
-            # First try to find Employee
-            try:
-                employee = Employee.objects.get(employee_id=register_id)
-                if employee.user:
-                    form.add_error('employee_id', "A user is already linked to this Employee ID.")
-                    return render(request, 'auth/register.html', {'form': form})
-                user = form.save()
-                group, _ = Group.objects.get_or_create(name='Employees')
-                user.groups.add(group)
-                employee.user = user
-                employee.save()
-                messages.success(request, "Registration successful! Please log in with your new account.")
-                return redirect('login')
-            except Employee.DoesNotExist:
-
-                # If Employee not found, try Master
+            user = None
+            for model, id_field, group_name, not_found_msg in [
+                (Employee, 'employee_id', 'Employees', ("Employee not found.")),
+                (Master, 'master_id', 'Masters', ("Master not found.")),
+                (Payroll, 'payroll_id', 'Payrolls', ("Payroll not found.")),
+            ]:
                 try:
-                    master = Master.objects.get(master_id=register_id)
-                    if master.user:
-                        form.add_error('employee_id', "A user is already linked to this Master ID.")
+                    instance = model.objects.get(**{id_field: register_id})
+                    if instance.user:
+                        form.add_error('employee_id', ("A user is already linked to this ID."))
                         return render(request, 'auth/register.html', {'form': form})
                     user = form.save()
-                    group, _ = Group.objects.get_or_create(name='Masters')
-                    user.groups.add(group)
-                    master.user = user
-                    master.save()
-                    messages.success(request, "Registration successful! Please log in with your new account.")
+                    link_user_to_instance(user, instance, group_name)
+                    messages.success(request, ("Registration successful! Please log in with your new account."))
                     return redirect('login')
-                except Master.DoesNotExist:
-
-                    # If Master not found, try Payroll
-                    try:
-                        payroll = Payroll.objects.get(payroll_id=register_id)
-                        if payroll.user:
-                            form.add_error('employee_id', "A user is already linked to this Payroll ID.")
-                            return render(request, 'auth/register.html', {'form': form})
-                        user = form.save()
-                        group, _ = Group.objects.get_or_create(name='Payrolls')
-                        user.groups.add(group)
-                        payroll.user = user
-                        payroll.save()
-                        messages.success(request, "Registration successful! Please log in with your new account.")
-                        return redirect('login')
-                    except Payroll.DoesNotExist:
-
-                        # If Employee, Master, or Payroll not found, return error
-                        form.add_error('employee_id', "Employee, Master, or Payroll not found.")
-                        return render(request, 'auth/register.html', {'form': form})
+                except model.DoesNotExist:
+                    continue
+            form.add_error('employee_id', ("Employee, Master, or Payroll not found."))
+            return render(request, 'auth/register.html', {'form': form})
     else:
         form = CustomUserCreationForm()
     return render(request, 'auth/register.html', {'form': form})

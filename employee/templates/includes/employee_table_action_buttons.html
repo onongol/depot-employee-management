@@ -9,7 +9,7 @@
     data-id="{{ id }}"
     data-name="{{ name }}"
     data-url="{{ edit_url }}"
-    {% if not is_active %}disabled{% endif %}
+    {% if not is_active %}tabindex="-1" aria-disabled="true"{% endif %}
   >
     <svg class="w-4 h-4" aria-hidden="true">
       <use href="#edit"></use>
@@ -25,7 +25,7 @@
     data-id="{{ id }}"
     data-name="{{ name }}"
     data-url="{{ delete_url }}"
-    {% if not is_active %}disabled{% endif %}
+    {% if not is_active %}tabindex="-1" aria-disabled="true"{% endif %}
   >
     <svg class="w-4 h-4" aria-hidden="true">
       <use href="#delete"></use>

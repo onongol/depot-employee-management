@@ -46,7 +46,6 @@ class Piecework(models.Model):
     record_date = models.DateTimeField(auto_now_add=True)
     
     def save(self, *args, **kwargs):
-        # self.amount_price = self.work.price * self.amount
         self.amount_material = self.work.usage_material * self.amount
         super().save(*args, **kwargs)
     

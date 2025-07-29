@@ -11,10 +11,12 @@ class TypeWorkChoiceMixin:
     def __init__(self, *args, **kwargs):
         department = kwargs.pop('department', None)
         super().__init__(*args, **kwargs)
-        if department == SELECTED_DEPARTMENT:
-            self.fields['type_work'].choices = [(TYPE_WORK, TYPE_WORK)]
-        else:
-            self.fields['type_work'].choices = Piecework.TYPE_WORK_CHOICES
+        if 'type_work' in self.fields:
+            # Set choices based on the department
+            if department == SELECTED_DEPARTMENT:
+                self.fields['type_work'].choices = [(TYPE_WORK, TYPE_WORK)]
+            else:
+                self.fields['type_work'].choices = Piecework.TYPE_WORK_CHOICES
 
 
 class PieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
@@ -23,7 +25,7 @@ class PieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
         model = Piecework
         fields = '__all__'
         widgets = {
-            'employee': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'employee': forms.Select(attrs={'class': 'form-control'}),
             'work': forms.Select(attrs={'class': 'form-control'}),
             'type_work': forms.Select(attrs={'class': 'form-control'}),
             'work_date': forms.DateInput(attrs={

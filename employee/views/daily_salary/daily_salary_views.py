@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import UpdateView, DeleteView
 from django.db import transaction
+from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -72,11 +73,11 @@ def daily_salary_create(request):
                 with transaction.atomic():
                     for emp_id in selected_ids:
                         # Check for duplicate daily salary record for the same employee and date
-                        exists = DailySalary.objects.filter(
-                            employee_id=emp_id,
-                            salary_date=salary_date
-                        ).first()
-                        if exists:
+                        existing = DailySalary.objects.filter(
+                            employee_id__in=selected_ids,
+                                salary_date=salary_date
+                            ).values_list('employee_id', flat=True)
+                        if existing:
                             emp = Employee.objects.get(employee_id=emp_id)
                             errors.append(
                                 f"Daily salary record for Employee: {emp_id}/{emp.name} on {salary_date} already exists!"
@@ -88,6 +89,8 @@ def daily_salary_create(request):
                                 salary_date=salary_date,
                                 hours_per_day=hours_per_day,
                             )
+            except IntegrityError as e:
+                errors.append("A daily salary record for this employee and date already exists.")
             except Exception as e:
                 errors.append(f"Error creating daily salary records: {str(e)}")
         # If no errors, redirect to the list page for the selected department
