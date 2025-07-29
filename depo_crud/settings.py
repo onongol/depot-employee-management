@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -160,3 +161,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Login and logout redirect URLs
 LOGIN_REDIRECT_URL = 'employee_list'
 LOGOUT_REDIRECT_URL = 'home'
+
+from django.templatetags.static import static
+
+UNFOLD = {
+    "SITE_TITLE": "Depot Management Admin",
+    "SITE_HEADER": "Depot Management Admin",
+    "SITE_ICON": lambda request: static("images/logo_light.svg"),
+
+    "SITE_FAVICONS": [
+        {
+            "rel": "icon",
+            "sizes": "32x32",
+            "type": "image/x-icon",
+            "href": lambda request: static("images/favicon.svg"),
+        },
+    ],
+}
