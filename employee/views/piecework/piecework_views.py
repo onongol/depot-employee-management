@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.core.serializers.json import DjangoJSONEncoder
@@ -6,7 +7,7 @@ from django.views.generic import UpdateView, DeleteView
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-import json
+from django.contrib.auth.decorators import user_passes_test
 
 from employee.mixins.context_mixins import PieceworkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
@@ -19,9 +20,10 @@ from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_pieceworks
 from employee.utils.pagination import paginate_queryset
 from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
+from employee.utils.permissions import is_admin, OnlyAdminMixin, is_creater, OnlyCreaterMixin
 
 
-class PieceworkUpdateView(LoginRequiredMixin, PieceworkContextMixin, UpdateView):
+class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, UpdateView):
     login_url = 'login'
     form_class = UpdatePieceworkForm
     template_name = 'piecework/piecework_update.html'
@@ -56,7 +58,7 @@ class PieceworkUpdateView(LoginRequiredMixin, PieceworkContextMixin, UpdateView)
         return redirect('piecework_list')
 
 
-class PieceworkDeleteView(LoginRequiredMixin, PieceworkContextMixin, DeleteWarningMixin, DeleteView):
+class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin,PieceworkContextMixin, DeleteWarningMixin, DeleteView):
     login_url = 'login'
     template_name = "piecework/piecework_delete.html"
 
@@ -70,6 +72,7 @@ class PieceworkDeleteView(LoginRequiredMixin, PieceworkContextMixin, DeleteWarni
         )
 
 
+@user_passes_test(is_creater, login_url='login')
 @login_required(login_url='login')
 def piecework_create(request):
     """View to create piecework records for multiple employees and works."""

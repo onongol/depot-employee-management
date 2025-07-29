@@ -6,6 +6,7 @@ from django.db import transaction
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import user_passes_test
 
 from employee.mixins.context_mixins import DailySalaryContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
@@ -16,15 +17,16 @@ from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_daily_salaries
 from employee.utils.pagination import paginate_queryset
 from employee.utils.converting_date import parse_date
+from employee.utils.permissions import is_admin, OnlyAdminMixin, is_creater, OnlyCreaterMixin
 
 
-class DailySalaryUpdateView(LoginRequiredMixin, DailySalaryContextMixin, UpdateView):
+class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, UpdateView):
     login_url = 'login'
     form_class = UpdateDailySalaryForm
     template_name = "daily_salary/daily_salary_update.html"
 
 
-class DailySalaryDeleteView(LoginRequiredMixin, DailySalaryContextMixin, DeleteWarningMixin, DeleteView):
+class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin,DailySalaryContextMixin, DeleteWarningMixin, DeleteView):
     login_url = 'login'
     template_name = "daily_salary/daily_salary_confirm_delete.html"
 
@@ -36,8 +38,9 @@ class DailySalaryDeleteView(LoginRequiredMixin, DailySalaryContextMixin, DeleteW
         return (
             f"{self.object.employee.employee_id}/{self.object.employee.name}/{self.object.salary_date}"
         )
-   
 
+
+@user_passes_test(is_creater, login_url='login')
 @login_required(login_url='login')
 def daily_salary_create(request):
     """View to create daily salary records for multiple employees, filtered by department."""

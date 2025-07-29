@@ -3,6 +3,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import user_passes_test
 
 
 from employee.mixins.context_mixins import EmployeeContextMixin
@@ -12,21 +13,22 @@ from employee.forms import EmployeeForm, UpdateEmployeeForm
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_employees
 from employee.utils.pagination import paginate_queryset
+from employee.utils.permissions import is_admin, OnlyAdminMixin
 
 
-class EmployeeCreateView(LoginRequiredMixin, EmployeeContextMixin, CreateView):
+class EmployeeCreateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, CreateView):
     login_url = 'login'
     form_class = EmployeeForm
     template_name = "employee/employee_create.html"
 
 
-class EmployeeUpdateView(LoginRequiredMixin, EmployeeContextMixin, UpdateView):
+class EmployeeUpdateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, UpdateView):
     login_url = 'login'
     form_class = UpdateEmployeeForm
     template_name = "employee/employee_update.html"
 
 
-class EmployeeDeleteView(LoginRequiredMixin, EmployeeContextMixin, DeleteWarningMixin, DeleteView):
+class EmployeeDeleteView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, DeleteWarningMixin, DeleteView):
     login_url = 'login'
     template_name = "employee/employee_confirm_delete.html"
 
@@ -80,6 +82,7 @@ def employee_list(request):
     )
 
 
+@user_passes_test(is_admin, login_url='login')
 @login_required(login_url='login')
 def employee_activate(request, pk):
     employee = get_object_or_404(Employee, pk=pk)
@@ -89,6 +92,7 @@ def employee_activate(request, pk):
     return redirect(reverse('employee_list'))
 
 
+@user_passes_test(is_admin, login_url='login')
 @login_required(login_url='login')
 def employee_deactivate(request, pk):
     employee = get_object_or_404(Employee, pk=pk)

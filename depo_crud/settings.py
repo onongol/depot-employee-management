@@ -7,6 +7,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+from django.templatetags.static import static
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -164,8 +165,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'employee_list'
 LOGOUT_REDIRECT_URL = 'home'
 
-from django.templatetags.static import static
-
+# Unfold settings
 UNFOLD = {
     "SITE_TITLE": "Depot Management Admin",
     "SITE_HEADER": "Depot Management Admin",

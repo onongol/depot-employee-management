@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 
 from employee.mixins.context_mixins import WorkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
@@ -11,21 +12,22 @@ from employee.forms import WorkForm, UpdateWorkForm
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_works
 from employee.utils.pagination import paginate_queryset
+from employee.utils.permissions import is_admin, OnlyAdminMixin
 
 
-class WorkCreateView(LoginRequiredMixin, WorkContextMixin, CreateView):
+class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, CreateView):
     login_url = 'login'
     form_class = WorkForm
     template_name = "work/work_create.html" 
 
 
-class WorkUpdateView(LoginRequiredMixin, WorkContextMixin, UpdateView):
+class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, UpdateView):
     login_url = 'login'
     form_class = UpdateWorkForm
     template_name = "work/work_update.html"
 
 
-class WorkDeleteView(LoginRequiredMixin, WorkContextMixin, DeleteProtectionMixin, DeleteView):
+class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, DeleteProtectionMixin, DeleteView):
     login_url = 'login'
     template_name = "work/work_confirm_delete.html"
 
