@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 INSTALLED_APPS = [
     'unfold',
+    'unfold.contrib.import_export',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'employee',
     'django_browser_reload',
+    'import_export',
 ]
 
 # Path to the Node.js package manager (npm)
