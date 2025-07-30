@@ -8,7 +8,9 @@ from django.contrib.auth.decorators import user_passes_test
 
 from employee.mixins.context_mixins import EmployeeContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
+from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
 from employee.models import Employee
+from employee.models import DailySalary
 from employee.forms import EmployeeForm, UpdateEmployeeForm 
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_employees
@@ -28,14 +30,23 @@ class EmployeeUpdateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixi
     template_name = "employee/employee_update.html"
 
 
-class EmployeeDeleteView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, DeleteWarningMixin, DeleteView):
+class EmployeeDeleteView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, DeleteProtectionMixin, DeleteView):
     login_url = 'login'
     template_name = "employee/employee_confirm_delete.html"
 
-    # Handle the deletion and send a warning.
+    # Get related daily salary records to check if deletion is allowed.
+    def get_related_objects(self):
+        return DailySalary.objects.filter(employee=self.object)
+
+    def get_block_message(self):
+        return (
+            f"Cannot delete <b>{self.object.employee_id}/{self.object.name}</b> because it is associated with daily salary and piecework records. "
+            "Please remove the related daily salary and piecework records first."
+        )
+
     def get_redirect_url(self):
         return self.success_url
-    
+
     def get_object_name(self):
         return f"{self.object.employee_id}/{self.object.name}"
 

@@ -10,8 +10,10 @@ from django.contrib.auth.decorators import user_passes_test
 
 from employee.mixins.context_mixins import DailySalaryContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
+from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
 from employee.models import Employee
 from employee.models import DailySalary
+from employee.models import Piecework
 from employee.forms import DailySalaryForm, UpdateDailySalaryForm
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_daily_salaries
@@ -26,10 +28,22 @@ class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryConte
     template_name = "daily_salary/daily_salary_update.html"
 
 
-class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin,DailySalaryContextMixin, DeleteWarningMixin, DeleteView):
+class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, DeleteProtectionMixin, DeleteView):
     login_url = 'login'
     template_name = "daily_salary/daily_salary_confirm_delete.html"
 
+    # Get related piecework records to check if deletion is allowed.
+    def get_related_objects(self):
+        return Piecework.objects.filter(
+            employee=self.object.employee,
+            work_date=self.object.salary_date
+        )
+    
+    def get_block_message(self):
+        return (
+            f"Cannot delete <b>{self.object.employee.employee_id}/{self.object.employee.name}/{self.object.salary_date}</b> because it is associated with piecework records. Please remove the piecework records first."
+        )
+    
     # Handle the deletion and send a warning.
     def get_redirect_url(self):
         return self.success_url
