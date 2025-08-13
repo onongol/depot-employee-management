@@ -31,8 +31,18 @@ if not SECRET_KEY:
 DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
 # Currently empty. For production, add your domain or IP.
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    #'zkhr_depo.com',
+    #'www.zkhr_depo.com',
+    '.railway.app'
+]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.railway.app',
+]
+
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
