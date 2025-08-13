@@ -37,7 +37,7 @@ class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Delet
     
     def get_block_message(self):
         return (
-            f"Cannot delete <b>{self.object.work_name}</b> because it is associated with piecework records. Please remove the piecework records first."
+            f"Cannot delete {self.object.work_name} because it is associated with piecework records. Please remove the piecework records first."
         )
     
     # Handle the deletion and send a warning.

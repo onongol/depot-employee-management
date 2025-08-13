@@ -41,7 +41,7 @@ class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryConte
     
     def get_block_message(self):
         return (
-            f"Cannot delete <b>{self.object.employee.employee_id}/{self.object.employee.name}/{self.object.salary_date}</b> because it is associated with piecework records. Please remove the piecework records first."
+            f"Cannot delete {self.object.employee.employee_id}/{self.object.employee.name}/{self.object.salary_date} because it is associated with piecework records. Please remove the piecework records first."
         )
     
     # Handle the deletion and send a warning.
@@ -90,11 +90,11 @@ def daily_salary_create(request):
                 with transaction.atomic():
                     for emp_id in selected_ids:
                         # Check for duplicate daily salary record for the same employee and date
-                        existing = DailySalary.objects.filter(
-                            employee_id__in=selected_ids,
-                                salary_date=salary_date
-                            ).values_list('employee_id', flat=True)
-                        if existing:
+                        exists = DailySalary.objects.filter(
+                            employee_id=emp_id,
+                            salary_date=salary_date
+                        ).first()
+                        if exists:
                             emp = Employee.objects.get(employee_id=emp_id)
                             errors.append(
                                 f"Daily salary record for Employee: {emp_id}/{emp.name} on {salary_date} already exists!"
@@ -106,8 +106,6 @@ def daily_salary_create(request):
                                 salary_date=salary_date,
                                 hours_per_day=hours_per_day,
                             )
-            except IntegrityError as e:
-                errors.append("A daily salary record for this employee and date already exists.")
             except Exception as e:
                 errors.append(f"Error creating daily salary records: {str(e)}")
         # If no errors, redirect to the list page for the selected department

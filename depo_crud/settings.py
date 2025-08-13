@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'unfold',
     'unfold.contrib.import_export',
     'django.contrib.admin',
@@ -47,7 +48,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'employee',
     'django_browser_reload',
-    'import_export',
+    'import_export', 
 ]
 
 # Path to the Node.js package manager (npm)
@@ -56,6 +57,7 @@ NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -98,8 +100,8 @@ DATABASES = {
         'NAME': os.getenv('MYSQL_DATABASE'),
         'USER': os.getenv('MYSQL_USER'),
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': os.getenv('MYSQL_HOST'),
-        'PORT': os.getenv('MYSQL_PORT'),
+        'HOST': os.getenv('MYSQL_HOST', 'localhost'),
+        'PORT': os.getenv('MYSQL_PORT', 3306),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
@@ -141,19 +143,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory for collected static files
 
 # WARNING: Add this if you want to serve static files during development
 if DEBUG:
     STATICFILES_DIRS = [BASE_DIR / "static",]
 
+# Static files storage
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
-]
+INTERNAL_IPS = os.getenv('INTERNAL_IPS', '127.0.0.1').split(',')
 
 
 # Default primary key field type
@@ -180,3 +185,4 @@ UNFOLD = {
         },
     ],
 }
+

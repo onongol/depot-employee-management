@@ -40,7 +40,7 @@ class EmployeeDeleteView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixi
 
     def get_block_message(self):
         return (
-            f"Cannot delete <b>{self.object.employee_id}/{self.object.name}</b> because it is associated with daily salary and piecework records. "
+            f"Cannot delete {self.object.employee_id}/{self.object.name} because it is associated with daily salary and piecework records. "
             "Please remove the related daily salary and piecework records first."
         )
 

@@ -6,6 +6,7 @@
   },
   "scripts": {
     "watch:css": "tailwindcss -i ./static/src/styles.css -o ./static/dist/styles.css --watch",
+    "build:css": "tailwindcss -i ./static/src/styles.css -o ./static/dist/styles.css --minify",
     "build:js": "esbuild ./static/src/flatpickr_init.js --bundle --outfile=./static/dist/flatpickr_bundle.js"
   },
   "devDependencies": {

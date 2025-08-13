@@ -80,7 +80,7 @@ def piecework_create(request):
     employees = (
         Employee.objects.filter(department=department, is_active=True).order_by('employee_id')
         if department else Employee.objects.none()
-        )
+    )
     works = (
         Work.objects.filter(department=department).order_by('work_name')
         if department else Work.objects.none()
@@ -118,18 +118,22 @@ def piecework_create(request):
             ]
             errors.append(f"Please fill in the amount for all selected work(s): {', '.join(missing_work_names)}.")
         else:
-            # Get DailySalary records for selected employees and date
+            # --- NEW DAILY SALARY CHECK LOGIC ---
+            # Get all DailySalary records for selected employees and date
             employees_salary = DailySalary.objects.filter(
                 employee__employee_id__in=selected_employee_ids,
                 salary_date=work_date,
             )
-            if not employees_salary.exists():
-                # If there are no DailySalary records, show which employees are missing
-                employees_ids_names = [
-                    f"{emp.employee_id}/{emp.name}" for emp in Employee.objects.filter(employee_id__in=selected_employee_ids)
-                ]
+            # Find employees without a DailySalary for the date
+            employees_with_salary_ids = set(str(ds.employee.employee_id) for ds in employees_salary)
+            missing_salary_employees = [
+                emp for emp in Employee.objects.filter(employee_id__in=selected_employee_ids)
+                if str(emp.employee_id) not in employees_with_salary_ids
+            ]
+            if missing_salary_employees:
+                missing_names = [f"{emp.employee_id}/{emp.name}" for emp in missing_salary_employees]
                 errors.append(
-                    f"First create Daily Salary of these employee(s): {', '.join(employees_ids_names)} for the selected date {work_date}."
+                    f"First create Daily Salary for these employee(s): {', '.join(missing_names)} for the selected date {work_date}."
                 )
             else:
                 # --- Business logic: Calculate amount_price for each employee and work ---
@@ -143,7 +147,6 @@ def piecework_create(request):
                     type_work=type_work
                 )
                 errors.extend(calc_errors)
-                # If no errors, save all Piecework records atomically
                 if not errors:
                     try:
                         # Use atomic transaction to ensure all records are created together

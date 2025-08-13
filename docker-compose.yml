@@ -1,0 +1,41 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    env_file:
+      - .env  
+    volumes:
+      - db_data:/var/lib/mysql
+
+  web:
+    build: .
+    image: depot_management:1.0 
+    container_name: depot_management
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db 
+    environment:
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      DJANGO_DEBUG: ${DJANGO_DEBUG}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+    env_file:
+      - .env
+    volumes:
+      - staticfiles:/app/staticfiles
+    
+volumes:
+  db_data:
+  staticfiles:
+  node_modules:
