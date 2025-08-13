@@ -27,5 +27,6 @@ jobs:
       - name: Run Tests
         env:
           DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          GITHUB_ACTIONS: "true"
         run: |
           python manage.py test
