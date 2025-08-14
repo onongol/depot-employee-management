@@ -156,9 +156,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory for collected static files
 
-# WARNING: Add this if you want to serve static files during development
-if DEBUG:
-    STATICFILES_DIRS = [BASE_DIR / "static",]
+# Additional locations of static files
+STATICFILES_DIRS = [BASE_DIR / "static",]
 
 # Static files storage
 STORAGES = {

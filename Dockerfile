@@ -63,13 +63,10 @@ COPY --from=frontend-builder --chown=depouser:depouser /app/static/dist/ /app/st
 # Copy application code
 COPY --chown=depouser:depouser . .
 
-# Copy the entrypoint script and make it executable
-#COPY entrypoint.prod.sh /app/
-#RUN chmod +x /app/entrypoint.prod.sh
-
-# Set environment variables to optimize Python
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# Copy the entrypoint script, fix CRLF and make it executable (as root)
+USER root
+COPY entrypoint.prod.sh /app/entrypoint.prod.sh
+RUN sed -i 's/\r$//' /app/entrypoint.prod.sh && chmod +x /app/entrypoint.prod.sh
 
 # Switch to non-root user
 USER depouser
@@ -78,5 +75,5 @@ USER depouser
 EXPOSE 8000
 
 # Set the entrypoint script
-#ENTRYPOINT ["/app/entrypoint.prod.sh"]
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "depo_crud.wsgi:application"]
+ENTRYPOINT ["/app/entrypoint.prod.sh"]
+#CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "depo_crud.wsgi:application"]
