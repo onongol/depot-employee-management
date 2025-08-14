@@ -115,11 +115,11 @@ if MYSQL_PUBLIC_URL:
     DB_HOST = url.hostname
     DB_PORT = url.port
 else:
-    DB_NAME = os.getenv('MYSQL_DATABASE')
-    DB_USER = os.getenv('MYSQL_USER')
-    DB_PASSWORD = os.getenv('MYSQL_PASSWORD')
-    DB_HOST = os.getenv('MYSQL_HOST', 'localhost')
-    DB_PORT = int(os.getenv('MYSQL_PORT', 3306))
+    DB_NAME = os.getenv('MYSQLDATABASE')
+    DB_USER = os.getenv('MYSQLUSER')
+    DB_PASSWORD = os.getenv('MYSQLPASSWORD')
+    DB_HOST = os.getenv('MYSQLHOST', 'localhost')
+    DB_PORT = int(os.getenv('MYSQLPORT', 3306))
 
 DATABASES = {
     'default': {
