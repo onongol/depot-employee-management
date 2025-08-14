@@ -110,11 +110,11 @@ from urllib.parse import urlparse
 MYSQL_PUBLIC_URL = os.getenv('MYSQL_PUBLIC_URL')
 if MYSQL_PUBLIC_URL:
     url = urlparse(MYSQL_PUBLIC_URL)
-    DB_NAME = url.path.lstrip('/') or os.getenv('MYSQLDATABASE')
-    DB_USER = url.username or os.getenv('MYSQLUSER')
-    DB_PASSWORD = url.password or os.getenv('MYSQLPASSWORD')
-    DB_HOST = url.hostname or os.getenv('MYSQLHOST', 'localhost')
-    DB_PORT = url.port or int(os.getenv('MYSQLPORT', 3306))
+    DB_NAME = url.path.lstrip('/') 
+    DB_USER = url.username
+    DB_PASSWORD = url.password
+    DB_HOST = url.hostname
+    DB_PORT = url.port
 else:
     DB_NAME = os.getenv('MYSQL_DATABASE') or os.getenv('MYSQLDATABASE')
     DB_USER = os.getenv('MYSQL_USER') or os.getenv('MYSQLUSER')
