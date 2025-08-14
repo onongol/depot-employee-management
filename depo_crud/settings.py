@@ -104,20 +104,36 @@ WSGI_APPLICATION = 'depo_crud.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+from urllib.parse import urlparse
+# Database
+MYSQL_PUBLIC_URL = os.getenv('MYSQL_PUBLIC_URL')
+if MYSQL_PUBLIC_URL:
+    url = urlparse(MYSQL_PUBLIC_URL)
+    DB_NAME = url.path.lstrip('/')
+    DB_USER = url.username
+    DB_PASSWORD = url.password
+    DB_HOST = url.hostname
+    DB_PORT = url.port
+else:
+    DB_NAME = os.getenv('MYSQL_DATABASE')
+    DB_USER = os.getenv('MYSQL_USER')
+    DB_PASSWORD = os.getenv('MYSQL_PASSWORD')
+    DB_HOST = os.getenv('MYSQL_HOST', 'localhost')
+    DB_PORT = int(os.getenv('MYSQL_PORT', 3306))
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQL_DATABASE'),
-        'USER': os.getenv('MYSQL_USER'),
-        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': os.getenv('MYSQL_HOST', 'localhost'),
-        'PORT': os.getenv('MYSQL_PORT', 3306),
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOST,
+        'PORT': DB_PORT,
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
