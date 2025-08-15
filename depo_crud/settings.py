@@ -114,7 +114,7 @@ if MYSQL_PUBLIC_URL:
     DB_USER = url.username
     DB_PASSWORD = url.password
     DB_HOST = url.hostname
-    DB_PORT = url.port
+    DB_PORT = url.port or 3306
 else:
     DB_NAME = os.getenv('MYSQL_DATABASE') or os.getenv('MYSQLDATABASE')
     DB_USER = os.getenv('MYSQL_USER') or os.getenv('MYSQLUSER')

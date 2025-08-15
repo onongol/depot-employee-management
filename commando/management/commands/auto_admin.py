@@ -21,11 +21,14 @@ class Command(BaseCommand):
         if superusers.exists() and not force:
             self.stdout.write("Superuser(s) already exists")
             return
+        
         admin_username = config("DJANGO_ADMIN_USERNAME", default="admin")
         admin_password = config("DJANGO_ADMIN_PASSWORD", default=None)
         admin_email = config("DJANGO_ADMIN_EMAIL", default="admin@admin.com")
+
         if admin_password is None:
             admin_password = "admin"
+        
         admin_qs = User.objects.filter(username=admin_username)
         if admin_qs.exists() and force:
             admin_instance = admin_qs.first()
@@ -37,6 +40,7 @@ class Command(BaseCommand):
                 )
             )
             return
+        
         admin_instance = User.objects.create_superuser(
             username=admin_username,
             email=admin_email,

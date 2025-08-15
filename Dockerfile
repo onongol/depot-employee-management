@@ -23,6 +23,11 @@ RUN npm run build:js
 # Stage 2: Python dependencies build stage
 FROM python:3.13 AS builder
 
+# Build deps for mysqlclient (компиляция колеса)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential default-libmysqlclient-dev pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
 # Create the app directory
 RUN mkdir /app
 
@@ -46,6 +51,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Stage 3: Production stage
 FROM python:3.13 AS production
 
+# Runtime lib for mysqlclient (dynamic linking libmariadb.so)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libmariadb3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user "depouser"
 RUN useradd -m -r depouser && \
     mkdir /app && \
     chown -R depouser /app
