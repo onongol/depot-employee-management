@@ -21,8 +21,7 @@ RUN npm run build:css
 # Build JavaScript assets
 RUN npm run build:js
 
-RUN npm run build:vendor
-
+RUN mkdir -p ./static/dist && cp ./node_modules/flatpickr/dist/flatpickr.min.css ./static/dist/flatpickr.min.css
 
 # Stage 2: Python dependencies build stage
 FROM python:3.13 AS builder
