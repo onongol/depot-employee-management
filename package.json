@@ -7,7 +7,9 @@
   "scripts": {
     "watch:css": "tailwindcss -i ./static/src/styles.css -o ./static/dist/styles.css --watch",
     "build:css": "tailwindcss -i ./static/src/styles.css -o ./static/dist/styles.css --minify",
-    "build:js": "esbuild ./static/src/flatpickr_init.js --bundle --outfile=./static/dist/flatpickr_bundle.js"
+    "build:js": "esbuild ./static/src/flatpickr_init.js --bundle --outfile=./static/dist/flatpickr_bundle.js",
+    "build:vendor": "mkdir -p static/dist && copy node_modules/flatpickr/dist/flatpickr.min.css static/dist/flatpickr.min.css",
+    "build": "npm run build:css && npm run build:js && npm run build:vendor"
   },
   "devDependencies": {
     "esbuild": "^0.25.5"

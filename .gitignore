@@ -14,9 +14,11 @@ build/
 *.egg-info/
 .eggs/
 
+# Ignore distribution files
 dist/
-!static/dist/
-!static/dist/**
+# Exclude static files from being ignored
+#!static/dist/
+#!static/dist/**
 
 # VS Code
 .vscode/

@@ -8,16 +8,15 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install Node.js dependencies (Tailwind CSS, PostCSS, Autoprefixer)
-RUN npm install
+#RUN npm install
+ENV NODE_ENV=development
+RUN npm ci --no-audit --no-fund
 
 # Copy application files (your HTML templates, etc.)
 COPY . .
 
 # Run the Tailwind CSS build command
-RUN npm run build:css
-
-# Build JavaScript assets
-RUN npm run build:js
+RUN NODE_ENV=production npm run build
 
 
 # Stage 2: Python dependencies build stage
@@ -58,11 +57,11 @@ COPY --from=builder /usr/local/bin/ /usr/local/bin/
 # Set the working directory
 WORKDIR /app
 
-# Copy the built CSS from the Tailwind stage
-COPY --from=frontend-builder --chown=depouser:depouser /app/static/dist/ /app/static/dist/
-
 # Copy application code
 COPY --chown=depouser:depouser . .
+
+# Copy the built CSS from the Tailwind stage
+COPY --from=frontend-builder --chown=depouser:depouser /app/static/dist/ /app/static/dist/
 
 # Copy the entrypoint script, fix CRLF and make it executable (as root)
 USER root
