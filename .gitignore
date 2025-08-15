@@ -55,13 +55,6 @@ coverage.xml
 *.swp
 *.tmp
 
-# Migrations
-migrations/
-*/migrations/
-**/migrations/
-*.migrations/
-*_initial.py
-
 # Static files
 staticfiles/
 *staticfiles/*/
