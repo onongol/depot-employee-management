@@ -16,7 +16,7 @@ RUN npm ci --no-audit --no-fund
 COPY . .
 
 # Run the Tailwind CSS build command
-RUN NODE_ENV=production npm run build
+RUN npm run build
 
 
 # Stage 2: Python dependencies build stage
