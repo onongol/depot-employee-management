@@ -28,7 +28,8 @@ if not SECRET_KEY:
     raise ValueError("DJANGO_SECRET_KEY environment variable not set")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+#DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+DEBUG = os.getenv('DJANGO_DEBUG', '').strip().lower() in ('1', 'true')
 
 # Currently empty. For production, add your domain or IP.
 ALLOWED_HOSTS = [
@@ -46,7 +47,6 @@ if DEBUG:
 
 # Application definition
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
     'unfold',
     'unfold.contrib.import_export',
     'django.contrib.admin',
@@ -55,18 +55,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
     'employee',
-    'django_browser_reload',
     'import_export', 
     'commando',
 ]
+
+# Application definition DEBUG
+if DEBUG:
+    INSTALLED_APPS += [
+        'whitenoise.runserver_nostatic',
+        'debug_toolbar',
+        'django_browser_reload',
+    ]
 
 # Path to the Node.js package manager (npm)
 NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -75,8 +80,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+        'django_browser_reload.middleware.BrowserReloadMiddleware',
+    ]
 
 ROOT_URLCONF = 'depo_crud.urls'
 

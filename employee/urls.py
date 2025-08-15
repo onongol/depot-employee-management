@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
@@ -18,8 +19,6 @@ from .views.materials import materials, export_materials_excel
 
 
 urlpatterns = [
-    # Include Django Browser Reload URLs for development
-    path('__reload__/', include('django_browser_reload.urls')),
     # Home URL
     path('', home, name="home"),
     # Authentication URLs
@@ -61,3 +60,11 @@ urlpatterns = [
     path('materials/', materials, name="materials"),
     path('export_materials_excel/', export_materials_excel, name="export_materials_excel"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        # Include Django Debug Toolbar URLs for development
+        path('__debug__/', include('debug_toolbar.urls')),
+        # Include Django Browser Reload URLs for development
+        path('__reload__/', include('django_browser_reload.urls')),
+    ]
