@@ -11,9 +11,12 @@ __pycache__/
 *.pyc
 
 build/
-dist/
 *.egg-info/
 .eggs/
+
+dist/
+!static/dist/
+!static/dist/**
 
 # VS Code
 .vscode/

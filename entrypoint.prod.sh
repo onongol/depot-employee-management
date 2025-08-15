@@ -21,8 +21,8 @@ done
 echo "Database is ready!"
 
 #echo "Running migrations..."
-#python manage.py makemigrations --noinput
-#python manage.py migrate --noinput
+python manage.py makemigrations --noinput
+python manage.py migrate --noinput
 
 echo "Creating/ensuring admin user..."
 python manage.py auto_admin --force
