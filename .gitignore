@@ -17,8 +17,11 @@ build/
 # Ignore distribution files
 dist/
 # Exclude static files from being ignored
-#!static/dist/
-#!static/dist/**
+!static/dist/
+!static/dist/**
+
+# Node
+node_modules/
 
 # VS Code
 .vscode/
@@ -30,6 +33,7 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
 
 # Environment variables
 .env
@@ -40,6 +44,7 @@ Thumbs.db
 env/
 venv/
 ENV/
+.python-version
 
 # Database
 *.sqlite3
@@ -54,6 +59,12 @@ htmlcov/
 .coverage
 coverage.xml
 *.cover
+
+# Caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
 
 # Misc
 *.bak

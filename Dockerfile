@@ -8,9 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install Node.js dependencies (Tailwind CSS, PostCSS, Autoprefixer)
-#RUN npm install
-ENV NODE_ENV=development
-RUN npm ci --no-audit --no-fund
+RUN npm install
 
 # Copy application files (your HTML templates, etc.)
 COPY . .
@@ -21,7 +19,6 @@ RUN npm run build:css
 # Build JavaScript assets
 RUN npm run build:js
 
-RUN mkdir -p ./static/dist && cp ./node_modules/flatpickr/dist/flatpickr.min.css ./static/dist/flatpickr.min.css
 
 # Stage 2: Python dependencies build stage
 FROM python:3.13 AS builder
@@ -61,11 +58,11 @@ COPY --from=builder /usr/local/bin/ /usr/local/bin/
 # Set the working directory
 WORKDIR /app
 
-# Copy application code
-COPY --chown=depouser:depouser . .
-
 # Copy the built CSS from the Tailwind stage
 COPY --from=frontend-builder --chown=depouser:depouser /app/static/dist/ /app/static/dist/
+
+# Copy application code
+COPY --chown=depouser:depouser . .
 
 # Copy the entrypoint script, fix CRLF and make it executable (as root)
 USER root
