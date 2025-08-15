@@ -16,7 +16,12 @@ RUN npm ci --no-audit --no-fund
 COPY . .
 
 # Run the Tailwind CSS build command
-RUN npm run build
+RUN npm run build:css
+
+# Build JavaScript assets
+RUN npm run build:js
+
+RUN npm run build:vendor
 
 
 # Stage 2: Python dependencies build stage
