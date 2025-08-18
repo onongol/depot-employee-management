@@ -14,10 +14,12 @@ RUN npm install
 COPY . .
 
 # Run the Tailwind CSS build command
-RUN npm run build:css
+#RUN npm run build:css
 
 # Build JavaScript assets
-RUN npm run build:js
+#RUN npm run build:js
+
+RUN npm run build
 
 
 # Stage 2: Python dependencies build stage

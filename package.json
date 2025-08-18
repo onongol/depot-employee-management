@@ -4,12 +4,15 @@
     "flatpickr": "^4.6.13",
     "tailwindcss": "^4.1.10"
   },
-  "scripts": {
-    "watch:css": "tailwindcss -i ./static/src/styles.css -o ./static/dist/styles.css --watch",
-    "build:css": "tailwindcss -i ./static/src/styles.css -o ./static/dist/styles.css --minify",
-    "build:js": "esbuild ./static/src/flatpickr_init.js --bundle --outfile=./static/dist/flatpickr_bundle.js"
-  },
   "devDependencies": {
-    "esbuild": "^0.25.5"
+    "esbuild": "^0.25.9"
+  },
+  "scripts": {
+    "prepare:dist": "node -e \"require('fs').mkdirSync('static/dist',{recursive:true})\"",
+    "watch:css": "npx @tailwindcss/cli -i ./static/src/styles.css -o ./static/dist/styles.css --watch",
+    "build:css": "npx @tailwindcss/cli -i ./static/src/styles.css -o ./static/dist/styles.css --minify",
+    "build:flatpickr": "npx esbuild ./static/src/flatpickr_init.js --bundle --outfile=./static/dist/flatpickr_bundle.js",
+    "copy:flatpickr": "node -e \"require('fs').copyFileSync('node_modules/flatpickr/dist/flatpickr.min.css','static/dist/flatpickr.min.css')\"",
+    "build": "npm run prepare:dist && npm run build:css && npm run build:flatpickr && npm run copy:flatpickr"
   }
 }
