@@ -2336,7 +2336,7 @@
   }
   var esm_default = flatpickr;
 
-  // static/src/flatpickr_init.js
+  // assets/src/flatpickr_init.js
   document.addEventListener("DOMContentLoaded", function() {
     esm_default(".js-flatpickr", {
       dateFormat: "Y-m-d",
