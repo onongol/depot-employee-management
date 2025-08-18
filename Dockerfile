@@ -58,11 +58,11 @@ COPY --from=builder /usr/local/bin/ /usr/local/bin/
 # Set the working directory
 WORKDIR /app
 
-# Copy the built CSS from the Tailwind stage
-COPY --from=frontend-builder --chown=depouser:depouser /app/static/dist/ /app/static/dist/
-
 # Copy application code
 COPY --chown=depouser:depouser . .
+
+# Copy the built CSS from the Tailwind stage
+COPY --from=frontend-builder --chown=depouser:depouser /app/static/dist/ /app/static/dist/
 
 # Copy the entrypoint script, fix CRLF and make it executable (as root)
 USER root

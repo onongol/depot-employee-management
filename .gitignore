@@ -17,8 +17,8 @@ build/
 # Ignore distribution files
 dist/
 # Exclude static files from being ignored
-!static/dist/
-!static/dist/**
+#!static/dist/
+#!static/dist/**
 
 # Node
 node_modules/
