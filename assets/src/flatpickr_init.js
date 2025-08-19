@@ -1,5 +1,5 @@
 import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css"; // import styles
+//import "flatpickr/dist/flatpickr.min.css"; // import styles
 
 document.addEventListener('DOMContentLoaded', function () {
   // Single Date Picker
