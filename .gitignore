@@ -75,7 +75,17 @@ coverage.xml
 # Adjust if your STATIC_ROOT differs
 /staticfiles/
 
-# Other (Backup files)
+# Secrets (private keys/certs)
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+
+# Other (Backup/Temporary files)
 *.py_*
 *.html_*
 *.js_*
