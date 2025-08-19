@@ -5,19 +5,11 @@ from decimal import Decimal
 
 from .employee_models import Employee
 from .work_models import Work
+from employee.constants.constants import TYPE_WORK_CHOICES
 
 
 class Piecework(models.Model):
     """Model to record the piecework done by employees."""
-    TYPE_WORK_CHOICES = [
-        ('84', '84'),
-        ('29', '29'),
-        ('ТҮГ', 'ТҮГ'),
-        ('Нөөц', 'Нөөц'),
-        ('Завод', 'Завод'),
-        ('Депо', 'Депо'),
-    ]
-
     record_id = models.AutoField(primary_key=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     work = models.ForeignKey(Work, on_delete=models.RESTRICT)

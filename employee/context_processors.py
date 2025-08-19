@@ -1,12 +1,4 @@
-DEPARTMENTS = [
-    'Механик', 
-    'Авто хяналтын бүс (АКП)', 
-    'Засвар 1', 
-    'Засвар 2', 
-    'Хос дугуй', 
-    'Тэргэнцэр', 
-    'Авто угсраа'
-]
+from employee.constants.constants import DEPARTMENTS
 
 
 def global_departments(request):

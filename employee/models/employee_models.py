@@ -3,33 +3,10 @@ from django.core.validators import MinValueValidator
 from django.db.models import Sum
 from django.contrib.auth.models import User
 
+from employee.constants.constants import DEPARTMENT_CHOICES, RANK_CHOICES, RANK_TO_MONEY
 
 class Employee(models.Model):
     """This model represents an employee in the system."""
-    DEPARTMENT_CHOICES = [
-        ('Механик', 'Механик'),
-        ('Авто хяналтын бүс (АКП)', 'Авто хяналтын бүс (АКП)'),
-        ('Засвар 1', 'Засвар 1'),
-        ('Засвар 2', 'Засвар 2'),
-        ('Хос дугуй', 'Хос дугуй'),
-        ('Тэргэнцэр', 'Тэргэнцэр'),
-        ('Авто угсраа', 'Авто угсраа'),
-    ]
-
-    RANK_CHOICES = [
-        (3, '3'),
-        (4, '4'),
-        (5, '5'),
-        (6, '6'),
-    ]
-
-    RANK_TO_MONEY = {
-        3: 8448.55, 
-        4: 9616.24, 
-        5: 11127.36, 
-        6: 13187.98
-    }
-
     employee_id = models.IntegerField(
         primary_key=True, 
         null=False, 
@@ -66,7 +43,7 @@ class Employee(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        self.money_per_hour = self.RANK_TO_MONEY.get(self.rank, 8448.55)
+        self.money_per_hour = RANK_TO_MONEY.get(self.rank, 8448.55)
         super().save(*args, **kwargs)
 
     def __str__(self):

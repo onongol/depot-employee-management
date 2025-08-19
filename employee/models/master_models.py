@@ -2,19 +2,11 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
 
+from employee.constants.constants import DEPARTMENT_CHOICES
+
 
 class Master(models.Model):
     """This model represents a master in the system."""
-    DEPARTMENT_CHOICES = [
-        ('Механик', 'Механик'),
-        ('Авто хяналтын бүс (АКП)', 'Авто хяналтын бүс (АКП)'),
-        ('Засвар 1', 'Засвар 1'),
-        ('Засвар 2', 'Засвар 2'),
-        ('Хос дугуй', 'Хос дугуй'),
-        ('Тэргэнцэр', 'Тэргэнцэр'),
-        ('Авто угсраа', 'Авто угсраа'),
-    ]
-
     master_id = models.IntegerField(
         primary_key=True,
         null=False, 
@@ -22,7 +14,7 @@ class Master(models.Model):
         unique=True
     )
     name = models.CharField(max_length=255)
-    department = models.CharField(max_length=255, choices=DEPARTMENT_CHOICES, )
+    department = models.CharField(max_length=255, choices=DEPARTMENT_CHOICES)
     # Active status of the employee
     is_active = models.BooleanField(default=True)
     # Connection to the User model
