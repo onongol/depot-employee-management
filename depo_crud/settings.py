@@ -12,6 +12,8 @@ from django.templatetags.static import static
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from urllib.parse import urlparse
+
 
 load_dotenv()
 
@@ -115,7 +117,6 @@ WSGI_APPLICATION = 'depo_crud.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-from urllib.parse import urlparse
 # Database
 MYSQL_PUBLIC_URL = os.getenv('MYSQL_PUBLIC_URL')
 if MYSQL_PUBLIC_URL:

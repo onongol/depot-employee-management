@@ -1,35 +1,32 @@
 # Python
-__pycache__
 __pycache__/
-*__pycache__/
-**/__pycache__/
-**/__pycache__/**
-
 *.py[cod]
-*.pyo
-*.pyd
-*.pyc
 
+# Build & packaging
 build/
 *.egg-info/
 .eggs/
 
-# Ignore distribution files
+# Distribution files
 dist/
-# Exclude static files from being ignored
-#!static/dist/
-#!static/dist/**
 
 # Node
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# VS Code
+# IDE/Editor
 .vscode/
 .history/
+.idea/
+.vs/
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Logs
 *.log
@@ -44,6 +41,7 @@ logs/
 env/
 venv/
 ENV/
+!.env.example
 .python-version
 
 # Database
@@ -54,11 +52,13 @@ ENV/
 *.session*
 *.session.sql
 
-# Coverage
+# Coverage & test artifacts
 htmlcov/
 .coverage
 coverage.xml
 *.cover
+.pytest_cache/
+.tox/
 
 # Caches
 .pytest_cache/
@@ -71,12 +71,11 @@ coverage.xml
 *.swp
 *.tmp
 
-# Static files
-staticfiles/
-*staticfiles/*/
-**/staticfiles/**
+# Django static build output (root only)
+# Adjust if your STATIC_ROOT differs
+/staticfiles/
 
-# Other
+# Other (Backup files)
 *.py_*
 *.html_*
 *.js_*
