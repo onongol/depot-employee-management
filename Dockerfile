@@ -66,8 +66,13 @@ COPY --chown=depouser:depouser . .
 # Copy the built CSS from the Tailwind stage
 COPY --from=frontend-builder --chown=depouser:depouser /app/static/dist/ /app/static/dist/
 
-# Copy the entrypoint script, fix CRLF and make it executable (as root)
+# Switch to root user
 USER root
+
+# Create static files directory
+RUN mkdir -p /app/staticfiles && chown -R depouser:depouser /app/staticfiles
+
+# Copy entrypoint script
 COPY entrypoint.prod.sh /app/entrypoint.prod.sh
 RUN sed -i 's/\r$//' /app/entrypoint.prod.sh && chmod +x /app/entrypoint.prod.sh
 

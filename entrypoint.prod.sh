@@ -26,7 +26,7 @@ python manage.py migrate --noinput
 echo "Creating/ensuring admin user..."
 python manage.py auto_admin --force
 
-# Проверка, что фронтенд артефакты есть до collectstatic
+# Check built assets before collectstatic:
 echo "Check built assets before collectstatic:"
 ls -la static || true
 ls -la static/dist || true
@@ -35,7 +35,7 @@ test -f static/dist/styles.css || echo "WARN: static/dist/styles.css not found"
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
 
-# Проверка содержимого STATIC_ROOT (по settings.py это /app/staticfiles)
+# Check collected static files STATIC_ROOT (settings.py - /app/staticfiles)
 echo "Check collected static:"
 ls -la /app/staticfiles || true
 ls -la /app/staticfiles/dist || true
