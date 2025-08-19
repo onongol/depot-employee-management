@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "@tailwindcss/cli": "^4.1.12",
-    "flatpickr": "^4.6.13",
-    "tailwindcss": "^4.1.12"
+    "tailwindcss": "^4.1.12",
+    "flatpickr": "^4.6.13"
   },
   "devDependencies": {
     "esbuild": "^0.25.9"
