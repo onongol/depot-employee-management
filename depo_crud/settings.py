@@ -35,9 +35,10 @@ DEBUG = os.getenv('DJANGO_DEBUG', '').strip().lower() in ('1', 'true')
 
 # Currently empty. For production, add your domain or IP.
 ALLOWED_HOSTS = [
+    '.railway.app',
     '.example.com',
     #'www.zkhr_depo.com',
-    '.railway.app',
+    
 ]
 
 CSRF_TRUSTED_ORIGINS = [
