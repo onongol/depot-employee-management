@@ -91,7 +91,14 @@ def piecework_create(request):
     if request.method == 'POST':
         work_date = request.POST.get('work_date')
         type_work = request.POST.get('type_work')
-        wagon_number = (request.POST.get('wagon_number'))
+        wagon_number_raw = request.POST.get('wagon_number')
+        if wagon_number_raw and wagon_number_raw.strip():
+            try:
+                wagon_number = int(wagon_number_raw.strip())
+            except ValueError:
+                wagon_number = None
+        else:
+            wagon_number = None
         selected_employee_ids = request.POST.getlist('employee_ids')
         selected_work_ids = request.POST.getlist('work_ids')
         amounts = {wid: request.POST.get(f'amount_{wid}') for wid in selected_work_ids}
