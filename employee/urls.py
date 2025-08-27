@@ -63,8 +63,6 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += [
-        # Include Django Debug Toolbar URLs for development
-        path('__debug__/', include('debug_toolbar.urls')),
         # Include Django Browser Reload URLs for development
         path('__reload__/', include('django_browser_reload.urls')),
     ]

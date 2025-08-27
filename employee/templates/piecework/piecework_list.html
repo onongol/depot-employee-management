@@ -47,6 +47,7 @@
             <th scope="col" class="{{ col_class }}">Department</th>
             <th scope="col" class="{{ col_class }}">Work</th>
             <th scope="col" class="{{ col_class }}">Type</th>
+            <th scope="col" class="{{ col_class }}">Wagon</th>
             <th scope="col" class="{{ col_class }}">Amount</th>
             <th scope="col" class="{{ col_class }}">Price</th>
             <th scope="col" class="{{ col_class }}">
@@ -74,6 +75,7 @@
                 <td class="{{ col_class }}">{{ piecework.employee.department }}</td>
                 <td class="{{ col_class }}">{{ piecework.work.work_name }}</td>
                 <td class="{{ col_class }}">{{ piecework.type_work }}</td>
+                <td class="{{ col_class }}">{{ piecework.wagon_number }}</td>
                 <td class="{{ col_class }}">{{ piecework.amount }}</td>
                 <td class="{{ col_class }}">{{ piecework.amount_price }}</td>
                 <td class="{{ col_class }}">{{ piecework.work_date|date:"Y-m-d" }}</td>
@@ -94,7 +96,7 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="11" class="text-center px-3 py-4 text-gray-500">No piecework records found...</td>
+            <td colspan="12" class="text-center px-3 py-4 text-gray-500">No piecework records found...</td>
           </tr>
         {% endif %}
       </tbody>

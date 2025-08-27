@@ -45,6 +45,8 @@
   
   {% include "includes/form_select.html" with id=form.type_work.id_for_label label="Type Work" name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
 
+  {% include "includes/form_input.html" with id="wagon_number" label="Wagon Number" name="wagon_number" type="number" value=request.POST.wagon_number %}
+
   <!-- Add search input above the employee table -->
   <div class="flex flex-col md:flex-row gap-4 mb-4">
     {% include "includes/filter_input.html" with id="employee-search" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Search by ID..." min="1" %}

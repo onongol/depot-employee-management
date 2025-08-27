@@ -17,6 +17,7 @@ class Piecework(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     work = models.ForeignKey(Work, on_delete=models.RESTRICT)
     type_work = models.CharField(max_length=50, choices=TYPE_WORK_CHOICES)
+    wagon_number = models.IntegerField(blank=True, null=True)
     amount = models.DecimalField(
         max_digits=20, 
         decimal_places=2, 

@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 
-def piecework_calculate_records(employees_salary, selected_work_ids, amounts, works_dict, work_date, type_work):
+def piecework_calculate_records(employees_salary, selected_work_ids, amounts, works_dict, work_date, type_work, wagon_number):
     """
     Calculate and validate piecework data for each employee and work.
     Returns (results, errors):
@@ -57,6 +57,7 @@ def piecework_calculate_records(employees_salary, selected_work_ids, amounts, wo
                 'amount_price': amount_price,
                 'work_date': work_date,
                 'type_work': type_work,
+                'wagon_number': wagon_number,
             })
     return results, errors
 
