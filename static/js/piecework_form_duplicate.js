@@ -26,6 +26,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectedWorkIds = Array.from(document.querySelectorAll('input[name="work_ids"]:checked')).map(cb => cb.value);
     const typeWork = document.getElementById('type_work').value;
     const workDate = document.getElementById('work_date').value;
+    const wagonNumberInput = document.getElementById('wagon_number');
+    let wagonNumber = wagonNumberInput && wagonNumberInput.value ? wagonNumberInput.value.trim() : '';
+    wagonNumber = wagonNumber === '' ? null : wagonNumber;
+
+    function normalizeWagon(val) {
+      if (val === null || val === undefined) return null;
+      return String(val).trim();
+    }
+
     let isDuplicate = false;
     for (const empId of selectedEmployeeIds) {
       for (const workId of selectedWorkIds) {
@@ -33,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
           String(pw.employee_id) === String(empId) &&
           String(pw.work_id) === String(workId) &&
           pw.type_work === typeWork &&
-          pw.work_date === workDate
+          pw.work_date === workDate &&
+          normalizeWagon(pw.wagon_number) === normalizeWagon(wagonNumber)
         )) {
           isDuplicate = true;
         }
@@ -54,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('modal-employee').textContent = selectedEmployees.join(', ');
       document.getElementById('modal-work').textContent = selectedWorks.join(', ');
       document.getElementById('modal-type-work').textContent = typeWork;
+      document.getElementById('modal-wagon-number').textContent = wagonNumber || '-';
       document.getElementById('modal-work-date').textContent = workDate;
       openModal();
     }
