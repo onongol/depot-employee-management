@@ -46,7 +46,7 @@ class UpdatePieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
     """Form for updating an existing Piecework record."""
     class Meta:
         model = Piecework
-        fields = ['type_work', 'amount', 'work_date']
+        fields = ['type_work', 'wagon_number', 'amount', 'work_date']
         widgets = {
             'type_work': forms.Select(attrs={'class': 'form-control'}),
             'amount': forms.NumberInput(attrs={
