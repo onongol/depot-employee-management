@@ -217,6 +217,7 @@ def piecework_list(request):
     employee_name = request.GET.get('employee_name')
     work = request.GET.get('work')
     type_work = request.GET.get('type_work')
+    wagon_number = request.GET.get('wagon_number')
     type_material = request.GET.get('type_material')
     work_date = request.GET.get('work_date')
     record_date = request.GET.get('record_date')
@@ -228,6 +229,7 @@ def piecework_list(request):
         employee_name=employee_name,
         work=work,
         type_work=type_work,
+        wagon_number=wagon_number,
         type_material=type_material,
         work_date=work_date,
         record_date=record_date

@@ -23,6 +23,8 @@
 
       {% include "includes/filter_select.html" with id="filter-type-work" label="Type Work" name="type_work" choices=type_works value=request.GET.type_work selected=request.GET.type_work empty_label="Types" %}
 
+      {% include "includes/filter_input.html" with id="filter-wagon-number" label="Wagon Number" name="wagon_number" value=request.GET.wagon_number placeholder="Wagon Number" %}
+
       {% include "includes/filter_date.html" with id="filter-work-date" label="Date" name="work_date" type="text" value=request.GET.work_date %}
 
       {% if not is_employee %}

@@ -37,7 +37,7 @@ def filter_daily_salaries(queryset, employee_id=None, employee_name=None, salary
     return queryset
 
 
-def filter_pieceworks(queryset, employee_id=None, employee_name=None, work=None, type_work=None, type_material=None, work_date=None, record_date=None):
+def filter_pieceworks(queryset, employee_id=None, employee_name=None, work=None, type_work=None, wagon_number=None, type_material=None, work_date=None, record_date=None):
     """Reusable filter for Piecework queryset."""
     if employee_id:
         queryset = queryset.filter(employee__employee_id=employee_id)
@@ -47,6 +47,8 @@ def filter_pieceworks(queryset, employee_id=None, employee_name=None, work=None,
         queryset = queryset.filter(work__work_name__icontains=work)
     if type_work:
         queryset = queryset.filter(type_work=type_work)
+    if wagon_number:
+        queryset = queryset.filter(wagon_number=wagon_number)
     if type_material:
         queryset = queryset.filter(work__type_material=type_material)
     if work_date:
