@@ -85,10 +85,18 @@ def piecework_create(request):
         Employee.objects.filter(department=department, is_active=True).order_by('employee_id')
         if department else Employee.objects.none()
     )
+    
     works = (
         Work.objects.filter(department=department).order_by('work_name')
         if department else Work.objects.none()
     )
+
+    job_titles = (
+        Employee.objects.filter(department=department)
+        .values_list('job_title', flat=True)
+        .distinct()
+        )
+    
     today = timezone.now().date()
     errors = []
 
@@ -188,6 +196,7 @@ def piecework_create(request):
             'selected_department': department,
             'cancel_url': reverse('piecework_list'),
             'existing_pieceworks_json': json.dumps(existing_pieceworks, cls=DjangoJSONEncoder), # Serialize existing pieceworks for frontend validation
+            'job_titles': job_titles,
         }
     )
 

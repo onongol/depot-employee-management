@@ -71,7 +71,6 @@ def daily_salary_create(request):
         .distinct()
         )
 
-
     # Ensure consistent ordering for pagination or display
     employees = employees.order_by('employee_id')
     
