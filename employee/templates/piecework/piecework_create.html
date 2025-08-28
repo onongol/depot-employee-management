@@ -73,6 +73,7 @@
               </th>
               <th scope="col" class="{{ col_class }}">ID</th>
               <th scope="col" class="{{ col_class }}">Name</th>
+              <th scope="col" class="{{ col_class }}">Position</th>
               <th scope="col" class="{{ col_class }}">Department</th>
             {% endwith %}
           </tr>
@@ -98,6 +99,7 @@
                   {{ employee.employee_id }}
                 </td>
                 <td class="{{ col_class }}">{{ employee.name }}</td>
+                <td class="{{ col_class }}">{{ employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ employee.department }}</td>
               {% endwith %}
             </tr>
