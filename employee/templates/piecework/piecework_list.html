@@ -47,6 +47,7 @@
             <th scope="col" class="{{ col_class }}">ID</th>
             <th scope="col" class="{{ col_class }}">Name</th>
             <th scope="col" class="{{ col_class }}">Department</th>
+            <th scope="col" class="{{ col_class }}">Position</th>
             <th scope="col" class="{{ col_class }}">Work</th>
             <th scope="col" class="{{ col_class }}">Type</th>
             <th scope="col" class="{{ col_class }}">Wagon</th>
@@ -75,6 +76,7 @@
                 <td class="{{ col_class }}">{{ piecework.employee.employee_id }}</td>
                 <td class="{{ col_class }}">{{ piecework.employee.name }}</td>
                 <td class="{{ col_class }}">{{ piecework.employee.department }}</td>
+                <td class="{{ col_class }}">{{ piecework.employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ piecework.work.work_name }}</td>
                 <td class="{{ col_class }}">{{ piecework.type_work }}</td>
                 <td class="{{ col_class }}">{{ piecework.wagon_number }}</td>
