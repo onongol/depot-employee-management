@@ -52,6 +52,8 @@
     {% include "includes/filter_input.html" with id="employee-search" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Search by ID..." min="1" %}
 
     {% include "includes/filter_input.html" with id="employee-name-search" label="Employee Name" name="employee_name" type="text" value=request.GET.employee_name placeholder="Search by Name..." %}
+
+    {% include "includes/filter_input.html" with id="employee-position-search" label="Position" name="employee_position" type="text" value=request.GET.employee_position placeholder="Search by Position..." %}
   </div>
 
   <!-- Employee Table -->
@@ -259,6 +261,7 @@
   window.TABLE_SEARCHES = [
     ['employee-search', 'employees-table-body', 1],
     ['employee-name-search', 'employees-table-body', 2],
+    ['employee-position-search', 'employees-table-body', 3],
     ['work-search', 'works-table-body', 1],
   ];
 </script>
