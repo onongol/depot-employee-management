@@ -19,6 +19,8 @@
         {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
       {% endif %}
 
+      {% include "includes/filter_select.html" with id="filter-job-title" label="Job Title" name="job_title" choices=job_titles selected=request.GET.job_title empty_label="Positions" %}
+
       {% include "includes/filter_input.html" with id="filter-work" label="Work" name="work" type="text" value=request.GET.work placeholder="Work Name" %}
 
       {% include "includes/filter_select.html" with id="filter-type-work" label="Type Work" name="type_work" choices=type_works value=request.GET.type_work selected=request.GET.type_work empty_label="Types" %}

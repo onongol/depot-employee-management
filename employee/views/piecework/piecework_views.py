@@ -215,6 +215,12 @@ def piecework_list(request):
         # If not an employee, show all pieceworks in the department
         pieceworks = Piecework.objects.select_related('employee', 'work').filter(employee__department=department, employee__is_active=True)
 
+    job_titles = (
+        Employee.objects.filter(department=department)
+        .values_list('job_title', flat=True)
+        .distinct()
+        )
+    
     # Prepare dropdown data for type_work and type_material filters
     type_works = (
         Piecework.objects.filter(work__department=department)
@@ -230,6 +236,7 @@ def piecework_list(request):
     # Extract filter parameters from the request
     employee_id = request.GET.get('employee_id')
     employee_name = request.GET.get('employee_name')
+    job_title = request.GET.get('job_title')
     work = request.GET.get('work')
     type_work = request.GET.get('type_work')
     wagon_number = request.GET.get('wagon_number')
@@ -242,6 +249,7 @@ def piecework_list(request):
         pieceworks,
         employee_id=employee_id,
         employee_name=employee_name,
+        job_title=job_title,
         work=work,
         type_work=type_work,
         wagon_number=wagon_number,
@@ -275,5 +283,6 @@ def piecework_list(request):
             'type_works': type_works,
             'type_materials': type_materials,
             'selected_department': department,
+            'job_titles': job_titles,
         }
     )
