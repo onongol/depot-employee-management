@@ -19,6 +19,8 @@
         {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
       {% endif %}
 
+      {% include "includes/filter_select.html" with id="filter-job-title" label="Job Title" name="job_title" choices=job_titles selected=request.GET.job_title empty_label="Positions" %}
+
       {% include "includes/filter_date.html" with id="filter-salary-date" label="Date" name="salary_date" type="text" value=request.GET.salary_date %}
 
       {% if not is_employee %}
@@ -41,6 +43,7 @@
             <th scope="col" class="{{ col_class }}">ID</th>
             <th scope="col" class="{{ col_class }}">Name</th>
             <th scope="col" class="{{ col_class }}">Department</th>
+            <th scope="col" class="{{ col_class }}">Position</th>
             <th scope="col" class="{{ col_class }}">Hours</th>
             <th scope="col" class="{{ col_class }}">Salary</th>
             <th scope="col" class="{{ col_class }}">
@@ -66,6 +69,7 @@
                 <td class="{{ col_class }}">{{ daily_salary.employee.employee_id }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.employee.name }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.employee.department }}</td>
+                <td class="{{ col_class }}">{{ daily_salary.employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.hours_per_day }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.salary_day }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.salary_date|date:"Y-m-d" }}</td>

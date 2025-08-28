@@ -146,9 +146,16 @@ def daily_salary_list(request):
         # If not an employee, show all daily salaries in the department 
         daily_salaries = DailySalary.objects.filter(employee__department=department, employee__is_active=True)
 
+    job_titles = (
+        Employee.objects.filter(department=department)
+        .values_list('job_title', flat=True)
+        .distinct()
+        )
+
     # Filtering by employee ID, name, salary date, and record date
     employee_id = request.GET.get('employee_id')
     employee_name = request.GET.get('employee_name')
+    job_title = request.GET.get('job_title')
     salary_date = parse_date(request.GET.get('salary_date'))
     record_date = parse_date(request.GET.get('record_date'))
 
@@ -157,6 +164,7 @@ def daily_salary_list(request):
         daily_salaries, 
         employee_id=employee_id, 
         employee_name=employee_name, 
+        job_title=job_title,
         salary_date=salary_date, 
         record_date=record_date
     )
@@ -183,5 +191,6 @@ def daily_salary_list(request):
             'daily_salaries': page_obj,
             'page_obj': page_obj,
             'selected_department': department,
+            'job_titles': job_titles,
         }
     )
