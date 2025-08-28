@@ -95,7 +95,9 @@ def piecework_create(request):
     if request.method == 'POST':
         work_date = request.POST.get('work_date')
         type_work = request.POST.get('type_work')
-        wagon_number = request.POST.get('wagon_number', '').strip() or "0"
+        wagon_number = request.POST.get('wagon_number', '').strip()
+        if not wagon_number:
+            wagon_number = "0"
         selected_employee_ids = request.POST.getlist('employee_ids')
         selected_work_ids = request.POST.getlist('work_ids')
         amounts = {wid: request.POST.get(f'amount_{wid}') for wid in selected_work_ids}
