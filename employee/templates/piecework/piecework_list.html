@@ -48,7 +48,6 @@
             <th scope="col" class="{{ col_class }}">#</th>
             <th scope="col" class="{{ col_class }}">ID</th>
             <th scope="col" class="{{ col_class }}">Name</th>
-            <th scope="col" class="{{ col_class }}">Department</th>
             <th scope="col" class="{{ col_class }}">Position</th>
             <th scope="col" class="{{ col_class }}">Work</th>
             <th scope="col" class="{{ col_class }}">Type</th>
@@ -77,7 +76,6 @@
                 <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
                 <td class="{{ col_class }}">{{ piecework.employee.employee_id }}</td>
                 <td class="{{ col_class }}">{{ piecework.employee.name }}</td>
-                <td class="{{ col_class }}">{{ piecework.employee.department }}</td>
                 <td class="{{ col_class }}">{{ piecework.employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ piecework.work.work_name }}</td>
                 <td class="{{ col_class }}">{{ piecework.type_work }}</td>
