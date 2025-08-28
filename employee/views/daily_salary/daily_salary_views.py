@@ -65,6 +65,13 @@ def daily_salary_create(request):
     if department:
         employees = Employee.objects.filter(department=department, is_active=True)  # Only active employees
 
+    job_titles = (
+        Employee.objects.filter(department=department)
+        .values_list('job_title', flat=True)
+        .distinct()
+        )
+
+
     # Ensure consistent ordering for pagination or display
     employees = employees.order_by('employee_id')
     
@@ -123,6 +130,7 @@ def daily_salary_create(request):
             'today': timezone.now().date(),
             'selected_department': department,
             'cancel_url': reverse('daily_salary_list'),
+            'job_titles': job_titles,
         }
     )
 
