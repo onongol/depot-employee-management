@@ -44,7 +44,7 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     # Get default styles and set font for all styles to DejaVuSans
     styles = getSampleStyleSheet()
     for style_name in styles.byName:
-        styles[style_name].fontName = 'DejaVuSans'
+        styles[style_name].fontName = 'Helvetica'
 
     elements = []
 
@@ -78,11 +78,11 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
         ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),  # Header background
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),       # Header text color
         ('ALIGN', (0, 0), (-1, 0), 'LEFT'),                 # Header alignment
-        ('FONTNAME', (0, 0), (-1, 0), 'DejaVuSans'),        # Header font
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica'),        # Header font
         ('BOTTOMPADDING', (0, 0), (-1, 0), 6),              # Header padding
         ('TOPPADDING', (0, 0), (-1, 0), 6),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.black),      # Table grid
-        ('FONTNAME', (0, 1), (-1, -1), 'DejaVuSans'),       # Body font
+        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),       # Body font
         ('FONTSIZE', (0, 1), (-1, -1), 10),                 # Body font size
         ('LEFTPADDING', (0, 1), (-1, -1), 2),               # Body padding
         ('RIGHTPADDING', (0, 1), (-1, -1), 2),
