@@ -8,21 +8,21 @@ def employee_salary_export_excel(request):
     employee_salaries = get_filtered_employee_salaries(request)
 
     headers = [
-        "Employee ID", "Name", "Department", "Job Title", "Month", "Year",
-        "Base Salary", "Piecework Amount", "Total Salary"
+        "Department", "ID", "Name", "Position", "Month Salary", 
+        "Piecework Salary", "Total Salary", "Month", "Year",
     ]
     
     data = [
         [
+            item['employee'].department or "",
             item['employee'].employee_id or "",
             item['employee'].name or "",
-            item['employee'].department or "",
             item['employee'].job_title or "",
-            item['month'] or "",
-            item['year'] or "",
             item['total_salary_day'] or 0,
             item['total_piecework_amount'] or 0,
             item['total_salary'] or 0,
+            item['month'] or "",
+            item['year'] or "",
         ]
         for item in employee_salaries
     ]

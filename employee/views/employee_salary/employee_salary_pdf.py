@@ -7,17 +7,18 @@ def employee_salary_export_pdf(request):
     employee_salaries = get_filtered_employee_salaries(request)
 
     headers = [
-        "ID", "Name", "Department", "Job Title", "Rank", "Salary Month", "Total Piecework", "Total Salary", "Month", "Year"
+        "Department", "ID", "Name", "Position", "Month Salary", 
+        "Piecework Salary", "Total Salary", "Month", "Year",
     ]
-    col_widths = [40, 100, 120, 120, 40, 100, 100, 100, 40, 40]
+
+    col_widths = [120, 40, 100, 140, 100, 100, 100, 40, 40]
     
     data = [
         [
+            item['employee'].department or "",
             item['employee'].employee_id or "",
             item['employee'].name or "",
-            item['employee'].department or "",
             item['employee'].job_title or "",
-            item['employee'].rank or "",
             item['total_salary_day'] or 0,
             item['total_piecework_amount'] or 0,
             item['total_salary'] or 0,

@@ -71,13 +71,13 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
         ])
 
     # Create the table with specified column widths
-    table = Table(table_data, colWidths=col_widths)
+    table = Table(table_data, colWidths=col_widths, repeatRows=1)
 
     # Define the base style for the table
     base_table_style = [
         ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),  # Header background
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),       # Header text color
-        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),               # Header alignment
+        ('ALIGN', (0, 0), (-1, 0), 'LEFT'),                 # Header alignment
         ('FONTNAME', (0, 0), (-1, 0), 'DejaVuSans'),        # Header font
         ('BOTTOMPADDING', (0, 0), (-1, 0), 6),              # Header padding
         ('TOPPADDING', (0, 0), (-1, 0), 6),
