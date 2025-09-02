@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from datetime import date
 from decimal import Decimal
+from uuid import uuid4
 
 from .employee_models import Employee
 from .work_models import Work
@@ -47,8 +48,12 @@ class Piecework(models.Model):
     )
     work_date = models.DateField(default=date.today)
     record_date = models.DateTimeField(auto_now_add=True)
+    group_id = models.CharField(max_length=36, blank=True, null=True, db_index=True)
     
     def save(self, *args, **kwargs):
+        # If group_id is not set, create a new UUID
+        if not self.group_id:
+            self.group_id = str(uuid4())
         std_time = getattr(self.work, 'standard_time', None)
         std_time_dec = Decimal(str(std_time or 0))
         amt = self.amount or Decimal('0.0000')
