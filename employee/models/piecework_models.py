@@ -24,6 +24,13 @@ class Piecework(models.Model):
         default=Decimal('0.00'), 
         validators=[MinValueValidator(0.00)],
     )
+    amount_time = models.DecimalField(
+        max_digits=20,
+        decimal_places=4,
+        default=Decimal('0.0000'),
+        validators=[MinValueValidator(0.0000)],
+        editable=False,
+    )
     amount_price = models.DecimalField(
         max_digits=20, 
         decimal_places=2, 
@@ -42,6 +49,11 @@ class Piecework(models.Model):
     record_date = models.DateTimeField(auto_now_add=True)
     
     def save(self, *args, **kwargs):
+        std_time = getattr(self.work, 'standard_time', None)
+        std_time_dec = Decimal(str(std_time or 0))
+        amt = self.amount or Decimal('0.0000')
+        self.amount_time = (std_time_dec * amt).quantize(Decimal('0.0000'))
+
         self.amount_material = self.work.usage_material * self.amount
         super().save(*args, **kwargs)
     
