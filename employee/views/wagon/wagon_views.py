@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Sum, F, FloatField, ExpressionWrapper, Max
 from django.contrib.auth.decorators import login_required
+from collections import defaultdict
 
 from employee.models import Piecework
 from employee.utils.select_department import get_selected_department
@@ -44,7 +45,7 @@ def wagon_list(request):
     # total_time: calculated as standard_time * amount
     wagon_data = (
         pieceworks
-        .values('wagon_number', 'work__work_name', 'work__standard_time', 'work_date', 'group_id')
+        .values('type_work','wagon_number', 'work__work_name', 'work__standard_time', 'work_date', 'group_id')
         .annotate(
             amount=Max('amount'),  # Only one amount per group (not summed)
             total_price=Sum('amount_price'),  # Sum price for all records in the group
@@ -55,22 +56,44 @@ def wagon_list(request):
                 output_field=FloatField()
             ),
         )
-        .order_by('-work_date', 'wagon_number', 'work__work_name', 'group_id')
+        .order_by('-work_date', 'type_work', 'wagon_number', 'work__work_name', 'group_id')
     )
 
     # Paginate the aggregated data for the template
     page_obj = paginate_queryset(request, wagon_data)
 
-    # Calculate totals for the current page
-    total_time = sum(row['total_time'] for row in page_obj.object_list)
-    total_price = sum(row['total_price'] for row in page_obj.object_list)
+    # Group and sum by wagon_number, work__work_name, work_date
+    grouped = defaultdict(lambda: {'amount': 0, 'total_price': 0, 'total_time': 0})
+    for row in page_obj.object_list:
+        key = (row['wagon_number'], row['work__work_name'], row['work_date'], row['type_work'])
+        grouped[key]['amount'] += row['amount']
+        grouped[key]['total_price'] += row['total_price']
+        grouped[key]['total_time'] += row['total_time']
 
-    # Render the wagon list template with aggregated data and filters
+    # Convert grouped dict to list for template
+    grouped_wagon_data = [
+        {
+            'wagon_number': k[0],
+            'work__work_name': k[1],
+            'work_date': k[2],
+            'type_work': k[3],
+            'amount': v['amount'],
+            'total_price': v['total_price'],
+            'total_time': v['total_time'],
+        }
+        for k, v in grouped.items()
+    ]
+
+    # Calculate totals for the current page (after grouping)
+    total_time = sum(row['total_time'] for row in grouped_wagon_data)
+    total_price = sum(row['total_price'] for row in grouped_wagon_data)
+
+    # Render the wagon list template with grouped data
     return render(
         request,
         'wagon/wagon_list.html',
         {
-            'wagon_data': page_obj,
+            'wagon_data': grouped_wagon_data,
             'page_obj': page_obj,
             'selected_wagon': wagon_number,
             'selected_department': department,

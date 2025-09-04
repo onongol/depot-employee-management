@@ -24,6 +24,7 @@
       <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide">
         <tr>
           <th class="px-6 py-3">Wagon</th>
+          <th class="px-6 py-3">Type</th>
           <th class="px-6 py-3">Work</th>
           <th class="px-6 py-3">Amount</th>
           <th class="px-6 py-3">Time</th>
@@ -38,6 +39,7 @@
           {% for row in wagon_data %}
             <tr class="odd:bg-white hover:bg-gray-200">
               <td class="px-6 py-3">{{ row.wagon_number }}</td>
+              <td class="px-6 py-3">{{ row.type_work }}</td>
               <td class="px-6 py-3">{{ row.work__work_name }}</td>
               <td class="px-6 py-3">{{ row.amount }}</td>
               <td class="px-6 py-3">{{ row.total_time }}</td>
@@ -47,7 +49,7 @@
           {% endfor %}
           {% if wagon_data|length == 0 %}
             <tr>
-              <td colspan="6" class="text-center px-3 py-4 text-gray-500">No wagon records found...</td>
+              <td colspan="7" class="text-center px-3 py-4 text-gray-500">No wagon records found...</td>
             </tr>
           {% endif %}
           {% if page_obj.number == page_obj.paginator.num_pages %}
