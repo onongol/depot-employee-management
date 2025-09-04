@@ -23,27 +23,27 @@ class Piecework(models.Model):
         max_digits=20,
         decimal_places=2, 
         default=Decimal('0.00'), 
-        validators=[MinValueValidator(0.00)],
+        validators=[MinValueValidator(0)],
     )
     amount_time = models.DecimalField(
         max_digits=20,
-        decimal_places=4,
-        default=Decimal('0.0000'),
-        validators=[MinValueValidator(0.0000)],
+        decimal_places=6,
+        default=Decimal('0.000000'),
+        validators=[MinValueValidator(0)],
         editable=False,
     )
     amount_price = models.DecimalField(
         max_digits=20, 
         decimal_places=2, 
         default=Decimal('0.00'), 
-        validators=[MinValueValidator(0.00)], 
+        validators=[MinValueValidator(0)], 
         editable=False
     )
     amount_material = models.DecimalField(
         max_digits=20, 
-        decimal_places=2, 
-        default=Decimal('0.00'), 
-        validators=[MinValueValidator(0.00)], 
+        decimal_places=4, 
+        default=Decimal('0.0000'), 
+        validators=[MinValueValidator(0)], 
         editable=False
     )
     work_date = models.DateField(default=date.today)
@@ -56,8 +56,8 @@ class Piecework(models.Model):
             self.group_id = str(uuid4())
         std_time = getattr(self.work, 'standard_time', None)
         std_time_dec = Decimal(str(std_time or 0))
-        amt = self.amount or Decimal('0.0000')
-        self.amount_time = (std_time_dec * amt).quantize(Decimal('0.0000'))
+        amt = self.amount or Decimal('0.000000')
+        self.amount_time = (std_time_dec * amt).quantize(Decimal('0.000000'))
 
         self.amount_material = self.work.usage_material * self.amount
         super().save(*args, **kwargs)
