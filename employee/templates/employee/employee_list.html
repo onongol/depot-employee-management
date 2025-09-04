@@ -55,7 +55,7 @@
                 <td class="{{ col_class }}">{{ employee.name }}</td>
                 <td class="{{ col_class }}">{{ employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ employee.rank }}</td>
-                <td class="{{ col_class }}">{{ employee.money_per_hour }}</td>
+                <td class="{{ col_class }}">{{ employee.money_per_hour|floatformat:2 }}</td>
                 {% if not is_employee and not is_master %}
                   <td class="{{ col_class }}">
                     {% url 'employee_update' employee.pk as edit_url %}

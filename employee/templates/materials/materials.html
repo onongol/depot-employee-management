@@ -55,7 +55,7 @@
               <td class="{{ col_class }}">{{ pw.work_date|date:"Y-m-d" }}</td>
               <td class="{{ col_class }}">{{ pw.work.work_name }}</td>
               <td class="{{ col_class }}">{{ pw.work.type_material }}</td>
-              <td class="{{ col_class }}">{{ pw.amount_material }}</td>
+              <td class="{{ col_class }}">{{ pw.amount_material|floatformat:2 }}</td>
             {% endwith %}
           </tr>
         {% endfor %}

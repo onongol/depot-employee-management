@@ -69,7 +69,7 @@
                 <td class="{{ col_class }}">{{ daily_salary.employee.name }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.hours_per_day }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.salary_day }}</td>
+                <td class="{{ col_class }}">{{ daily_salary.salary_day|floatformat:2 }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.salary_date|date:"Y-m-d" }}</td>
                 {% if not is_employee %}
                   <td class="{{ col_class }}">{{ daily_salary.record_date|date:"Y-m-d H:i" }}</td>
