@@ -8,7 +8,7 @@ def materials_prepare(request):
     """Prepare the base queryset and filter parameters for materials."""
     # Filtering parameters from request
     work_name = request.GET.get('work_name')
-    selected_type = request.GET.get('type_material', 'all')
+    selected_type = request.GET.get('type_material', '')
     range_date = request.GET.get('range_date')
 
     # Prepare base queryset: exclude records where material is not used or not set
