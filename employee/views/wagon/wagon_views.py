@@ -61,6 +61,10 @@ def wagon_list(request):
     # Paginate the aggregated data for the template
     page_obj = paginate_queryset(request, wagon_data)
 
+    # Calculate totals for the current page
+    total_time = sum(row['total_time'] for row in page_obj.object_list)
+    total_price = sum(row['total_price'] for row in page_obj.object_list)
+
     # Render the wagon list template with aggregated data and filters
     return render(
         request,
@@ -70,5 +74,7 @@ def wagon_list(request):
             'page_obj': page_obj,
             'selected_wagon': wagon_number,
             'selected_department': department,
+            'total_time': total_time,
+            'total_price': total_price,
         }
     )

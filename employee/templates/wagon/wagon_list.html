@@ -32,7 +32,9 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
-        {% if wagon_data %}
+        {% if total_time is not None and page_obj.number == 1 %}
+          {% include "includes/wagons_total_row.html" %}
+        {% endif %}
           {% for row in wagon_data %}
             <tr class="odd:bg-white hover:bg-gray-200">
               <td class="px-6 py-3">{{ row.wagon_number }}</td>
@@ -43,11 +45,14 @@
               <td class="px-6 py-3">{{ row.work_date|date:"Y-m-d" }}</td>
             </tr>
           {% endfor %}
-        {% else %}
-          <tr>
-            <td colspan="6" class="text-center px-3 py-4 text-gray-500">No wagon records found...</td>
-          </tr>
-        {% endif %}
+          {% if wagon_data|length == 0 %}
+            <tr>
+              <td colspan="6" class="text-center px-3 py-4 text-gray-500">No wagon records found...</td>
+            </tr>
+          {% endif %}
+          {% if page_obj.number == page_obj.paginator.num_pages %}
+            {% include "includes/wagons_total_row.html" %}
+          {% endif %}
       </tbody>
     </table>
   </div>
