@@ -16,8 +16,6 @@ class WorkForm(forms.ModelForm):
                     'class': 'form-control', 
                     'type': 'number', 
                     'min': '0',
-                    'value': '0.0000',
-                    'step': '0.0001',
                 }
             ),
             'standard_time': forms.NumberInput(
@@ -26,7 +24,7 @@ class WorkForm(forms.ModelForm):
                     'type': 'number', 
                     'min': '0',
                     'value': '0.000000',
-                    'step': '0.000001',
+                    'step': '0.000001'
                 }
             ),
             'price': forms.NumberInput(
@@ -35,7 +33,7 @@ class WorkForm(forms.ModelForm):
                     'type': 'number', 
                     'min': '0',
                     'value': '0.00',
-                    'step': '0.01',
+                    'step': '0.01'
                 }
             ),
         }
@@ -50,9 +48,8 @@ class UpdateWorkForm(forms.ModelForm):
             'type_material': forms.TextInput(attrs={'class': 'form-control'}),
             'usage_material': forms.NumberInput(attrs={
                 'class': 'form-control', 
-                'type': 'number', 
+                'type': 'number',
                 'min': '0',
-                'step': '0.0001'
                 }
             ),
             'standard_time': forms.NumberInput(attrs={

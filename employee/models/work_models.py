@@ -21,7 +21,9 @@ class Work(models.Model):
         max_digits=20, 
         decimal_places=4, 
         default=Decimal('0.0000'),  
-        validators=[MinValueValidator(0)]
+        validators=[MinValueValidator(0)],
+        blank=True,
+        null=False
     )
     standard_time = models.DecimalField(
         max_digits=20, 
@@ -39,6 +41,7 @@ class Work(models.Model):
     def save(self, *args, **kwargs):
         if not self.type_material:
             self.type_material = "Not used"
+            self.usage_material = Decimal('0.0000')
         super().save(*args, **kwargs)
 
     @property
