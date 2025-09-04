@@ -8,6 +8,7 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import user_passes_test
+from uuid import uuid4
 
 from employee.mixins.context_mixins import PieceworkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
@@ -165,9 +166,10 @@ def piecework_create(request):
                 errors.extend(calc_errors)
                 if not errors:
                     try:
-                        # Use atomic transaction to ensure all records are created together
                         with transaction.atomic():
+                            group_id = str(uuid4())  # One group_id for the entire group
                             for data in results:
+                                data['group_id'] = group_id
                                 Piecework.objects.create(**data)
                     except Exception as e:
                         errors.append(f"Error creating piecework records: {str(e)}")
