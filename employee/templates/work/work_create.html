@@ -11,10 +11,10 @@
 
     {% include "includes/form_input.html" with id=form.type_material.id_for_label label="Type Material" name="type_material" type="text" value=form.type_material.value %}
 
-    {% include "includes/form_input.html" with id=form.usage_material.id_for_label label="Usage Material" name="usage_material" type="number" value=form.usage_material.field.widget.attrs.value form_errors=form.usage_material required=True %}
+    {% include "includes/form_input.html" with id=form.usage_material.id_for_label label="Usage Material" name="usage_material" type="number" value=form.usage_material.field.widget.attrs.value step=form.usage_material.field.widget.attrs.step form_errors=form.usage_material required=True %}
 
-    {% include "includes/form_input.html" with id=form.standard_time.id_for_label label="Standard Time" name="standard_time" type="number" value=form.standard_time.field.widget.attrs.value form_errors=form.standard_time required=True %}
+    {% include "includes/form_input.html" with id=form.standard_time.id_for_label label="Standard Time" name="standard_time" type="number" value=form.standard_time.field.widget.attrs.value step=form.standard_time.field.widget.attrs.step form_errors=form.standard_time required=True %}
 
-    {% include "includes/form_input.html" with id=form.price.id_for_label label="Price" name="price" type="number" value=form.price.field.widget.attrs.value form_errors=form.price required=True %}
+    {% include "includes/form_input.html" with id=form.price.id_for_label label="Price" name="price" type="number" value=form.price.field.widget.attrs.value step=form.price.field.widget.attrs.step form_errors=form.price required=True %}
   </fieldset>
 {% endblock %}
