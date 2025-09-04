@@ -17,6 +17,8 @@ from .views.piecework import PieceworkUpdateView, PieceworkDeleteView
 from .views.employee_salary import employee_salary_list, employee_salary_export_excel, employee_salary_export_pdf
 from .views.materials import materials, export_materials_excel
 
+from .views.wagon.wagon_views import wagon_list
+
 
 urlpatterns = [
     # Home URL
@@ -56,6 +58,8 @@ urlpatterns = [
     path('employee_salary_list/', employee_salary_list, name="employee_salary_list"),
     path('employee_salary_export_excel/', employee_salary_export_excel, name="employee_salary_export_excel"),
     path('employee_salary_export_pdf/', employee_salary_export_pdf, name="employee_salary_export_pdf"),
+    # Wagon URLs
+    path('wagon_list/', wagon_list, name="wagon_list"),
     # Materials URL
     path('materials/', materials, name="materials"),
     path('export_materials_excel/', export_materials_excel, name="export_materials_excel"),

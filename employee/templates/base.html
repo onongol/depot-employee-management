@@ -40,6 +40,8 @@
           {% include "includes/menu_link.html" with url_name='piecework_list' label='Piecework' %}
 
           {% include "includes/menu_link.html" with url_name='employee_salary_list' label='Salary' %}
+
+          {% include "includes/menu_link.html" with url_name='wagon_list' label='Wagons' %}
           
           {% if not is_employee and not is_master %}
             {% include "includes/menu_link.html" with url_name='materials' label='Materials' %}
