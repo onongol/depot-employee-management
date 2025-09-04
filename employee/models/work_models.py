@@ -19,21 +19,21 @@ class Work(models.Model):
     )
     usage_material = models.DecimalField(
         max_digits=20, 
-        decimal_places=2, 
-        default=Decimal('0.00'),  
-        validators=[MinValueValidator(0.00)]
+        decimal_places=4, 
+        default=Decimal('0.0000'),  
+        validators=[MinValueValidator(0)]
     )
     standard_time = models.DecimalField(
         max_digits=20, 
-        decimal_places=4, 
-        default=Decimal('0.0000'), 
-        validators=[MinValueValidator(0.0000)]
+        decimal_places=6, 
+        default=Decimal('0.000000'), 
+        validators=[MinValueValidator(0)]
     )
     price = models.DecimalField(
         max_digits=20, 
         decimal_places=2, 
         default=Decimal('0.00'), 
-        validators=[MinValueValidator(0.00)]
+        validators=[MinValueValidator(0)]
     )
 
     def save(self, *args, **kwargs):
