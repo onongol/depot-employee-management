@@ -1,27 +1,15 @@
-from .wagon_filtered import wagon_filtered
-from employee.utils.export_excel import export_to_excel
 from django.db.models import Sum, Max, F, FloatField, ExpressionWrapper
 from collections import defaultdict
+
+from .wagon_filtered import wagon_filtered, get_grouped_wagon_data
+from employee.utils.export_excel import export_to_excel
+
 
 def export_wagon_excel(request):
     """Export wagon data to Excel."""
     pieceworks = wagon_filtered(request)
 
-    wagon_data = (
-        pieceworks
-        .values('type_work','wagon_number', 'work__work_name', 'work__standard_time', 'work_date', 'group_id')
-        .annotate(
-            amount=Max('amount'),
-            total_price=Sum('amount_price'),
-        )
-        .annotate(
-            total_time=ExpressionWrapper(
-                F('work__standard_time') * F('amount'),
-                output_field=FloatField()
-            ),
-        )
-        .order_by('-work_date', 'type_work', 'wagon_number', 'work__work_name', 'group_id')
-    )
+    wagon_data = get_grouped_wagon_data(pieceworks)
 
     # Группировка как во views
     grouped = defaultdict(lambda: {'amount': 0, 'total_price': 0, 'total_time': 0})

@@ -32,12 +32,10 @@ def wagon_filtered(request):
     return pieceworks
 
 
-def wagon_list(request):
+def get_grouped_wagon_data(pieceworks):
     """
     View to list all wagons with related works, amount, total time, price, and date.
     """
-    pieceworks = wagon_prepare(request)
-
     wagon_data = (
         pieceworks
         .values('type_work','wagon_number', 'work__work_name', 'work__standard_time', 'work_date', 'group_id')

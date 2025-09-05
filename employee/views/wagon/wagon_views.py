@@ -6,7 +6,7 @@ from collections import defaultdict
 
 from employee.models import Piecework
 from employee.utils.select_department import get_selected_department
-from .wagon_filtered import wagon_prepare
+from .wagon_filtered import wagon_prepare, get_grouped_wagon_data
 from employee.utils.filters import filter_wagon
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
@@ -40,21 +40,7 @@ def wagon_list(request):
     # amount: take the maximum value in the group (do not sum)
     # total_price: sum all prices in the group
     # total_time: calculated as standard_time * amount
-    wagon_data = (
-        pieceworks
-        .values('type_work','wagon_number', 'work__work_name', 'work__standard_time', 'work_date', 'group_id')
-        .annotate(
-            amount=Max('amount'),  # Only one amount per group (not summed)
-            total_price=Sum('amount_price'),  # Sum price for all records in the group
-        )
-        .annotate(
-            total_time=ExpressionWrapper(
-                F('work__standard_time') * F('amount'),
-                output_field=FloatField()
-            ),
-        )
-        .order_by('-work_date', 'type_work', 'wagon_number', 'work__work_name', 'group_id')
-    )
+    wagon_data = get_grouped_wagon_data(pieceworks)
 
     # Paginate the aggregated data for the template
     page_obj = paginate_queryset(request, wagon_data)
