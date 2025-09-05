@@ -82,6 +82,7 @@ def wagon_list(request):
     ]
 
     # Calculate totals for the current page (after grouping)
+    total_amount = sum(row['amount'] for row in grouped_wagon_data)
     total_time = sum(row['total_time'] for row in grouped_wagon_data)
     total_price = sum(row['total_price'] for row in grouped_wagon_data)
 
@@ -94,6 +95,7 @@ def wagon_list(request):
             'page_obj': page_obj,
             'selected_wagon': wagon_number,
             'selected_department': department,
+            'total_amount': total_amount,
             'total_time': total_time,
             'total_price': total_price,
         }
