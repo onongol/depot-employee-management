@@ -25,6 +25,6 @@ def export_materials_excel(request):
 
     total_amount = pieceworks.aggregate(total=Sum('amount_material'))['total'] or 0
 
-    data.append(["", "", "Total", total_amount])
+    data.append(["Total", "", "", total_amount])
 
     return export_to_excel(data, headers, "materials.xlsx", "Materials")
