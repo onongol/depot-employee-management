@@ -63,6 +63,17 @@ def filter_pieceworks(queryset, employee_id=None, employee_name=None, job_title=
     return queryset
 
 
+def filter_wagon(queryset, wagon_number=None, work_name=None, work_date=None):
+    """Reusable filter for Wagon queryset."""
+    if wagon_number:
+        queryset = queryset.filter(wagon_number=wagon_number)
+    if work_name:
+        queryset = queryset.filter(work__work_name__icontains=work_name)
+    if work_date:
+        queryset = queryset.filter(work_date=work_date)
+    return queryset
+
+
 def filter_material(queryset, work_name=None, selected_type='all', range_date=None):
     """Reusable filter for Material queryset with date range."""
     if work_name:

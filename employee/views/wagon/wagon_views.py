@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from django.db.models import Sum, F, FloatField, ExpressionWrapper, Max
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from collections import defaultdict
 
 from employee.models import Piecework
 from employee.utils.select_department import get_selected_department
+from .wagon_filtered import wagon_prepare
+from employee.utils.filters import filter_wagon
 from employee.utils.pagination import paginate_queryset
+from employee.utils.permissions import is_admin
 
 
+@user_passes_test(is_admin, login_url='login')
 @login_required(login_url='login')
 def wagon_list(request):
     """
@@ -21,23 +26,15 @@ def wagon_list(request):
     department = get_selected_department(request)
 
     # Get filter parameters from GET request
-    wagon_number = request.GET.get('wagon_number', '').strip()
-    work = request.GET.get('work')
-    work_date = request.GET.get('work_date')
-
-    # Build the base queryset: only active employees, with valid wagon_number
-    pieceworks = Piecework.objects.select_related('work').filter(
-        employee__department=department,
-        employee__is_active=True,
-    ).exclude(wagon_number__isnull=True).exclude(wagon_number='0')
+    pieceworks, wagon_number, work_name, work_date = wagon_prepare(request)
 
     # Apply wagon_number,  work name, work date filter if provided
-    if wagon_number:
-        pieceworks = pieceworks.filter(wagon_number=wagon_number)
-    if work:
-        pieceworks = pieceworks.filter(work__work_name__icontains=work)
-    if work_date:
-        pieceworks = pieceworks.filter(work_date=work_date)
+    pieceworks = filter_wagon(
+        pieceworks,
+        wagon_number=wagon_number,
+        work_name=work_name,
+        work_date=work_date
+    )
 
     # Aggregate piecework data by wagon, work, date, and group_id
     # amount: take the maximum value in the group (do not sum)
