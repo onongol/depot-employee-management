@@ -1,5 +1,6 @@
 from .materials_filtered import materials_filtered
 from employee.utils.export_excel import export_to_excel
+from django.db.models import Sum
 
 
 def export_materials_excel(request):
@@ -21,5 +22,9 @@ def export_materials_excel(request):
         ]
         for item in pieceworks
     ]
+
+    total_amount = pieceworks.aggregate(total=Sum('amount_material'))['total'] or 0
+
+    data.append(["", "", "Total", total_amount])
 
     return export_to_excel(data, headers, "materials.xlsx", "Materials")
