@@ -12,7 +12,7 @@ def export_wagon_excel(request):
     # Group and sum by wagon_number, work__work_name, work_date. Convert grouped dict to list for export
     grouped_wagon_data, total_amount, total_time, total_price = regroup_and_sum_wagon_data(wagon_data)
 
-    # Format data for export to Exce
+    # Format data for export to Excel
     export_data = [
         [
             row['wagon_number'],
