@@ -21,7 +21,7 @@ def materials_prepare(request):
     return pieceworks, work_name, selected_type, range_date
 
 
-def materials_filtered(request):
+def materials_filter(request):
     """Filtered materials data for export."""
     # Prepare the base queryset and filter parameters
     pieceworks, work_name, selected_type, range_date = materials_prepare(request)
@@ -34,4 +34,4 @@ def materials_filtered(request):
         range_date=range_date
     )
 
-    return pieceworks
+    return pieceworks, work_name, selected_type, range_date
