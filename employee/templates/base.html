@@ -41,10 +41,10 @@
 
           {% include "includes/menu_link.html" with url_name='employee_salary_list' label='Salary' %}
 
-          {% include "includes/menu_link.html" with url_name='wagon_list' label='Wagons' %}
+          {% include "includes/menu_link.html" with url_name='wagon_list' label='Wagon' %}
           
           {% if not is_employee and not is_master %}
-            {% include "includes/menu_link.html" with url_name='materials_list' label='Materials' %}
+            {% include "includes/menu_link.html" with url_name='materials_list' label='Material' %}
           {% endif %}
         </ul>
         <!-- Login/Logout -->
