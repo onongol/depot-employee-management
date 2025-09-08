@@ -10,7 +10,7 @@ from employee.mixins.context_mixins import EmployeeContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
 from employee.models import Employee
-from employee.models import DailySalary
+from employee.models import DailyPay
 from employee.forms import EmployeeForm, UpdateEmployeeForm 
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_employees
@@ -34,14 +34,14 @@ class EmployeeDeleteView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixi
     login_url = 'login'
     template_name = "employee/employee_confirm_delete.html"
 
-    # Get related daily salary records to check if deletion is allowed.
+    # Get related daily pay records to check if deletion is allowed.
     def get_related_objects(self):
-        return DailySalary.objects.filter(employee=self.object)
+        return DailyPay.objects.filter(employee=self.object)
 
     def get_block_message(self):
         return (
-            f"Cannot delete {self.object.employee_id}/{self.object.name} because it is associated with daily salary and piecework records. "
-            "Please remove the related daily salary and piecework records first."
+            f"Cannot delete {self.object.employee_id}/{self.object.name} because it is associated with daily pay and piecework records. "
+            "Please remove the related daily pay and piecework records first."
         )
 
     def get_redirect_url(self):

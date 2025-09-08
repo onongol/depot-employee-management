@@ -24,9 +24,9 @@ def filter_works(queryset, department=None, work_name=None):
     return queryset
 
 
-def filter_daily_salaries(queryset, employee_id=None, employee_name=None,
+def filter_daily_pays(queryset, employee_id=None, employee_name=None,
 job_title=None, salary_date=None, record_date=None):
-    """Reusable filter for DailySalary queryset."""
+    """Reusable filter for DailyPay queryset."""
     if employee_id:
         queryset = queryset.filter(employee__employee_id=employee_id)
     if employee_name:
