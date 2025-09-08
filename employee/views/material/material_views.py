@@ -3,7 +3,7 @@ from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 
-from .materials_filtered import materials_prepare
+from .material_filtered import material_prepare
 from employee.utils.filters import filter_material
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
@@ -11,11 +11,11 @@ from employee.utils.permissions import is_admin
 
 @user_passes_test(is_admin, login_url='login')
 @login_required(login_url='login')
-def materials_list(request):
+def material_list(request):
     """View for calculating and listing material usage in piecework records,
     with filtering and pagination."""
     # Prepare the base queryset and filter parameters
-    pieceworks, work_name, selected_type, range_date = materials_prepare(request)
+    pieceworks, work_name, selected_type, range_date = material_prepare(request)
 
     # Get all distinct type_materials for dropdown filter
     type_materials = pieceworks.values_list('work__type_material', flat=True).distinct()
@@ -67,4 +67,4 @@ def materials_list(request):
         'filters': filters,
     }
 
-    return render(request, 'materials/materials_list.html', context)
+    return render(request, 'material/material_list.html', context)

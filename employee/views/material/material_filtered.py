@@ -4,7 +4,7 @@ from employee.models import Piecework
 from employee.utils.filters import filter_material
 
 
-def materials_prepare(request):
+def material_prepare(request):
     """Prepare the base queryset and filter parameters for materials."""
     # Filtering parameters from request
     work_name = request.GET.get('work_name')
@@ -21,11 +21,11 @@ def materials_prepare(request):
     return pieceworks, work_name, selected_type, range_date
 
 
-def materials_filter(request):
+def material_filter(request):
     """Filtered materials data for export."""
     # Prepare the base queryset and filter parameters
-    pieceworks, work_name, selected_type, range_date = materials_prepare(request)
-    
+    pieceworks, work_name, selected_type, range_date = material_prepare(request)
+
     # Apply reusable filter for materials
     pieceworks = filter_material(
         pieceworks,

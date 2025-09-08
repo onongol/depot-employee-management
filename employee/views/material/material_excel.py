@@ -1,12 +1,12 @@
-from .materials_filtered import materials_filter
+from .material_filtered import material_filter
 from employee.utils.export_excel import export_to_excel
 from django.db.models import Sum
 
 
-def export_materials_excel(request):
+def export_material_excel(request):
     """Export calculation materials data to Excel."""
     # Get filtered materials data
-    pieceworks = materials_filter(request)
+    pieceworks = material_filter(request)
 
     # Prepare data for Excel
     headers = [
