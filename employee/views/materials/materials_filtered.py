@@ -34,4 +34,4 @@ def materials_filter(request):
         range_date=range_date
     )
 
-    return pieceworks, work_name, selected_type, range_date
+    return pieceworks

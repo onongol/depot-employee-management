@@ -27,4 +27,4 @@ def export_materials_excel(request):
 
     data.append(["Total", "", "", total_amount])
 
-    return export_to_excel(data, headers, "materials.xlsx", "Materials")
+    return export_to_excel(data, headers, "material.xlsx", "Material")
