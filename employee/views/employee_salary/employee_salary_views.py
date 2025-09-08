@@ -3,7 +3,7 @@ from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 
 from employee.models import Employee
-from employee.models import DailyPay
+from employee.models import DailySalary
 from .employee_salary_filtered import employee_salaries_prepare
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_employees
@@ -26,16 +26,16 @@ def employee_salary_list(request):
     else:
         employees = employees.filter(is_active=True)
 
-    # Get all unique job titles that exist in DailyPay for filter dropdown
+    # Get all unique job titles that exist in DailySalary for filter dropdown
     job_titles = (
-        Employee.objects.filter(department=department, dailypay__isnull=False)
+        Employee.objects.filter(department=department, dailysalary__isnull=False)
         .values_list('job_title', flat=True)
         .distinct()
         )
     
     # Prepare months and years for filter dropdowns
     months = [i for i in range(1, 13)]
-    years = [d.year for d in DailyPay.objects.dates('salary_date', 'year')]
+    years = [d.year for d in DailySalary.objects.dates('salary_date', 'year')]
 
     # Apply filters to the employee queryset using reusable filter functions
     employees = filter_employees(
@@ -50,7 +50,7 @@ def employee_salary_list(request):
     employee_salaries = []
     for employee in employees:
         # Filter daily salaries by month and year if provided
-        daily_salaries = employee.dailypay_set.all()
+        daily_salaries = employee.dailysalary_set.all()
         daily_salaries = filter_month_year(daily_salaries, month=month, year=year)
 
         # Group daily salaries by month and year, and sum salary_day for each group

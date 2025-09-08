@@ -10,8 +10,8 @@ from .views.employee import employee_list, employee_activate, employee_deactivat
 from .views.employee import EmployeeCreateView, EmployeeUpdateView, EmployeeDeleteView
 from .views.work import work_list
 from .views.work import WorkCreateView, WorkUpdateView, WorkDeleteView
-from .views.daily_pay import daily_pay_list, daily_pay_create
-from .views.daily_pay import DailyPayUpdateView, DailyPayDeleteView
+from .views.daily_salary import daily_salary_list, daily_salary_create
+from .views.daily_salary import DailySalaryUpdateView, DailySalaryDeleteView
 from .views.piecework import piecework_list, piecework_create
 from .views.piecework import PieceworkUpdateView, PieceworkDeleteView
 from .views.employee_salary import employee_salary_list, employee_salary_export_excel, employee_salary_export_pdf
@@ -43,11 +43,11 @@ urlpatterns = [
     path('work_create/', WorkCreateView.as_view(), name="work_create"),
     path('work_update/<str:pk>/', WorkUpdateView.as_view(), name="work_update"),
     path('work_delete/<str:pk>/', WorkDeleteView.as_view(), name="work_delete"),
-    # DailyPay URLs
-    path('daily_pay/', daily_pay_list, name="daily_pay_list"),
-    path('daily_pay_create/', daily_pay_create, name="daily_pay_create"),
-    path('daily_pay_update/<int:pk>/', DailyPayUpdateView.as_view(), name="daily_pay_update"),
-    path('daily_pay_delete/<int:pk>/', DailyPayDeleteView.as_view(), name="daily_pay_delete"),
+    # DailySalary URLs
+    path('daily_salary/', daily_salary_list, name="daily_salary_list"),
+    path('daily_salary_create/', daily_salary_create, name="daily_salary_create"),
+    path('daily_salary_update/<int:pk>/', DailySalaryUpdateView.as_view(), name="daily_salary_update"),
+    path('daily_salary_delete/<int:pk>/', DailySalaryDeleteView.as_view(), name="daily_salary_delete"),
     # Piecework URLs
     path('piecework/', piecework_list, name="piecework_list"),
     path('piecework_create/', piecework_create, name="piecework_create"),

@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 
 from .mixins import GenericContextMixin
-from employee.models import Employee, Work, DailyPay, Piecework
+from employee.models import Employee, Work, DailySalary, Piecework
 
 
 class EmployeeContextMixin(GenericContextMixin):
@@ -20,11 +20,11 @@ class WorkContextMixin(GenericContextMixin):
     object_name_func = staticmethod(lambda obj: str(obj))
 
 
-class DailyPayContextMixin(GenericContextMixin):
-    model = DailyPay
-    object_type = 'Daily Pay'
-    success_url = reverse_lazy('daily_pay_list')
-    cancel_url = reverse_lazy('daily_pay_list')
+class DailySalaryContextMixin(GenericContextMixin):
+    model = DailySalary
+    object_type = 'Daily Salary'
+    success_url = reverse_lazy('daily_salary_list')
+    cancel_url = reverse_lazy('daily_salary_list')
     object_name_func = staticmethod(
         lambda obj: f"{obj.employee.employee_id}/{obj.employee.name} - {obj.salary_date}"
     )

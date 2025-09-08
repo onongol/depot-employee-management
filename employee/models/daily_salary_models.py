@@ -6,8 +6,8 @@ from decimal import Decimal
 from .employee_models import Employee
 
 
-class DailyPay(models.Model):
-    """Model to record daily pay for employees."""
+class DailySalary(models.Model):
+    """Model to record daily salary for employees."""
     salary_id = models.AutoField(primary_key=True, editable=False)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     hours_per_day = models.IntegerField(

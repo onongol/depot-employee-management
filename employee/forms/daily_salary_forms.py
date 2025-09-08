@@ -1,11 +1,12 @@
 from django import forms
 
-from employee.models import DailyPay
+from employee.models import DailySalary
 
-class DailyPayForm(forms.ModelForm):
-    """Form for creating a new DailyPay record."""
+
+class DailySalaryForm(forms.ModelForm):
+    """Form for creating a new DailySalary record."""
     class Meta:
-        model = DailyPay
+        model = DailySalary
         fields = '__all__'
         widgets = {
             'employee': forms.Select(attrs={'class': 'form-control'}),
@@ -26,10 +27,10 @@ class DailyPayForm(forms.ModelForm):
         }
 
 
-class UpdateDailyPayForm(forms.ModelForm):
-    """Form for updating an existing DailyPay record (excludes employee)."""
+class UpdateDailySalaryForm(forms.ModelForm):
+    """Form for updating an existing DailySalary record (excludes employee)."""
     class Meta:
-        model = DailyPay
+        model = DailySalary
         fields = ['hours_per_day', 'salary_date']
         widgets = {
             'hours_per_day': forms.NumberInput(

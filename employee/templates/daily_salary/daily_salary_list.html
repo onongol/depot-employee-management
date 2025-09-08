@@ -4,14 +4,14 @@
 
 {% block content %}
 
-  {% url 'daily_pay_create' as create_url %}
+  {% url 'daily_salary_create' as create_url %}
 
   {% if not is_employee %}
-    {% include "includes/list_header.html" with header_id="daily-pay-list-title" title=selected_department create_url=create_url create_label="Create" %}
+    {% include "includes/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url create_label="Create" %}
   {% endif %}
 
   <!-- Filter Form -->
-  <form method="get" class="mb-6" aria-labelledby="daily-pay-list-title">
+  <form method="get" class="mb-6" aria-labelledby="daily-salary-list-title">
     <div class="flex flex-col md:flex-row gap-4">
       {% if not is_employee %}
         {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
@@ -35,7 +35,7 @@
   {% include "includes/delete_attention.html" %}
 
   <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
-    <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="daily-pay-list-title">
+    <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="daily-salary-list-title">
       <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide">
         <tr>
           {% with col_class="px-6 py-3" %}
@@ -96,7 +96,7 @@
   </div>
 
   <!-- Include Pagination -->
-  <nav aria-label="Daily pay list pagination" class="mt-6">
+  <nav aria-label="Daily salary list pagination" class="mt-6">
     {% include "includes/pagination.html" %}
   </nav>
 

@@ -15,7 +15,7 @@ from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.models import Employee
 from employee.models import Piecework
 from employee.models import Work
-from employee.models import DailyPay
+from employee.models import DailySalary
 from employee.forms import PieceworkForm, UpdatePieceworkForm
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_pieceworks
@@ -49,10 +49,10 @@ class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMi
         if not wagon_number:
             piecework.wagon_number = "0"
 
-        # Get the daily pay for the employee on the work date
-        daily_salary = DailyPay.objects.filter(employee=employee, salary_date=work_date).first()
-        # Get all daily pay for the department on the work date
-        employees_salary = DailyPay.objects.filter(employee__department=department, salary_date=work_date)
+        # Get the daily salary for the employee on the work date
+        daily_salary = DailySalary.objects.filter(employee=employee, salary_date=work_date).first()
+        # Get all daily salaries for the department on the work date
+        employees_salary = DailySalary.objects.filter(employee__department=department, salary_date=work_date)
 
         # Calculate amount_price using business logic function
         amount_price = piecework_calculate_update(work, amount, daily_salary, employees_salary)
@@ -134,13 +134,13 @@ def piecework_create(request):
             ]
             errors.append(f"Please fill in the amount for all selected work(s): {', '.join(missing_work_names)}.")
         else:
-            # --- NEW DAILY PAY CHECK LOGIC ---
-            # Get all DailyPay records for selected employees and date
-            employees_salary = DailyPay.objects.filter(
+            # --- NEW DAILY SALARY CHECK LOGIC ---
+            # Get all DailySalary records for selected employees and date
+            employees_salary = DailySalary.objects.filter(
                 employee__employee_id__in=selected_employee_ids,
                 salary_date=work_date,
             )
-            # Find employees without a DailyPay for the date
+            # Find employees without a DailySalary for the date
             employees_with_salary_ids = set(str(ds.employee.employee_id) for ds in employees_salary)
             missing_salary_employees = [
                 emp for emp in Employee.objects.filter(employee_id__in=selected_employee_ids)
