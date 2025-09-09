@@ -6,6 +6,7 @@ from employee.forms.register_forms import CustomUserCreationForm
 from employee.models import Employee
 from employee.models.master_models import Master  
 from employee.models.payroll_models import Payroll
+from employee.constants.constants import GroupNames
 
 
 def link_user_to_instance(user, instance, group_name):
@@ -24,9 +25,9 @@ def register_view(request):
             register_id = form.cleaned_data.get('employee_id')
             user = None
             for model, id_field, group_name, not_found_msg in [
-                (Employee, 'employee_id', 'Employees', ("Employee not found.")),
-                (Master, 'master_id', 'Masters', ("Master not found.")),
-                (Payroll, 'payroll_id', 'Payrolls', ("Payroll not found.")),
+                (Employee, 'employee_id', GroupNames.EMPLOYEES.value, ("Employee not found.")),
+                (Master, 'master_id', GroupNames.MASTERS.value, ("Master not found.")),
+                (Payroll, 'payroll_id', GroupNames.PAYROLLS.value, ("Payroll not found.")),
             ]:
                 try:
                     instance = model.objects.get(**{id_field: register_id})
