@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+# Department list
 DEPARTMENTS = [
     'Механик', 
     'Авто хяналтын бүс (АКП)', 
@@ -10,6 +11,7 @@ DEPARTMENTS = [
     'Авто угсраа'
 ]
 
+# Choices for Django model fields
 DEPARTMENT_CHOICES = [
     ('Механик', 'Механик'),
     ('Авто хяналтын бүс (АКП)', 'Авто хяналтын бүс (АКП)'),
@@ -20,6 +22,7 @@ DEPARTMENT_CHOICES = [
     ('Авто угсраа', 'Авто угсраа'),
 ]
 
+# Rank choices for employees
 RANK_CHOICES = [
     (3, '3'),
     (4, '4'),
@@ -27,6 +30,7 @@ RANK_CHOICES = [
     (6, '6'),
 ]
 
+# Mapping of rank to corresponding monetary values
 RANK_TO_MONEY = {
     3: Decimal('8448.55'),
     4: Decimal('9616.24'),
@@ -34,6 +38,7 @@ RANK_TO_MONEY = {
     6: Decimal('13187.98'),
 }
 
+# Work type choices
 TYPE_WORK_CHOICES = [
     ('84', '84'),
     ('29', '29'),
