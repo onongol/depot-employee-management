@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 
 
 class CustomUserCreationForm(UserCreationForm):
+    """
+    User registration form with additional employee_id field.
+    """
     employee_id = forms.CharField(
         label="Employee ID",
         required=True,
