@@ -1,6 +1,8 @@
 import logging
 from django.utils.dateparse import parse_date
 
+from employee.utils.converting_date import parse_date_range
+
 
 def filter_employees(queryset, department=None, employee_id=None, employee_name=None, job_title=None):
     """Reusable filter for Employee queryset."""
@@ -81,17 +83,11 @@ def filter_material(queryset, work_name=None, selected_type='all', range_date=No
     if selected_type and selected_type != 'all':
         queryset = queryset.filter(work__type_material=selected_type)
     if range_date:
-        try:
-            # flatpickr " to "
-            start_str, end_str = [d.strip() for d in range_date.split('to')]
-            start_date = parse_date(start_str)
-            end_date = parse_date(end_str)
-            if start_date:
-                queryset = queryset.filter(work_date__gte=start_date)
-            if end_date:
-                queryset = queryset.filter(work_date__lte=end_date)
-        except Exception as e:
-            logging.warning(f'Invalid date range: {range_date} ({e})')
+        start_date, end_date = parse_date_range(range_date)
+        if start_date:
+            queryset = queryset.filter(work_date__gte=start_date)
+        if end_date:
+            queryset = queryset.filter(work_date__lte=end_date)
     return queryset
 
 
