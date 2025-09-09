@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 from employee.constants.constants import DEPARTMENT_CHOICES, RANK_CHOICES, RANK_TO_MONEY
 
+
 class Employee(models.Model):
     """This model represents an employee in the system."""
     employee_id = models.IntegerField(
