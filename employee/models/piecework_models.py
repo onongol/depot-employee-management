@@ -58,7 +58,6 @@ class Piecework(models.Model):
         std_time_dec = Decimal(str(std_time or 0))
         amt = self.amount or Decimal('0.000000')
         self.amount_time = (std_time_dec * amt).quantize(Decimal('0.000000'))
-
         self.amount_material = self.work.usage_material * self.amount
         super().save(*args, **kwargs)
     
