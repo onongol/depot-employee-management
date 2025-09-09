@@ -51,7 +51,10 @@ class Piecework(models.Model):
     group_id = models.CharField(max_length=36, blank=True, null=True, db_index=True)
     
     def save(self, *args, **kwargs):
-        # If group_id is not set, create a new UUID
+        """
+        Save the Piecework instance.
+        Generate group_id if not set.
+        """
         if not self.group_id:
             self.group_id = str(uuid4())
         std_time = getattr(self.work, 'standard_time', None)
