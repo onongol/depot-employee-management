@@ -1,6 +1,7 @@
 from decimal import Decimal
 from enum import Enum
 
+
 # Group names
 class GroupNames(str, Enum):
     PAYROLLS = 'Payrolls'
