@@ -58,6 +58,7 @@ class Employee(models.Model):
 
     def get_total_piecework_amount(self, month, year):
         """Calculate total piecework amount for the employee for a given month and year."""
+        # Import only when the method is called to avoid circular imports
         from employee.models import Piecework
         return (
             Piecework.objects.filter(
