@@ -1,9 +1,10 @@
 from django import forms
 
 from employee.models import Piecework
+from employee.constants.constants import Department, TypeWork
 
-SELECTED_DEPARTMENT = 'Механик'
-TYPE_WORK = 'Депо'
+SELECTED_DEPARTMENT = Department.MECHANIC.value
+TYPE_WORK = TypeWork.DEPO.value
 
 
 class TypeWorkChoiceMixin:
