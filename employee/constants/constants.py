@@ -1,9 +1,15 @@
 from decimal import Decimal
 from enum import Enum
 
+# Group names
+class GroupNames(str, Enum):
+    PAYROLLS = 'Payrolls'
+    MASTERS = 'Masters'
+    EMPLOYEES = 'Employees'
+
 
 # Department list
-class Department(Enum):
+class Department(str, Enum):
     MECHANIC = 'Механик'
     AKP = 'Авто хяналтын бүс (АКП)'
     ZASVAR_1 = 'Засвар 1'
