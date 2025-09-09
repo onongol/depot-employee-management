@@ -18,7 +18,7 @@ from employee.forms import DailySalaryForm, UpdateDailySalaryForm
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_daily_salaries
 from employee.utils.pagination import paginate_queryset
-from employee.utils.converting_date import parse_date
+from employee.utils.converting_date import format_date
 from employee.utils.permissions import is_admin, OnlyAdminMixin, is_creater, OnlyCreaterMixin
 
 
@@ -156,8 +156,8 @@ def daily_salary_list(request):
     employee_id = request.GET.get('employee_id')
     employee_name = request.GET.get('employee_name')
     job_title = request.GET.get('job_title')
-    salary_date = parse_date(request.GET.get('salary_date'))
-    record_date = parse_date(request.GET.get('record_date'))
+    salary_date = format_date(request.GET.get('salary_date'))
+    record_date = format_date(request.GET.get('record_date'))
 
     # Apply filters to the daily salaries queryset using reusable filter functions
     daily_salaries = filter_daily_salaries(

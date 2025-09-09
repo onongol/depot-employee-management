@@ -1,8 +1,8 @@
 from datetime import datetime
 
 
-def parse_date(date_str):
-    """Helper function to parse date strings into datetime.date objects."""
+def format_date(date_str):
+    """Helper function to format datetime.date objects into strings."""
     if not date_str:
         return None
     for fmt in ('%Y-%m-%d', '%B %d, %Y', '%b %d, %Y'):
