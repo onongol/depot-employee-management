@@ -1,3 +1,4 @@
+import os
 from django.http import HttpResponse
 from urllib.parse import quote
 from reportlab.lib import colors
@@ -8,15 +9,16 @@ from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_CENTER
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-import os
 from io import BytesIO
 
 
 # Register font (adjust path as needed)
 FONT_DIR = os.path.join(os.path.dirname(__file__), '..', 'fonts')
 FONT_PATH = os.path.join(FONT_DIR, 'DejaVuSans.ttf')
-pdfmetrics.registerFont(TTFont('DejaVuSans', FONT_PATH))
-
+if os.path.exists(FONT_PATH):
+    pdfmetrics.registerFont(TTFont('DejaVuSans', FONT_PATH))
+else:
+    raise FileNotFoundError(f"Font file not found: {FONT_PATH}")
 
 def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     """
