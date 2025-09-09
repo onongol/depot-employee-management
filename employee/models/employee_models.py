@@ -3,9 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db.models import Sum
 from django.contrib.auth.models import User
 
-from employee.models import Piecework
 from employee.constants.constants import DEPARTMENT_CHOICES, RANK_CHOICES, RANK_TO_MONEY
-
 
 class Employee(models.Model):
     """This model represents an employee in the system."""
@@ -60,6 +58,7 @@ class Employee(models.Model):
 
     def get_total_piecework_amount(self, month, year):
         """Calculate total piecework amount for the employee for a given month and year."""
+        from employee.models import Piecework
         return (
             Piecework.objects.filter(
                 employee=self,
