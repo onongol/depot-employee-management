@@ -39,6 +39,10 @@ class Work(models.Model):
     )
 
     def save(self, *args, **kwargs):
+        """
+        Save the Work instance.
+        If material is not specified, set default values.
+        """
         if not self.type_material:
             self.type_material = "Not used"
             self.usage_material = Decimal('0.0000')
