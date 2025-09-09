@@ -1,24 +1,26 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 
-group_names = ['Payrolls']
-group_names_1 = ['Payrolls', 'Masters']
+
+class OnlyGroupMixin(UserPassesTestMixin):
+    """Mixin to restrict access to users in specific groups or superusers."""
+    group_names = []
+
+    def test_func(self):
+        user = self.request.user
+        return user.is_superuser or user.groups.filter(name__in=self.group_names).exists()
 
 
 def is_admin(user):
-    return user.is_superuser or user.groups.filter(name__in=group_names).exists()
+    return user.is_superuser or user.groups.filter(name__in=['Payrolls']).exists()
 
 
-class OnlyAdminMixin(UserPassesTestMixin):
-    def test_func(self):
-        user = self.request.user
-        return user.is_superuser or user.groups.filter(name__in=group_names).exists() 
-    
+class OnlyAdminMixin(OnlyGroupMixin):
+    group_names = ['Payrolls']
+
 
 def is_creater(user):
-    return user.is_superuser or user.groups.filter(name__in=group_names_1).exists()
+    return user.is_superuser or user.groups.filter(name__in=['Payrolls', 'Masters']).exists()
 
 
-class OnlyCreaterMixin(UserPassesTestMixin):
-    def test_func(self):
-        user = self.request.user
-        return user.is_superuser or user.groups.filter(name__in=group_names_1).exists()
+class OnlyCreaterMixin(OnlyGroupMixin):
+    group_names = ['Payrolls', 'Masters']
