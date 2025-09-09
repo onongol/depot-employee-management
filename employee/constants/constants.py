@@ -1,49 +1,50 @@
 from decimal import Decimal
+from enum import Enum
+
 
 # Department list
-DEPARTMENTS = [
-    'Механик', 
-    'Авто хяналтын бүс (АКП)', 
-    'Засвар 1', 
-    'Засвар 2', 
-    'Хос дугуй', 
-    'Тэргэнцэр', 
-    'Авто угсраа'
-]
+class Department(Enum):
+    MECHANIC = 'Механик'
+    AKP = 'Авто хяналтын бүс (АКП)'
+    ZASVAR_1 = 'Засвар 1'
+    ZASVAR_2 = 'Засвар 2'
+    HOS_DUGUI = 'Хос дугуй'
+    TERGENTSER = 'Тэргэнцэр'
+    AUTO_UGSRAA = 'Авто угсраа'
+
+DEPARTMENTS = [dept.value for dept in Department]
 
 # Choices for Django model fields
-DEPARTMENT_CHOICES = [
-    ('Механик', 'Механик'),
-    ('Авто хяналтын бүс (АКП)', 'Авто хяналтын бүс (АКП)'),
-    ('Засвар 1', 'Засвар 1'),
-    ('Засвар 2', 'Засвар 2'),
-    ('Хос дугуй', 'Хос дугуй'),
-    ('Тэргэнцэр', 'Тэргэнцэр'),
-    ('Авто угсраа', 'Авто угсраа'),
-]
+DEPARTMENT_CHOICES = [(dept.value, dept.value) for dept in Department]
+
 
 # Rank choices for employees
-RANK_CHOICES = [
-    (3, '3'),
-    (4, '4'),
-    (5, '5'),
-    (6, '6'),
-]
+class Rank(Enum):
+    THREE = 3
+    FOUR = 4
+    FIVE = 5
+    SIX = 6
+
+# Choices for Django model fields
+RANK_CHOICES = [(rank.value, rank.value) for rank in Rank]
 
 # Mapping of rank to corresponding monetary values
 RANK_TO_MONEY = {
-    3: Decimal('8448.55'),
-    4: Decimal('9616.24'),
-    5: Decimal('11127.36'),
-    6: Decimal('13187.98'),
+    Rank.THREE.value: Decimal('8448.55'),
+    Rank.FOUR.value: Decimal('9616.24'),
+    Rank.FIVE.value: Decimal('11127.36'),
+    Rank.SIX.value: Decimal('13187.98'),
 }
 
-# Work type choices
-TYPE_WORK_CHOICES = [
-    ('84', '84'),
-    ('29', '29'),
-    ('ТҮГ', 'ТҮГ'),
-    ('Нөөц', 'Нөөц'),
-    ('Завод', 'Завод'),
-    ('Депо', 'Депо'),
-]
+
+# Type work list
+class TypeWork(Enum):
+    TYPE_84 = '84'
+    TYPE_29 = '29'
+    TUG = 'ТҮГ'
+    NOOTS = 'Нөөц'
+    ZAVOD = 'Завод'
+    DEPO = 'Депо'
+
+# Type work choices
+TYPE_WORK_CHOICES = [(work_type.value, work_type.value) for work_type in TypeWork]
