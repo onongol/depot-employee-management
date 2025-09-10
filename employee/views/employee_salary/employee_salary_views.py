@@ -6,8 +6,7 @@ from employee.models import Employee
 from employee.models import DailySalary
 from .employee_salary_filtered import employee_salaries_prepare
 from employee.utils.select_department import get_selected_department
-from employee.utils.filters import filter_employees
-from employee.utils.filters import filter_month_year
+from employee.utils.filters import filter_employees, filter_month_year
 from employee.utils.pagination import paginate_queryset
 
 
