@@ -78,6 +78,8 @@ def daily_salary_create(request):
 
     if request.method == 'POST':
         selected_ids = request.POST.getlist('employee_ids')
+        # Convert selected_ids to integers
+        selected_ids = [int(emp_id) for emp_id in selected_ids]
         salary_date = request.POST.get('salary_date')
         hours_per_day = request.POST.get('hours_per_day')
 
@@ -94,14 +96,18 @@ def daily_salary_create(request):
             try:
                 # Use atomic transaction to ensure all records are created together
                 with transaction.atomic():
+                    existing_records = set(DailySalary.objects.filter(
+                        employee_id__in=selected_ids,
+                        salary_date=salary_date
+                    ).values_list('employee_id', flat=True))
+
+                    # Map employee IDs to their Employee objects
+                    employees_dict = {e.employee_id: e for e in Employee.objects.filter(employee_id__in=selected_ids)}
+
+                    # Check for duplicates and create records
                     for emp_id in selected_ids:
-                        # Check for duplicate daily salary record for the same employee and date
-                        exists = DailySalary.objects.filter(
-                            employee_id=emp_id,
-                            salary_date=salary_date
-                        ).first()
-                        if exists:
-                            emp = Employee.objects.get(employee_id=emp_id)
+                        if emp_id in existing_records:
+                            emp = employees_dict.get(emp_id)
                             errors.append(
                                 f"Daily salary record for Employee: {emp_id}/{emp.name} on {salary_date} already exists!"
                             )
