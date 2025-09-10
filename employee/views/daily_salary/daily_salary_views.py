@@ -105,6 +105,7 @@ def daily_salary_create(request):
                     employees_dict = {e.employee_id: e for e in Employee.objects.filter(employee_id__in=selected_ids)}
 
                     # Check for duplicates and create records
+                    new_records = []
                     for emp_id in selected_ids:
                         if emp_id in existing_records:
                             emp = employees_dict.get(emp_id)
@@ -112,12 +113,17 @@ def daily_salary_create(request):
                                 f"Daily salary record for Employee: {emp_id}/{emp.name} on {salary_date} already exists!"
                             )
                         else:
-                            # Create new DailySalary record
-                            DailySalary.objects.create(
-                                employee_id=emp_id,
-                                salary_date=salary_date,
-                                hours_per_day=hours_per_day,
+                            # Create new DailySalary instance
+                            new_records.append(
+                                DailySalary(
+                                    employee_id=emp_id,
+                                    salary_date=salary_date,
+                                    hours_per_day=hours_per_day,
+                                )
                             )
+                    if new_records and not errors:
+                        # Bulk create new records DailySalary
+                        DailySalary.objects.bulk_create(new_records)
             except Exception as e:
                 errors.append(f"Error creating daily salary records: {str(e)}")
         # If no errors, redirect to the list page for the selected department
