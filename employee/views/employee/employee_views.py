@@ -1,13 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import user_passes_test
-
 
 from employee.mixins.context_mixins import EmployeeContextMixin
-from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
 from employee.models import Employee
 from employee.models import DailySalary
