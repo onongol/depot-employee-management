@@ -64,6 +64,7 @@ def daily_salary_create(request):
 
     job_titles = (
         Employee.objects.filter(department=department)
+        .order_by('job_title')
         .values_list('job_title', flat=True)
         .distinct()
         )
@@ -110,12 +111,16 @@ def daily_salary_create(request):
                                 f"Daily salary record for Employee: {emp_id}/{emp.name} on {salary_date} already exists!"
                             )
                         else:
+                            emp = employees_dict.get(emp_id)
+                            # Calculate salary_day manually
+                            salary_day = float(hours_per_day) * float(emp.money_per_hour)
                             # Create new DailySalary instance
                             new_records.append(
                                 DailySalary(
                                     employee_id=emp_id,
                                     salary_date=salary_date,
                                     hours_per_day=hours_per_day,
+                                    salary_day=salary_day
                                 )
                             )
                     if new_records and not errors:
