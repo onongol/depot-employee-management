@@ -28,6 +28,7 @@ def employee_salary_list(request):
     # Get all unique job titles that exist in DailySalary for filter dropdown
     job_titles = (
         Employee.objects.filter(department=department, dailysalary__isnull=False)
+        .order_by('job_title')
         .values_list('job_title', flat=True)
         .distinct()
         )
