@@ -1,7 +1,9 @@
 from django.db.models import Sum
+from collections import defaultdict
 from datetime import datetime
 
 from employee.models import Employee
+from employee.models import DailySalary
 from employee.utils.filters import filter_employees, filter_month_year
 
 
@@ -20,33 +22,35 @@ def employee_salaries_prepare(request):
 
     # Query all employees and prefetch related DailySalary data for efficiency
     if request.user.groups.filter(name='Employees').exists():
+        # If the user is an employee, filter only their record
         employees = Employee.objects.prefetch_related('dailysalary_set').filter(user=request.user, is_active=True)
     else:
+        # Otherwise, get all active employees
         employees = Employee.objects.prefetch_related('dailysalary_set').filter(is_active=True)
 
     return employees, employee_id, employee_name, department, job_title, month, year, current_year
 
 
 def employee_salary_calculate(employees, month, year):
-    """Calculate employee salaries based on daily salary records."""
-    # Prepare the data for the template
+    """Calculate employee salaries based on daily salary records using aggregation."""
+    # Fetch all DailySalary records for selected employees and period in a single query
+    salary_groups = DailySalary.objects.filter(employee__in=employees)
+    salary_groups = filter_month_year(salary_groups, month=month, year=year)
+    # Aggregate total salary_day per employee per month and year
+    salary_groups = (
+        salary_groups
+        .values('employee', 'salary_date__year', 'salary_date__month')
+        .annotate(total_salary_day=Sum('salary_day'))
+    )
+
+    # Group salary data by employee
+    salary_data = defaultdict(list)
+    for group in salary_groups:
+        salary_data[group['employee']].append(group)
+
     employee_salaries = []
     for employee in employees:
-        # Filter daily salaries by month and year if provided
-        daily_salaries = employee.dailysalary_set.all()
-        daily_salaries = filter_month_year(daily_salaries, month=month, year=year)
-
-        # Group daily salaries by month and year, and sum salary_day for each group
-        grouped = (
-            daily_salaries
-            .values('salary_date__year', 'salary_date__month')
-            .annotate(
-                total_salary_day=Sum('salary_day'),
-            )
-        )
-
-        # For each group (month/year), calculate total salary and piecework
-        for group in grouped:
+        for group in salary_data.get(employee.employee_id, []):
             group_month = group['salary_date__month']
             group_year = group['salary_date__year']
 
@@ -84,6 +88,7 @@ def get_filtered_employee_salaries(request):
         job_title=job_title
     )
 
+    # Calculate salaries for the filtered employees
     employee_salaries = employee_salary_calculate(employees, month, year)
 
     return employee_salaries
