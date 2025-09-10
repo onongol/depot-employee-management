@@ -1,13 +1,12 @@
 from django.shortcuts import render
-from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
-from collections import defaultdict
 
 from employee.models import Employee
 from employee.models import DailySalary
+from employee.views.employee_salary.employee_salary_calculate import employee_salary_calculate
 from .employee_salary_filtered import employee_salaries_prepare
 from employee.utils.select_department import get_selected_department
-from employee.utils.filters import filter_employees, filter_month_year
+from employee.utils.filters import filter_employees
 from employee.utils.pagination import paginate_queryset
 
 
@@ -47,47 +46,8 @@ def employee_salary_list(request):
         job_title=job_title
     )
     
-    # Prepare the data for the template
-    employee_salaries = []
-    
-    # Fetch DailySalary records for the filtered employees and period
-    salary_groups = DailySalary.objects.filter(employee__in=employees)
-    # Filter by month and year if provided
-    salary_groups = filter_month_year(salary_groups, month=month, year=year)
-    # Aggregate total salary_day per employee per month and year
-    salary_groups = (
-        salary_groups
-        .values('employee', 'salary_date__year', 'salary_date__month')
-        .annotate(total_salary_day=Sum('salary_day'))
-    )
-
-    # Group salary data by employee
-    salary_data = defaultdict(list)
-    for group in salary_groups:
-        salary_data[group['employee']].append(group)
-
-    for employee in employees:
-        for group in salary_data.get(employee.employee_id, []):
-            group_month = group['salary_date__month']
-            group_year = group['salary_date__year']
-
-            # Use model methods to calculate salary components for this period
-            total_salary_day = employee.get_total_salary_day(group_month, group_year)
-            total_piecework_amount = employee.get_total_piecework_amount(group_month, group_year)
-            total_salary = employee.get_total_salary(group_month, group_year)
-
-            # Append the calculated data to the result list
-            employee_salaries.append(
-                {
-                    'employee': employee,
-                    'department': employee.department,
-                    'month': group_month,
-                    'year': group_year,
-                    'total_salary_day': round(total_salary_day, 2),
-                    'total_piecework_amount': round(total_piecework_amount, 2),
-                    'total_salary': total_salary,
-                }
-            )
+    # Calculate salaries for the filtered employees using the shared function
+    employee_salaries = employee_salary_calculate(employees, month, year)
 
     # Handle sorting based on query parameters
     order_by = request.GET.get('order_by')
