@@ -4,7 +4,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 
 from employee.models import Employee
-from employee.models.master_models import Master
+from employee.models import Master
 from employee.utils.select_department import get_selected_department
 from employee.constants.constants import DEPARTMENTS
 
