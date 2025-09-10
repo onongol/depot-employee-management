@@ -2,8 +2,7 @@ from django.db.models import Sum
 from datetime import datetime
 
 from employee.models import Employee
-from employee.utils.filters import filter_employees
-from employee.utils.filters import filter_month_year
+from employee.utils.filters import filter_employees, filter_month_year
 
 
 def employee_salaries_prepare(request):
