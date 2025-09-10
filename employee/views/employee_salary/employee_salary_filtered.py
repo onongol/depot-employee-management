@@ -20,4 +20,7 @@ def get_filtered_employee_salaries(request):
     # Calculate salaries for the filtered employees
     employee_salaries = employee_salary_calculate(employees, month, year)
 
+    # Sort by year and month descending (newest first)
+    employee_salaries.sort(key=lambda x: (x['year'], x['month']), reverse=True)
+
     return employee_salaries
