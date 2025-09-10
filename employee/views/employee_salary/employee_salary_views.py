@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
+from collections import defaultdict
 
 from employee.models import Employee
 from employee.models import DailySalary
@@ -31,7 +32,7 @@ def employee_salary_list(request):
         .order_by('job_title')
         .values_list('job_title', flat=True)
         .distinct()
-        )
+    )
     
     # Prepare months and years for filter dropdowns
     months = [i for i in range(1, 13)]
@@ -48,22 +49,25 @@ def employee_salary_list(request):
     
     # Prepare the data for the template
     employee_salaries = []
-    for employee in employees:
-        # Filter daily salaries by month and year if provided
-        daily_salaries = employee.dailysalary_set.all()
-        daily_salaries = filter_month_year(daily_salaries, month=month, year=year)
+    
+    # Fetch DailySalary records for the filtered employees and period
+    salary_groups = DailySalary.objects.filter(employee__in=employees)
+    # Filter by month and year if provided
+    salary_groups = filter_month_year(salary_groups, month=month, year=year)
+    # Aggregate total salary_day per employee per month and year
+    salary_groups = (
+        salary_groups
+        .values('employee', 'salary_date__year', 'salary_date__month')
+        .annotate(total_salary_day=Sum('salary_day'))
+    )
 
-        # Group daily salaries by month and year, and sum salary_day for each group
-        grouped = (
-            daily_salaries
-            .values('salary_date__year', 'salary_date__month')
-            .annotate(
-                total_salary_day=Sum('salary_day'),
-            )
-        )
-        
-        # For each group (month/year), calculate total salary and piecework
-        for group in grouped:
+    # Group salary data by employee
+    salary_data = defaultdict(list)
+    for group in salary_groups:
+        salary_data[group['employee']].append(group)
+
+    for employee in employees:
+        for group in salary_data.get(employee.employee_id, []):
             group_month = group['salary_date__month']
             group_year = group['salary_date__year']
 
@@ -88,7 +92,7 @@ def employee_salary_list(request):
     # Handle sorting based on query parameters
     order_by = request.GET.get('order_by')
     direction = request.GET.get('direction')
-    
+
     if order_by in ['employee_id', 'month', 'year']:
         reverse = direction == 'desc'
         if order_by == 'employee_id':
@@ -99,7 +103,7 @@ def employee_salary_list(request):
         else:
             # Sort by year and month
             employee_salaries.sort(
-                key=lambda x: ( x['year'], x['month']), reverse=reverse
+                key=lambda x: (x['year'], x['month']), reverse=reverse
             )
     else:
         # Default sorting by year and month, descending
