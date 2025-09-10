@@ -3,13 +3,10 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import UpdateView, DeleteView
 from django.db import transaction
-from django.db import IntegrityError
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import user_passes_test
 
 from employee.mixins.context_mixins import DailySalaryContextMixin
-from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
 from employee.models import Employee
 from employee.models import DailySalary
@@ -19,7 +16,7 @@ from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_daily_salaries
 from employee.utils.pagination import paginate_queryset
 from employee.utils.converting_date import format_date
-from employee.utils.permissions import is_admin, OnlyAdminMixin, is_creater, OnlyCreaterMixin
+from employee.utils.permissions import OnlyAdminMixin, is_creater
 
 
 class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, UpdateView):
