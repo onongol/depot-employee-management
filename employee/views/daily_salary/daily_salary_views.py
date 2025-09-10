@@ -160,6 +160,7 @@ def daily_salary_list(request):
 
     job_titles = (
         Employee.objects.filter(department=department)
+        .order_by('job_title')
         .values_list('job_title', flat=True)
         .distinct()
         )
