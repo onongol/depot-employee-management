@@ -13,6 +13,7 @@ from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_employees
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin, OnlyAdminMixin
+from employee.utils.selects import get_distinct_values
 
 
 class EmployeeCreateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, CreateView):
@@ -66,13 +67,8 @@ def employee_list(request):
     employees = filter_employees(employees, department, employee_id, employee_name, job_title)
 
     # Get distinct job titles for filtering dropdown
-    job_titles = (
-        Employee.objects.filter(department=department)
-        .order_by('job_title')
-        .values_list('job_title', flat=True)
-        .distinct()
-        )
-    
+    job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')
+
     # Ensure consistent ordering for pagination
     employees = employees.order_by('employee_id')
     
