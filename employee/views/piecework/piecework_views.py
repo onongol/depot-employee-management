@@ -1,17 +1,14 @@
 import json
+from uuid import uuid4
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
 from django.views.generic import UpdateView, DeleteView
 from django.db import transaction
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import user_passes_test
-from uuid import uuid4
 
-from employee.mixins.context_mixins import PieceworkContextMixin
-from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.models import Employee
 from employee.models import Piecework
 from employee.models import Work
@@ -21,7 +18,9 @@ from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_pieceworks
 from employee.utils.pagination import paginate_queryset
 from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
-from employee.utils.permissions import is_admin, OnlyAdminMixin, is_creater, OnlyCreaterMixin
+from employee.mixins.context_mixins import PieceworkContextMixin
+from employee.mixins.delete_warning_mixins import DeleteWarningMixin
+from employee.utils.permissions import OnlyAdminMixin, is_creater
 
 
 class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, UpdateView):
