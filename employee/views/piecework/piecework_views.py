@@ -9,6 +9,8 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from employee.mixins.context_mixins import PieceworkContextMixin
+from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.models import Employee
 from employee.models import Piecework
 from employee.models import Work
@@ -18,8 +20,7 @@ from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_pieceworks
 from employee.utils.pagination import paginate_queryset
 from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
-from employee.mixins.context_mixins import PieceworkContextMixin
-from employee.mixins.delete_warning_mixins import DeleteWarningMixin
+
 from employee.utils.permissions import OnlyAdminMixin, is_creater
 
 
