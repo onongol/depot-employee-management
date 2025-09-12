@@ -25,7 +25,6 @@ from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
 
 
-
 class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, UpdateView):
     login_url = 'login'
     form_class = UpdatePieceworkForm
