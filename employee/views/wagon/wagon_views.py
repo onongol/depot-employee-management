@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from employee.utils.select_department import get_selected_department
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
+from employee.utils.sorting import apply_ordering
 from .wagon_filtered import wagon_filter
 from .wagon_grouping import get_grouped_wagon_data, regroup_and_sum_wagon_data
 
@@ -26,6 +27,14 @@ def wagon_list(request):
     
     # Aggregate piecework data by wagon, work, date, and group_id
     wagon_data = get_grouped_wagon_data(pieceworks)
+
+    # Sorting
+    order_by = request.GET.get('order_by')
+    direction = request.GET.get('direction')
+
+    wagon_data = apply_ordering(
+        wagon_data, order_by, direction, allowed_fields=['work_date']
+    )
 
     # Paginate the aggregated data for the template
     page_obj = paginate_queryset(request, wagon_data)

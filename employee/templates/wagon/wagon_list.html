@@ -29,7 +29,9 @@
           <th class="px-6 py-3">Amount</th>
           <th class="px-6 py-3">Time</th>
           <th class="px-6 py-3">Price</th>
-          <th class="px-6 py-3">Date</th>
+          <th class="px-6 py-3">
+            {% include "includes/order_by_column.html" with label="Date" field="work_date" col_class=col_class selected_department=selected_department %}
+          </th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
