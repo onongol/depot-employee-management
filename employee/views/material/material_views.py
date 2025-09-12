@@ -6,6 +6,7 @@ from .material_filtered import material_prepare
 from employee.utils.filters import filter_material
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
+from employee.utils.sorting import apply_ordering
 
 
 @user_passes_test(is_admin, login_url='login')
@@ -30,18 +31,13 @@ def material_list(request):
     # Business logic: calculate the total amount of material used in the filtered queryset
     sum_amount = pieceworks.aggregate(total=Sum('amount_material'))['total'] or 0
     
-    # Sorting: order by work_date, default is descending
+    # Sorting
     order_by = request.GET.get('order_by')
     direction = request.GET.get('direction')
 
-    if order_by in ['work_date']:
-        if direction == 'desc':
-            pieceworks = pieceworks.order_by(f"-{order_by}")
-        else:
-            pieceworks = pieceworks.order_by(order_by)
-    else:
-        # Default ordering if no valid order_by is provided
-        pieceworks = pieceworks.order_by('-work_date')
+    pieceworks = apply_ordering(
+        pieceworks, order_by, direction, allowed_fields=['work_date']
+    )
 
     # Paginate the queryset, default to last page if page not specified
     page_obj = paginate_queryset(request, pieceworks)

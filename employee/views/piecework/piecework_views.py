@@ -19,6 +19,7 @@ from employee.forms import PieceworkForm, UpdatePieceworkForm
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_pieceworks
 from employee.utils.pagination import paginate_queryset
+from employee.utils.sorting import apply_ordering
 from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
 
 from employee.utils.permissions import OnlyAdminMixin, is_creater
@@ -264,17 +265,13 @@ def piecework_list(request):
         record_date=record_date
     )
 
-    # Sorting logic: allows sorting by work_date or record_date, default is by record_date descending
+    # Sorting
     order_by = request.GET.get('order_by')
     direction = request.GET.get('direction')
 
-    if order_by in ['work_date', 'record_date']:
-        if direction == 'desc':
-            pieceworks = pieceworks.order_by(f'-{order_by}')
-        else:
-            pieceworks = pieceworks.order_by(order_by)
-    else:
-        pieceworks = pieceworks.order_by('-record_date')
+    pieceworks = apply_ordering(
+        pieceworks, order_by, direction, allowed_fields=['work_date', 'record_date']
+    )
 
     # Paginate the results, 10 records per page
     page_obj = paginate_queryset(request, pieceworks)

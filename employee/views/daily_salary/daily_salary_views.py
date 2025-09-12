@@ -17,6 +17,7 @@ from employee.utils.filters import filter_daily_salaries
 from employee.utils.pagination import paginate_queryset
 from employee.utils.converting_date import format_date
 from employee.utils.permissions import OnlyAdminMixin, is_creater
+from employee.utils.sorting import apply_ordering
 
 
 class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, UpdateView):
@@ -184,17 +185,13 @@ def daily_salary_list(request):
         record_date=record_date
     )
 
-    # Sorting logic: allows sorting by salary_date or record_date, default is by record_date descending
+    # Sorting
     order_by = request.GET.get('order_by')
     direction = request.GET.get('direction')
-
-    if order_by in ['salary_date', 'record_date']:
-        if direction == 'desc':
-            daily_salaries = daily_salaries.order_by(f'-{order_by}')
-        else:
-            daily_salaries = daily_salaries.order_by(order_by)
-    else:
-        daily_salaries = daily_salaries.order_by('-record_date')
+    
+    daily_salaries = apply_ordering(
+        daily_salaries, order_by, direction, allowed_fields=['salary_date', 'record_date']
+    )
 
     # Paginate the results, 10 records per page
     page_obj = paginate_queryset(request, daily_salaries)
