@@ -20,9 +20,10 @@ from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_pieceworks
 from employee.utils.pagination import paginate_queryset
 from employee.utils.sorting import apply_ordering
+from employee.utils.selects import get_distinct_values
+from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
 
-from employee.utils.permissions import OnlyAdminMixin, is_creater
 
 
 class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, UpdateView):
@@ -83,22 +84,18 @@ class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin,PieceworkContextMix
 def piecework_create(request):
     """View to create piecework records for multiple employees and works."""
     department = get_selected_department(request)
+    # Filter employees and works by selected department, or show none if not selected
     employees = (
         Employee.objects.filter(department=department, is_active=True).order_by('employee_id')
         if department else Employee.objects.none()
     )
-    
     works = (
         Work.objects.filter(department=department).order_by('work_name')
         if department else Work.objects.none()
     )
 
-    job_titles = (
-        Employee.objects.filter(department=department)
-        .order_by('job_title')
-        .values_list('job_title', flat=True)
-        .distinct()
-        )
+    # Get distinct job titles for filtering dropdown
+    job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')
     
     today = timezone.now().date()
     errors = []
@@ -219,26 +216,10 @@ def piecework_list(request):
         # If not an employee, show all pieceworks in the department
         pieceworks = Piecework.objects.select_related('employee', 'work').filter(employee__department=department, employee__is_active=True)
 
-    job_titles = (
-        Employee.objects.filter(department=department)
-        .order_by('job_title')
-        .values_list('job_title', flat=True)
-        .distinct()
-        )
-    
-    # Prepare dropdown data for type_work and type_material filters
-    type_works = (
-        Piecework.objects.filter(work__department=department)
-        .order_by('type_work')
-        .values_list('type_work', flat=True)
-        .distinct()
-    )
-    type_materials = (
-        Piecework.objects.filter(work__department=department)
-        .order_by('work__type_material')
-        .values_list('work__type_material', flat=True)
-        .distinct()
-    )
+    # Get distinct values for filtering dropdown
+    job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')    
+    type_works = get_distinct_values(Piecework, 'type_work', department, department_field='work__department')
+    type_materials = get_distinct_values(Piecework, 'work__type_material', department, department_field='work__department')
 
     # Extract filter parameters from the request
     employee_id = request.GET.get('employee_id')
