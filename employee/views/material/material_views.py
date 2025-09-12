@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Sum
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .material_filtered import material_prepare
 from employee.utils.filters import filter_material
