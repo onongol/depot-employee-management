@@ -18,6 +18,7 @@ from employee.utils.pagination import paginate_queryset
 from employee.utils.converting_date import format_date
 from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.utils.sorting import apply_ordering
+from employee.utils.selects import get_distinct_values
 
 
 class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, UpdateView):
@@ -63,12 +64,8 @@ def daily_salary_create(request):
     if department:
         employees = Employee.objects.filter(department=department, is_active=True)  # Only active employees
 
-    job_titles = (
-        Employee.objects.filter(department=department)
-        .order_by('job_title')
-        .values_list('job_title', flat=True)
-        .distinct()
-        )
+    # Get distinct job titles for filtering dropdown
+    job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')
 
     # Ensure consistent ordering for pagination or display
     employees = employees.order_by('employee_id')
@@ -161,12 +158,8 @@ def daily_salary_list(request):
         # If not an employee, show all daily salaries in the department 
         daily_salaries = DailySalary.objects.filter(employee__department=department, employee__is_active=True)
 
-    job_titles = (
-        Employee.objects.filter(department=department)
-        .order_by('job_title')
-        .values_list('job_title', flat=True)
-        .distinct()
-        )
+    # Get distinct job titles for filtering dropdown
+    job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')
 
     # Filtering by employee ID, name, salary date, and record date
     employee_id = request.GET.get('employee_id')
