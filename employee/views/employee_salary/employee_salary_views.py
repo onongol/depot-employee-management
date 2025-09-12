@@ -8,6 +8,7 @@ from .employee_salary_filtered import employee_salaries_prepare
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_employees
 from employee.utils.pagination import paginate_queryset
+from employee.utils.selects import get_distinct_values
 
 
 @login_required(login_url='login')
@@ -26,13 +27,8 @@ def employee_salary_list(request):
         employees = employees.filter(is_active=True)
 
     # Get all unique job titles that exist in DailySalary for filter dropdown
-    job_titles = (
-        Employee.objects.filter(department=department, dailysalary__isnull=False)
-        .order_by('job_title')
-        .values_list('job_title', flat=True)
-        .distinct()
-    )
-    
+    job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department', only_with_salary=True)
+
     # Prepare months and years for filter dropdowns
     months = [i for i in range(1, 13)]
     years = [d.year for d in DailySalary.objects.dates('salary_date', 'year')]
