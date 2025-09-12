@@ -93,6 +93,7 @@ def piecework_create(request):
 
     job_titles = (
         Employee.objects.filter(department=department)
+        .order_by('job_title')
         .values_list('job_title', flat=True)
         .distinct()
         )
@@ -218,6 +219,7 @@ def piecework_list(request):
 
     job_titles = (
         Employee.objects.filter(department=department)
+        .order_by('job_title')
         .values_list('job_title', flat=True)
         .distinct()
         )
@@ -225,11 +227,13 @@ def piecework_list(request):
     # Prepare dropdown data for type_work and type_material filters
     type_works = (
         Piecework.objects.filter(work__department=department)
+        .order_by('type_work')
         .values_list('type_work', flat=True)
         .distinct()
     )
     type_materials = (
         Piecework.objects.filter(work__department=department)
+        .order_by('work__type_material')
         .values_list('work__type_material', flat=True)
         .distinct()
     )
