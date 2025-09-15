@@ -5,16 +5,17 @@ document.addEventListener('DOMContentLoaded', function () {
   function setupDropdown(btnId, menuId) {
     const btn = document.getElementById(btnId);
     const menu = document.getElementById(menuId);
+    if (!btn) console.warn(`Button with id "${btnId}" not found`);
+    if (!menu) console.warn(`Menu with id "${menuId}" not found`);
     // Only proceed if both button and menu exist
     if (btn && menu) {
       // Toggle dropdown menu on button click
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
-        menu.classList.toggle('hidden');
-        if (!menu.classList.contains('hidden')) {
-          openMenus.add(menu);
+        if (menu.classList.contains('hidden')) {
+          openMenu(menu);
         } else {
-          openMenus.delete(menu);
+          closeMenu(menu);
         }
       });
       // Click inside the menu does not close it
@@ -24,8 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Close dropdown after clicking any button inside the menu
       menu.querySelectorAll('button').forEach(function(item) {
         item.addEventListener('click', function () {
-          menu.classList.add('hidden');
-          openMenus.delete(menu);
+          closeMenu(menu);
         });
       });
     }
@@ -33,8 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Global click listener to close all open menus
   document.addEventListener('click', function () {
     openMenus.forEach(menu => {
-      menu.classList.add('hidden');
-      openMenus.delete(menu);
+      closeMenu(menu);
     });
   });
   // For departments dropdown
@@ -43,4 +42,22 @@ document.addEventListener('DOMContentLoaded', function () {
   setupDropdown('theme-dropdown-btn', 'theme-dropdown-menu');
   // For user dropdown
   setupDropdown('user-dropdown-btn', 'user-dropdown-menu');
+  // Helper functions to open/close menus with animation
+  function openMenu(menu) {
+    if (!menu) return;
+    menu.classList.remove('hidden');
+    menu.classList.add('fade-in');
+    setTimeout(() => menu.classList.remove('fade-in'), 200); // animation time
+    openMenus.add(menu);
+  }
+  // Close menu with fade-out animation
+  function closeMenu(menu) {
+    if (!menu) return;
+    menu.classList.add('fade-out');
+    setTimeout(() => {
+      menu.classList.add('hidden');
+      menu.classList.remove('fade-out');
+      openMenus.delete(menu);
+    }, 200); // animation time
+  }
 });
