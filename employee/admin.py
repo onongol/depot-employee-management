@@ -7,7 +7,7 @@ from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationFo
 from unfold.admin import ModelAdmin
 
 from import_export.admin import ImportExportModelAdmin
-from unfold.contrib.import_export.forms import ImportForm, ExportForm, SelectableFieldsExportForm
+from unfold.contrib.import_export.forms import ImportForm, ExportForm
 
 from .models.employee_models import Employee
 from .models.master_models import Master
@@ -19,8 +19,13 @@ admin.site.unregister(User)
 admin.site.unregister(Group)
 
 
+class ImportExportMixin:
+    import_form_class = ImportForm
+    export_form_class = ExportForm
+
+
 @admin.register(User)
-class UserAdmin(BaseUserAdmin, ModelAdmin, ImportExportModelAdmin):
+class UserAdmin(BaseUserAdmin, ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
     """Custom User Admin for the Employee Management System."""
     # Forms loaded from `unfold.forms`
     form = UserChangeForm
@@ -30,9 +35,6 @@ class UserAdmin(BaseUserAdmin, ModelAdmin, ImportExportModelAdmin):
     fieldsets = BaseUserAdmin.fieldsets
     add_fieldsets = BaseUserAdmin.add_fieldsets
 
-    import_form_class = ImportForm
-    export_form_class = ExportForm
-
 
 @admin.register(Group)
 class GroupAdmin(BaseGroupAdmin, ModelAdmin, ImportExportModelAdmin):
@@ -41,38 +43,26 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin, ImportExportModelAdmin):
 
 
 @admin.register(Employee)
-class EmployeeAdmin(ModelAdmin, ImportExportModelAdmin):
+class EmployeeAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
     list_display = ("employee_id", "name", "department", "job_title", "rank", "money_per_hour", "is_active")
     search_fields = ("employee_id", "name")
     list_filter = ["department"]
 
-    import_form_class = ImportForm
-    export_form_class = ExportForm
-
 
 @admin.register(Master)
-class MasterAdmin(ModelAdmin, ImportExportModelAdmin):
+class MasterAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
     list_display = ("master_id", "name")
     search_fields = ("master_id", "name")
 
-    import_form_class = ImportForm
-    export_form_class = ExportForm
-
 
 @admin.register(Payroll)
-class PayrollAdmin(ModelAdmin, ImportExportModelAdmin):
+class PayrollAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
     list_display = ("payroll_id", "name")
     search_fields = ("payroll_id", "name")
 
-    import_form_class = ImportForm
-    export_form_class = ExportForm
-
 
 @admin.register(Work)
-class WorkAdmin(ModelAdmin, ImportExportModelAdmin):
+class WorkAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
     list_display = ("work_id", "department", "work_name", "type_material", "usage_material", "standard_time", "price")
     search_fields = ("work_name", "type_material")
     list_filter = ["department"]
-
-    import_form_class = ImportForm
-    export_form_class = ExportForm
