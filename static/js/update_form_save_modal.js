@@ -1,9 +1,8 @@
-// Save button
+// Get elements
 const saveBtn = document.getElementById('saveButton');
 const saveModal = document.getElementById('saveModal');
 const confirmBtn = document.getElementById('confirmSaveButton');
 const updateForm = document.getElementById('updateForm');
-
 // Open modal and stop scroll
 if (saveBtn && saveModal) {
   saveBtn.addEventListener('click', function() {
@@ -11,14 +10,12 @@ if (saveBtn && saveModal) {
     document.body.classList.add('overflow-hidden');
   });
 }
-
 // Submit form on confirm
 if (confirmBtn && updateForm) {
   confirmBtn.addEventListener('click', function() {
     updateForm.submit();
   });
 }
-
 // Close modal on Esc
 if (saveModal) {
   document.addEventListener('keydown', function(e) {
@@ -28,7 +25,6 @@ if (saveModal) {
     }
   });
 }
-
 // Close modal on Cancel
 if (saveModal) {
   document.querySelectorAll('[data-modal-cancel]').forEach(function(btn) {
