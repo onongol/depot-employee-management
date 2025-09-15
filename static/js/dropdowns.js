@@ -42,22 +42,16 @@ document.addEventListener('DOMContentLoaded', function () {
   setupDropdown('theme-dropdown-btn', 'theme-dropdown-menu');
   // For user dropdown
   setupDropdown('user-dropdown-btn', 'user-dropdown-menu');
-  // Helper functions to open/close menus with animation
+  // Helper functions to open/close menus without animation
   function openMenu(menu) {
     if (!menu) return;
     menu.classList.remove('hidden');
-    menu.classList.add('fade-in');
-    setTimeout(() => menu.classList.remove('fade-in'), 200); // animation time
     openMenus.add(menu);
   }
-  // Close menu with fade-out animation
+  // Close menu instantly (no fade-out animation)
   function closeMenu(menu) {
     if (!menu) return;
-    menu.classList.add('fade-out');
-    setTimeout(() => {
-      menu.classList.add('hidden');
-      menu.classList.remove('fade-out');
-      openMenus.delete(menu);
-    }, 200); // animation time
+    menu.classList.add('hidden');
+    openMenus.delete(menu);
   }
 });
