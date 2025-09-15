@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.classList.add('overflow-hidden');
     focusFirst(modalId);
   }
-  // Focus first button in the modal
+  // Close all modals and restore scroll
   function closeAllModals() {
     document.querySelectorAll('.fixed.inset-0').forEach(function (modal) {
       modal.classList.add('hidden');
