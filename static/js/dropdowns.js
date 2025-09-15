@@ -1,11 +1,11 @@
+// Dropdown functionality for department, theme, and user menus
 document.addEventListener('DOMContentLoaded', function () {
   const openMenus = new Set();
-
   // Universal function for any dropdown
   function setupDropdown(btnId, menuId) {
     const btn = document.getElementById(btnId);
     const menu = document.getElementById(menuId);
-
+    // Only proceed if both button and menu exist
     if (btn && menu) {
       // Toggle dropdown menu on button click
       btn.addEventListener('click', function (e) {
@@ -17,12 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
           openMenus.delete(menu);
         }
       });
-
       // Click inside the menu does not close it
       menu.addEventListener('click', function (e) {
         e.stopPropagation();
       });
-
       // Close dropdown after clicking any button inside the menu
       menu.querySelectorAll('button').forEach(function(item) {
         item.addEventListener('click', function () {
@@ -32,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   }
-
   // Global click listener to close all open menus
   document.addEventListener('click', function () {
     openMenus.forEach(menu => {
@@ -40,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
       openMenus.delete(menu);
     });
   });
-
   // For departments dropdown
   setupDropdown('department-dropdown-btn', 'department-dropdown-menu');
   // For theme dropdown
