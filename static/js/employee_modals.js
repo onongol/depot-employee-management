@@ -1,18 +1,18 @@
+// Modal functionality for editing, deleting, activating, and deactivating employees
 document.addEventListener("DOMContentLoaded", function () {
-
+  // Focus first button in modal
   function openModal(modalId) {
     document.getElementById(modalId).classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
     focusFirst(modalId);
   }
-
+  // Focus first button in the modal
   function closeAllModals() {
     document.querySelectorAll('.fixed.inset-0').forEach(function (modal) {
       modal.classList.add('hidden');
     });
     document.body.classList.remove('overflow-hidden');
   }
-
   // Edit
   document.querySelectorAll('button[aria-label^="Edit"]').forEach(function (button) {
     button.addEventListener("click", function () {
@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
       openModal('updateModal');
     });
   });
-
   // Delete
   document.querySelectorAll('button[aria-label^="Delete"]').forEach(function (button) {
     button.addEventListener("click", function () {
@@ -36,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
       openModal('deleteModal');
     });
   });
-
   // Deactivate
   document.querySelectorAll('a[aria-label^="Deactivate"]').forEach(function (button) {
     button.addEventListener("click", function (e) {
@@ -49,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
       openModal('deactivateModal');
     });
   });
-
   // Activate
   document.querySelectorAll('a[aria-label^="Activate"]').forEach(function (button) {
     button.addEventListener("click", function (e) {
@@ -62,14 +59,13 @@ document.addEventListener("DOMContentLoaded", function () {
       openModal('activateModal');
     });
   });
-
   // Close modals with Esc
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       closeAllModals();
     }
   });
-
+  // Close modals when clicking outside content
   document.querySelectorAll('[data-modal-cancel]').forEach(function(btn) {
     btn.addEventListener('click', function() {
       closeAllModals();
