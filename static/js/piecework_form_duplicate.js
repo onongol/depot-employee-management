@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const confirmBtn = document.getElementById('confirmSaveBtn');
   const cancelBtn = document.querySelector('#saveDuplicateModal [data-modal-cancel]');
   let allowSubmit = false;
-
+  // Functions to open/close modal and manage body scroll
   function openModal() {
     modalDiv.classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     modalDiv.classList.add('hidden');
     document.body.classList.remove('overflow-hidden');
   }
-
+  // On form submission
   form.addEventListener('submit', function (e) {
     if (allowSubmit) {
       allowSubmit = false;
@@ -29,12 +29,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const wagonNumberInput = document.getElementById('wagon_number');
     let wagonNumber = wagonNumberInput && wagonNumberInput.value ? wagonNumberInput.value.trim() : '';
     wagonNumber = wagonNumber === '' ? null : wagonNumber;
-
+    // Function to normalize wagon number for comparison
     function normalizeWagon(val) {
       if (val === null || val === undefined) return null;
       return String(val).trim();
     }
-
+    // Check for duplicates
     let isDuplicate = false;
     for (const empId of selectedEmployeeIds) {
       for (const workId of selectedWorkIds) {
@@ -70,20 +70,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // else, allow form to submit
   });
-
+  // Confirm button allows submission and closes modal
   confirmBtn.addEventListener('click', function () {
     allowSubmit = true;
     closeModal();
     form.requestSubmit();
   });
-
   // Cancel button closes modal and restores scroll
   if (cancelBtn) {
     cancelBtn.addEventListener('click', function () {
       closeModal();
     });
   }
-
   // Esc closes modal and restores scroll
   document.addEventListener('keydown', function (e) {
     if (!modalDiv.classList.contains('hidden') && e.key === 'Escape') {
