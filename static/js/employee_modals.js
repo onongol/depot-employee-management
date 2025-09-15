@@ -2,7 +2,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Focus first button in modal
   function openModal(modalId) {
-    document.getElementById(modalId).classList.remove('hidden');
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
     focusFirst(modalId);
   }
@@ -19,8 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const itemId = button.getAttribute("data-id");
       const itemName = button.getAttribute("data-name");
       const updateUrl = button.getAttribute("data-url");
-      document.getElementById("updateLink").href = updateUrl;
-      document.getElementById("updateDetails").textContent = `${itemId}/${itemName}`;
+      fillModalDetails('edit', itemId, itemName, updateUrl);
       openModal('updateModal');
     });
   });
@@ -30,8 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const itemId = button.getAttribute("data-id");
       const itemName = button.getAttribute("data-name");
       const itemUrl = button.getAttribute("data-url");
-      document.getElementById("deleteForm").action = itemUrl;
-      document.getElementById("deleteDetails").textContent = `${itemId}/${itemName}`;
+      fillModalDetails('delete', itemId, itemName, itemUrl);
       openModal('deleteModal');
     });
   });
@@ -42,8 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const itemId = button.getAttribute("data-id");
       const itemName = button.getAttribute("data-name");
       const deactivateUrl = button.getAttribute("href");
-      document.getElementById("deactivateLink").href = deactivateUrl;
-      document.getElementById("deactivateDetails").textContent = `${itemId}/${itemName}`;
+      fillModalDetails('deactivate', itemId, itemName, deactivateUrl);
       openModal('deactivateModal');
     });
   });
@@ -54,8 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const itemId = button.getAttribute("data-id");
       const itemName = button.getAttribute("data-name");
       const activateUrl = button.getAttribute("href");
-      document.getElementById("activateLink").href = activateUrl;
-      document.getElementById("activateDetails").textContent = `${itemId}/${itemName}`;
+      fillModalDetails('activate', itemId, itemName, activateUrl);
       openModal('activateModal');
     });
   });
@@ -72,3 +70,44 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+// Safe setters with error handling
+function safeSetText(id, value) {
+  const el = document.getElementById(id);
+  if (!el) {
+    console.warn(`Element with id "${id}" not found`);
+    return;
+  }
+  el.textContent = value;
+}
+function safeSetHref(id, value) {
+  const el = document.getElementById(id);
+  if (!el) {
+    console.warn(`Element with id "${id}" not found`);
+    return;
+  }
+  el.href = value;
+}
+function safeSetAction(id, value) {
+  const el = document.getElementById(id);
+  if (!el) {
+    console.warn(`Element with id "${id}" not found`);
+    return;
+  }
+  el.action = value;
+}
+// Fill modal details based on type
+function fillModalDetails(type, id, name, url) {
+  if (type === 'edit') {
+    safeSetHref('updateLink', url);
+    safeSetText('updateDetails', `${id}/${name}`);
+  } else if (type === 'delete') {
+    safeSetAction('deleteForm', url);
+    safeSetText('deleteDetails', `${id}/${name}`);
+  } else if (type === 'deactivate') {
+    safeSetHref('deactivateLink', url);
+    safeSetText('deactivateDetails', `${id}/${name}`);
+  } else if (type === 'activate') {
+    safeSetHref('activateLink', url);
+    safeSetText('activateDetails', `${id}/${name}`);
+  }
+}
