@@ -1,7 +1,8 @@
+// Validate that amount inputs are filled for selected works
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('createForm');
   if (!form) return;
-
+  // On form submission
   form.addEventListener('submit', function (e) {
     const checkedWorks = Array.from(document.querySelectorAll('input[name="work_ids"]:checked'));
     let missing = [];
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('input[name^="amount_"]').forEach(input => {
       input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
     });
-
+    // Check each checked work for corresponding amount input
     checkedWorks.forEach(workCheckbox => {
       const workId = workCheckbox.value;
       const amountInput = document.querySelector(`input[name="amount_${workId}"]`);
@@ -22,11 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
     });
-
     // Delete previous error message if exists
     let errorDiv = document.getElementById('amount-error');
     if (errorDiv) errorDiv.remove();
-
+    // Remove red border from table if no error
     const worksTable = document.querySelector('.works-table-container');
     if (missing.length > 0) {
       e.preventDefault();
