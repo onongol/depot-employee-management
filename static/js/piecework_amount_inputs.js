@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   }
-
   // Enable/disable amount input based on work checkbox
   document.querySelectorAll('.work-checkbox').forEach(function (checkbox) {
     updateAmountInput(checkbox);
@@ -17,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
       updateAmountInput(checkbox);
     });
   });
-
   // Handle "Select all works" checkbox
   const selectAllWorks = document.getElementById('select-all-works');
   if (selectAllWorks) {
@@ -27,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   }
-
   // Prevent form submission on Enter key in amount inputs
   document.querySelectorAll('.amount-input').forEach(function(input) {
     input.addEventListener('keydown', function(event) {
