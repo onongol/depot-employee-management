@@ -1,4 +1,4 @@
-// Universal form navigation: move to next input/select/textarea on Enter (except textarea itself)
+// Universal form navigation: move to next/previous input/select/textarea on Enter/Shift+Enter (except textarea itself)
 document.addEventListener('DOMContentLoaded', function () {
   const formIds = ['createForm', 'updateForm'];
   // Add more form IDs as needed
@@ -6,20 +6,33 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById(formId);
     if (form) {
       form.addEventListener('keydown', function (event) {
+        // Handle Enter key navigation, except inside textarea
         if (
           event.key === 'Enter' &&
           document.activeElement.tagName.toLowerCase() !== 'textarea'
         ) {
           event.preventDefault();
+          // Only visible and focusable elements (tabindex !== -1)
           const inputs = Array.from(
             this.querySelectorAll(
               'input:not([type=hidden]):not([disabled]), select:not([disabled]), textarea:not([disabled])'
             )
-          ).filter((el) => el.offsetParent !== null); // Only visible elements
+          ).filter((el) => el.offsetParent !== null && el.tabIndex !== -1); // Only visible and focusable elements
           const currentFocus = document.activeElement;
           const currentIndex = inputs.indexOf(currentFocus);
-          if (currentIndex > -1 && currentIndex < inputs.length - 1) {
-            inputs[currentIndex + 1].focus();
+          if (event.shiftKey) {
+            // Move backward on Shift+Enter
+            if (currentIndex > 0) {
+              inputs[currentIndex - 1].focus();
+            }
+          } else {
+            // Move forward on Enter
+            if (currentIndex > -1 && currentIndex < inputs.length - 1) {
+              inputs[currentIndex + 1].focus();
+            } else if (currentIndex === inputs.length - 1) {
+              // Handle Enter in the last field: submit the form
+              form.requestSubmit ? form.requestSubmit() : form.submit();
+            }
           }
         }
       });
