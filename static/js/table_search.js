@@ -1,3 +1,4 @@
+// Universal table search function
 function filterTableRows(inputId, tableBodyId, columnIndex = 1) {
   const input = document.getElementById(inputId);
   const filter = input.value.toLowerCase();
@@ -11,7 +12,7 @@ function filterTableRows(inputId, tableBodyId, columnIndex = 1) {
     }
   }
 }
-
+// Initialize event listeners on DOM load
 document.addEventListener('DOMContentLoaded', function() {
   // Universal table search configuration: [inputId, tableBodyId, columnIndex]  
   const searches = window.TABLE_SEARCHES || [];
@@ -27,13 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
-
-// Универсальная фильтрация таблицы по select (например, по должности)
+// Universal table filter by select dropdown
 function filterTableBySelect(selectId, tableBodyId, columnIndex = 1) {
   const select = document.getElementById(selectId);
   const table = document.getElementById(tableBodyId);
   if (!select || !table) return;
-
+  // Initial filter on load
   select.addEventListener('change', function() {
     const value = select.value;
     const trs = table.getElementsByTagName('tr');
@@ -48,8 +48,7 @@ function filterTableBySelect(selectId, tableBodyId, columnIndex = 1) {
     }
   });
 }
-
-// Автоматически инициализировать фильтрацию для всех select-фильтров
+// Automatically initialize filtering for all select filters
 document.addEventListener('DOMContentLoaded', function() {
   if (window.TABLE_SELECT_FILTERS) {
     window.TABLE_SELECT_FILTERS.forEach(([selectId, tableBodyId, columnIndex]) => {
