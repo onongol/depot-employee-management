@@ -1,3 +1,4 @@
+// Clear form input errors on user input
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('input, select, textarea').forEach(function (el) {
     el.addEventListener('input', function () {
