@@ -18,10 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
           closeMenu(menu);
         }
       });
+
       // Click inside the menu does not close it
       menu.addEventListener('click', function (e) {
         e.stopPropagation();
       });
+      
       // Close dropdown after clicking any button inside the menu
       menu.querySelectorAll('button').forEach(function(item) {
         item.addEventListener('click', function () {
@@ -30,24 +32,26 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   }
+
   // Global click listener to close all open menus
   document.addEventListener('click', function () {
     openMenus.forEach(menu => {
       closeMenu(menu);
     });
   });
-  // For departments dropdown
+
+  // For dropdown menu
   setupDropdown('department-dropdown-btn', 'department-dropdown-menu');
-  // For theme dropdown
   setupDropdown('theme-dropdown-btn', 'theme-dropdown-menu');
-  // For user dropdown
   setupDropdown('user-dropdown-btn', 'user-dropdown-menu');
+
   // Helper functions to open/close menus without animation
   function openMenu(menu) {
     if (!menu) return;
     menu.classList.remove('hidden');
     openMenus.add(menu);
   }
+
   // Close menu instantly (no fade-out animation)
   function closeMenu(menu) {
     if (!menu) return;
