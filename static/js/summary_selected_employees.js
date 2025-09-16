@@ -3,10 +3,12 @@ function updateSelectedEmployeesSummary() {
   const empCheckboxes = document.querySelectorAll('input[name="employee_ids"]');
   const empChecked = document.querySelectorAll('input[name="employee_ids"]:checked');
   const selectAllEmp = document.getElementById('select-all-employees');
+  
   // Let user know if no employees are selected
   let empSummary = 'No employees selected';
   if (selectAllEmp && selectAllEmp.checked && empChecked.length === empCheckboxes.length && empChecked.length > 0) {
     empSummary = 'Selected all';
+
   // If not all selected, list selected employees by employee_id/name
   } else {
     const empNames = Array.from(empChecked).map(cb => {
@@ -30,18 +32,20 @@ function updateSelectedEmployeesSummary() {
     }).filter(Boolean);
     if (empNames.length) empSummary = empNames.join(', ');
   }
+
   // Update the summary display
   document.getElementById('selected-employees-list').textContent = empSummary;
   // Show or hide the summary box (works handled in works script)
   const workChecked = document.querySelectorAll('input[name="work_ids"]:checked');
   document.getElementById('selected-summary').style.display = (empChecked.length || workChecked.length) ? '' : 'none';
 }
+
 // Helper: safely get employee id and name from checkbox row
 function getEmployeeIdAndName(cb) {
   if (!cb) return { id: '', name: '' };
   const row = cb.closest('tr');
   if (!row) return { id: '', name: '' };
-  // Получаем id сотрудника из второй ячейки
+  // Retrieve employee id from the second cell
   const empIdCell = row.querySelector('td:nth-child(2)');
   let empId = '';
   if (empIdCell) {
@@ -49,11 +53,12 @@ function getEmployeeIdAndName(cb) {
       .filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim())
       .map(n => n.textContent.trim())[0] || '';
   }
-  // Получаем имя сотрудника из третьей ячейки
+  // Retrieve employee name from the third cell
   const empNameCell = row.querySelector('td:nth-child(3)');
   const empName = empNameCell ? empNameCell.textContent.trim() : '';
   return { id: empId, name: empName };
 }
+
 // Initialize event listeners on DOM load
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('input[name="employee_ids"]').forEach(cb => {
