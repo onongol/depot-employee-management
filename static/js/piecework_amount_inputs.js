@@ -1,6 +1,8 @@
 // This script manages the enabling and disabling of amount inputs based on work checkbox selections.
 document.addEventListener('DOMContentLoaded', function () {
+  // Update amount input state for a single checkbox
   function updateAmountInput(checkbox) {
+    if (!checkbox) return;
     const amountInput = document.getElementById('amount_' + checkbox.value);
     if (amountInput) {
       amountInput.disabled = !checkbox.checked;
@@ -9,22 +11,38 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   }
-  // Enable/disable amount input based on work checkbox
+
+  // Update all work checkboxes and their amount inputs
+  function updateAllWorkCheckboxes() {
+    document.querySelectorAll('.work-checkbox').forEach(function (checkbox) {
+      updateAmountInput(checkbox);
+    });
+  }
+
+  // Explicitly check/uncheck all work checkboxes
+  function setAllWorkCheckboxes(checked) {
+    document.querySelectorAll('.work-checkbox').forEach(function (checkbox) {
+      checkbox.checked = checked;
+      updateAmountInput(checkbox);
+    });
+  }
+
+  // Initial setup for all work checkboxes
+  updateAllWorkCheckboxes();
   document.querySelectorAll('.work-checkbox').forEach(function (checkbox) {
-    updateAmountInput(checkbox);
     checkbox.addEventListener('change', function () {
       updateAmountInput(checkbox);
     });
   });
+
   // Handle "Select all works" checkbox
   const selectAllWorks = document.getElementById('select-all-works');
   if (selectAllWorks) {
     selectAllWorks.addEventListener('change', function () {
-      document.querySelectorAll('.work-checkbox').forEach(function (checkbox) {
-        updateAmountInput(checkbox);
-      });
+      setAllWorkCheckboxes(selectAllWorks.checked);
     });
   }
+
   // Prevent form submission on Enter key in amount inputs
   document.querySelectorAll('.amount-input').forEach(function(input) {
     input.addEventListener('keydown', function(event) {
