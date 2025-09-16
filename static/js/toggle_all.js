@@ -1,10 +1,18 @@
 // Function to toggle all visible checkboxes with the same name
 function toggleAllVisible(source, name) {
   const checkboxes = document.getElementsByName(name);
+  if (!checkboxes || checkboxes.length === 0) {
+    console.warn(`No checkboxes found with name "${name}"`);
+    return;
+  }
   for (let i = 0, n = checkboxes.length; i < n; i++) {
-    // Only check/uncheck if checkbox is visible (not filtered out)
-    if (checkboxes[i].offsetParent !== null) {
-      checkboxes[i].checked = source.checked;
+    const cb = checkboxes[i];
+    // Only check/uncheck if element is a visible checkbox
+    if (
+      cb.type === 'checkbox' &&
+      cb.offsetParent !== null
+    ) {
+      cb.checked = source.checked;
     }
   }
 }
