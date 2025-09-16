@@ -1,8 +1,10 @@
 // Universal table search function
 function filterTableRows(inputId, tableBodyId, columnIndex = 1) {
   const input = document.getElementById(inputId);
+  if (!input) return;
   const filter = input.value.toLowerCase();
   const table = document.getElementById(tableBodyId);
+  if (!table) return;
   const trs = table.getElementsByTagName('tr');
   for (let i = 0; i < trs.length; i++) {
     const td = trs[i].getElementsByTagName('td')[columnIndex];
@@ -12,6 +14,7 @@ function filterTableRows(inputId, tableBodyId, columnIndex = 1) {
     }
   }
 }
+
 // Initialize event listeners on DOM load
 document.addEventListener('DOMContentLoaded', function() {
   // Universal table search configuration: [inputId, tableBodyId, columnIndex]  
@@ -28,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
 // Universal table filter by select dropdown
 function filterTableBySelect(selectId, tableBodyId, columnIndex = 1) {
   const select = document.getElementById(selectId);
@@ -48,6 +52,7 @@ function filterTableBySelect(selectId, tableBodyId, columnIndex = 1) {
     }
   });
 }
+
 // Automatically initialize filtering for all select filters
 document.addEventListener('DOMContentLoaded', function() {
   if (window.TABLE_SELECT_FILTERS) {
