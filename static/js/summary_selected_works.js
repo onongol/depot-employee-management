@@ -23,7 +23,9 @@ function updateSelectedWorksSummary() {
   if (!worksListDiv || !summaryBox) return;
   // Build the summary text
   let workSummary = 'No works selected';
-  let workNames = [];
+  let workNames = Array.from(workChecked).map(getWorkName).filter(Boolean);
+
+  // If all checkboxes are checked and there is at least one, show 'Selected all'
   if (
     selectAllWork &&
     selectAllWork.checked &&
@@ -31,35 +33,33 @@ function updateSelectedWorksSummary() {
     workChecked.length > 0
   ) {
     workSummary = 'Selected all';
-  } else {
-    workNames = Array.from(workChecked).map(getWorkName).filter(Boolean);
-    if (workNames.length) {
-      workSummary = workNames.slice(0, 5).join(', ');
-      if (workNames.length > 5) {
-        // Add clickable ... for full summary
-        workSummary += ', ';
-        // Remove previous summary if exists
-        let moreSpan = worksListDiv.querySelector('.works-summary-more');
-        if (moreSpan) moreSpan.remove();
-        moreSpan = document.createElement('span');
-        moreSpan.textContent = '...';
-        moreSpan.className = 'works-summary-more cursor-pointer text-blue-500 underline';
-        moreSpan.onclick = function() {
-          toggleWorksFullSummary(workNames);
-        };
-        worksListDiv.textContent = workSummary;
-        worksListDiv.appendChild(moreSpan);
-      } else {
-        worksListDiv.textContent = workSummary;
-        // Remove full summary if open
-        const fullSummary = document.getElementById('works-full-summary');
-        if (fullSummary) fullSummary.remove();
-      }
+    worksListDiv.textContent = workSummary;
+    // Remove full summary if open
+    const fullSummary = document.getElementById('works-full-summary');
+    if (fullSummary) fullSummary.remove();
+  } else if (workNames.length) {
+    workSummary = workNames.slice(0, 5).join(', ');
+    if (workNames.length > 5) {
+      workSummary += ', ';
+      let moreSpan = worksListDiv.querySelector('.works-summary-more');
+      if (moreSpan) moreSpan.remove();
+      moreSpan = document.createElement('span');
+      moreSpan.textContent = '...';
+      moreSpan.className = 'works-summary-more cursor-pointer text-blue-500 underline';
+      moreSpan.onclick = function() {
+        toggleWorksFullSummary(workNames);
+      };
+      worksListDiv.textContent = workSummary;
+      worksListDiv.appendChild(moreSpan);
     } else {
       worksListDiv.textContent = workSummary;
       const fullSummary = document.getElementById('works-full-summary');
       if (fullSummary) fullSummary.remove();
     }
+  } else {
+    worksListDiv.textContent = workSummary;
+    const fullSummary = document.getElementById('works-full-summary');
+    if (fullSummary) fullSummary.remove();
   }
 
   // Show or hide the summary box
