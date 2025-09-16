@@ -39,7 +39,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const selectAllWorks = document.getElementById('select-all-works');
   if (selectAllWorks) {
     selectAllWorks.addEventListener('change', function () {
-      setAllWorkCheckboxes(selectAllWorks.checked);
+      // Toggle all checkboxes based on the "Select all works" checkbox
+      window.toggleAllVisible(selectAllWorks, 'work_ids');
+      // After that, update amount fields only for visible checkboxes
+      document.querySelectorAll('.work-checkbox').forEach(function (checkbox) {
+        if (checkbox.offsetParent !== null) {
+          updateAmountInput(checkbox);
+        }
+      });
     });
   }
 
