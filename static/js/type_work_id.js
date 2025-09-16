@@ -1,7 +1,8 @@
-// Ensure select[name="type_work"] has id="type_work" for compatibility with other scripts
+// Ensure all select[name="type_work"] elements have id="type_work" for compatibility with other scripts
 document.addEventListener('DOMContentLoaded', function () {
-  const typeWork = document.querySelector('select[name="type_work"]');
-  if (typeWork && typeWork.id !== 'type_work') {
-    typeWork.id = 'type_work';
-  }
+  document.querySelectorAll('select[name="type_work"]').forEach(function(typeWork) {
+    if (typeWork && typeWork.id !== 'type_work') {
+      typeWork.id = 'type_work';
+    }
+  });
 });
