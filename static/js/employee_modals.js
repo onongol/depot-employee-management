@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.classList.add('overflow-hidden');
     focusFirst(modalId);
   }
+
   // Close all modals and restore scroll
   function closeAllModals() {
     document.querySelectorAll('.fixed.inset-0').forEach(function (modal) {
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     document.body.classList.remove('overflow-hidden');
   }
+
   // Edit
   document.querySelectorAll('button[aria-label^="Edit"]').forEach(function (button) {
     button.addEventListener("click", function () {
@@ -25,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       openModal('updateModal');
     });
   });
+
   // Delete
   document.querySelectorAll('button[aria-label^="Delete"]').forEach(function (button) {
     button.addEventListener("click", function () {
@@ -35,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
       openModal('deleteModal');
     });
   });
+
   // Deactivate
   document.querySelectorAll('a[aria-label^="Deactivate"]').forEach(function (button) {
     button.addEventListener("click", function (e) {
@@ -46,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
       openModal('deactivateModal');
     });
   });
+
   // Activate
   document.querySelectorAll('a[aria-label^="Activate"]').forEach(function (button) {
     button.addEventListener("click", function (e) {
@@ -57,12 +62,14 @@ document.addEventListener("DOMContentLoaded", function () {
       openModal('activateModal');
     });
   });
+
   // Close modals with Esc
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       closeAllModals();
     }
   });
+
   // Close modals when clicking outside content
   document.querySelectorAll('[data-modal-cancel]').forEach(function(btn) {
     btn.addEventListener('click', function() {
@@ -70,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
 // Safe setters with error handling
 function safeSetText(id, value) {
   const el = document.getElementById(id);
@@ -95,6 +103,7 @@ function safeSetAction(id, value) {
   }
   el.action = value;
 }
+
 // Fill modal details based on type
 function fillModalDetails(type, id, name, url) {
   if (type === 'edit') {
