@@ -36,6 +36,24 @@ function updateSelectedEmployeesSummary() {
   const workChecked = document.querySelectorAll('input[name="work_ids"]:checked');
   document.getElementById('selected-summary').style.display = (empChecked.length || workChecked.length) ? '' : 'none';
 }
+// Helper: safely get employee id and name from checkbox row
+function getEmployeeIdAndName(cb) {
+  if (!cb) return { id: '', name: '' };
+  const row = cb.closest('tr');
+  if (!row) return { id: '', name: '' };
+  // Получаем id сотрудника из второй ячейки
+  const empIdCell = row.querySelector('td:nth-child(2)');
+  let empId = '';
+  if (empIdCell) {
+    empId = Array.from(empIdCell.childNodes)
+      .filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim())
+      .map(n => n.textContent.trim())[0] || '';
+  }
+  // Получаем имя сотрудника из третьей ячейки
+  const empNameCell = row.querySelector('td:nth-child(3)');
+  const empName = empNameCell ? empNameCell.textContent.trim() : '';
+  return { id: empId, name: empName };
+}
 // Initialize event listeners on DOM load
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('input[name="employee_ids"]').forEach(cb => {
