@@ -20,10 +20,10 @@ function updateSelectedWorksSummary() {
   const selectAllWork = document.getElementById('select-all-works');
   const worksListDiv = document.getElementById('selected-works-list');
   const summaryBox = document.getElementById('selected-summary');
-  // Check elements before using
   if (!worksListDiv || !summaryBox) return;
   // Build the summary text
   let workSummary = 'No works selected';
+  let workNames = [];
   if (
     selectAllWork &&
     selectAllWork.checked &&
@@ -32,16 +32,54 @@ function updateSelectedWorksSummary() {
   ) {
     workSummary = 'Selected all';
   } else {
-    const workNames = Array.from(workChecked).map(getWorkName).filter(Boolean);
+    workNames = Array.from(workChecked).map(getWorkName).filter(Boolean);
     if (workNames.length) {
-      workSummary = workNames.slice(0, 5).join(', ') + (workNames.length > 5 ? ', ...' : '');
+      workSummary = workNames.slice(0, 5).join(', ');
+      if (workNames.length > 5) {
+        // Add clickable ... for full summary
+        workSummary += ', ';
+        // Remove previous summary if exists
+        let moreSpan = worksListDiv.querySelector('.works-summary-more');
+        if (moreSpan) moreSpan.remove();
+        moreSpan = document.createElement('span');
+        moreSpan.textContent = '...';
+        moreSpan.className = 'works-summary-more cursor-pointer text-blue-500 underline';
+        moreSpan.onclick = function() {
+          toggleWorksFullSummary(workNames);
+        };
+        worksListDiv.textContent = workSummary;
+        worksListDiv.appendChild(moreSpan);
+      } else {
+        worksListDiv.textContent = workSummary;
+        // Remove full summary if open
+        const fullSummary = document.getElementById('works-full-summary');
+        if (fullSummary) fullSummary.remove();
+      }
+    } else {
+      worksListDiv.textContent = workSummary;
+      const fullSummary = document.getElementById('works-full-summary');
+      if (fullSummary) fullSummary.remove();
     }
   }
-  worksListDiv.textContent = workSummary;
 
-  // Show or hide the summary box (employees handled in employees script)
+  // Show or hide the summary box
   const empChecked = document.querySelectorAll('input[name="employee_ids"]:checked');
   summaryBox.style.display = (empChecked.length || workChecked.length) ? '' : 'none';
+}
+
+// Toggle dropdown summary below the list
+function toggleWorksFullSummary(workNames) {
+  let fullSummary = document.getElementById('works-full-summary');
+  if (fullSummary) {
+    fullSummary.remove();
+    return;
+  }
+  const worksListDiv = document.getElementById('selected-works-list');
+  fullSummary = document.createElement('div');
+  fullSummary.id = 'works-full-summary';
+  fullSummary.className = 'mt-2 p-2 text-sm';
+  fullSummary.textContent = workNames.join(', ');
+  worksListDiv.parentNode.insertBefore(fullSummary, worksListDiv.nextSibling);
 }
 
 // Initialize event listeners on DOM load
