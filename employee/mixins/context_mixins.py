@@ -39,6 +39,6 @@ class PieceworkContextMixin(GenericContextMixin):
     object_name_func = staticmethod(
         lambda obj: (
             f"{obj.employee.employee_id}/{obj.employee.name} "
-            f"Work: {obj.work.work_name}, Type Work: {obj.type_work}, Work Date:{obj.work_date}"
+            f"{_('Work')}: {obj.work.work_name}, { _('Type Work')}: {obj.type_work}, { _('Work Date')}: {obj.work_date}"
         )
     )
