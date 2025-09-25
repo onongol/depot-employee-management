@@ -23,6 +23,7 @@ from employee.utils.sorting import apply_ordering
 from employee.utils.selects import get_distinct_values
 from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
+from employee.constants.constants import DEFAULT_WAGON_NUMBER
 
 
 class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, UpdateView):
@@ -48,7 +49,7 @@ class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMi
 
         wagon_number = form.cleaned_data.get('wagon_number')
         if not wagon_number:
-            piecework.wagon_number = "0"
+            piecework.wagon_number = None
 
         # Get the daily salary for the employee on the work date
         daily_salary = DailySalary.objects.filter(employee=employee, salary_date=work_date).first()
@@ -103,8 +104,8 @@ def piecework_create(request):
         work_date = request.POST.get('work_date')
         type_work = request.POST.get('type_work')
         wagon_number = request.POST.get('wagon_number', '').strip()
-        if not wagon_number:
-            wagon_number = "0"
+        if not wagon_number or wagon_number == DEFAULT_WAGON_NUMBER:
+            wagon_number = None
         selected_employee_ids = request.POST.getlist('employee_ids')
         selected_work_ids = request.POST.getlist('work_ids')
         amounts = {wid: request.POST.get(f'amount_{wid}') for wid in selected_work_ids}
