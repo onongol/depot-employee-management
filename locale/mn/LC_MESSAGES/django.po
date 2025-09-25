@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-25 14:27+0800\n"
+"POT-Creation-Date: 2025-09-25 15:28+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,8 @@ msgstr "Таны нууц үг бүрэн тоон байж болохгүй."
 msgid "Employee"
 msgstr "Ажилтан"
 
-#: .\employee\mixins\context_mixins.py:18 .\employee\templates\base.html:36
+#: .\employee\mixins\context_mixins.py:18
+#: .\employee\mixins\context_mixins.py:42 .\employee\templates\base.html:36
 #: .\employee\templates\includes\save_duplicate_modal.html:17
 #: .\employee\templates\material\material_list.html:44
 #: .\employee\templates\piecework\piecework_create.html:100
@@ -78,6 +79,23 @@ msgstr "Өдөр цалин"
 #: .\employee\templates\employee_salary\employee_salary_list.html:90
 msgid "Piecework"
 msgstr "Хэсэгчилсэн"
+
+#: .\employee\mixins\context_mixins.py:42
+#: .\employee\templates\piecework\piecework_create.html:32
+#: .\employee\templates\piecework\piecework_list.html:28
+#: .\employee\templates\piecework\piecework_update.html:8
+msgid "Type Work"
+msgstr "Ажлын Төрөл"
+
+#: .\employee\mixins\context_mixins.py:42
+msgid "Work Date"
+msgstr "Ажлын огноо"
+
+#: .\employee\mixins\delete_attention.py:9
+msgid ""
+"You have deleted %(object_name)s. Also, all related records have been deleted."
+msgstr ""
+"Та %(object_name)s устгасан. Мөн холбогдох бүх бүртгэл устгагдсан."
 
 #: .\employee\templates\auth\login.html:18
 #: .\employee\templates\auth\login.html:72 .\employee\templates\base.html:82
@@ -343,11 +361,11 @@ msgstr ""
 "бүртгэл, ажлын бүртгэл, цалингийн дэлгэрэнгүй мэдээлэл, тооцооны материал."
 
 #: .\employee\templates\includes\alert_warning_update.html:10
+#: .\employee\templates\includes\delete_attention.html:33
 msgid "Warning"
 msgstr "Анхааруулга"
 
 #: .\employee\templates\includes\alert_warning_update.html:12
-#, python-format
 msgid ""
 "All records associated with this %(object_type)s <strong>%(object_name)s</"
 "strong> will also be updated."
@@ -355,9 +373,17 @@ msgstr ""
 "Энэ %(object_type)s <strong>%(object_name)s</strong> холбоотой бүх бүртгэл "
 "мөн шинэчлэгдэх болно."
 
+#: .\employee\templates\includes\delete_attention.html:12
+msgid "Attention"
+msgstr "Анхаар"
+
 #: .\employee\templates\includes\filter_button.html:9
 msgid "Filter"
 msgstr "Шүүлтүүр"
+
+#: .\employee\templates\includes\form_errors.html:12
+msgid "Error"
+msgstr ""
 
 #: .\employee\templates\includes\list_header.html:17
 msgid "Create"
@@ -503,12 +529,6 @@ msgstr "Дүн"
 #: .\employee\templates\material\material_list.html:67
 msgid "No materials found..."
 msgstr "Материал олдсонгүй..."
-
-#: .\employee\templates\piecework\piecework_create.html:32
-#: .\employee\templates\piecework\piecework_list.html:28
-#: .\employee\templates\piecework\piecework_update.html:8
-msgid "Type Work"
-msgstr "Ажлын Төрөл"
 
 #: .\employee\templates\piecework\piecework_create.html:34
 #: .\employee\templates\piecework\piecework_list.html:30
