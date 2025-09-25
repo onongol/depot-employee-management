@@ -2,10 +2,12 @@
 
 {% load static %}
 
+{% load i18n %}
+
 {% block content %}
 
   <h2 id="form-title" class="text-xl text-gray-700 font-semibold mb-6">
-    New {{ object_type }} ({{ selected_department }})
+    {% trans "New" %} {% trans object_type %} ({{ selected_department }})
   </h2>
 
   {% include "includes/form_errors.html" %}
@@ -18,17 +20,17 @@
   >
     {% csrf_token %}
 
-    {% include "includes/form_date.html" with id="salary_date" label="Date" name="salary_date" type="text" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True %}
+    {% include "includes/form_date.html" with id="salary_date" label=_("Date") name="salary_date" type="text" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True %}
 
-    {% include "includes/form_input.html" with id=form.hours_per_day.id_for_label label="Time" name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day  min=form.hours_per_day.field.widget.attrs.min max=form.hours_per_day.field.widget.attrs.max required=True %}
+    {% include "includes/form_input.html" with id=form.hours_per_day.id_for_label label=_("Time") name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day  min=form.hours_per_day.field.widget.attrs.min max=form.hours_per_day.field.widget.attrs.max required=True %}
 
     <!-- Add search input above the employee table -->
     <div class="flex flex-col md:flex-row gap-4 mb-4">
-      {% include "includes/filter_input.html" with id="employee-search" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Search by ID..." min="1" %}
+      {% include "includes/filter_input.html" with id="employee-search" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id placeholder=_("Search by ID...") min="1" %}
 
-      {% include "includes/filter_input.html" with id="employee-name-search" label="Employee Name" name="employee_name" type="text" value=request.GET.employee_name placeholder="Search by Name..." %}
+      {% include "includes/filter_input.html" with id="employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Search by Name...") %}
 
-      {% include "includes/filter_select.html" with id="search-job-title" label="Job Title" choices=job_titles selected=request.GET.job_title empty_label="Positions" %}
+      {% include "includes/filter_select.html" with id="search-job-title" label=_("Job Title") choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
     </div>
 
     <!-- Employee Table -->
@@ -46,11 +48,11 @@
                     onclick="toggleAllVisible(this, 'employee_ids')"
                     aria-label="Select all employees"
                   >
-                  <label for="select-all-employees" class="sr-only">Select all employees</label>
+                  <label for="select-all-employees" class="sr-only">{% trans "Select all employees" %}</label>
                 </th>
-                <th scope="col" class="{{ col_class }}">ID</th>
-                <th scope="col" class="{{ col_class }}">Name</th>
-                <th scope="col" class="{{ col_class }}">Position</th>
+                <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
+                <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+                <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
               {% endwith %}
             </tr>
           </thead>
@@ -86,7 +88,7 @@
 
     <!-- Selected summary section -->
     <div id="selected-summary" class="bg-gray-100 border border-gray-300 rounded px-4 py-3 mt-4 mb-4 text-sm text-gray-700 font-medium">
-      Selected Employees:
+      {% trans "Selected Employees:" %}
       <span id="selected-employees-list"></span>
     </div>
 
@@ -95,13 +97,13 @@
         type="submit"
         class="px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
       >
-        Save
+        {% trans "Save" %}
       </button>
       <a
         href="{{ cancel_url }}"
         class="px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-center"
       >
-        Cancel
+        {% trans "Cancel" %}
       </a>
     </div>
   </form>
@@ -123,8 +125,9 @@
   <script src="{% static 'js/table_search.js' %}"></script>
   <!-- Checkbox Validation Script -->
   <script src="{% static 'js/validate_checkbox_selection.js' %}"></script>
+  {% trans "Please select at least one employee." as employee_select_msg %}
   <script>
-    setupCheckboxValidation('createForm', 'employee_ids', '.employee-table-container', 'Please select at least one employee.');
+    setupCheckboxValidation('createForm', 'employee_ids', '.employee-table-container', "{{ employee_select_msg|escapejs }}");
   </script>
 
 {% endblock %}

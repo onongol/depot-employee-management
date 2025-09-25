@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block title %}Daily Salary{% endblock %}
 
 {% block content %}
@@ -7,24 +9,24 @@
   {% url 'daily_salary_create' as create_url %}
 
   {% if not is_employee %}
-    {% include "includes/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url create_label="Create" %}
+    {% include "includes/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url %}
   {% endif %}
 
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="daily-salary-list-title">
     <div class="flex flex-col md:flex-row gap-4">
       {% if not is_employee %}
-        {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
+        {% include "includes/filter_input.html" with id="filter-employee-id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
 
-        {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
+        {% include "includes/filter_input.html" with id="filter-employee-name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name %}
       {% endif %}
 
-      {% include "includes/filter_select.html" with id="filter-job-title" label="Job Title" name="job_title" choices=job_titles selected=request.GET.job_title empty_label="Positions" %}
+      {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
 
-      {% include "includes/filter_date.html" with id="filter-salary-date" label="Date" name="salary_date" type="text" value=request.GET.salary_date %}
+      {% include "includes/filter_date.html" with id="filter-salary-date" label=_("Date") name="salary_date" type="text" value=request.GET.salary_date %}
 
       {% if not is_employee %}
-        {% include "includes/filter_date.html" with id="filter-record-date" label="Record Date" name="record_date" type="text" value=request.GET.record_date %}
+        {% include "includes/filter_date.html" with id="filter-record-date" label=_("Record Date") name="record_date" type="text" value=request.GET.record_date %}
       {% endif %}
 
       {% include "includes/filter_button.html" %}
@@ -40,21 +42,21 @@
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">ID</th>
-            <th scope="col" class="{{ col_class }}">Name</th>
-            <th scope="col" class="{{ col_class }}">Position</th>
-            <th scope="col" class="{{ col_class }}">Hours</th>
-            <th scope="col" class="{{ col_class }}">Salary</th>
+            <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Hours" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
             <th scope="col" class="{{ col_class }}">
-              {% include "includes/order_by_column.html" with label="Date" field="salary_date" col_class=col_class selected_department=selected_department %}
+              {% include "includes/order_by_column.html" with label=_("Date") field="salary_date" col_class=col_class selected_department=selected_department %}
             </th>
             {% if not is_employee %}
               <th scope="col" class="{{ col_class }}">
-                {% include "includes/order_by_column.html" with label="Record" field="record_date" col_class=col_class selected_department=selected_department %}
+                {% include "includes/order_by_column.html" with label=_("Record") field="record_date" col_class=col_class selected_department=selected_department %}
               </th>
             {% endif %}
             {% if not is_employee and not is_master %}
-              <th scope="col" class="{{ col_class }}">Actions</th>
+              <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
             {% endif %}
           {% endwith %}
         </tr>
@@ -88,7 +90,7 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="9" class="text-center px-3 py-4 text-gray-500">No daily salaries found...</td>
+            <td colspan="9" class="text-center px-3 py-4 text-gray-500">{% trans "No daily salaries found..." %}</td>
           </tr>
         {% endif %}
       </tbody>
