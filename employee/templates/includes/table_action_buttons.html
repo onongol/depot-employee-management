@@ -1,14 +1,20 @@
 <!-- includes/table_action_buttons.html -->
+{% load i18n %}
+
 <div class="flex gap-2">
   <!-- Edit Button -->
   <button
     type="button"
-    class="flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-blue-400"
+    class="flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-blue-400 {% if show_activation|default:False and not is_active %}opacity-50 cursor-not-allowed pointer-events-none{% endif %}"
     aria-label="Edit {{ name }}"
-    title="Update"
+    title="{% trans 'Update' %}"
     data-id="{{ id }}"
     data-name="{{ name }}"
     data-url="{{ edit_url }}"
+    {% if show_activation|default:Fаlse and not is_active %}
+      tabindex="-1" 
+      aria-disabled="true"
+    {% endif %}
   >
     <svg class="w-4 h-4" aria-hidden="true">
       <use href="#edit"></use>
@@ -18,17 +24,50 @@
   <!-- Delete Button -->
   <button
     type="button"
-    class="flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 hover:bg-red-100 hover:text-red-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-red-400"
+    class="flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 hover:bg-red-100 hover:text-red-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-red-400 {% if show_activation|default:False and not is_active %}opacity-50 cursor-not-allowed pointer-events-none{% endif %}"
     aria-label="Delete {{ name }}"
-    title="Delete"
+    title="{% trans 'Delete' %}"
     data-id="{{ id }}"
     data-name="{{ name }}"
     data-url="{{ delete_url }}"
+    {% if show_activation|default:False and not is_active %}
+      tabindex="-1" 
+      aria-disabled="true"
+    {% endif %}
   >
     <svg class="w-4 h-4" aria-hidden="true">
       <use href="#delete"></use>
     </svg>
   </button>
+
+  {% if show_activation|default:False %}
+    {% if is_active %}
+      <!-- Deactivate -->
+      <a
+        href="{% url 'employee_deactivate' id %}"
+        class="flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 hover:bg-yellow-100 hover:text-yellow-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-yellow-400"
+        aria-label="Deactivate {{ name }}"
+        title="{% trans 'Deactivate' %}"
+        data-id="{{ id }}"
+        data-name="{{ name }}"
+      >
+        <svg class="w-4 h-4" aria-hidden="true"><use href="#archive"></use></svg>
+      </a>
+    {% else %}
+    
+      <!-- Activate -->
+      <a
+        href="{% url 'employee_activate' id %}"
+        class="flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 hover:bg-green-100  hover:text-green-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-green-400"
+        aria-label="Activate {{ name }}"
+        title="{% trans 'Activate' %}"
+        data-id="{{ id }}"
+        data-name="{{ name }}"
+      >
+        <svg class="w-4 h-4" aria-hidden="true"><use href="#archive"></use></svg>
+      </a>
+    {% endif %}
+  {% endif %}
 </div>
 
 {% include "includes/modals.html" %}
