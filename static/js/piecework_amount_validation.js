@@ -1,72 +1,82 @@
-// Validate that amount inputs are filled for selected works
-document.addEventListener('DOMContentLoaded', function () {
-  const form = document.getElementById('createForm');
-  if (!form) return;
-
-  // Helper: add red border to input
+(function () {
+  // UI helpers
+  // Add or remove red border classes for invalid inputs
   function addRedBorder(input) {
-    if (input) {
-      input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
-    }
+    if (input) input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
   }
-
-  // Helper: remove red border from input
   function removeRedBorder(input) {
-    if (input) {
-      input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
-    }
+    if (input) input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
   }
-
-  // Helper: show error message below works table
-  function showAmountError(message, worksTable) {
-    if (!worksTable) return;
+  
+  // Show or clear error message below the container
+  function showAmountError(message, container) {
+    if (!container) return;
     let errorDiv = document.getElementById('amount-error');
     if (errorDiv) errorDiv.remove();
     errorDiv = document.createElement('div');
     errorDiv.id = 'amount-error';
     errorDiv.className = 'text-red-500 text-sm mb-2';
     errorDiv.textContent = message;
-    worksTable.parentNode.insertBefore(errorDiv, worksTable.nextSibling);
-    worksTable.classList.add('border-red-500');
+    container.parentNode.insertBefore(errorDiv, container.nextSibling);
+    container.classList.add('border-red-500');
   }
 
-  // Helper: remove error message and red border from table
-  function clearAmountError(worksTable) {
-    if (!worksTable) return;
+  // Clear error message and red border from container
+  function clearAmountError(container) {
+    if (!container) return;
     const errorDiv = document.getElementById('amount-error');
     if (errorDiv) errorDiv.remove();
     if (!document.getElementById('work_ids-selection-error')) {
-      worksTable.classList.remove('border-red-500');
+      container.classList.remove('border-red-500');
     }
   }
 
-  // On form submission
-  form.addEventListener('submit', function (e) {
-    const checkedWorks = Array.from(document.querySelectorAll('input[name="work_ids"]:checked'));
-    let missing = [];
-    // Remove red borders from all amount inputs
-    document.querySelectorAll('input[name^="amount_"]').forEach(removeRedBorder);
+  // Core validation logic
+  function validateSelectedWorkAmounts(checkboxName, containerSelector, message) {
+    const container = document.querySelector(containerSelector);
+    // Reset any previous invalid state across all amount inputs.
+    document.querySelectorAll('input[id^="amount_"]').forEach(removeRedBorder);
 
-    // Check each checked work for corresponding amount input
-    checkedWorks.forEach(workCheckbox => {
-      const workId = workCheckbox.value;
-      const amountInput = document.querySelector(`input[name="amount_${workId}"]`);
-      if (!amountInput || !amountInput.value) {
-        const workName =
-          workCheckbox.dataset.workName ||
-          (workCheckbox.closest('tr') && workCheckbox.closest('tr').querySelector('.work-name') ?
-            workCheckbox.closest('tr').querySelector('.work-name').textContent.trim() : workId);
-        missing.push(workName);
-        addRedBorder(amountInput);
+    // Collect all checked work checkboxes.
+    const selected = Array.from(document.querySelectorAll(`input[name="${checkboxName}"]:checked`));
+    if (selected.length === 0) {
+      clearAmountError(container);
+      return true;
+    }
+
+    // Validate each selected work's amount input.
+    let invalid = false;
+    selected.forEach(cb => {
+      const input = document.getElementById(`amount_${cb.value}`);
+      const val = input ? String(input.value).trim() : '';
+      if (!input || val === '' || isNaN(val) || Number(val) <= 0) {
+        invalid = true;
+        addRedBorder(input);
       }
     });
 
-    const worksTable = document.querySelector('.works-table-container');
-    if (missing.length > 0) {
-      e.preventDefault();
-      showAmountError('Please fill in the amount for selected work(s)', worksTable);
-    } else {
-      clearAmountError(worksTable);
+    // If any invalid input found, show message and stop form submission.
+    if (invalid) {
+      if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      showAmountError(message, container);
+      return false;
     }
-  });
-});
+
+    // All good: cleanup UI state.
+    clearAmountError(container);
+    return true;
+  }
+
+  // Public initializer function
+  window.setupAmountValidation = function (formId, checkboxName, containerSelector, message) {
+    const form = document.getElementById(formId);
+    if (!form) return;
+
+    // Validate on form submit
+    form.addEventListener('submit', function (e) {
+      if (!validateSelectedWorkAmounts(checkboxName, containerSelector, message)) {
+        e.preventDefault();
+      }
+    });
+  };
+})();
