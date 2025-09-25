@@ -22,7 +22,7 @@ function updateSelectedWorksSummary() {
   const summaryBox = document.getElementById('selected-summary');
   if (!worksListDiv || !summaryBox) return;
   // Build the summary text
-  let workSummary = 'No works selected';
+  let workSummary = gettext('No works selected');
   let workNames = Array.from(workChecked).map(getWorkName).filter(Boolean);
 
   // If all checkboxes are checked and there is at least one, show 'Selected all'
@@ -32,7 +32,7 @@ function updateSelectedWorksSummary() {
     workChecked.length === workCheckboxes.length &&
     workChecked.length > 0
   ) {
-    workSummary = 'Selected all';
+    workSummary = gettext('Selected all');
     worksListDiv.textContent = workSummary;
     // Remove full summary if open
     const fullSummary = document.getElementById('works-full-summary');
