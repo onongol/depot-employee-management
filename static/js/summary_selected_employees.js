@@ -5,9 +5,9 @@ function updateSelectedEmployeesSummary() {
   const selectAllEmp = document.getElementById('select-all-employees');
   
   // Let user know if no employees are selected
-  let empSummary = 'No employees selected';
+  let empSummary = gettext('No employees selected');
   if (selectAllEmp && selectAllEmp.checked && empChecked.length === empCheckboxes.length && empChecked.length > 0) {
-    empSummary = 'Selected all';
+    empSummary = gettext('Selected all');
 
   // If not all selected, list selected employees by employee_id/name
   } else {
