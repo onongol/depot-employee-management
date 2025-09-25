@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <div class="relative"> 
   <button
     type="button"
@@ -18,7 +20,7 @@
       <svg class="w-4 h-4" aria-hidden="true">
         <use href="#key"></use>
       </svg>
-      Password
+      {% trans 'Password' %}
     </a>
     <form action="{% url 'logout' %}" method="post" class="block">
       {% csrf_token %}
@@ -29,7 +31,7 @@
         <svg class="w-4 h-4" aria-hidden="true">
           <use href="#singout"></use>
         </svg> 
-        Sign Out
+        {% trans 'Sign Out' %}
       </button>
     </form>
   </div>
