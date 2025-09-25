@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from employee.mixins.context_mixins import WorkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
+from employee.mixins.block_message_mixins import BlockMessageMixin
 from employee.models import Work 
 from employee.models import Piecework
 from employee.forms import WorkForm, UpdateWorkForm
@@ -26,18 +27,14 @@ class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Updat
     template_name = "work/work_update.html"
 
 
-class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, DeleteProtectionMixin, DeleteView):
+class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
     login_url = 'login'
     template_name = "work/work_confirm_delete.html"
+    block_related_models = ['Piecework']
 
     # Get related piecework records to check if deletion is allowed.
     def get_related_objects(self):
         return Piecework.objects.filter(work=self.object)
-    
-    def get_block_message(self):
-        return (
-            f"Cannot delete {self.object.work_name} because it is associated with piecework records. Please remove the piecework records first."
-        )
     
     # Handle the deletion and send a warning.
     def get_redirect_url(self):
