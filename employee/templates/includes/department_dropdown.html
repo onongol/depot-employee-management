@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <li class="relative">
   <button
     type="button"
@@ -10,7 +12,7 @@
     {% if selected_department %}
       {{ selected_department }}
     {% else %}
-      Department
+      {% trans 'Department' %}
     {% endif %}
     <svg class="w-4 h-4 ml-1" aria-hidden="true">
       <use href="#chevron-down"></use>
