@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
   <section class="max-w-7xl mx-auto my-8 px-4">
@@ -8,23 +9,31 @@
         <h1
           class="mb-3 text-4xl lg:text-5xl font-bold leading-tight font-sans"
         >
+          {% blocktrans trimmed %}
           Depot Management <br>
           Employee Management!
+          {% endblocktrans %}
         </h1>
         <p class="text-gray-700">
+          {% blocktrans trimmed %}
           This application helps you manage employees, their work, and salary calculations for the Depot Management.
           Use the navigation bar to access employee records, work logs, salary details, and calculation materials.
+          {% endblocktrans %}
         </p>
         <div class="mt-6 flex gap-4">
           {% if not request.user.is_authenticated %}
             <a 
               href="{% url 'login' %}" 
               class="w-full sm:w-auto inline-flex items-center gap-2 px-4 py-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 font-medium rounded-3xl transition-colors"
-            >Sign In</a>
+            >
+            {% trans 'Sign In' %}
+            </a>
             <a 
               href="{% url 'register' %}" 
               class="w-full sm:w-auto inline-flex items-center gap-2 px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 focus:ring-2 focus:ring-gray-300 font-medium rounded-3xl transition-colors"
-            >Register</a>
+            >
+            {% trans 'Register' %}
+            </a>
           {% endif %}
         </div>
       </div>
