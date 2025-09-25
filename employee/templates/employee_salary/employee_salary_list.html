@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block title %}Salary{% endblock %}
 
 {% block content %}
@@ -10,11 +12,11 @@
   <form method="get" class="mb-6" aria-labelledby="employee-list-title">
     <div class="flex flex-col md:flex-row gap-4">
       {% if not is_employee %}
-        {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
+        {% include "includes/filter_input.html" with id="filter-employee-id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
 
-        {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
+        {% include "includes/filter_input.html" with id="filter-employee-name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
         
-        {% include "includes/filter_select.html" with id="filter-job-title" label="Job Title" name="job_title" choices=job_titles selected=request.GET.job_title empty_label="Positions" %}
+        {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
       {% endif %}
 
       <div class="flex flex-col relative">
@@ -24,7 +26,7 @@
           id="filter-month"
           class="block w-full max-w-xs rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition appearance-none pr-10"
         >
-          <option value="">Months</option>
+          <option value="">{% trans "Months" %}</option>
           {% for month in months %}
             <option value="{{ month }}" {% if filters.month == month|stringformat:'d' %}selected{% endif %}>
               {{ month }}
@@ -46,7 +48,7 @@
           id="filter-year"
           class="block w-full max-w-xs rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition appearance-none pr-10"
         >
-          <option value="" {% if not filters.year %}selected{% endif %}>Years</option>
+          <option value="" {% if not filters.year %}selected{% endif %}>{% trans "Years" %}</option>
           <option value="{{ current_year }}" {% if filters.year == current_year|stringformat:'d' %}selected{% endif %}>
             {{ current_year }}
           </option>
@@ -77,21 +79,21 @@
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">Department</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Department" %}</th>
             <th scope="col" class="{{ col_class }}">
-              {% include "includes/order_by_column.html" with label="ID" field="employee_id" col_class=col_class selected_department=selected_department %}
+              {% include "includes/order_by_column.html" with label=_("ID") field="employee_id" col_class=col_class selected_department=selected_department %}
             </th>
-            <th scope="col" class="{{ col_class }}">Name</th>
-            <th scope="col" class="{{ col_class }}">Position</th>
-            <th scope="col" class="{{ col_class }}">Rank</th>
-            <th scope="col" class="{{ col_class }}">Month</th>
-            <th scope="col" class="{{ col_class }}">Piecework</th>
-            <th scope="col" class="{{ col_class }}">Salary</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Rank" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Monthly" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Piecework" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
             <th scope="col" class="{{ col_class }}">
-              {% include "includes/order_by_column.html" with label="Month" field="month" col_class=col_class selected_department=selected_department %}
+              {% include "includes/order_by_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
             </th>
             <th scope="col" class="{{ col_class }}">
-              {% include "includes/order_by_column.html" with label="Year" field="year" col_class=col_class selected_department=selected_department %}
+              {% include "includes/order_by_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
             </th>
           {% endwith %}
         </tr>
@@ -117,7 +119,7 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="11" class="text-center px-3 py-4 text-gray-500">No employee salary records found...</td>
+            <td colspan="11" class="text-center px-3 py-4 text-gray-500">{% trans "No employee salary records found..." %}</td>
           </tr>
         {% endif %}
       </tbody>

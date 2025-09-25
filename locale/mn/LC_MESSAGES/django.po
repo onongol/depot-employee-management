@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-24 16:46+0800\n"
+"POT-Creation-Date: 2025-09-25 14:04+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,6 +31,7 @@ msgstr "мон"
 #: .\employee\templates\daily_salary\daily_salary_list.html:19
 #: .\employee\templates\employee\employee_create.html:12
 #: .\employee\templates\employee\employee_list.html:19
+#: .\employee\templates\employee_salary\employee_salary_list.html:15
 #: .\employee\templates\piecework\piecework_create.html:38
 #: .\employee\templates\piecework\piecework_list.html:19
 msgid "Employee ID"
@@ -71,6 +72,7 @@ msgid "Daily Salary"
 msgstr "Өдөр цалин"
 
 #: .\employee\mixins\context_mixins.py:36 .\employee\templates\base.html:41
+#: .\employee\templates\employee_salary\employee_salary_list.html:90
 msgid "Piecework"
 msgstr "Хэсэгчилсэн"
 
@@ -109,6 +111,7 @@ msgstr "Бүртгүүлэх"
 
 #: .\employee\templates\base.html:43
 #: .\employee\templates\daily_salary\daily_salary_list.html:49
+#: .\employee\templates\employee_salary\employee_salary_list.html:91
 msgid "Salary"
 msgstr "Цалин"
 
@@ -156,6 +159,7 @@ msgstr "ИД-аар хайх..."
 #: .\employee\templates\daily_salary\daily_salary_create.html:31
 #: .\employee\templates\daily_salary\daily_salary_list.html:21
 #: .\employee\templates\employee\employee_list.html:21
+#: .\employee\templates\employee_salary\employee_salary_list.html:17
 #: .\employee\templates\piecework\piecework_create.html:40
 #: .\employee\templates\piecework\piecework_list.html:21
 msgid "Employee Name"
@@ -169,6 +173,7 @@ msgstr "Нэрээр хайх..."
 #: .\employee\templates\daily_salary\daily_salary_create.html:33
 #: .\employee\templates\daily_salary\daily_salary_list.html:24
 #: .\employee\templates\employee\employee_list.html:23
+#: .\employee\templates\employee_salary\employee_salary_list.html:19
 #: .\employee\templates\piecework\piecework_create.html:42
 #: .\employee\templates\piecework\piecework_list.html:24
 msgid "Job Title"
@@ -177,6 +182,7 @@ msgstr "Албан Тушаал"
 #: .\employee\templates\daily_salary\daily_salary_create.html:33
 #: .\employee\templates\daily_salary\daily_salary_list.html:24
 #: .\employee\templates\employee\employee_list.html:23
+#: .\employee\templates\employee_salary\employee_salary_list.html:19
 #: .\employee\templates\piecework\piecework_create.html:42
 #: .\employee\templates\piecework\piecework_list.html:24
 msgid "Positions"
@@ -189,6 +195,7 @@ msgstr "Бүх ажилчдыг сонго"
 #: .\employee\templates\daily_salary\daily_salary_create.html:53
 #: .\employee\templates\daily_salary\daily_salary_list.html:45
 #: .\employee\templates\employee\employee_list.html:39
+#: .\employee\templates\employee_salary\employee_salary_list.html:84
 #: .\employee\templates\piecework\piecework_create.html:62
 #: .\employee\templates\piecework\piecework_list.html:51
 msgid "ID"
@@ -199,6 +206,7 @@ msgstr "ИД"
 #: .\employee\templates\employee\employee_create.html:14
 #: .\employee\templates\employee\employee_list.html:40
 #: .\employee\templates\employee\employee_update.html:8
+#: .\employee\templates\employee_salary\employee_salary_list.html:86
 #: .\employee\templates\piecework\piecework_create.html:63
 #: .\employee\templates\piecework\piecework_list.html:52
 msgid "Name"
@@ -209,6 +217,7 @@ msgstr "Нэр"
 #: .\employee\templates\employee\employee_create.html:16
 #: .\employee\templates\employee\employee_list.html:41
 #: .\employee\templates\employee\employee_update.html:10
+#: .\employee\templates\employee_salary\employee_salary_list.html:87
 #: .\employee\templates\piecework\piecework_create.html:64
 #: .\employee\templates\piecework\piecework_list.html:53
 msgid "Position"
@@ -261,6 +270,7 @@ msgstr "Өдөр тутмын цалин олдсонгүй..."
 #: .\employee\templates\employee\employee_create.html:18
 #: .\employee\templates\employee\employee_list.html:42
 #: .\employee\templates\employee\employee_update.html:12
+#: .\employee\templates\employee_salary\employee_salary_list.html:88
 msgid "Rank"
 msgstr "Зэрэг"
 
@@ -271,6 +281,35 @@ msgstr "Мөнгө/Цаг"
 #: .\employee\templates\employee\employee_list.html:78
 msgid "No employees found..."
 msgstr "Ажилтан олдсонгүй..."
+
+#: .\employee\templates\employee_salary\employee_salary_list.html:29
+msgid "Months"
+msgstr "Сарууд"
+
+#: .\employee\templates\employee_salary\employee_salary_list.html:51
+msgid "Years"
+msgstr "Он Жилүүд"
+
+#: .\employee\templates\employee_salary\employee_salary_list.html:82
+#: .\employee\templates\includes\department_dropdown.html:15
+msgid "Department"
+msgstr "Хэлтэс"
+
+#: .\employee\templates\employee_salary\employee_salary_list.html:89
+msgid "Monthly"
+msgstr "Сарын"
+
+#: .\employee\templates\employee_salary\employee_salary_list.html:93
+msgid "Month"
+msgstr "Сар"
+
+#: .\employee\templates\employee_salary\employee_salary_list.html:96
+msgid "Year"
+msgstr "Он"
+
+#: .\employee\templates\employee_salary\employee_salary_list.html:122
+msgid "No employee salary records found..."
+msgstr "Ажилчдын цалингийн бүртгэл олдсонгүй..."
 
 #: .\employee\templates\forms\update_form.html:12
 #: .\employee\templates\includes\modals.html:16
@@ -305,10 +344,6 @@ msgid ""
 msgstr ""
 "Энэ %(object_type)s <strong>%(object_name)s</strong> холбоотой бүх бүртгэл "
 "мөн шинэчлэгдэх болно."
-
-#: .\employee\templates\includes\department_dropdown.html:15
-msgid "Department"
-msgstr "Хэлтэс"
 
 #: .\employee\templates\includes\filter_button.html:9
 msgid "Filter"
