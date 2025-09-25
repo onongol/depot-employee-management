@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group 
 from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
 
 from employee.forms.register_forms import CustomUserCreationForm
 from employee.models import Employee
@@ -42,14 +43,14 @@ def register_view(request):
             if instance:
                 # Check if this instance is already linked to a user
                 if instance.user:
-                    form.add_error('employee_id', "A user is already linked to this ID.")
+                    form.add_error('employee_id', _("A user is already linked to this ID."))
                 else:
                     user = form.save()
                     link_user_to_instance(user, instance, group_name)
-                    messages.success(request, "Registration successful! Please log in with your new account.")
+                    messages.success(request, _("Registration successful! Please log in with your new account."))
                     return redirect('login')
             else:
-                form.add_error('employee_id', "Employee, Master, or Payroll not found.")
+                form.add_error('employee_id', _("Employee, Master, or Payroll not found."))
         return render(request, 'auth/register.html', {'form': form})
     else:
         form = CustomUserCreationForm()
