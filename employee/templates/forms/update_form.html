@@ -2,12 +2,14 @@
 
 {% load static %}
 
+{% load i18n %}
+
 {% block title %}Update {{ object_type }}{% endblock %}
 
 {% block content %}
 
   <h2 id="update-title" class="text-xl text-gray-700 font-semibold mb-6">
-    Update {{ object_type }} ({{ selected_department }})
+    {% trans "Update" %} {{ object_type }} ({{ selected_department }})
   </h2>
 
   <!-- Dynamic Warning Message -->
@@ -36,14 +38,14 @@
         data-modal-target="#saveModal"
         aria-label="Save updates"
       >
-        Save
+        {% trans "Save" %}
       </button>
       <a
         href="{{ cancel_url }}"
         class="px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-center"
         aria-label="Cancel and return"
       >
-        Cancel
+        {% trans "Cancel" %}
       </a>
     </div>
   </form>
