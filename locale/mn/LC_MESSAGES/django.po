@@ -1,0 +1,514 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-24 16:46+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\depo_crud\settings.py:184
+msgid "en"
+msgstr "анг"
+
+#: .\depo_crud\settings.py:185
+msgid "mn"
+msgstr "мон"
+
+#: .\employee\forms\register_forms.py:12
+#: .\employee\templates\daily_salary\daily_salary_create.html:29
+#: .\employee\templates\daily_salary\daily_salary_list.html:19
+#: .\employee\templates\employee\employee_create.html:12
+#: .\employee\templates\employee\employee_list.html:19
+#: .\employee\templates\piecework\piecework_create.html:38
+#: .\employee\templates\piecework\piecework_list.html:19
+msgid "Employee ID"
+msgstr "Ажилтны ИД"
+
+#: .\employee\forms\register_forms.py:14
+msgid "Enter your Employee ID to link your account."
+msgstr "Бүртгэлээ холбохын тулд Ажилтнаа ИД оруулна уу."
+
+#: .\employee\locale_strings.py:3
+msgid "Your password can’t be too similar to your other personal information."
+msgstr "Таны нууц үг таны бусад хувийн мэдээлэлтэй хэт төстэй байж болохгүй."
+
+#: .\employee\locale_strings.py:4
+msgid "Your password can’t be a commonly used password."
+msgstr "Таны нууц үг түгээмэл хэрэглэгддэг нууц үг байж болохгүй."
+
+#: .\employee\locale_strings.py:5
+msgid "Your password can’t be entirely numeric."
+msgstr "Таны нууц үг бүрэн тоон байж болохгүй."
+
+#: .\employee\mixins\context_mixins.py:10 .\employee\templates\base.html:33
+#: .\employee\templates\includes\save_duplicate_modal.html:16
+msgid "Employee"
+msgstr "Ажилтан"
+
+#: .\employee\mixins\context_mixins.py:18 .\employee\templates\base.html:36
+#: .\employee\templates\includes\save_duplicate_modal.html:17
+#: .\employee\templates\piecework\piecework_create.html:100
+#: .\employee\templates\piecework\piecework_create.html:120
+#: .\employee\templates\piecework\piecework_list.html:26
+#: .\employee\templates\piecework\piecework_list.html:54
+msgid "Work"
+msgstr "Ажил"
+
+#: .\employee\mixins\context_mixins.py:26 .\employee\templates\base.html:39
+msgid "Daily Salary"
+msgstr "Өдөр цалин"
+
+#: .\employee\mixins\context_mixins.py:36 .\employee\templates\base.html:41
+msgid "Piecework"
+msgstr "Хэсэгчилсэн"
+
+#: .\employee\templates\auth\login.html:18
+#: .\employee\templates\auth\login.html:72 .\employee\templates\base.html:82
+#: .\employee\templates\home\home.html:29
+msgid "Sign In"
+msgstr "Нэвтрэх"
+
+#: .\employee\templates\auth\login.html:79
+#: .\employee\templates\auth\password_change.html:68
+#: .\employee\templates\auth\register.html:68
+#: .\employee\templates\daily_salary\daily_salary_create.html:106
+#: .\employee\templates\forms\create_form.html:48
+#: .\employee\templates\forms\update_form.html:48
+#: .\employee\templates\includes\modals.html:38
+#: .\employee\templates\includes\modals.html:79
+#: .\employee\templates\includes\modals.html:118
+#: .\employee\templates\includes\modals.html:157
+#: .\employee\templates\includes\save_duplicate_modal.html:36
+#: .\employee\templates\includes\save_duplicate_modal.html:38
+#: .\employee\templates\piecework\piecework_create.html:188
+msgid "Cancel"
+msgstr "Цуцлах"
+
+#: .\employee\templates\auth\password_change.html:9
+#: .\employee\templates\auth\password_change.html:61
+msgid "Change Password"
+msgstr "Нууц үг солих"
+
+#: .\employee\templates\auth\register.html:9
+#: .\employee\templates\auth\register.html:61
+#: .\employee\templates\home\home.html:35
+msgid "Register"
+msgstr "Бүртгүүлэх"
+
+#: .\employee\templates\base.html:43
+#: .\employee\templates\daily_salary\daily_salary_list.html:49
+msgid "Salary"
+msgstr "Цалин"
+
+#: .\employee\templates\base.html:46
+#: .\employee\templates\includes\save_duplicate_modal.html:19
+#: .\employee\templates\piecework\piecework_list.html:56
+msgid "Wagon"
+msgstr "Вагон"
+
+#: .\employee\templates\base.html:50
+#: .\employee\templates\piecework\piecework_create.html:121
+#: .\employee\templates\work\work_list.html:34
+msgid "Material"
+msgstr "Материал"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:10
+#: .\employee\templates\forms\create_form.html:12
+#: .\employee\templates\piecework\piecework_create.html:14
+msgid "New"
+msgstr "Шинэ"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:23
+#: .\employee\templates\daily_salary\daily_salary_list.html:26
+#: .\employee\templates\daily_salary\daily_salary_list.html:51
+#: .\employee\templates\daily_salary\daily_salary_update.html:11
+#: .\employee\templates\includes\save_duplicate_modal.html:20
+#: .\employee\templates\piecework\piecework_create.html:30
+#: .\employee\templates\piecework\piecework_list.html:32
+#: .\employee\templates\piecework\piecework_list.html:61
+#: .\employee\templates\piecework\piecework_update.html:14
+msgid "Date"
+msgstr "Огноо"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:25
+#: .\employee\templates\piecework\piecework_list.html:58
+#: .\employee\templates\work\work_list.html:36
+msgid "Time"
+msgstr "Цаг"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:29
+#: .\employee\templates\piecework\piecework_create.html:38
+msgid "Search by ID..."
+msgstr "ИД-аар хайх..."
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:31
+#: .\employee\templates\daily_salary\daily_salary_list.html:21
+#: .\employee\templates\employee\employee_list.html:21
+#: .\employee\templates\piecework\piecework_create.html:40
+#: .\employee\templates\piecework\piecework_list.html:21
+msgid "Employee Name"
+msgstr "Ажилтны Нэр"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:31
+#: .\employee\templates\piecework\piecework_create.html:40
+msgid "Search by Name..."
+msgstr "Нэрээр хайх..."
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:33
+#: .\employee\templates\daily_salary\daily_salary_list.html:24
+#: .\employee\templates\employee\employee_list.html:23
+#: .\employee\templates\piecework\piecework_create.html:42
+#: .\employee\templates\piecework\piecework_list.html:24
+msgid "Job Title"
+msgstr "Албан Тушаал"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:33
+#: .\employee\templates\daily_salary\daily_salary_list.html:24
+#: .\employee\templates\employee\employee_list.html:23
+#: .\employee\templates\piecework\piecework_create.html:42
+#: .\employee\templates\piecework\piecework_list.html:24
+msgid "Positions"
+msgstr "Албан Тушаал"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:51
+msgid "Select all employees"
+msgstr "Бүх ажилчдыг сонго"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:53
+#: .\employee\templates\daily_salary\daily_salary_list.html:45
+#: .\employee\templates\employee\employee_list.html:39
+#: .\employee\templates\piecework\piecework_create.html:62
+#: .\employee\templates\piecework\piecework_list.html:51
+msgid "ID"
+msgstr "ИД"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:54
+#: .\employee\templates\daily_salary\daily_salary_list.html:46
+#: .\employee\templates\employee\employee_create.html:14
+#: .\employee\templates\employee\employee_list.html:40
+#: .\employee\templates\employee\employee_update.html:8
+#: .\employee\templates\piecework\piecework_create.html:63
+#: .\employee\templates\piecework\piecework_list.html:52
+msgid "Name"
+msgstr "Нэр"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:55
+#: .\employee\templates\daily_salary\daily_salary_list.html:47
+#: .\employee\templates\employee\employee_create.html:16
+#: .\employee\templates\employee\employee_list.html:41
+#: .\employee\templates\employee\employee_update.html:10
+#: .\employee\templates\piecework\piecework_create.html:64
+#: .\employee\templates\piecework\piecework_list.html:53
+msgid "Position"
+msgstr "Албан Тушаал"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:91
+#: .\employee\templates\piecework\piecework_create.html:169
+msgid "Selected Employees:"
+msgstr "Сонгогдсон ажилчид:"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:100
+#: .\employee\templates\forms\create_form.html:41
+#: .\employee\templates\forms\update_form.html:41
+#: .\employee\templates\includes\save_duplicate_modal.html:30
+#: .\employee\templates\piecework\piecework_create.html:182
+msgid "Save"
+msgstr "Хадгалах"
+
+#: .\employee\templates\daily_salary\daily_salary_create.html:128
+#: .\employee\templates\piecework\piecework_create.html:218
+msgid "Please select at least one employee."
+msgstr "Дор хаяж нэг ажилтан сонгоно уу."
+
+#: .\employee\templates\daily_salary\daily_salary_list.html:29
+#: .\employee\templates\piecework\piecework_list.html:35
+msgid "Record Date"
+msgstr "Бичлэг Хийх Огноо"
+
+#: .\employee\templates\daily_salary\daily_salary_list.html:48
+#: .\employee\templates\daily_salary\daily_salary_update.html:9
+msgid "Hours"
+msgstr "Цаг"
+
+#: .\employee\templates\daily_salary\daily_salary_list.html:55
+#: .\employee\templates\piecework\piecework_list.html:65
+msgid "Record"
+msgstr "Бичлэг"
+
+#: .\employee\templates\daily_salary\daily_salary_list.html:59
+#: .\employee\templates\employee\employee_list.html:45
+#: .\employee\templates\piecework\piecework_list.html:69
+#: .\employee\templates\work\work_list.html:39
+msgid "Actions"
+msgstr "Үйлдлүүд"
+
+#: .\employee\templates\daily_salary\daily_salary_list.html:93
+msgid "No daily salaries found..."
+msgstr "Өдөр тутмын цалин олдсонгүй..."
+
+#: .\employee\templates\employee\employee_create.html:18
+#: .\employee\templates\employee\employee_list.html:42
+#: .\employee\templates\employee\employee_update.html:12
+msgid "Rank"
+msgstr "Зэрэг"
+
+#: .\employee\templates\employee\employee_list.html:43
+msgid "Money/Hour"
+msgstr "Мөнгө/Цаг"
+
+#: .\employee\templates\employee\employee_list.html:78
+msgid "No employees found..."
+msgstr "Ажилтан олдсонгүй..."
+
+#: .\employee\templates\forms\update_form.html:12
+#: .\employee\templates\includes\modals.html:16
+#: .\employee\templates\includes\modals.html:30
+#: .\employee\templates\includes\table_action_buttons.html:10
+msgid "Update"
+msgstr "Шинэчлэх"
+
+#: .\employee\templates\home\home.html:12
+msgid "Depot Management <br> Employee Management!"
+msgstr "Depot Management <br> Ажилчдын удирдлага!"
+
+#: .\employee\templates\home\home.html:18
+msgid ""
+"This application helps you manage employees, their work, and salary "
+"calculations for the Depot Management. Use the navigation bar to access "
+"employee records, work logs, salary details, and calculation materials."
+msgstr ""
+"Энэ програм нь ажилчид, тэдний ажил, цалинг удирдахад тусална Depot Management-ийн "
+"агуулахын тооцоо. Хандахын тулд навигацийн самбарыг ашиглана уу Ажилтны "
+"бүртгэл, ажлын бүртгэл, цалингийн дэлгэрэнгүй мэдээлэл, тооцооны материал."
+
+#: .\employee\templates\includes\alert_warning_update.html:10
+msgid "Warning"
+msgstr "Анхааруулга"
+
+#: .\employee\templates\includes\alert_warning_update.html:12
+#, python-format
+msgid ""
+"All records associated with this %(object_type)s <strong>%(object_name)s</"
+"strong> will also be updated."
+msgstr ""
+"Энэ %(object_type)s <strong>%(object_name)s</strong> холбоотой бүх бүртгэл "
+"мөн шинэчлэгдэх болно."
+
+#: .\employee\templates\includes\department_dropdown.html:15
+msgid "Department"
+msgstr "Хэлтэс"
+
+#: .\employee\templates\includes\filter_button.html:9
+msgid "Filter"
+msgstr "Шүүлтүүр"
+
+#: .\employee\templates\includes\list_header.html:17
+msgid "Create"
+msgstr "Үүсгэх"
+
+#: .\employee\templates\includes\modals.html:19
+msgid ""
+"Are you sure you want to update <strong id=\"updateDetails\"></strong>?<br> "
+"All records associated with this item will also be updated."
+msgstr ""
+"Та <strong id=\"updateDetails\"></strong> шинэчлэхдээ итгэлтэй байна уу?<br> "
+"Энэ зүйлтэй холбоотой бүх бүртгэл мөн шинэчлэгдэх болно."
+
+#: .\employee\templates\includes\modals.html:55
+#: .\employee\templates\includes\modals.html:70
+#: .\employee\templates\includes\table_action_buttons.html:29
+msgid "Delete"
+msgstr "Устгах"
+
+#: .\employee\templates\includes\modals.html:58
+msgid ""
+"Are you sure you want to delete <strong id=\"deleteDetails\"></strong>?<br> "
+"All records associated with this item will also be deleted."
+msgstr ""
+"Та <strong id=\"deleteDetails\"></strong> устгахдаа итгэлтэй байна уу?<br> "
+"Энэ зүйлтэй холбоотой бүх бүртгэл мөн устах болно."
+
+#: .\employee\templates\includes\modals.html:96
+#: .\employee\templates\includes\modals.html:110
+#: .\employee\templates\includes\table_action_buttons.html:50
+msgid "Deactivate"
+msgstr "Идэвхгүй болгох"
+
+#: .\employee\templates\includes\modals.html:99
+msgid ""
+"Are you sure you want to deactivate <strong id=\"deactivateDetails\"></"
+"strong>?<br> All records associated with this item will also be deactivated."
+msgstr ""
+"Та <strong id=\"deactivateDetails\"></strong> идэвхгүй болгохыг хүсэж байна "
+"уу?<br> Энэ зүйлтэй холбоотой бүх бүртгэл мөн идэвхгүй болно."
+
+#: .\employee\templates\includes\modals.html:135
+#: .\employee\templates\includes\modals.html:149
+#: .\employee\templates\includes\table_action_buttons.html:63
+msgid "Activate"
+msgstr "Идэвхжүүлэх"
+
+#: .\employee\templates\includes\modals.html:138
+msgid ""
+"Are you sure you want to activate <strong id=\"activateDetails\"></strong>?"
+"<br> All records associated with this item will also be activated."
+msgstr ""
+"Та <strong id=\"activateDetails\"></strong> идэвхжүүлэхдээ итгэлтэй байна уу?"
+"<br> Энэ зүйлтэй холбоотой бүх бүртгэл мөн идэвхжих болно."
+
+#: .\employee\templates\includes\piecework_form_alert.html:5
+msgid "Heads up!"
+msgstr "Анхаараарай!"
+
+#: .\employee\templates\includes\piecework_form_alert.html:7
+msgid ""
+"If you add Piecework for the same: <strong>Employee(s), Work, Type Work, "
+"Work Date</strong>. Make sure this is necessary!"
+msgstr ""
+"Хэрэв та ижил зүйлд зориулж Хэсэгчилсэн нэмбэл: <strong>Ажилтан(ууд), Ажил, "
+"Ажлын төрөл, Ажлын огноо</strong>. Энэ зайлшгүй шаардлагатай эсэхийг "
+"шалгаарай!"
+
+#: .\employee\templates\includes\piecework_form_alert.html:16
+msgid "Close"
+msgstr "Хаах"
+
+#: .\employee\templates\includes\save_duplicate_modal.html:13
+msgid "Duplicate"
+msgstr "Давхардсан"
+
+#: .\employee\templates\includes\save_duplicate_modal.html:15
+msgid "A piecework entry already exists for:"
+msgstr "Хэсэглэлийн оруулга аль хэдийн байна:"
+
+#: .\employee\templates\includes\save_duplicate_modal.html:18
+#: .\employee\templates\piecework\piecework_list.html:55
+msgid "Type"
+msgstr "Төрөл"
+
+#: .\employee\templates\includes\save_duplicate_modal.html:21
+msgid "Are you sure you want to create a duplicate entry?"
+msgstr "а давхар бичилт үүсгэхдээ итгэлтэй байна уу?"
+
+#: .\employee\templates\includes\save_duplicate_modal.html:28
+msgid "Confirm save duplicate"
+msgstr "Давхардсан хуулбарыг хадгалахыг баталгаажуулна уу"
+
+#: .\employee\templates\includes\user_dropdown.html:23
+msgid "Password"
+msgstr "Нууц үг"
+
+#: .\employee\templates\includes\user_dropdown.html:34
+msgid "Sign Out"
+msgstr "Гарах"
+
+#: .\employee\templates\piecework\piecework_create.html:32
+#: .\employee\templates\piecework\piecework_list.html:28
+#: .\employee\templates\piecework\piecework_update.html:8
+msgid "Type Work"
+msgstr "Ажлын Төрөл"
+
+#: .\employee\templates\piecework\piecework_create.html:34
+#: .\employee\templates\piecework\piecework_list.html:30
+#: .\employee\templates\piecework\piecework_update.html:10
+msgid "Wagon Number"
+msgstr "Вагоны дугаар"
+
+#: .\employee\templates\piecework\piecework_create.html:60
+msgid " Select all employees"
+msgstr "Бүх ажилчдыг сонго"
+
+#: .\employee\templates\piecework\piecework_create.html:100
+msgid "Search works by name..."
+msgstr "Бүтээлийг нэрээр нь хайх..."
+
+#: .\employee\templates\piecework\piecework_create.html:118
+msgid "Select all works"
+msgstr "Бүх бүтээлийг сонго"
+
+#: .\employee\templates\piecework\piecework_create.html:122
+#: .\employee\templates\piecework\piecework_list.html:57
+#: .\employee\templates\piecework\piecework_update.html:12
+msgid "Amount"
+msgstr "Дүн"
+
+#: .\employee\templates\piecework\piecework_create.html:172
+msgid "Selected Works:"
+msgstr "Сонгосон бүтээлүүд:"
+
+#: .\employee\templates\piecework\piecework_create.html:219
+msgid "Please select at least one work."
+msgstr "Дор хаяж нэг бүтээл сонгоно уу."
+
+#: .\employee\templates\piecework\piecework_create.html:226
+msgid "Please fill in the amount for selected work(s)"
+msgstr "Сонгосон ажлын дүнг бөглөнө үү"
+
+#: .\employee\templates\piecework\piecework_list.html:26
+#: .\employee\templates\work\work_create.html:12
+#: .\employee\templates\work\work_list.html:18
+#: .\employee\templates\work\work_list.html:33
+msgid "Work Name"
+msgstr "Ажлын Нэр"
+
+#: .\employee\templates\piecework\piecework_list.html:28
+msgid "Types"
+msgstr "Төрөл"
+
+#: .\employee\templates\piecework\piecework_list.html:59
+#: .\employee\templates\work\work_create.html:20
+#: .\employee\templates\work\work_list.html:37
+#: .\employee\templates\work\work_update.html:16
+msgid "Price"
+msgstr "Үнэ"
+
+#: .\employee\templates\piecework\piecework_list.html:107
+msgid "No piecework records found..."
+msgstr "Хэсэгчилсэн ажил бичлэг олдсонгүй..."
+
+#: .\employee\templates\work\work_create.html:14
+#: .\employee\templates\work\work_update.html:10
+msgid "Type Material"
+msgstr "Материалын төрөл"
+
+#: .\employee\templates\work\work_create.html:16
+#: .\employee\templates\work\work_update.html:12
+msgid "Usage Material"
+msgstr "Хэрэглээний материал"
+
+#: .\employee\templates\work\work_create.html:18
+#: .\employee\templates\work\work_update.html:14
+msgid "Standard Time"
+msgstr "Стандарт цаг"
+
+#: .\employee\templates\work\work_list.html:35
+msgid "Usage"
+msgstr "Хэрэглээ"
+
+#: .\employee\templates\work\work_list.html:67
+msgid "No work found..."
+msgstr "Ажил олдсонгүй..."
+
+#: .\employee\views\auth\register_views.py:46
+msgid "A user is already linked to this ID."
+msgstr "Энэ ИД-д хэрэглэгч аль хэдийн холбогдсон."
+
+#: .\employee\views\auth\register_views.py:50
+msgid "Registration successful! Please log in with your new account."
+msgstr "Бүртгэл амжилттай! Шинэ бүртгэлээрээ нэвтэрнэ үү."
+
+#: .\employee\views\auth\register_views.py:53
+msgid "Employee, Master, or Payroll not found."
+msgstr "Ажилтан, Мастер эсвэл Цалингийн бүртгэл олдсонгүй."
