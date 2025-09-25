@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block title %}Piecework{% endblock %}
 
 {% block content %}
@@ -7,30 +9,30 @@
   {% url 'piecework_create' as create_url %}
 
   {% if not is_employee %}
-    {% include "includes/list_header.html" with header_id="piecework-list-title" title=selected_department create_url=create_url create_label="Create" %}
+    {% include "includes/list_header.html" with header_id="piecework-list-title" title=selected_department create_url=create_url %}
   {% endif %}
 
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="piecework-list-title">
     <div class="flex flex-col md:flex-row gap-4">
       {% if not is_employee %}
-        {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
+        {% include "includes/filter_input.html" with id="filter-employee-id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
 
-        {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
+        {% include "includes/filter_input.html" with id="filter-employee-name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name %}
       {% endif %}
 
-      {% include "includes/filter_select.html" with id="filter-job-title" label="Job Title" name="job_title" choices=job_titles selected=request.GET.job_title empty_label="Positions" %}
+      {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
 
-      {% include "includes/filter_input.html" with id="filter-work" label="Work" name="work" type="text" value=request.GET.work placeholder="Work Name" %}
+      {% include "includes/filter_input.html" with id="filter-work" label=_("Work") name="work" type="text" value=request.GET.work placeholder=_("Work Name") %}
 
-      {% include "includes/filter_select.html" with id="filter-type-work" label="Type Work" name="type_work" choices=type_works value=request.GET.type_work selected=request.GET.type_work empty_label="Types" %}
+      {% include "includes/filter_select.html" with id="filter-type-work" label=_("Type Work") name="type_work" choices=type_works value=request.GET.type_work selected=request.GET.type_work empty_label=_("Types") %}
 
-      {% include "includes/filter_input.html" with id="filter-wagon-number" label="Wagon Number" name="wagon_number" value=request.GET.wagon_number placeholder="Wagon Number" %}
+      {% include "includes/filter_input.html" with id="filter-wagon-number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
 
-      {% include "includes/filter_date.html" with id="filter-work-date" label="Date" name="work_date" type="text" value=request.GET.work_date %}
+      {% include "includes/filter_date.html" with id="filter-work-date" label=_("Date") name="work_date" type="text" value=request.GET.work_date %}
 
       {% if not is_employee %}
-        {% include "includes/filter_date.html" with id="filter-record-date" label="Record Date" name="record_date" type="text" value=request.GET.record_date %}
+        {% include "includes/filter_date.html" with id="filter-record-date" label=_("Record Date") name="record_date" type="text" value=request.GET.record_date %}
       {% endif %}
 
       {% include "includes/filter_button.html" %}
@@ -46,25 +48,25 @@
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">ID</th>
-            <th scope="col" class="{{ col_class }}">Name</th>
-            <th scope="col" class="{{ col_class }}">Position</th>
-            <th scope="col" class="{{ col_class }}">Work</th>
-            <th scope="col" class="{{ col_class }}">Type</th>
-            <th scope="col" class="{{ col_class }}">Wagon</th>
-            <th scope="col" class="{{ col_class }}">Amount</th>
-            <th scope="col" class="{{ col_class }}">Time</th>
-            <th scope="col" class="{{ col_class }}">Price</th>
+            <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Type" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
             <th scope="col" class="{{ col_class }}">
-              {% include "includes/order_by_column.html" with label="Date" field="work_date" col_class=col_class selected_department=selected_department %}
+              {% include "includes/order_by_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
             </th>
             {% if not is_employee %}
               <th scope="col" class="{{ col_class }}">
-                {% include "includes/order_by_column.html" with label="Record" field="record_date" col_class=col_class selected_department=selected_department %}
+                {% include "includes/order_by_column.html" with label=_("Record") field="record_date" col_class=col_class selected_department=selected_department %}
               </th>
             {% endif %}
             {% if not is_employee and not is_master %}
-              <th scope="col" class="{{ col_class }}">Actions</th>
+              <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
             {% endif %}
           {% endwith %}
         </tr>
@@ -80,7 +82,7 @@
                 <td class="{{ col_class }}">{{ piecework.employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ piecework.work.work_name }}</td>
                 <td class="{{ col_class }}">{{ piecework.type_work }}</td>
-                <td class="{{ col_class }}">{{ piecework.wagon_number }}</td>
+                <td class="{{ col_class }}">{{ piecework.wagon_number_display }}</td>
                 <td class="{{ col_class }}">{{ piecework.amount }}</td>
                 <td class="{{ col_class }}">{{ piecework.amount_time|floatformat:4 }}</td>
                 <td class="{{ col_class }}">{{ piecework.amount_price|floatformat:2 }}</td>
@@ -102,7 +104,7 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="13" class="text-center px-3 py-4 text-gray-500">No piecework records found...</td>
+            <td colspan="13" class="text-center px-3 py-4 text-gray-500">{% trans "No piecework records found..." %}</td>
           </tr>
         {% endif %}
       </tbody>
