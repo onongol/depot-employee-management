@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-25 16:05+0800\n"
+"POT-Creation-Date: 2025-09-25 16:20+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -277,6 +277,7 @@ msgstr "Хадгалах"
 #: .\employee\templates\daily_salary\daily_salary_create.html:128
 #: .\employee\templates\piecework\piecework_create.html:218
 #: .\employee\views\daily_salary\daily_salary_views.py:82
+#: .\employee\views\piecework\piecework_views.py:116
 msgid "Please select at least one employee."
 msgstr "Дор хаяж нэг ажилтан сонгоно уу."
 
@@ -566,6 +567,7 @@ msgid "Selected Works:"
 msgstr "Сонгосон бүтээлүүд:"
 
 #: .\employee\templates\piecework\piecework_create.html:219
+#: .\employee\views\piecework\piecework_views.py:118
 msgid "Please select at least one work."
 msgstr "Дор хаяж нэг бүтээл сонгоно уу."
 
@@ -632,9 +634,29 @@ msgstr "Огноо, цагийг сонгоно уу!"
 msgid ""
 "Daily salary record for Employee: %(employee)s on %(date)s already exists!"
 msgstr ""
-"Ажилтны өдрийн цалингийн бүртгэл: %(date)s дээрх %(employee)s аль хэдийн байна!"
+"Ажилтны өдрийн цалингийн бүртгэл: %(date)s дээрх %(employee)s аль хэдийн "
+"байна!"
 
 #: .\employee\views\daily_salary\daily_salary_views.py:129
 #, python-format
 msgid "Error creating daily salary records: %(error)s"
+msgstr "Өдөр тутмын цалингийн бүртгэл үүсгэх алдаа: %(error)s"
+
+#: .\employee\views\piecework\piecework_views.py:129
+msgid "Please select work date, type work."
+msgstr "Ажлын огноог сонгож, ажлаа бичнэ үү."
+
+#: .\employee\views\piecework\piecework_views.py:136
+msgid "Please fill in the amount for all selected work(s): %(works)s."
+msgstr "Сонгосон бүх бүтээлийн дүнг бөглөнө үү: %(works)s."
+
+#: .\employee\views\piecework\piecework_views.py:156
+#, python-format
+msgid ""
+"First create Daily Salary for these employee(s): %(employees)s for the selected date %(date)s."
+msgstr ""
+"Эхлээд эдгээр ажилчдын өдөр тутмын цалинг үүсгэнэ үү: %(employees)s сонгосон огнооны %(date)s."
+
+#: .\employee\views\piecework\piecework_views.py:182
+msgid "Error creating piecework records: %(error)s"
 msgstr "Өдөр тутмын цалингийн бүртгэл үүсгэх алдаа: %(error)s"
