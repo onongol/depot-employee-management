@@ -1,29 +1,32 @@
 {% extends "base.html" %}
+
 {% load static %}
+
+{% load i18n %}
 
 {% block title %}Material{% endblock %}
 
 {% block content %}
 
   <div class="flex flex-col sm:flex-row justify-between mb-6 items-center gap-4">
-    <h2 id="material-list-title" class="text-lg text-gray-700 font-semibold">Material</h2>
+    <h2 id="material-list-title" class="text-lg text-gray-700 font-semibold">{% trans "Material" %}</h2>
   </div>
 
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="material-list-title">
     <div class="flex flex-col md:flex-row gap-4">
-      {% include "includes/filter_date_range.html" with id="filter-range-date" label="Select range of date" name="range_date" type="text" value=request.GET.range_date %}
+      {% include "includes/filter_date_range.html" with id="filter-range-date" label=_("Select range of date") name="range_date" type="text" value=request.GET.range_date %}
 
-      {% include "includes/filter_input.html" with id="filter-work-name" label="Work Name" name="work_name" type="text" value=request.GET.work_name placeholder="Work Name" %}
+      {% include "includes/filter_input.html" with id="filter-work-name" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name %}
 
-      {% include "includes/filter_select.html" with id="filter-type-material" label="Type Material" name="type_material" choices=type_materials selected=request.GET.type_material empty_label="Materials" %}
+      {% include "includes/filter_select.html" with id="filter-type-material" label=_("Type Material") name="type_material" choices=type_materials selected=request.GET.type_material empty_label=_("Materials") %}
       
       <div class="flex flex-col">
         <button
           type="submit"
           class="items-center px-4 py-2 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 shadow transition-colors focus:ring-2 focus:ring-gray-400"
         >
-          Calculate
+          {% trans "Calculate" %}
         </button>
       </div>
     </div>
@@ -36,11 +39,11 @@
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
             <th scope="col" class="{{ col_class }}">
-              {% include "includes/order_by_column.html" with label="Date" field="work_date" col_class=col_class selected_department=selected_department %}
+              {% include "includes/order_by_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
             </th>
-            <th scope="col" class="{{ col_class }}">Work</th>
-            <th scope="col" class="{{ col_class }}">Material</th>
-            <th scope="col" class="{{ col_class }}">Amount</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
           {% endwith %}
         </tr>
       </thead>
@@ -61,7 +64,7 @@
         {% endfor %}
         {% if pieceworks|length == 0 %}
           <tr>
-            <td colspan="5" class="text-center px-3 py-4 text-gray-500">No materials found.</td>
+            <td colspan="5" class="text-center px-3 py-4 text-gray-500">{% trans "No materials found..." %}</td>
           </tr>
         {% endif %}
         {% if page_obj.number == page_obj.paginator.num_pages %}

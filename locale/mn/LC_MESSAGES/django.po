@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-25 14:18+0800\n"
+"POT-Creation-Date: 2025-09-25 14:27+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,6 +60,7 @@ msgstr "Ажилтан"
 
 #: .\employee\mixins\context_mixins.py:18 .\employee\templates\base.html:36
 #: .\employee\templates\includes\save_duplicate_modal.html:17
+#: .\employee\templates\material\material_list.html:44
 #: .\employee\templates\piecework\piecework_create.html:100
 #: .\employee\templates\piecework\piecework_create.html:120
 #: .\employee\templates\piecework\piecework_list.html:26
@@ -125,6 +126,8 @@ msgid "Wagon"
 msgstr "Вагон"
 
 #: .\employee\templates\base.html:50
+#: .\employee\templates\material\material_list.html:12
+#: .\employee\templates\material\material_list.html:45
 #: .\employee\templates\piecework\piecework_create.html:121
 #: .\employee\templates\work\work_list.html:34
 msgid "Material"
@@ -141,6 +144,7 @@ msgstr "Шинэ"
 #: .\employee\templates\daily_salary\daily_salary_list.html:51
 #: .\employee\templates\daily_salary\daily_salary_update.html:11
 #: .\employee\templates\includes\save_duplicate_modal.html:20
+#: .\employee\templates\material\material_list.html:42
 #: .\employee\templates\piecework\piecework_create.html:30
 #: .\employee\templates\piecework\piecework_list.html:32
 #: .\employee\templates\piecework\piecework_list.html:61
@@ -359,6 +363,11 @@ msgstr "Шүүлтүүр"
 msgid "Create"
 msgstr "Үүсгэх"
 
+#: .\employee\templates\includes\materials_total_row.html:6
+#: .\employee\templates\includes\wagons_total_row.html:6
+msgid "Total"
+msgstr "Нийт"
+
 #: .\employee\templates\includes\modals.html:19
 msgid ""
 "Are you sure you want to update <strong id=\"updateDetails\"></strong>?<br> "
@@ -456,9 +465,44 @@ msgstr "Нууц үг"
 msgid "Sign Out"
 msgstr "Гарах"
 
-#: .\employee\templates\includes\wagons_total_row.html:6
-msgid "Total"
-msgstr "Нийт"
+#: .\employee\templates\material\material_list.html:18
+msgid "Select range of date"
+msgstr "Огнооны мужийг сонгоно уу"
+
+#: .\employee\templates\material\material_list.html:20
+#: .\employee\templates\piecework\piecework_list.html:26
+#: .\employee\templates\wagon\wagon_list.html:16
+#: .\employee\templates\work\work_create.html:12
+#: .\employee\templates\work\work_list.html:18
+#: .\employee\templates\work\work_list.html:33
+msgid "Work Name"
+msgstr "Ажлын Нэр"
+
+#: .\employee\templates\material\material_list.html:22
+#: .\employee\templates\work\work_create.html:14
+#: .\employee\templates\work\work_update.html:10
+msgid "Type Material"
+msgstr "Материалын төрөл"
+
+#: .\employee\templates\material\material_list.html:22
+msgid "Materials"
+msgstr "Материал"
+
+#: .\employee\templates\material\material_list.html:29
+msgid "Calculate"
+msgstr "Тооцоол"
+
+#: .\employee\templates\material\material_list.html:46
+#: .\employee\templates\piecework\piecework_create.html:122
+#: .\employee\templates\piecework\piecework_list.html:57
+#: .\employee\templates\piecework\piecework_update.html:12
+#: .\employee\templates\wagon\wagon_list.html:31
+msgid "Amount"
+msgstr "Дүн"
+
+#: .\employee\templates\material\material_list.html:67
+msgid "No materials found..."
+msgstr "Материал олдсонгүй..."
 
 #: .\employee\templates\piecework\piecework_create.html:32
 #: .\employee\templates\piecework\piecework_list.html:28
@@ -485,13 +529,6 @@ msgstr "Бүтээлийг нэрээр нь хайх..."
 msgid "Select all works"
 msgstr "Бүх бүтээлийг сонго"
 
-#: .\employee\templates\piecework\piecework_create.html:122
-#: .\employee\templates\piecework\piecework_list.html:57
-#: .\employee\templates\piecework\piecework_update.html:12
-#: .\employee\templates\wagon\wagon_list.html:31
-msgid "Amount"
-msgstr "Дүн"
-
 #: .\employee\templates\piecework\piecework_create.html:172
 msgid "Selected Works:"
 msgstr "Сонгосон бүтээлүүд:"
@@ -503,14 +540,6 @@ msgstr "Дор хаяж нэг бүтээл сонгоно уу."
 #: .\employee\templates\piecework\piecework_create.html:226
 msgid "Please fill in the amount for selected work(s)"
 msgstr "Сонгосон ажлын дүнг бөглөнө үү"
-
-#: .\employee\templates\piecework\piecework_list.html:26
-#: .\employee\templates\wagon\wagon_list.html:16
-#: .\employee\templates\work\work_create.html:12
-#: .\employee\templates\work\work_list.html:18
-#: .\employee\templates\work\work_list.html:33
-msgid "Work Name"
-msgstr "Ажлын Нэр"
 
 #: .\employee\templates\piecework\piecework_list.html:28
 msgid "Types"
@@ -531,11 +560,6 @@ msgstr "Хэсэгчилсэн ажил бичлэг олдсонгүй..."
 #: .\employee\templates\wagon\wagon_list.html:56
 msgid "No wagon records found..."
 msgstr "Вагоны бичлэг олдсонгүй..."
-
-#: .\employee\templates\work\work_create.html:14
-#: .\employee\templates\work\work_update.html:10
-msgid "Type Material"
-msgstr "Материалын төрөл"
 
 #: .\employee\templates\work\work_create.html:16
 #: .\employee\templates\work\work_update.html:12
