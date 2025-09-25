@@ -1,5 +1,6 @@
 from employee.models import Piecework
 from employee.utils.filters import filter_wagon
+from employee.constants.constants import DEFAULT_WAGON_NUMBER
 
 
 def wagon_prepare(request):
@@ -10,7 +11,7 @@ def wagon_prepare(request):
 
     pieceworks = Piecework.objects.select_related('work').filter(
         employee__is_active=True,
-    ).exclude(wagon_number__isnull=True).exclude(wagon_number='0')
+    ).exclude(wagon_number__isnull=True).exclude(wagon_number=DEFAULT_WAGON_NUMBER)
 
     return pieceworks, wagon_number, work_name, work_date
 
