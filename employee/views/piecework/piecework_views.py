@@ -8,6 +8,7 @@ from django.views.generic import UpdateView, DeleteView
 from django.db import transaction
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.translation import gettext_lazy as _
 
 from employee.mixins.context_mixins import PieceworkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
@@ -112,9 +113,9 @@ def piecework_create(request):
 
         # Validate required fields
         if not selected_employee_ids:
-            errors.append("Please select at least one employee.")
+            errors.append(_("Please select at least one employee."))
         if not selected_work_ids:
-            errors.append("Please select at least one work.")
+            errors.append(_("Please select at least one work."))
 
         # Prefetch all selected works in a single query for efficient access
         works_dict = {str(work.pk): work for work in Work.objects.filter(pk__in=selected_work_ids)}
@@ -125,13 +126,17 @@ def piecework_create(request):
         ]    
 
         if not work_date or not type_work:
-            errors.append("Please select work date, type work.")    
+            errors.append(_("Please select work date, type work."))    
         elif missing_amounts:
             # If there are missing amounts, get the work names for error reporting
             missing_work_names = [
                 works_dict[wid].work_name for wid in missing_amounts if wid in works_dict
             ]
-            errors.append(f"Please fill in the amount for all selected work(s): {', '.join(missing_work_names)}.")
+            errors.append(
+                _("Please fill in the amount for all selected work(s): %(works)s.") % {
+                    'works': ', '.join(missing_work_names)
+                }
+            )
         else:
             # --- NEW DAILY SALARY CHECK LOGIC ---
             # Get all DailySalary records for selected employees and date
@@ -148,7 +153,10 @@ def piecework_create(request):
             if missing_salary_employees:
                 missing_names = [f"{emp.employee_id}/{emp.name}" for emp in missing_salary_employees]
                 errors.append(
-                    f"First create Daily Salary for these employee(s): {', '.join(missing_names)} for the selected date {work_date}."
+                    _("First create Daily Salary for these employee(s): %(employees)s for the selected date %(date)s.") % {
+                        'employees': ', '.join(missing_names),
+                        'date': work_date
+                    }
                 )
             else:
                 # --- Business logic: Calculate amount_price for each employee and work ---
@@ -171,7 +179,7 @@ def piecework_create(request):
                                 data['group_id'] = group_id
                                 Piecework.objects.create(**data)
                     except Exception as e:
-                        errors.append(f"Error creating piecework records: {str(e)}")
+                        errors.append(_("Error creating piecework records: %(error)s") % {'error': str(e)})
             if not errors:
                 return redirect(f"{reverse('piecework_list')}?department={department}")
                 
