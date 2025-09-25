@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block title %}Wagon{% endblock %}
 
 {% block content %}
@@ -9,11 +11,11 @@
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="wagon-list-title">
     <div class="flex flex-col md:flex-row gap-4">
-      {% include "includes/filter_input.html" with id="filter-wagon-number" label="Wagon Number" name="wagon_number" value=request.GET.wagon_number placeholder="Wagon Number" %}
-        
-      {% include "includes/filter_input.html" with id="filter-work" label="Work" name="work" type="text" value=request.GET.work placeholder="Work Name" %}
+      {% include "includes/filter_input.html" with id="filter-wagon-number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
 
-      {% include "includes/filter_date.html" with id="filter-work-date" label="Date" name="work_date" type="text" value=request.GET.work_date %}
+      {% include "includes/filter_input.html" with id="filter-work" label=_("Work") name="work" type="text" value=request.GET.work placeholder=_("Work Name") %}
+
+      {% include "includes/filter_date.html" with id="filter-work-date" label=_("Date") name="work_date" type="text" value=request.GET.work_date %}
 
       {% include "includes/filter_button.html" %}
     </div>
@@ -23,14 +25,14 @@
     <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="wagon-list-title">
       <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide">
         <tr>
-          <th class="px-6 py-3">Wagon</th>
-          <th class="px-6 py-3">Type</th>
-          <th class="px-6 py-3">Work</th>
-          <th class="px-6 py-3">Amount</th>
-          <th class="px-6 py-3">Time</th>
-          <th class="px-6 py-3">Price</th>
+          <th class="px-6 py-3">{% trans "Wagon" %}</th>
+          <th class="px-6 py-3">{% trans "Type" %}</th>
+          <th class="px-6 py-3">{% trans "Work" %}</th>
+          <th class="px-6 py-3">{% trans "Amount" %}</th>
+          <th class="px-6 py-3">{% trans "Time" %}</th>
+          <th class="px-6 py-3">{% trans "Price" %}</th>
           <th class="px-6 py-3">
-            {% include "includes/order_by_column.html" with label="Date" field="work_date" col_class=col_class selected_department=selected_department %}
+            {% include "includes/order_by_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
           </th>
         </tr>
       </thead>
@@ -51,7 +53,7 @@
           {% endfor %}
           {% if wagon_data|length == 0 %}
             <tr>
-              <td colspan="7" class="text-center px-3 py-4 text-gray-500">No wagon records found...</td>
+              <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No wagon records found..." %}</td>
             </tr>
           {% endif %}
           {% if page_obj.number == page_obj.paginator.num_pages %}

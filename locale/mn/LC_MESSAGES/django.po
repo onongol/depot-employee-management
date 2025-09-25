@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-25 14:04+0800\n"
+"POT-Creation-Date: 2025-09-25 14:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,6 +64,8 @@ msgstr "Ажилтан"
 #: .\employee\templates\piecework\piecework_create.html:120
 #: .\employee\templates\piecework\piecework_list.html:26
 #: .\employee\templates\piecework\piecework_list.html:54
+#: .\employee\templates\wagon\wagon_list.html:16
+#: .\employee\templates\wagon\wagon_list.html:30
 msgid "Work"
 msgstr "Ажил"
 
@@ -118,6 +120,7 @@ msgstr "Цалин"
 #: .\employee\templates\base.html:46
 #: .\employee\templates\includes\save_duplicate_modal.html:19
 #: .\employee\templates\piecework\piecework_list.html:56
+#: .\employee\templates\wagon\wagon_list.html:28
 msgid "Wagon"
 msgstr "Вагон"
 
@@ -142,11 +145,14 @@ msgstr "Шинэ"
 #: .\employee\templates\piecework\piecework_list.html:32
 #: .\employee\templates\piecework\piecework_list.html:61
 #: .\employee\templates\piecework\piecework_update.html:14
+#: .\employee\templates\wagon\wagon_list.html:18
+#: .\employee\templates\wagon\wagon_list.html:35
 msgid "Date"
 msgstr "Огноо"
 
 #: .\employee\templates\daily_salary\daily_salary_create.html:25
 #: .\employee\templates\piecework\piecework_list.html:58
+#: .\employee\templates\wagon\wagon_list.html:32
 #: .\employee\templates\work\work_list.html:36
 msgid "Time"
 msgstr "Цаг"
@@ -430,6 +436,7 @@ msgstr "Хэсэглэлийн оруулга аль хэдийн байна:"
 
 #: .\employee\templates\includes\save_duplicate_modal.html:18
 #: .\employee\templates\piecework\piecework_list.html:55
+#: .\employee\templates\wagon\wagon_list.html:29
 msgid "Type"
 msgstr "Төрөл"
 
@@ -449,6 +456,10 @@ msgstr "Нууц үг"
 msgid "Sign Out"
 msgstr "Гарах"
 
+#: .\employee\templates\includes\wagons_total_row.html:6
+msgid "Total"
+msgstr "Нийт"
+
 #: .\employee\templates\piecework\piecework_create.html:32
 #: .\employee\templates\piecework\piecework_list.html:28
 #: .\employee\templates\piecework\piecework_update.html:8
@@ -458,6 +469,7 @@ msgstr "Ажлын Төрөл"
 #: .\employee\templates\piecework\piecework_create.html:34
 #: .\employee\templates\piecework\piecework_list.html:30
 #: .\employee\templates\piecework\piecework_update.html:10
+#: .\employee\templates\wagon\wagon_list.html:14
 msgid "Wagon Number"
 msgstr "Вагоны дугаар"
 
@@ -476,6 +488,7 @@ msgstr "Бүх бүтээлийг сонго"
 #: .\employee\templates\piecework\piecework_create.html:122
 #: .\employee\templates\piecework\piecework_list.html:57
 #: .\employee\templates\piecework\piecework_update.html:12
+#: .\employee\templates\wagon\wagon_list.html:31
 msgid "Amount"
 msgstr "Дүн"
 
@@ -492,6 +505,7 @@ msgid "Please fill in the amount for selected work(s)"
 msgstr "Сонгосон ажлын дүнг бөглөнө үү"
 
 #: .\employee\templates\piecework\piecework_list.html:26
+#: .\employee\templates\wagon\wagon_list.html:16
 #: .\employee\templates\work\work_create.html:12
 #: .\employee\templates\work\work_list.html:18
 #: .\employee\templates\work\work_list.html:33
@@ -503,6 +517,7 @@ msgid "Types"
 msgstr "Төрөл"
 
 #: .\employee\templates\piecework\piecework_list.html:59
+#: .\employee\templates\wagon\wagon_list.html:33
 #: .\employee\templates\work\work_create.html:20
 #: .\employee\templates\work\work_list.html:37
 #: .\employee\templates\work\work_update.html:16
@@ -512,6 +527,10 @@ msgstr "Үнэ"
 #: .\employee\templates\piecework\piecework_list.html:107
 msgid "No piecework records found..."
 msgstr "Хэсэгчилсэн ажил бичлэг олдсонгүй..."
+
+#: .\employee\templates\wagon\wagon_list.html:56
+msgid "No wagon records found..."
+msgstr "Вагоны бичлэг олдсонгүй..."
 
 #: .\employee\templates\work\work_create.html:14
 #: .\employee\templates\work\work_update.html:10
