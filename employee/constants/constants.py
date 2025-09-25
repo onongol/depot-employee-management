@@ -55,3 +55,9 @@ class TypeWork(Enum):
 
 # Type work choices
 TYPE_WORK_CHOICES = [(work_type.value, work_type.value) for work_type in TypeWork]
+
+# Default wagon number
+DEFAULT_WAGON_NUMBER = "0"
+
+# Default material type
+DEFAULT_MATERIAL_TYPE = "-"
