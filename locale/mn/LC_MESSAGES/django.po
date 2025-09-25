@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-25 16:20+0800\n"
+"POT-Creation-Date: 2025-09-25 16:27+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -642,21 +642,35 @@ msgstr ""
 msgid "Error creating daily salary records: %(error)s"
 msgstr "Өдөр тутмын цалингийн бүртгэл үүсгэх алдаа: %(error)s"
 
+#: .\employee\views\piecework\piecework_calculation.py:37
+#, python-format
+msgid "Amount required for work %(work_name)s."
+msgstr "%(work_name)s ажилд шаардагдах дүн."
+
+#: .\employee\views\piecework\piecework_calculation.py:44
+#, python-format
+msgid "Invalid amount for work %(work_name)s."
+msgstr "%(work_name)s ажлын дүн буруу байна."
+
 #: .\employee\views\piecework\piecework_views.py:129
 msgid "Please select work date, type work."
 msgstr "Ажлын огноог сонгож, ажлаа бичнэ үү."
 
 #: .\employee\views\piecework\piecework_views.py:136
+#, python-format
 msgid "Please fill in the amount for all selected work(s): %(works)s."
 msgstr "Сонгосон бүх бүтээлийн дүнг бөглөнө үү: %(works)s."
 
 #: .\employee\views\piecework\piecework_views.py:156
 #, python-format
 msgid ""
-"First create Daily Salary for these employee(s): %(employees)s for the selected date %(date)s."
+"First create Daily Salary for these employee(s): %(employees)s for the "
+"selected date %(date)s."
 msgstr ""
-"Эхлээд эдгээр ажилчдын өдөр тутмын цалинг үүсгэнэ үү: %(employees)s сонгосон огнооны %(date)s."
+"Эхлээд эдгээр ажилчдын өдөр тутмын цалинг үүсгэнэ үү: %(employees)s сонгосон "
+"огнооны %(date)s."
 
 #: .\employee\views\piecework\piecework_views.py:182
+#, python-format
 msgid "Error creating piecework records: %(error)s"
 msgstr "Өдөр тутмын цалингийн бүртгэл үүсгэх алдаа: %(error)s"
