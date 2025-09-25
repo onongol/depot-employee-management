@@ -1,3 +1,5 @@
+{% load i18n %}
+
 {% if messages %}
   {% for message in messages %}
     {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
@@ -7,7 +9,7 @@
         aria-live="polite"
       >
         <div>
-          <strong class="font-semibold">Attention!</strong><br />
+          <strong class="font-semibold">{% trans "Attention" %}!</strong><br />
           <p class="text-sm">{{ message }}</p>
         </div>
         <button
@@ -28,7 +30,7 @@
         aria-live="polite"
       >
         <div>
-          <strong class="font-semibold">Warning!</strong><br />
+          <strong class="font-semibold">{% trans "Warning" %}!</strong><br />
           <p class="text-sm">{{ message }}</p>
         </div>
         <button
