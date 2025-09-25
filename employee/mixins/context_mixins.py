@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 from .mixins import GenericContextMixin
 from employee.models import Employee, Work, DailySalary, Piecework
@@ -6,7 +7,7 @@ from employee.models import Employee, Work, DailySalary, Piecework
 
 class EmployeeContextMixin(GenericContextMixin):
     model = Employee
-    object_type = 'Employee'
+    object_type = _('Employee')
     success_url = reverse_lazy('employee_list')
     cancel_url = reverse_lazy('employee_list')
     object_name_func = staticmethod(lambda obj: f"{obj.employee_id}/{obj.name}")
@@ -14,7 +15,7 @@ class EmployeeContextMixin(GenericContextMixin):
 
 class WorkContextMixin(GenericContextMixin):
     model = Work
-    object_type = 'Work'
+    object_type = _('Work')
     success_url = reverse_lazy('work_list')
     cancel_url = reverse_lazy('work_list')
     object_name_func = staticmethod(lambda obj: str(obj))
@@ -22,7 +23,7 @@ class WorkContextMixin(GenericContextMixin):
 
 class DailySalaryContextMixin(GenericContextMixin):
     model = DailySalary
-    object_type = 'Daily Salary'
+    object_type = _('Daily Salary')
     success_url = reverse_lazy('daily_salary_list')
     cancel_url = reverse_lazy('daily_salary_list')
     object_name_func = staticmethod(
@@ -32,7 +33,7 @@ class DailySalaryContextMixin(GenericContextMixin):
 
 class PieceworkContextMixin(GenericContextMixin):
     model = Piecework
-    object_type = 'Piecework'
+    object_type = _('Piecework')
     success_url = reverse_lazy('piecework_list')
     cancel_url = reverse_lazy('piecework_list')
     object_name_func = staticmethod(
