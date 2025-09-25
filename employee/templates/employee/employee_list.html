@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block title %}Employee{% endblock %}
 
 {% block content %}
@@ -7,19 +9,19 @@
   {% url 'employee_create' as create_url %}
 
   {% if not is_employee and not is_master %}
-    {% include "includes/list_header.html" with header_id="employee-list-title" title=selected_department create_url=create_url create_label="Create" %}
+    {% include "includes/list_header.html" with header_id="employee-list-title" title=selected_department create_url=create_url %}
   {% endif %}
   
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="employee-list-title">
     <div class="flex flex-col md:flex-row gap-4">
       {% if not is_employee %}
-        {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
+        {% include "includes/filter_input.html" with id="filter-employee-id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
         
-        {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
+        {% include "includes/filter_input.html" with id="filter-employee-name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name %}
+        
+        {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
 
-        {% include "includes/filter_select.html" with id="filter-job-title" label="Job Title" name="job_title" choices=job_titles selected=request.GET.job_title empty_label="Positions" %}
-      
         {% include "includes/filter_button.html" %}
       {% endif %}
     </div>
@@ -34,13 +36,13 @@
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">ID</th>
-            <th scope="col" class="{{ col_class }}">Name</th>
-            <th scope="col" class="{{ col_class }}">Position</th>
-            <th scope="col" class="{{ col_class }}">Rank</th>
-            <th scope="col" class="{{ col_class }}">Money/Hour</th>
+            <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Rank" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Money/Hour" %}</th>
             {% if not is_employee and not is_master %}
-              <th scope="col" class="{{ col_class }}">Actions</th>
+              <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
             {% endif %}
           {% endwith %}
         </tr>
@@ -65,7 +67,7 @@
                     {% else %}
                       {% url 'employee_activate' employee.pk as activate_url %}
                     {% endif %}
-                    {% include "includes/employee_table_action_buttons.html" with id=employee.employee_id name=employee.name edit_url=edit_url delete_url=delete_url deactivate_url=deactivate_url activate_url=activate_url is_active=employee.is_active %}
+                    {% include "includes/table_action_buttons.html" with id=employee.employee_id name=employee.name edit_url=edit_url delete_url=delete_url deactivate_url=deactivate_url activate_url=activate_url show_activation=True is_active=employee.is_active %}
                   </td>
                 {% endif %}
               {% endwith %}
@@ -73,7 +75,7 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="7" class="text-center px-3 py-4 text-gray-500">No employees found...</td>
+            <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No employees found..." %}</td>
           </tr>
         {% endif %}
       </tbody>

@@ -1,5 +1,7 @@
 {% extends "forms/create_form.html" %}
 
+{% load i18n %}
+
 {% block title %}Create Employee{% endblock %}
 
 {% block form_fields %}
@@ -7,12 +9,12 @@
     <legend class="sr-only">Create Employee Details</legend>
     {% include "includes/department_input_hidden.html" %}
 
-    {% include "includes/form_input.html" with id="employee_id" label="Employee ID" name="employee_id" type="number" value=form.employee_id.value form_errors=form.employee_id required=True %}
+    {% include "includes/form_input.html" with id="employee_id" label=_("Employee ID") name="employee_id" type="number" value=form.employee_id.value form_errors=form.employee_id required=True %}
 
-    {% include "includes/form_input.html" with id="name" label="Name" name="name" type="text" value=form.name.value form_errors=form.name required=True %}
+    {% include "includes/form_input.html" with id="name" label=_("Name") name="name" type="text" value=form.name.value form_errors=form.name required=True %}
 
-    {% include "includes/form_input.html" with id="job_title" label="Position" name="job_title" type="text" value=form.job_title.value form_errors=form.job_title required=True %}
-    
-    {% include "includes/form_select.html" with id="rank" label="Rank" name="rank" choices=form.rank.field.choices selected=form.rank.value required=True %}
+    {% include "includes/form_input.html" with id="job_title" label=_("Position") name="job_title" type="text" value=form.job_title.value form_errors=form.job_title required=True %}
+
+    {% include "includes/form_select.html" with id="rank" label=_("Rank") name="rank" choices=form.rank.field.choices selected=form.rank.value required=True %}
   </fieldset>
 {% endblock %}
