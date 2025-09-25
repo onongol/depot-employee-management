@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,29 +29,48 @@
           {% if not is_employee and not is_master %} 
             {% include "includes/department_dropdown.html" %}
           {% endif %}
-          
-          {% include "includes/menu_link.html" with url_name='employee_list' label='Employee' %}
+
+          {% include "includes/menu_link.html" with url_name='employee_list' label=_('Employee') %}
 
           {% if not is_employee %}
-            {% include "includes/menu_link.html" with url_name='work_list' label='Work' %}
+            {% include "includes/menu_link.html" with url_name='work_list' label=_('Work') %}
           {% endif %}
 
-          {% include "includes/menu_link.html" with url_name='daily_salary_list' label='Daily Salary' %}
+          {% include "includes/menu_link.html" with url_name='daily_salary_list' label=_('Daily Salary') %}
 
-          {% include "includes/menu_link.html" with url_name='piecework_list' label='Piecework' %}
+          {% include "includes/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
 
-          {% include "includes/menu_link.html" with url_name='employee_salary_list' label='Salary' %}
-          
+          {% include "includes/menu_link.html" with url_name='employee_salary_list' label=_('Salary') %}
+
           {% if not is_employee %}
-            {% include "includes/menu_link.html" with url_name='wagon_list' label='Wagon' %}
+            {% include "includes/menu_link.html" with url_name='wagon_list' label=_('Wagon') %}
           {% endif %}
 
           {% if not is_employee and not is_master %}
-            {% include "includes/menu_link.html" with url_name='material_list' label='Material' %}
+            {% include "includes/menu_link.html" with url_name='material_list' label=_('Material') %}
           {% endif %}
         </ul>
-        <!-- Login/Logout -->
-        <div class="ml-auto flex items-center">
+
+        <div class="ml-auto flex items-center gap-4">
+
+          <!-- Language switcher -->
+          <form method="post" action="{% url 'set_language' %}" class="flex items-center">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <select name="language" 
+                    onchange="this.form.submit()"
+                    class="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 appearance-none">
+              {% get_current_language as LANGUAGE_CODE %}
+              {% get_available_languages as LANGS %}
+              {% for code,name in LANGS %}
+                <option value="{{ code }}"{% if code == LANGUAGE_CODE %} selected{% endif %}>
+                  {{ name }}
+                </option>
+              {% endfor %}
+            </select>
+          </form> 
+          
+          <!-- Login/Logout -->
           {% if request.user.is_authenticated %}
             {% include "includes/user_dropdown.html" %}
           {% else %}
@@ -59,7 +79,7 @@
               class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-500 hover:bg-gray-100 hover:text-gray-700"
               role="button"
             >
-              Sign In
+              {% trans 'Sign In' %}
             </a>
           {% endif %}
         </div>
@@ -72,6 +92,7 @@
 
     {% include "includes/svg_symbols.html" %}
 
+    <script src="{% url 'javascript-catalog' %}"></script> 
     <script src="{% static 'js/theme.js' %}"></script>
     <script src="{% static 'js/dropdowns.js' %}"></script>
     <script src="{% static 'js/form_input_error_clear.js' %}"></script>
