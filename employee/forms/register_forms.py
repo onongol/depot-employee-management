@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -8,9 +9,9 @@ class CustomUserCreationForm(UserCreationForm):
     User registration form with additional employee_id field.
     """
     employee_id = forms.CharField(
-        label="Employee ID",
+        label=_("Employee ID"),
         required=True,
-        help_text="Enter your Employee ID to link your account."
+        help_text=_("Enter your Employee ID to link your account.")
     )
 
     class Meta:
