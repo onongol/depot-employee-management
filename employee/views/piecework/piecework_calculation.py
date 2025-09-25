@@ -1,4 +1,5 @@
 from decimal import Decimal
+from django.utils.translation import gettext_lazy as _
 
 
 def piecework_calculate_records(employees_salary, selected_work_ids, amounts, works_dict, work_date, type_work, wagon_number=None):
@@ -33,14 +34,14 @@ def piecework_calculate_records(employees_salary, selected_work_ids, amounts, wo
             if not amount:
                 # If amount is missing for a work, add an error and skip
                 work = works_dict.get(work_id)
-                errors.append(f"Amount required for work {work.work_name}.")
+                errors.append(_("Amount required for work %(work_name)s.") % {'work_name': work.work_name})
                 continue
             try:
                 amount_decimal = Decimal(amount)
             except Exception:
                 # If amount is not a valid decimal, add an error and skip
                 work = works_dict.get(work_id)
-                errors.append(f"Invalid amount for work {work.work_name}.")
+                errors.append(_("Invalid amount for work %(work_name)s.") % {'work_name': work.work_name})
                 continue
 
             work = works_dict.get(work_id)
