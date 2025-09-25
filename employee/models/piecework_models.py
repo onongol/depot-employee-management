@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from .employee_models import Employee
 from .work_models import Work
-from employee.constants.constants import TYPE_WORK_CHOICES
+from employee.constants.constants import TYPE_WORK_CHOICES, DEFAULT_WAGON_NUMBER
 
 
 class Piecework(models.Model):
@@ -57,6 +57,10 @@ class Piecework(models.Model):
         """
         if not self.group_id:
             self.group_id = str(uuid4())
+
+        if not self.wagon_number:
+            self.wagon_number = None
+
         std_time = getattr(self.work, 'standard_time', None)
         std_time_dec = Decimal(str(std_time or 0))
         amt = self.amount or Decimal('0.000000')
@@ -64,5 +68,9 @@ class Piecework(models.Model):
         self.amount_material = self.work.usage_material * self.amount
         super().save(*args, **kwargs)
     
+    @property
+    def wagon_number_display(self):
+        return DEFAULT_WAGON_NUMBER if not self.wagon_number else self.wagon_number
+
     def __str__(self):
         return f"{self.employee.employee_id}/{self.employee.name}/{self.work.work_name}/{self.type_work}/{self.work_date}"
