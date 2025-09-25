@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from decimal import Decimal
 
+from employee.constants.constants import DEFAULT_MATERIAL_TYPE
+
 
 class Work(models.Model):
     """This model represents a work item in the system."""
@@ -44,13 +46,13 @@ class Work(models.Model):
         If material is not specified, set default values.
         """
         if not self.type_material:
-            self.type_material = "Not used"
+            self.type_material = None
             self.usage_material = Decimal('0.0000')
         super().save(*args, **kwargs)
 
     @property
     def type_material_display(self):
-        return self.type_material
+        return DEFAULT_MATERIAL_TYPE if not self.type_material else self.type_material
 
     def __str__(self):
         return self.work_name
