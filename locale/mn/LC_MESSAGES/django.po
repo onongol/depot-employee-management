@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-25 15:28+0800\n"
+"POT-Creation-Date: 2025-09-25 15:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,6 +53,15 @@ msgstr "Таны нууц үг түгээмэл хэрэглэгддэг нуу�
 msgid "Your password can’t be entirely numeric."
 msgstr "Таны нууц үг бүрэн тоон байж болохгүй."
 
+#: .\employee\mixins\block_message_mixins.py:15
+#, python-format
+msgid ""
+"Cannot delete %(object_name)s because it is associated with %(related)s "
+"records. Please remove the related %(related)s records first."
+msgstr ""
+"%(object_name)s-тэй %(related)s учир устгах боломжгүй "
+"бичлэгүүд. Эхлээд холбоотой %(related)s бүртгэлийг устгана уу."
+
 #: .\employee\mixins\context_mixins.py:10 .\employee\templates\base.html:33
 #: .\employee\templates\includes\save_duplicate_modal.html:16
 msgid "Employee"
@@ -92,10 +101,11 @@ msgid "Work Date"
 msgstr "Ажлын огноо"
 
 #: .\employee\mixins\delete_attention.py:9
+#, python-format
 msgid ""
-"You have deleted %(object_name)s. Also, all related records have been deleted."
-msgstr ""
-"Та %(object_name)s устгасан. Мөн холбогдох бүх бүртгэл устгагдсан."
+"You have deleted %(object_name)s. Also, all related records have been "
+"deleted."
+msgstr "Та %(object_name)s устгасан. Мөн холбогдох бүх бүртгэл устгагдсан."
 
 #: .\employee\templates\auth\login.html:18
 #: .\employee\templates\auth\login.html:72 .\employee\templates\base.html:82
@@ -366,6 +376,7 @@ msgid "Warning"
 msgstr "Анхааруулга"
 
 #: .\employee\templates\includes\alert_warning_update.html:12
+#, python-format
 msgid ""
 "All records associated with this %(object_type)s <strong>%(object_name)s</"
 "strong> will also be updated."
