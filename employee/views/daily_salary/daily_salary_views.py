@@ -5,6 +5,7 @@ from django.views.generic import UpdateView, DeleteView
 from django.db import transaction
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.translation import gettext_lazy as _
 
 from employee.mixins.context_mixins import DailySalaryContextMixin
 from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
@@ -78,11 +79,11 @@ def daily_salary_create(request):
 
         # Check if any employees are selected
         if not selected_ids:
-            errors.append("Please select at least one employee.")
+            errors.append(_("Please select at least one employee."))
 
         # Validate required fields
         if not salary_date or not hours_per_day:
-            errors.append("Please select date and hours!")
+            errors.append(_("Please select date and hours!"))
 
         # Validate required fields
         if not errors:
@@ -103,7 +104,10 @@ def daily_salary_create(request):
                         if emp_id in existing_records:
                             emp = employees_dict.get(emp_id)
                             errors.append(
-                                f"Daily salary record for Employee: {emp_id}/{emp.name} on {salary_date} already exists!"
+                                _("Daily salary record for Employee: %(employee)s on %(date)s already exists!") % {
+                                    'employee': f"{emp_id}/{emp.name}",
+                                    'date': salary_date
+                                }
                             )
                         else:
                             emp = employees_dict.get(emp_id)
@@ -122,7 +126,7 @@ def daily_salary_create(request):
                         # Bulk create new records DailySalary
                         DailySalary.objects.bulk_create(new_records)
             except Exception as e:
-                errors.append(f"Error creating daily salary records: {str(e)}")
+                errors.append(_("Error creating daily salary records: %(error)s") % {'error': str(e)})
         # If no errors, redirect to the list page for the selected department
         if not errors:
             return redirect(f"{reverse('daily_salary_list')}?department={department}")
