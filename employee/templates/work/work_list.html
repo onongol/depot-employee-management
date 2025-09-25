@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block title %}Work{% endblock %}
 
 {% block content %}
@@ -7,13 +9,13 @@
   {% url 'work_create' as create_url %}
 
   {% if not is_master %}
-    {% include "includes/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url create_label="Create" %}
+    {% include "includes/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url %}
   {% endif %}
 
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="work-list-title">
     <div class="flex flex-col md:flex-row gap-4">
-      {% include "includes/filter_input.html" with id="filter-work-name" label="Work Name" name="work_name" type="text" value=request.GET.work_name placeholder="Work Name" %}
+      {% include "includes/filter_input.html" with id="filter-work-name" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name %}
       
       {% include "includes/filter_button.html" %}
     </div>
@@ -28,13 +30,13 @@
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">Work</th>
-            <th scope="col" class="{{ col_class }}">Material</th>
-            <th scope="col" class="{{ col_class }}">Usage</th>
-            <th scope="col" class="{{ col_class }}">Time</th>
-            <th scope="col" class="{{ col_class }}">Price</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Work Name" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Usage" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
             {% if not is_master %}
-              <th scope="col" class="{{ col_class }}">Actions</th>
+              <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
             {% endif %}
           {% endwith %}
         </tr>
@@ -62,7 +64,7 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="7" class="text-center px-3 py-4 text-gray-500">No work found...</td>
+            <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
           </tr>
         {% endif %}
       </tbody>
