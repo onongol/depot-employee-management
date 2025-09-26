@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-25 16:27+0800\n"
+"POT-Creation-Date: 2025-09-26 10:22+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,6 +93,7 @@ msgstr "Хэсэгчилсэн"
 #: .\employee\templates\piecework\piecework_create.html:32
 #: .\employee\templates\piecework\piecework_list.html:28
 #: .\employee\templates\piecework\piecework_update.html:8
+#: .\employee\views\wagon\wagon_excel.py:19
 msgid "Type Work"
 msgstr "Ажлын Төрөл"
 
@@ -150,6 +151,7 @@ msgstr "Цалин"
 #: .\employee\templates\includes\save_duplicate_modal.html:19
 #: .\employee\templates\piecework\piecework_list.html:56
 #: .\employee\templates\wagon\wagon_list.html:28
+#: .\employee\views\wagon\wagon_excel.py:51
 msgid "Wagon"
 msgstr "Вагон"
 
@@ -158,6 +160,7 @@ msgstr "Вагон"
 #: .\employee\templates\material\material_list.html:45
 #: .\employee\templates\piecework\piecework_create.html:121
 #: .\employee\templates\work\work_list.html:34
+#: .\employee\views\material\material_excel.py:42
 msgid "Material"
 msgstr "Материал"
 
@@ -179,6 +182,8 @@ msgstr "Шинэ"
 #: .\employee\templates\piecework\piecework_update.html:14
 #: .\employee\templates\wagon\wagon_list.html:18
 #: .\employee\templates\wagon\wagon_list.html:35
+#: .\employee\views\material\material_excel.py:15
+#: .\employee\views\wagon\wagon_excel.py:24
 msgid "Date"
 msgstr "Огноо"
 
@@ -236,6 +241,7 @@ msgstr "Бүх ажилчдыг сонго"
 #: .\employee\templates\employee_salary\employee_salary_list.html:84
 #: .\employee\templates\piecework\piecework_create.html:62
 #: .\employee\templates\piecework\piecework_list.html:51
+#: .\employee\views\employee_salary\employee_salary_excel.py:13
 msgid "ID"
 msgstr "ИД"
 
@@ -247,6 +253,7 @@ msgstr "ИД"
 #: .\employee\templates\employee_salary\employee_salary_list.html:86
 #: .\employee\templates\piecework\piecework_create.html:63
 #: .\employee\templates\piecework\piecework_list.html:52
+#: .\employee\views\employee_salary\employee_salary_excel.py:14
 msgid "Name"
 msgstr "Нэр"
 
@@ -258,6 +265,7 @@ msgstr "Нэр"
 #: .\employee\templates\employee_salary\employee_salary_list.html:87
 #: .\employee\templates\piecework\piecework_create.html:64
 #: .\employee\templates\piecework\piecework_list.html:53
+#: .\employee\views\employee_salary\employee_salary_excel.py:15
 msgid "Position"
 msgstr "Албан Тушаал"
 
@@ -332,6 +340,7 @@ msgstr "Он Жилүүд"
 
 #: .\employee\templates\employee_salary\employee_salary_list.html:82
 #: .\employee\templates\includes\department_dropdown.html:15
+#: .\employee\views\employee_salary\employee_salary_excel.py:12
 msgid "Department"
 msgstr "Хэлтэс"
 
@@ -340,10 +349,12 @@ msgid "Monthly"
 msgstr "Сарын"
 
 #: .\employee\templates\employee_salary\employee_salary_list.html:93
+#: .\employee\views\employee_salary\employee_salary_excel.py:19
 msgid "Month"
 msgstr "Сар"
 
 #: .\employee\templates\employee_salary\employee_salary_list.html:96
+#: .\employee\views\employee_salary\employee_salary_excel.py:20
 msgid "Year"
 msgstr "Он"
 
@@ -404,6 +415,8 @@ msgstr "Үүсгэх"
 
 #: .\employee\templates\includes\materials_total_row.html:6
 #: .\employee\templates\includes\wagons_total_row.html:6
+#: .\employee\views\material\material_excel.py:35
+#: .\employee\views\wagon\wagon_excel.py:43
 msgid "Total"
 msgstr "Нийт"
 
@@ -514,12 +527,15 @@ msgstr "Огнооны мужийг сонгоно уу"
 #: .\employee\templates\work\work_create.html:12
 #: .\employee\templates\work\work_list.html:18
 #: .\employee\templates\work\work_list.html:33
+#: .\employee\views\material\material_excel.py:16
+#: .\employee\views\wagon\wagon_excel.py:20
 msgid "Work Name"
 msgstr "Ажлын Нэр"
 
 #: .\employee\templates\material\material_list.html:22
 #: .\employee\templates\work\work_create.html:14
 #: .\employee\templates\work\work_update.html:10
+#: .\employee\views\material\material_excel.py:17
 msgid "Type Material"
 msgstr "Материалын төрөл"
 
@@ -536,6 +552,7 @@ msgstr "Тооцоол"
 #: .\employee\templates\piecework\piecework_list.html:57
 #: .\employee\templates\piecework\piecework_update.html:12
 #: .\employee\templates\wagon\wagon_list.html:31
+#: .\employee\views\wagon\wagon_excel.py:21
 msgid "Amount"
 msgstr "Дүн"
 
@@ -547,6 +564,7 @@ msgstr "Материал олдсонгүй..."
 #: .\employee\templates\piecework\piecework_list.html:30
 #: .\employee\templates\piecework\piecework_update.html:10
 #: .\employee\templates\wagon\wagon_list.html:14
+#: .\employee\views\wagon\wagon_excel.py:18
 msgid "Wagon Number"
 msgstr "Вагоны дугаар"
 
@@ -642,6 +660,26 @@ msgstr ""
 msgid "Error creating daily salary records: %(error)s"
 msgstr "Өдөр тутмын цалингийн бүртгэл үүсгэх алдаа: %(error)s"
 
+#: .\employee\views\employee_salary\employee_salary_excel.py:16
+msgid "Month Salary"
+msgstr "Сарын Цалин"
+
+#: .\employee\views\employee_salary\employee_salary_excel.py:17
+msgid "Piecework Salary"
+msgstr "Хэсэгчилсэн Ажлын Цалин"
+
+#: .\employee\views\employee_salary\employee_salary_excel.py:18
+msgid "Total Salary"
+msgstr "Нийт Цалин"
+
+#: .\employee\views\employee_salary\employee_salary_excel.py:42
+msgid "Employee Salaries"
+msgstr "Ажилчдын Цалин"
+
+#: .\employee\views\material\material_excel.py:18
+msgid "Amount Material"
+msgstr "Материалын хэмжээ"
+
 #: .\employee\views\piecework\piecework_calculation.py:37
 #, python-format
 msgid "Amount required for work %(work_name)s."
@@ -674,3 +712,11 @@ msgstr ""
 #, python-format
 msgid "Error creating piecework records: %(error)s"
 msgstr "Өдөр тутмын цалингийн бүртгэл үүсгэх алдаа: %(error)s"
+
+#: .\employee\views\wagon\wagon_excel.py:22
+msgid "Total Time"
+msgstr "Нийт хугацаа"
+
+#: .\employee\views\wagon\wagon_excel.py:23
+msgid "Total Price"
+msgstr "Нийт үнэ"
