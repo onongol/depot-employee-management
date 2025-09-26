@@ -1,7 +1,7 @@
-# Example usage for employee salaries:
+from django.utils.translation import gettext_lazy as _
+
 from .employee_salary_filtered import get_filtered_employee_salaries
 from employee.utils.export_excel import export_to_excel
-from django.utils.translation import gettext_lazy as _
 
 
 def employee_salary_export_excel(request):
