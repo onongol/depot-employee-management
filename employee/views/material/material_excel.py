@@ -38,6 +38,7 @@ def export_material_excel(request):
     data.append([total_str, "", "", total_amount])
 
     file_name = "material.xlsx"
+    
     sheet_title = _("Material")
     sheet_title = str(sheet_title)
 
