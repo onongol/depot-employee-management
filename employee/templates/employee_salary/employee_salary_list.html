@@ -14,7 +14,7 @@
       {% if not is_employee %}
         {% include "includes/filter_input.html" with id="filter-employee-id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
 
-        {% include "includes/filter_input.html" with id="filter-employee-name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
+        {% include "includes/filter_input.html" with id="filter-employee-name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name %}
         
         {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
       {% endif %}
