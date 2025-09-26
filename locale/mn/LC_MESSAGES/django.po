@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 10:22+0800\n"
+"POT-Creation-Date: 2025-09-26 10:43+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,6 +242,7 @@ msgstr "Бүх ажилчдыг сонго"
 #: .\employee\templates\piecework\piecework_create.html:62
 #: .\employee\templates\piecework\piecework_list.html:51
 #: .\employee\views\employee_salary\employee_salary_excel.py:13
+#: .\employee\views\employee_salary\employee_salary_pdf.py:13
 msgid "ID"
 msgstr "ИД"
 
@@ -254,6 +255,7 @@ msgstr "ИД"
 #: .\employee\templates\piecework\piecework_create.html:63
 #: .\employee\templates\piecework\piecework_list.html:52
 #: .\employee\views\employee_salary\employee_salary_excel.py:14
+#: .\employee\views\employee_salary\employee_salary_pdf.py:14
 msgid "Name"
 msgstr "Нэр"
 
@@ -266,6 +268,7 @@ msgstr "Нэр"
 #: .\employee\templates\piecework\piecework_create.html:64
 #: .\employee\templates\piecework\piecework_list.html:53
 #: .\employee\views\employee_salary\employee_salary_excel.py:15
+#: .\employee\views\employee_salary\employee_salary_pdf.py:15
 msgid "Position"
 msgstr "Албан Тушаал"
 
@@ -341,6 +344,7 @@ msgstr "Он Жилүүд"
 #: .\employee\templates\employee_salary\employee_salary_list.html:82
 #: .\employee\templates\includes\department_dropdown.html:15
 #: .\employee\views\employee_salary\employee_salary_excel.py:12
+#: .\employee\views\employee_salary\employee_salary_pdf.py:12
 msgid "Department"
 msgstr "Хэлтэс"
 
@@ -350,11 +354,13 @@ msgstr "Сарын"
 
 #: .\employee\templates\employee_salary\employee_salary_list.html:93
 #: .\employee\views\employee_salary\employee_salary_excel.py:19
+#: .\employee\views\employee_salary\employee_salary_pdf.py:19
 msgid "Month"
 msgstr "Сар"
 
 #: .\employee\templates\employee_salary\employee_salary_list.html:96
 #: .\employee\views\employee_salary\employee_salary_excel.py:20
+#: .\employee\views\employee_salary\employee_salary_pdf.py:20
 msgid "Year"
 msgstr "Он"
 
@@ -661,18 +667,22 @@ msgid "Error creating daily salary records: %(error)s"
 msgstr "Өдөр тутмын цалингийн бүртгэл үүсгэх алдаа: %(error)s"
 
 #: .\employee\views\employee_salary\employee_salary_excel.py:16
+#: .\employee\views\employee_salary\employee_salary_pdf.py:16
 msgid "Month Salary"
 msgstr "Сарын Цалин"
 
 #: .\employee\views\employee_salary\employee_salary_excel.py:17
+#: .\employee\views\employee_salary\employee_salary_pdf.py:17
 msgid "Piecework Salary"
 msgstr "Хэсэгчилсэн Ажлын Цалин"
 
 #: .\employee\views\employee_salary\employee_salary_excel.py:18
+#: .\employee\views\employee_salary\employee_salary_pdf.py:18
 msgid "Total Salary"
 msgstr "Нийт Цалин"
 
 #: .\employee\views\employee_salary\employee_salary_excel.py:42
+#: .\employee\views\employee_salary\employee_salary_pdf.py:53
 msgid "Employee Salaries"
 msgstr "Ажилчдын Цалин"
 
