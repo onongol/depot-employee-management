@@ -1,3 +1,5 @@
+from django.utils.translation import gettext_lazy as _
+
 from .employee_salary_filtered import get_filtered_employee_salaries
 from employee.utils.export_pdf import export_to_pdf
 
@@ -7,9 +9,18 @@ def employee_salary_export_pdf(request):
     employee_salaries = get_filtered_employee_salaries(request)
 
     headers = [
-        "Department", "ID", "Name", "Position", "Month Salary", 
-        "Piecework Salary", "Total Salary", "Month", "Year",
+        _("Department"),
+        _("ID"),
+        _("Name"),
+        _("Position"),
+        _("Month Salary"),
+        _("Piecework Salary"),
+        _("Total Salary"),
+        _("Month"),
+        _("Year"),
     ]
+    
+    headers = [str(h) for h in headers]
 
     col_widths = [120, 40, 100, 140, 100, 100, 100, 40, 40]
     
@@ -28,6 +39,7 @@ def employee_salary_export_pdf(request):
         for item in employee_salaries
     ]
 
+    # Define column alignments
     col_alignments = [
         ('ALIGN', (0, 1), (0, -1), 'LEFT'),     # ID column centered
         ('ALIGN', (1, 1), (3, -1), 'LEFT'),     # Name, Department, Job Title 
@@ -36,4 +48,9 @@ def employee_salary_export_pdf(request):
         ('ALIGN', (8, 1), (9, -1), 'LEFT'),     # Month and Year centered
     ]
 
-    return export_to_pdf(data, headers, col_widths, col_alignments, "Employee Salaries", "employee_salaries.pdf")
+    file_name = "employee_salaries.pdf"
+    
+    sheet_title = _("Employee Salaries")
+    sheet_title = str(sheet_title)
+
+    return export_to_pdf(data, headers, col_widths, col_alignments, sheet_title, file_name)
