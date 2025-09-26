@@ -1,6 +1,7 @@
 # Example usage for employee salaries:
 from .employee_salary_filtered import get_filtered_employee_salaries
 from employee.utils.export_excel import export_to_excel
+from django.utils.translation import gettext_lazy as _
 
 
 def employee_salary_export_excel(request):
@@ -8,10 +9,19 @@ def employee_salary_export_excel(request):
     employee_salaries = get_filtered_employee_salaries(request)
 
     headers = [
-        "Department", "ID", "Name", "Position", "Month Salary", 
-        "Piecework Salary", "Total Salary", "Month", "Year",
+        _("Department"),
+        _("ID"),
+        _("Name"),
+        _("Position"),
+        _("Month Salary"),
+        _("Piecework Salary"),
+        _("Total Salary"),
+        _("Month"),
+        _("Year"),
     ]
     
+    headers = [str(h) for h in headers]
+
     data = [
         [
             item['employee'].department or "",
@@ -27,4 +37,8 @@ def employee_salary_export_excel(request):
         for item in employee_salaries
     ]
 
-    return export_to_excel(data, headers, "employee_salaries.xlsx", "Employee Salaries")
+    file_name = "employee_salaries.xlsx"
+    sheet_title = _("Employee Salaries")
+    sheet_title = str(sheet_title)
+
+    return export_to_excel(data, headers, file_name, sheet_title)
