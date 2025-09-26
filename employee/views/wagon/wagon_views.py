@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from employee.utils.select_department import get_selected_department
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
 from employee.utils.sorting import apply_ordering
@@ -19,11 +18,9 @@ def wagon_list(request):
     while price is summed for all records in the group.
     """
 
-    # Get the selected department from the request/session
-    department = get_selected_department(request)
-
     # Get filter parameters from GET request
-    pieceworks, wagon_number, work_name, work_date = wagon_filter(request)
+    # Get the selected department from the request/session
+    pieceworks, wagon_number, work_name, work_date, department = wagon_filter(request)
     
     # Aggregate piecework data by wagon, work, date, and group_id
     wagon_data = get_grouped_wagon_data(pieceworks)
@@ -32,6 +29,7 @@ def wagon_list(request):
     order_by = request.GET.get('order_by')
     direction = request.GET.get('direction')
 
+    # Apply ordering to the aggregated wagon data
     wagon_data = apply_ordering(
         wagon_data, order_by, direction, allowed_fields=['work_date']
     )
