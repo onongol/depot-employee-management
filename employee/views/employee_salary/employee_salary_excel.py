@@ -38,6 +38,7 @@ def employee_salary_export_excel(request):
     ]
 
     file_name = "employee_salaries.xlsx"
+    
     sheet_title = _("Employee Salaries")
     sheet_title = str(sheet_title)
 
