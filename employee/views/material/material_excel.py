@@ -1,6 +1,8 @@
+from django.db.models import Sum
+from django.utils.translation import gettext_lazy as _
+
 from .material_filtered import material_filter
 from employee.utils.export_excel import export_to_excel
-from django.db.models import Sum
 
 
 def export_material_excel(request):
@@ -10,8 +12,13 @@ def export_material_excel(request):
 
     # Prepare data for Excel
     headers = [
-        "Date",  "Work Name", "Type Material", "Amount Material"
+        _("Date"), 
+        _("Work Name"), 
+        _("Type Material"), 
+        _("Amount Material")
     ]
+
+    headers = [str(h) for h in headers]
 
     data = [
         [
@@ -25,6 +32,13 @@ def export_material_excel(request):
 
     total_amount = pieceworks.aggregate(total=Sum('amount_material'))['total'] or 0
 
-    data.append(["Total", "", "", total_amount])
+    total_str = _("Total")
+    total_str = str(total_str)
 
-    return export_to_excel(data, headers, "material.xlsx", "Material")
+    data.append([total_str, "", "", total_amount])
+
+    file_name = "material.xlsx"
+    sheet_title = _("Material")
+    sheet_title = str(sheet_title)
+
+    return export_to_excel(data, headers, file_name, sheet_title)
