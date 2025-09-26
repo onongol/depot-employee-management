@@ -48,6 +48,15 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     for style_name in styles.byName:
         styles[style_name].fontName = 'DejaVuSans'
 
+    # Header paragraph style (enables wrapping)
+    header_style = ParagraphStyle(
+        'HeaderStyle',
+        fontName='DejaVuSans',
+        fontSize=10,
+        leading=12,
+        wordWrap='CJK', # Enable wrapping for long headers
+    )
+
     elements = []
 
     # Add the title to the PDF, centered
@@ -66,7 +75,9 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     )
 
     # Prepare table data: first row is headers, then data rows
-    table_data = [headers]
+    table_data = [
+        [Paragraph(str(h), header_style) for h in headers]  # Title Paragraph
+    ]
     for row in data:
         table_data.append([
             Paragraph(str(cell), cell_style) for cell in row
@@ -94,11 +105,13 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     # Add custom column alignments if provided
     if col_alignments:
         base_table_style.extend(col_alignments)
+
     # Alternate row background color for better readability
     alternating_row_styles = [
         ('BACKGROUND', (0, i), (-1, i), colors.whitesmoke)
         for i in range(1, len(table_data)) if i % 2 == 1
     ]
+
     table_style = TableStyle(base_table_style + alternating_row_styles)
     table.setStyle(table_style)
     elements.append(table)
