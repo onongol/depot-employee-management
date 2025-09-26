@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // Не показывать duplicate-модал, если есть ошибка по amount
+    // No duplicate modal if there's an amount error
     if (document.getElementById('amount-error')) {
-      // Ошибка уже показана, duplicate-модал не нужен
+      // Error is already shown, no duplicate modal needed
       return;
     }
 
