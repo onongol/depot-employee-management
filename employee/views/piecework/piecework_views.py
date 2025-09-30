@@ -98,9 +98,14 @@ def piecework_create(request):
     )
 
     # Get distinct job titles for filtering dropdown
-    job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')
+    emp_job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')
+    work_job_titles = get_distinct_values(
+        Work, 'job_title', extra_filters={'department__in': departments} if departments else None
+    )
+    # Combine and sort job titles from both employees and works
+    job_titles = sorted(set(list(emp_job_titles) + list(work_job_titles)))
     
-    today = timezone.now().date()
+    today = timezone.now().date()#
     errors = []
 
     if request.method == 'POST':
