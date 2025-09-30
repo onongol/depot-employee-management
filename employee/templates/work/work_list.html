@@ -15,6 +15,8 @@
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="work-list-title">
     <div class="flex flex-col md:flex-row gap-4">
+      {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
+      
       {% include "includes/filter_input.html" with id="filter-work-name" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name %}
       
       {% include "includes/filter_button.html" %}
@@ -30,6 +32,7 @@
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Work Name" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Usage" %}</th>
@@ -47,6 +50,7 @@
             <tr class="odd:bg-white hover:bg-gray-200">
               {% with col_class="px-6 py-3" %}
                 <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                <td class="{{ col_class }}">{{ work.job_title }}</td>
                 <td class="{{ col_class }}">{{ work.work_name }}</td>
                 <td class="{{ col_class }}">{{ work.type_material_display }}</td>
                 <td class="{{ col_class }}">{{ work.usage_material|floatformat:2 }}</td>
