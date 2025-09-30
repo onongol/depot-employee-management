@@ -13,6 +13,11 @@ class Work(models.Model):
         blank=False, 
         null=False
     )
+    job_title = models.CharField(
+        max_length=255, 
+        blank=False, 
+        null=False
+    )
     work_name = models.CharField(max_length=255, unique=True)
     type_material = models.CharField(
         max_length=255, 
