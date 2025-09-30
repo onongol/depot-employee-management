@@ -61,3 +61,20 @@ DEFAULT_WAGON_NUMBER = "0"
 
 # Default material type
 DEFAULT_MATERIAL_TYPE = "-"
+
+# Position list
+class job_title(str, Enum):
+    TOKARCHIN = 'Токарьчин'
+    BELTGELEL_TOKARCHIN = 'Бэлтгэл токарьчин'
+    DARHAN_LANTUUCHIN = 'Дархан лантуучин'
+    GAGNUURCHIN = 'Гагнуурчин'
+    ZASVARCHIN = 'Засварчин'
+    BUDAGCHIN = 'Будагчин'
+    NEELKHI = 'Нээлхий'
+
+JOB_TITLES = [title.value for title in job_title]
+
+JOB_TITLE_CHOICES = [(title.value, title.value) for title in job_title]
+
+
+
