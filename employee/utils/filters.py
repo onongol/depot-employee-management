@@ -15,13 +15,15 @@ def filter_employees(queryset, department=None, employee_id=None, employee_name=
     return queryset
 
 
-def filter_works(queryset, department=None, work_name=None):
+def filter_works(queryset, department=None, job_title=None, work_name=None):
     """Reusable filter for Work queryset."""
     if department:
         # Expand the department to include all related departments
         departments = expand_department(department)
         if departments:
             queryset = queryset.filter(department__in=departments)
+    if job_title:
+        queryset = queryset.filter(job_title=job_title)
     if work_name:
         queryset = queryset.filter(work_name__icontains=work_name)
     return queryset
