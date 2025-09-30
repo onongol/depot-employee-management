@@ -33,13 +33,16 @@
 
   {% include "includes/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number %}
 
+  <!-- Job Title Filter -->
+  <div>
+    {% include "includes/piecework_create_filter.html" with id="select-job-title" label=_("Position") choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
+  </div>
+  
   <!-- Add search input above the employee table -->
   <div class="flex flex-col md:flex-row gap-4 mb-4">
     {% include "includes/filter_input.html" with id="employee-search" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id placeholder=_("Search by ID...") min="1" %}
 
     {% include "includes/filter_input.html" with id="employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Search by Name...") %}
-
-    {% include "includes/filter_select.html" with id="select-job-title" label=_("Job Title") choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
   </div>
 
   <!-- Employee Table -->
@@ -120,6 +123,7 @@
               <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
               <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
               <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
+              <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
             {% endwith %}
           </tr>
         </thead>
@@ -156,6 +160,7 @@
                     disabled
                   >
                 </td>
+                <td class="{{ col_class }}">{{ work.job_title }}</td>
               {% endwith %}
             </tr>
           {% endfor %}
@@ -210,6 +215,7 @@
   ];
   window.TABLE_SELECT_FILTERS = [
     ['select-job-title', 'employees-table-body', 3],
+    ['select-job-title', 'works-table-body', 4],
   ];
 </script>
 <script src="{% static 'js/table_search.js' %}"></script>
