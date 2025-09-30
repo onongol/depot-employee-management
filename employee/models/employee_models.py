@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db.models import Sum
 from django.contrib.auth.models import User
 
-from employee.constants.constants import DEPARTMENT_CHOICES, RANK_CHOICES, RANK_TO_MONEY
+from employee.constants.constants import DEPARTMENT_CHOICES, RANK_CHOICES, RANK_TO_MONEY, JOB_TITLE_CHOICES
 
 
 class Employee(models.Model):
@@ -17,10 +17,11 @@ class Employee(models.Model):
     name = models.CharField(max_length=255)
     department = models.CharField(max_length=255, choices=DEPARTMENT_CHOICES)
     job_title = models.CharField(
-        max_length=255, 
-        blank=False, 
-        null=False
-    )  
+        max_length=255,
+        blank=False,
+        null=False,
+        choices=JOB_TITLE_CHOICES
+    ) 
     rank = models.IntegerField(
         default=3, 
         null=False, 

@@ -18,7 +18,7 @@ class EmployeeForm(forms.ModelForm):
             ),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'department': forms.Select(attrs={'class': 'form-control'}),
-            'job_title': forms.TextInput(attrs={'class': 'form-control'}),
+            'job_title': forms.Select(attrs={'class': 'form-control'}),
             'rank': forms.Select(attrs={'class': 'form-control'}),
         }
 
@@ -30,6 +30,6 @@ class UpdateEmployeeForm(forms.ModelForm):
         fields = ['name', 'job_title', 'rank']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'job_title': forms.TextInput(attrs={'class': 'form-control'}),
+            'job_title': forms.Select(attrs={'class': 'form-control'}),
             'rank': forms.Select(attrs={'class': 'form-control'}),
         }
