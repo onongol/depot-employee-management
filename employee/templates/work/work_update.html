@@ -7,7 +7,7 @@
 {% block form_fields %}
   <fieldset class="space-y-4">
     <legend class="sr-only">Update Work Details</legend>
-    {% include "includes/form_input.html" with id=form.position.id_for_label label=_("Position") name="job_title" type="text" value=form.job_title.value form_errors=form.job_title required=True %}
+    {% include "includes/form_select.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
 
     {% include "includes/form_input.html" with id=form.type_material.id_for_label label=_("Type Material") name="type_material" type="text" value=form.type_material.value %}
 
