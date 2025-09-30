@@ -1,7 +1,5 @@
-import logging
-from django.utils.dateparse import parse_date
-
 from employee.utils.converting_date import parse_date_range
+from employee.utils.select_department import expand_department
 
 
 def filter_employees(queryset, department=None, employee_id=None, employee_name=None, job_title=None):
@@ -20,7 +18,10 @@ def filter_employees(queryset, department=None, employee_id=None, employee_name=
 def filter_works(queryset, department=None, work_name=None):
     """Reusable filter for Work queryset."""
     if department:
-        queryset = queryset.filter(department__icontains=department)
+        # Expand the department to include all related departments
+        departments = expand_department(department)
+        if departments:
+            queryset = queryset.filter(department__in=departments)
     if work_name:
         queryset = queryset.filter(work_name__icontains=work_name)
     return queryset

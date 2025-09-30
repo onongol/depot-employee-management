@@ -17,7 +17,7 @@ from employee.models import Piecework
 from employee.models import Work
 from employee.models import DailySalary
 from employee.forms import PieceworkForm, UpdatePieceworkForm
-from employee.utils.select_department import get_selected_department
+from employee.utils.select_department import get_selected_department, expand_department
 from employee.utils.filters import filter_pieceworks
 from employee.utils.pagination import paginate_queryset
 from employee.utils.sorting import apply_ordering
@@ -90,9 +90,11 @@ def piecework_create(request):
         Employee.objects.filter(department=department, is_active=True).order_by('employee_id')
         if department else Employee.objects.none()
     )
+    # Expand department to include all related departments for works filtering
+    departments = expand_department(department)
     works = (
-        Work.objects.filter(department=department).order_by('work_name')
-        if department else Work.objects.none()
+        Work.objects.filter(department__in=departments).order_by('work_name')
+        if departments else Work.objects.none()
     )
 
     # Get distinct job titles for filtering dropdown
