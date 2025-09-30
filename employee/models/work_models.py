@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from decimal import Decimal
 
-from employee.constants.constants import DEFAULT_MATERIAL_TYPE
+from employee.constants.constants import DEFAULT_MATERIAL_TYPE, JOB_TITLE_CHOICES
 
 
 class Work(models.Model):
@@ -14,9 +14,10 @@ class Work(models.Model):
         null=False
     )
     job_title = models.CharField(
-        max_length=255, 
-        blank=False, 
-        null=False
+        max_length=255,
+        blank=False,
+        null=False,
+        choices=JOB_TITLE_CHOICES
     )
     work_name = models.CharField(max_length=255, unique=True)
     type_material = models.CharField(

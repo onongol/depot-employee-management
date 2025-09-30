@@ -9,6 +9,7 @@ class WorkForm(forms.ModelForm):
         model = Work
         fields = '__all__'
         widgets = {
+            'job_title': forms.Select(attrs={'class': 'form-control'}),
             'work_name': forms.TextInput(attrs={'class': 'form-control'}),
             'type_material': forms.TextInput(attrs={'class': 'form-control'}),
             'usage_material': forms.NumberInput(
@@ -45,7 +46,7 @@ class UpdateWorkForm(forms.ModelForm):
         model = Work
         fields = ['job_title', 'type_material', 'usage_material', 'standard_time', 'price']
         widgets = { 
-            'job_title': forms.TextInput(attrs={'class': 'form-control'}),
+            'job_title': forms.Select(attrs={'class': 'form-control'}),
             'type_material': forms.TextInput(attrs={'class': 'form-control'}),
             'usage_material': forms.NumberInput(attrs={
                 'class': 'form-control', 
