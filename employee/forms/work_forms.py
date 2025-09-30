@@ -43,8 +43,9 @@ class UpdateWorkForm(forms.ModelForm):
     """Form for updating an existing Work record."""
     class Meta:
         model = Work
-        fields = ['type_material', 'usage_material', 'standard_time', 'price']
+        fields = ['job_title', 'type_material', 'usage_material', 'standard_time', 'price']
         widgets = { 
+            'job_title': forms.TextInput(attrs={'class': 'form-control'}),
             'type_material': forms.TextInput(attrs={'class': 'form-control'}),
             'usage_material': forms.NumberInput(attrs={
                 'class': 'form-control', 
