@@ -7,7 +7,7 @@
     <legend class="sr-only">Update Employee Details</legend>
     {% include "includes/form_input.html" with id=form.name.id_for_label label=_("Name") name="name" type="text" value=form.name.value form_errors=form.name required=True %}
 
-    {% include "includes/form_input.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" type="text" value=form.job_title.value form_errors=form.job_title required=True %}
+    {% include "includes/form_select.html" with id="job_title" label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
 
     {% include "includes/form_select.html" with id=form.rank.id_for_label label=_("Rank") name="rank" choices=form.rank.field.choices selected=form.rank.value %}
   </fieldset>

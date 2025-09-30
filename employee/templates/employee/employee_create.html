@@ -13,7 +13,7 @@
 
     {% include "includes/form_input.html" with id="name" label=_("Name") name="name" type="text" value=form.name.value form_errors=form.name required=True %}
 
-    {% include "includes/form_input.html" with id="job_title" label=_("Position") name="job_title" type="text" value=form.job_title.value form_errors=form.job_title required=True %}
+    {% include "includes/form_select.html" with id="job_title" label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
 
     {% include "includes/form_select.html" with id="rank" label=_("Rank") name="rank" choices=form.rank.field.choices selected=form.rank.value required=True %}
   </fieldset>
