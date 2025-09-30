@@ -13,6 +13,7 @@ from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_works
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import OnlyAdminMixin
+from employee.utils.selects import get_distinct_values
 
 
 class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, CreateView):
@@ -51,14 +52,19 @@ def work_list(request):
 
     # Extract filter parameters from the request
     department = get_selected_department(request)
+    job_title = request.GET.get('job_title')
     work_name = request.GET.get('work_name')
 
     # Apply all filters using a reusable filter function
     works = filter_works(
         works, 
-        department=department, 
+        department=department,
+        job_title=job_title,
         work_name=work_name
     )
+
+    # Get distinct job titles for filtering dropdown
+    job_titles = get_distinct_values(Work, 'job_title', department, department_field='department')
 
     # Ensure consistent ordering for pagination
     works = works.order_by('work_name')
@@ -73,6 +79,7 @@ def work_list(request):
         {
             'works': page_obj,
             'page_obj': page_obj,
+            'job_titles': job_titles,
             'selected_department': department,
         }
     )
