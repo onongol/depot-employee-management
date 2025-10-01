@@ -62,6 +62,7 @@ DEFAULT_WAGON_NUMBER = "0"
 # Default material type
 DEFAULT_MATERIAL_TYPE = "-"
 
+
 # Position list
 class job_title(str, Enum):
     TOKARCHIN = 'Токарьчин'
@@ -76,5 +77,61 @@ JOB_TITLES = [title.value for title in job_title]
 
 JOB_TITLE_CHOICES = [(title.value, title.value) for title in job_title]
 
+# Per-department job titles mapping (каждый цех — отдельный ключ)
+DEPARTMENT_JOB_TITLES = {
+    Department.MECHANIC.value: [
+        job_title.TOKARCHIN.value,
+        job_title.BELTGELEL_TOKARCHIN.value,
+        job_title.DARHAN_LANTUUCHIN.value,
+        job_title.GAGNUURCHIN.value,
+    ],
+    Department.AKP.value: [
+        job_title.ZASVARCHIN.value,
+    ],
+    Department.HOS_DUGUI.value: [
+        job_title.ZASVARCHIN.value,
+    ],
+    Department.ZASVAR_1.value: [
+        job_title.ZASVARCHIN.value,
+        job_title.GAGNUURCHIN.value,
+        job_title.BUDAGCHIN.value,
+        job_title.NEELKHI.value,
+    ],
+    Department.ZASVAR_2.value: [
+        job_title.ZASVARCHIN.value,
+        job_title.GAGNUURCHIN.value,
+        job_title.BUDAGCHIN.value,
+        job_title.NEELKHI.value,
+    ],
+    Department.TERGENTSER.value: [
+        job_title.ZASVARCHIN.value,
+        job_title.GAGNUURCHIN.value,
+    ],
+    Department.AUTO_UGSRAA.value: [
+        job_title.ZASVARCHIN.value,
+        job_title.GAGNUURCHIN.value,
+    ],
+}
+
+def get_job_title_choices(department: str | None):
+    """Return choices list for job_title limited by department; fallback to all."""
+    values = DEPARTMENT_JOB_TITLES.get(department, JOB_TITLES)
+    return [(v, v) for v in values]
 
 
+# Type wagon
+class TypeWagon(str, Enum):
+    HAGAS = 'Хагас-84'
+    CHINGELG = 'Чингэлэг'
+    TAVTSANT = 'Тавцант'
+    BITUU = 'Битүү'
+    HOPPER_DOSATOR = 'Хоппер-Дозатор'
+    DUMPCAR = 'Думпкар'
+    CISTERNA = 'Цистерн'
+    TUSGAI_HEREGTSIIN = 'Тусгай хэрэгцээний'
+    ICH_ZASVAR = 'Их засвар'
+    URSGAL = 'Урсгал' 
+
+TYPE_WAGONS = [wagon.value for wagon in TypeWagon]
+
+TYPE_WAGON_CHOICES = [(wagon.value, wagon.value) for wagon in TypeWagon]
