@@ -22,6 +22,7 @@ class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Creat
     template_name = "work/work_create.html" 
 
     def get_form_kwargs(self):
+        """Set initial department based on user selection."""
         kwargs = super().get_form_kwargs()
         kwargs['department'] = get_selected_department(self.request)
         return kwargs
@@ -33,6 +34,7 @@ class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Updat
     template_name = "work/work_update.html"
 
     def get_form_kwargs(self):
+        """Set initial department based on user selection."""
         kwargs = super().get_form_kwargs()
         kwargs['department'] = get_selected_department(self.request)
         return kwargs
