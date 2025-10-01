@@ -22,11 +22,22 @@ class EmployeeCreateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixi
     form_class = EmployeeForm
     template_name = "employee/employee_create.html"
 
+    def get_initial(self):
+        """Set initial department based on user selection."""
+        initial = super().get_initial()
+        initial['department'] = get_selected_department(self.request)
+        return initial
 
 class EmployeeUpdateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, UpdateView):
     login_url = 'login'
     form_class = UpdateEmployeeForm
     template_name = "employee/employee_update.html"
+
+    def get_initial(self):
+        """Set initial department based on user selection."""
+        initial = super().get_initial()
+        initial['department'] = get_selected_department(self.request)
+        return initial
 
 
 class EmployeeDeleteView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
