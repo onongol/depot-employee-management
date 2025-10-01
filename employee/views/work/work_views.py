@@ -21,12 +21,21 @@ class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Creat
     form_class = WorkForm
     template_name = "work/work_create.html" 
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['department'] = get_selected_department(self.request)
+        return kwargs
+
 
 class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, UpdateView):
     login_url = 'login'
     form_class = UpdateWorkForm
     template_name = "work/work_update.html"
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['department'] = get_selected_department(self.request)
+        return kwargs
 
 class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
     login_url = 'login'
