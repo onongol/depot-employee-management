@@ -42,19 +42,7 @@
             {% if field.field.required %}required{% endif %}
           >
           {% if field.name == "password" %}
-            <button type="button"
-              class="absolute right-3 top-9 text-gray-500"
-              onclick="togglePasswordVisibility('{{ field.id_for_label }}', this)"
-              tabindex="-1"
-              aria-label="Show or hide password"
-            >
-              <svg id="eye-{{ field.id_for_label }}" class="w-5 h-5" aria-hidden="true">
-                <use href="#eye"></use>
-              </svg>
-              <svg id="eye-off-{{ field.id_for_label }}" class="w-5 h-5 hidden" aria-hidden="true">
-                <use href="#eye-off"></use>
-              </svg>
-            </button>
+            {% include 'includes/password_toggle_button.html' with input_id=field.id_for_label reveal_ms=3000 %}
           {% endif %}
           {% if field.errors %}
             <div id="{{ field.id_for_label }}_error" class="text-red-600 text-sm mt-1">
