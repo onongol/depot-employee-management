@@ -31,7 +31,7 @@
 
   {% include "includes/form_select.html" with id=form.type_work.id_for_label label=_("Type Work") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
 
-  {% include "includes/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number %}
+  {% include "includes/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number placeholder=_("Enter if necessary") %}
 
   <!-- Job Title Filter -->
   <div>
