@@ -11,11 +11,11 @@
 
     {% include "includes/form_select.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
 
-    {% include "includes/form_input.html" with id="work_name" label=_("Work Name") name="work_name" type="text" value=form.work_name.value form_errors=form.work_name required=True %}
+    {% include "includes/form_input.html" with id="work_name" label=_("Work Name") name="work_name" type="text" value=form.work_name.value form_errors=form.work_name required=True placeholder=_("Unique name of the work") %}
 
-    {% include "includes/form_input.html" with id=form.type_material.id_for_label label=_("Type Material") name="type_material" type="text" value=form.type_material.value %}
+    {% include "includes/form_input.html" with id=form.type_material.id_for_label label=_("Type Material") name="type_material" type="text" value=form.type_material.value placeholder=_("Material used (Not necessarily!)") %}
 
-    {% include "includes/form_input.html" with id=form.usage_material.id_for_label label=_("Usage Material") name="usage_material" type="number" value=form.usage_material.field.widget.attrs.value step=form.usage_material.field.widget.attrs.step form_errors=form.usage_material required=True %}
+    {% include "includes/form_input.html" with id=form.usage_material.id_for_label label=_("Usage Material") name="usage_material" type="number" value=form.usage_material.field.widget.attrs.value step=form.usage_material.field.widget.attrs.step form_errors=form.usage_material required=True placeholder=_("Amount (0 if Type Material is not used)") %}
 
     {% include "includes/form_input.html" with id=form.standard_time.id_for_label label=_("Standard Time") name="standard_time" type="number" value=form.standard_time.field.widget.attrs.value step=form.standard_time.field.widget.attrs.step form_errors=form.standard_time required=True %}
 
