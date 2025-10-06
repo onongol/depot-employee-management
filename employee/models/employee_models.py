@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db.models import Sum
 from django.contrib.auth.models import User
 
-from employee.constants.constants import DEPARTMENT_CHOICES, RANK_CHOICES, RANK_TO_MONEY, JOB_TITLE_CHOICES
+from employee.constants.constants import DEPARTMENT_CHOICES, RANK_CHOICES, RANK_TO_MONEY, JOB_TITLE_CHOICES, MoneyHourChoices
 
 
 class Employee(models.Model):
@@ -29,9 +29,10 @@ class Employee(models.Model):
     )
     money_per_hour = models.DecimalField(
         max_digits=20, 
-        decimal_places=2, 
+        decimal_places=2,
+        validators=[MinValueValidator(0)], 
         null=False, 
-        editable=False
+        editable=True
     )
     # Active status of the employee
     is_active = models.BooleanField(default=True)
@@ -43,10 +44,6 @@ class Employee(models.Model):
         blank=True, 
         related_name='employee_profile'
     )
-
-    def save(self, *args, **kwargs):
-        self.money_per_hour = RANK_TO_MONEY.get(self.rank, 8448.55)
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.employee_id}/{self.name}"
