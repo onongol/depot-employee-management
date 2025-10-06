@@ -35,12 +35,20 @@ class Rank(Enum):
 # Choices for Django model fields
 RANK_CHOICES = [(rank.value, rank.value) for rank in Rank]
 
+# Monetary values associated with each rank
+class MoneyHourChoices(str, Enum):
+    MONEY_THREE = Decimal('9715.83')
+    MONEY_FOUR = Decimal('11058.67')
+    MONEY_FIVE = Decimal('12796.46')
+    MONEY_SIX = Decimal('15166.18')
+
+
 # Mapping of rank to corresponding monetary values
 RANK_TO_MONEY = {
-    Rank.THREE.value: Decimal('8448.55'),
-    Rank.FOUR.value: Decimal('9616.24'),
-    Rank.FIVE.value: Decimal('11127.36'),
-    Rank.SIX.value: Decimal('13187.98'),
+    Rank.THREE.value: MoneyHourChoices.MONEY_THREE.value,
+    Rank.FOUR.value: MoneyHourChoices.MONEY_FOUR.value,
+    Rank.FIVE.value: MoneyHourChoices.MONEY_FIVE.value,
+    Rank.SIX.value: MoneyHourChoices.MONEY_SIX.value,
 }
 
 
