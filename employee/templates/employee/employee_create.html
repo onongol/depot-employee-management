@@ -9,9 +9,9 @@
     <legend class="sr-only">Create Employee Details</legend>
     {% include "includes/department_input_hidden.html" %}
 
-    {% include "includes/form_input.html" with id="employee_id" label=_("Employee ID") name="employee_id" type="number" value=form.employee_id.value form_errors=form.employee_id required=True %}
+    {% include "includes/form_input.html" with id="employee_id" label=_("Employee ID") name="employee_id" type="number" value=form.employee_id.value form_errors=form.employee_id required=True placeholder=_("Unique number (e.g. 1001)") %}
 
-    {% include "includes/form_input.html" with id="name" label=_("Name") name="name" type="text" value=form.name.value form_errors=form.name required=True %}
+    {% include "includes/form_input.html" with id="name" label=_("Name") name="name" type="text" value=form.name.value form_errors=form.name required=True placeholder=_("Full name of the employee") %}
 
     {% include "includes/form_select.html" with id="job_title" label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
 
