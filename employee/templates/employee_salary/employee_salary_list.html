@@ -79,16 +79,16 @@
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Department" %}</th>
+            {# <th scope="col" class="{{ col_class }}">{% trans "Department" %}</th> #}
             <th scope="col" class="{{ col_class }}">
               {% include "includes/order_by_column.html" with label=_("ID") field="employee_id" col_class=col_class selected_department=selected_department %}
             </th>
             <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Rank" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Monthly" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Piecework" %}</th>
+            {# <th scope="col" class="{{ col_class }}">{% trans "Monthly Salary" %}</th> #}
             <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
+            {# <th scope="col" class="{{ col_class }}">{% trans "Total Salary" %}</th> #}
             <th scope="col" class="{{ col_class }}">
               {% include "includes/order_by_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
             </th>
@@ -104,14 +104,14 @@
             <tr class="odd:bg-white hover:bg-gray-200">
               {% with col_class="px-6 py-3" %}
                 <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                <td class="{{ col_class }}">{{ employee_salary.employee.department }}</td>
+                {# <td class="{{ col_class }}">{{ employee_salary.employee.department }}</td> #}
                 <td class="{{ col_class }}">{{ employee_salary.employee.employee_id }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.employee.name }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.employee.rank }}</td>
-                <td class="{{ col_class }}">{{ employee_salary.total_salary_day }}</td>
+                {# <td class="{{ col_class }}">{{ employee_salary.total_salary_day }}</td> #}
                 <td class="{{ col_class }}">{{ employee_salary.total_piecework_amount }}</td>
-                <td class="{{ col_class }}">{{ employee_salary.total_salary }}</td>
+                {# <td class="{{ col_class }}">{{ employee_salary.total_salary }}</td> #}
                 <td class="{{ col_class }}">{{ employee_salary.month }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.year }}</td>
               {% endwith %}
