@@ -2,9 +2,7 @@ from django import forms
 
 from employee.models import Piecework
 from employee.constants.constants import Department, TypeWork
-
-SELECTED_DEPARTMENT = Department.MECHANIC.value
-TYPE_WORK = TypeWork.DEPO.value
+from employee.constants.constants import get_type_work_choices
 
 
 class TypeWorkChoiceMixin:
@@ -13,11 +11,7 @@ class TypeWorkChoiceMixin:
         department = kwargs.pop('department', None)
         super().__init__(*args, **kwargs)
         if 'type_work' in self.fields:
-            # Set choices based on the department
-            if department == SELECTED_DEPARTMENT:
-                self.fields['type_work'].choices = [(TYPE_WORK, TYPE_WORK)]
-            else:
-                self.fields['type_work'].choices = Piecework.TYPE_WORK_CHOICES
+            self.fields['type_work'].choices = get_type_work_choices(department)
 
 
 class PieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
