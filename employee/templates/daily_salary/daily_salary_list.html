@@ -46,7 +46,9 @@
             <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Hours" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
+            {% if not is_employee and not is_master %}
+              <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
+            {% endif %}
             <th scope="col" class="{{ col_class }}">
               {% include "includes/order_by_column.html" with label=_("Date") field="salary_date" col_class=col_class selected_department=selected_department %}
             </th>
@@ -71,12 +73,14 @@
                 <td class="{{ col_class }}">{{ daily_salary.employee.name }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.hours_per_day }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.salary_day|floatformat:2 }}</td>
+                {% if not is_employee and not is_master %}
+                  <td class="{{ col_class }}">{{ daily_salary.salary_day|floatformat:2 }}</td>
+                {% endif %}
                 <td class="{{ col_class }}">{{ daily_salary.salary_date|date:"Y-m-d" }}</td>
                 {% if not is_employee %}
                   <td class="{{ col_class }}">{{ daily_salary.record_date|date:"Y-m-d H:i" }}</td>
                 {% endif %}
-                {% if not is_employee and not is_master%}
+                {% if not is_employee and not is_master %}
                   <td class="{{ col_class }}">
                     {% url 'daily_salary_update' daily_salary.pk as update_url %}
                     {% url 'daily_salary_delete' daily_salary.pk as delete_url %}
@@ -90,7 +94,16 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="9" class="text-center px-3 py-4 text-gray-500">{% trans "No daily salaries found..." %}</td>
+            {# Number of columns based on conditions #}
+            {% if not is_employee and not is_master %}
+              <td colspan="9" class="text-center px-3 py-4 text-gray-500">{% trans "No daily salaries found..." %}</td>
+            {% elif is_master %}
+              <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No daily salaries found..." %}</td>
+            {% elif is_employee %}
+              <td colspan="6" class="text-center px-3 py-4 text-gray-500">{% trans "No daily salaries found..." %}</td>
+            {% else %}
+              <td colspan="9" class="text-center px-3 py-4 text-gray-500">{% trans "No daily salaries found..." %}</td>
+            {% endif %}
           </tr>
         {% endif %}
       </tbody>
