@@ -19,54 +19,7 @@
         {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
       {% endif %}
 
-      <div class="flex flex-col relative">
-        <label for="filter-month" class="sr-only">Month</label>
-        <select
-          name="month"
-          id="filter-month"
-          class="block w-full max-w-xs rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition appearance-none pr-10"
-        >
-          <option value="">{% trans "Months" %}</option>
-          {% for month in months %}
-            <option value="{{ month }}" {% if filters.month == month|stringformat:'d' %}selected{% endif %}>
-              {{ month }}
-            </option>
-          {% endfor %}
-        </select>
-        <!-- Custom arrow (SVG) -->
-        <div class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2">
-          <svg class="w-4 h-4 ml-1" aria-hidden="true">
-            <use href="#chevron-down"></use>
-          </svg>
-        </div>
-      </div>
-
-      <div class="flex flex-col relative">
-        <label for="filter-year" class="sr-only">Year</label>
-        <select
-          name="year"
-          id="filter-year"
-          class="block w-full max-w-xs rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition appearance-none pr-10"
-        >
-          <option value="" {% if not filters.year %}selected{% endif %}>{% trans "Years" %}</option>
-          <option value="{{ current_year }}" {% if filters.year == current_year|stringformat:'d' %}selected{% endif %}>
-            {{ current_year }}
-          </option>
-          {% for year in years %}
-            {% if year != current_year %}
-              <option value="{{ year }}" {% if filters.year == year %}selected{% endif %}>
-                {{ year }}
-              </option>
-            {% endif %}
-          {% endfor %}
-        </select>
-        <!-- Custom arrow (SVG) -->
-        <div class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2">
-          <svg class="w-4 h-4 ml-1" aria-hidden="true">
-            <use href="#chevron-down"></use>
-          </svg>
-        </div>
-      </div>
+      {% include "includes/filter_month.html" with id="filter-month-only" label=_("Month/Year") name="month_period" value=filters.month_period %}
 
       {% include "includes/filter_button.html" %}
     </div>
@@ -134,7 +87,7 @@
   <div class="flex gap-2 w-24 mt-4 mb-4">
     <!-- Export Button Excel -->
     <a
-      href="{% url 'employee_salary_export_excel' %}?employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}&month={{ filters.month }}&year={{ filters.year }}"
+      href="{% url 'employee_salary_export_excel' %}?month_period={{ filters.month_period }}&month={{ filters.month }}&year={{ filters.year }}&employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}"
       class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400"
       role="button"
       aria-label="Download filtered employee salaries as Excel"
@@ -147,7 +100,7 @@
 
     <!-- Export Button PDF -->
     <a
-      href="{% url 'employee_salary_export_pdf' %}?employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}&month={{ filters.month }}&year={{ filters.year }}"
+      href="{% url 'employee_salary_export_pdf' %}?month_period={{ filters.month_period }}&month={{ filters.month }}&year={{ filters.year }}&employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}"
       class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-red-100 hover:text-red-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-red-400"
       role="button"
       aria-label="Download filtered employee salaries as PDF"
