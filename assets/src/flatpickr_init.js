@@ -1,5 +1,6 @@
 import flatpickr from "flatpickr";
 //import "flatpickr/dist/flatpickr.min.css"; // import styles
+import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect/index.js";
 
 document.addEventListener('DOMContentLoaded', function () {
   // Single Date Picker
@@ -14,4 +15,14 @@ document.addEventListener('DOMContentLoaded', function () {
     dateFormat: "Y-m-d",
     allowInput: true
   });
+  // Month Picker
+  flatpickr(".js-flatpickr-month", {
+    plugins: [new monthSelectPlugin({
+      shorthand: true,
+      dateFormat: "Y-m",
+      altFormat: "F Y"
+    })]
+  });
 });
+
+
