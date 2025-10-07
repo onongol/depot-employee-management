@@ -20,6 +20,14 @@ def employee_salary_calculate(employees, month, year):
 
     # Get sums of piecework amounts
     piecework_qs = Piecework.objects.filter(employee__in=employees)
+
+    # filter by month and year if provided
+    if month:
+        piecework_qs = piecework_qs.filter(work_date__month=month)
+    if year:
+        piecework_qs = piecework_qs.filter(work_date__year=year)
+
+    # Apply month_period filter if provided
     piecework_groups = (
         piecework_qs
         .values('employee', 'work_date__year', 'work_date__month')
