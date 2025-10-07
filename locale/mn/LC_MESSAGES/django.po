@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 10:56+0800\n"
+"POT-Creation-Date: 2025-10-07 16:28+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,7 +141,7 @@ msgid "Register"
 msgstr "Бүртгүүлэх"
 
 #: .\employee\templates\base.html:44
-#: .\employee\templates\daily_salary\daily_salary_list.html:49
+#: .\employee\templates\daily_salary\daily_salary_list.html:50
 #: .\employee\templates\employee_salary\employee_salary_list.html:43
 #: .\employee\views\employee_salary\employee_salary_excel.py:17
 #: .\employee\views\employee_salary\employee_salary_pdf.py:17
@@ -160,7 +160,7 @@ msgstr "Вагон"
 #: .\employee\templates\material\material_list.html:12
 #: .\employee\templates\material\material_list.html:45
 #: .\employee\templates\piecework\piecework_create.html:124
-#: .\employee\templates\work\work_list.html:37
+#: .\employee\templates\work\work_list.html:40
 #: .\employee\views\material\material_excel.py:42
 msgid "Material"
 msgstr "Материал"
@@ -173,7 +173,7 @@ msgstr "Шинэ"
 
 #: .\employee\templates\daily_salary\daily_salary_create.html:23
 #: .\employee\templates\daily_salary\daily_salary_list.html:26
-#: .\employee\templates\daily_salary\daily_salary_list.html:51
+#: .\employee\templates\daily_salary\daily_salary_list.html:53
 #: .\employee\templates\daily_salary\daily_salary_update.html:11
 #: .\employee\templates\includes\save_duplicate_modal.html:20
 #: .\employee\templates\material\material_list.html:42
@@ -191,7 +191,7 @@ msgstr "Огноо"
 #: .\employee\templates\daily_salary\daily_salary_create.html:25
 #: .\employee\templates\piecework\piecework_list.html:58
 #: .\employee\templates\wagon\wagon_list.html:32
-#: .\employee\templates\work\work_list.html:39
+#: .\employee\templates\work\work_list.html:42
 msgid "Time"
 msgstr "Цаг"
 
@@ -309,19 +309,21 @@ msgstr "Бичлэг Хийх Огноо"
 msgid "Hours"
 msgstr "Цаг"
 
-#: .\employee\templates\daily_salary\daily_salary_list.html:55
+#: .\employee\templates\daily_salary\daily_salary_list.html:57
 #: .\employee\templates\piecework\piecework_list.html:65
 msgid "Record"
 msgstr "Бичлэг"
 
-#: .\employee\templates\daily_salary\daily_salary_list.html:59
+#: .\employee\templates\daily_salary\daily_salary_list.html:61
 #: .\employee\templates\employee\employee_list.html:45
 #: .\employee\templates\piecework\piecework_list.html:69
-#: .\employee\templates\work\work_list.html:42
+#: .\employee\templates\work\work_list.html:45
 msgid "Actions"
 msgstr "Үйлдлүүд"
 
-#: .\employee\templates\daily_salary\daily_salary_list.html:93
+#: .\employee\templates\daily_salary\daily_salary_list.html:99
+#: .\employee\templates\daily_salary\daily_salary_list.html:101
+#: .\employee\templates\daily_salary\daily_salary_list.html:103
 msgid "No daily salaries found..."
 msgstr "Өдөр тутмын цалин олдсонгүй..."
 
@@ -352,7 +354,8 @@ msgstr "Мөнгө/Цаг"
 msgid "According to rank"
 msgstr "Зэрэглэлээр"
 
-#: .\employee\templates\employee\employee_list.html:78
+#: .\employee\templates\employee\employee_list.html:80
+#: .\employee\templates\employee\employee_list.html:82
 msgid "No employees found..."
 msgstr "Ажилтан олдсонгүй..."
 
@@ -557,8 +560,8 @@ msgid "Work Name"
 msgstr "Ажлын Нэр"
 
 #: .\employee\templates\material\material_list.html:22
-#: .\employee\templates\work\work_create.html:16
-#: .\employee\templates\work\work_update.html:12
+#: .\employee\templates\work\work_create.html:20
+#: .\employee\templates\work\work_update.html:16
 #: .\employee\views\material\material_excel.py:17
 msgid "Type Material"
 msgstr "Материалын төрөл"
@@ -628,13 +631,15 @@ msgstr "Төрөл"
 
 #: .\employee\templates\piecework\piecework_list.html:59
 #: .\employee\templates\wagon\wagon_list.html:33
-#: .\employee\templates\work\work_create.html:22
-#: .\employee\templates\work\work_list.html:40
-#: .\employee\templates\work\work_update.html:18
+#: .\employee\templates\work\work_create.html:26
+#: .\employee\templates\work\work_list.html:43
+#: .\employee\templates\work\work_update.html:22
 msgid "Price"
 msgstr "Үнэ"
 
-#: .\employee\templates\piecework\piecework_list.html:107
+#: .\employee\templates\piecework\piecework_list.html:109
+#: .\employee\templates\piecework\piecework_list.html:111
+#: .\employee\templates\piecework\piecework_list.html:113
 msgid "No piecework records found..."
 msgstr "Хэсэгчилсэн ажил бичлэг олдсонгүй..."
 
@@ -646,31 +651,40 @@ msgstr "Вагоны бичлэг олдсонгүй..."
 msgid "Unique name of the work"
 msgstr "Бүтээлийн өвөрмөц нэр"
 
-#: .\employee\templates\work\work_create.html:16
-#: .\employee\templates\work\work_update.html:12
-msgid "Not necessarily"
-msgstr "Заавал биш"
-
-#: .\employee\templates\work\work_create.html:18
-#: .\employee\templates\work\work_update.html:14
-msgid "Usage Material"
-msgstr "Хэрэглээний материал"
-
-#: .\employee\templates\work\work_create.html:18
-#: .\employee\templates\work\work_update.html:14
-msgid "0 if Type Material is not used"
-msgstr "Төрөл материалыг ашиглаагүй бол 0"
+#: .\employee\templates\work\work_create.html:17
+#: .\employee\templates\work\work_list.html:38
+#: .\employee\templates\work\work_update.html:13
+msgid "Type Wagon"
+msgstr "Вагон Төрөл"
 
 #: .\employee\templates\work\work_create.html:20
 #: .\employee\templates\work\work_update.html:16
+msgid "Not necessarily"
+msgstr "Заавал биш"
+
+#: .\employee\templates\work\work_create.html:22
+#: .\employee\templates\work\work_update.html:18
+msgid "Usage Material"
+msgstr "Хэрэглээний материал"
+
+#: .\employee\templates\work\work_create.html:22
+#: .\employee\templates\work\work_update.html:18
+msgid "0 if Type Material is not used"
+msgstr "Төрөл материалыг ашиглаагүй бол 0"
+
+#: .\employee\templates\work\work_create.html:24
+#: .\employee\templates\work\work_update.html:20
 msgid "Standard Time"
 msgstr "Стандарт цаг"
 
-#: .\employee\templates\work\work_list.html:38
+#: .\employee\templates\work\work_list.html:41
 msgid "Usage"
 msgstr "Хэрэглээ"
 
-#: .\employee\templates\work\work_list.html:71
+#: .\employee\templates\work\work_list.html:80
+#: .\employee\templates\work\work_list.html:82
+#: .\employee\templates\work\work_list.html:86
+#: .\employee\templates\work\work_list.html:88
 msgid "No work found..."
 msgstr "Ажил олдсонгүй..."
 
