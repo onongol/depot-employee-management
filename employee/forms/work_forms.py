@@ -1,13 +1,12 @@
 from django import forms
 
 from employee.models import Work
-from employee.constants.constants import get_job_title_choices
-
+from employee.constants.constants import get_job_title_choices, TYPE_WAGON_CHOICES, ALLOWED_WAGON_DEPARTMENTS
 
 class WorkForm(forms.ModelForm):
     """Form for creating or updating a Work record."""
     def __init__(self, *args, **kwargs):
-        """Initialize form and dynamically set job title choices based on department."""
+        """Initialize form and dynamically set job title and type_wagon choices based on department."""
         department = kwargs.pop('department', None) 
         super().__init__(*args, **kwargs)
         dept = (
@@ -17,12 +16,21 @@ class WorkForm(forms.ModelForm):
         )
         self.fields['job_title'].choices = get_job_title_choices(dept) 
 
+        # Dynamically set type_wagon choices based on department
+        if dept in set(ALLOWED_WAGON_DEPARTMENTS):
+            self.fields['type_wagon'].choices = TYPE_WAGON_CHOICES
+        else:
+            # Show empty select (not required) and ensure None
+            self.fields['type_wagon'].choices = [('', '---------')]
+            self.fields['type_wagon'].initial = None
+
     class Meta:
         model = Work
         fields = '__all__'
         widgets = {
             'job_title': forms.Select(attrs={'class': 'form-control'}),
             'work_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'type_wagon': forms.Select(attrs={'class': 'form-control'}),
             'type_material': forms.TextInput(attrs={'class': 'form-control'}),
             'usage_material': forms.NumberInput(
                 attrs={
@@ -55,7 +63,7 @@ class WorkForm(forms.ModelForm):
 class UpdateWorkForm(forms.ModelForm):
     """Form for updating an existing Work record."""
     def __init__(self, *args, **kwargs):
-        """Initialize form and dynamically set job title choices based on department."""
+        """Initialize form and dynamically set job title and type_wagon choices based on department."""
         department = kwargs.pop('department', None) 
         super().__init__(*args, **kwargs)
         dept = (
@@ -65,11 +73,20 @@ class UpdateWorkForm(forms.ModelForm):
         )
         self.fields['job_title'].choices = get_job_title_choices(dept) 
 
+        # Dynamically set type_wagon choices based on department
+        if dept in set(ALLOWED_WAGON_DEPARTMENTS):
+            self.fields['type_wagon'].choices = TYPE_WAGON_CHOICES
+        else:
+            # Show empty select (not required) and ensure None
+            self.fields['type_wagon'].choices = [('', '---------')]
+            self.fields['type_wagon'].initial = None
+
     class Meta:
         model = Work
-        fields = ['job_title', 'type_material', 'usage_material', 'standard_time', 'price']
+        fields = ['job_title', 'type_wagon', 'type_material', 'usage_material', 'standard_time', 'price']
         widgets = { 
             'job_title': forms.Select(attrs={'class': 'form-control'}),
+            'type_wagon': forms.Select(attrs={'class': 'form-control'}),
             'type_material': forms.TextInput(attrs={'class': 'form-control'}),
             'usage_material': forms.NumberInput(attrs={
                 'class': 'form-control', 
