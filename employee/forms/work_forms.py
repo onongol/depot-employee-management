@@ -1,7 +1,7 @@
 from django import forms
 
 from employee.models import Work
-from employee.constants.constants import get_job_title_choices, TYPE_WAGON_CHOICES, ALLOWED_WAGON_DEPARTMENTS
+from employee.constants.constants import get_job_title_choices, TYPE_WAGON_CHOICES, ALLOWED_WAGON_DEPARTMENTS, EMPTY_SELECT
 
 class WorkForm(forms.ModelForm):
     """Form for creating or updating a Work record."""
@@ -18,10 +18,11 @@ class WorkForm(forms.ModelForm):
 
         # Dynamically set type_wagon choices based on department
         if dept in set(ALLOWED_WAGON_DEPARTMENTS):
-            self.fields['type_wagon'].choices = TYPE_WAGON_CHOICES
+            self.fields['type_wagon'].choices = EMPTY_SELECT + list(TYPE_WAGON_CHOICES)
+            self.fields['type_wagon'].initial = None
         else:
             # Show empty select (not required) and ensure None
-            self.fields['type_wagon'].choices = [('', '---------')]
+            self.fields['type_wagon'].choices = EMPTY_SELECT
             self.fields['type_wagon'].initial = None
 
     class Meta:
@@ -75,10 +76,11 @@ class UpdateWorkForm(forms.ModelForm):
 
         # Dynamically set type_wagon choices based on department
         if dept in set(ALLOWED_WAGON_DEPARTMENTS):
-            self.fields['type_wagon'].choices = TYPE_WAGON_CHOICES
+            self.fields['type_wagon'].choices = EMPTY_SELECT + list(TYPE_WAGON_CHOICES)
+            self.fields['type_wagon'].initial = None
         else:
             # Show empty select (not required) and ensure None
-            self.fields['type_wagon'].choices = [('', '---------')]
+            self.fields['type_wagon'].choices = EMPTY_SELECT
             self.fields['type_wagon'].initial = None
 
     class Meta:
