@@ -22,7 +22,7 @@ def employee_salary_export_pdf(request):
     
     headers = [str(h) for h in headers]
 
-    col_widths = [160, 40, 160, 160, 100, 40, 40]
+    col_widths = [150, 55, 180, 180, 115, 55, 55]
     
     data = [
         [
