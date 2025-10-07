@@ -1,0 +1,12 @@
+<div class="flex flex-col">
+  <label for="{{ id }}" class="sr-only">{{ label }}</label>
+  <input
+    type="text"
+    name="{{ name|default:'month_period' }}"
+    id="{{ id }}"
+    class="js-flatpickr-month block w-32 rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition"
+    placeholder="{{ placeholder|default:label }}"
+    value="{{ value|default:'' }}"
+    autocomplete="off"
+  >
+</div>
