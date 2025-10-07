@@ -65,6 +65,10 @@ class Work(models.Model):
         # Ensure type_wagon is only set for allowed departments
         if self.department not in set(ALLOWED_WAGON_DEPARTMENTS):
             self.type_wagon = None
+        else:
+            # Allowed department: allow explicit None / empty
+            if not self.type_wagon:
+                self.type_wagon = None
 
     @property
     def type_material_display(self):
