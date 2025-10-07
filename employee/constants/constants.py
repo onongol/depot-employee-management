@@ -56,13 +56,70 @@ RANK_TO_MONEY = {
 class TypeWork(Enum):
     TYPE_84 = '84'
     TYPE_29 = '29'
+    TYPE_79 = '79'
+    TYPE_03 = '03'
     TUG = 'ТҮГ'
     NOOTS = 'Нөөц'
-    ZAVOD = 'Завод'
-    DEPO = 'Депо'
+    DEPO = 'Бүтээгдэхүүн'
 
 # Type work choices
 TYPE_WORK_CHOICES = [(work_type.value, work_type.value) for work_type in TypeWork]
+
+DEPARTMENT_TYPE_WORKS = {
+    Department.MECHANIC.value: [
+        TypeWork.DEPO.value,
+    ],
+    Department.AKP.value: [
+        TypeWork.TYPE_84.value,
+        TypeWork.TYPE_29.value, 
+        TypeWork.TYPE_79.value,
+        TypeWork.TYPE_03.value,
+        TypeWork.TUG.value,
+        TypeWork.NOOTS.value,
+        ],
+    Department.ZASVAR_1.value: [
+        TypeWork.TYPE_84.value,
+        TypeWork.TYPE_29.value, 
+        TypeWork.TYPE_79.value,
+        TypeWork.TYPE_03.value,
+    ],
+    Department.ZASVAR_2.value: [
+        TypeWork.TYPE_84.value,
+        TypeWork.TYPE_29.value, 
+        TypeWork.TYPE_79.value,
+        TypeWork.TYPE_03.value,
+    ],
+    Department.HOS_DUGUI.value: [
+        TypeWork.TYPE_84.value,
+        TypeWork.TYPE_29.value,
+    ],
+    Department.TERGENTSER.value: [
+        TypeWork.TYPE_84.value,
+        TypeWork.TYPE_29.value, 
+        TypeWork.TYPE_79.value,
+        TypeWork.TYPE_03.value,
+        TypeWork.TUG.value,
+        TypeWork.NOOTS.value,
+    ],
+    Department.AUTO_UGSRAA.value: [
+        TypeWork.TYPE_84.value,
+        TypeWork.TYPE_29.value, 
+        TypeWork.TYPE_79.value,
+        TypeWork.TYPE_03.value,
+        TypeWork.TUG.value,
+        TypeWork.NOOTS.value,
+    ],
+}
+
+
+def get_type_work_choices(department: str | None):
+    """
+    Return choices list for type_work limited by department; fallback to all.
+    """
+    values = DEPARTMENT_TYPE_WORKS.get(department)
+    if not values:
+        return TYPE_WORK_CHOICES
+    return [(v, v) for v in values]
 
 # Default wagon number
 DEFAULT_WAGON_NUMBER = "0"
