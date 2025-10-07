@@ -121,7 +121,6 @@
                 <label for="select-all-works" class="sr-only">{% trans "Select all works" %}</label>
               </th>
               <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
-              <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
               <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
               <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
             {% endwith %}
@@ -148,7 +147,6 @@
                   </label>
                   {{ work.work_name }}
                 </td>
-                <td class="{{ col_class }}">{{ work.type_material }}</td>
                 <td class="{{ col_class }}">
                   <label for="amount_{{ work.pk }}" class="sr-only">Amount for {{ work.work_name }}</label>
                   <input
