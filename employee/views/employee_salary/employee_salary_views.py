@@ -2,9 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from employee.models import Employee
-from employee.models import DailySalary
-from employee.views.employee_salary.employee_salary_calculate import employee_salary_calculate
-from .employee_salary_filtered import employee_salaries_prepare
+from .employee_salary_calculate import employee_salary_calculate
+from .employee_salary_prepare import employee_salaries_prepare
 from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_employees
 from employee.utils.pagination import paginate_queryset
@@ -15,7 +14,7 @@ from employee.utils.selects import get_distinct_values
 def employee_salary_list(request):
     """View to list all employee salaries with filters and pagination."""
     # Prepare the base queryset and filter parameters
-    employees, employee_id, employee_name, department, job_title, month, year, current_year = employee_salaries_prepare(request)
+    employees, employee_id, employee_name, department, job_title, month, year, month_period = employee_salaries_prepare(request)
 
     # Get the selected department from the request
     department = get_selected_department(request)
@@ -28,10 +27,6 @@ def employee_salary_list(request):
 
     # Get all unique job titles that exist in DailySalary for filter dropdown
     job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department', only_with_salary=True)
-
-    # Prepare months and years for filter dropdowns
-    months = [i for i in range(1, 13)]
-    years = [d.year for d in DailySalary.objects.dates('salary_date', 'year')]
 
     # Apply filters to the employee queryset using reusable filter functions
     employees = filter_employees(
@@ -72,8 +67,8 @@ def employee_salary_list(request):
 
     # Render the template with all context data
     return render(
-        request, 
-        'employee_salary/employee_salary_list.html', 
+        request,
+        'employee_salary/employee_salary_list.html',
         {
             'employee_salaries': page_obj,
             'filters': {
@@ -83,11 +78,9 @@ def employee_salary_list(request):
                 'job_title': job_title,
                 'month': month,
                 'year': year,
+                'month_period': month_period,
             },
             'job_titles': job_titles,
-            'months': months,
-            'years': years,
-            'current_year': current_year,
             'page_obj': page_obj,
             'selected_department': department,
         }
