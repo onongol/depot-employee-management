@@ -35,13 +35,13 @@ class Rank(Enum):
 # Choices for Django model fields
 RANK_CHOICES = [(rank.value, rank.value) for rank in Rank]
 
+
 # Monetary values associated with each rank
 class MoneyHourChoices(str, Enum):
     MONEY_THREE = Decimal('9715.83')
     MONEY_FOUR = Decimal('11058.67')
     MONEY_FIVE = Decimal('12796.46')
     MONEY_SIX = Decimal('15166.18')
-
 
 # Mapping of rank to corresponding monetary values
 RANK_TO_MONEY = {
@@ -63,7 +63,6 @@ class TypeWork(Enum):
     DEPO = 'Бүтээгдэхүүн'
 
 # Type work choices
-
 TYPE_WORK_CHOICES = [(work_type.value, work_type.value) for work_type in TypeWork]
 
 # Grouped type works by department
@@ -122,7 +121,6 @@ class job_title(str, Enum):
 JOB_TITLES = [title.value for title in job_title]
 
 JOB_TITLE_CHOICES = [(title.value, title.value) for title in job_title]
-
 
 # Grouped job titles by department
 JOB_TITLES_MECHANIC = [
