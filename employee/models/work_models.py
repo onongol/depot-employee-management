@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from decimal import Decimal
 
-from employee.constants.constants import DEFAULT_MATERIAL_TYPE, JOB_TITLE_CHOICES
+from employee.constants.constants import DEFAULT_MATERIAL_TYPE, JOB_TITLE_CHOICES, TYPE_WAGON_CHOICES, ALLOWED_WAGON_DEPARTMENTS, DEFAULT_WAGON_TYPE
 
 
 class Work(models.Model):
@@ -20,6 +20,12 @@ class Work(models.Model):
         choices=JOB_TITLE_CHOICES
     )
     work_name = models.CharField(max_length=255, unique=True)
+    type_wagon = models.CharField(
+        max_length=100,
+        choices=TYPE_WAGON_CHOICES,
+        blank=True,
+        null=True,
+    )
     type_material = models.CharField(
         max_length=255, 
         blank=True, 
@@ -48,17 +54,25 @@ class Work(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Save the Work instance.
-        If material is not specified, set default values.
+        Override save to ensure type_material and usage_material consistency.
         """
+        # If type_material is not provided, set usage_material to 0
         if not self.type_material:
             self.type_material = None
             self.usage_material = Decimal('0.0000')
         super().save(*args, **kwargs)
 
+        # Ensure type_wagon is only set for allowed departments
+        if self.department not in set(ALLOWED_WAGON_DEPARTMENTS):
+            self.type_wagon = None
+
     @property
     def type_material_display(self):
         return DEFAULT_MATERIAL_TYPE if not self.type_material else self.type_material
+    
+    @property
+    def type_wagon_display(self):
+        return DEFAULT_WAGON_TYPE if not self.type_wagon else self.type_wagon
 
     def __str__(self):
         return self.work_name
