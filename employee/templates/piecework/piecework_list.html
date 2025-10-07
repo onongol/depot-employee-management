@@ -104,7 +104,14 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="13" class="text-center px-3 py-4 text-gray-500">{% trans "No piecework records found..." %}</td>
+            {# Number of columns based on conditions #}
+            {% if not is_employee and not is_master %}
+              <td colspan="13" class="text-center px-3 py-4 text-gray-500">{% trans "No piecework records found..." %}</td>
+            {% elif is_master %}
+              <td colspan="12" class="text-center px-3 py-4 text-gray-500">{% trans "No piecework records found..." %}</td>
+            {% elif is_employee %}
+              <td colspan="11" class="text-center px-3 py-4 text-gray-500">{% trans "No piecework records found..." %}</td>
+            {% endif %}
           </tr>
         {% endif %}
       </tbody>
