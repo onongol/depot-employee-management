@@ -63,52 +63,33 @@ class TypeWork(Enum):
     DEPO = 'Бүтээгдэхүүн'
 
 # Type work choices
+
 TYPE_WORK_CHOICES = [(work_type.value, work_type.value) for work_type in TypeWork]
 
+# Grouped type works by department
+TYPE_WORKS_MECHANIC = [TypeWork.DEPO.value]
+TYPE_WORKS_FULL = [  # АКП, Тэргэнцэр, Авто угсраа
+    TypeWork.TYPE_84.value, TypeWork.TYPE_29.value, TypeWork.TYPE_79.value,
+    TypeWork.TYPE_03.value, TypeWork.TUG.value, TypeWork.NOOTS.value
+]
+TYPE_WORKS_ZASVAR = [  # Засвар 1, Засвар 2
+    TypeWork.TYPE_84.value, TypeWork.TYPE_29.value,
+    TypeWork.TYPE_79.value, TypeWork.TYPE_03.value
+]
+TYPE_WORKS_HOS_DUGUI = [
+    TypeWork.TYPE_84.value, TypeWork.TYPE_29.value
+]
+
+# Mapping of departments to their respective type works
+_DEPT_TYPE_WORKS_GROUPS = {
+    (Department.MECHANIC.value,): TYPE_WORKS_MECHANIC,
+    (Department.AKP.value, Department.TERGENTSER.value, Department.AUTO_UGSRAA.value): TYPE_WORKS_FULL,
+    (Department.ZASVAR_1.value, Department.ZASVAR_2.value): TYPE_WORKS_ZASVAR,
+    (Department.HOS_DUGUI.value,): TYPE_WORKS_HOS_DUGUI,
+}
+
 DEPARTMENT_TYPE_WORKS = {
-    Department.MECHANIC.value: [
-        TypeWork.DEPO.value,
-    ],
-    Department.AKP.value: [
-        TypeWork.TYPE_84.value,
-        TypeWork.TYPE_29.value, 
-        TypeWork.TYPE_79.value,
-        TypeWork.TYPE_03.value,
-        TypeWork.TUG.value,
-        TypeWork.NOOTS.value,
-        ],
-    Department.ZASVAR_1.value: [
-        TypeWork.TYPE_84.value,
-        TypeWork.TYPE_29.value, 
-        TypeWork.TYPE_79.value,
-        TypeWork.TYPE_03.value,
-    ],
-    Department.ZASVAR_2.value: [
-        TypeWork.TYPE_84.value,
-        TypeWork.TYPE_29.value, 
-        TypeWork.TYPE_79.value,
-        TypeWork.TYPE_03.value,
-    ],
-    Department.HOS_DUGUI.value: [
-        TypeWork.TYPE_84.value,
-        TypeWork.TYPE_29.value,
-    ],
-    Department.TERGENTSER.value: [
-        TypeWork.TYPE_84.value,
-        TypeWork.TYPE_29.value, 
-        TypeWork.TYPE_79.value,
-        TypeWork.TYPE_03.value,
-        TypeWork.TUG.value,
-        TypeWork.NOOTS.value,
-    ],
-    Department.AUTO_UGSRAA.value: [
-        TypeWork.TYPE_84.value,
-        TypeWork.TYPE_29.value, 
-        TypeWork.TYPE_79.value,
-        TypeWork.TYPE_03.value,
-        TypeWork.TUG.value,
-        TypeWork.NOOTS.value,
-    ],
+    dept: lst for group, lst in _DEPT_TYPE_WORKS_GROUPS.items() for dept in group
 }
 
 
@@ -142,40 +123,36 @@ JOB_TITLES = [title.value for title in job_title]
 
 JOB_TITLE_CHOICES = [(title.value, title.value) for title in job_title]
 
-# Per-department job titles mapping (каждый цех — отдельный ключ)
+
+# Grouped job titles by department
+JOB_TITLES_MECHANIC = [
+    job_title.TOKARCHIN.value,
+    job_title.BELTGELEL_TOKARCHIN.value,
+    job_title.DARHAN_LANTUUCHIN.value,
+    job_title.GAGNUURCHIN.value,
+]
+JOB_TITLES_SINGLE_ZASVARCHIN = [job_title.ZASVARCHIN.value]  # АКП, Хос дугуй
+JOB_TITLES_ZASVAR = [  # Засвар 1,2
+    job_title.ZASVARCHIN.value,
+    job_title.GAGNUURCHIN.value,
+    job_title.BUDAGCHIN.value,
+    job_title.NEELKHI.value,
+]
+JOB_TITLES_ZASV_GAGNUUR = [  # Тэргэнцэр, Авто угсраа
+    job_title.ZASVARCHIN.value,
+    job_title.GAGNUURCHIN.value,
+]
+
+# Mapping of departments to their respective job titles
+_DEPT_JOB_TITLE_GROUPS = {
+    (Department.MECHANIC.value,): JOB_TITLES_MECHANIC,
+    (Department.AKP.value, Department.HOS_DUGUI.value): JOB_TITLES_SINGLE_ZASVARCHIN,
+    (Department.ZASVAR_1.value, Department.ZASVAR_2.value): JOB_TITLES_ZASVAR,
+    (Department.TERGENTSER.value, Department.AUTO_UGSRAA.value): JOB_TITLES_ZASV_GAGNUUR,
+}
+
 DEPARTMENT_JOB_TITLES = {
-    Department.MECHANIC.value: [
-        job_title.TOKARCHIN.value,
-        job_title.BELTGELEL_TOKARCHIN.value,
-        job_title.DARHAN_LANTUUCHIN.value,
-        job_title.GAGNUURCHIN.value,
-    ],
-    Department.AKP.value: [
-        job_title.ZASVARCHIN.value,
-    ],
-    Department.HOS_DUGUI.value: [
-        job_title.ZASVARCHIN.value,
-    ],
-    Department.ZASVAR_1.value: [
-        job_title.ZASVARCHIN.value,
-        job_title.GAGNUURCHIN.value,
-        job_title.BUDAGCHIN.value,
-        job_title.NEELKHI.value,
-    ],
-    Department.ZASVAR_2.value: [
-        job_title.ZASVARCHIN.value,
-        job_title.GAGNUURCHIN.value,
-        job_title.BUDAGCHIN.value,
-        job_title.NEELKHI.value,
-    ],
-    Department.TERGENTSER.value: [
-        job_title.ZASVARCHIN.value,
-        job_title.GAGNUURCHIN.value,
-    ],
-    Department.AUTO_UGSRAA.value: [
-        job_title.ZASVARCHIN.value,
-        job_title.GAGNUURCHIN.value,
-    ],
+    dept: lst for group, lst in _DEPT_JOB_TITLE_GROUPS.items() for dept in group
 }
 
 def get_job_title_choices(department: str | None):
