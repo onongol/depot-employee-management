@@ -34,6 +34,9 @@
             <th scope="col" class="{{ col_class }}">#</th>
             <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Work Name" %}</th>
+            {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+              <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
+            {% endif %}
             <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Usage" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
@@ -52,6 +55,9 @@
                 <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
                 <td class="{{ col_class }}">{{ work.job_title }}</td>
                 <td class="{{ col_class }}">{{ work.work_name }}</td>
+                {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                  <td class="{{ col_class }}">{{ work.type_wagon_display }}</td>
+                {% endif %}
                 <td class="{{ col_class }}">{{ work.type_material_display }}</td>
                 <td class="{{ col_class }}">{{ work.usage_material|floatformat:2 }}</td>
                 <td class="{{ col_class }}">{{ work.standard_time|floatformat:4 }}</td>
@@ -70,9 +76,17 @@
           <tr>
             {# Number of columns based on conditions #}
             {% if not is_master %}
-              <td colspan="8" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
-            {% elif is_master %}
-              <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
+              {% if show_type_wagon %}
+                <td colspan="9" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
+              {% else %}
+                <td colspan="8" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
+              {% endif %}
+            {% else %}
+              {% if show_type_wagon %}
+                <td colspan="8" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
+              {% else %}
+                <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
+              {% endif %}
             {% endif %}
           </tr>
         {% endif %}
