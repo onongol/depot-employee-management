@@ -75,7 +75,12 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No employees found..." %}</td>
+            {# Number of columns based on conditions #}
+            {% if not is_employee and not is_master %}
+              <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No employees found..." %}</td>
+            {% else %}
+              <td colspan="6" class="text-center px-3 py-4 text-gray-500">{% trans "No employees found..." %}</td>
+            {% endif %}
           </tr>
         {% endif %}
       </tbody>
