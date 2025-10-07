@@ -178,3 +178,4 @@ TYPE_WAGON_CHOICES = [(wagon.value, wagon.value) for wagon in TypeWagon]
 
 ALLOWED_WAGON_DEPARTMENTS = (Department.ZASVAR_1.value, Department.ZASVAR_2.value)
 
+DEFAULT_WAGON_TYPE = '-'
