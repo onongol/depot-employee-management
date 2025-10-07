@@ -13,6 +13,10 @@
 
     {% include "includes/form_input.html" with id="work_name" label=_("Work Name") name="work_name" type="text" value=form.work_name.value form_errors=form.work_name required=True placeholder=_("Unique name of the work") %}
 
+    {% if SHOW_TYPE_WAGON %}
+      {% include "includes/form_select.html" with id=form.type_wagon.id_for_label label=_("Type Wagon") name="type_wagon" choices=form.type_wagon.field.choices selected=form.type_wagon.value required=False %}
+    {% endif %}
+
     {% include "includes/form_input.html" with id=form.type_material.id_for_label label=_("Type Material") name="type_material" type="text" value=form.type_material.value placeholder=_("Not necessarily") %}
 
     {% include "includes/form_input.html" with id=form.usage_material.id_for_label label=_("Usage Material") name="usage_material" type="number" value=form.usage_material.field.widget.attrs.value step=form.usage_material.field.widget.attrs.step form_errors=form.usage_material required=True placeholder=_("0 if Type Material is not used") %}

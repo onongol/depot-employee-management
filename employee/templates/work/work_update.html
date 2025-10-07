@@ -8,6 +8,10 @@
   <fieldset class="space-y-4">
     <legend class="sr-only">Update Work Details</legend>
     {% include "includes/form_select.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
+    
+    {% if SHOW_TYPE_WAGON %}
+      {% include "includes/form_select.html" with id=form.type_wagon.id_for_label label=_("Type Wagon") name="type_wagon" choices=form.type_wagon.field.choices selected=form.type_wagon.value %}
+    {% endif %}
 
     {% include "includes/form_input.html" with id=form.type_material.id_for_label label=_("Type Material") name="type_material" type="text" value=form.type_material.value placeholder=_("Not necessarily") %}
 
