@@ -14,6 +14,7 @@ from employee.utils.filters import filter_works
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import OnlyAdminMixin
 from employee.utils.selects import get_distinct_values
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 
 
 class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, CreateView):
@@ -26,6 +27,13 @@ class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Creat
         kwargs = super().get_form_kwargs()
         kwargs['department'] = get_selected_department(self.request)
         return kwargs
+    
+    def get_context_data(self, **kwargs):
+        """Add context to show/hide type_wagon field based on department."""
+        ctx = super().get_context_data(**kwargs)
+        dept = get_selected_department(self.request)
+        ctx['SHOW_TYPE_WAGON'] = dept in ALLOWED_WAGON_DEPARTMENTS
+        return ctx
 
 
 class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, UpdateView):
@@ -38,6 +46,13 @@ class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Updat
         kwargs = super().get_form_kwargs()
         kwargs['department'] = get_selected_department(self.request)
         return kwargs
+    
+    def get_context_data(self, **kwargs):
+        """Add context to show/hide type_wagon field based on department."""
+        ctx = super().get_context_data(**kwargs)
+        dept = getattr(self.object, 'department', None) or get_selected_department(self.request)
+        ctx['SHOW_TYPE_WAGON'] = dept in ALLOWED_WAGON_DEPARTMENTS
+        return ctx
 
 class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
     login_url = 'login'
@@ -92,5 +107,6 @@ def work_list(request):
             'page_obj': page_obj,
             'job_titles': job_titles,
             'selected_department': department,
+            'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS, # Pass allowed departments to template
         }
     )
