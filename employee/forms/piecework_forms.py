@@ -1,7 +1,6 @@
 from django import forms
 
 from employee.models import Piecework
-from employee.constants.constants import Department, TypeWork
 from employee.constants.constants import get_type_work_choices
 
 
