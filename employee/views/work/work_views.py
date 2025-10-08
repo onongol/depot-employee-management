@@ -14,7 +14,7 @@ from employee.utils.filters import filter_works
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import OnlyAdminMixin
 from employee.utils.selects import get_distinct_values
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, DEFAULT_WAGON_TYPE
 
 
 class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, CreateView):
@@ -80,17 +80,26 @@ def work_list(request):
     department = get_selected_department(request)
     job_title = request.GET.get('job_title')
     work_name = request.GET.get('work_name')
+    type_wagon = request.GET.get('type_wagon')
 
     # Apply all filters using a reusable filter function
     works = filter_works(
         works, 
         department=department,
         job_title=job_title,
-        work_name=work_name
+        work_name=work_name,
+        type_wagon=type_wagon,
     )
 
     # Get distinct job titles for filtering dropdown
     job_titles = get_distinct_values(Work, 'job_title', department, department_field='department')
+
+    # Get distinct type_wagons for filtering dropdown
+    type_wagons = get_distinct_values(Work, 'type_wagon', department, department_field='department')
+
+    # Ensure DEFAULT_WAGON_TYPE is included if there are any null/empty type_wagon entries
+    if DEFAULT_WAGON_TYPE not in type_wagons:
+        type_wagons = [DEFAULT_WAGON_TYPE] + [tw for tw in type_wagons if tw]
 
     # Ensure consistent ordering for pagination
     works = works.order_by('work_name')
@@ -106,6 +115,7 @@ def work_list(request):
             'works': page_obj,
             'page_obj': page_obj,
             'job_titles': job_titles,
+            'type_wagons': type_wagons,
             'selected_department': department,
             'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS, # Pass allowed departments to template
         }
