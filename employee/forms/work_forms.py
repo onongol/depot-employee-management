@@ -3,10 +3,12 @@ from django import forms
 from employee.models import Work
 from employee.constants.constants import get_job_title_choices, TYPE_WAGON_CHOICES, ALLOWED_WAGON_DEPARTMENTS, EMPTY_SELECT
 
+
 class WorkForm(forms.ModelForm):
     """Form for creating or updating a Work record."""
     def __init__(self, *args, **kwargs):
         """Initialize form and dynamically set job title and type_wagon choices based on department."""
+        # Get the department from the keyword arguments
         department = kwargs.pop('department', None) 
         super().__init__(*args, **kwargs)
         dept = (
@@ -65,6 +67,7 @@ class UpdateWorkForm(forms.ModelForm):
     """Form for updating an existing Work record."""
     def __init__(self, *args, **kwargs):
         """Initialize form and dynamically set job title and type_wagon choices based on department."""
+        # Get the department from the keyword arguments
         department = kwargs.pop('department', None) 
         super().__init__(*args, **kwargs)
         dept = (
