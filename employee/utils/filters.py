@@ -1,5 +1,3 @@
-from django.db.models import Q
-
 from employee.utils.converting_date import parse_date_range
 from employee.utils.select_department import expand_department
 from employee.constants.constants import DEFAULT_WAGON_TYPE
@@ -32,7 +30,7 @@ def filter_works(queryset, department=None, job_title=None, work_name=None, type
     if type_wagon:
         # Handle filtering for default wagon type which represents null/empty entries
         if type_wagon == DEFAULT_WAGON_TYPE:
-            queryset = queryset.filter(Q(type_wagon__isnull=True) | Q(type_wagon=''))
+            queryset = queryset.filter(type_wagon__isnull=True)
         else:
             queryset = queryset.filter(type_wagon=type_wagon)
     return queryset
@@ -70,7 +68,7 @@ def filter_pieceworks(queryset, employee_id=None, employee_name=None, job_title=
         queryset = queryset.filter(wagon_number=wagon_number)
     if type_wagon:
         if type_wagon == DEFAULT_WAGON_TYPE:
-            queryset = queryset.filter(Q(work__type_wagon__isnull=True) | Q(work__type_wagon=''))
+            queryset = queryset.filter(work__type_wagon__isnull=True)
         else:
             queryset = queryset.filter(work__type_wagon=type_wagon)
     if type_material:
