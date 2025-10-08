@@ -14,7 +14,8 @@ from employee.utils.filters import filter_works
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import OnlyAdminMixin
 from employee.utils.selects import get_distinct_values
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, DEFAULT_WAGON_TYPE
+from employee.utils.select_type_wagon import get_type_wagon_filter_values
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 
 
 class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, CreateView):
@@ -95,11 +96,7 @@ def work_list(request):
     job_titles = get_distinct_values(Work, 'job_title', department, department_field='department')
 
     # Get distinct type_wagons for filtering dropdown
-    type_wagons = get_distinct_values(Work, 'type_wagon', department, department_field='department')
-
-    # Ensure DEFAULT_WAGON_TYPE is included if there are any null/empty type_wagon entries
-    if DEFAULT_WAGON_TYPE not in type_wagons:
-        type_wagons = [DEFAULT_WAGON_TYPE] + [tw for tw in type_wagons if tw]
+    type_wagons = get_type_wagon_filter_values(department)
 
     # Ensure consistent ordering for pagination
     works = works.order_by('work_name')
