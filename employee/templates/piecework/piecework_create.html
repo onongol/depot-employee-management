@@ -99,8 +99,12 @@
   </div>
 
   <!-- Add search input above the works table -->
-  <div class="flex flex-col w-1/4 mt-4 mb-4">
+  <div class="flex flex-col md:flex-row gap-4 mb-4">
     {% include "includes/filter_input.html" with id="work-search" label=_("Work") name="work_name" type="text" value=request.GET.work_name placeholder=_("Search works by name...") %}
+
+    {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+      {% include "includes/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagon") %}
+    {% endif %}
   </div>
 
   <!-- Works Table -->
@@ -121,6 +125,9 @@
                 <label for="select-all-works" class="sr-only">{% trans "Select all works" %}</label>
               </th>
               <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
+              {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
+              {% endif %}
               <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
               <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
             {% endwith %}
@@ -147,6 +154,9 @@
                   </label>
                   {{ work.work_name }}
                 </td>
+                {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                  <td class="{{ col_class }}">{{ work.type_wagon_display }}</td>
+                {% endif %}
                 <td class="{{ col_class }}">
                   <label for="amount_{{ work.pk }}" class="sr-only">Amount for {{ work.work_name }}</label>
                   <input
@@ -214,6 +224,7 @@
   window.TABLE_SELECT_FILTERS = [
     ['select-job-title', 'employees-table-body', 3],
     ['select-job-title', 'works-table-body', 4],
+    ['filter-type-wagon', 'works-table-body', 2],
   ];
 </script>
 <script src="{% static 'js/table_search.js' %}"></script>

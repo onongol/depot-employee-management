@@ -22,9 +22,10 @@ from employee.utils.filters import filter_pieceworks
 from employee.utils.pagination import paginate_queryset
 from employee.utils.sorting import apply_ordering
 from employee.utils.selects import get_distinct_values
+from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
-from employee.constants.constants import DEFAULT_WAGON_NUMBER
+from employee.constants.constants import DEFAULT_WAGON_NUMBER, ALLOWED_WAGON_DEPARTMENTS
 
 
 class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, UpdateView):
@@ -105,6 +106,9 @@ def piecework_create(request):
     # Combine and sort job titles from both employees and works
     job_titles = sorted(set(list(emp_job_titles) + list(work_job_titles)))
     
+    # Get distinct type_wagon for filtering dropdown if department allows wagons
+    type_wagons = get_type_wagon_filter_values(department)
+
     today = timezone.now().date()#
     errors = []
 
@@ -213,6 +217,8 @@ def piecework_create(request):
             'cancel_url': reverse('piecework_list'),
             'existing_pieceworks_json': json.dumps(existing_pieceworks, cls=DjangoJSONEncoder), # Serialize existing pieceworks for frontend validation
             'job_titles': job_titles,
+            'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
+            'type_wagons': type_wagons,
         }
     )
 
