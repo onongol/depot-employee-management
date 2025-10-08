@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.core.validators import MinValueValidator
 from decimal import Decimal
 
@@ -52,32 +53,38 @@ class Work(models.Model):
         validators=[MinValueValidator(0)]
     )
 
-    def save(self, *args, **kwargs):
-        """
-        Override save to ensure type_material and usage_material consistency.
-        """
-        # If type_material is not provided, set usage_material to 0
+    # Meta constraints to ensure type_wagon is only set for allowed departments
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                name="type_wagon_only_for_allowed_departments",
+                check=Q(department__in=ALLOWED_WAGON_DEPARTMENTS) | Q(type_wagon__isnull=True),
+            )
+        ]
+
+    def clean(self):
+        # Normalize empty strings -> None
         if not self.type_material:
             self.type_material = None
             self.usage_material = Decimal('0.0000')
-            
-        # Ensure type_wagon is only set for allowed departments
-        if self.department not in set(ALLOWED_WAGON_DEPARTMENTS):
-            self.type_wagon = None
-        else:
-            # Allowed department: allow explicit None / empty
-            if not self.type_wagon:
-                self.type_wagon = None
-        
-        super().save(*args, **kwargs)
 
+        if self.department not in ALLOWED_WAGON_DEPARTMENTS:
+            self.type_wagon = None
+        elif not self.type_wagon:
+            self.type_wagon = None
+
+    def save(self, *args, **kwargs):
+        # Ensure clean is called before saving
+        self.full_clean()
+        return super().save(*args, **kwargs)
+        
     @property
     def type_material_display(self):
-        return DEFAULT_MATERIAL_TYPE if not self.type_material else self.type_material
-    
+        return self.type_material or DEFAULT_MATERIAL_TYPE
+
     @property
     def type_wagon_display(self):
-        return DEFAULT_WAGON_TYPE if not self.type_wagon else self.type_wagon
+        return self.type_wagon or DEFAULT_WAGON_TYPE
 
     def __str__(self):
         return self.work_name
