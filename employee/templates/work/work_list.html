@@ -78,20 +78,7 @@
           {% endfor %}
         {% else %}
           <tr>
-            {# Number of columns based on conditions #}
-            {% if not is_master %}
-              {% if show_type_wagon %}
-                <td colspan="9" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
-              {% else %}
-                <td colspan="8" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
-              {% endif %}
-            {% else %}
-              {% if show_type_wagon %}
-                <td colspan="8" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
-              {% else %}
-                <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
-              {% endif %}
-            {% endif %}
+            <td colspan="9" class="text-center px-3 py-4 text-gray-500">{% trans "No work found..." %}</td>
           </tr>
         {% endif %}
       </tbody>
