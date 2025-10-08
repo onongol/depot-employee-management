@@ -1,5 +1,8 @@
+from django.db.models import Q
+
 from employee.utils.converting_date import parse_date_range
 from employee.utils.select_department import expand_department
+from employee.constants.constants import DEFAULT_WAGON_TYPE
 
 
 def filter_employees(queryset, department=None, employee_id=None, employee_name=None, job_title=None):
@@ -15,7 +18,7 @@ def filter_employees(queryset, department=None, employee_id=None, employee_name=
     return queryset
 
 
-def filter_works(queryset, department=None, job_title=None, work_name=None):
+def filter_works(queryset, department=None, job_title=None, work_name=None, type_wagon=None):
     """Reusable filter for Work queryset."""
     if department:
         # Expand the department to include all related departments
@@ -25,7 +28,13 @@ def filter_works(queryset, department=None, job_title=None, work_name=None):
     if job_title:
         queryset = queryset.filter(job_title=job_title)
     if work_name:
-        queryset = queryset.filter(work_name__icontains=work_name)
+        queryset = queryset.filter(work_name__icontains=work_name)    
+    if type_wagon is not None:
+        # Handle filtering for default wagon type which represents null/empty entries
+        if type_wagon == DEFAULT_WAGON_TYPE:
+            queryset = queryset.filter(Q(type_wagon__isnull=True) | Q(type_wagon=''))
+        else:
+            queryset = queryset.filter(type_wagon=type_wagon)
     return queryset
 
 
