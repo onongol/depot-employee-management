@@ -1,5 +1,3 @@
-from django.db.models import Q
-
 from employee.constants.constants import DEFAULT_WAGON_TYPE, ALLOWED_WAGON_DEPARTMENTS
 
 def get_type_wagon_filter_values(department, always_include_default=False):
@@ -22,12 +20,11 @@ def get_type_wagon_filter_values(department, always_include_default=False):
     qs = Work.objects.filter(department__in=deps)
 
     # Check for empty values
-    has_empty = qs.filter(Q(type_wagon__isnull=True) | Q(type_wagon='')).exists()
+    has_empty = qs.filter(type_wagon__isnull=True).exists()
 
     # Get distinct type_wagon values
     distinct_vals = list(
         qs.exclude(type_wagon__isnull=True)
-          .exclude(type_wagon='')
           .values_list('type_wagon', flat=True)
           .distinct()
           .order_by()
