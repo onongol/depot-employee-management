@@ -29,7 +29,7 @@ def filter_works(queryset, department=None, job_title=None, work_name=None, type
         queryset = queryset.filter(job_title=job_title)
     if work_name:
         queryset = queryset.filter(work_name__icontains=work_name)    
-    if type_wagon is not None:
+    if type_wagon:
         # Handle filtering for default wagon type which represents null/empty entries
         if type_wagon == DEFAULT_WAGON_TYPE:
             queryset = queryset.filter(Q(type_wagon__isnull=True) | Q(type_wagon=''))
