@@ -60,8 +60,7 @@ class Work(models.Model):
         if not self.type_material:
             self.type_material = None
             self.usage_material = Decimal('0.0000')
-        super().save(*args, **kwargs)
-
+            
         # Ensure type_wagon is only set for allowed departments
         if self.department not in set(ALLOWED_WAGON_DEPARTMENTS):
             self.type_wagon = None
@@ -69,6 +68,8 @@ class Work(models.Model):
             # Allowed department: allow explicit None / empty
             if not self.type_wagon:
                 self.type_wagon = None
+        
+        super().save(*args, **kwargs)
 
     @property
     def type_material_display(self):
