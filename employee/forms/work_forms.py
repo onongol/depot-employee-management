@@ -16,6 +16,7 @@ class WorkForm(forms.ModelForm):
             or (self.data.get('department') if self.is_bound else None)
             or getattr(self.instance, 'department', None)
         )
+        # Dynamically set job title choices based on department
         self.fields['job_title'].choices = get_job_title_choices(dept) 
 
         # Dynamically set type_wagon choices based on department
@@ -75,6 +76,7 @@ class UpdateWorkForm(forms.ModelForm):
             or (self.data.get('department') if self.is_bound else None)
             or getattr(self.instance, 'department', None)
         )
+        # Dynamically set job title choices based on department
         self.fields['job_title'].choices = get_job_title_choices(dept) 
 
         # Dynamically set type_wagon choices based on department
