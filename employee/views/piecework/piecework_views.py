@@ -241,6 +241,7 @@ def piecework_list(request):
     job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')    
     type_works = get_distinct_values(Piecework, 'type_work', department, department_field='work__department')
     type_materials = get_distinct_values(Piecework, 'work__type_material', department, department_field='work__department')
+    type_wagons = get_type_wagon_filter_values(department)
 
     # Extract filter parameters from the request
     employee_id = request.GET.get('employee_id')
@@ -249,6 +250,7 @@ def piecework_list(request):
     work = request.GET.get('work')
     type_work = request.GET.get('type_work')
     wagon_number = request.GET.get('wagon_number')
+    type_wagon = request.GET.get('type_wagon')
     type_material = request.GET.get('type_material')
     work_date = request.GET.get('work_date')
     record_date = request.GET.get('record_date')
@@ -262,6 +264,7 @@ def piecework_list(request):
         work=work,
         type_work=type_work,
         wagon_number=wagon_number,
+        type_wagon=type_wagon,
         type_material=type_material,
         work_date=work_date,
         record_date=record_date
@@ -289,5 +292,7 @@ def piecework_list(request):
             'type_materials': type_materials,
             'selected_department': department,
             'job_titles': job_titles,
+            'type_wagons': type_wagons,
+            'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
         }
     )
