@@ -20,7 +20,7 @@
       {% include "includes/filter_input.html" with id="filter-work-name" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name %}
 
       {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-        {% include "includes/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagon") %}
+        {% include "includes/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagons") %}
       {% endif %}
       
       {% include "includes/filter_button.html" %}
