@@ -96,7 +96,7 @@ def work_list(request):
     job_titles = get_distinct_values(Work, 'job_title', department, department_field='department')
 
     # Get distinct type_wagons for filtering dropdown
-    type_wagons = get_type_wagon_filter_values(department)
+    type_wagons = get_type_wagon_filter_values(department, source_model='work')
 
     # Ensure consistent ordering for pagination
     works = works.order_by('work_name')
