@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
   flatpickr(".js-flatpickr", {
     dateFormat: "Y-m-d",
     allowInput: true,
+    disableMobile: true, 
     //locale: Mongolian
   });
   // Range Date Picker
