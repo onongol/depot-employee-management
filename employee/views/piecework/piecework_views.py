@@ -238,10 +238,11 @@ def piecework_list(request):
         pieceworks = Piecework.objects.select_related('employee', 'work').filter(employee__department=department, employee__is_active=True)
 
     # Get distinct values for filtering dropdown
-    job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')    
+    job_titles = get_distinct_values(Piecework, 'job_title', department, department_field='employee__department')
     type_works = get_distinct_values(Piecework, 'type_work', department, department_field='work__department')
     type_materials = get_distinct_values(Piecework, 'work__type_material', department, department_field='work__department')
-    type_wagons = get_type_wagon_filter_values(department)
+    # Get snapshot values of type_wagon from Piecework
+    type_wagons = get_type_wagon_filter_values(department, source_model='piecework')
 
     # Extract filter parameters from the request
     employee_id = request.GET.get('employee_id')
