@@ -59,7 +59,7 @@ def filter_pieceworks(queryset, employee_id=None, employee_name=None, job_title=
     if employee_name:
         queryset = queryset.filter(employee__name__icontains=employee_name)
     if job_title:
-        queryset = queryset.filter(employee__job_title=job_title)   
+        queryset = queryset.filter(job_title=job_title)   
     if work:
         queryset = queryset.filter(work__work_name__icontains=work)
     if type_work:
@@ -68,9 +68,9 @@ def filter_pieceworks(queryset, employee_id=None, employee_name=None, job_title=
         queryset = queryset.filter(wagon_number=wagon_number)
     if type_wagon:
         if type_wagon == DEFAULT_WAGON_TYPE:
-            queryset = queryset.filter(work__type_wagon__isnull=True)
+            queryset = queryset.filter(type_wagon__isnull=True)
         else:
-            queryset = queryset.filter(work__type_wagon=type_wagon)
+            queryset = queryset.filter(type_wagon=type_wagon)
     if type_material:
         queryset = queryset.filter(work__type_material=type_material)
     if work_date:
