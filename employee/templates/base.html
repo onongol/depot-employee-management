@@ -52,7 +52,7 @@
           {% else %}
             <a 
               href="{% url 'login' %}" 
-              class="px-4 py-2  text-sm font-medium rounded-md transition-colors text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+              class="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 mr-2"
             >
               {% trans 'Sign In' %}
             </a>
@@ -96,7 +96,18 @@
     </nav>
 
     <main class="max-w-screen-xl mx-auto mt-8 px-4 outline-none" id="main-content" tabindex="-1">
-      {% block content %}{% endblock %}
+        {% if not selected_department and request.resolver_match.url_name != 'material_list' and request.resolver_match.url_name != 'home' and request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'register' %}
+        <div class="my-12 flex flex-col items-center justify-center text-center">
+          <div class="text-2xl font-semibold text-gray-700 mb-4">
+            {% trans "Please select a department to continue." %}
+          </div>
+          <div class="text-gray-500">
+            {% trans "Use the department dropdown in the navigation bar above." %}
+          </div>
+        </div>
+      {% else %}
+        {% block content %}{% endblock %}
+      {% endif %}
     </main>
 
     {% include "includes/svg_symbols.html" %}
