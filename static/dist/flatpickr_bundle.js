@@ -2648,7 +2648,8 @@
   document.addEventListener("DOMContentLoaded", function() {
     esm_default(".js-flatpickr", {
       dateFormat: "Y-m-d",
-      allowInput: true
+      allowInput: true,
+      disableMobile: true
       //locale: Mongolian
     });
     esm_default(".js-flatpickr-range", {
