@@ -63,7 +63,8 @@
         </div>
 
         <!-- Collapsible menu -->
-        <div class="px-4 items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="navbar-menu">  
+        {% if request.user.is_authenticated %} 
+        <div class="items-center justify-between hidden w-full px-4 lg:flex lg:w-auto lg:order-1" id="navbar-menu">  
           <ul 
             class="flex flex-col p-4 mt-2 space-y-4 lg:flex lg:flex-row lg:items-center lg:p-0 lg:mt-0 lg:space-y-0 lg:space-x-4"
           >
@@ -92,7 +93,8 @@
               {% include "includes/menu_link.html" with url_name='material_list' label=_('Material') %}
             {% endif %}
           </ul>
-        </div>  
+        </div>
+        {% endif %}  
         
       </div>
     </nav>
