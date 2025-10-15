@@ -17,46 +17,38 @@
   <body>
     <!-- Navbar -->
     <nav class="sticky top-0 z-50 bg-gray-50 shadow" role="navigation" aria-label="Main navigation">
-      <div class="flex items-center mx-auto px-4 py-2">
+
+      <div class="flex flex-wrap justify-between w-full mx-auto px-4 py-2">
+
+        <!-- Logo -->
         <a href="{% url 'home' %}">
           <img
             src="{% static 'images/logo_light.svg' %}"
             alt="Depot Management logo"
-            class="inline-block w-12 h-12 align-middle mr-2"
+            class="w-12 h-12"
           />
         </a>
-        <ul class="flex items-center space-x-2 ml-4">
-          <!-- Dropdown for Departments -->
-          {% if not is_employee and not is_master %} 
-            {% include "includes/department_dropdown.html" %}
-          {% endif %}
+        
+        <!-- Mobile menu button -->
+        <button 
+          data-collapse-toggle="navbar-menu" 
+          type="button" 
+          class="inline-flex items-center px-4 py-2 justify-center text-sm font-medium text-gray-700 rounded-2xl transition hover:bg-gray-200 focus:outline-none focus:ring-0 lg:hidden" aria-controls="navbar-user" 
+          aria-expanded="false">
+          <span class="sr-only">Open main mobile menu</span>
+          <svg class="w-5 h-5" aria-hidden="true">
+            <use href="#mobile-menu"></use>
+          </svg>
+        </button>
 
-          {% include "includes/menu_link.html" with url_name='employee_list' label=_('Employee') %}
+        <!-- Spacer to push right side to the right -->
+        <div class="flex-1 lg:order-2"></div>
 
-          {% if not is_employee %}
-            {% include "includes/menu_link.html" with url_name='work_list' label=_('Work') %}
-          {% endif %}
-
-          {% include "includes/menu_link.html" with url_name='daily_salary_list' label=_('Daily Salary') %}
-
-          {% include "includes/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
-
-          {% include "includes/menu_link.html" with url_name='employee_salary_list' label=_('Salary') %}
-
-          {% if not is_employee and not is_master %}
-            {% include "includes/menu_link.html" with url_name='wagon_list' label=_('Wagon') %}
-          {% endif %}
-
-          {% if not is_employee and not is_master %}
-            {% include "includes/menu_link.html" with url_name='material_list' label=_('Material') %}
-          {% endif %}
-        </ul>
-
-        <div class="ml-auto flex items-center gap-4">
-
+        <!-- Right side: language/user -->
+        <div class="flex items-center gap-2 lg:order-2">
           <!-- Language switcher -->
           {% include "includes/language_switcher.html" %}
-          
+
           <!-- Login/Logout -->
           {% if request.user.is_authenticated %}
             {% include "includes/user_dropdown.html" %}
@@ -64,16 +56,48 @@
             <a 
               href="{% url 'login' %}" 
               class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-              role="button"
             >
               {% trans 'Sign In' %}
             </a>
           {% endif %}
         </div>
+
+        <!-- Collapsible menu -->
+        <div class="px-4 items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="navbar-menu">  
+          <ul 
+            class="flex flex-col p-4 mt-2 space-y-4 lg:flex lg:flex-row lg:items-center lg:p-0 lg:mt-0 lg:space-y-0 lg:space-x-4"
+          >
+            <!-- Dropdown for Departments -->
+            {% if not is_employee and not is_master %} 
+              {% include "includes/department_dropdown.html" %}
+            {% endif %}
+
+            {% include "includes/menu_link.html" with url_name='employee_list' label=_('Employee') %}
+
+            {% if not is_employee %}
+              {% include "includes/menu_link.html" with url_name='work_list' label=_('Work') %}
+            {% endif %}
+
+            {% include "includes/menu_link.html" with url_name='daily_salary_list' label=_('Daily Salary') %}
+
+            {% include "includes/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
+
+            {% include "includes/menu_link.html" with url_name='employee_salary_list' label=_('Salary') %}
+
+            {% if not is_employee and not is_master %}
+              {% include "includes/menu_link.html" with url_name='wagon_list' label=_('Wagon') %}
+            {% endif %}
+
+            {% if not is_employee and not is_master %}
+              {% include "includes/menu_link.html" with url_name='material_list' label=_('Material') %}
+            {% endif %}
+          </ul>
+        </div>  
+        
       </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto mt-8 px-4 outline-none" id="main-content" tabindex="-1">
+    <main class="max-w-screen-xl mx-auto mt-8 px-4 outline-none" id="main-content" tabindex="-1">
       {% block content %}{% endblock %}
     </main>
 
@@ -84,5 +108,7 @@
     <script src="{% static 'js/dropdowns.js' %}"></script>
     <script src="{% static 'js/form_input_error_clear.js' %}"></script>
     <script src="{% static 'dist/flatpickr_bundle.js' %}" defer></script>
+    <script src="{% static 'js/navbar_toggle.js' %}"></script>
+
   </body>
 </html>
