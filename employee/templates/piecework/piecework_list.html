@@ -10,6 +10,8 @@
 
   {% if not is_employee %}
     {% include "includes/list_header.html" with header_id="piecework-list-title" title=selected_department create_url=create_url %}
+  {% else %}
+    {% include "includes/section_title.html" with section_id="piecework-list-title" section_title=selected_department %}
   {% endif %}
 
   <!-- Filter Form -->
