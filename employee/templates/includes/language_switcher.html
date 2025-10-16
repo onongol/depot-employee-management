@@ -1,17 +1,22 @@
 {% load i18n %}
 
-<form method="post" action="{% url 'set_language' %}" class="flex items-center">
+<form method="post" action="{% url 'set_language' %}" class="w-full">
   {% csrf_token %}
   <input type="hidden" name="next" value="{{ request.get_full_path }}">
   {% get_current_language as LANGUAGE_CODE %}
   {% get_available_languages as LANGS %}
-  <select name="language"
-          onchange="this.form.submit()"
-          class="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 appearance-none">
-    {% for code, name in LANGS %}
-      <option value="{{ code }}"{% if code == LANGUAGE_CODE %} selected{% endif %}>
-        {{ name }}
-      </option>
-    {% endfor %}
-  </select>
+  <div class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-200 transition">
+    <svg class="w-5 h-5">
+      <use href="#language-switcher"></use>
+    </svg>
+    <select name="language"
+            onchange="this.form.submit()"
+            class="text-sm">
+      {% for code, name in LANGS %}
+        <option value="{{ code }}"{% if code == LANGUAGE_CODE %} selected{% endif %}>
+          {{ name }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
 </form>
