@@ -1,5 +1,7 @@
 {% load i18n %}
 
+{% load static %}
+
 <div class="relative">
   <!-- User avatar button -->
   <button
@@ -57,7 +59,7 @@
       </button>
       <!-- Nested Language Dropdown -->
       <div
-        class="absolute right-full top-0 w-32 bg-gray-50 rounded-md shadow-sm z-20 py-2 hidden group-focus:block group-hover:block"
+        class="absolute right-full top-0 w-32 bg-gray-50 rounded-md shadow-sm z-20 py-2 hidden"
         id="language-dropdown-menu"
         role="menu"
         tabindex="0"
@@ -96,3 +98,5 @@
     
   </div>
 </div>
+
+<script src="{% static 'js/user_dropdown.js' %}"></script>
