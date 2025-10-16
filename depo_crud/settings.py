@@ -181,8 +181,8 @@ LANGUAGE_CODE = 'en'
 
 # Supported languages
 LANGUAGES = [
-    ('en', _('en')),
-    ('mn', _('mn')),
+    ('en', _('English')),
+    ('mn', _('Mongolian')),
 ]
 
 # Path to locale files
