@@ -26,6 +26,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Prevent clicks inside the main user menu from closing it
+  if (userMenu) {
+    userMenu.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+  }
+
   // Clicking outside the menus closes both
   document.addEventListener('click', function () {
     if (userMenu) userMenu.classList.add('hidden');
