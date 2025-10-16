@@ -1,6 +1,7 @@
 {% load i18n %}
 
-<div class="relative"> 
+<div class="relative">
+  <!-- User avatar button -->
   <button
     type="button"
     class="flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 mr-2"
@@ -10,38 +11,90 @@
   >
     {{ request.user.get_full_name|default:request.user.username|slice:":1"|upper }}
   </button>
-  <!-- Dropdown Menu -->
+  <!-- Main Dropdown Menu -->
   <div
-    class="absolute right-0 mt-2 w-40 bg-gray-50 rounded-md shadow-sm z-10 py-2 hidden"
+    class="absolute right-0 mt-2 w-48 bg-gray-50 rounded-md shadow-sm z-10 py-2 hidden"
     id="user-dropdown-menu"
     tabindex="0"
     role="menu"
-  > 
+  >
     <!-- User Full Name or Username -->
     <div class="mx-2 mb-2 px-4 py-2 text-sm text-gray-700 font-medium text-center border border-gray-200 rounded-md bg-gray-100">
       {{ request.user.get_full_name|default:request.user.username }}
     </div>
+
     <!-- Password Change Link -->
-    <a href="{% url 'password_change' %}" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-200 transition">
+    <a href="{% url 'password_change' %}" class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-200 transition">
       <svg class="w-5 h-5" aria-hidden="true">
         <use href="#key"></use>
       </svg>
       {% trans 'Password' %}
     </a>
-    <!-- Sign Out Form -->
-    <form action="{% url 'logout' %}" method="post" class="block">
-      {% csrf_token %}
+    
+    <!-- Language Switcher Parent -->
+    <div class="relative group mb-2">
       <button
-        type="submit"
-        class="flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-gray-200 transition"
+        type="button"
+        class="flex items-center gap-3 px-4 py-2 text-sm w-full hover:bg-gray-200 transition focus:outline-none"
+        id="language-dropdown-btn"
+        aria-haspopup="true"
+        aria-expanded="false"
       >
-        <svg class="w-5 h-5" aria-hidden="true">
-          <use href="#singout"></use>
-        </svg> 
-        {% trans 'Sign Out' %}
+        <svg class="w-5 h-5 flex-shrink-0">
+          <use href="#language-switcher"></use>
+        </svg>
+        {% get_current_language as LANGUAGE_CODE %}
+        {% if LANGUAGE_CODE == 'en' %}
+          English
+        {% elif LANGUAGE_CODE == 'mn' %}
+          Монгол
+        {% else %}
+          {{ LANGUAGE_CODE|upper }}
+        {% endif %}
+        <svg class="w-4 h-4 ml-auto">
+          <use href="#chevron-down"></use>
+        </svg>
       </button>
-    </form>
-    <!-- Language Switcher -->
-    {% include "includes/language_switcher.html" %}
+      <!-- Nested Language Dropdown -->
+      <div
+        class="absolute right-full top-0 w-32 bg-gray-50 rounded-md shadow-sm z-20 py-2 hidden group-focus:block group-hover:block"
+        id="language-dropdown-menu"
+        role="menu"
+        tabindex="0"
+      >
+        <form method="post" action="{% url 'set_language' %}" class="w-full">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          <button type="submit" name="language" value="en"
+            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 {% if LANGUAGE_CODE == 'en' %}font-bold text-gray-600{% endif %}">
+            {% trans 'English' %}
+          </button>
+          <button type="submit" name="language" value="mn"
+            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 {% if LANGUAGE_CODE == 'mn' %}font-bold text-gray-600{% endif %}">
+            {% trans 'Mongolian' %}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <hr class="my-2 border-gray-200">
+
+    <!-- Sign Out Form -->
+    <div class="py-2">
+      <form action="{% url 'logout' %}" method="post" class="block">
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="flex items-center gap-3 w-full px-4 py-2 text-sm hover:bg-gray-200 transition"
+        >
+          <svg class="w-5 h-5" aria-hidden="true">
+            <use href="#singout"></use>
+          </svg>
+          {% trans 'Sign Out' %}
+        </button>
+      </form>
+    </div>
+
   </div>
 </div>
