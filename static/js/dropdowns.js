@@ -42,8 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // For dropdown menu
   setupDropdown('department-dropdown-btn', 'department-dropdown-menu');
-  setupDropdown('theme-dropdown-btn', 'theme-dropdown-menu');
-  setupDropdown('user-dropdown-btn', 'user-dropdown-menu');
 
   // Helper functions to open/close menus without animation
   function openMenu(menu) {
