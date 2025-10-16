@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: .\depo_crud\settings.py:184
-msgid "en"
-msgstr "анг"
+msgid "English"
+msgstr "Англи"
 
 #: .\depo_crud\settings.py:185
-msgid "mn"
-msgstr "мон"
+msgid "Mongolian"
+msgstr "Монгол"
 
 #: .\employee\forms\register_forms.py:12
 #: .\employee\templates\daily_salary\daily_salary_create.html:29
