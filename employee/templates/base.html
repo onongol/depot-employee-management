@@ -42,10 +42,8 @@
           </button>
         {% endif %}
 
-        <!-- Right side: language/user -->
-        <div class="flex items-center gap-2 ml-auto lg:order-2">
-          <!-- Language switcher -->
-          {% include "includes/language_switcher.html" %}
+        <!-- Right side: user -->
+        <div class="flex items-center gap-2 ml-auto lg:order-2">          
           <!-- Login/Logout -->
           {% if request.user.is_authenticated %}
             {% include "includes/user_dropdown.html" %}
@@ -96,7 +94,7 @@
     </nav>
 
     <main class="max-w-screen-xl mx-auto mt-8 px-4 outline-none" id="main-content" tabindex="-1">
-        {% if not selected_department and request.resolver_match.url_name != 'material_list' and request.resolver_match.url_name != 'home' and request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'register' %}
+        {% if not selected_department and request.resolver_match.url_name == 'employee_list' and request.resolver_match.url_name == 'work_list' and request.resolver_match.url_name == 'daily_salary_list' and request.resolver_match.url_name == 'piecework_list' and request.resolver_match.url_name == 'wagon_list' %}
         <div class="my-12 flex flex-col items-center justify-center text-center">
           <div class="text-2xl font-semibold text-gray-700 mb-4">
             {% trans "Please select a department to continue." %}
