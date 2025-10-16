@@ -32,7 +32,7 @@
     </a>
     
     <!-- Language Switcher Parent -->
-    <div class="relative group mb-2">
+    <div class="relative group">
       <button
         type="button"
         class="flex items-center gap-3 px-4 py-2 text-sm w-full hover:bg-gray-200 transition focus:outline-none"
@@ -81,20 +81,18 @@
     <hr class="my-2 border-gray-200">
 
     <!-- Sign Out Form -->
-    <div class="py-2">
-      <form action="{% url 'logout' %}" method="post" class="block">
-        {% csrf_token %}
-        <button
-          type="submit"
-          class="flex items-center gap-3 w-full px-4 py-2 text-sm hover:bg-gray-200 transition"
-        >
-          <svg class="w-5 h-5" aria-hidden="true">
-            <use href="#singout"></use>
-          </svg>
-          {% trans 'Sign Out' %}
-        </button>
-      </form>
-    </div>
-
+    <form action="{% url 'logout' %}" method="post" class="block">
+      {% csrf_token %}
+      <button
+        type="submit"
+        class="flex items-center gap-3 w-full px-4 py-2 text-sm hover:bg-gray-200 transition"
+      >
+        <svg class="w-5 h-5" aria-hidden="true">
+          <use href="#singout"></use>
+        </svg>
+        {% trans 'Sign Out' %}
+      </button>
+    </form>
+    
   </div>
 </div>
