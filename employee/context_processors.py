@@ -1,4 +1,4 @@
-from employee.constants.constants import DEPARTMENTS
+from employee.constants.constants import DEPARTMENTS, ALLOWED_WAGON_DEPARTMENTS
 
 
 def global_departments(request):
@@ -11,6 +11,7 @@ def global_departments(request):
     
     return {
         'departments': departments_list,
+        'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
         'request': request,
         }
 
