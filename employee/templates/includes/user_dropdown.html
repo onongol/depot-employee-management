@@ -6,7 +6,7 @@
   <!-- User avatar button -->
   <button
     type="button"
-    class="flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 mr-2"
+    class="flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 mr-2 dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
     id="user-dropdown-btn"
     aria-haspopup="true"
     aria-expanded="false"
@@ -16,18 +16,18 @@
   
   <!-- Main Dropdown Menu -->
   <div
-    class="absolute right-0 mt-2 w-48 bg-gray-50 rounded-md shadow-sm z-10 py-2 hidden"
+    class="absolute right-0 mt-2 w-48 bg-gray-50 rounded-md shadow-sm z-10 py-2 hidden dark:bg-gray-800 dark:text-gray-500"
     id="user-dropdown-menu"
     tabindex="0"
     role="menu"
   >
     <!-- User Full Name or Username -->
-    <div class="mx-2 mb-2 px-4 py-2 text-sm text-gray-700 font-medium text-center border border-gray-200 rounded-md bg-gray-100">
+    <div class="mx-2 mb-2 px-4 py-2 text-sm text-gray-700 font-medium text-center border border-gray-200 rounded-md bg-gray-100 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-500">
       {{ request.user.get_full_name|default:request.user.username }}
     </div>
 
     <!-- Password Change Link -->
-    <a href="{% url 'password_change' %}" class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-200 transition">
+    <a href="{% url 'password_change' %}" class="flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-200 transition dark:hover:bg-gray-700">
       <svg class="w-5 h-5" aria-hidden="true">
         <use href="#key"></use>
       </svg>
@@ -38,7 +38,7 @@
     <div class="relative group">
       <button
         type="button"
-        class="flex items-center gap-3 px-4 py-2 text-sm w-full hover:bg-gray-200 transition focus:outline-none"
+        class="flex items-center gap-3 px-4 py-2 text-sm w-full hover:bg-gray-200 transition focus:outline-none dark:hover:bg-gray-700"
         id="language-dropdown-btn"
         aria-haspopup="true"
         aria-expanded="false"
@@ -60,7 +60,7 @@
       </button>
       <!-- Nested Language Dropdown -->
       <div
-        class="absolute right-full top-0 w-32 bg-gray-50 rounded-md shadow-sm z-20 py-2 hidden"
+        class="absolute right-full top-0 w-32 bg-gray-50 rounded-md shadow-sm z-20 py-2 hidden dark:bg-gray-800 dark:text-gray-500"
         id="language-dropdown-menu"
         role="menu"
         tabindex="0"
@@ -69,11 +69,12 @@
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ request.get_full_path }}">
           <button type="submit" name="language" value="en"
-            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 {% if LANGUAGE_CODE == 'en' %}font-bold text-gray-600{% endif %}">
+            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 {% if LANGUAGE_CODE == 'en' %}font-bold text-gray-600
+            dark:text-gray-400{% endif %}">
             {% trans 'English' %}
           </button>
           <button type="submit" name="language" value="mn"
-            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 {% if LANGUAGE_CODE == 'mn' %}font-bold text-gray-600{% endif %}">
+            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 {% if LANGUAGE_CODE == 'mn' %}font-bold text-gray-600 dark:text-gray-400{% endif %}">
             {% trans 'Mongolian' %}
           </button>
         </form>
@@ -81,14 +82,14 @@
     </div>
 
     <!-- Divider -->
-    <hr class="my-2 border-gray-200">
+    <hr class="my-2 border-gray-200 dark:border-gray-700"/>
 
     <!-- Sign Out Form -->
     <form action="{% url 'logout' %}" method="post" class="block">
       {% csrf_token %}
       <button
         type="submit"
-        class="flex items-center gap-3 w-full px-4 py-2 text-sm hover:bg-gray-200 transition"
+        class="flex items-center gap-3 w-full px-4 py-2 text-sm hover:bg-gray-200 transition dark:hover:bg-gray-700"
       >
         <svg class="w-5 h-5" aria-hidden="true">
           <use href="#singout"></use>

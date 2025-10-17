@@ -3,7 +3,8 @@
 <li class="relative">
   <button
     type="button"
-    class="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 mr-2"
+    class="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 mr-2
+    dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-700"
     id="department-dropdown-btn"
     aria-haspopup="true"
     aria-expanded="false"
@@ -19,7 +20,7 @@
     </svg>
   </button>
   <ul
-    class="absolute left-0 mt-2 w-56 bg-gray-50 rounded-md shadow-sm z-10 py-2 hidden"
+    class="absolute left-0 mt-2 w-56 bg-gray-50 rounded-md shadow-sm z-10 py-2 hidden dark:bg-gray-800 dark:text-gray-500"
     id="department-dropdown-menu"
     role="menu"
     tabindex="0"
@@ -28,7 +29,7 @@
       <li>
         <a
           href="{% url 'set_department' %}?department={{ department }}"
-          class="block w-full px-4 py-2 text-sm hover:bg-gray-200 transition"
+          class="block w-full px-4 py-2 text-sm hover:bg-gray-200 transition dark:hover:bg-gray-700"
           {% if department == selected_department %}aria-current="true"{% endif %}
         >
           {{ department }}

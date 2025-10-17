@@ -8,7 +8,7 @@
       {% if page_obj.number > 1 %}
         <li>
           <a
-            class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-300 bg-white text-sm text-gray-500 hover:bg-gray-100 transition"
+            class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-300 bg-white text-sm text-gray-500 hover:bg-gray-100 transition dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
             href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
             aria-label="First page"
           >
@@ -17,7 +17,7 @@
         </li>
       {% else %}
         <li>
-          <span class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-200 bg-gray-100 text-sm text-gray-400 cursor-not-allowed">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-200 bg-gray-100 text-sm text-gray-400 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500">
             &laquo;
           </span>
         </li>
@@ -27,14 +27,14 @@
       {% for num in page_obj.paginator.page_range %}
         {% if page_obj.number == num %}
           <li>
-            <span class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-500 bg-gray-200 text-sm text-gray-500 font-semibold" aria-current="page">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-500 bg-gray-200 text-sm text-gray-500 font-semibold dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500" aria-current="page">
               {{ num }}
             </span>
           </li>
         {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
           <li>
             <a
-              class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-300 bg-white text-sm text-gray-500 hover:bg-gray-100 transition"
+              class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-300 bg-white text-sm text-gray-500 hover:bg-gray-100 transition dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
               href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
               aria-label="Go to page {{ num }}"
             >
@@ -48,7 +48,7 @@
       {% if page_obj.number < page_obj.paginator.num_pages %}
         <li>
           <a
-            class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 transition"
+            class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 transition dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
             href="?page={{ page_obj.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
             aria-label="Last page"
           >
@@ -57,7 +57,7 @@
         </li>
       {% else %}
         <li>
-          <span class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-md border border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500">
             &raquo;
           </span>
         </li>

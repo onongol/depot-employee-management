@@ -9,7 +9,7 @@
 {% block content %}
 
   <div class="flex flex-col sm:flex-row justify-between mb-6 items-center gap-4">
-    <h2 id="material-list-title" class="text-lg text-gray-700 font-semibold">{% trans "Material" %}</h2>
+    <h2 id="material-list-title" class="text-lg text-gray-700 font-semibold dark:text-gray-400">{% trans "Material" %}</h2>
   </div>
 
   <!-- Filter Form -->
@@ -24,7 +24,7 @@
       <div class="flex flex-col">
         <button
           type="submit"
-          class="items-center px-4 py-2 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 shadow transition-colors focus:ring-2 focus:ring-gray-400"
+          class="items-center px-4 py-2 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 shadow transition-colors focus:ring-2 focus:ring-gray-400 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:border-gray-700 dark:focus:ring-gray-500"
         >
           {% trans "Calculate" %}
         </button>
@@ -32,9 +32,9 @@
     </div>
   </form>
 
-  <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
-    <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="employee-list-title">
-      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide">
+  <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
+    <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400" aria-describedby="employee-list-title">
+      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
@@ -47,12 +47,12 @@
           {% endwith %}
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-100">
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
         {% if sum_amount is not None and page_obj.number == 1 %}
           {% include "includes/materials_total_row.html" %}
         {% endif %}
         {% for pw in pieceworks %}
-          <tr class="odd:bg-white hover:bg-gray-200">
+          <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
             {% with col_class="px-6 py-3" %}
               <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
               <td class="{{ col_class }}">{{ pw.work_date|date:"Y-m-d" }}</td>
@@ -64,7 +64,7 @@
         {% endfor %}
         {% if pieceworks|length == 0 %}
           <tr>
-            <td colspan="5" class="text-center px-3 py-4 text-gray-500">{% trans "No materials found..." %}</td>
+            <td colspan="5" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No materials found..." %}</td>
           </tr>
         {% endif %}
         {% if page_obj.number == page_obj.paginator.num_pages %}
@@ -83,7 +83,7 @@
     <!-- Export Button Excel -->
     <a
       href="{% url 'export_material_excel' %}?work_name={{ filters.work_name }}&type_material={{ filters.type_material }}&range_date={{ filters.range_date }}"
-      class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400"
+      class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-400"
       role="button"
       aria-label="Download filtered materials as Excel"
     >

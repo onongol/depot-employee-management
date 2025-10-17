@@ -6,7 +6,7 @@
 
 {% block content %}
 
-  <h2 id="form-title" class="text-xl text-gray-700 font-semibold mb-6">
+  <h2 id="form-title" class="text-xl text-gray-700 font-semibold mb-6 dark:text-gray-400">
     {% trans "New" %} {% trans object_type %} ({{ selected_department }})
   </h2>
 
@@ -14,7 +14,7 @@
 
   <form
     method="post"
-    class="bg-white rounded-md border border-gray-100 shadow-md p-6"
+    class="bg-white rounded-md border border-gray-100 shadow-md p-6 dark:bg-gray-800 dark:border-gray-700"
     id="createForm"
     aria-labelledby="form-title"
   >
@@ -34,11 +34,11 @@
     </div>
 
     <!-- Employee Table -->
-    <div class="overflow-hidden rounded-md border border-gray-200 bg-white mb-4 employee-table-container">
+    <div class="overflow-hidden rounded-md border border-gray-200 bg-white mb-4 employee-table-container dark:bg-gray-900 dark:border-gray-700">
       <div class="overflow-x-auto overflow-y-auto max-h-67 w-full">
-        <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="daily-salary-list-title">
-          <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide">
-            <tr class="sticky top-0 z-10 bg-gray-100">
+        <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400" aria-describedby="daily-salary-list-title">
+          <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
+            <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
               {% with col_class="px-6 py-3" %}
                 <th scope="col" class="{{ col_class }} text-center">
                   <input
@@ -56,9 +56,9 @@
               {% endwith %}
             </tr>
           </thead>
-          <tbody id="employees-table-body" class="divide-y divide-gray-100">
+          <tbody id="employees-table-body" class="divide-y divide-gray-100 dark:divide-gray-700">
             {% for employee in employees %}
-              <tr class="odd:bg-white hover:bg-gray-200">
+              <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
                 {% with col_class="px-6 py-3" %}
                   <td class="{{ col_class }} align-middle text-center">
                     <input
@@ -87,7 +87,7 @@
     </div>
 
     <!-- Selected summary section -->
-    <div id="selected-summary" class="bg-gray-100 border border-gray-300 rounded px-4 py-3 mt-4 mb-4 text-sm text-gray-700 font-medium">
+    <div id="selected-summary" class="bg-gray-100 border border-gray-300 rounded px-4 py-3 mt-4 mb-4 text-sm text-gray-700 font-medium dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
       {% trans "Selected Employees:" %}
       <span id="selected-employees-list"></span>
     </div>
@@ -101,7 +101,7 @@
       </button>
       <a
         href="{{ cancel_url }}"
-        class="px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-center"
+        class="px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-center dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-500"
       >
         {% trans "Cancel" %}
       </a>

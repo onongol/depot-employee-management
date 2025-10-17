@@ -1,7 +1,7 @@
 <div class="mb-4 flex flex-col md:flex-row items-start md:items-center">
   <label
     for="{{ id }}"
-    class="md:w-1/5 mb-1 md:mb-0 text-sm text-gray-700 font-medium"
+    class="md:w-1/5 mb-1 md:mb-0 text-sm text-gray-700 font-medium dark:text-gray-400"
   >
     {{ label }}
   </label>
@@ -10,7 +10,7 @@
       <select
         id="{{ id }}"
         {% if name %}name="{{ name }}"{% endif %}
-        class="block w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition appearance-none pr-10"
+        class="block w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition appearance-none pr-10 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400 dark:placeholder-gray-500 dark:focus:ring-gray-500 dark:focus:border-gray-500"
       >
         {% if empty_label %}
           <option value="" {% if not selected %}selected{% endif %}>{{ empty_label }}</option>
@@ -22,7 +22,7 @@
         {% endfor %}
       </select>
       <!-- Custom arrow (SVG) -->
-      <div class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2">
+      <div class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-700 dark:text-gray-400">
         <svg class="w-4 h-4 ml-1" aria-hidden="true">
           <use href="#chevron-down"></use>
         </svg>

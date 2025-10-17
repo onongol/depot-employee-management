@@ -38,9 +38,9 @@
   <!-- Delete Messages -->
   {% include "includes/delete_attention.html" %}
 
-  <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
-    <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="daily-salary-list-title">
-      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide">
+  <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
+    <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800" aria-describedby="daily-salary-list-title">
+      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
@@ -65,10 +65,10 @@
           {% endwith %}
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-100">
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
         {% if daily_salaries %}
           {% for daily_salary in daily_salaries %}
-            <tr class="odd:bg-white hover:bg-gray-200">
+            <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
               {% with col_class="px-6 py-3" %}
                 <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
                 <td class="{{ col_class }}">{{ daily_salary.employee.employee_id }}</td>
@@ -96,7 +96,7 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="9" class="text-center px-3 py-4 text-gray-500">{% trans "No daily salaries found..." %}</td>
+            <td colspan="9" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No daily salaries found..." %}</td>
           </tr>
         {% endif %}
       </tbody>
