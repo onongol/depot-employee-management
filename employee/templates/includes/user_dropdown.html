@@ -35,51 +35,10 @@
     </a>
     
     <!-- Language Switcher Parent -->
-    <div class="relative group">
-      <button
-        type="button"
-        class="flex items-center gap-3 px-4 py-2 text-sm w-full hover:bg-gray-200 transition focus:outline-none dark:hover:bg-gray-700"
-        id="language-dropdown-btn"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        <svg class="w-5 h-5 flex-shrink-0">
-          <use href="#language-switcher"></use>
-        </svg>
-        {% get_current_language as LANGUAGE_CODE %}
-        {% if LANGUAGE_CODE == 'en' %}
-          English
-        {% elif LANGUAGE_CODE == 'mn' %}
-          Монгол
-        {% else %}
-          {{ LANGUAGE_CODE|upper }}
-        {% endif %}
-        <svg class="w-4 h-4 ml-auto">
-          <use href="#chevron-down"></use>
-        </svg>
-      </button>
-      <!-- Nested Language Dropdown -->
-      <div
-        class="absolute right-full top-0 w-32 bg-gray-50 border border-gray-100 rounded-md shadow-sm z-20 py-2 hidden dark:bg-gray-800 dark:border-gray-700 dark:text-gray-500"
-        id="language-dropdown-menu"
-        role="menu"
-        tabindex="0"
-      >
-        <form method="post" action="{% url 'set_language' %}" class="w-full">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.get_full_path }}">
-          <button type="submit" name="language" value="en"
-            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 {% if LANGUAGE_CODE == 'en' %}font-bold text-gray-600
-            dark:text-gray-400{% endif %}">
-            {% trans 'English' %}
-          </button>
-          <button type="submit" name="language" value="mn"
-            class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 {% if LANGUAGE_CODE == 'mn' %}font-bold text-gray-600 dark:text-gray-400{% endif %}">
-            {% trans 'Mongolian' %}
-          </button>
-        </form>
-      </div>
-    </div>
+    {% include "includes/language_switcher.html" %}
+
+    <!-- Theme Switcher -->
+    {% include "includes/theme_switcher.html" %}
 
     <!-- Divider -->
     <hr class="my-2 border-gray-200 dark:border-gray-700"/>
@@ -102,3 +61,4 @@
 </div>
 
 <script src="{% static 'js/user_dropdown.js' %}"></script>
+<script src="{% static 'js/theme_switcher.js' %}"></script>
