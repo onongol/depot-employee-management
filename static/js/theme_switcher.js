@@ -3,6 +3,18 @@ document.addEventListener('DOMContentLoaded', function () {
   const themeBtn = document.getElementById('theme-dropdown-btn');
   const themeMenu = document.getElementById('theme-dropdown-menu');
 
+  // Function to enable/disable flatpickr dark theme CSS
+  function setFlatpickrTheme(theme) {
+    const flatpickrCss = document.querySelector('link[href*="flatpickr_dark.css"]');
+    if (flatpickrCss) {
+      if (theme === 'dark') {
+        flatpickrCss.disabled = false;
+      } else {
+        flatpickrCss.disabled = true;
+      }
+    }
+  }
+
   // Function to set the theme: 'light', 'dark', or 'auto'
   function setTheme(theme) {
     let icon = document.getElementById('theme-icon');
@@ -37,6 +49,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       if (label) label.textContent = 'Device';
     }
+
+    setFlatpickrTheme(theme);
 
     // Highlight the selected theme button in the dropdown
     themeMenu.querySelectorAll('button[data-theme-value]').forEach(btn => {
