@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const userMenu = document.getElementById('user-dropdown-menu');
   const langBtn = document.getElementById('language-dropdown-btn');
   const langMenu = document.getElementById('language-dropdown-menu');
+  const themeBtn = document.getElementById('theme-dropdown-btn');
+  const themeMenu = document.getElementById('theme-dropdown-menu');
 
   // opening/closing User menu only on User avatar button click
   if (userBtn && userMenu) {
@@ -26,6 +28,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Theme dropdown open/close
+  if (themeBtn && themeMenu) {
+    themeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      themeMenu.classList.toggle('hidden');
+    });
+
+    // Prevent clicks inside the theme menu from closing it
+    themeMenu.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+  }
+
   // Prevent clicks inside the main user menu from closing it
   if (userMenu) {
     userMenu.addEventListener('click', function (e) {
@@ -33,9 +48,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Clicking outside the menus closes both
+  // Clicking outside the menus closes all
   document.addEventListener('click', function () {
     if (userMenu) userMenu.classList.add('hidden');
     if (langMenu) langMenu.classList.add('hidden');
+    if (themeMenu) themeMenu.classList.add('hidden');
   });
 });
