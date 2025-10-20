@@ -2,10 +2,16 @@
   // UI helpers
   // Add or remove red border classes for invalid inputs
   function addRedBorder(input) {
-    if (input) input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+    if (input) input.classList.add(
+      'border-red-500', 'focus:border-red-500', 'focus:ring-red-500',
+      'dark:border-red-500', 'dark:focus:border-red-500', 'dark:focus:ring-red-500'
+    );
   }
   function removeRedBorder(input) {
-    if (input) input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+    if (input) input.classList.remove(
+      'border-red-500', 'focus:border-red-500', 'focus:ring-red-500',
+      'dark:border-red-500', 'dark:focus:border-red-500', 'dark:focus:ring-red-500'
+    );
   }
   
   // Show or clear error message below the container
@@ -18,7 +24,7 @@
     errorDiv.className = 'text-red-500 text-sm mb-2';
     errorDiv.textContent = message;
     container.parentNode.insertBefore(errorDiv, container.nextSibling);
-    container.classList.add('border-red-500');
+    container.classList.add('border-red-500', 'dark:border-red-500');
   }
 
   // Clear error message and red border from container
@@ -27,7 +33,7 @@
     const errorDiv = document.getElementById('amount-error');
     if (errorDiv) errorDiv.remove();
     if (!document.getElementById('work_ids-selection-error')) {
-      container.classList.remove('border-red-500');
+      container.classList.remove('border-red-500', 'dark:border-red-500');
     }
   }
 

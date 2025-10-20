@@ -3,7 +3,7 @@
 // Utility: show error message and add red border
 function showSelectionError(tableDiv, errorId, errorMessage) {
   if (!tableDiv) return;
-  tableDiv.classList.add('border-red-500');
+  tableDiv.classList.add('border-red-500', 'dark:border-red-500'); // добавлено
   let errorDiv = document.getElementById(errorId);
   if (!errorDiv) {
     errorDiv = document.createElement('div');
@@ -18,7 +18,7 @@ function showSelectionError(tableDiv, errorId, errorMessage) {
 function hideSelectionError(tableDiv, errorId) {
   if (!tableDiv) return;
   if (!document.getElementById('amount-error')) {
-    tableDiv.classList.remove('border-red-500');
+    tableDiv.classList.remove('border-red-500', 'dark:border-red-500'); // добавлено
   }
   const errorDiv = document.getElementById(errorId);
   if (errorDiv) errorDiv.remove();
