@@ -20,13 +20,17 @@ document.addEventListener('DOMContentLoaded', function () {
     let icon = document.getElementById('theme-icon');
     let label = document.getElementById('theme-label');
 
+    // Get the label for the selected theme
+    const selectedBtn = themeMenu.querySelector(`button[data-theme-value="${theme}"]`);
+    const themeLabel = selectedBtn ? (selectedBtn.getAttribute('data-label') || selectedBtn.textContent.trim()) : theme;
+
     // Set dark mode
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
       // Change icon and label for dark mode
       if (icon) icon.firstElementChild.setAttribute('href', '#moon-stars-fill');
-      if (label) label.textContent = 'Dark';
+      if (label) label.textContent = themeLabel;
     }
     // Set light mode
     else if (theme === 'light') {
@@ -34,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
       localStorage.setItem('theme', 'light');
       // Change icon and label for light mode
       if (icon) icon.firstElementChild.setAttribute('href', '#sun-fill');
-      if (label) label.textContent = 'Light';
+      if (label) label.textContent = themeLabel;
     }
     // Set auto (system) mode
     else {
@@ -47,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.documentElement.classList.remove('dark');
         if (icon) icon.firstElementChild.setAttribute('href', '#sun-fill');
       }
-      if (label) label.textContent = 'Device';
+      if (label) label.textContent = themeLabel;
     }
 
     setFlatpickrTheme(theme);
