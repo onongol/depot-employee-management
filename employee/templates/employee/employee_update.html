@@ -11,6 +11,6 @@
 
     {% include "includes/form_select.html" with id=form.rank.id_for_label label=_("Rank") name="rank" choices=form.rank.field.choices selected=form.rank.value %}
 
-    {% include "includes/form_input.html" with id="money_per_hour" label=_("Money/Hour") name="money_per_hour" type="number" value=form.money_per_hour.value step="0.01" required=True placeholder=_("According to rank") %}
+    {% include "includes/form_input.html" with id="money_per_hour" label=_("Hourly Wage") name="money_per_hour" type="number" value=form.money_per_hour.value step="0.01" required=True placeholder=_("According to rank") %}
   </fieldset>
 {% endblock %}
