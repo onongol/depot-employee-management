@@ -547,11 +547,11 @@ msgstr "Давхардсан хуулбарыг хадгалахыг батал�
 
 #: .\employee\templates\includes\theme_switcher.html:17
 msgid "Theme"
-msgstr "Сэдэв"
+msgstr "Загвар"
 
 #: .\employee\templates\includes\theme_switcher.html:36
 msgid "Light"
-msgstr "Загвар"
+msgstr "Гэрэл"
 
 #: .\employee\templates\includes\theme_switcher.html:48
 msgid "Dark"
