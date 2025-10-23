@@ -3,11 +3,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const themeBtn = document.getElementById('theme-dropdown-btn');
   const themeMenu = document.getElementById('theme-dropdown-menu');
 
-  // Function to enable/disable flatpickr dark theme CSS
+  // Function to enable/disable flatpickr dark theme CSS based on selected theme
   function setFlatpickrTheme(theme) {
     const flatpickrCss = document.querySelector('link[href*="flatpickr_dark.css"]');
     if (flatpickrCss) {
-      if (theme === 'dark') {
+      if (
+        theme === 'dark' ||
+        (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
         flatpickrCss.disabled = false;
       } else {
         flatpickrCss.disabled = true;
