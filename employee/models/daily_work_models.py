@@ -1,10 +1,10 @@
-import logging
 from datetime import date
 from decimal import Decimal
 from django.db import models
 from django.core.validators import MinValueValidator
 
 from .work_models import Work
+from employee.utils.daily_work_sync import sync_piecework_with_dailywork
 from employee.constants.constants import  JOB_TITLE_CHOICES, TYPE_WORK_CHOICES, TYPE_WAGON_CHOICES, DEFAULT_WAGON_TYPE, DEFAULT_WAGON_NUMBER
 
 
@@ -107,64 +107,7 @@ class DailyWork(models.Model):
         super().save(*args, **kwargs)
 
         # --- After saving DailyWork, update related Piecework.amount_price ---
-        try:
-            # Local imports to avoid circular import issues
-            from .piecework_models import Piecework
-            from .daily_salary_models import DailySalary
-            from employee.views.piecework.piecework_calculation import piecework_calculate_update
-
-            # Get department from the related Work
-            department = getattr(self.work, 'department', None)
-
-            # Get all DailySalary entries for employees in the department on the work_date
-            employees_salary = DailySalary.objects.filter(
-                employee__department=department,
-                salary_date=self.work_date
-            )
-
-            # Find all Piecework entries linked to this DailyWork
-            related_pieceworks = Piecework.objects.filter(daily_work=self)
-
-            for pw in related_pieceworks:
-                # Synchronize fields from DailyWork to Piecework
-                pw.type_work = self.type_work
-                pw.wagon_number = self.wagon_number
-                pw.amount = self.amount
-                pw.work_date = self.work_date
-
-                # Calculate amount_time for Piecework
-                std_time = getattr(self.work, 'standard_time', None)
-                std_time_dec = Decimal(str(std_time or 0))
-                amt = pw.amount or Decimal('0.000000')
-                pw.amount_time = (std_time_dec * amt).quantize(Decimal('0.000000'))
-
-                # Get the DailySalary for the Piecework's employee on the work_date
-                daily_salary = DailySalary.objects.filter(
-                    employee=pw.employee,
-                    salary_date=self.work_date
-                ).first()
-
-                # Recalculate amount_price    
-                new_price = piecework_calculate_update(self.work, pw.amount, daily_salary, employees_salary)
-
-                # Update amount_price if changed    
-                if pw.amount_price != new_price:
-                    pw.amount_price = new_price
-
-                # Save the updated Piecework
-                pw.save(update_fields=[
-                    'type_work', 
-                    'wagon_number', 
-                    'amount',
-                    'amount_time',
-                    'amount_price',
-                    'work_date', 
-                ])
-
-        except Exception as e:
-            # Don't break primary save if update fails; log the problem
-            logger = logging.getLogger(__name__)
-            logger.exception("Failed updating related Piecework prices for DailyWork %s: %s", getattr(self, 'pk', None), str(e))
+        sync_piecework_with_dailywork(self)
     
     @property
     def wagon_number_display(self):
