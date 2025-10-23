@@ -1,33 +1,23 @@
-import json
-from uuid import uuid4
-from decimal import Decimal
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.core.serializers.json import DjangoJSONEncoder
-from django.utils import timezone
 from django.views.generic import UpdateView, DeleteView
-from django.db import transaction
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext_lazy as _
 
 from employee.mixins.context_mixins import PieceworkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
-from employee.models import Employee
 from employee.models import Piecework
-from employee.models import Work
 from employee.models import DailySalary
-from employee.forms import PieceworkForm, UpdatePieceworkForm
-from employee.utils.select_department import get_selected_department, expand_department
+from employee.forms import UpdatePieceworkForm
+from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_pieceworks
 from employee.utils.pagination import paginate_queryset
 from employee.utils.sorting import apply_ordering
 from employee.utils.selects import get_distinct_values
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.permissions import OnlyAdminMixin, is_creater
-from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
-from employee.constants.constants import DEFAULT_WAGON_NUMBER, ALLOWED_WAGON_DEPARTMENTS
-
+from employee.views.piecework.piecework_calculation import piecework_calculate_update
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 
 
 class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, UpdateView):
@@ -87,6 +77,7 @@ class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMi
 @login_required(login_url='login')
 def piecework_create(request):
     """View to create new piecework records."""
+    # Circular import avoidance
     from employee.views.daily_work.daily_work_piecework_create import daily_work_piecework_create
 
     return daily_work_piecework_create(request)
