@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import UpdateView, DeleteView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext_lazy as _
 
@@ -9,7 +9,7 @@ from employee.models import DailyWork
 from employee.mixins.context_mixins import DailyWorkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.forms.daily_work_forms import UpdateDailyWorkForm
-from employee.utils.permissions import OnlyAdminMixin
+from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.utils.select_department import get_selected_department, expand_department
 from employee.utils.pagination import paginate_queryset
 from employee.utils.selects import get_distinct_values
@@ -17,13 +17,13 @@ from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.filters import filter_daily_works
 from employee.utils.sorting import apply_ordering
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
-
+from employee.views.daily_work.daily_work_piecework_create import daily_work_piecework_create
 
 class DailyWorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMixin, UpdateView):
     login_url = 'login'
     model = DailyWork
     form_class = UpdateDailyWorkForm
-    template_name = "daily_work/daily_work_update.html"
+    template_name = "daily_work/daily_work_piecework_update.html"
 
     def get_form_kwargs(self):
         """Pass selected department to the form."""
@@ -54,10 +54,11 @@ class DailyWorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMi
         )
 
 
+@user_passes_test(is_creater, login_url='login')
 @login_required(login_url='login')
 def daily_work_create(request):
     """Create daily work entry view. Redirect to piecework creation if department allows wagon work."""
-    return redirect('piecework_create')
+    return daily_work_piecework_create(request)
 
 
 @login_required(login_url='login')
