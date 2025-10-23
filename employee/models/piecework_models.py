@@ -6,6 +6,7 @@ from uuid import uuid4
 
 from .employee_models import Employee
 from .work_models import Work
+from .daily_work_models import DailyWork
 from employee.constants.constants import TYPE_WORK_CHOICES, DEFAULT_WAGON_NUMBER, JOB_TITLE_CHOICES, TYPE_WAGON_CHOICES, DEFAULT_WAGON_TYPE
 
 
@@ -13,6 +14,15 @@ class Piecework(models.Model):
     """Model to record the piecework done by employees."""
 
     TYPE_WORK_CHOICES = TYPE_WORK_CHOICES
+
+    # Link to DailyWork for aggregation
+    daily_work = models.ForeignKey(
+        DailyWork,
+        on_delete=models.CASCADE,  # Cascade delete to remove associated piecework records
+        related_name='pieceworks',  # For reverse access: daily_work.pieceworks.all()
+        null=True,
+        blank=True
+    )
     
     record_id = models.AutoField(primary_key=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
