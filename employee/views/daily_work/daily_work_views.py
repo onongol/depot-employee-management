@@ -17,7 +17,8 @@ from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.filters import filter_daily_works
 from employee.utils.sorting import apply_ordering
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
-from employee.views.daily_work.daily_work_piecework_create import daily_work_piecework_create
+from .daily_work_piecework_create import daily_work_piecework_create
+
 
 class DailyWorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMixin, UpdateView):
     login_url = 'login'
