@@ -52,6 +52,30 @@ job_title=None, salary_date=None, record_date=None):
     return queryset
 
 
+def filter_daily_works(queryset, job_title=None, work=None, type_work=None, wagon_number=None, type_wagon=None, type_material=None, work_date=None, record_date=None):
+    """Reusable filter for DailyWork queryset."""
+    if job_title:
+        queryset =queryset.filter(job_title=job_title)   
+    if work:
+        queryset =queryset.filter(work__work_name__icontains=work)
+    if type_work:
+        queryset =queryset.filter(type_work=type_work)
+    if wagon_number:
+        queryset =queryset.filter(wagon_number=wagon_number)
+    if type_wagon:
+        if type_wagon == DEFAULT_WAGON_TYPE:
+            queryset =queryset.filter(type_wagon__isnull=True)
+        else:
+           queryset =queryset.filter(type_wagon=type_wagon)
+    if type_material:
+       queryset =queryset.filter(work__type_material=type_material)
+    if work_date:
+       queryset =queryset.filter(work_date=work_date)
+    if record_date:
+       queryset =queryset.filter(record_date__date=record_date)
+    return queryset
+
+
 def filter_pieceworks(queryset, employee_id=None, employee_name=None, job_title=None, work=None, type_work=None, wagon_number=None, type_wagon=None, type_material=None, work_date=None, record_date=None):
     """Reusable filter for Piecework queryset."""
     if employee_id:
