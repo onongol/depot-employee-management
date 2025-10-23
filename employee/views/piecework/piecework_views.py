@@ -1,5 +1,6 @@
 import json
 from uuid import uuid4
+from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.core.serializers.json import DjangoJSONEncoder
@@ -67,7 +68,7 @@ class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMi
         return redirect('piecework_list')
 
 
-class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin,PieceworkContextMixin, DeleteWarningMixin, DeleteView):
+class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, DeleteWarningMixin, DeleteView):
     login_url = 'login'
     template_name = "piecework/piecework_delete.html"
 
@@ -84,7 +85,6 @@ class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin,PieceworkContextMix
 @user_passes_test(is_creater, login_url='login')
 @login_required(login_url='login')
 def piecework_create(request):
-    """View to create piecework records for multiple employees and works."""
     department = get_selected_department(request)
     # Filter employees and works by selected department, or show none if not selected
     employees = (
@@ -109,7 +109,7 @@ def piecework_create(request):
     # Get distinct type_wagon for filtering dropdown if department allows wagons
     type_wagons = get_type_wagon_filter_values(department)
 
-    today = timezone.now().date()#
+    today = timezone.now().date()
     errors = []
 
     if request.method == 'POST':
@@ -121,7 +121,38 @@ def piecework_create(request):
         selected_employee_ids = request.POST.getlist('employee_ids')
         selected_work_ids = request.POST.getlist('work_ids')
         amounts = {wid: request.POST.get(f'amount_{wid}') for wid in selected_work_ids}
+        job_title = request.POST.get('job_title')
 
+        # --- Create DailyWork record ---
+
+        # Store created DailyWork records for linking to Piecework
+        daily_works = {}
+
+        # For each selected work, create a DailyWork record
+        for wid in selected_work_ids:
+            work_obj = Work.objects.get(pk=wid)
+            amount_str = amounts.get(wid)
+            amount = Decimal(amount_str) if amount_str else Decimal('0.00')
+
+            # Create a DailyWork entry (one for each job for the day)
+            from employee.models.daily_work_models import DailyWork # Import here to avoid circular imports
+
+            # Create DailyWork record
+            daily_work = DailyWork.objects.create(
+                job_title=job_title or work_obj.job_title,
+                work=work_obj,
+                type_work=type_work,
+                wagon_number=wagon_number,
+                type_wagon=getattr(work_obj, 'type_wagon', None),
+                amount=amount,
+                work_date=work_date,
+            )
+
+            # Store for linking later
+            daily_works[wid] = daily_work
+
+        # --- Create Piecework ---
+        
         # Validate required fields
         if not selected_employee_ids:
             errors.append(_("Please select at least one employee."))
@@ -184,15 +215,18 @@ def piecework_create(request):
                 errors.extend(calc_errors)
                 if not errors:
                     try:
+                        # If something goes wrong (e.g., error creating Piecework), all changes will be rolled back (neither DailyWork nor Piecework will be saved)
                         with transaction.atomic():
                             group_id = str(uuid4())  # One group_id for the entire group
                             for data in results:
-                                data['group_id'] = group_id
+                                work_id = data['work_id']   # Extract work_id from data
+                                data['daily_work'] = daily_works.get(work_id)  # Key point! Here we link Piecework with DailyWork.
+                                data['group_id'] = group_id # Add group_id to data so that all Piecework in the group have the same ID.
                                 Piecework.objects.create(**data)
                     except Exception as e:
                         errors.append(_("Error creating piecework records: %(error)s") % {'error': str(e)})
             if not errors:
-                return redirect(f"{reverse('piecework_list')}?department={department}")
+                return redirect(f"{reverse('daily_work_list')}?department={department}")
                 
     # Get existing pieceworks for the department for use in the frontend (e.g., to prevent duplicates)
     existing_pieceworks = list(
@@ -208,13 +242,14 @@ def piecework_create(request):
         'piecework/piecework_create.html',
         {   
             'form': PieceworkForm(department=department),
-            'object_type': 'Piecework',
+            'object_type': 'Daily Work & Piecework',
             'employees': employees,
             'works': works,
             'today': today,
             'errors': errors,
             'selected_department': department,
-            'cancel_url': reverse('piecework_list'),
+            #'cancel_url': reverse('piecework_list'),
+            'cancel_url': reverse('daily_work_list'),
             'existing_pieceworks_json': json.dumps(existing_pieceworks, cls=DjangoJSONEncoder), # Serialize existing pieceworks for frontend validation
             'job_titles': job_titles,
             'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
@@ -289,9 +324,9 @@ def piecework_list(request):
         {
             'pieceworks': page_obj,
             'page_obj': page_obj,
+            'selected_department': department,
             'type_works': type_works,
             'type_materials': type_materials,
-            'selected_department': department,
             'job_titles': job_titles,
             'type_wagons': type_wagons,
             'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
