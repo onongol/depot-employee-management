@@ -58,7 +58,7 @@ class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Updat
 class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
     login_url = 'login'
     template_name = "work/work_confirm_delete.html"
-    block_related_models = ['Piecework']
+    block_related_models = ['Daily Work & Piecework']
 
     # Get related piecework records to check if deletion is allowed.
     def get_related_objects(self):
