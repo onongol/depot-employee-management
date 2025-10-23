@@ -3,6 +3,8 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.translation import gettext_lazy as _
+
 
 from employee.mixins.context_mixins import EmployeeContextMixin
 from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
@@ -43,7 +45,7 @@ class EmployeeUpdateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixi
 class EmployeeDeleteView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
     login_url = 'login'
     template_name = "employee/employee_confirm_delete.html"
-    block_related_models = ['Daily Salary', 'Daily Work & Piecework'] 
+    block_related_models = [_('Daily Salary'), _('Daily Work'), _('Piecework')]
 
     # Get related daily salary records to check if deletion is allowed.
     def get_related_objects(self):

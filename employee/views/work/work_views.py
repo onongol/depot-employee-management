@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext_lazy as _
 
 from employee.mixins.context_mixins import WorkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
@@ -58,7 +59,7 @@ class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Updat
 class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
     login_url = 'login'
     template_name = "work/work_confirm_delete.html"
-    block_related_models = ['Daily Work & Piecework']
+    block_related_models = [_('Daily Work'), _('Piecework')]
 
     # Get related piecework records to check if deletion is allowed.
     def get_related_objects(self):

@@ -32,7 +32,7 @@ class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryConte
 class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
     login_url = 'login'
     template_name = "daily_salary/daily_salary_confirm_delete.html"
-    block_related_models = ['Piecework']
+    block_related_models = [_('Daily Salary'), _('Piecework')]
 
     # Get related piecework records to check if deletion is allowed.
     def get_related_objects(self):
