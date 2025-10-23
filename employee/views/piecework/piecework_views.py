@@ -28,7 +28,6 @@ from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.views.piecework.piecework_calculation import piecework_calculate_records, piecework_calculate_update
 from employee.constants.constants import DEFAULT_WAGON_NUMBER, ALLOWED_WAGON_DEPARTMENTS
 
-from employee.views.daily_work.daily_work_piecework_create import daily_work_piecework_create
 
 
 class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, UpdateView):
@@ -88,6 +87,8 @@ class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMi
 @login_required(login_url='login')
 def piecework_create(request):
     """View to create new piecework records."""
+    from employee.views.daily_work.daily_work_piecework_create import daily_work_piecework_create
+
     return daily_work_piecework_create(request)
 
 
