@@ -1,4 +1,5 @@
 {% load static %}
+
 {% load i18n %}
 
 <!DOCTYPE html>
@@ -7,8 +8,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Depot Management — employee, salary, and materials management system.">
+
     <!-- Prevent theme flash: -->
     <script src="{% static 'js/theme_init.js' %}"></script>
+
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.svg' %}">
     <link rel="stylesheet" href="{% static 'dist/styles.css' %}" />
     <link rel="stylesheet" href="{% static 'dist/flatpickr.min.css' %}" />
@@ -19,9 +22,11 @@
 
   <!-- Body -->
   <body class="bg-white dark:bg-gray-900">
+    
     <!-- Navbar -->
     <nav class="sticky top-0 z-50 bg-gray-50 dark:bg-gray-800 shadow" role="navigation" aria-label="Main navigation">
       <div class="flex flex-wrap items-center w-full px-4 py-2 mx-auto">
+
         <!-- Logo -->
         <a href="{% url 'home' %}">
           <img
@@ -46,7 +51,7 @@
           </button>
         {% endif %}
 
-        <!-- Right side: user -->
+        <!-- Right side: user menu -->
         <div class="flex items-center gap-2 ml-auto lg:order-2">          
           <!-- Login/Logout -->
           {% if request.user.is_authenticated %}
@@ -71,23 +76,25 @@
               {% if not is_employee and not is_master %} 
                 {% include "includes/department_dropdown.html" %}
               {% endif %}
-
+              <!-- Employee -->
               {% include "includes/menu_link.html" with url_name='employee_list' label=_('Employee') %}
-
+              <!-- Work -->
               {% if not is_employee %}
                 {% include "includes/menu_link.html" with url_name='work_list' label=_('Work') %}
               {% endif %}
-
+              <!-- Daily Salary -->
               {% include "includes/menu_link.html" with url_name='daily_salary_list' label=_('Daily Salary') %}
-
+              <!-- Daily Work -->
+              {% include "includes/menu_link.html" with url_name='daily_work_list' label=_('Daily Work') %}
+              <!-- Piecework -->
               {% include "includes/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
-
+              <!-- Salary -->
               {% include "includes/menu_link.html" with url_name='employee_salary_list' label=_('Salary') %}
-
+              <!-- Wagon -->
               {% if not is_employee and not is_master and selected_department in ALLOWED_WAGON_DEPARTMENTS %}
                 {% include "includes/menu_link.html" with url_name='wagon_list' label=_('Wagon') %}
               {% endif %}
-
+              <!-- Material -->
               {% if not is_employee and not is_master %}
                 {% include "includes/menu_link.html" with url_name='material_list' label=_('Material') %}
               {% endif %}
@@ -97,8 +104,10 @@
       </div>
     </nav>
 
+    <!-- Main Content -->
     <main class="max-w-screen-xl mx-auto mt-8 px-4 outline-none bg-white dark:bg-gray-900" id="main-content" tabindex="-1">
-       {% if not selected_department and request.resolver_match.url_name == 'employee_list' or not selected_department and request.resolver_match.url_name == 'work_list' or not selected_department and request.resolver_match.url_name == 'daily_salary_list' or not selected_department and request.resolver_match.url_name == 'piecework_list' or not selected_department and request.resolver_match.url_name == 'employee_salary_list' or not selected_department and request.resolver_match.url_name == 'wagon_list' %}
+      <!-- If no department is selected -->
+      {% if not selected_department and request.resolver_match.url_name == 'employee_list' or not selected_department and request.resolver_match.url_name == 'work_list' or not selected_department and request.resolver_match.url_name == 'daily_salary_list' or not selected_department and request.resolver_match.url_name == 'piecework_list' or not selected_department and request.resolver_match.url_name == 'employee_salary_list' or not selected_department and request.resolver_match.url_name == 'wagon_list' %}
         <div class="my-12 flex flex-col items-center justify-center text-center">
           <div class="text-2xl font-semibold text-gray-700 mb-4">
             {% trans "Please select a department to continue." %}
@@ -112,8 +121,10 @@
       {% endif %}
     </main>
 
+    <!-- SVG Symbols -->
     {% include "includes/svg_symbols.html" %}
 
+    <!-- Scripts -->
     <script src="{% url 'javascript-catalog' %}"></script> 
     <script src="{% static 'js/dropdowns.js' %}"></script>
     <script src="{% static 'js/form_input_error_clear.js' %}"></script>
