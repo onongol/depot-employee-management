@@ -5,7 +5,7 @@ from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
 from employee.utils.sorting import apply_ordering
 from .wagon_filtered import wagon_filter
-from .wagon_grouping import get_grouped_wagon_data, regroup_and_sum_wagon_data
+from .wagon_grouping import get_grouped_wagon_data, get_totals
 
 
 @user_passes_test(is_admin, login_url='login')
@@ -20,10 +20,10 @@ def wagon_list(request):
 
     # Get filter parameters from GET request
     # Get the selected department from the request/session
-    pieceworks, wagon_number, work_name, work_date, department = wagon_filter(request)
-    
-    # Aggregate piecework data by wagon, work, date, and group_id
-    wagon_data = get_grouped_wagon_data(pieceworks)
+    dailyworks, wagon_number, work_name, work_date, department = wagon_filter(request)
+
+    # Aggregate dailywork data by wagon, work, date, and group_id
+    wagon_data = get_grouped_wagon_data(dailyworks)
 
     # Sorting
     order_by = request.GET.get('order_by')
@@ -37,20 +37,20 @@ def wagon_list(request):
     # Paginate the aggregated data for the template
     page_obj = paginate_queryset(request, wagon_data)
 
-    # Group and sum by wagon_number, work__work_name, work_date. Convert grouped dict to list for template
-    grouped_wagon_data, total_amount, total_time, total_price = regroup_and_sum_wagon_data(page_obj.object_list)
+    # Calculate totals
+    totals = get_totals(dailyworks)
 
     # Render the wagon list template with grouped data
     return render(
         request,
         'wagon/wagon_list.html',
         {
-            'wagon_data': grouped_wagon_data,
+            'wagon_data': page_obj,
             'page_obj': page_obj,
             'selected_wagon': wagon_number,
             'selected_department': department,
-            'total_amount': total_amount,
-            'total_time': total_time,
-            'total_price': total_price,
+            'total_amount': totals['total_amount'],
+            'total_time': totals['total_time'],
+            'total_price': totals['total_price'],
         }
     )

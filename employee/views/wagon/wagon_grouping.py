@@ -2,56 +2,40 @@ from django.db.models import Sum, F, FloatField, ExpressionWrapper, Max
 from collections import defaultdict
 
 
-def get_grouped_wagon_data(pieceworks):
+def get_grouped_wagon_data(dailyworks):
     """
     View to list all wagons with related works, amount, total time, price, and date.
     """
     wagon_data = (
-        pieceworks
-        .values('type_work','wagon_number', 'work__work_name', 'work__standard_time', 'work_date', 'group_id')
+        dailyworks
+        .values('wagon_number', 'type_work', 'work__work_name', 'work_date')
         .annotate(
-            amount=Max('amount'),  # Only one amount per group (not summed)
-            total_price=Sum('amount_price'),  # Sum price for all records in the group
+            amount=Sum('amount'),
+            total_time=Sum('amount_time'),
+            total_price=Sum('amount_price'),
         )
-        .annotate(
-            total_time=ExpressionWrapper(
-                F('work__standard_time') * F('amount'),
-                output_field=FloatField()
-            ),
-        )
-        .order_by('-work_date', 'type_work', 'wagon_number', 'work__work_name', 'group_id')
+        .order_by('-work_date', 'type_work', 'wagon_number', 'work__work_name')
     )
 
     return wagon_data
 
 
-def regroup_and_sum_wagon_data(wagon_data):
+def get_totals(dailyworks):
     """
-    Groups and sums wagon_data by wagon_number, work__work_name, work_date, type_work.
-    Returns: (grouped_wagon_data, total_amount, total_time, total_price)
+    Calculate total amounts, time, and price from the original dailyworks queryset.
     """
-    grouped = defaultdict(lambda: {'amount': 0, 'total_price': 0, 'total_time': 0})
-    for row in wagon_data:
-        key = (row['wagon_number'], row['work__work_name'], row['work_date'], row['type_work'])
-        grouped[key]['amount'] += row['amount']
-        grouped[key]['total_price'] += row['total_price']
-        grouped[key]['total_time'] += row['total_time']
+    # Define the fields we want to total
+    fields = ['total_amount', 'total_time', 'total_price']
 
-    grouped_wagon_data = [
-        {
-            'wagon_number': k[0],
-            'work__work_name': k[1],
-            'work_date': k[2],
-            'type_work': k[3],
-            'amount': v['amount'],
-            'total_price': v['total_price'],
-            'total_time': v['total_time'],
-        }
-        for k, v in grouped.items()
-    ]
+    # Aggregate totals for the specified fields
+    aggregates = dict(
+        total_amount=Sum('amount'),
+        total_time=Sum('amount_time'),
+        total_price=Sum('amount_price'),
+    )
 
-    total_amount = sum(row['amount'] for row in grouped_wagon_data)
-    total_time = sum(row['total_time'] for row in grouped_wagon_data)
-    total_price = sum(row['total_price'] for row in grouped_wagon_data)
+    # Perform aggregation
+    totals = dailyworks.aggregate(**aggregates) or {}
 
-    return grouped_wagon_data, total_amount, total_time, total_price
+    # Return totals with default of 0 if None
+    return {field: totals.get(field) or 0 for field in fields}
