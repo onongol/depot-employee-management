@@ -8,13 +8,13 @@ def get_grouped_wagon_data(dailyworks):
     """
     wagon_data = (
         dailyworks
-        .values('wagon_number', 'type_work', 'work__work_name', 'work_date')
+        .values('work__work_name', 'type_work', 'wagon_number', 'type_wagon', 'work_date')
         .annotate(
             amount=Sum('amount'),
             total_time=Sum('amount_time'),
             total_price=Sum('amount_price'),
         )
-        .order_by('-work_date', 'type_work', 'wagon_number', 'work__work_name')
+        .order_by('-work_date', 'work__work_name', 'type_work', 'wagon_number', 'type_wagon')
     )
 
     return wagon_data
