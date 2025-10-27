@@ -5,8 +5,18 @@
     <td class="{{ col_class }}">
       {% trans "Total" %}:
     </td>
-    <td class="{{ col_class }}"></td>
-    <td class="{{ col_class }}"></td>
+    <td class="{{ col_class }}">
+      {{ wagon_number }}
+    </td>
+    <td class="{{ col_class }}">
+      {{ type_wagon }}
+    </td>
+    <td class="{{ col_class }}">
+       {{ work_name }}
+    </td>
+    <td class="{{ col_class }}">
+      {{ type_work }}
+    </td>
     <td class="{{ col_class }}">
       {{ total_amount|floatformat:2 }}
     </td>
@@ -16,6 +26,8 @@
     <td class="{{ col_class }}">
       {{ total_price|floatformat:2 }}
     </td>
-    <td class="{{ col_class }}"></td>
+    <td class="{{ col_class }}">
+      {{ work_date }}
+    </td>
   {% endwith %}
 </tr>
