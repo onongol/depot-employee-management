@@ -36,29 +36,24 @@
           </th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-        {% if total_time is not None and page_obj.number == 1 %}
-          {% include "includes/wagons_total_row.html" %}
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-700"> 
+        {% for row in wagon_data %}
+          <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
+            <td class="px-6 py-3">{{ row.wagon_number }}</td>
+            <td class="px-6 py-3">{{ row.type_work }}</td>
+            <td class="px-6 py-3">{{ row.work__work_name }}</td>
+            <td class="px-6 py-3">{{ row.amount }}</td>
+            <td class="px-6 py-3">{{ row.total_time }}</td>
+            <td class="px-6 py-3">{{ row.total_price }}</td>
+            <td class="px-6 py-3">{{ row.work_date|date:"Y-m-d" }}</td>
+          </tr>
+        {% endfor %}
+        {% if wagon_data|length == 0 %}
+          <tr>
+            <td colspan="7" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No wagon records found..." %}</td>
+          </tr>
         {% endif %}
-          {% for row in wagon_data %}
-            <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-              <td class="px-6 py-3">{{ row.wagon_number }}</td>
-              <td class="px-6 py-3">{{ row.type_work }}</td>
-              <td class="px-6 py-3">{{ row.work__work_name }}</td>
-              <td class="px-6 py-3">{{ row.amount }}</td>
-              <td class="px-6 py-3">{{ row.total_time }}</td>
-              <td class="px-6 py-3">{{ row.total_price }}</td>
-              <td class="px-6 py-3">{{ row.work_date|date:"Y-m-d" }}</td>
-            </tr>
-          {% endfor %}
-          {% if wagon_data|length == 0 %}
-            <tr>
-              <td colspan="7" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No wagon records found..." %}</td>
-            </tr>
-          {% endif %}
-          {% if page_obj.number == page_obj.paginator.num_pages %}
-            {% include "includes/wagons_total_row.html" %}
-          {% endif %}
+          {% include "includes/wagons_total_row.html" %}
       </tbody>
     </table>
   </div>
