@@ -47,11 +47,13 @@ class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMi
 
         # Get the daily salary for the employee on the work date
         daily_salary = DailySalary.objects.filter(employee=employee, salary_date=work_date).first()
+
         # Get all daily salaries for the department on the work date
         employees_salary = DailySalary.objects.filter(employee__department=department, salary_date=work_date)
 
         # Calculate amount_price using business logic function
         amount_price = piecework_calculate_update(work, amount, daily_salary, employees_salary)
+
         piecework.amount_price = amount_price
 
         form.save()
@@ -86,8 +88,10 @@ def piecework_create(request):
 @login_required(login_url='login')
 def piecework_list(request):
     """View to list all piecework records with filtering and pagination."""
+
     # Only show pieceworks for employees in the selected department
     department = get_selected_department(request)
+
     # If not an employee, show all pieceworks in the department
     if request.user.groups.filter(name='Employees').exists():
         pieceworks = Piecework.objects.select_related('employee', 'work').filter(
@@ -101,6 +105,7 @@ def piecework_list(request):
     job_titles = get_distinct_values(Piecework, 'job_title', department, department_field='employee__department')
     type_works = get_distinct_values(Piecework, 'type_work', department, department_field='work__department')
     type_materials = get_distinct_values(Piecework, 'work__type_material', department, department_field='work__department')
+
     # Get snapshot values of type_wagon from Piecework
     type_wagons = get_type_wagon_filter_values(department, source_model='piecework')
 
@@ -108,7 +113,7 @@ def piecework_list(request):
     employee_id = request.GET.get('employee_id')
     employee_name = request.GET.get('employee_name')
     job_title = request.GET.get('job_title')
-    work = request.GET.get('work')
+    work_name = request.GET.get('work_name')
     type_work = request.GET.get('type_work')
     wagon_number = request.GET.get('wagon_number')
     type_wagon = request.GET.get('type_wagon')
@@ -122,7 +127,7 @@ def piecework_list(request):
         employee_id=employee_id,
         employee_name=employee_name,
         job_title=job_title,
-        work=work,
+        work_name=work_name,
         type_work=type_work,
         wagon_number=wagon_number,
         type_wagon=type_wagon,
