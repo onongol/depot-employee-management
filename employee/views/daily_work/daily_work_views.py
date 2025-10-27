@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Sum
 from django.urls import reverse
 from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -98,6 +99,13 @@ def daily_work_list(request):
         record_date=record_date
     )
 
+    # Aggregation for totals
+    totals = daily_works.aggregate(
+        total_amount=Sum('amount'),
+        total_time=Sum('amount_time'),
+        total_price=Sum('amount_price')
+    )
+
     # Sorting
     order_by = request.GET.get('order_by')
     direction = request.GET.get('direction')
@@ -121,5 +129,6 @@ def daily_work_list(request):
             'job_titles': job_titles,
             'type_wagons': type_wagons,
             'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
+            'totals': totals,
         }
     )

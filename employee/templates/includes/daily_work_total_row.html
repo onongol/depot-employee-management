@@ -1,0 +1,30 @@
+{% load i18n %}
+
+<tr class="bg-blue-100 font-semibold dark:bg-blue-500/20">
+  {% with col_class="px-6 py-3" %}
+    <td class="{{ col_class }}">
+      {% trans "Total" %}:
+    </td>
+    <td class="{{ col_class }}"></td>
+    <td class="{{ col_class }}"></td>
+    <td class="{{ col_class }}"></td>
+    {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+      <td class="{{ col_class }}"></td>
+      <td class="{{ col_class }}"></td>
+    {% endif %}
+    <td class="{{ col_class }}">
+      {{ totals.total_amount|default_if_none:"0" }}
+    </td>
+    <td class="{{ col_class }}">
+      {{ totals.total_time|floatformat:4|default_if_none:"0.0000" }}
+    </td>
+    <td class="{{ col_class }}">
+      {{ totals.total_price|floatformat:2|default_if_none:"0.00" }}
+    </td>
+    <td class="{{ col_class }}"></td>
+    {% if not is_employee %}
+      <td class="{{ col_class }}"></td>
+    {% endif %}
+    <td class="{{ col_class }}"></td>
+  {% endwith %}
+</tr>
