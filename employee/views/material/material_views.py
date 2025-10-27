@@ -48,6 +48,7 @@ def material_list(request):
     filters = {k: v for k, v in filters.items() if v}
     
     context = {
+        'work_name': work_name,
         'type_materials': type_materials,
         'selected_type': selected_type,
         'range_date': range_date,
