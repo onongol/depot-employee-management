@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
-from .wagon_filtered import wagon_filter
+from employee.utils.filters import filter_wagon
+from .wagon_filtered import wagon_prepare
 from .wagon_grouping import get_grouped_wagon_data, get_totals
 
 
@@ -17,9 +18,21 @@ def wagon_list(request):
     while price is summed for all records in the group.
     """
 
-    # Get filter parameters from GET request
     # Get the selected department from the request/session
-    dailyworks, wagon_number, work_name, work_date, department = wagon_filter(request)
+    dailyworks, wagon_number, type_wagon, work_name, type_work, work_date, department = wagon_prepare(request)
+
+    type_wagons = dailyworks.values_list('type_wagon', flat=True).distinct()
+
+    type_works = dailyworks.values_list('type_work', flat=True).distinct()
+
+    dailyworks = filter_wagon(
+        dailyworks,
+        wagon_number=wagon_number,
+        type_wagon=type_wagon,
+        work_name=work_name,
+        type_work=type_work,
+        work_date=work_date
+    )
 
     # Aggregate dailywork data by wagon, work, date, and group_id
     wagon_data = get_grouped_wagon_data(dailyworks)
@@ -34,7 +47,12 @@ def wagon_list(request):
     return render(
         request,
         'wagon/wagon_list.html',
-        {
+        {   
+            'wagon_number': wagon_number,
+            'type_wagon': type_wagon,
+            'work_name': work_name,
+            'type_work': type_work,
+            'work_date': work_date,
             'wagon_data': wagon_data,
             'page_obj': page_obj,
             'selected_wagon': wagon_number,
@@ -42,5 +60,7 @@ def wagon_list(request):
             'total_amount': totals['total_amount'],
             'total_time': totals['total_time'],
             'total_price': totals['total_price'],
+            'type_wagons': type_wagons,
+            'type_works': type_works,
         }
     )
