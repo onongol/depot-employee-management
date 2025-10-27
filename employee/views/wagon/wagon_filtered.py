@@ -10,7 +10,9 @@ def wagon_prepare(request):
     department = get_selected_department(request)
 
     wagon_number = request.GET.get('wagon_number', '').strip()
+    type_wagon = request.GET.get('type_wagon')
     work_name = request.GET.get('work')
+    type_work = request.GET.get('type_work')
     work_date = request.GET.get('work_date')
 
     # Base queryset for dailyworks related to wagons
@@ -25,18 +27,4 @@ def wagon_prepare(request):
     if department:
         dailyworks = dailyworks.filter(work__department=department)
 
-    return dailyworks, wagon_number, work_name, work_date, department
-
-
-def wagon_filter(request):
-    """Filtered wagon data for export."""
-    dailyworks, wagon_number, work_name, work_date, department = wagon_prepare(request)
-
-    dailyworks = filter_wagon(
-        dailyworks,
-        wagon_number=wagon_number,
-        work_name=work_name,
-        work_date=work_date
-    )
-
-    return dailyworks, wagon_number, work_name, work_date, department
+    return dailyworks, wagon_number, type_wagon, work_name, type_work, work_date, department
