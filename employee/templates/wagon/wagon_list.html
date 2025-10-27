@@ -53,9 +53,9 @@
               <td class="{{ col_class }}">{{ row.type_wagon }}</td>
               <td class="{{ col_class }}">{{ row.work__work_name }}</td>
               <td class="{{ col_class }}">{{ row.type_work }}</td>
-              <td class="{{ col_class }}">{{ row.amount }}</td>
-              <td class="{{ col_class }}">{{ row.total_time }}</td>
-              <td class="{{ col_class }}">{{ row.total_price }}</td>
+              <td class="{{ col_class }}">{{ row.amount|floatformat:2 }}</td>
+              <td class="{{ col_class }}">{{ row.total_time|floatformat:2 }}</td>
+              <td class="{{ col_class }}">{{ row.total_price|floatformat:2 }}</td>
               <td class="{{ col_class }}">{{ row.work_date|date:"Y-m-d" }}</td>
             {% endwith %}
           </tr>

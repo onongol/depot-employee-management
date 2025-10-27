@@ -81,7 +81,7 @@
                   <td class="{{ col_class }}">{{ daily_work.type_wagon_display }}</td>
                 {% endif %}
                 <td class="{{ col_class }}">{{ daily_work.amount }}</td>
-                <td class="{{ col_class }}">{{ daily_work.amount_time|floatformat:4 }}</td>
+                <td class="{{ col_class }}">{{ daily_work.amount_time|floatformat:2 }}</td>
                 <td class="{{ col_class }}">{{ daily_work.amount_price|floatformat:2 }}</td>
                 <td class="{{ col_class }}">{{ daily_work.work_date|date:"Y-m-d" }}</td>
                 <td class="{{ col_class }}">{{ daily_work.record_date|date:"Y-m-d H:i" }}</td>

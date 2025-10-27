@@ -18,13 +18,13 @@
       {{ type_work }}
     </td>
     <td class="{{ col_class }}">
-      {{ total_amount|floatformat:2 }}
+      {{ total_amount|floatformat:2|default_if_none:"0.00" }}
     </td>
     <td class="{{ col_class }}">
-      {{ total_time|floatformat:4 }}
+      {{ total_time|floatformat:2|default_if_none:"0.00" }}
     </td>
     <td class="{{ col_class }}">
-      {{ total_price|floatformat:2 }}
+      {{ total_price|floatformat:2|default_if_none:"0.00" }}
     </td>
     <td class="{{ col_class }}">
       {{ work_date }}

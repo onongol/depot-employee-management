@@ -23,10 +23,10 @@
       </td>
     {% endif %}
     <td class="{{ col_class }}">
-      {{ totals.total_amount|default_if_none:"0" }}
+      {{ totals.total_amount|default_if_none:"0.00" }}
     </td>
     <td class="{{ col_class }}">
-      {{ totals.total_time|floatformat:4|default_if_none:"0.0000" }}
+      {{ totals.total_time|floatformat:2|default_if_none:"0.00" }}
     </td>
     <td class="{{ col_class }}">
       {{ totals.total_price|floatformat:2|default_if_none:"0.00" }}
