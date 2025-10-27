@@ -91,7 +91,9 @@
               <!-- Salary -->
               {% include "includes/menu_link.html" with url_name='employee_salary_list' label=_('Salary') %}
               <!-- Wagon -->
-              {% include "includes/menu_link.html" with url_name='wagon_list' label=_('Wagon') %}
+              {% if not is_employee %}
+                {% include "includes/menu_link.html" with url_name='wagon_list' label=_('Wagon') %}
+              {% endif %}
               <!-- Material -->
               {% if not is_employee and not is_master %}
                 {% include "includes/menu_link.html" with url_name='material_list' label=_('Material') %}
