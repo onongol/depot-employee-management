@@ -51,18 +51,18 @@
         {% if sum_amount is not None and page_obj.number == 1 %}
           {% include "includes/materials_total_row.html" %}
         {% endif %}
-        {% for pw in pieceworks %}
+        {% for dw in daily_works %}
           <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
             {% with col_class="px-6 py-3" %}
               <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-              <td class="{{ col_class }}">{{ pw.work_date|date:"Y-m-d" }}</td>
-              <td class="{{ col_class }}">{{ pw.work.work_name }}</td>
-              <td class="{{ col_class }}">{{ pw.work.type_material }}</td>
-              <td class="{{ col_class }}">{{ pw.amount_material|floatformat:2 }}</td>
+              <td class="{{ col_class }}">{{ dw.work_date|date:"Y-m-d" }}</td>
+              <td class="{{ col_class }}">{{ dw.work__work_name }}</td>
+              <td class="{{ col_class }}">{{ dw.work__type_material }}</td>
+              <td class="{{ col_class }}">{{ dw.amount_xmaterial|floatformat:2 }}</td>
             {% endwith %}
           </tr>
         {% endfor %}
-        {% if pieceworks|length == 0 %}
+        {% if daily_works|length == 0 %}
           <tr>
             <td colspan="5" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No materials found..." %}</td>
           </tr>
