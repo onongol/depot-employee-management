@@ -1,14 +1,24 @@
 from django.db.models import Sum
 from django.utils.translation import gettext_lazy as _
 
-from .material_filtered import material_filter, group_and_sum_materials
+from employee.utils.filters import filter_material
 from employee.utils.export_excel import export_to_excel
+from .material_utils import material_prepare, group_and_sum_materials
 
 
 def export_material_excel(request):
     """Export calculation materials data to Excel."""
+
     # Get filtered materials data
-    daily_works = material_filter(request)
+    daily_works, work_name, type_material, range_date = material_prepare(request)
+
+    # Apply reusable filter function
+    daily_works = filter_material(
+        daily_works,
+        work_name=work_name,
+        type_material=type_material,
+        range_date=range_date
+    )
 
     # Group and sum materials
     daily_works = group_and_sum_materials(daily_works)
@@ -39,8 +49,9 @@ def export_material_excel(request):
 
     total_str = _("Total")
     total_str = str(total_str)
+    empty_row = ""
 
-    data.append([total_str, "", "", total_amount])
+    data.append([total_str, empty_row, empty_row, empty_row, total_amount])
 
     file_name = "material.xlsx"
     

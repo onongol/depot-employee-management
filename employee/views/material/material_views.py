@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from .material_filtered import material_prepare, group_and_sum_materials
 from employee.utils.filters import filter_material
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
+from .material_utils import material_prepare, group_and_sum_materials
 
 
 @user_passes_test(is_admin, login_url='login')
@@ -15,7 +15,7 @@ def material_list(request):
     with filtering and pagination."""
 
     # Prepare the base queryset and filter parameters
-    daily_works, work_name, selected_type, range_date = material_prepare(request)
+    daily_works, work_name, type_material, range_date = material_prepare(request)
 
     # Get all distinct type_materials for dropdown filter
     type_materials = daily_works.values_list('work__type_material', flat=True).distinct()
@@ -24,7 +24,7 @@ def material_list(request):
     daily_works = filter_material(
         daily_works,
         work_name=work_name,
-        selected_type=selected_type,
+        type_material=type_material,
         range_date=range_date
     )
 
@@ -40,7 +40,7 @@ def material_list(request):
     # Prepare filters for URL and template
     filters = {
         'work_name': work_name or '',
-        'type_material': selected_type,
+        'type_material': type_material or '',
         'range_date': range_date or '',
     }
 
@@ -50,7 +50,7 @@ def material_list(request):
     context = {
         'work_name': work_name,
         'type_materials': type_materials,
-        'selected_type': selected_type,
+        'type_material': type_material,
         'range_date': range_date,
         'sum_amount': sum_amount,   # Total material usage for current filter
         'daily_works': page_obj.object_list,
