@@ -104,12 +104,19 @@ def filter_pieceworks(queryset, employee_id=None, employee_name=None, job_title=
     return queryset
 
 
-def filter_wagon(queryset, wagon_number=None, work_name=None, work_date=None):
+def filter_wagon(queryset, wagon_number=None, type_wagon=None, work_name=None, type_work=None, work_date=None):
     """Reusable filter for Wagon queryset."""
     if wagon_number:
         queryset = queryset.filter(wagon_number=wagon_number)
+    if type_wagon:
+        if type_wagon == DEFAULT_WAGON_TYPE:
+            queryset = queryset.filter(type_wagon__isnull=True)
+        else:
+            queryset = queryset.filter(type_wagon=type_wagon)
     if work_name:
         queryset = queryset.filter(work__work_name__icontains=work_name)
+    if type_work:
+        queryset = queryset.filter(type_work=type_work)
     if work_date:
         queryset = queryset.filter(work_date=work_date)
     return queryset
