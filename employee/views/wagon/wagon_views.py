@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
 from employee.utils.filters import filter_wagon
-from .wagon_filtered import wagon_prepare
-from .wagon_grouping import get_grouped_wagon_data, get_totals
+from .wagon_prepare import wagon_prepare
+from .wagon_aggregation import get_grouped_wagon_data, get_totals
 
 
 @user_passes_test(is_admin, login_url='login')
@@ -21,10 +21,12 @@ def wagon_list(request):
     # Get the selected department from the request/session
     dailyworks, wagon_number, type_wagon, work_name, type_work, work_date, department = wagon_prepare(request)
 
+    # Get distinct type_wagon and type_work for filter options
     type_wagons = dailyworks.values_list('type_wagon', flat=True).distinct()
 
     type_works = dailyworks.values_list('type_work', flat=True).distinct()
 
+    # Apply filters based on request parameters
     dailyworks = filter_wagon(
         dailyworks,
         wagon_number=wagon_number,

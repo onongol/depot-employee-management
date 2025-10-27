@@ -2,8 +2,8 @@ from django.utils.translation import gettext_lazy as _
 
 from employee.utils.export_excel import export_to_excel
 from employee.utils.filters import filter_wagon
-from .wagon_filtered import wagon_prepare
-from .wagon_grouping import get_grouped_wagon_data, get_totals
+from .wagon_prepare import wagon_prepare
+from .wagon_aggregation import get_grouped_wagon_data, get_totals
 
 def export_wagon_excel(request):
     """Export wagon data to Excel."""
