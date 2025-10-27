@@ -13,7 +13,11 @@
     <div class="flex flex-col md:flex-row gap-4">
       {% include "includes/filter_input.html" with id="filter-wagon-number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
 
+      {% include "includes/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagon") %}
+
       {% include "includes/filter_input.html" with id="filter-work" label=_("Work") name="work" type="text" value=request.GET.work placeholder=_("Work Name") %}
+
+      {% include "includes/filter_select.html" with id="filter-type-work" label=_("Type Work") name="type_work" choices=type_works selected=request.GET.type_work empty_label=_("Types") %}
 
       {% include "includes/filter_date.html" with id="filter-work-date" label=_("Date") name="work_date" type="text" value=request.GET.work_date %}
 
@@ -25,32 +29,40 @@
     <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400" aria-describedby="wagon-list-title">
       <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th class="px-6 py-3">{% trans "Wagon" %}</th>
-          <th class="px-6 py-3">{% trans "Type" %}</th>
-          <th class="px-6 py-3">{% trans "Work" %}</th>
-          <th class="px-6 py-3">{% trans "Amount" %}</th>
-          <th class="px-6 py-3">{% trans "Time" %}</th>
-          <th class="px-6 py-3">{% trans "Price" %}</th>
-          <th class="px-6 py-3">
-            {% include "includes/order_by_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
-          </th>
+          {% with col_class="px-6 py-3" %}
+            <th scope="col" class="{{ col_class }}">#</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Type" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
+            <th scope="col" class="{{ col_class }}">
+              {% include "includes/order_by_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
+            </th>
+          {% endwith %}
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100 dark:divide-gray-700"> 
         {% for row in wagon_data %}
           <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-            <td class="px-6 py-3">{{ row.wagon_number }}</td>
-            <td class="px-6 py-3">{{ row.type_work }}</td>
-            <td class="px-6 py-3">{{ row.work__work_name }}</td>
-            <td class="px-6 py-3">{{ row.amount }}</td>
-            <td class="px-6 py-3">{{ row.total_time }}</td>
-            <td class="px-6 py-3">{{ row.total_price }}</td>
-            <td class="px-6 py-3">{{ row.work_date|date:"Y-m-d" }}</td>
+            {% with col_class="px-6 py-3" %}
+              <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+              <td class="{{ col_class }}">{{ row.wagon_number }}</td>
+              <td class="{{ col_class }}">{{ row.type_wagon }}</td>
+              <td class="{{ col_class }}">{{ row.work__work_name }}</td>
+              <td class="{{ col_class }}">{{ row.type_work }}</td>
+              <td class="{{ col_class }}">{{ row.amount }}</td>
+              <td class="{{ col_class }}">{{ row.total_time }}</td>
+              <td class="{{ col_class }}">{{ row.total_price }}</td>
+              <td class="{{ col_class }}">{{ row.work_date|date:"Y-m-d" }}</td>
+            {% endwith %}
           </tr>
         {% endfor %}
         {% if wagon_data|length == 0 %}
           <tr>
-            <td colspan="7" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No wagon records found..." %}</td>
+            <td colspan="9" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No wagon records found..." %}</td>
           </tr>
         {% endif %}
           {% include "includes/wagons_total_row.html" %}
@@ -65,7 +77,7 @@
   <div class="flex gap-2 w-24 mt-4 mb-4">
       <!-- Export Button Excel -->
       <a
-        href="{% url 'export_wagon_excel' %}?wagon_number={{ request.GET.wagon_number }}&work={{ request.GET.work }}&work_date={{ request.GET.work_date }}"
+        href="{% url 'export_wagon_excel' %}?wagon_number={{ request.GET.wagon_number }}&type_wagon={{ request.GET.type_wagon }}&work={{ request.GET.work }}&type_work={{ request.GET.type_work }}&work_date={{ request.GET.work_date }}"
         class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-400"
         role="button"
         aria-label="Download filtered wagons as Excel"
