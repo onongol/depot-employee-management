@@ -18,7 +18,7 @@
     <div class="flex flex-col md:flex-row gap-4">
       {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
 
-      {% include "includes/filter_input.html" with id="filter-work" label=_("Work") name="work" type="text" value=request.GET.work placeholder=_("Work Name") %}
+      {% include "includes/filter_input.html" with id="filter-work" label=_("Work Name") name="work_name" type="text" value=request.GET.work placeholder=_("Work Name") %}
 
       {% include "includes/filter_select.html" with id="filter-type-work" label=_("Type Work") name="type_work" choices=type_works selected=request.GET.type_work empty_label=_("Types") %}
 

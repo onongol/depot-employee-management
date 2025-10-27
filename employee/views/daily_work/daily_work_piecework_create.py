@@ -22,6 +22,7 @@ from employee.constants.constants import DEFAULT_WAGON_NUMBER, ALLOWED_WAGON_DEP
 
 def daily_work_piecework_create(request):
     """View to create DailyWork and Piecework records together."""
+    
     # Get the selected department from the request
     department = get_selected_department(request)
 

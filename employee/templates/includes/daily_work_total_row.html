@@ -5,12 +5,22 @@
     <td class="{{ col_class }}">
       {% trans "Total" %}:
     </td>
-    <td class="{{ col_class }}"></td>
-    <td class="{{ col_class }}"></td>
-    <td class="{{ col_class }}"></td>
+    <td class="{{ col_class }}">
+      {{ job_title}}
+    </td>
+    <td class="{{ col_class }}">
+      {{ work_name }}
+    </td>
+    <td class="{{ col_class }}">
+      {{ type_work }}
+    </td>
     {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-      <td class="{{ col_class }}"></td>
-      <td class="{{ col_class }}"></td>
+      <td class="{{ col_class }}">
+        {{ wagon_number }}
+      </td>
+      <td class="{{ col_class }}">
+        {{ type_wagon }}
+      </td>
     {% endif %}
     <td class="{{ col_class }}">
       {{ totals.total_amount|default_if_none:"0" }}
@@ -21,9 +31,13 @@
     <td class="{{ col_class }}">
       {{ totals.total_price|floatformat:2|default_if_none:"0.00" }}
     </td>
-    <td class="{{ col_class }}"></td>
+    <td class="{{ col_class }}">
+      {{ work_date }}
+    </td>
     {% if not is_employee %}
-      <td class="{{ col_class }}"></td>
+      <td class="{{ col_class }}">
+        {{ record_date }}
+      </td>
     {% endif %}
     <td class="{{ col_class }}"></td>
   {% endwith %}

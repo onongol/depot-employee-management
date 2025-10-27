@@ -78,7 +78,7 @@ def daily_work_list(request):
 
     # Filtering
     job_title = request.GET.get('job_title')
-    work = request.GET.get('work')
+    work_name = request.GET.get('work_name')
     type_work = request.GET.get('type_work')
     wagon_number = request.GET.get('wagon_number')
     type_wagon = request.GET.get('type_wagon')
@@ -90,7 +90,7 @@ def daily_work_list(request):
     daily_works = filter_daily_works(
         daily_works,
         job_title=job_title,
-        work=work,
+        work_name=work_name,
         type_work=type_work,
         wagon_number=wagon_number,
         type_wagon=type_wagon,
@@ -120,7 +120,15 @@ def daily_work_list(request):
     return render(
         request,
         "daily_work/daily_work_list.html",
-        {
+        {   
+            'job_title': job_title,
+            'work_name': work_name,
+            'type_work': type_work,
+            'wagon_number': wagon_number,
+            'type_wagon': type_wagon,
+            'type_material': type_material,
+            'work_date': work_date,
+            'record_date': record_date,
             'daily_works': page_obj,
             'page_obj': page_obj,
             'selected_department': department,
