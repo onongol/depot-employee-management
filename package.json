@@ -13,8 +13,8 @@
     "build:css": "npx @tailwindcss/cli -i ./assets/src/styles.css -o ./static/dist/styles.css --minify",
     "build:flatpickr": "npx esbuild ./assets/src/flatpickr_init.js --bundle --outfile=./static/dist/flatpickr_bundle.js",
     "copy:flatpickr": "node -e \"require('fs').copyFileSync('node_modules/flatpickr/dist/flatpickr.min.css','static/dist/flatpickr.min.css')\"",
-    "copy:flatpickr_dark": "node -e \"require('fs').copyFileSync('node_modules/flatpickr/dist/themes/dark.css','static/dist/flatpickr_dark.css')\"",
+
     "copy:flatpickr_monthSelect": "node -e \"require('fs').copyFileSync('node_modules/flatpickr/dist/plugins/monthSelect/style.css','static/dist/flatpickr_monthSelect.css')\"",
-    "build": "npm run prepare:dist && npm run build:css && npm run build:flatpickr && npm run copy:flatpickr &&  npm run copy:flatpickr_dark && npm run copy:flatpickr_monthSelect"
+    "build": "npm run prepare:dist && npm run build:css && npm run build:flatpickr && npm run copy:flatpickr && npm run copy:flatpickr_monthSelect"
   }
 }
