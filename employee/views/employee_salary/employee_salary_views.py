@@ -65,23 +65,26 @@ def employee_salary_list(request):
     # Paginate the results (10 per page)
     page_obj = paginate_queryset(request, employee_salaries)
 
+    # Preserve filter values in the context for template rendering
+    filters = {
+        'employee_id': employee_id,
+        'employee_name': employee_name,
+        'department': department,
+        'job_title': job_title,
+        'month': month,
+        'year': year,
+        'month_period': month_period,
+    }
+
     # Render the template with all context data
     return render(
         request,
         'employee_salary/employee_salary_list.html',
         {
             'employee_salaries': page_obj,
-            'filters': {
-                'employee_id': employee_id,
-                'employee_name': employee_name,
-                'department': department,
-                'job_title': job_title,
-                'month': month,
-                'year': year,
-                'month_period': month_period,
-            },
             'job_titles': job_titles,
             'page_obj': page_obj,
             'selected_department': department,
+            'filters': filters
         }
     )
