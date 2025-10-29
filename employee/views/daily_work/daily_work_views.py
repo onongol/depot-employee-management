@@ -117,6 +117,19 @@ def daily_work_list(request):
     # Pagination
     page_obj = paginate_queryset(request, daily_works)
 
+    # Prepare filters for the template
+    filters = {
+        'job_title': job_title or '',
+        'work_name': work_name or '',
+        'type_work': type_work or '',
+        'wagon_number': wagon_number or '',
+        'type_wagon': type_wagon or '',
+        'type_material': type_material or '',
+        'work_date': work_date or '',
+        'record_date': record_date or '',
+        'department': department or '',
+    }
+
     return render(
         request,
         "daily_work/daily_work_list.html",
@@ -138,5 +151,6 @@ def daily_work_list(request):
             'type_wagons': type_wagons,
             'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
             'totals': totals,
+            'filters': filters,
         }
     )
