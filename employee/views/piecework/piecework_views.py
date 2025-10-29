@@ -155,6 +155,20 @@ def piecework_list(request):
     # Paginate the results, 10 records per page
     page_obj = paginate_queryset(request, pieceworks)
 
+    # Prepare current filter values for template context
+    filters = {
+        'employee_id': employee_id or '',
+        'employee_name': employee_name or '',
+        'job_title': job_title or '',
+        'work_name': work_name or '',
+        'type_work': type_work or '',
+        'wagon_number': wagon_number or '',
+        'type_wagon': type_wagon or '',
+        'type_material': type_material or '',
+        'range_date': range_date or '',
+        'record_date': record_date or '',
+    }
+
     # Render the template with all context data
     return render(
         request,
@@ -178,5 +192,6 @@ def piecework_list(request):
             'type_wagons': type_wagons,
             'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
             'totals': totals,
+            'filters': filters,
         }
     )
