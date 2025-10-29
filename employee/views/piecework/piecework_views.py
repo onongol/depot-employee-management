@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Sum
 from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -118,7 +119,7 @@ def piecework_list(request):
     wagon_number = request.GET.get('wagon_number')
     type_wagon = request.GET.get('type_wagon')
     type_material = request.GET.get('type_material')
-    work_date = request.GET.get('work_date')
+    range_date = request.GET.get('range_date')
     record_date = request.GET.get('record_date')
 
     # Apply all filters using a reusable filter function
@@ -132,8 +133,15 @@ def piecework_list(request):
         wagon_number=wagon_number,
         type_wagon=type_wagon,
         type_material=type_material,
-        work_date=work_date,
+        range_date=range_date,
         record_date=record_date
+    )
+
+    # Aggregation for totals
+    totals = pieceworks.aggregate(
+        total_amount=Sum('amount'),
+        total_time=Sum('amount_time'),
+        total_price=Sum('amount_price')
     )
 
     # Sorting
@@ -151,7 +159,16 @@ def piecework_list(request):
     return render(
         request,
         'piecework/piecework_list.html',
-        {
+        {   
+            'employee_id': employee_id,
+            'employee_name': employee_name,
+            'job_title': job_title,
+            'work_name': work_name,
+            'type_work': type_work,
+            'wagon_number': wagon_number,
+            'type_wagon': type_wagon,
+            'range_date': range_date,
+            'record_date': record_date,
             'pieceworks': page_obj,
             'page_obj': page_obj,
             'selected_department': department,
@@ -160,5 +177,6 @@ def piecework_list(request):
             'job_titles': job_titles,
             'type_wagons': type_wagons,
             'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
+            'totals': totals,
         }
     )
