@@ -1,6 +1,8 @@
+from django.db.models import Q
+
 from employee.utils.converting_date import parse_date_range
 from employee.utils.select_department import expand_department
-from employee.constants.constants import DEFAULT_WAGON_TYPE
+from employee.constants.constants import DEFAULT_WAGON_TYPE, DEFAULT_WAGON_NUMBER
 
 
 def filter_employees(queryset, department=None, employee_id=None, employee_name=None, job_title=None):
@@ -61,7 +63,10 @@ def filter_daily_works(queryset, job_title=None, work_name=None, type_work=None,
     if type_work:
         queryset =queryset.filter(type_work=type_work)
     if wagon_number:
-        queryset =queryset.filter(wagon_number=wagon_number)
+        if wagon_number == DEFAULT_WAGON_NUMBER:
+            queryset = queryset.filter(Q(wagon_number__isnull=True))
+        else:
+            queryset = queryset.filter(wagon_number=wagon_number)
     if type_wagon:
         if type_wagon == DEFAULT_WAGON_TYPE:
             queryset =queryset.filter(type_wagon__isnull=True)
@@ -89,7 +94,10 @@ def filter_pieceworks(queryset, employee_id=None, employee_name=None, job_title=
     if type_work:
         queryset = queryset.filter(type_work=type_work)
     if wagon_number:
-        queryset = queryset.filter(wagon_number=wagon_number)
+        if wagon_number == DEFAULT_WAGON_NUMBER:
+            queryset = queryset.filter(Q(wagon_number__isnull=True))
+        else:
+            queryset = queryset.filter(wagon_number=wagon_number)
     if type_wagon:
         if type_wagon == DEFAULT_WAGON_TYPE:
             queryset = queryset.filter(type_wagon__isnull=True)

@@ -102,7 +102,7 @@ def get_type_work_choices(department: str | None):
     return [(v, v) for v in values]
 
 # Default wagon number
-DEFAULT_WAGON_NUMBER = "0"
+DEFAULT_WAGON_NUMBER = "-"
 
 # Default material type
 DEFAULT_MATERIAL_TYPE = "-"
