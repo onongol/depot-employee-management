@@ -111,7 +111,7 @@ def daily_work_list(request):
     direction = request.GET.get('direction')
 
     daily_works = apply_ordering(
-        daily_works, order_by, direction, allowed_fields=['work_date', 'record_date']
+        daily_works, order_by, direction, allowed_fields=['work_date', 'record_date'], default='-work_date'
     )
 
     # Pagination

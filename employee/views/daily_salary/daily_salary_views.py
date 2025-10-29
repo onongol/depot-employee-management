@@ -184,7 +184,7 @@ def daily_salary_list(request):
     direction = request.GET.get('direction')
     
     daily_salaries = apply_ordering(
-        daily_salaries, order_by, direction, allowed_fields=['salary_date', 'record_date']
+        daily_salaries, order_by, direction, allowed_fields=['salary_date', 'record_date'], default='-salary_date'
     )
 
     # Paginate the results, 10 records per page

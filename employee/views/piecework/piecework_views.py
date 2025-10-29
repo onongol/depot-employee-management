@@ -149,7 +149,7 @@ def piecework_list(request):
     direction = request.GET.get('direction')
 
     pieceworks = apply_ordering(
-        pieceworks, order_by, direction, allowed_fields=['work_date', 'record_date']
+        pieceworks, order_by, direction, allowed_fields=['work_date', 'record_date'], default='-work_date'
     )
 
     # Paginate the results, 10 records per page
