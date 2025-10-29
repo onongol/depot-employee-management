@@ -8,7 +8,7 @@ build/
 .eggs/
 
 # Distribution files
-dist/
+#dist/
 
 # Node
 node_modules/
