@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to enable/disable flatpickr dark theme CSS based on selected theme
   function setFlatpickrTheme(theme) {
-    const flatpickrCss = document.querySelector('link[href*="flatpickr_dark.css"]');
+    const flatpickrCss = document.getElementById('flatpickr-dark-css');
     if (flatpickrCss) {
       if (
         theme === 'dark' ||
