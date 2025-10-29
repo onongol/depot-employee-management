@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
 from employee.utils.filters import filter_wagon
+from employee.utils.sorting import apply_ordering
 from .wagon_prepare import wagon_prepare
 from .wagon_aggregation import get_grouped_wagon_data, get_totals
 
@@ -39,11 +40,31 @@ def wagon_list(request):
     # Aggregate dailywork data by wagon, work, date, and group_id
     wagon_data = get_grouped_wagon_data(dailyworks)
 
+    order_by = request.GET.get('order_by')
+    direction = request.GET.get('direction')
+    wagon_data = apply_ordering(
+        wagon_data,
+        order_by,
+        direction,
+        allowed_fields=['work_date', 'work__work_name', 'type_work', 'wagon_number', 'type_wagon'],
+        default='-work_date'
+    )
+    
     # Paginate the aggregated data for the template
     page_obj = paginate_queryset(request, wagon_data)
 
     # Calculate totals
     totals = get_totals(dailyworks)
+
+    # Prepare filters for the template
+    filters = {
+        'wagon_number': wagon_number or '',
+        'type_wagon': type_wagon or '',
+        'work_name': work_name or '',
+        'type_work': type_work or '',
+        'work_date': work_date or '',
+        'department': department or '',
+    }
 
     # Render the wagon list template with grouped data
     return render(
@@ -64,5 +85,6 @@ def wagon_list(request):
             'total_price': totals['total_price'],
             'type_wagons': type_wagons,
             'type_works': type_works,
+            'filters': filters
         }
     )
