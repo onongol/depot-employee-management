@@ -38,6 +38,7 @@
             <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Rank" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
             <th scope="col" class="{{ col_class }}">
               {% include "includes/order_by_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
@@ -58,6 +59,7 @@
                 <td class="{{ col_class }}">{{ employee_salary.employee.name }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.employee.rank }}</td>
+                <td class="{{ col_class }}">{{ employee_salary.total_piecework_time|floatformat:2 }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.total_piecework_amount|floatformat:2 }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.month }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.year }}</td>

@@ -31,7 +31,9 @@ def employee_salary_calculate(employees, month, year):
     piecework_groups = (
         piecework_qs
         .values('employee', 'work_date__year', 'work_date__month')
-        .annotate(total_piecework_amount=Sum('amount_price'))
+        .annotate(total_piecework_amount=Sum('amount_price'),
+                  total_piecework_time=Sum('amount_time')
+        )
     )
 
     # Group data by employees, years and months
@@ -43,6 +45,7 @@ def employee_salary_calculate(employees, month, year):
     for group in piecework_groups:
         key = (group['employee'], group['work_date__year'], group['work_date__month'])
         salary_data[key]['total_piecework_amount'] = group['total_piecework_amount'] or 0
+        salary_data[key]['total_piecework_time'] = group['total_piecework_time'] or 0
 
     # Prepare final salary data
     employee_salaries = []
@@ -55,6 +58,7 @@ def employee_salary_calculate(employees, month, year):
             # Calculate total salary
             total_salary_day = salary_data[key].get('total_salary_day', 0)
             total_piecework_amount = salary_data[key].get('total_piecework_amount', 0)
+            total_piecework_time = salary_data[key].get('total_piecework_time', 0)
             total_salary = round(total_salary_day + total_piecework_amount, 2)
             
             # Append to results
@@ -66,6 +70,7 @@ def employee_salary_calculate(employees, month, year):
                     'year': group_year,
                     'total_salary_day': round(total_salary_day, 2),
                     'total_piecework_amount': round(total_piecework_amount, 2),
+                    'total_piecework_time': round(total_piecework_time, 2),
                     'total_salary': total_salary,
                 }
             )
