@@ -1,6 +1,6 @@
 <div class="flex items-center">
   <a
-    href="?order_by={{ field }}&amp;direction={% if request.GET.order_by == field and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}&amp;department={{ selected_department|urlencode }}"
+    href="?{% for key, value in filters.items %}{% if value %}{{ key }}={{ value|urlencode }}&{% endif %}{% endfor %}order_by={{ field }}&direction={% if request.GET.order_by == field and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}"
     class="flex items-center gap-1 group"
   >
     {{ label }}
