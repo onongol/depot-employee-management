@@ -190,6 +190,15 @@ def daily_salary_list(request):
     # Paginate the results, 10 records per page
     page_obj = paginate_queryset(request, daily_salaries)
 
+    # Preserve filter values in the context for template rendering
+    filters = {
+        'employee_id': employee_id or '',
+        'employee_name': employee_name or '',
+        'job_title': job_title or '',
+        'salary_date': salary_date or '',
+        'record_date': record_date or '',
+    }
+
     return render(
         request,
         'daily_salary/daily_salary_list.html',
@@ -198,5 +207,6 @@ def daily_salary_list(request):
             'page_obj': page_obj,
             'selected_department': department,
             'job_titles': job_titles,
+            'filters': filters,
         }
     )
