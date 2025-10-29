@@ -3,7 +3,7 @@
 {% load i18n %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,6 +15,7 @@
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.svg' %}">
     <link rel="stylesheet" href="{% static 'dist/styles.css' %}" />
     <link rel="stylesheet" href="{% static 'dist/flatpickr.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'dist/flatpickr_dark.css' %}" />
     <link rel="stylesheet" href="{% static 'dist/flatpickr_monthSelect.css' %}" />
     <title>{% block title %}Depot Management{% endblock %}</title>
   </head>
