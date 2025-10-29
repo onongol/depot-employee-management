@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from employee.utils.filters import filter_material
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
+from employee.utils.sorting import apply_ordering
 from .material_utils import material_prepare, group_and_sum_materials
 
 
@@ -27,9 +28,21 @@ def material_list(request):
         type_material=type_material,
         range_date=range_date
     )
-
+    
     # Group and sum duplicate materials
     daily_works = group_and_sum_materials(daily_works)
+
+    # Apply ordering based on request parameters
+    order_by = request.GET.get('order_by')
+    direction = request.GET.get('direction')
+
+    daily_works = apply_ordering(
+        daily_works,
+        order_by,
+        direction,
+        allowed_fields=['work_date', 'work__work_name', 'work__type_material'],
+        default='-work_date'
+    )
 
     # Business logic: calculate the total amount of material used in the filtered queryset
     sum_amount = daily_works.aggregate(total=Sum('amount_material'))['total'] or 0
