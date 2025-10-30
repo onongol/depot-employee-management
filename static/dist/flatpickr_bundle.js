@@ -447,7 +447,7 @@
           return "th";
       }
     },
-    rangeSeparator: " to ",
+    rangeSeparator: " - ",
     weekAbbreviation: "Wk",
     scrollTitle: "Scroll to increment",
     toggleTitle: "Click to toggle",
@@ -2655,7 +2655,8 @@
     esm_default(".js-flatpickr-range", {
       mode: "range",
       dateFormat: "Y-m-d",
-      allowInput: true
+      allowInput: true,
+      rangeSeparator: " - "
     });
     esm_default(".js-flatpickr-month", {
       plugins: [new import_monthSelect.default({
