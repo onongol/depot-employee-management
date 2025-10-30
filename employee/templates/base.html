@@ -93,7 +93,7 @@
               <!-- Salary -->
               {% include "includes/menu_link.html" with url_name='employee_salary_list' label=_('Salary') %}
               <!-- Wagon -->
-              {% if not is_employee and selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+              {% if not is_employee %}
                 {% include "includes/menu_link.html" with url_name='wagon_list' label=_('Wagon') %}
               {% endif %}
               <!-- Material -->
