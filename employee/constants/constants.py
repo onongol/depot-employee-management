@@ -123,24 +123,29 @@ JOB_TITLES = [title.value for title in job_title]
 JOB_TITLE_CHOICES = [(title.value, title.value) for title in job_title]
 
 # Grouped job titles by department
-JOB_TITLES_MECHANIC = [ # Механик
+# Механик
+JOB_TITLES_MECHANIC = [
     job_title.TOKARCHIN.value,
     job_title.BELTGELEL_TOKARCHIN.value,
     job_title.DARHAN_LANTUUCHIN.value,
     job_title.GAGNUURCHIN.value,
 ]
-JOB_TITLES_SINGLE_ZASVARCHIN = [job_title.ZASVARCHIN.value]  # АКП,
-JOB_TITLES_HOS_DUGUI = [    # Хос дугуй
+# АКП
+JOB_TITLES_SINGLE_ZASVARCHIN = [job_title.ZASVARCHIN.value]
+# Хос дугуй
+JOB_TITLES_HOS_DUGUI = [
     job_title.TOKARCHIN.value,  
     job_title.ZASVARCHIN.value,
 ]
-JOB_TITLES_ZASVAR = [   # Засвар 1,2
+# Засвар 1,2
+JOB_TITLES_ZASVAR = [
     job_title.ZASVARCHIN.value,
     job_title.GAGNUURCHIN.value,
     job_title.BUDAGCHIN.value,
     job_title.NEELKHI.value,
 ]
-JOB_TITLES_ZASV_GAGNUUR = [ # Тэргэнцэр, Авто угсраа
+# Тэргэнцэр, Авто угсраа
+JOB_TITLES_ZASV_GAGNUUR = [ 
     job_title.ZASVARCHIN.value,
     job_title.GAGNUURCHIN.value,
 ]
