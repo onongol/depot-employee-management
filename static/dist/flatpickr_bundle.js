@@ -447,7 +447,7 @@
           return "th";
       }
     },
-    rangeSeparator: " - ",
+    rangeSeparator: " to ",
     weekAbbreviation: "Wk",
     scrollTitle: "Scroll to increment",
     toggleTitle: "Click to toggle",
