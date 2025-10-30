@@ -15,7 +15,7 @@
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="material-list-title">
     <div class="flex flex-col md:flex-row gap-4">
-      {% include "includes/filter_date_range.html" with id="filter-range-date" label=_("Select range of date") name="range_date" type="text" value=request.GET.range_date %}
+      {% include "includes/filter_date_range.html" with id="filter-range-date" label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
 
       {% include "includes/filter_input.html" with id="filter-work-name" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name %}
 
