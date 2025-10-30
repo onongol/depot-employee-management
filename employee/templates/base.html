@@ -85,15 +85,15 @@
               <!-- Daily Salary -->
               {% include "includes/menu_link.html" with url_name='daily_salary_list' label=_('Daily Salary') %}
               <!-- Daily Work -->
-              {% include "includes/menu_link.html" with url_name='daily_work_list' label=_('Daily Work') %}
-              <!-- Piecework -->
               {% if not is_employee %}
-                {% include "includes/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
+                {% include "includes/menu_link.html" with url_name='daily_work_list' label=_('Daily Work') %}
               {% endif %}
+              <!-- Piecework -->
+              {% include "includes/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
               <!-- Salary -->
               {% include "includes/menu_link.html" with url_name='employee_salary_list' label=_('Salary') %}
               <!-- Wagon -->
-              {% if not is_employee %}
+              {% if not is_employee and selected_department in ALLOWED_WAGON_DEPARTMENTS %}
                 {% include "includes/menu_link.html" with url_name='wagon_list' label=_('Wagon') %}
               {% endif %}
               <!-- Material -->
