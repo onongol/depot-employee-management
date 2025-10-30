@@ -40,8 +40,10 @@ def wagon_list(request):
     # Aggregate dailywork data by wagon, work, date, and group_id
     wagon_data = get_grouped_wagon_data(dailyworks)
 
+    # Sorting
     order_by = request.GET.get('order_by')
     direction = request.GET.get('direction')
+    
     wagon_data = apply_ordering(
         wagon_data,
         order_by,
