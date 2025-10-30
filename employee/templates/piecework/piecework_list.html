@@ -29,7 +29,7 @@
         {% include "includes/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagons") %}
       {% endif %}
 
-      {% include "includes/filter_date_range.html" with id="filter-range-date" label=_("Date range") name="range_date" type="text" value=request.GET.range_date %}
+      {% include "includes/filter_date_range.html" with id="filter-range-date" label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
 
       {% if not is_employee %}
         {% include "includes/filter_date.html" with id="filter-record-date" label=_("Record Date") name="record_date" type="text" value=request.GET.record_date %}
