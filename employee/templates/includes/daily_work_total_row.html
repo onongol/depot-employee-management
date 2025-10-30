@@ -39,6 +39,8 @@
         {{ record_date }}
       </td>
     {% endif %}
-    <td class="{{ col_class }}"></td>
+    {% if not is_employee and not is_master %}  
+      <td class="{{ col_class }}"></td>
+    {% endif %}
   {% endwith %}
 </tr>
