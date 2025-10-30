@@ -9,7 +9,6 @@ from .wagon_prepare import wagon_prepare
 from .wagon_aggregation import get_grouped_wagon_data, get_totals
 
 
-@user_passes_test(is_admin, login_url='login')
 @login_required(login_url='login')
 def wagon_list(request):
     """
