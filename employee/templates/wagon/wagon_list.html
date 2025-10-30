@@ -19,7 +19,7 @@
 
       {% include "includes/filter_select.html" with id="filter-type-work" label=_("Type Work") name="type_work" choices=type_works selected=request.GET.type_work empty_label=_("Types") %}
 
-      {% include "includes/filter_date.html" with id="filter-work-date" label=_("Date") name="work_date" type="text" value=request.GET.work_date %}
+      {% include "includes/filter_date_range.html" with id="filter-range-date" label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
 
       {% include "includes/filter_button.html" %}
     </div>

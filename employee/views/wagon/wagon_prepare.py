@@ -13,7 +13,7 @@ def wagon_prepare(request):
     type_wagon = request.GET.get('type_wagon')
     work_name = request.GET.get('work')
     type_work = request.GET.get('type_work')
-    work_date = request.GET.get('work_date')
+    range_date = request.GET.get('range_date')
 
     # Base queryset for dailyworks related to wagons
     dailyworks = (
@@ -27,4 +27,4 @@ def wagon_prepare(request):
     if department:
         dailyworks = dailyworks.filter(work__department=department)
 
-    return dailyworks, wagon_number, type_wagon, work_name, type_work, work_date, department
+    return dailyworks, wagon_number, type_wagon, work_name, type_work, range_date, department

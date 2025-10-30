@@ -20,7 +20,7 @@ def wagon_list(request):
     """
 
     # Get the selected department from the request/session
-    dailyworks, wagon_number, type_wagon, work_name, type_work, work_date, department = wagon_prepare(request)
+    dailyworks, wagon_number, type_wagon, work_name, type_work, range_date, department = wagon_prepare(request)
 
     # Get distinct type_wagon and type_work for filter options
     type_wagons = dailyworks.values_list('type_wagon', flat=True).distinct()
@@ -34,7 +34,7 @@ def wagon_list(request):
         type_wagon=type_wagon,
         work_name=work_name,
         type_work=type_work,
-        work_date=work_date
+        range_date=range_date
     )
 
     # Aggregate dailywork data by wagon, work, date, and group_id
@@ -64,7 +64,7 @@ def wagon_list(request):
         'type_wagon': type_wagon or '',
         'work_name': work_name or '',
         'type_work': type_work or '',
-        'work_date': work_date or '',
+        'range_date': range_date or '',
         'department': department or '',
     }
 
@@ -77,7 +77,7 @@ def wagon_list(request):
             'type_wagon': type_wagon,
             'work_name': work_name,
             'type_work': type_work,
-            'work_date': work_date,
+            'range_date': range_date,
             'wagon_data': wagon_data,
             'page_obj': page_obj,
             'selected_wagon': wagon_number,

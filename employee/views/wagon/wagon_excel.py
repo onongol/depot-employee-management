@@ -7,7 +7,7 @@ from .wagon_aggregation import get_grouped_wagon_data, get_totals
 
 def export_wagon_excel(request):
     """Export wagon data to Excel."""
-    dailyworks, wagon_number, type_wagon, work_name, type_work, work_date, department = wagon_prepare(request)
+    dailyworks, wagon_number, type_wagon, work_name, type_work, range_date, department = wagon_prepare(request)
 
     dailyworks = filter_wagon(
         dailyworks,
@@ -15,7 +15,7 @@ def export_wagon_excel(request):
         type_wagon=type_wagon,
         work_name=work_name,
         type_work=type_work,
-        work_date=work_date
+        range_date=range_date
     )
 
     wagon_data = get_grouped_wagon_data(dailyworks)
