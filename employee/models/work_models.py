@@ -20,7 +20,7 @@ class Work(models.Model):
         null=False,
         choices=JOB_TITLE_CHOICES
     )
-    work_name = models.CharField(max_length=255, unique=True)
+    work_name = models.CharField(max_length=255)
     type_wagon = models.CharField(
         max_length=100,
         choices=TYPE_WAGON_CHOICES,
@@ -53,13 +53,19 @@ class Work(models.Model):
         validators=[MinValueValidator(0)]
     )
 
-    # Meta constraints to ensure type_wagon is only set for allowed departments
+    # Meta constraints
     class Meta:
         constraints = [
+            # Ensure type_wagon is only set for allowed departments
             models.CheckConstraint(
                 name="type_wagon_only_for_allowed_departments",
                 check=Q(department__in=ALLOWED_WAGON_DEPARTMENTS) | Q(type_wagon__isnull=True),
-            )
+            ),
+            # Ensure work_name is unique within the same department
+            models.UniqueConstraint(
+                fields=['department', 'work_name'],
+                name='unique_work_name_per_department'
+            ),
         ]
 
     def clean(self):
