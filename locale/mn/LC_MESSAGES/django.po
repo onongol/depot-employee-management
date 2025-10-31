@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-31 10:56+0800\n"
+"POT-Creation-Date: 2025-10-31 15:41+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,8 +29,8 @@ msgid "Mongolian"
 msgstr "Монгол"
 
 #: .\employee\forms\employee_forms.py:22 .\employee\forms\employee_forms.py:63
-msgid "Name must be in the format: L.Name (e.g. D.Sukhbaatar or A.Gun-Aajav)!"
-msgstr "Овог Нэр (жишээ нь: Д.Сүхбаатар эсвэл А.Гүн-Аажав) хэлбэрээр оруулна уу!"
+msgid "Name must be in the format: L.Name (e.g. D.Sukhbaatar or A.Gun-Aajav)."
+msgstr "Овог Нэр (жишээ нь: Д.Сүхбаатар эсвэл А.Гүн-Аажав) хэлбэрээр оруулна уу."
 
 #: .\employee\forms\register_forms.py:12
 #: .\employee\templates\daily_salary\daily_salary_create.html:29
@@ -46,6 +46,10 @@ msgstr "Ажилтны ИД"
 #: .\employee\forms\register_forms.py:14
 msgid "Enter your Employee ID to link your account."
 msgstr "Бүртгэлээ холбохын тулд Ажилтнаа ИД оруулна уу."
+
+#: .\employee\forms\work_forms.py:49 .\employee\forms\work_forms.py:130
+msgid "The Work Name must be unique within the department."
+msgstr "Ажлын нэр нь хэлтэс дотроо өвөрмөц байх ёстой."
 
 #: .\employee\locale_strings.py:3
 msgid "Your password can’t be too similar to your other personal information."
