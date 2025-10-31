@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from employee.models import Work
 from employee.constants.constants import get_job_title_choices, TYPE_WAGON_CHOICES, ALLOWED_WAGON_DEPARTMENTS, EMPTY_SELECT
@@ -45,7 +46,7 @@ class WorkForm(forms.ModelForm):
             if qs.exists():
                 self.add_error(
                     'work_name',
-                    'The Work Name must be unique within the department.'
+                    _('The Work Name must be unique within the department.')
                 )
         return cleaned_data
 
@@ -126,7 +127,7 @@ class UpdateWorkForm(forms.ModelForm):
             if qs.exists():
                 self.add_error(
                     'work_name',
-                    'The Work Name must be unique within the department.'
+                    _('The Work Name must be unique within the department.')
                 )
         return cleaned_data
     
