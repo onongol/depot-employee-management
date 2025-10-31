@@ -13,7 +13,7 @@ from employee.models import Piecework
 from employee.models import Work
 from employee.models import DailySalary
 from employee.forms import PieceworkForm
-from employee.utils.select_department import get_selected_department, expand_department
+from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.views.piecework.piecework_calculation import piecework_calculate_records
@@ -33,16 +33,16 @@ def daily_work_piecework_create(request):
     )
 
     # Expand department to include all related departments for works filtering
-    departments = expand_department(department)
+   
     works = (
-        Work.objects.filter(department__in=departments).order_by('work_name')
-        if departments else Work.objects.none()
+        Work.objects.filter(department=department).order_by('work_name')
+        if department else Work.objects.none()
     )
 
     # Get distinct job titles for filtering dropdown
     emp_job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')
     work_job_titles = get_distinct_values(
-        Work, 'job_title', extra_filters={'department__in': departments} if departments else None
+        Work, 'job_title', extra_filters={'department': department} if department else None
     )
 
     # Combine and sort job titles from both employees and works

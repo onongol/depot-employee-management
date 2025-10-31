@@ -1,7 +1,6 @@
 from django.db.models import Q
 
 from employee.utils.converting_date import parse_date_range
-from employee.utils.select_department import expand_department
 from employee.constants.constants import DEFAULT_WAGON_TYPE, DEFAULT_WAGON_NUMBER
 
 
@@ -21,10 +20,7 @@ def filter_employees(queryset, department=None, employee_id=None, employee_name=
 def filter_works(queryset, department=None, job_title=None, work_name=None, type_wagon=None):
     """Reusable filter for Work queryset."""
     if department:
-        # Expand the department to include all related departments
-        departments = expand_department(department)
-        if departments:
-            queryset = queryset.filter(department__in=departments)
+        queryset = queryset.filter(department__in=department)
     if job_title:
         queryset = queryset.filter(job_title=job_title)
     if work_name:

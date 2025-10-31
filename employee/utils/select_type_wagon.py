@@ -22,10 +22,9 @@ def get_type_wagon_filter_values(
     if not department or department not in ALLOWED_WAGON_DEPARTMENTS:
         return []
 
-    from employee.utils.select_department import expand_department
     
     # Dynamically choose the source model and the department lookup path.
-    deps = expand_department(department) or [department]
+    deps = [department]
 
     # Dynamically choose the source model and the department lookup path.
     if source_model == 'piecework':

@@ -11,7 +11,7 @@ from employee.mixins.context_mixins import DailyWorkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.forms.daily_work_forms import UpdateDailyWorkForm
 from employee.utils.permissions import OnlyAdminMixin, is_creater
-from employee.utils.select_department import get_selected_department, expand_department
+from employee.utils.select_department import get_selected_department
 from employee.utils.pagination import paginate_queryset
 from employee.utils.selects import get_distinct_values
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
@@ -67,7 +67,7 @@ def daily_work_create(request):
 def daily_work_list(request):
     """List daily work entries with filtering and pagination."""
     department = get_selected_department(request)
-    daily_works = DailyWork.objects.filter(work__department__in=expand_department(department))
+    daily_works = DailyWork.objects.filter(work__department=department)
 
     # Get distinct values for filtering dropdown
     job_titles = get_distinct_values(DailyWork, 'job_title', department, department_field='work__department')
