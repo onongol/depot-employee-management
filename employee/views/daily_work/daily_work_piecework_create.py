@@ -32,8 +32,7 @@ def daily_work_piecework_create(request):
         if department else Employee.objects.none()
     )
 
-    # Expand department to include all related departments for works filtering
-   
+    # Expand department for works filtering
     works = (
         Work.objects.filter(department=department).order_by('work_name')
         if department else Work.objects.none()
