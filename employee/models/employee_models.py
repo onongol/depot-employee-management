@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db.models import Sum
 from django.contrib.auth.models import User
 
-from employee.constants.constants import DEPARTMENT_CHOICES, RANK_CHOICES, RANK_TO_MONEY, JOB_TITLE_CHOICES, MoneyHourChoices
+from employee.constants.constants import DEPARTMENT_CHOICES, RANK_CHOICES,JOB_TITLE_CHOICES
 
 
 class Employee(models.Model):
