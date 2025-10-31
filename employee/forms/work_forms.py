@@ -28,6 +28,27 @@ class WorkForm(forms.ModelForm):
             self.fields['type_wagon'].choices = EMPTY_SELECT
             self.fields['type_wagon'].initial = None
 
+    def clean_work_name(self):
+        """Ensure work_name is unique within the department."""
+        cleaned_data = super().clean()
+        work_name = cleaned_data.get('work_name')
+        department = (
+            self.cleaned_data.get('department')
+            or self.initial.get('department')
+            or (self.data.get('department') if self.is_bound else None)
+            or getattr(self.instance, 'department', None)
+        )
+        if work_name and department:
+            qs = Work.objects.filter(work_name=work_name, department=department)
+            if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                self.add_error(
+                    'work_name',
+                    'The Work Name must be unique within the department.'
+                )
+        return cleaned_data
+
     class Meta:
         model = Work
         fields = '__all__'
@@ -88,6 +109,27 @@ class UpdateWorkForm(forms.ModelForm):
             self.fields['type_wagon'].choices = EMPTY_SELECT
             self.fields['type_wagon'].initial = None
 
+    def clean_work_name(self):
+        """Ensure work_name is unique within the department."""
+        cleaned_data = super().clean()
+        work_name = cleaned_data.get('work_name')
+        department = (
+            self.cleaned_data.get('department')
+            or self.initial.get('department')
+            or (self.data.get('department') if self.is_bound else None)
+            or getattr(self.instance, 'department', None)
+        )
+        if work_name and department:
+            qs = Work.objects.filter(work_name=work_name, department=department)
+            if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                self.add_error(
+                    'work_name',
+                    'The Work Name must be unique within the department.'
+                )
+        return cleaned_data
+    
     class Meta:
         model = Work
         fields = ['job_title', 'type_wagon', 'type_material', 'usage_material', 'standard_time', 'price']
