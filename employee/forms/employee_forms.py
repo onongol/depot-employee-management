@@ -17,7 +17,7 @@ class EmployeeForm(forms.ModelForm):
     def clean_name(self):
         """Validate name format: one letter, dot, name (e.g. L.Name)."""
         name = self.cleaned_data['name']
-        if not re.match(r'^[А-ЯA-Z]\.[А-Яа-яA-Za-zЁёҮүӨөҮүӨө]+$', name):
+        if not re.match(r'^[А-ЯA-ZҮӨЁ]\.[А-ЯA-ZҮӨЁ][а-яa-zёүө]*(?:-[А-ЯA-ZҮӨЁ][а-яa-zёүө-]*)*$', name):
             raise forms.ValidationError(
                 _("Name must be in the format: L.Name (e.g. D.Sukhbaatar)!")
             )
@@ -58,7 +58,7 @@ class UpdateEmployeeForm(forms.ModelForm):
     def clean_name(self):
         """Validate name format: one letter, dot, name (e.g. L.Name)."""
         name = self.cleaned_data['name']
-        if not re.match(r'^[А-ЯA-Z]\.[А-Яа-яA-Za-zЁёҮүӨөҮүӨө]+$', name):
+        if not re.match(r'^[А-ЯA-ZҮӨЁ]\.[А-ЯA-ZҮӨЁ][а-яa-zёүө]*(?:-[А-ЯA-ZҮӨЁ][а-яa-zёүө-]*)*$', name):
             raise forms.ValidationError(
                 _("Name must be in the format: L.Name (e.g. D.Sukhbaatar)!")
             )
