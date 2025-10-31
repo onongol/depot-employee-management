@@ -1,4 +1,6 @@
+import re
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from employee.models import Employee
 from employee.constants.constants import get_job_title_choices
@@ -11,6 +13,15 @@ class EmployeeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         dept = (self.data.get('department') if self.is_bound else None) or self.initial.get('department')
         self.fields['job_title'].choices = get_job_title_choices(dept)
+
+    def clean_name(self):
+        """Validate name format: one letter, dot, name (e.g. L.Name)."""
+        name = self.cleaned_data['name']
+        if not re.match(r'^[А-ЯA-Z]\.[А-Яа-яA-Za-zЁёҮүӨөҮүӨө]+$', name):
+            raise forms.ValidationError(
+                _("Name must be in the format: L.Name (e.g. D.Sukhbaatar)!")
+            )
+        return name
 
     class Meta:
         model = Employee
@@ -43,7 +54,16 @@ class UpdateEmployeeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         dept = (self.data.get('department') if self.is_bound else None) or self.initial.get('department')
         self.fields['job_title'].choices = get_job_title_choices(dept)
-        
+
+    def clean_name(self):
+        """Validate name format: one letter, dot, name (e.g. L.Name)."""
+        name = self.cleaned_data['name']
+        if not re.match(r'^[А-ЯA-Z]\.[А-Яа-яA-Za-zЁёҮүӨөҮүӨө]+$', name):
+            raise forms.ValidationError(
+                _("Name must be in the format: L.Name (e.g. D.Sukhbaatar)!")
+            )
+        return name
+
     class Meta:
         model = Employee
         fields = ['name', 'job_title', 'rank', 'money_per_hour']
