@@ -19,7 +19,7 @@ class EmployeeForm(forms.ModelForm):
         name = self.cleaned_data['name']
         if not re.match(r'^[А-ЯA-ZҮӨЁ]\.[А-ЯA-ZҮӨЁ][а-яa-zёүө]*(?:-[А-ЯA-ZҮӨЁ][а-яa-zёүө-]*)*$', name):
             raise forms.ValidationError(
-                _("Name must be in the format: L.Name (e.g. D.Sukhbaatar or A.Gun-Aajav)!")
+                _("Name must be in the format: L.Name (e.g. D.Sukhbaatar or A.Gun-Aajav).")
             )
         return name
 
@@ -60,7 +60,7 @@ class UpdateEmployeeForm(forms.ModelForm):
         name = self.cleaned_data['name']
         if not re.match(r'^[А-ЯA-ZҮӨЁ]\.[А-ЯA-ZҮӨЁ][а-яa-zёүө]*(?:-[А-ЯA-ZҮӨЁ][а-яa-zёүө-]*)*$', name):
             raise forms.ValidationError(
-                _("Name must be in the format: L.Name (e.g. D.Sukhbaatar or A.Gun-Aajav)!")
+                _("Name must be in the format: L.Name (e.g. D.Sukhbaatar or A.Gun-Aajav).")
             )
         return name
 
