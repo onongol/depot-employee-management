@@ -20,7 +20,7 @@ def filter_employees(queryset, department=None, employee_id=None, employee_name=
 def filter_works(queryset, department=None, job_title=None, work_name=None, type_wagon=None):
     """Reusable filter for Work queryset."""
     if department:
-        queryset = queryset.filter(department__in=department)
+        queryset = queryset.filter(department=department)
     if job_title:
         queryset = queryset.filter(job_title=job_title)
     if work_name:
