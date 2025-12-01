@@ -30,8 +30,7 @@ class WorkFormMixin:
 
     def clean_work_name(self):
         """Ensure work_name is unique within the department."""
-        cleaned_data = super().clean()
-        work_name = cleaned_data.get('work_name')
+        work_name = self.cleaned_data.get('work_name')
         department = (
             self.cleaned_data.get('department')
             or self.initial.get('department')
