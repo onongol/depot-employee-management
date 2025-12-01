@@ -7,7 +7,9 @@ from decouple import config
 
 
 class Command(BaseCommand):
+    """Create an admin user if none exists."""
     def add_arguments(self, parser):
+        """Add command line arguments."""
         parser.add_argument(
             "--force",
             action="store_true",
@@ -15,6 +17,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args: Any, **options: Any):
+        """Handle the command execution."""
         force = options.get("force", False)
         User = get_user_model()
         superusers = User.objects.filter(is_superuser=True)
