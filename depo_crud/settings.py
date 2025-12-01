@@ -7,16 +7,15 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-from django.templatetags.static import static
-from django.utils.translation import gettext_lazy as _
 
+import os
+import platform
 from pathlib import Path
 from dotenv import load_dotenv
-import os
 from urllib.parse import urlparse
-import sys
-import platform
 
+from django.templatetags.static import static
+from django.utils.translation import gettext_lazy as _
 
 load_dotenv()
 
@@ -224,7 +223,9 @@ STORAGES = {
     },
 }
 
-INTERNAL_IPS = os.getenv('INTERNAL_IPS', '127.0.0.1').split(',')
+# INTERNAL_IPS:
+#INTERNAL_IPS = os.getenv('INTERNAL_IPS', '127.0.0.1').split(',')
+INTERNAL_IPS = [ip.strip() for ip in os.getenv('INTERNAL_IPS', '127.0.0.1,::1').split(',') if ip.strip()]
 
 
 # Default primary key field type
