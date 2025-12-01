@@ -48,7 +48,7 @@ class WorkForm(forms.ModelForm):
                     'work_name',
                     _('The Work Name must be unique within the department.')
                 )
-        return cleaned_data
+        return work_name
 
     class Meta:
         model = Work
@@ -129,7 +129,7 @@ class UpdateWorkForm(forms.ModelForm):
                     'work_name',
                     _('The Work Name must be unique within the department.')
                 )
-        return cleaned_data
+        return work_name
     
     class Meta:
         model = Work
