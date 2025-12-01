@@ -48,7 +48,6 @@ class WorkFormMixin:
                 )
         return work_name
 
-
 class WorkForm(WorkFormMixin, forms.ModelForm):
     """Form for creating or updating a Work record."""
     def __init__(self, *args, **kwargs):
@@ -89,7 +88,7 @@ class WorkForm(WorkFormMixin, forms.ModelForm):
         }
 
 
-class UpdateWorkForm(forms.ModelForm):
+class UpdateWorkForm(WorkFormMixin, forms.ModelForm):
     """Form for updating an existing Work record."""
     def __init__(self, *args, **kwargs):
         """Initialize form and dynamically set job title and type_wagon choices based on department."""
