@@ -101,10 +101,10 @@ def get_type_work_choices(department: str | None):
         return TYPE_WORK_CHOICES
     return [(v, v) for v in values]
 
-# Default wagon number
+# Default wagon number, only UI display value
 DEFAULT_WAGON_NUMBER = "-"
 
-# Default material type
+# Default material type, only UI display value
 DEFAULT_MATERIAL_TYPE = "-"
 
 
@@ -188,6 +188,8 @@ TYPE_WAGON_CHOICES = [(wagon.value, wagon.value) for wagon in TypeWagon]
 
 ALLOWED_WAGON_DEPARTMENTS = (Department.ZASVAR_1.value, Department.ZASVAR_2.value)
 
+# Default type wagon, only UI display value
 DEFAULT_WAGON_TYPE = '-'
 
+# Default select choice, only UI display value
 EMPTY_SELECT = [('', '---------')]
