@@ -109,7 +109,7 @@ DEFAULT_MATERIAL_TYPE = "-"
 
 
 # Position list
-class job_title(str, Enum):
+class JobTitle(str, Enum):
     TOKARCHIN = 'Токарьчин'
     BELTGELEL_TOKARCHIN = 'Бэлтгэл токарьчин'
     DARHAN_LANTUUCHIN = 'Дархан лантуучин'
@@ -118,36 +118,36 @@ class job_title(str, Enum):
     BUDAGCHIN = 'Будагчин'
     NEELKHI = 'Нээлхий'
 
-JOB_TITLES = [title.value for title in job_title]
+JOB_TITLES = [title.value for title in JobTitle]
 
-JOB_TITLE_CHOICES = [(title.value, title.value) for title in job_title]
+JOB_TITLE_CHOICES = [(title.value, title.value) for title in JobTitle]
 
 # Grouped job titles by department
 # Механик
 JOB_TITLES_MECHANIC = [
-    job_title.TOKARCHIN.value,
-    job_title.BELTGELEL_TOKARCHIN.value,
-    job_title.DARHAN_LANTUUCHIN.value,
-    job_title.GAGNUURCHIN.value,
+    JobTitle.TOKARCHIN.value,
+    JobTitle.BELTGELEL_TOKARCHIN.value,
+    JobTitle.DARHAN_LANTUUCHIN.value,
+    JobTitle.GAGNUURCHIN.value,
 ]
 # АКП
-JOB_TITLES_SINGLE_ZASVARCHIN = [job_title.ZASVARCHIN.value]
+JOB_TITLES_SINGLE_ZASVARCHIN = [JobTitle.ZASVARCHIN.value]
 # Хос дугуй
 JOB_TITLES_HOS_DUGUI = [
-    job_title.TOKARCHIN.value,  
-    job_title.ZASVARCHIN.value,
+    JobTitle.TOKARCHIN.value,  
+    JobTitle.ZASVARCHIN.value,
 ]
 # Засвар 1,2
 JOB_TITLES_ZASVAR = [
-    job_title.ZASVARCHIN.value,
-    job_title.GAGNUURCHIN.value,
-    job_title.BUDAGCHIN.value,
-    job_title.NEELKHI.value,
+    JobTitle.ZASVARCHIN.value,
+    JobTitle.GAGNUURCHIN.value,
+    JobTitle.BUDAGCHIN.value,
+    JobTitle.NEELKHI.value,
 ]
 # Тэргэнцэр, Авто угсраа
 JOB_TITLES_ZASV_GAGNUUR = [ 
-    job_title.ZASVARCHIN.value,
-    job_title.GAGNUURCHIN.value,
+    JobTitle.ZASVARCHIN.value,
+    JobTitle.GAGNUURCHIN.value,
 ]
 
 # Mapping of departments to their respective job titles
@@ -164,7 +164,7 @@ DEPARTMENT_JOB_TITLES = {
 }
 
 def get_job_title_choices(department: str | None):
-    """Return choices list for job_title limited by department; fallback to all."""
+    """Return choices list for JobTitle limited by department; fallback to all."""
     values = DEPARTMENT_JOB_TITLES.get(department, JOB_TITLES)
     return [(v, v) for v in values]
 
