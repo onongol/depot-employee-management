@@ -5,7 +5,7 @@ class BlockMessageMixin:
     Provides a generic get_block_message based on a list of related record labels.
     Views can set block_related_models = ['Daily Salary', 'Piecework'].
     """
-    block_related_models: list[str] = []
+    block_related_models: tuple[str, ...] = ()
 
     def get_block_message(self):
         if not self.block_related_models:
