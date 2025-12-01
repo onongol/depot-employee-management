@@ -26,8 +26,7 @@ services:
     container_name: depot_management
     restart: always
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     env_file:
       - .env
     environment:
