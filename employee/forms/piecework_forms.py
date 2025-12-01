@@ -43,15 +43,15 @@ class UpdatePieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
         fields = ['type_work', 'wagon_number', 'amount', 'work_date']
         widgets = {
             'type_work': forms.Select(attrs={'class': 'form-control'}),
-            'amount': forms.NumberInput(attrs={
-                'class': 'form-control', 
-                'type': 'number', 
-                'min': '0'
-                }
-            ),
             'work_date': forms.DateInput(attrs={
                 'class': 'form-control', 
                 'type': 'date'
                 }
             ),
+            'amount': forms.NumberInput(attrs={
+                'class': 'form-control', 
+                'type': 'number', 
+                'min': '0'
+                }
+            ),  
         }
