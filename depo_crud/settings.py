@@ -14,6 +14,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 from urllib.parse import urlparse
+import sys
+import platform
 
 
 load_dotenv()
@@ -78,7 +80,15 @@ if DEBUG:
     ]
 
 # Path to the Node.js package manager (npm)
-NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
+# NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
+# Use env override or detect by platform (avoid hard-coded Windows path on Mac/CI)
+NPM_BIN_PATH = os.getenv("NPM_BIN_PATH")
+if not NPM_BIN_PATH:
+    if platform.system() == "Windows":
+        NPM_BIN_PATH = r"C:/Program Files/nodejs/npm.cmd"
+    else:
+        # common locations on macOS / Linux; prefer system npm in PATH
+        NPM_BIN_PATH = "/usr/local/bin/npm"  # override with env if different
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
