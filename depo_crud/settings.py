@@ -22,7 +22,6 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -182,7 +181,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -226,7 +224,6 @@ STORAGES = {
 # INTERNAL_IPS:
 #INTERNAL_IPS = os.getenv('INTERNAL_IPS', '127.0.0.1').split(',')
 INTERNAL_IPS = [ip.strip() for ip in os.getenv('INTERNAL_IPS', '127.0.0.1,::1').split(',') if ip.strip()]
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
