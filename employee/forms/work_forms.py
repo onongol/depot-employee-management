@@ -74,7 +74,6 @@ class WorkForm(WorkFormMixin, forms.ModelForm):
                     'class': 'form-control', 
                     'type': 'number', 
                     'min': '0',
-                    'value': '0.000000',
                     'step': '0.000001'
                 }
             ),
@@ -83,7 +82,6 @@ class WorkForm(WorkFormMixin, forms.ModelForm):
                     'class': 'form-control', 
                     'type': 'number', 
                     'min': '0',
-                    'value': '0.00',
                     'step': '0.01'
                 }
             ),
