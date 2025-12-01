@@ -1,5 +1,5 @@
 from decimal import Decimal
-from enum import Enum
+from enum import Enum, IntEnum
 
 
 # Group names
@@ -26,7 +26,7 @@ DEPARTMENT_CHOICES = [(dept.value, dept.value) for dept in Department]
 
 
 # Rank choices for employees
-class Rank(Enum):
+class Rank(IntEnum):
     THREE = 3
     FOUR = 4
     FIVE = 5
@@ -35,9 +35,9 @@ class Rank(Enum):
 # Choices for Django model fields
 RANK_CHOICES = [(rank.value, rank.value) for rank in Rank]
 
-
-# Monetary values associated with each rank
-class MoneyHourChoices(str, Enum):
+'''
+# Monetary values associated with each rankß
+class MoneyHourChoices(Enum):
     MONEY_THREE = Decimal('9715.83')
     MONEY_FOUR = Decimal('11058.67')
     MONEY_FIVE = Decimal('12796.46')
@@ -50,7 +50,7 @@ RANK_TO_MONEY = {
     Rank.FIVE.value: MoneyHourChoices.MONEY_FIVE.value,
     Rank.SIX.value: MoneyHourChoices.MONEY_SIX.value,
 }
-
+'''
 
 # Type work list
 class TypeWork(Enum):
