@@ -27,6 +27,11 @@ class DailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
                 'class': 'form-control'
                 }
             ),
+            'wagon_number': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'type': 'text', 
+                }
+            ),
             'work_date': forms.DateInput(attrs={
                 'class': 'form-control', 
                 'type': 'date'
@@ -56,15 +61,15 @@ class UpdateDailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
                 'type': 'text', 
                 }
             ),
+            'work_date': forms.DateInput(attrs={
+                'class': 'form-control', 
+                'type': 'date'
+                }
+            ),
             'amount': forms.NumberInput(attrs={
                 'class': 'form-control', 
                 'type': 'number', 
                 'min': '0'
-                }
-            ),
-            'work_date': forms.DateInput(attrs={
-                'class': 'form-control', 
-                'type': 'date'
                 }
             ),
         }
