@@ -35,22 +35,22 @@ logs/
 # Environment variables
 .env
 .env.*
-*.env
+!.env.example
+
+# Virtual Environments
 .venv
-*.venv
-env/
 venv/
 ENV/
-!.env.example
-.python-version
+env/
+env.bak/
+venv.bak/
 
 # Database
 *.sqlite3
-*.sqlite3_*
 *.db
 *.sql
-*.session*
-*.session.sql
+dumps/
+backups/
 
 # Coverage & test artifacts
 htmlcov/
@@ -66,14 +66,18 @@ coverage.xml
 .ruff_cache/
 .cache/
 
-# Misc
-*.bak
-*.swp
-*.tmp
-
-# Django static build output (root only)
-# Adjust if your STATIC_ROOT differs
-/staticfiles/
+# Builds / distribution
+eggs/
+.eggs/
+*.egg
+develop-eggs/
+downloads/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 
 # Secrets (private keys/certs)
 *.pem
@@ -84,6 +88,15 @@ id_rsa
 id_dsa
 id_ecdsa
 id_ed25519
+
+# Django static build output (root only)
+# Adjust if your STATIC_ROOT differs
+/staticfiles/
+
+# Misc
+*.bak
+*.swp
+*.tmp
 
 # Other (Backup/Temporary files)
 *.py_*
