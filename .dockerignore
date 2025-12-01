@@ -6,15 +6,15 @@
 # Environment
 .env
 .env*
-*.env
+!.env.example
+
+# Virtual Environments
 .venv
-*.venv
-env/
 venv/
 ENV/
+env/
 env.bak/
 venv.bak/
-!.env.example
 
 # Python
 __pycache__/
