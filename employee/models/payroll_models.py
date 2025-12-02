@@ -11,9 +11,15 @@ class Payroll(models.Model):
         validators=[MinValueValidator(1)], 
         unique=True
     )
-    name = models.CharField(max_length=255)
+    name = models.CharField(
+        max_length=255
+    )
+
     # Active status of the employee
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(
+        default=True
+    )
+
     # Connection to the User model
     user = models.OneToOneField(
         User, 
@@ -24,4 +30,5 @@ class Payroll(models.Model):
     )
 
     def __str__(self):
+        """String representation of the Payroll model."""
         return f"{self.payroll_id}/{self.name}"
