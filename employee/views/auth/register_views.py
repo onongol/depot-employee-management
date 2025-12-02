@@ -43,14 +43,14 @@ def register_view(request):
             if instance:
                 # Check if this instance is already linked to a user
                 if instance.user:
-                    form.add_error('employee_id', _("A user is already linked to this ID."))
+                    form.add_error('employee_id', _("A user with this ID already exists."))
                 else:
                     user = form.save()
                     link_user_to_instance(user, instance, group_name)
-                    messages.success(request, _("Registration successful! Please log in with your new account."))
+                    messages.success(request, _("Registration successful! Please sing in with your new account."))
                     return redirect('login')
             else:
-                form.add_error('employee_id', _("Employee, Master, or Payroll not found."))
+                form.add_error('employee_id', _("Your ID is not registered. Check your ID. Contact the administrator."))
         return render(request, 'auth/register.html', {'form': form})
     else:
         form = CustomUserCreationForm()
