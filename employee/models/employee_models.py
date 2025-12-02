@@ -14,8 +14,13 @@ class Employee(models.Model):
         validators=[MinValueValidator(1)], 
         unique=True
     )
-    name = models.CharField(max_length=255)
-    department = models.CharField(max_length=255, choices=DEPARTMENT_CHOICES)
+    name = models.CharField(
+        max_length=255
+    )
+    department = models.CharField(
+        max_length=255, 
+        choices=DEPARTMENT_CHOICES
+    )
     job_title = models.CharField(
         max_length=255,
         blank=False,
@@ -34,8 +39,12 @@ class Employee(models.Model):
         null=False, 
         editable=True
     )
+
     # Active status of the employee
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(
+        default=True
+    )
+
     # Connection to the User model
     user = models.OneToOneField(
         User, 
@@ -46,6 +55,7 @@ class Employee(models.Model):
     )
 
     def __str__(self):
+        """String representation of the Employee model."""
         return f"{self.employee_id}/{self.name}"
     
     def get_total_salary_day(self, month, year):
@@ -59,6 +69,7 @@ class Employee(models.Model):
         """Calculate total piecework amount for the employee for a given month and year."""
         # Import only when the method is called to avoid circular imports
         from employee.models import Piecework
+
         return (
             Piecework.objects.filter(
                 employee=self,
