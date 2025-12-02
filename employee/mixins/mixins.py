@@ -10,8 +10,13 @@ class GenericContextMixin:
         """Add object name, type, department, and cancel URL to context."""        
         context = super().get_context_data(**kwargs)
         obj = getattr(self, 'object', None)
+        
+        # Get selected department from request GET parameters or session
         department = self.request.GET.get('department') or self.request.session.get('department')
+
         context['selected_department'] = department
+
+        # Get object name using the provided function or str()
         if obj:
             if self.object_name_func:
                 context['object_name'] = self.object_name_func(obj)
@@ -19,6 +24,7 @@ class GenericContextMixin:
                 context['object_name'] = str(obj)
         else:
             context['object_name'] = ''
+
         context['object_type'] = self.object_type
         context['cancel_url'] = self.cancel_url
         return context
