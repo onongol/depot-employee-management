@@ -13,10 +13,19 @@ class Master(models.Model):
         validators=[MinValueValidator(1)], 
         unique=True
     )
-    name = models.CharField(max_length=255)
-    department = models.CharField(max_length=255, choices=DEPARTMENT_CHOICES)
+    name = models.CharField(
+        max_length=255
+    )
+    department = models.CharField(
+        max_length=255, 
+        choices=DEPARTMENT_CHOICES
+    )
+
     # Active status of the employee
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(
+        default=True
+    )
+
     # Connection to the User model
     user = models.OneToOneField(
         User, 
@@ -27,4 +36,5 @@ class Master(models.Model):
     )
 
     def __str__(self):
+        """String representation of the Master model."""
         return f"{self.master_id}/{self.name}"
