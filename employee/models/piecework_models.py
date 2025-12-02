@@ -12,7 +12,6 @@ from employee.constants.constants import TYPE_WORK_CHOICES, DEFAULT_WAGON_NUMBER
 
 class Piecework(models.Model):
     """Model to record the piecework done by employees."""
-
     TYPE_WORK_CHOICES = TYPE_WORK_CHOICES
 
     # Link to DailyWork for aggregation
@@ -23,10 +22,13 @@ class Piecework(models.Model):
         null=True,
         blank=True
     )
-    
-    record_id = models.AutoField(primary_key=True)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-
+    record_id = models.AutoField(
+        primary_key=True
+    )
+    employee = models.ForeignKey(
+        Employee, 
+        on_delete=models.CASCADE
+    )
     job_title = models.CharField(
         max_length=255,
         choices=JOB_TITLE_CHOICES,
@@ -34,11 +36,19 @@ class Piecework(models.Model):
         null=False,
         db_index=True,
     )
-
-    work = models.ForeignKey(Work, on_delete=models.RESTRICT)
-    type_work = models.CharField(max_length=50, choices=TYPE_WORK_CHOICES)
-    wagon_number = models.CharField(max_length=50, blank=True, null=True)
-
+    work = models.ForeignKey(
+        Work, 
+        on_delete=models.RESTRICT
+    )
+    type_work = models.CharField(
+        max_length=50, 
+        choices=TYPE_WORK_CHOICES
+    )
+    wagon_number = models.CharField(
+        max_length=50, 
+        blank=True, 
+        null=True
+    )
     type_wagon = models.CharField(
         max_length=100,
         choices=TYPE_WAGON_CHOICES,
@@ -46,7 +56,6 @@ class Piecework(models.Model):
         null=True,
         db_index=True,
     )
-
     amount = models.DecimalField(
         max_digits=20,
         decimal_places=2, 
@@ -74,9 +83,18 @@ class Piecework(models.Model):
         validators=[MinValueValidator(0)], 
         editable=False
     )
-    work_date = models.DateField(default=date.today)
-    record_date = models.DateTimeField(auto_now_add=True)
-    group_id = models.CharField(max_length=36, blank=True, null=True, db_index=True)
+    work_date = models.DateField(
+        default=date.today
+    )
+    record_date = models.DateTimeField(
+        auto_now_add=True
+    )
+    group_id = models.CharField(
+        max_length=36, 
+        blank=True, 
+        null=True, 
+        db_index=True
+    )
     
     def save(self, *args, **kwargs):
         """
@@ -113,4 +131,5 @@ class Piecework(models.Model):
         return self.type_wagon or DEFAULT_WAGON_TYPE
 
     def __str__(self):
+        """String representation of the Piecework model."""
         return f"{self.employee.employee_id}/{self.employee.name}/{self.work.work_name}/{self.type_work}/{self.work_date}"
