@@ -9,9 +9,7 @@ from employee.constants.constants import  JOB_TITLE_CHOICES, TYPE_WORK_CHOICES, 
 
 
 class DailyWork(models.Model):
-    """
-    Aggregated daily work record (not per employee).
-    """
+    """Aggregated daily work record (not per employee)."""
     job_title = models.CharField(
         max_length=255,
         choices=JOB_TITLE_CHOICES,
