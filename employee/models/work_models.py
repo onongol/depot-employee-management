@@ -8,7 +8,10 @@ from employee.constants.constants import DEFAULT_MATERIAL_TYPE, JOB_TITLE_CHOICE
 
 class Work(models.Model):
     """This model represents a work item in the system."""
-    work_id = models.AutoField(primary_key=True, editable=False)
+    work_id = models.AutoField(
+        primary_key=True, 
+        editable=False
+    )
     department = models.CharField(
         max_length=255, 
         blank=False, 
@@ -20,7 +23,9 @@ class Work(models.Model):
         null=False,
         choices=JOB_TITLE_CHOICES
     )
-    work_name = models.CharField(max_length=255)
+    work_name = models.CharField(
+        max_length=255
+    )
     type_wagon = models.CharField(
         max_length=100,
         choices=TYPE_WAGON_CHOICES,
@@ -93,4 +98,5 @@ class Work(models.Model):
         return self.type_wagon or DEFAULT_WAGON_TYPE
 
     def __str__(self):
+        """String representation of the Work model."""
         return self.work_name
