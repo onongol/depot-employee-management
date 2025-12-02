@@ -774,7 +774,7 @@ msgid "A user with this ID already exists."
 msgstr "Энэ ID-тай хэрэглэгч аль хэдийн байна."
 
 #: employee/views/auth/register_views.py:50
-msgid "Registration successful! Please sing in with your new account."
+msgid "Registration successful! Please sign in with your new account."
 msgstr "Бүртгэл амжилттай! Шинэ бүртгэлээрээ нэвтэрнэ үү."
 
 #: employee/views/auth/register_views.py:53
