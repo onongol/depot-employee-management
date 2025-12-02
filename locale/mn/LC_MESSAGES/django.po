@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-02 09:53+0800\n"
+"POT-Creation-Date: 2025-12-02 10:32+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,7 +44,7 @@ msgstr ""
 msgid "Employee ID"
 msgstr "Ажилтны ИД"
 
-#: employee/forms/register_forms.py:14
+#: employee/forms/register_forms.py:20
 msgid "Enter your Employee ID to link your account."
 msgstr "Бүртгэлээ холбохын тулд Ажилтнаа ИД оруулна уу."
 
@@ -770,16 +770,16 @@ msgid "Password changed successfully. Please sign in with your new password."
 msgstr "Нууц үг амжилттай өөрчлөгдсөн. Шинэ нууц үгээрээ нэвтэрнэ үү."
 
 #: employee/views/auth/register_views.py:46
-msgid "A user is already linked to this ID."
-msgstr "Энэ ИД-д хэрэглэгч аль хэдийн холбогдсон."
+msgid "A user with this ID already exists."
+msgstr "Энэ ID-тай хэрэглэгч аль хэдийн байна."
 
 #: employee/views/auth/register_views.py:50
-msgid "Registration successful! Please log in with your new account."
+msgid "Registration successful! Please sing in with your new account."
 msgstr "Бүртгэл амжилттай! Шинэ бүртгэлээрээ нэвтэрнэ үү."
 
 #: employee/views/auth/register_views.py:53
-msgid "Employee, Master, or Payroll not found."
-msgstr "Ажилтан, Мастер эсвэл Цалингийн бүртгэл олдсонгүй."
+msgid "Your ID is not registered. Check your ID. Contact the administrator."
+msgstr "Таны ID бүртгэгдээгүй байна. Иргэний үнэмлэхээ шалгана уу. Админтай холбогдоно уу."
 
 #: employee/views/daily_salary/daily_salary_views.py:86
 msgid "Please select date and hours!"
@@ -847,6 +847,9 @@ msgstr "Нийт хугацаа"
 #: employee/views/wagon/wagon_excel.py:33
 msgid "Total Price"
 msgstr "Нийт үнэ"
+
+#~ msgid "Employee, Master, or Payroll not found."
+#~ msgstr "Ажилтан, Мастер эсвэл Цалингийн бүртгэл олдсонгүй."
 
 #~ msgid "Full name of the employee"
 #~ msgstr "Ажилтны бүтэн нэр"
