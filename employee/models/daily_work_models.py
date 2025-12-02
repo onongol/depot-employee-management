@@ -118,4 +118,5 @@ class DailyWork(models.Model):
         return self.type_wagon or DEFAULT_WAGON_TYPE
     
     def __str__(self):
+        """String representation of the DailyWork model."""
         return f"{self.work.work_name}/{self.type_work}/{self.work_date}"
