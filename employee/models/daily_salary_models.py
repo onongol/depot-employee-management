@@ -47,4 +47,5 @@ class DailySalary(models.Model):
         ]
 
     def __str__(self):
+        """String representation of the DailySalary model."""
         return f"{self.employee.employee_id}/{self.employee.name}/{self.salary_date}"
