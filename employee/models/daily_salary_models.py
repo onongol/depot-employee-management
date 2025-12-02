@@ -8,8 +8,14 @@ from .employee_models import Employee
 
 class DailySalary(models.Model):
     """Model to record daily salary for employees."""
-    salary_id = models.AutoField(primary_key=True, editable=False)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    salary_id = models.AutoField(
+        primary_key=True, 
+        editable=False
+    )
+    employee = models.ForeignKey(
+        Employee, 
+        on_delete=models.CASCADE
+    )
     hours_per_day = models.IntegerField(
         default=11,
         validators=[MinValueValidator(0), MaxValueValidator(24)]
@@ -31,6 +37,7 @@ class DailySalary(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
+        """Meta information for DailySalary model."""
         constraints = [
             models.UniqueConstraint(fields=['employee', 'salary_date'], name='unique_employee_salary_date')
         ]
