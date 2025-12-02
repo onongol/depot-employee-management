@@ -56,7 +56,8 @@ class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Updat
         ctx['SHOW_TYPE_WAGON'] = dept in ALLOWED_WAGON_DEPARTMENTS
         return ctx
 
-class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
+
+class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, BlockMessageMixin, DeleteProtectionMixin, DeleteView):
     login_url = 'login'
     template_name = "work/work_confirm_delete.html"
     block_related_models = [_('Daily Work'), _('Piecework')]
