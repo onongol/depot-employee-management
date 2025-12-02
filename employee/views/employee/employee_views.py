@@ -42,7 +42,7 @@ class EmployeeUpdateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixi
         return initial
 
 
-class EmployeeDeleteView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
+class EmployeeDeleteView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, BlockMessageMixin, DeleteProtectionMixin, DeleteView):
     login_url = 'login'
     template_name = "employee/employee_confirm_delete.html"
     block_related_models = [_('Daily Salary'), _('Daily Work'), _('Piecework')]
@@ -96,8 +96,8 @@ def employee_list(request):
     )
 
 
-@user_passes_test(is_admin, login_url='login')
 @login_required(login_url='login')
+@user_passes_test(is_admin, login_url='login')
 def employee_activate(request, pk):
     employee = get_object_or_404(Employee, pk=pk)
     employee.is_active = True
@@ -106,8 +106,8 @@ def employee_activate(request, pk):
     return redirect(reverse('employee_list'))
 
 
-@user_passes_test(is_admin, login_url='login')
 @login_required(login_url='login')
+@user_passes_test(is_admin, login_url='login')
 def employee_deactivate(request, pk):
     employee = get_object_or_404(Employee, pk=pk)
     employee.is_active = False
