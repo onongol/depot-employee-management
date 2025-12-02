@@ -19,6 +19,7 @@ class CustomUserCreationForm(UserCreationForm):
         }),
         help_text=_("Enter your Employee ID to link your account.")
     )
+    
     class Meta:
         model = User
         fields = ("employee_id", "username", "password1", "password2")
