@@ -47,7 +47,7 @@ def register_view(request):
                 else:
                     user = form.save()
                     link_user_to_instance(user, instance, group_name)
-                    messages.success(request, _("Registration successful! Please sing in with your new account."))
+                    messages.success(request, _("Registration successful! Please sign in with your new account."))
                     return redirect('login')
             else:
                 form.add_error('employee_id', _("Your ID is not registered. Check your ID. Contact the administrator."))
