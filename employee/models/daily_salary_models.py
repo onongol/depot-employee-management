@@ -26,8 +26,12 @@ class DailySalary(models.Model):
         default=Decimal('0.00'),
         editable=False
     )
-    salary_date = models.DateField(default=date.today)
-    record_date = models.DateTimeField(auto_now_add=True)
+    salary_date = models.DateField(
+        default=date.today
+    )
+    record_date = models.DateTimeField(
+        auto_now_add=True
+    )
 
     def save(self, *args, **kwargs):
         # Ensure that the employee's money_per_hour is not None
