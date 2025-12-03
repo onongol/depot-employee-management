@@ -24,49 +24,61 @@ from .views.wagon import wagon_list, export_wagon_excel
 urlpatterns = [
     # Home URL
     path('', home, name="home"),
+    
     # Authentication URLs
     path('login/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
     path('register/', register_view, name='register'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+
     # Password change URLs
     path('password_change/', CustomPasswordChangeView.as_view(), name='password_change'),
+
     # Department URLs
     path('set_department/', set_department, name="set_department"),
+
     # Employee URLs
     path('employee/', employee_list, name="employee_list"),
     path('employee_create/', EmployeeCreateView.as_view(), name="employee_create"),
     path('employee_update/<int:pk>/', EmployeeUpdateView.as_view(), name="employee_update"),
     path('employee_delete/<int:pk>/', EmployeeDeleteView.as_view(), name="employee_delete"),
+
     # Employee activation/deactivation
     path('employee/<int:pk>/deactivate/', employee_deactivate, name='employee_deactivate'),
     path('employee/<int:pk>/activate/', employee_activate, name='employee_activate'),
+
     # Work URLs
     path('work/', work_list, name="work_list"),
     path('work_create/', WorkCreateView.as_view(), name="work_create"),
     path('work_update/<str:pk>/', WorkUpdateView.as_view(), name="work_update"),
     path('work_delete/<str:pk>/', WorkDeleteView.as_view(), name="work_delete"),
+
     # DailySalary URLs
     path('daily_salary/', daily_salary_list, name="daily_salary_list"),
     path('daily_salary_create/', daily_salary_create, name="daily_salary_create"),
     path('daily_salary_update/<int:pk>/', DailySalaryUpdateView.as_view(), name="daily_salary_update"),
     path('daily_salary_delete/<int:pk>/', DailySalaryDeleteView.as_view(), name="daily_salary_delete"),
+
     # Daily Work URLs
     path('daily_work/', daily_work_list, name="daily_work_list"),
     path('daily_work_create/', daily_work_create, name="daily_work_create"),
     path('daily_work_update/<int:pk>/', DailyWorkUpdateView.as_view(), name="daily_work_update"),
     path('daily_work_delete/<int:pk>/', DailyWorkDeleteView.as_view(), name="daily_work_delete"),
+
     # Piecework URLs
     path('piecework/', piecework_list, name="piecework_list"),
     path('piecework_create/', piecework_create, name="piecework_create"),
     path('piecework_update/<int:pk>/', PieceworkUpdateView.as_view(), name="piecework_update"),
     path('piecework_delete/<int:pk>/', PieceworkDeleteView.as_view(), name="piecework_delete"),
+
     # EmployeeSalary URLs
     path('employee_salary/', employee_salary_list, name="employee_salary_list"),
     path('employee_salary_export_excel/', employee_salary_export_excel, name="employee_salary_export_excel"),
     path('employee_salary_export_pdf/', employee_salary_export_pdf, name="employee_salary_export_pdf"),
+
     # Wagon URLs
     path('wagon/', wagon_list, name="wagon_list"),
     path('export_wagon_excel/', export_wagon_excel, name="export_wagon_excel"),
+
     # Materials URL
     path('material/', material_list, name="material_list"),
     path('export_material_excel/', export_material_excel, name="export_material_excel"),
