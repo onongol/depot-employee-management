@@ -1,5 +1,4 @@
 import logging
-from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils import timezone
@@ -7,6 +6,7 @@ from django.views.generic import UpdateView, DeleteView
 from django.db import transaction
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 
 from employee.mixins.context_mixins import DailySalaryContextMixin
@@ -26,10 +26,11 @@ from employee.utils.selects import get_distinct_values
 from employee.mixins.success_messages_mixins import send_daily_salary_creation_message
 
 
-class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, UpdateView):
+class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, SuccessMessageMixin, UpdateView):
     login_url = 'login'
     form_class = UpdateDailySalaryForm
     template_name = "daily_salary/daily_salary_update.html"
+    success_message = _("Daily Salary updated successfully.")
 
 
 class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, BlockMessageMixin, DeleteProtectionMixin, DeleteView):
