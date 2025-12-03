@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils import timezone
@@ -113,7 +114,9 @@ def daily_salary_create(request):
                         else:
                             emp = employees_dict.get(emp_id)
                             # Calculate salary_day manually
-                            salary_day = float(hours_per_day) * float(emp.money_per_hour)
+                            hours_dec = Decimal(str(hours_per_day))
+                            rate_dec = Decimal(str(emp.money_per_hour))
+                            salary_day = hours_dec * rate_dec
                             # Create new DailySalary instance
                             new_records.append(
                                 DailySalary(
