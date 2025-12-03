@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext_lazy as _
 
 from employee.mixins.context_mixins import PieceworkContextMixin
-from employee.mixins.delete_warning_mixins import DeleteWarningMixin
+from employee.mixins.delete_mixins import DeleteWarningMixin
 from employee.models import Piecework
 from employee.models import DailySalary
 from employee.forms import UpdatePieceworkForm
