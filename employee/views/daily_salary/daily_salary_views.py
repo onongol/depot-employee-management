@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext_lazy as _
 
 from employee.mixins.context_mixins import DailySalaryContextMixin
-from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
+from employee.mixins.delete_mixins import DeleteProtectionMixin
 from employee.mixins.block_message_mixins import BlockMessageMixin
 from employee.models import Employee
 from employee.models import DailySalary
@@ -21,6 +21,7 @@ from employee.utils.converting_date import format_date
 from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.utils.sorting import apply_ordering
 from employee.utils.selects import get_distinct_values
+from employee.mixins.success_messages_mixins import send_daily_salary_creation_message
 
 
 class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, UpdateView):
@@ -29,7 +30,7 @@ class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryConte
     template_name = "daily_salary/daily_salary_update.html"
 
 
-class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, DeleteProtectionMixin, DeleteView, BlockMessageMixin):
+class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, BlockMessageMixin, DeleteProtectionMixin, DeleteView):
     login_url = 'login'
     template_name = "daily_salary/daily_salary_confirm_delete.html"
     block_related_models = [_('Daily Salary'), _('Piecework')]
@@ -51,8 +52,8 @@ class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryConte
         )
 
 
-@user_passes_test(is_creater, login_url='login')
 @login_required(login_url='login')
+@user_passes_test(is_creater, login_url='login')
 def daily_salary_create(request):
     """View to create daily salary records for multiple employees, filtered by department."""
     department = get_selected_department(request)
@@ -125,6 +126,14 @@ def daily_salary_create(request):
                     if new_records and not errors:
                         # Bulk create new records DailySalary
                         DailySalary.objects.bulk_create(new_records)
+
+                        # Success message
+                        send_daily_salary_creation_message(
+                            request,
+                            employees_dict=employees_dict,
+                            selected_ids=selected_ids,
+                            salary_date=salary_date,
+                        )
             except Exception as e:
                 errors.append(_("Error creating daily salary records: %(error)s") % {'error': str(e)})
         # If no errors, redirect to the list page for the selected department
