@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.db.models import Sum
 from django.urls import reverse
 from django.views.generic import UpdateView, DeleteView
@@ -56,8 +56,8 @@ class DailyWorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMi
         )
 
 
-@user_passes_test(is_creater, login_url='login')
 @login_required(login_url='login')
+@user_passes_test(is_creater, login_url='login')
 def daily_work_create(request):
     """Create daily work entry view. Redirect to piecework creation if department allows wagon work."""
     return daily_work_piecework_create(request)
@@ -67,7 +67,7 @@ def daily_work_create(request):
 def daily_work_list(request):
     """List daily work entries with filtering and pagination."""
     department = get_selected_department(request)
-    daily_works = DailyWork.objects.filter(work__department=department)
+    daily_works = DailyWork.objects.filter(work__department=department).select_related('work')
 
     # Get distinct values for filtering dropdown
     job_titles = get_distinct_values(DailyWork, 'job_title', department, department_field='work__department')
