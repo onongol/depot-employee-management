@@ -1,3 +1,4 @@
+import logging
 from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -128,15 +129,19 @@ def daily_salary_create(request):
                             )
                     if new_records and not errors:
                         # Bulk create new records DailySalary
-                        DailySalary.objects.bulk_create(new_records)
+                        try:
+                            DailySalary.objects.bulk_create(new_records)
 
-                        # Success message
-                        send_daily_salary_creation_message(
-                            request,
-                            employees_dict=employees_dict,
-                            selected_ids=selected_ids,
-                            salary_date=salary_date,
-                        )
+                            # Success message
+                            send_daily_salary_creation_message(
+                                request,
+                                employees_dict=employees_dict,
+                                selected_ids=selected_ids,
+                                salary_date=salary_date,
+                            )
+                        except Exception as exc:
+                            logging.exception("Bulk create DailySalary failed")
+                            errors.append(_("Error saving daily salary records."))
             except Exception as e:
                 errors.append(_("Error creating daily salary records: %(error)s") % {'error': str(e)})
         # If no errors, redirect to the list page for the selected department
@@ -170,6 +175,9 @@ def daily_salary_list(request):
     else:
         # If not an employee, show all daily salaries in the department 
         daily_salaries = DailySalary.objects.filter(employee__department=department, employee__is_active=True)
+
+    # Reduce DB queries in template
+    daily_salaries = daily_salaries.select_related('employee')
 
     # Get distinct job titles for filtering dropdown
     job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')
