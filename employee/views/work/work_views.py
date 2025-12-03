@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 
 from employee.mixins.context_mixins import WorkContextMixin
-from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
+from employee.mixins.delete_mixins import DeleteProtectionMixin
 from employee.mixins.block_message_mixins import BlockMessageMixin
 from employee.models import Work 
 from employee.models import Piecework
@@ -19,10 +20,11 @@ from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 
 
-class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, CreateView):
+class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
     form_class = WorkForm
     template_name = "work/work_create.html" 
+    success_message = _("Work %(work_name)s created successfully.")
 
     def get_form_kwargs(self):
         """Set initial department based on user selection."""
