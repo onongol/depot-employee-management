@@ -1,5 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 
+
 class BlockMessageMixin:
     """
     Provides a generic get_block_message based on a list of related record labels.
@@ -10,6 +11,7 @@ class BlockMessageMixin:
     def get_block_message(self):
         if not self.block_related_models:
             return ''
+        
         related = ', '.join(str(_(label)) for label in self.block_related_models)
         return _(
             "Cannot delete %(object_name)s because it is associated with %(related)s records. "
