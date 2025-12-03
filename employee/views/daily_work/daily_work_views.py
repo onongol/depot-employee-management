@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 
 from employee.models import DailyWork
@@ -21,11 +22,12 @@ from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 from .daily_work_piecework_create import daily_work_piecework_create
 
 
-class DailyWorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMixin, UpdateView):
+class DailyWorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMixin, SuccessMessageMixin, UpdateView):
     login_url = 'login'
     model = DailyWork
     form_class = UpdateDailyWorkForm
     template_name = "daily_work/daily_work_piecework_update.html"
+    success_message = _("Daily Work and Piecework updated successfully.")
 
     def get_form_kwargs(self):
         """Pass selected department to the form."""
