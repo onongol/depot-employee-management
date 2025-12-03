@@ -40,10 +40,11 @@ class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Succe
         return ctx
 
 
-class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, UpdateView):
+class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, SuccessMessageMixin, UpdateView):
     login_url = 'login'
     form_class = UpdateWorkForm
     template_name = "work/work_update.html"
+    success_message = _("Work updated successfully.")
 
     def get_form_kwargs(self):
         """Set initial department based on user selection."""
