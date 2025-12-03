@@ -14,8 +14,11 @@ def get_user_department(user):
     for model in (Employee, Master):
         try:
             obj = model.objects.get(user=user, is_active=True)
-            if getattr(obj, 'department', None) in DEPARTMENTS:
-                return obj.department
+            if not obj:
+                continue
+            department = getattr(obj, 'department', None)
+            if department in DEPARTMENTS:
+                return department
         except model.DoesNotExist:
             continue
     return None
