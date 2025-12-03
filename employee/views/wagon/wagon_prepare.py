@@ -9,6 +9,7 @@ def wagon_prepare(request):
     # Get the selected department from the request/session
     department = get_selected_department(request)
 
+    # Extract filter parameters from the request
     wagon_number = request.GET.get('wagon_number', '').strip()
     type_wagon = request.GET.get('type_wagon')
     work_name = request.GET.get('work')
