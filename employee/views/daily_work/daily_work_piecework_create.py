@@ -75,7 +75,7 @@ def daily_work_piecework_create(request):
         'employees': employees,
         'works': works,
         'today': today,
-        'errors': [],   # Initialize empty errors list
+        'errors': errors,   # Initialize empty errors list
         'selected_department': department,
         'cancel_url': reverse('daily_work_list'),
         'existing_pieceworks_json': json.dumps(existing_pieceworks, cls=DjangoJSONEncoder), # Pass existing records as JSON
@@ -96,8 +96,8 @@ def daily_work_piecework_create(request):
         amounts = {wid: request.POST.get(f'amount_{wid}') for wid in selected_work_ids}
         job_title = request.POST.get('job_title')
 
-        # Error collection list
-        errors = []
+        # Reuse the shared errors list (clear previous errors from GET)
+        errors.clear()
 
         # --- DAILY SALARY CHECK LOGIC ---
 
@@ -128,9 +128,6 @@ def daily_work_piecework_create(request):
 
         # --- CHECK ERRORS BEFORE CREATING DailyWork ---
 
-        # Pass errors to context for rendering if any
-        context['errors'] = errors
-        
         # If there are errors, re-render the form with error messages
         if errors:
             return render(
@@ -168,7 +165,7 @@ def daily_work_piecework_create(request):
             daily_works[wid] = daily_work
 
         # --- CREATE Piecework ---
-        
+
         # Validate required fields
         if not selected_employee_ids:
             errors.append(_("Please select at least one employee."))
