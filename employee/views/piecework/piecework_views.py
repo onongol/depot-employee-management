@@ -76,8 +76,8 @@ class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMi
         )
 
 
-@user_passes_test(is_creater, login_url='login')
 @login_required(login_url='login')
+@user_passes_test(is_creater, login_url='login')
 def piecework_create(request):
     """View to create new piecework records."""
     # Circular import avoidance
