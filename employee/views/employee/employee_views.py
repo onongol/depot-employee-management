@@ -3,11 +3,12 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 
 
 from employee.mixins.context_mixins import EmployeeContextMixin
-from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
+from employee.mixins.delete_mixins import DeleteProtectionMixin
 from employee.mixins.block_message_mixins import BlockMessageMixin
 from employee.models import Employee
 from employee.models import DailySalary
@@ -19,16 +20,18 @@ from employee.utils.permissions import is_admin, OnlyAdminMixin
 from employee.utils.selects import get_distinct_values
 
 
-class EmployeeCreateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, CreateView):
+class EmployeeCreateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin,  SuccessMessageMixin, CreateView):
     login_url = 'login'
     form_class = EmployeeForm
     template_name = "employee/employee_create.html"
+    success_message = _("Employee %(employee_id)s/%(name)s created successfully.")
 
     def get_initial(self):
         """Set initial department based on user selection."""
         initial = super().get_initial()
         initial['department'] = get_selected_department(self.request)
         return initial
+
 
 class EmployeeUpdateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, UpdateView):
     login_url = 'login'
