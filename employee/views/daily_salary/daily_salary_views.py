@@ -75,8 +75,7 @@ def daily_salary_create(request):
 
     if request.method == 'POST':
         selected_ids = request.POST.getlist('employee_ids')
-        # Convert selected_ids to integers
-        selected_ids = [int(emp_id) for emp_id in selected_ids]
+        selected_ids = [int(emp_id) for emp_id in selected_ids] # Convert selected_ids to integers
         salary_date = request.POST.get('salary_date')
         hours_per_day = request.POST.get('hours_per_day')
 
@@ -114,10 +113,12 @@ def daily_salary_create(request):
                             )
                         else:
                             emp = employees_dict.get(emp_id)
+
                             # Calculate salary_day manually
                             hours_dec = Decimal(str(hours_per_day))
                             rate_dec = Decimal(str(emp.money_per_hour))
                             salary_day = hours_dec * rate_dec
+
                             # Create new DailySalary instance
                             new_records.append(
                                 DailySalary(
