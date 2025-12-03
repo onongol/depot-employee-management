@@ -77,6 +77,7 @@ def wagon_list(request):
             'type_work': type_work,
             'range_date': range_date,
             'wagon_data': wagon_data,
+            'wagon_page_rows': page_obj,
             'page_obj': page_obj,
             'selected_wagon': wagon_number,
             'selected_department': department,

@@ -45,7 +45,7 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100 dark:divide-gray-700"> 
-        {% for row in wagon_data %}
+        {% for row in wagon_page_rows %}
           <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
             {% with col_class="px-6 py-3" %}
               <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
@@ -60,7 +60,7 @@
             {% endwith %}
           </tr>
         {% endfor %}
-        {% if wagon_data|length == 0 %}
+        {% if wagon_page_rows|length == 0 %}
           <tr>
             <td colspan="9" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No wagon records found..." %}</td>
           </tr>
