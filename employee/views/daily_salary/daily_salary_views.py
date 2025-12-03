@@ -115,9 +115,7 @@ def daily_salary_create(request):
                             emp = employees_dict.get(emp_id)
 
                             # Calculate salary_day manually
-                            hours_dec = Decimal(str(hours_per_day))
-                            rate_dec = Decimal(str(emp.money_per_hour))
-                            salary_day = hours_dec * rate_dec
+                            salary_day = float(hours_per_day) * float(emp.money_per_hour)
 
                             # Create new DailySalary instance
                             new_records.append(
