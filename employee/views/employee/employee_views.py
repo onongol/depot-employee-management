@@ -20,7 +20,7 @@ from employee.utils.permissions import is_admin, OnlyAdminMixin
 from employee.utils.selects import get_distinct_values
 
 
-class EmployeeCreateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin,  SuccessMessageMixin, CreateView):
+class EmployeeCreateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
     form_class = EmployeeForm
     template_name = "employee/employee_create.html"
@@ -33,10 +33,11 @@ class EmployeeCreateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixi
         return initial
 
 
-class EmployeeUpdateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, UpdateView):
+class EmployeeUpdateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, SuccessMessageMixin, UpdateView):
     login_url = 'login'
     form_class = UpdateEmployeeForm
     template_name = "employee/employee_update.html"
+    success_message = _("Employee updated successfully.")
 
     def get_initial(self):
         """Set initial department based on user selection."""
