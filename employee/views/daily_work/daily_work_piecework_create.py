@@ -1,4 +1,5 @@
 import json
+import logging
 from uuid import uuid4
 from decimal import Decimal
 from django.shortcuts import render, redirect
@@ -40,7 +41,9 @@ def daily_work_piecework_create(request):
     )
 
     # Get distinct job titles for filtering dropdown
-    emp_job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')
+    emp_job_titles = get_distinct_values(
+        Employee, 'job_title', department, department_field='department'
+    )
     work_job_titles = get_distinct_values(
         Work, 'job_title', extra_filters={'department': department} if department else None
     )
@@ -97,18 +100,22 @@ def daily_work_piecework_create(request):
         errors = []
 
         # --- DAILY SALARY CHECK LOGIC ---
+
         # Ensure all selected employees have DailySalary for the work_date
-        employees_salary = DailySalary.objects.filter(
+        employees_salary = DailySalary.objects.select_related('employee').filter(
             employee__employee_id__in=selected_employee_ids,
             salary_date=work_date,
         )
+
         # Identify employees missing DailySalary records
         employees_with_salary_ids = set(str(ds.employee.employee_id) for ds in employees_salary)
+
         # Find employees without DailySalary
         missing_salary_employees = [
             emp for emp in Employee.objects.filter(employee_id__in=selected_employee_ids)
             if str(emp.employee_id) not in employees_with_salary_ids
         ]
+
         # If any employees are missing DailySalary, add an error message
         if missing_salary_employees:
             missing_names = [f"{emp.employee_id}/{emp.name}" for emp in missing_salary_employees]
@@ -120,6 +127,7 @@ def daily_work_piecework_create(request):
             )
 
         # --- CHECK ERRORS BEFORE CREATING DailyWork ---
+
         # Pass errors to context for rendering if any
         context['errors'] = errors
         
@@ -132,6 +140,7 @@ def daily_work_piecework_create(request):
             )
 
         # --- CREATE DailyWork ---
+
         # Store created DailyWork records for linking to Piecework
         daily_works = {}
 
@@ -159,6 +168,7 @@ def daily_work_piecework_create(request):
             daily_works[wid] = daily_work
 
         # --- CREATE Piecework ---
+        
         # Validate required fields
         if not selected_employee_ids:
             errors.append(_("Please select at least one employee."))
@@ -198,6 +208,7 @@ def daily_work_piecework_create(request):
                     wagon_number=wagon_number,
                 )
                 errors.extend(calc_errors)
+
                 if not errors:
                     try:
                         # If something goes wrong (e.g., error creating Piecework), all changes will be rolled back (neither DailyWork nor Piecework will be saved)
@@ -207,9 +218,12 @@ def daily_work_piecework_create(request):
                                 work_id = data['work_id']   # Extract work_id from data
                                 data['daily_work'] = daily_works.get(work_id)  # Key point! Here we link Piecework with DailyWork.
                                 data['group_id'] = group_id # Add group_id to data so that all Piecework in the group have the same ID.
+                                # Create Piecework record
                                 Piecework.objects.create(**data)
                     except Exception as e:
+                        logging.exception("Error creating daily work/piecework")
                         errors.append(_("Error creating piecework records: %(error)s") % {'error': str(e)})
+
                 if not errors:
                     # Success message
                     send_daily_work_piecework_created(
@@ -219,7 +233,8 @@ def daily_work_piecework_create(request):
                         work_date=work_date
                     )
 
-                    return redirect(f"{reverse('daily_work_list')}?department={department}")       
+                    return redirect(f"{reverse('daily_work_list')}?department={department}") 
+                      
     # Render the template with all context data
     return render(
         request,
