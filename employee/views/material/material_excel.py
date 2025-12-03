@@ -8,7 +8,6 @@ from .material_utils import material_prepare, group_and_sum_materials
 
 def export_material_excel(request):
     """Export calculation materials data to Excel."""
-
     # Get filtered materials data
     daily_works, work_name, type_material, range_date = material_prepare(request)
 

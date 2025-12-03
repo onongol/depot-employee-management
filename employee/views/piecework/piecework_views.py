@@ -89,7 +89,6 @@ def piecework_create(request):
 @login_required(login_url='login')
 def piecework_list(request):
     """View to list all piecework records with filtering and pagination."""
-
     # Only show pieceworks for employees in the selected department
     department = get_selected_department(request)
 

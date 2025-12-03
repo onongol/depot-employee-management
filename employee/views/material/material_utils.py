@@ -5,7 +5,6 @@ from employee.models import DailyWork
 
 def material_prepare(request):
     """Prepare the base queryset and filter parameters for materials."""
-    
     # Filtering parameters from request
     work_name = request.GET.get('work_name')
     type_material = request.GET.get('type_material')

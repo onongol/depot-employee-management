@@ -8,7 +8,6 @@ from employee.utils.filters import filter_month_year
 
 def employee_salary_calculate(employees, month, year):
     """Calculate employee salaries based on daily salary records and piecework using aggregation."""
-    
     # Get sums of daily salaries
     salary_qs = DailySalary.objects.filter(employee__in=employees)
     salary_qs = filter_month_year(salary_qs, month=month, year=year)

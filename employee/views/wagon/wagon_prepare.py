@@ -4,8 +4,7 @@ from employee.utils.select_department import get_selected_department
 
 
 def wagon_prepare(request):
-    """Prepare the base queryset and filter parameters for wagons."""
-    
+    """Prepare the base queryset and filter parameters for wagons.""" 
     # Get the selected department from the request/session
     department = get_selected_department(request)
 

@@ -24,7 +24,6 @@ from employee.mixins.success_messages_mixins import send_daily_work_piecework_cr
 
 def daily_work_piecework_create(request):
     """View to create DailyWork and Piecework records together."""
-    
     # Get the selected department from the request
     department = get_selected_department(request)
 

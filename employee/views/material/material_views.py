@@ -14,7 +14,6 @@ from .material_utils import material_prepare, group_and_sum_materials
 def material_list(request):
     """View for calculating and listing material usage in piecework records,
     with filtering and pagination."""
-
     # Prepare the base queryset and filter parameters
     daily_works, work_name, type_material, range_date = material_prepare(request)
 

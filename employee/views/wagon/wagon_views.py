@@ -17,7 +17,6 @@ def wagon_list(request):
     For each group, amount is taken as the maximum value (not summed), 
     while price is summed for all records in the group.
     """
-
     # Get the selected department from the request/session
     dailyworks, wagon_number, type_wagon, work_name, type_work, range_date, department = wagon_prepare(request)
 
