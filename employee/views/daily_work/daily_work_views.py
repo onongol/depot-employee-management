@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 
 from employee.models import DailyWork
 from employee.mixins.context_mixins import DailyWorkContextMixin
-from employee.mixins.delete_warning_mixins import DeleteWarningMixin
+from employee.mixins.delete_mixins import DeleteWarningMixin
 from employee.forms.daily_work_forms import UpdateDailyWorkForm
 from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.utils.select_department import get_selected_department
