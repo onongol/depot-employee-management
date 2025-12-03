@@ -18,6 +18,7 @@ from employee.utils.selects import get_distinct_values
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.views.piecework.piecework_calculation import piecework_calculate_records
 from employee.constants.constants import DEFAULT_WAGON_NUMBER, ALLOWED_WAGON_DEPARTMENTS
+from employee.mixins.success_messages_mixins import send_daily_work_piecework_created
 
 
 def daily_work_piecework_create(request):
@@ -210,8 +211,15 @@ def daily_work_piecework_create(request):
                     except Exception as e:
                         errors.append(_("Error creating piecework records: %(error)s") % {'error': str(e)})
                 if not errors:
-                    return redirect(f"{reverse('daily_work_list')}?department={department}")
-                
+                    # Success message
+                    send_daily_work_piecework_created(
+                        request,
+                        results=results,
+                        works_dict=works_dict,
+                        work_date=work_date
+                    )
+
+                    return redirect(f"{reverse('daily_work_list')}?department={department}")       
     # Render the template with all context data
     return render(
         request,
