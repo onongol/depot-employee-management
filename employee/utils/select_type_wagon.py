@@ -1,5 +1,6 @@
 from employee.constants.constants import DEFAULT_WAGON_TYPE, ALLOWED_WAGON_DEPARTMENTS
 
+
 def get_type_wagon_filter_values(
     department,
     source_model: str = 'work',          # 'work' | 'piecework'
@@ -22,7 +23,6 @@ def get_type_wagon_filter_values(
     if not department or department not in ALLOWED_WAGON_DEPARTMENTS:
         return []
 
-    
     # Dynamically choose the source model and the department lookup path.
     deps = [department]
 
