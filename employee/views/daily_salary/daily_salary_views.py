@@ -1,6 +1,4 @@
-from django.shortcuts import render
 from django.views.generic import UpdateView, DeleteView
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
@@ -8,17 +6,9 @@ from django.utils.translation import gettext_lazy as _
 from employee.mixins.context_mixins import DailySalaryContextMixin
 from employee.mixins.delete_mixins import DeleteProtectionMixin
 from employee.mixins.block_message_mixins import BlockMessageMixin
-from employee.models import Employee
-from employee.models import DailySalary
 from employee.models import Piecework
 from employee.forms import UpdateDailySalaryForm
-from employee.utils.select_department import get_selected_department
-from employee.utils.filters import filter_daily_salaries
-from employee.utils.pagination import paginate_queryset
-from employee.utils.converting_date import format_date
 from employee.utils.permissions import OnlyAdminMixin
-from employee.utils.sorting import apply_ordering
-from employee.utils.selects import get_distinct_values
 from .daily_salary_create import daily_salary_create
 from .daily_salary_list import daily_salary_list
 
