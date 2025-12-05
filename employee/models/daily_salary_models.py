@@ -16,6 +16,13 @@ class DailySalary(models.Model):
         Employee, 
         on_delete=models.CASCADE
     )
+    employee_name = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        editable=False,
+        db_index=True,
+    )
     hours_per_day = models.IntegerField(
         default=11,
         validators=[MinValueValidator(0), MaxValueValidator(24)]
@@ -34,6 +41,9 @@ class DailySalary(models.Model):
     )
 
     def save(self, *args, **kwargs):
+        # Ensure snapshot of employee name is stored
+        if self.employee:
+            self.employee_name = self.employee.name
         # Ensure that the employee's money_per_hour is not None
         if self.employee.money_per_hour is None:
             raise ValueError("Employee's money_per_hour must not be None")
