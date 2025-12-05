@@ -100,14 +100,27 @@ def process_piecework(request_data):
     if errors:
         return None, None, errors
 
+    # Create mapping of employees from validated salary list to avoid per-row queries
+    employees_map = {str(ds.employee.employee_id): ds.employee for ds in employees_salary}
+
     # Create Piecework records within a transaction
     try:
         with transaction.atomic():
             group_id = str(uuid4())
             for data in results:
                 work_id = data['work_id']
+                emp_id = data['employee_id']
+
                 data['daily_work'] = daily_works.get(work_id)
                 data['group_id'] = group_id
+
+                emp_obj = employees_map.get(str(emp_id))
+                work_obj = works_dict.get(str(work_id))
+                
+                data['employee_name'] = getattr(emp_obj, 'name', None)
+                data['work_name'] = getattr(work_obj, 'work_name', None)
+                data['department'] = getattr(emp_obj, 'department', None)
+
                 Piecework.objects.create(**data)
     except Exception as e:
         logging.exception("Error creating daily work/piecework")
