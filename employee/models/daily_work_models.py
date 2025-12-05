@@ -21,6 +21,20 @@ class DailyWork(models.Model):
         Work, 
         on_delete=models.RESTRICT
     )
+    work_name = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        editable=False,
+        db_index=True,
+    )
+    department = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        editable=False,
+        db_index=True,
+    )
     type_work = models.CharField(
         max_length=50, 
         choices=TYPE_WORK_CHOICES
@@ -86,6 +100,14 @@ class DailyWork(models.Model):
                 self.job_title = self.work.job_title
             # Always normalize type_wagon: only keep if present, else None
             self.type_wagon = self.work.type_wagon or None
+
+        # Snapshot work_name and department from related Work
+            try:
+                self.work_name = getattr(self.work, 'work_name', None)
+                self.department = getattr(self.work, 'department', None)
+            except Exception:
+                self.work_name = None
+                self.department = None
 
         # Calculate amount_time
         std_time = getattr(self.work, 'standard_time', None)
