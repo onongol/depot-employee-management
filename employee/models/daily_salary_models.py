@@ -20,7 +20,7 @@ class DailySalary(models.Model):
         max_length=255,
         blank=True,
         null=False,
-        editable=False,
+        editable=False, # This field is auto-populated from Employee.name
         db_index=True,
     )
     hours_per_day = models.IntegerField(
