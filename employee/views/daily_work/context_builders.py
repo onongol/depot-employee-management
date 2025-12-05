@@ -22,7 +22,7 @@ def build_daily_piecework_context(request):
     # Get today's date
     today = timezone.now().date()
 
-    # Determine work_date: prefer GET, then POST, fallback to today
+    # Get and format the work_date from GET or POST parameters
     raw_work_date = request.GET.get('work_date') or request.POST.get('work_date')
     if not raw_work_date:
         work_date = today
