@@ -35,6 +35,8 @@ def create_daily_work_entries(selected_work_ids, amounts, job_title, type_work, 
         daily_work = DailyWork.objects.create(
             job_title=job_title or work_obj.job_title,
             work=work_obj,
+            work_name=work_obj.work_name,
+            department=work_obj.department,
             type_work=type_work,
             wagon_number=wagon_number,
             type_wagon=getattr(work_obj, 'type_wagon', None),
