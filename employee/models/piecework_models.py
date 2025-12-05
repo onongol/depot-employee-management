@@ -29,6 +29,20 @@ class Piecework(models.Model):
         Employee, 
         on_delete=models.CASCADE
     )
+    employee_name = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        editable=False,
+        db_index=True,
+    )
+    department = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        editable=False,
+        db_index=True,
+    )
     job_title = models.CharField(
         max_length=255,
         choices=JOB_TITLE_CHOICES,
@@ -39,6 +53,13 @@ class Piecework(models.Model):
     work = models.ForeignKey(
         Work, 
         on_delete=models.RESTRICT
+    )
+    work_name = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        editable=False,
+        db_index=True,
     )
     type_work = models.CharField(
         max_length=50, 
@@ -113,6 +134,24 @@ class Piecework(models.Model):
                 self.job_title = self.work.job_title
             # Always normalize type_wagon: only keep if present, else None
             self.type_wagon = self.work.type_wagon or None
+
+        # Snapshot employee_name, work_name and department
+        if self.employee:
+            try:
+                self.employee_name = self.employee.name
+            except Exception:
+                self.employee_name = None
+            try:
+                # prefer employee.department (piecework is per-employee)
+                self.department = getattr(self.employee, 'department', None)
+            except Exception:
+                self.department = None
+
+        if self.work:
+            try:
+                self.work_name = getattr(self.work, 'work_name', None)
+            except Exception:
+                self.work_name = None
 
         std_time = getattr(self.work, 'standard_time', None)
         std_time_dec = Decimal(str(std_time or 0))
