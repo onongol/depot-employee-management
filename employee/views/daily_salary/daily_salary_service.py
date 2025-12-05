@@ -43,6 +43,7 @@ def create_daily_salary_records(selected_ids, salary_date, hours_per_day):
                 DailySalary(
                     employee_id=emp_id,
                     employee_name=emp.name,
+                    department=emp.department,
                     salary_date=salary_date,
                     hours_per_day=hours_per_day,
                     salary_day=salary_day
