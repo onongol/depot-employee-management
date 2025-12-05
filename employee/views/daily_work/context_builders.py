@@ -11,6 +11,7 @@ from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.utils.converting_date import format_date
 
 
 def build_daily_piecework_context(request):
@@ -18,11 +19,31 @@ def build_daily_piecework_context(request):
     # Get the selected department from the request
     department = get_selected_department(request)
 
-    # Filter employees and works by selected department, or show none if not selected
-    employees = (
-        Employee.objects.filter(department=department, is_active=True).order_by('employee_id')
-        if department else Employee.objects.none()
-    )
+    # Get today's date
+    today = timezone.now().date()
+
+    # Determine work_date: prefer GET, then POST, fallback to today
+    raw_work_date = request.GET.get('work_date') or request.POST.get('work_date')
+    if not raw_work_date:
+        work_date = today
+    else:
+        work_date = format_date(raw_work_date)
+    if work_date is None:
+        work_date = None
+
+    # Filter employees and works by selected department.
+    # Only include employees who have a DailySalary record for work_date.
+    if department:
+        employees = (
+            Employee.objects
+            .filter(department=department, is_active=True)
+            .order_by('employee_id')
+        )
+        # If a work_date is provided, filter to employees with DailySalary on that date
+        if work_date:
+            employees = employees.filter(dailysalary__salary_date=work_date).distinct()
+    else:
+        employees = Employee.objects.none()
 
     # Expand department for works filtering
     works = (
@@ -44,9 +65,6 @@ def build_daily_piecework_context(request):
     # Get distinct type_wagon for filtering dropdown if department allows wagons
     type_wagons = get_type_wagon_filter_values(department)
 
-    # Get today's date
-    today = timezone.now().date()
-
     # Fetch existing Piecework records for the department to prevent duplicates
     existing_pieceworks = list(
         Piecework.objects.filter(employee__department=department)
@@ -60,6 +78,7 @@ def build_daily_piecework_context(request):
         'employees': employees,
         'works': works,
         'today': today,
+        'work_date': work_date,
         'errors': [],
         'selected_department': department,
         'cancel_url': reverse('daily_work_list'),
