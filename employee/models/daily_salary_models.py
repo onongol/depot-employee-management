@@ -19,7 +19,7 @@ class DailySalary(models.Model):
     employee_name = models.CharField(
         max_length=255,
         blank=True,
-        null=True,
+        null=False,
         editable=False,
         db_index=True,
     )
