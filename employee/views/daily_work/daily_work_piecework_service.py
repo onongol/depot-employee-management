@@ -116,7 +116,8 @@ def process_piecework(request_data):
 
                 emp_obj = employees_map.get(str(emp_id))
                 work_obj = works_dict.get(str(work_id))
-                
+
+                # Snapshot fields
                 data['employee_name'] = getattr(emp_obj, 'name', None)
                 data['work_name'] = getattr(work_obj, 'work_name', None)
                 data['department'] = getattr(emp_obj, 'department', None)
