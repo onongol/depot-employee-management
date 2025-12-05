@@ -26,7 +26,7 @@ class DailySalary(models.Model):
     department = models.CharField(
         max_length=255,
         blank=True,
-        null=True,          # initially True for safe migration + backfill
+        null=False,
         editable=False,
         db_index=True,
     )
