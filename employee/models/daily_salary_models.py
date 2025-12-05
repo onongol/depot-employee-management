@@ -23,6 +23,13 @@ class DailySalary(models.Model):
         editable=False, # This field is auto-populated from Employee.name
         db_index=True,
     )
+    department = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,          # initially True for safe migration + backfill
+        editable=False,
+        db_index=True,
+    )
     hours_per_day = models.IntegerField(
         default=11,
         validators=[MinValueValidator(0), MaxValueValidator(24)]
