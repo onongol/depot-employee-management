@@ -2,9 +2,13 @@ name: Django CI
 
 on:
   push:
-    branches: ["feature/replace-bootstrap-with-tailwind"]
+    branches: 
+      - "feature/replace-bootstrap-with-tailwind"
+      - "upgrade/django-5.2.9"
   pull_request:
-    branches: ["feature/replace-bootstrap-with-tailwind"]
+    branches:
+      - "feature/replace-bootstrap-with-tailwind"
+      - "upgrade/django-5.2.9"
 
 jobs:
   build:
