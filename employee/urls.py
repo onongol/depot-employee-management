@@ -18,7 +18,7 @@ from .views.piecework import piecework_list, piecework_create
 from .views.piecework import PieceworkUpdateView, PieceworkDeleteView
 from .views.piecework import piecework_export_excel
 from .views.employee_salary import employee_salary_list, employee_salary_export_excel, employee_salary_export_pdf
-from .views.material import material_list, export_material_excel
+from .views.material import material_list, material_export_excel
 from .views.wagon import wagon_list, export_wagon_excel
 
 
@@ -84,7 +84,7 @@ urlpatterns = [
 
     # Materials URL
     path('material/', material_list, name="material_list"),
-    path('export_material_excel/', export_material_excel, name="export_material_excel"),
+    path('material_export_excel/', material_export_excel, name="material_export_excel"),
 ]
 
 if settings.DEBUG:
