@@ -111,6 +111,21 @@
     {% include "includes/pagination.html" %}
   </nav>
 
+  <div class="flex gap-2 w-24 mt-4 mb-4">
+    <!-- Export Button Excel -->
+    <a
+      href="{% url 'piecework_export_excel' %}?employee_id={{ request.GET.employee_id }}&employee_name={{ request.GET.employee_name }}&job_title={{ request.GET.job_title }}&work_name={{ request.GET.work_name }}&type_work={{ request.GET.type_work }}&wagon_number={{ request.GET.wagon_number }}&type_wagon={{ request.GET.type_wagon }}&type_material={{ request.GET.type_material }}&range_date={{ request.GET.range_date }}&record_date={{ request.GET.record_date }}"
+      class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-400"
+      role="button"
+      aria-label="Download filtered pieceworks as Excel"
+    >
+      <svg class="w-5 h-5 mr-1" aria-hidden="true">
+        <use xlink:href="#download" />
+      </svg>
+      <span>Excel</span>
+    </a>
+  </div>
+  
   <!-- Include modals for delete and update -->
   {% include "includes/modals.html" %}
 
