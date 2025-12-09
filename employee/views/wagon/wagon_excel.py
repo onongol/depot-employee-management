@@ -56,7 +56,9 @@ def export_wagon_excel(request):
     empty_str = ""
 
     # Append totals row
-    data.append([total_str, empty_str, empty_str, empty_str, totals['total_amount'], totals['total_time'], totals['total_price'], empty_str])
+    data.append(
+        [total_str] + [empty_str] * 3 + [totals['total_amount'], totals['total_time'], totals['total_price']] + [empty_str]
+    )
 
     file_name = "wagon.xlsx"
 
