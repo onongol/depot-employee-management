@@ -43,7 +43,7 @@
 
     {% include "includes/filter_input.html" with id="employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Search by Name...") %}
 
-    {% include "includes/filter_select.html" with id="select-job-title" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") badge=_("Both tables") %}
+    {% include "includes/filter_select.html" with id="select-job-title" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
   </div>
 
   <!-- Employee Table -->
