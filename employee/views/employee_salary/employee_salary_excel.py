@@ -9,9 +9,10 @@ def employee_salary_export_excel(request):
     employee_salaries = get_filtered_employee_salaries(request)
 
     headers = [
-        _("Department"),
+        _("#"),
         _("ID"),
         _("Name"),
+        _("Department"),
         _("Position"),
         #_("Month Salary"),
         _("Salary"),
@@ -24,9 +25,10 @@ def employee_salary_export_excel(request):
 
     data = [
         [
-            item['employee'].department or "",
+            i + 1,
             item['employee'].employee_id or "",
             item['employee'].name or "",
+            item['employee'].department or "",
             item['employee'].job_title or "",
             #item['total_salary_day'] or 0,
             item['total_piecework_amount'] or 0,
@@ -34,7 +36,7 @@ def employee_salary_export_excel(request):
             item['month'] or "",
             item['year'] or "",
         ]
-        for item in employee_salaries
+        for i, item in enumerate(employee_salaries)
     ]
 
     file_name = "employee_salaries.xlsx"
