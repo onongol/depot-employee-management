@@ -41,8 +41,10 @@ def piecework_export_excel(request):
 
     # Headers
     headers = [
+        _("#"),
         _("ID"),
         _("Name"),
+        _("Department"),
         _("Position"),
         _("Work"),
         _("Type"),
@@ -72,8 +74,10 @@ def piecework_export_excel(request):
 
     for pw in pieceworks:
         row = [
+            len(data) + 1,
             pw.employee.employee_id or "",
             pw.employee.name or "",
+            pw.department or "",
             pw.job_title or "",
             pw.work.work_name or "",
             pw.type_work or "",
@@ -100,7 +104,7 @@ def piecework_export_excel(request):
     empty_row = ""
 
     # Determine number of empty columns based on department
-    empty_cols = 6 if department in ALLOWED_WAGON_DEPARTMENTS else 4
+    empty_cols = 8 if department in ALLOWED_WAGON_DEPARTMENTS else 6
 
     data.append(
         [total_str] + [empty_row] * empty_cols + [total_amount, total_amount_time, total_amount_price] + [empty_row]
