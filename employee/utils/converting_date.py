@@ -17,12 +17,33 @@ def format_date(date_str):
 
 def parse_date_range(range_date):
     """
-    Parse date range string 'YYYY-MM-DD to YYYY-MM-DD' and return (start_date, end_date).
+    Parse date range and return (start_date, end_date).
+    Supports:
+      - 'YYYY-MM-DD to YYYY-MM-DD'
+      - 'YYYY-MM-DD - YYYY-MM-DD'
+      - single 'YYYY-MM-DD' (treated as start=end)
     Returns (None, None) if parsing fails.
     """
     try:
-        start_str, end_str = [d.strip() for d in range_date.split('to')]
-        return parse_date(start_str), parse_date(end_str)
+        range_str = (range_date or "").strip()
+        if not range_str:
+            return None, None
+
+        # Try known separators
+        for sep in (' to ', ' - ', '–', '—'):
+            if sep in range_str:
+                start_str, end_str = [date_obj.strip() for date_obj in range_str.split(sep, 1)]
+                start = parse_date(start_str)
+                end = parse_date(end_str)
+                return (start, end) if start and end else (None, None)
+
+        # Single date -> same start/end
+        single = parse_date(range_str)
+        if single:
+            return single, single
+
+        return None, None
+    
     except Exception as e:
         logging.warning(f'Invalid date range: {range_date} ({e})')
         return None, None
