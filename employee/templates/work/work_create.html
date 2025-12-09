@@ -9,9 +9,9 @@
     <legend class="sr-only">Create Work Details</legend>
     {% include "includes/department_input_hidden.html" %}
 
-    {% include "includes/form_select.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
-
     {% include "includes/form_input.html" with id="work_name" label=_("Work Name") name="work_name" type="text" value=form.work_name.value form_errors=form.work_name required=True placeholder=_("Unique name of the work") %}
+
+    {% include "includes/form_select.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
 
     {% if SHOW_TYPE_WAGON %}
       {% include "includes/form_select.html" with id=form.type_wagon.id_for_label label=_("Type Wagon") name="type_wagon" choices=form.type_wagon.field.choices selected=form.type_wagon.value required=False %}
