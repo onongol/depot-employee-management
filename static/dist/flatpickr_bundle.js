@@ -2655,8 +2655,7 @@
     esm_default(".js-flatpickr-range", {
       mode: "range",
       dateFormat: "Y-m-d",
-      allowInput: true,
-      rangeSeparator: " - "
+      allowInput: true
     });
     esm_default(".js-flatpickr-month", {
       plugins: [new import_monthSelect.default({

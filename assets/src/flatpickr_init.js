@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
     mode: "range",
     dateFormat: "Y-m-d",
     allowInput: true,
-    rangeSeparator: " - "
   });
   // Month Picker
   flatpickr(".js-flatpickr-month", {
