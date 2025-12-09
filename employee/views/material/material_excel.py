@@ -50,7 +50,9 @@ def export_material_excel(request):
     total_str = str(total_str)
     empty_row = ""
 
-    data.append([total_str, empty_row, empty_row, empty_row, total_amount])
+    data.append(
+        [total_str] + [empty_row] * 3 + [total_amount]
+    )
 
     file_name = "material.xlsx"
     
