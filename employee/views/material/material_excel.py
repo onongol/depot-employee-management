@@ -23,23 +23,26 @@ def material_export_excel(request):
 
     # Prepare data for Excel
     headers = [
-        _("Date"), 
+        _(""),
+        _("Type Material"),
         _("Work Name"), 
-        _("Type Material"), 
-        _("Amount Material")
+        _("Amount Material"),
+        _("Date"),
     ]
 
     headers = [str(h) for h in headers]
 
     # Format data for export to Excel
     data = [
-        [
-            item['work_date'] or "",
-            item['work__work_name'] or "",
+        [   
+            i + 1,
             item['work__type_material'] or "",
+            item['work__work_name'] or "",
             item['amount_material'] or 0,
+            item['work_date'] or "",
+
         ]
-        for item in daily_works
+        for i, item in enumerate(daily_works)
     ]
 
     # Calculate total amount of material
@@ -50,7 +53,7 @@ def material_export_excel(request):
     empty_row = ""
 
     data.append(
-        [total_str] + [empty_row] * 3 + [total_amount]
+        [total_str] + [empty_row] * 2 + [total_amount] + [empty_row]
     )
 
     file_name = "material.xlsx"
