@@ -15,11 +15,11 @@
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="material-list-title">
     <div class="flex flex-col md:flex-row gap-4">
-      {% include "includes/filter_date_range.html" with id="filter-range-date" label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
-
+      {% include "includes/filter_select.html" with id="filter-type-material" label=_("Type Material") name="type_material" choices=type_materials selected=request.GET.type_material empty_label=_("Materials") %}
+      
       {% include "includes/filter_input.html" with id="filter-work-name" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name %}
 
-      {% include "includes/filter_select.html" with id="filter-type-material" label=_("Type Material") name="type_material" choices=type_materials selected=request.GET.type_material empty_label=_("Materials") %}
+      {% include "includes/filter_date_range.html" with id="filter-range-date" label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
       
       <div class="flex flex-col">
         <button
@@ -38,12 +38,12 @@
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
             <th scope="col" class="{{ col_class }}">
               {% include "includes/order_by_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
             </th>
-            <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
           {% endwith %}
         </tr>
       </thead>
@@ -52,10 +52,10 @@
           <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
             {% with col_class="px-6 py-3" %}
               <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-              <td class="{{ col_class }}">{{ dw.work_date|date:"Y-m-d" }}</td>
-              <td class="{{ col_class }}">{{ dw.work__work_name }}</td>
               <td class="{{ col_class }}">{{ dw.work__type_material }}</td>
+              <td class="{{ col_class }}">{{ dw.work__work_name }}</td>
               <td class="{{ col_class }}">{{ dw.amount_material|floatformat:2 }}</td>
+              <td class="{{ col_class }}">{{ dw.work_date|date:"Y-m-d" }}</td>
             {% endwith %}
           </tr>
         {% endfor %}

@@ -5,17 +5,17 @@
     <td class="{{ col_class }}">
       {% trans "Total" %}:
     </td>
-    <td>
-      {{ range_date }}
+    <td class="{{ col_class }}">
+      {{ type_material }}
     </td>
     <td class="{{ col_class }}">
       {{ work_name }}
     </td>
     <td class="{{ col_class }}">
-      {{ type_material }}
-    </td>
-    <td class="{{ col_class }}">
       {{ sum_amount|floatformat:2|default_if_none:"0.00" }}
+    </td>
+    <td>
+      {{ range_date }}
     </td>
   {% endwith %}
 </tr>
