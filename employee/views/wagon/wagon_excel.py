@@ -5,7 +5,7 @@ from employee.utils.filters import filter_wagon
 from .wagon_prepare import wagon_prepare
 from .wagon_aggregation import get_grouped_wagon_data, get_totals
 
-def export_wagon_excel(request):
+def wagon_export_excel(request):
     """Export wagon data to Excel."""
     dailyworks, wagon_number, type_wagon, work_name, type_work, range_date, department = wagon_prepare(request)
 
