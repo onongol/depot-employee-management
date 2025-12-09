@@ -24,8 +24,9 @@ def wagon_export_excel(request):
     totals = get_totals(dailyworks)
 
     headers = [
+        _("#"),
         _("Wagon Number"),
-        _("Type Work"),
+        _("Type Wagon"),
         _("Work Name"),
         _("Type Work"),
         _("Amount"),
@@ -38,7 +39,8 @@ def wagon_export_excel(request):
 
     # Format data for export to Excel
     data = [
-        [
+        [   
+            i + 1,
             row['wagon_number'],
             row['type_wagon'],
             row['work__work_name'],
@@ -48,7 +50,7 @@ def wagon_export_excel(request):
             row['total_price'],
             row['work_date'],
         ]
-        for row in wagon_data
+        for i, row in enumerate(wagon_data)
     ]
 
     total_str = _("Total")
@@ -57,7 +59,7 @@ def wagon_export_excel(request):
 
     # Append totals row
     data.append(
-        [total_str] + [empty_str] * 3 + [totals['total_amount'], totals['total_time'], totals['total_price']] + [empty_str]
+        [total_str] + [empty_str] * 4 + [totals['total_amount'], totals['total_time'], totals['total_price']] + [empty_str]
     )
 
     file_name = "wagon.xlsx"
