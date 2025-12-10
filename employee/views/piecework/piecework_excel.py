@@ -111,7 +111,6 @@ def piecework_export_excel(request):
     )
 
     file_name = "piecework.xlsx"
-
     sheet_title = str(_("Piecework"))   
 
     return export_to_excel(data, headers, file_name, sheet_title)
