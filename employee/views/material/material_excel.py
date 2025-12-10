@@ -23,7 +23,7 @@ def material_export_excel(request):
 
     # Prepare data for Excel
     headers = [
-        _(""),
+        _("#"),
         _("Type Material"),
         _("Work Name"), 
         _("Amount Material"),
