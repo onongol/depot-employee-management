@@ -12,7 +12,6 @@ from employee.forms.daily_work_forms import UpdateDailyWorkForm
 from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.utils.select_department import get_selected_department
 from .daily_work_piecework_create import daily_work_piecework_create
-from .daily_work_list import daily_work_list
 
 
 class DailyWorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMixin, SuccessMessageMixin, UpdateView):
