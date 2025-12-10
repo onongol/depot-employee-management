@@ -182,7 +182,10 @@
     <!-- Info notice when no employees for selected date -->
     <div class="mb-4 rounded-md shadow-sm border-l-4 border-yellow-400 bg-yellow-50 p-3 dark:bg-yellow-500/20 dark:border-yellow-600">
       <p class="text-sm text-yellow-800 dark:text-yellow-400">
-        {% trans "<strong>No employees available for the selected date!</strong> Choose another date to assign works. After selecting a date with available employees, you can assign works." %}
+        {% blocktrans trimmed %}
+        <strong>No available employees for the selected date.</strong><br>
+        Please <strong>create Daily Salary</strong> records for this date or <strong>choose another date</strong> to assign work. Employees can only be assigned works after selecting a date with available employee records.
+        {% endblocktrans %}
       </p>
     </div>
   {% endif %}
