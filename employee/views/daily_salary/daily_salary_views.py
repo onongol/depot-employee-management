@@ -9,8 +9,6 @@ from employee.mixins.block_message_mixins import BlockMessageMixin
 from employee.models import Piecework
 from employee.forms import UpdateDailySalaryForm
 from employee.utils.permissions import OnlyAdminMixin
-from .daily_salary_create import daily_salary_create
-from .daily_salary_list import daily_salary_list
 
 
 class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, SuccessMessageMixin, UpdateView):
