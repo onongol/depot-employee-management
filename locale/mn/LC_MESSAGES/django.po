@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-09 16:57+0800\n"
+"POT-Creation-Date: 2025-12-10 09:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Овог Нэр (жишээ нь: Д.Сүхбаатар эсвэл А.Гүн-Аажав) хэлбэрээр оруулна уу."
 
 #: employee/forms/register_forms.py:12
-#: employee/templates/daily_salary/daily_salary_create.html:29
+#: employee/templates/daily_salary/daily_salary_create.html:33
 #: employee/templates/daily_salary/daily_salary_list.html:21
 #: employee/templates/daily_work/daily_work_piecework_create.html:42
 #: employee/templates/employee/employee_create.html:12
@@ -143,8 +143,8 @@ msgstr "Нэвтрэх"
 #: employee/templates/auth/login.html:67
 #: employee/templates/auth/password_change.html:56
 #: employee/templates/auth/register.html:56
-#: employee/templates/daily_salary/daily_salary_create.html:106
-#: employee/templates/daily_work/daily_work_piecework_create.html:211
+#: employee/templates/daily_salary/daily_salary_create.html:121
+#: employee/templates/daily_work/daily_work_piecework_create.html:214
 #: employee/templates/forms/create_form.html:48
 #: employee/templates/forms/update_form.html:48
 #: employee/templates/includes/modals.html:38
@@ -207,7 +207,7 @@ msgstr "Дээрх навигацийн талбарт унадаг тэнхим
 msgid "New"
 msgstr "Шинэ"
 
-#: employee/templates/daily_salary/daily_salary_create.html:23
+#: employee/templates/daily_salary/daily_salary_create.html:27
 #: employee/templates/daily_salary/daily_salary_list.html:28
 #: employee/templates/daily_salary/daily_salary_list.html:55
 #: employee/templates/daily_salary/daily_salary_update.html:11
@@ -225,7 +225,7 @@ msgstr "Шинэ"
 msgid "Date"
 msgstr "Огноо"
 
-#: employee/templates/daily_salary/daily_salary_create.html:25
+#: employee/templates/daily_salary/daily_salary_create.html:29
 #: employee/templates/daily_work/daily_work_list.html:56
 #: employee/templates/employee_salary/employee_salary_list.html:41
 #: employee/templates/piecework/piecework_list.html:61
@@ -235,12 +235,12 @@ msgstr "Огноо"
 msgid "Time"
 msgstr "Цаг"
 
-#: employee/templates/daily_salary/daily_salary_create.html:29
+#: employee/templates/daily_salary/daily_salary_create.html:33
 #: employee/templates/daily_work/daily_work_piecework_create.html:42
 msgid "Search by ID..."
 msgstr "ИД-аар хайх..."
 
-#: employee/templates/daily_salary/daily_salary_create.html:31
+#: employee/templates/daily_salary/daily_salary_create.html:35
 #: employee/templates/daily_salary/daily_salary_list.html:23
 #: employee/templates/daily_work/daily_work_piecework_create.html:44
 #: employee/templates/employee/employee_create.html:14
@@ -251,12 +251,12 @@ msgstr "ИД-аар хайх..."
 msgid "Employee Name"
 msgstr "Ажилтаны Нэр"
 
-#: employee/templates/daily_salary/daily_salary_create.html:31
+#: employee/templates/daily_salary/daily_salary_create.html:35
 #: employee/templates/daily_work/daily_work_piecework_create.html:44
 msgid "Search by Name..."
 msgstr "Нэрээр хайх..."
 
-#: employee/templates/daily_salary/daily_salary_create.html:33
+#: employee/templates/daily_salary/daily_salary_create.html:37
 #: employee/templates/daily_salary/daily_salary_list.html:25
 #: employee/templates/daily_work/daily_work_list.html:21
 #: employee/templates/employee/employee_list.html:25
@@ -266,7 +266,7 @@ msgstr "Нэрээр хайх..."
 msgid "Job Title"
 msgstr "Албан Тушаал"
 
-#: employee/templates/daily_salary/daily_salary_create.html:33
+#: employee/templates/daily_salary/daily_salary_create.html:37
 #: employee/templates/daily_salary/daily_salary_list.html:25
 #: employee/templates/daily_work/daily_work_list.html:21
 #: employee/templates/daily_work/daily_work_piecework_create.html:47
@@ -277,11 +277,11 @@ msgstr "Албан Тушаал"
 msgid "Positions"
 msgstr "Албан Тушаал"
 
-#: employee/templates/daily_salary/daily_salary_create.html:51
+#: employee/templates/daily_salary/daily_salary_create.html:55
 msgid "Select all employees"
 msgstr "Бүх ажилчдыг сонго"
 
-#: employee/templates/daily_salary/daily_salary_create.html:53
+#: employee/templates/daily_salary/daily_salary_create.html:57
 #: employee/templates/daily_salary/daily_salary_list.html:47
 #: employee/templates/daily_work/daily_work_piecework_create.html:67
 #: employee/templates/employee/employee_list.html:41
@@ -293,7 +293,7 @@ msgstr "Бүх ажилчдыг сонго"
 msgid "ID"
 msgstr "ИД"
 
-#: employee/templates/daily_salary/daily_salary_create.html:54
+#: employee/templates/daily_salary/daily_salary_create.html:58
 #: employee/templates/daily_salary/daily_salary_list.html:48
 #: employee/templates/daily_work/daily_work_piecework_create.html:68
 #: employee/templates/employee/employee_list.html:42
@@ -305,7 +305,7 @@ msgstr "ИД"
 msgid "Name"
 msgstr "Нэр"
 
-#: employee/templates/daily_salary/daily_salary_create.html:55
+#: employee/templates/daily_salary/daily_salary_create.html:59
 #: employee/templates/daily_salary/daily_salary_list.html:49
 #: employee/templates/daily_work/daily_work_list.html:49
 #: employee/templates/daily_work/daily_work_piecework_create.html:47
@@ -325,21 +325,31 @@ msgstr "Нэр"
 msgid "Position"
 msgstr "Албан Тушаал"
 
-#: employee/templates/daily_salary/daily_salary_create.html:91
-#: employee/templates/daily_work/daily_work_piecework_create.html:192
+#: employee/templates/daily_salary/daily_salary_create.html:96
+msgid ""
+"<strong>No employee profiles exist for the selected department.</strong><br> "
+"Please <strong>create employee profiles</strong> for this department. You "
+"can then proceed to create the <strong>Daily Salary</strong> records."
+msgstr ""
+"<strong>Сонгосон хэлтэст ажилтны профайл (бүртгэл) байхгүй байна.</"
+"strong><br>Энэхүү хэлтэст зориулж <strong>ажилтны профайлыг</strong> үүсгэнэ үү. "
+"Үүний дараа та <strong>Өдрийн Бүртгэлгийн</strong> бичлэгүүдийг үүсгэх боломжтой болно."
+
+#: employee/templates/daily_salary/daily_salary_create.html:106
+#: employee/templates/daily_work/daily_work_piecework_create.html:195
 msgid "Selected Employees:"
 msgstr "Сонгогдсон ажилчид:"
 
-#: employee/templates/daily_salary/daily_salary_create.html:100
-#: employee/templates/daily_work/daily_work_piecework_create.html:205
+#: employee/templates/daily_salary/daily_salary_create.html:115
+#: employee/templates/daily_work/daily_work_piecework_create.html:208
 #: employee/templates/forms/create_form.html:41
 #: employee/templates/forms/update_form.html:41
 #: employee/templates/includes/save_duplicate_modal.html:30
 msgid "Save"
 msgstr "Хадгалах"
 
-#: employee/templates/daily_salary/daily_salary_create.html:128
-#: employee/templates/daily_work/daily_work_piecework_create.html:243
+#: employee/templates/daily_salary/daily_salary_create.html:143
+#: employee/templates/daily_work/daily_work_piecework_create.html:246
 #: employee/views/daily_salary/validators.py:10
 #: employee/views/daily_work/validators.py:46
 msgid "Please select at least one employee."
@@ -483,23 +493,27 @@ msgstr "Бүх бүтээлийг сонго"
 
 #: employee/templates/daily_work/daily_work_piecework_create.html:185
 msgid ""
-"<strong>No employees available for the selected date!</strong> Choose "
-"another date to assign works. After selecting a date with available "
-"employees, you can assign works."
+"<strong>No available employees for the selected date.</strong><br> Please "
+"<strong>create Daily Salary</strong> records for this date or <strong>choose "
+"another date</strong> to assign work. Employees can only be assigned works "
+"after selecting a date with available employee records."
 msgstr ""
-"<strong>Сонгосон огноогоор ажилтан байхгүй!</strong> Сонго ажил хуваарилах өөр "
-"огноо. Боломжтой ажилчидтай огноог сонгосны дараа та ажил хуваарилж болно."
+"<strong>Сонгосон огноонд ажиллах боломжтой ажилтан байхгүй байна.</"
+"strong><br>Энэхүү огноонд зориулсан <strong>Өдрийн Бүртгэлгийн</strong> "
+"бичлэгүүдийг үүсгэнэ үү эсвэл ажил хуваарилах <strong>өөр огноо сонгоно уу</"
+"strong>. Боломжит ажилтны бүртгэлтэй огноог сонгосны дараа л ажилтнуудад "
+"ажил хуваарилах боломжтой."
 
-#: employee/templates/daily_work/daily_work_piecework_create.html:195
+#: employee/templates/daily_work/daily_work_piecework_create.html:198
 msgid "Selected Works:"
 msgstr "Сонгосон бүтээлүүд:"
 
-#: employee/templates/daily_work/daily_work_piecework_create.html:244
+#: employee/templates/daily_work/daily_work_piecework_create.html:247
 #: employee/views/daily_work/validators.py:48
 msgid "Please select at least one work."
 msgstr "Дор хаяж нэг бүтээл сонгоно уу."
 
-#: employee/templates/daily_work/daily_work_piecework_create.html:251
+#: employee/templates/daily_work/daily_work_piecework_create.html:254
 msgid "Please fill in the amount for selected work(s)"
 msgstr "Сонгосон ажлын дүнг бөглөнө үү"
 
