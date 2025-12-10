@@ -16,6 +16,10 @@ def daily_salary_create(request):
     # Build context for the template
     context = build_daily_salary_context(request)
 
+    # PRE-CHECK: no employees available for selected department
+    if not context.get('employees'):
+        return render(request, 'daily_salary/daily_salary_create.html', context)
+
     # Handle form submission
     if request.method == 'POST':
         selected_ids = [int(emp_id) for emp_id in request.POST.getlist('employee_ids')] # Convert to integers

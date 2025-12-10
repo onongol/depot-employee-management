@@ -22,7 +22,7 @@
 
     <!-- If employees exist show -->
     {% if employees %}
-    
+
       <!-- Form Fields -->
       {% include "includes/form_date.html" with id="salary_date" label=_("Date") name="salary_date" type="text" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True %}
 
@@ -110,7 +110,13 @@
     <div class="flex flex-col sm:flex-row gap-2 mt-6">
       <button
         type="submit"
+        {% if not employees %}
+        disabled
+        aria-disabled="true"
+        class="px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow opacity-50 cursor-not-allowed"
+        {% else %}
         class="px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+        {% endif %}
       >
         {% trans "Save" %}
       </button>
