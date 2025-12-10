@@ -13,6 +13,8 @@ def employee_salary_export_pdf(request):
         _("ID"),
         _("Name"),
         _("Position"),
+        _("Rank"),
+        _("Time"),
         #_("Month Salary"),
         _("Salary"),
         #_("Total Salary"),
@@ -22,7 +24,8 @@ def employee_salary_export_pdf(request):
     
     headers = [str(h) for h in headers]
 
-    col_widths = [150, 55, 180, 180, 115, 55, 55]
+    # A4 Landscape ~842pt; usable width ~800pt
+    col_widths = [150, 50, 150, 150, 50, 50, 100, 50, 50]
     
     data = [
         [
@@ -30,6 +33,8 @@ def employee_salary_export_pdf(request):
             item['employee'].employee_id or "",
             item['employee'].name or "",
             item['employee'].job_title or "",
+            item['employee'].rank or "",
+            item['total_piecework_time'] or 0,
             #item['total_salary_day'] or 0,
             item['total_piecework_amount'] or 0,
             #item['total_salary'] or 0,
@@ -41,11 +46,11 @@ def employee_salary_export_pdf(request):
 
     # Define column alignments
     col_alignments = [
-        ('ALIGN', (0, 1), (0, -1), 'LEFT'),     # ID column centered
+        ('ALIGN', (0, 1), (0, -1), 'LEFT'),     # ID 
         ('ALIGN', (1, 1), (3, -1), 'LEFT'),     # Name, Department, Job Title 
-        ('ALIGN', (4, 1), (4, -1), 'LEFT'),     # Rank column centered
-        ('ALIGN', (5, 1), (7, -1), 'LEFT'),     # Salary Month, Total Piecework, Total Salary
-        ('ALIGN', (8, 1), (9, -1), 'LEFT'),     # Month and Year centered
+        ('ALIGN', (4, 1), (4, -1), 'LEFT'),     # Rank 
+        ('ALIGN', (5, 1), (6, -1), 'LEFT'),     # Time, Salary  
+        ('ALIGN', (7, 1), (8, -1), 'LEFT'),     # Month, Year
     ]
 
     file_name = "employee_salaries.pdf"
