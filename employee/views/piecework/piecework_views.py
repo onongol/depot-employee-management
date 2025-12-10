@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from django.db.models import Sum
+from django.shortcuts import redirect
 from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,19 +6,11 @@ from django.utils.translation import gettext_lazy as _
 
 from employee.mixins.context_mixins import PieceworkContextMixin
 from employee.mixins.delete_mixins import DeleteWarningMixin
-from employee.models import Piecework
 from employee.models import DailySalary
 from employee.forms import UpdatePieceworkForm
 from employee.utils.select_department import get_selected_department
-from employee.utils.filters import filter_pieceworks
-from employee.utils.pagination import paginate_queryset
-from employee.utils.sorting import apply_ordering
-from employee.utils.selects import get_distinct_values
-from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.permissions import OnlyAdminMixin, is_creater
 from employee.views.piecework.piecework_calculation import piecework_calculate_update
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
-from .piecework_list import piecework_list
 
 class PieceworkUpdateView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, UpdateView):
     login_url = 'login'
