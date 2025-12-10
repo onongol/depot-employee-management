@@ -35,7 +35,7 @@ def daily_work_list(request):
     wagon_number = request.GET.get('wagon_number')
     type_wagon = request.GET.get('type_wagon')
     type_material = request.GET.get('type_material')
-    work_date = request.GET.get('work_date')
+    range_date = request.GET.get('range_date')
     record_date = request.GET.get('record_date')
 
     # Apply all filters using a reusable filter function
@@ -47,7 +47,7 @@ def daily_work_list(request):
         wagon_number=wagon_number,
         type_wagon=type_wagon,
         type_material=type_material,
-        work_date=work_date,
+        range_date=range_date,
         record_date=record_date
     )
 
@@ -81,7 +81,7 @@ def daily_work_list(request):
         'wagon_number': wagon_number or '',
         'type_wagon': type_wagon or '',
         'type_material': type_material or '',
-        'work_date': work_date or '',
+        'range_date': range_date or '',
         'record_date': record_date or '',
         'department': department or '',
     }
@@ -96,7 +96,7 @@ def daily_work_list(request):
             'wagon_number': wagon_number,
             'type_wagon': type_wagon,
             'type_material': type_material,
-            'work_date': work_date,
+            'range_date': range_date,
             'record_date': record_date,
             'daily_works': page_obj,
             'page_obj': page_obj,
