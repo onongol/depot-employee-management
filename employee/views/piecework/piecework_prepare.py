@@ -1,6 +1,7 @@
 from employee.models import Piecework
 from employee.utils.select_department import get_selected_department
 
+
 def piecework_prepare(request):
     """Prepare base queryset and filter params for Piecework."""
     department = get_selected_department(request)
