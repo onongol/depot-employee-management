@@ -32,7 +32,7 @@
       {{ totals.total_price|floatformat:2|default_if_none:"0.00" }}
     </td>
     <td class="{{ col_class }}">
-      {{ work_date }}
+      {{ range_date }}
     </td>
     {% if not is_employee %}
       <td class="{{ col_class }}">
