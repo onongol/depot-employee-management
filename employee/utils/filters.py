@@ -50,7 +50,7 @@ job_title=None, salary_date=None, record_date=None):
     return queryset
 
 
-def filter_daily_works(queryset, job_title=None, work_name=None, type_work=None, wagon_number=None, type_wagon=None, type_material=None, work_date=None, record_date=None):
+def filter_daily_works(queryset, job_title=None, work_name=None, type_work=None, wagon_number=None, type_wagon=None, type_material=None, range_date=None, record_date=None):
     """Reusable filter for DailyWork queryset."""
     if job_title:
         queryset =queryset.filter(job_title=job_title)   
@@ -70,8 +70,12 @@ def filter_daily_works(queryset, job_title=None, work_name=None, type_work=None,
            queryset =queryset.filter(type_wagon=type_wagon)
     if type_material:
        queryset =queryset.filter(work__type_material=type_material)
-    if work_date:
-       queryset =queryset.filter(work_date=work_date)
+    if range_date:
+        start_date, end_date = parse_date_range(range_date)
+        if start_date:
+            queryset = queryset.filter(work_date__gte=start_date)
+        if end_date:
+            queryset = queryset.filter(work_date__lte=end_date)
     if record_date:
        queryset =queryset.filter(record_date__date=record_date)
     return queryset
