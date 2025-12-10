@@ -13,6 +13,10 @@ def daily_work_piecework_create(request):
     # Build the context for the view
     context = build_daily_piecework_context(request)
 
+    # PRE-CHECK: no employees available for selected date/department
+    if not context.get('employees'):
+        return render(request, 'daily_work/daily_work_piecework_create.html', context)
+    
     # Handle form submission
     if request.method == 'POST':
         work_date = request.POST.get('work_date')
