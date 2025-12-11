@@ -1,9 +1,10 @@
 import re
+
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from employee.models import Employee
 from employee.constants.constants import get_job_title_choices
+from employee.models import Employee
 
 
 class EmployeeFormMixin:
