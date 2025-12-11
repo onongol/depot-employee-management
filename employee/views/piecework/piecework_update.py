@@ -1,13 +1,13 @@
-from django.shortcuts import redirect
-from django.views.generic import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import UpdateView
 
-from employee.models import DailySalary
 from employee.forms import UpdatePieceworkForm
 from employee.mixins.context_mixins import PieceworkContextMixin
-from employee.utils.select_department import get_selected_department
+from employee.models import DailySalary
 from employee.utils.permissions import OnlyAdminMixin
+from employee.utils.select_department import get_selected_department
 from employee.views.piecework.piecework_calculation import piecework_calculate_update
 
 
