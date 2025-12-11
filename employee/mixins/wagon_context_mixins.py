@@ -1,5 +1,5 @@
-from employee.utils.select_department import get_selected_department
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.utils.select_department import get_selected_department
 
 
 class WagonContextMixin:
