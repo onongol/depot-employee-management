@@ -1,11 +1,16 @@
 from datetime import date
 from decimal import Decimal
-from django.db import models
-from django.core.validators import MinValueValidator
 
-from .work_models import Work
+from django.core.validators import MinValueValidator
+from django.db import models
+
+from employee.constants.constants import (DEFAULT_WAGON_NUMBER,
+                                          DEFAULT_WAGON_TYPE,
+                                          JOB_TITLE_CHOICES,
+                                          TYPE_WAGON_CHOICES,
+                                          TYPE_WORK_CHOICES)
+from employee.models.work_models import Work
 from employee.utils.daily_work_sync import sync_piecework_with_dailywork
-from employee.constants.constants import  JOB_TITLE_CHOICES, TYPE_WORK_CHOICES, TYPE_WAGON_CHOICES, DEFAULT_WAGON_TYPE, DEFAULT_WAGON_NUMBER
 
 
 class DailyWork(models.Model):
