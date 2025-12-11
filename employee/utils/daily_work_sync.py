@@ -6,8 +6,7 @@ def sync_piecework_with_dailywork(dailywork):
     """ After saving DailyWork, update related Piecework.amount_price """
     try:
         # Local imports to avoid circular import issues
-        from employee.models.piecework_models import Piecework
-        from employee.models.daily_salary_models import DailySalary
+        from employee.models import DailySalary, Piecework
         from employee.views.piecework.piecework_calculation import piecework_calculate_update
 
         # Get department from the related Work
