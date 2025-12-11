@@ -1,13 +1,16 @@
-from django.db import models
-from django.core.validators import MinValueValidator
 from datetime import date
 from decimal import Decimal
 from uuid import uuid4
 
-from .employee_models import Employee
-from .work_models import Work
-from .daily_work_models import DailyWork
-from employee.constants.constants import TYPE_WORK_CHOICES, DEFAULT_WAGON_NUMBER, JOB_TITLE_CHOICES, TYPE_WAGON_CHOICES, DEFAULT_WAGON_TYPE
+from django.core.validators import MinValueValidator
+from django.db import models
+
+from employee.constants.constants import (DEFAULT_WAGON_NUMBER,
+                                          DEFAULT_WAGON_TYPE,
+                                          JOB_TITLE_CHOICES,
+                                          TYPE_WAGON_CHOICES,
+                                          TYPE_WORK_CHOICES)
+from employee.models import DailyWork, Employee, Work
 
 
 class Piecework(models.Model):
