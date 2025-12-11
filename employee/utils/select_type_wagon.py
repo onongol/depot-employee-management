@@ -1,4 +1,5 @@
-from employee.constants.constants import DEFAULT_WAGON_TYPE, ALLOWED_WAGON_DEPARTMENTS
+from employee.constants.constants import (ALLOWED_WAGON_DEPARTMENTS,
+                                          DEFAULT_WAGON_TYPE)
 
 
 def get_type_wagon_filter_values(
