@@ -1,12 +1,12 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 
-from employee.utils.pagination import paginate_queryset
 from employee.utils.filters import filter_wagon
+from employee.utils.pagination import paginate_queryset
 from employee.utils.sorting import apply_ordering
-from .wagon_prepare import wagon_prepare
-from .wagon_grouping import get_grouped_wagon_data
-from .wagon_totals import get_totals
+from employee.views.wagon.wagon_grouping import get_grouped_wagon_data
+from employee.views.wagon.wagon_prepare import wagon_prepare
+from employee.views.wagon.wagon_totals import get_totals
 
 
 @login_required(login_url='login')
