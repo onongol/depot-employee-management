@@ -2,11 +2,11 @@ from django.utils.translation import gettext_lazy as _
 
 from employee.utils.export_excel import export_to_excel
 from employee.utils.filters import filter_wagon
-from ..wagon_prepare import wagon_prepare
-from ..wagon_grouping import get_grouped_wagon_data
-from .build_headers import build_headers
-from .format_data import iter_rows
-from .build_totals_row import build_totals_row
+from employee.views.wagon.wagon_export.build_headers import build_headers
+from employee.views.wagon.wagon_export.build_totals_row import build_totals_row
+from employee.views.wagon.wagon_export.format_data import iter_rows
+from employee.views.wagon.wagon_grouping import get_grouped_wagon_data
+from employee.views.wagon.wagon_prepare import wagon_prepare
 
 
 def wagon_export_excel(request):
