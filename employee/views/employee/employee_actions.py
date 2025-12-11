@@ -1,6 +1,6 @@
-from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from employee.models import Employee
