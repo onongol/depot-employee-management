@@ -1,7 +1,7 @@
-from django.views.generic import DeleteView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import DeleteView
 
 from employee.mixins.context_mixins import PieceworkContextMixin
 from employee.mixins.delete_mixins import DeleteWarningMixin
@@ -27,6 +27,7 @@ class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMi
 def piecework_create(request):
     """View to create new piecework records."""
     # Circular import avoidance
-    from employee.views.daily_work.daily_work_piecework_create import daily_work_piecework_create
+    from employee.views.daily_work.daily_work_piecework_create import \
+        daily_work_piecework_create
 
     return daily_work_piecework_create(request)
