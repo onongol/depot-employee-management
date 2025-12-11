@@ -19,6 +19,7 @@ django-unfold
 et_xmlfile
 gunicorn
 idna
+isort
 Jinja2
 markdown-it-py
 MarkupSafe
