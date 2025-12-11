@@ -1,9 +1,9 @@
 from django.utils.translation import gettext_lazy as _
 
-from .employee_salary_service import get_employee_salaries
-from .build_headers import build_headers
-from .format_data import iter_rows
 from employee.utils.export_pdf import export_to_pdf
+from employee.views.employee_salary.employee_salary_export.build_headers import build_headers
+from employee.views.employee_salary.employee_salary_export.employee_salary_service import get_employee_salaries
+from employee.views.employee_salary.employee_salary_export.format_data import iter_rows
 
 
 def employee_salary_export_pdf(request):
@@ -12,7 +12,7 @@ def employee_salary_export_pdf(request):
 
     headers = build_headers()
 
-    # A4 Landscape ~842pt; usable width ~800pt
+    # A4 Landscape ~842pt; usable width ~810pt
     col_widths = [30, 30, 150, 150, 150, 50, 50, 100, 50, 50]
     
     # Define column alignments
