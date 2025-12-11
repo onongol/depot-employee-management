@@ -1,7 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.models import Employee
-from employee.models import DailySalary
+from employee.models import DailySalary, Employee
 
 
 def validate_daily_salary(selected_employee_ids, work_date):
