@@ -8,25 +8,18 @@ from django.utils.translation import gettext_lazy as _
 from employee.models import DailyWork
 from employee.mixins.context_mixins import DailyWorkContextMixin
 from employee.mixins.delete_mixins import DeleteWarningMixin
+from employee.mixins.department_form_mixins import FormDepartmentMixin
 from employee.forms.daily_work_forms import UpdateDailyWorkForm
 from employee.utils.permissions import OnlyAdminMixin, is_creater
-from employee.utils.select_department import get_selected_department
 from .daily_work_piecework_create import daily_work_piecework_create
 
 
-class DailyWorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMixin, SuccessMessageMixin, UpdateView):
+class DailyWorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMixin, SuccessMessageMixin, FormDepartmentMixin, UpdateView):
     login_url = 'login'
     model = DailyWork
     form_class = UpdateDailyWorkForm
     template_name = "daily_work/daily_work_piecework_update.html"
     success_message = _("Daily Work and Piecework updated successfully.")
-
-    def get_form_kwargs(self):
-        """Pass selected department to the form."""
-        kwargs = super().get_form_kwargs()
-        department = get_selected_department(self.request)
-        kwargs['department'] = department
-        return kwargs
 
     def get_success_url(self):
         return reverse('daily_work_list')
