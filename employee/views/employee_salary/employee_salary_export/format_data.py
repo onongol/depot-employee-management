@@ -1,5 +1,4 @@
 def iter_rows(qs):
-    """Generate rows for Employee Salary export based on department."""
     for i, item in enumerate(qs, start=1):
         row = [
             i,
