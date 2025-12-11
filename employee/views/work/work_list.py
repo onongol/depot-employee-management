@@ -1,14 +1,14 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 
-from employee.models import Work 
-from employee.utils.select_department import get_selected_department
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.models import Work
 from employee.utils.filters import filter_works
 from employee.utils.pagination import paginate_queryset
-from employee.utils.selects import get_distinct_values
+from employee.utils.select_department import get_selected_department
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.utils.selects import get_distinct_values
 
 
 @login_required(login_url='login')
