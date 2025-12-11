@@ -1,8 +1,8 @@
-from django.contrib.auth.views import PasswordChangeView
-from django.contrib.auth import logout
-from django.urls import reverse_lazy
-from django.shortcuts import redirect
 from django.contrib import messages
+from django.contrib.auth import logout
+from django.contrib.auth.views import PasswordChangeView
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 
