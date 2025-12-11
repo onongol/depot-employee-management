@@ -11,11 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 import platform
 from pathlib import Path
-from dotenv import load_dotenv
 from urllib.parse import urlparse
 
 from django.templatetags.static import static
 from django.utils.translation import gettext_lazy as _
+from dotenv import load_dotenv
 
 load_dotenv()
 
