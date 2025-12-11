@@ -1,9 +1,9 @@
 from django.utils.translation import gettext_lazy as _
 
-from .employee_salary_service import get_employee_salaries
-from .build_headers import build_headers
-from .format_data import iter_rows
 from employee.utils.export_excel import export_to_excel
+from employee.views.employee_salary.employee_salary_export.build_headers import build_headers
+from employee.views.employee_salary.employee_salary_export.employee_salary_service import get_employee_salaries
+from employee.views.employee_salary.employee_salary_export.format_data import iter_rows
 
 
 def employee_salary_export_excel(request):
