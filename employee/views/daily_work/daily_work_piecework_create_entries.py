@@ -1,8 +1,8 @@
 from decimal import Decimal
+
 from django.utils.translation import gettext_lazy as _
 
-from employee.models import Work
-from employee.models import DailyWork
+from employee.models import DailyWork, Work
 
 
 def create_daily_work_entries(selected_work_ids, amounts, job_title, type_work, wagon_number, work_date):
