@@ -1,9 +1,10 @@
 import logging
+
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
-from employee.models import Employee, DailySalary
-from .validators import validate_required_daily_salary
+from employee.models import DailySalary, Employee
+from employee.views.daily_salary.validators import validate_required_daily_salary
 
 
 def create_daily_salary_records(selected_ids, salary_date, hours_per_day):
