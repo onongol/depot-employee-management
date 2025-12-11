@@ -1,14 +1,14 @@
-from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import CreateView, DeleteView, UpdateView
 
-from employee.models import DailySalary
-from employee.forms import EmployeeForm, UpdateEmployeeForm 
+from employee.forms import EmployeeForm, UpdateEmployeeForm
+from employee.mixins.block_message_mixins import BlockMessageMixin
 from employee.mixins.context_mixins import EmployeeContextMixin
 from employee.mixins.delete_mixins import DeleteProtectionMixin
-from employee.mixins.block_message_mixins import BlockMessageMixin
 from employee.mixins.department_mixins import InitialDepartmentMixin
+from employee.models import DailySalary
 from employee.utils.permissions import OnlyAdminMixin
 
 
