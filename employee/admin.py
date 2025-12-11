@@ -1,19 +1,13 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
-from django.contrib.auth.models import User, Group
-
-from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
-from unfold.admin import ModelAdmin
-
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group, User
 from import_export.admin import ImportExportModelAdmin
-from unfold.contrib.import_export.forms import ImportForm, ExportForm
+from unfold.admin import ModelAdmin
+from unfold.contrib.import_export.forms import ExportForm, ImportForm
+from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
 
-from .models.employee_models import Employee
-from .models.master_models import Master
-from .models.payroll_models import Payroll
-from .models.work_models import Work
-
+from employee.models import Employee, Master, Payroll, Work
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
