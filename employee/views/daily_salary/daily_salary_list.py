@@ -1,15 +1,14 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 
-from employee.models import Employee
-from employee.models import DailySalary
-from employee.utils.select_department import get_selected_department
+from employee.models import DailySalary, Employee
+from employee.utils.converting_date import format_date
 from employee.utils.filters import filter_daily_salaries
 from employee.utils.pagination import paginate_queryset
-from employee.utils.converting_date import format_date
-from employee.utils.sorting import apply_ordering
+from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
+from employee.utils.sorting import apply_ordering
 
 
 @login_required(login_url='login')
