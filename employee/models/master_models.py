@@ -1,6 +1,6 @@
-from django.db import models
-from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
+from django.db import models
 
 from employee.constants.constants import DEPARTMENT_CHOICES
 
