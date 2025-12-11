@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import redirect
 
-from .delete_messages import send_delete_warning
+from employee.mixins.delete_messages import send_delete_warning
 
 
 class DeleteWarningMixin:
