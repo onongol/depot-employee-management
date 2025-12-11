@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 
-from ..employee_salary_filtered import get_filtered_employee_salaries
+from .employee_salary_service import get_employee_salaries
 from .build_headers import build_headers
 from .format_data import iter_rows
 from employee.utils.export_excel import export_to_excel
@@ -8,7 +8,7 @@ from employee.utils.export_excel import export_to_excel
 
 def employee_salary_export_excel(request):
     """Export employee salaries data to Excel."""
-    employee_salaries = get_filtered_employee_salaries(request)
+    employee_salaries = get_employee_salaries(request)
 
     headers = build_headers()
     
