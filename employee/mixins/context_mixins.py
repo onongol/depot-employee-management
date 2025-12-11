@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
-from .mixins import GenericContextMixin
+from .generic_mixins import GenericContextMixin
 from employee.models import Employee, Work, DailySalary, DailyWork, Piecework
 
 
