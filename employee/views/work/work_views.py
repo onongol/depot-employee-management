@@ -1,18 +1,16 @@
-from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import CreateView, DeleteView, UpdateView
 
+from employee.forms import UpdateWorkForm, WorkForm
+from employee.mixins.block_message_mixins import BlockMessageMixin
 from employee.mixins.context_mixins import WorkContextMixin
 from employee.mixins.delete_mixins import DeleteProtectionMixin
-from employee.mixins.block_message_mixins import BlockMessageMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
 from employee.mixins.wagon_context_mixins import WagonContextMixin
 from employee.models import Piecework
-from employee.forms import WorkForm, UpdateWorkForm
-from employee.utils.select_department import get_selected_department
 from employee.utils.permissions import OnlyAdminMixin
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 
 
 class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin,  WagonContextMixin, SuccessMessageMixin, FormDepartmentMixin, CreateView):
