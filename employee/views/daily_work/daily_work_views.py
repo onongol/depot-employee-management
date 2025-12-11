@@ -1,17 +1,17 @@
-from django.urls import reverse
-from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import DeleteView, UpdateView
 
-from employee.models import DailyWork
+from employee.forms.daily_work_forms import UpdateDailyWorkForm
 from employee.mixins.context_mixins import DailyWorkContextMixin
 from employee.mixins.delete_mixins import DeleteWarningMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
-from employee.forms.daily_work_forms import UpdateDailyWorkForm
+from employee.models import DailyWork
 from employee.utils.permissions import OnlyAdminMixin, is_creater
-from .daily_work_piecework_create import daily_work_piecework_create
+from employee.views.daily_work.daily_work_piecework_create import daily_work_piecework_create
 
 
 class DailyWorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMixin, SuccessMessageMixin, FormDepartmentMixin, UpdateView):
