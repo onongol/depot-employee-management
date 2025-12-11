@@ -1,9 +1,9 @@
 from employee.utils.filters import filter_employees
-from .employee_salary_prepare import employee_salaries_prepare
-from .employee_salary_calculate import employee_salary_calculate
+from ..employee_salary_prepare import employee_salaries_prepare
+from ..employee_salary_calculate import employee_salary_calculate
 
 
-def get_filtered_employee_salaries(request):
+def get_employee_salaries(request):
     """Return a list of filtered employee salaries based on request parameters."""
     # Prepare the base queryset and filter parameters
     employees, employee_id, employee_name, department, job_title, month, year, month_period = employee_salaries_prepare(request)
