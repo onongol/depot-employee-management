@@ -1,11 +1,11 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 
 from employee.models import Employee
-from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_employees
 from employee.utils.pagination import paginate_queryset
+from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
 
 
