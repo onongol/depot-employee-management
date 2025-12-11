@@ -1,8 +1,8 @@
 from collections import defaultdict
+
 from django.db.models import Sum
 
-from employee.models import DailySalary
-from employee.models import Piecework
+from employee.models import DailySalary, Piecework
 from employee.utils.filters import filter_month_year
 
 
