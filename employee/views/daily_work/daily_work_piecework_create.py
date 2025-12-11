@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import DEFAULT_WAGON_NUMBER
 from employee.mixins.success_messages_mixins import send_daily_work_piecework_created
-from .context_builders import build_daily_piecework_context
-from .daily_work_piecework_service import process_piecework
+from employee.views.daily_work.context_builders import build_daily_piecework_context
+from employee.views.daily_work.daily_work_piecework_service import process_piecework
 
 
 def daily_work_piecework_create(request):
