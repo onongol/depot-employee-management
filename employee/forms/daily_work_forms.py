@@ -1,7 +1,7 @@
 from django import forms
 
-from employee.models import DailyWork
 from employee.constants.constants import get_type_work_choices
+from employee.models import DailyWork
 
 
 class TypeWorkChoiceMixin:
