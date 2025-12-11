@@ -1,13 +1,11 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import Group 
 from django.contrib import messages
+from django.contrib.auth.models import Group
+from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
-from employee.forms.register_forms import CustomUserCreationForm
-from employee.models import Employee
-from employee.models import Master  
-from employee.models import Payroll
 from employee.constants.constants import GroupNames
+from employee.forms.register_forms import CustomUserCreationForm
+from employee.models import Employee, Master, Payroll
 
 
 def link_user_to_instance(user, instance, group_name):
