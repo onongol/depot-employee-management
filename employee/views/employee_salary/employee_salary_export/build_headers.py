@@ -2,7 +2,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 def build_headers():
-    """Build headers for Employee Salary export based on department."""
     headers = [
         _("#"),
         _("ID"),
