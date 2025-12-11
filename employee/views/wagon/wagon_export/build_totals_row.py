@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 
-from ..wagon_totals import get_totals
+from employee.views.wagon.wagon_totals import get_totals
 
 
 def build_totals_row(qs):
