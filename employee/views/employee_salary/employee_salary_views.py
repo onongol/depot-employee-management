@@ -1,13 +1,13 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 
 from employee.models import Employee
-from .employee_salary_calculate import employee_salary_calculate
-from .employee_salary_prepare import employee_salaries_prepare
-from employee.utils.select_department import get_selected_department
 from employee.utils.filters import filter_employees
 from employee.utils.pagination import paginate_queryset
+from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
+from employee.views.employee_salary.employee_salary_calculate import employee_salary_calculate
+from employee.views.employee_salary.employee_salary_prepare import employee_salaries_prepare
 
 
 @login_required(login_url='login')
