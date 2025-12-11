@@ -1,15 +1,15 @@
-from django.shortcuts import render
-from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
+from django.shortcuts import render
 
-from employee.models import DailyWork
-from employee.utils.select_department import get_selected_department
-from employee.utils.selects import get_distinct_values
-from employee.utils.select_type_wagon import get_type_wagon_filter_values
-from employee.utils.filters import filter_daily_works
-from employee.utils.sorting import apply_ordering
-from employee.utils.pagination import paginate_queryset
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.models import DailyWork
+from employee.utils.filters import filter_daily_works
+from employee.utils.pagination import paginate_queryset
+from employee.utils.select_department import get_selected_department
+from employee.utils.select_type_wagon import get_type_wagon_filter_values
+from employee.utils.selects import get_distinct_values
+from employee.utils.sorting import apply_ordering
 
 
 @login_required(login_url='login')
