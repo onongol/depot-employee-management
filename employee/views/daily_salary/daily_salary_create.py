@@ -1,12 +1,12 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from employee.utils.permissions import is_creater
 from employee.mixins.success_messages_mixins import send_daily_salary_creation_message
-from .context_builders import build_daily_salary_context
-from .daily_salary_service import create_daily_salary_records
+from employee.utils.permissions import is_creater
+from employee.views.daily_salary.context_builders import build_daily_salary_context
+from employee.views.daily_salary.daily_salary_service import create_daily_salary_records
 
 
 @login_required(login_url='login')
