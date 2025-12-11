@@ -1,9 +1,10 @@
-from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import date
 from decimal import Decimal
 
-from .employee_models import Employee
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
+from employee.models.employee_models import Employee
 
 
 class DailySalary(models.Model):
