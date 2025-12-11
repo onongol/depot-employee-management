@@ -4,7 +4,6 @@ from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 
 
 def build_totals_row(qs, department):
-    """Build totals row for DailyWork export based on department."""
     total_str = str(_("Total"))
     empty = ""
 
