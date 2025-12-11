@@ -2,7 +2,6 @@ from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 
 
 def iter_rows(qs, department):
-    """Generate rows for Pieceworks export based on department."""
     show_wagon = department in ALLOWED_WAGON_DEPARTMENTS
     for i, pw in enumerate(qs, start=1):
         row = [
