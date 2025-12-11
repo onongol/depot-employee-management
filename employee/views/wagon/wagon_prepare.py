@@ -1,5 +1,5 @@
-from employee.models import DailyWork
 from employee.constants.constants import DEFAULT_WAGON_NUMBER
+from employee.models import DailyWork
 from employee.utils.select_department import get_selected_department
 
 
