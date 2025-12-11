@@ -1,17 +1,16 @@
 import json
+
 from django.core.serializers.json import DjangoJSONEncoder
 from django.urls import reverse
 from django.utils import timezone
 
-from employee.models import Employee
-from employee.models import Piecework
-from employee.models import Work
-from employee.forms import PieceworkForm
-from employee.utils.select_department import get_selected_department
-from employee.utils.selects import get_distinct_values
-from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.forms import PieceworkForm
+from employee.models import Employee, Piecework, Work
 from employee.utils.converting_date import format_date
+from employee.utils.select_department import get_selected_department
+from employee.utils.select_type_wagon import get_type_wagon_filter_values
+from employee.utils.selects import get_distinct_values
 
 
 def build_daily_piecework_context(request):
