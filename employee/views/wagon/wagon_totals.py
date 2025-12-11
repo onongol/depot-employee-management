@@ -2,9 +2,7 @@ from django.db.models import Sum
 
 
 def get_totals(dailyworks):
-    """
-    Calculate total amounts, time, and price from the original dailyworks queryset.
-    """
+    """Calculate total amounts, time, and price from the original dailyworks queryset."""
     # Define the fields we want to total
     fields = ['total_amount', 'total_time', 'total_price']
 

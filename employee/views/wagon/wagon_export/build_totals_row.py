@@ -4,7 +4,6 @@ from employee.views.wagon.wagon_totals import get_totals
 
 
 def build_totals_row(qs):
-    """Build totals row for DailyWork export based on department."""
     # Calculate totals  
     totals = get_totals(qs)
 
