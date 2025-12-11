@@ -1,12 +1,13 @@
-from django.shortcuts import render
-from django.db.models import Sum
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Sum
+from django.shortcuts import render
 
 from employee.utils.filters import filter_material
 from employee.utils.pagination import paginate_queryset
 from employee.utils.permissions import is_admin
 from employee.utils.sorting import apply_ordering
-from .material_utils import material_prepare, group_and_sum_materials
+from employee.views.material.material_grouping import group_and_sum_materials
+from employee.views.material.material_prepare import material_prepare
 
 
 @user_passes_test(is_admin, login_url='login')
