@@ -1,9 +1,14 @@
-from django.db import models
-from django.db.models import Q
-from django.core.validators import MinValueValidator
 from decimal import Decimal
 
-from employee.constants.constants import DEFAULT_MATERIAL_TYPE, JOB_TITLE_CHOICES, TYPE_WAGON_CHOICES, ALLOWED_WAGON_DEPARTMENTS, DEFAULT_WAGON_TYPE
+from django.core.validators import MinValueValidator
+from django.db import models
+from django.db.models import Q
+
+from employee.constants.constants import (ALLOWED_WAGON_DEPARTMENTS,
+                                          DEFAULT_MATERIAL_TYPE,
+                                          DEFAULT_WAGON_TYPE,
+                                          JOB_TITLE_CHOICES,
+                                          TYPE_WAGON_CHOICES)
 
 
 class Work(models.Model):
