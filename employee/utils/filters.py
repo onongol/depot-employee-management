@@ -1,7 +1,8 @@
 from django.db.models import Q
 
+from employee.constants.constants import (DEFAULT_WAGON_NUMBER,
+                                          DEFAULT_WAGON_TYPE)
 from employee.utils.converting_date import parse_date_range
-from employee.constants.constants import DEFAULT_WAGON_TYPE, DEFAULT_WAGON_NUMBER
 
 
 def filter_employees(queryset, department=None, employee_id=None, employee_name=None, job_title=None):
