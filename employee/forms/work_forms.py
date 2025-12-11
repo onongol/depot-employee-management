@@ -1,8 +1,11 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
+from employee.constants.constants import (ALLOWED_WAGON_DEPARTMENTS,
+                                          EMPTY_SELECT, 
+                                          TYPE_WAGON_CHOICES,
+                                          get_job_title_choices)
 from employee.models import Work
-from employee.constants.constants import get_job_title_choices, TYPE_WAGON_CHOICES, ALLOWED_WAGON_DEPARTMENTS, EMPTY_SELECT
 
 
 class WorkFormMixin:
