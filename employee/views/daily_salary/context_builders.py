@@ -1,8 +1,8 @@
 from django.urls import reverse
 from django.utils import timezone
 
-from employee.models import Employee
 from employee.forms import DailySalaryForm
+from employee.models import Employee
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
 
