@@ -1,27 +1,32 @@
 from django.conf import settings
-from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.urls import include, path
 
-from .views.home import home
-from .views.auth.register_views import register_view
-from .views.auth.password_views import CustomPasswordChangeView
-from .views.department import set_department
-from .views.employee import employee_list, employee_activate, employee_deactivate
-from .views.employee import EmployeeCreateView, EmployeeUpdateView, EmployeeDeleteView
-from .views.work import work_list
-from .views.work import WorkCreateView, WorkUpdateView, WorkDeleteView
-from .views.daily_salary import daily_salary_list, daily_salary_create
-from .views.daily_salary import DailySalaryUpdateView, DailySalaryDeleteView
-from .views.daily_work import daily_work_list, daily_work_create
-from .views.daily_work import DailyWorkUpdateView, DailyWorkDeleteView
-from .views.daily_work import daily_work_export_excel
-from .views.piecework import piecework_list, piecework_create
-from .views.piecework import PieceworkUpdateView, PieceworkDeleteView
-from .views.piecework import piecework_export_excel
-from .views.employee_salary import employee_salary_list, employee_salary_export_excel, employee_salary_export_pdf
-from .views.material import material_list, material_export_excel
-from .views.wagon import wagon_list, wagon_export_excel
-
+from employee.views.auth.password_views import CustomPasswordChangeView
+from employee.views.auth.register_views import register_view
+from employee.views.daily_salary import (DailySalaryDeleteView,
+                                         DailySalaryUpdateView,
+                                         daily_salary_create,
+                                         daily_salary_list)
+from employee.views.daily_work import (DailyWorkDeleteView,
+                                       DailyWorkUpdateView, daily_work_create,
+                                       daily_work_export_excel,
+                                       daily_work_list)
+from employee.views.department import set_department
+from employee.views.employee import (EmployeeCreateView, EmployeeDeleteView,
+                                     EmployeeUpdateView, employee_activate,
+                                     employee_deactivate, employee_list)
+from employee.views.employee_salary import (employee_salary_export_excel,
+                                            employee_salary_export_pdf,
+                                            employee_salary_list)
+from employee.views.home import home
+from employee.views.material import material_export_excel, material_list
+from employee.views.piecework import (PieceworkDeleteView, PieceworkUpdateView,
+                                      piecework_create, piecework_export_excel,
+                                      piecework_list)
+from employee.views.wagon import wagon_export_excel, wagon_list
+from employee.views.work import (WorkCreateView, WorkDeleteView,
+                                 WorkUpdateView, work_list)
 
 urlpatterns = [
     # Home URL
