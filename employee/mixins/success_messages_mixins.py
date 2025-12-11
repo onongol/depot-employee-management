@@ -1,4 +1,5 @@
 from typing import Iterable, Mapping
+
 from django.contrib import messages
 from django.utils.translation import gettext as _
 
