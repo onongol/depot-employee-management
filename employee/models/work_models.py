@@ -62,9 +62,14 @@ class Work(models.Model):
         default=Decimal('0.00'), 
         validators=[MinValueValidator(0)]
     )
-
-    # Meta constraints
+    
     class Meta:
+        """
+        Domain model representing a work item/task configured per department and job title.
+        Stores pricing and time standards, optional wagon/material attributes,
+        enforces business constraints (unique name within department, wagon type only for allowed departments),
+        and normalizes display values for UI and exports.
+        """
         constraints = [
             # Ensure type_wagon is only set for allowed departments
             models.CheckConstraint(
