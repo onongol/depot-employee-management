@@ -7,7 +7,6 @@ from employee.forms.forms_mixins.name_mixins import NameValidationMixin
 
 
 class EmployeeForm(JobTitleChoicesMixin, NameValidationMixin, forms.ModelForm):
-    """Form to create a new employee."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -36,7 +35,6 @@ class EmployeeForm(JobTitleChoicesMixin, NameValidationMixin, forms.ModelForm):
 
 
 class UpdateEmployeeForm(NameValidationMixin, JobTitleChoicesMixin, forms.ModelForm):
-    """Form to update employee details, excluding employee_id."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
