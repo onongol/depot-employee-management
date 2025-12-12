@@ -13,6 +13,9 @@ from employee.models.models_mixins.display_mixins import (TypeWagonDisplayMixin,
                                                           WagonNumberDisplayMixin)
 from employee.services.daily_work_canculate import (canculate_amount_material,
                                                     canculate_amount_time)
+from employee.services.normalizes import (normalize_wagon_number,
+                                          normalize_job_title,
+                                          normalize_type_wagon)
 from employee.services.snapshots import (snapshot_employee_name,
                                          snapshot_work_name,
                                          snapshot_department)
@@ -130,23 +133,24 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     
     def save(self, *args, **kwargs):
         """
-        Save the Piecework instance.
-        Generate group_id if not set.
+        Override save to:
+        - Normalize inputs (wagon_number, job_title, type_wagon).
+        - Snapshot denormalized fields (employee_name, department, work_name) for stable reporting.
+        - Compute derived amounts (time, material) based on Work settings and quantity.
+        - Generate a group_id for batch operations if missing.
+        - Persist the record.
+
+        This ensures consistent domain data and keeps downstream exports/reports robust.
         """
         if not self.group_id:
             self.group_id = str(uuid4())
 
-        if not self.wagon_number:
-            self.wagon_number = None
+        self.wagon_number = normalize_wagon_number(self.wagon_number)
 
-        # Snapshot job_title & type_wagon from Work if missing
         if self.work:
-            if not self.job_title:
-                self.job_title = self.work.job_title
-            # Always normalize type_wagon: only keep if present, else None
-            self.type_wagon = self.work.type_wagon or None
+            self.job_title = normalize_job_title(self.job_title, self.work)
+            self.type_wagon = normalize_type_wagon(self.work)
 
-        # Snapshot
         if self.employee:
             self.employee_name = snapshot_employee_name(self.employee)
             self.department = snapshot_department(self.employee)
