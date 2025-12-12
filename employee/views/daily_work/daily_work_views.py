@@ -7,7 +7,7 @@ from django.views.generic import DeleteView, UpdateView
 
 from employee.forms.daily_work_forms import UpdateDailyWorkForm
 from employee.mixins.context_mixins import DailyWorkContextMixin
-from employee.mixins.delete_mixins import DeleteWarningMixin
+from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
 from employee.models import DailyWork
 from employee.utils.permissions import OnlyAdminMixin, is_creater
