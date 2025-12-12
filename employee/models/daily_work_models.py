@@ -4,16 +4,16 @@ from decimal import Decimal
 from django.core.validators import MinValueValidator
 from django.db import models
 
-from employee.constants.constants import (DEFAULT_WAGON_NUMBER,
-                                          DEFAULT_WAGON_TYPE,
-                                          JOB_TITLE_CHOICES,
+from employee.constants.constants import (JOB_TITLE_CHOICES,
                                           TYPE_WAGON_CHOICES,
                                           TYPE_WORK_CHOICES)
+from employee.models.models_mixins.display_mixins import (TypeWagonDisplayMixin,
+                                                          WagonNumberDisplayMixin)
 from employee.models.work_models import Work
 from employee.services.daily_work_sync import sync_piecework_with_dailywork
 
 
-class DailyWork(models.Model):
+class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     """Aggregated daily work record (not per employee)."""
     job_title = models.CharField(
         max_length=255,
@@ -136,15 +136,3 @@ class DailyWork(models.Model):
 
         # --- After saving DailyWork, update related Piecework.amount_price ---
         sync_piecework_with_dailywork(self)
-    
-    @property
-    def wagon_number_display(self):
-        # Return default if wagon_number is not set
-        return DEFAULT_WAGON_NUMBER if not self.wagon_number else self.wagon_number
-    
-    @property
-    def type_wagon_display(self):
-        # Prefer stored snapshot; fallback to default symbol
-        return self.type_wagon or DEFAULT_WAGON_TYPE
-    
-   
