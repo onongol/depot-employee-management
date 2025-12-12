@@ -8,8 +8,8 @@ from employee.mixins.block_delete_mixins import BlockDeleteMixin
 from employee.mixins.context_mixins import EmployeeContextMixin
 from employee.mixins.delete_protection_mixins import DeleteProtectionMixin
 from employee.mixins.department_mixins import InitialDepartmentMixin
+from employee.mixins.permissions_mixins import OnlyAdminMixin
 from employee.models import DailySalary
-from employee.utils.permissions import OnlyAdminMixin
 
 
 class EmployeeCreateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, InitialDepartmentMixin, SuccessMessageMixin, CreateView):
