@@ -4,7 +4,6 @@ from employee.models import DailySalary
 
 
 class DailySalaryForm(forms.ModelForm):
-    """Form for creating a new DailySalary record."""
     class Meta:
         model = DailySalary
         fields = '__all__'
@@ -28,7 +27,6 @@ class DailySalaryForm(forms.ModelForm):
 
 
 class UpdateDailySalaryForm(forms.ModelForm):
-    """Form for updating an existing DailySalary record (excludes employee)."""
     class Meta:
         model = DailySalary
         fields = ['hours_per_day', 'salary_date']
