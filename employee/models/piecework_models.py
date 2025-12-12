@@ -13,6 +13,9 @@ from employee.models.models_mixins.display_mixins import (TypeWagonDisplayMixin,
                                                           WagonNumberDisplayMixin)
 from employee.services.daily_work_canculate import (canculate_amount_material,
                                                     canculate_amount_time)
+from employee.services.snapshots import (snapshot_employee_name,
+                                         snapshot_work_name,
+                                         snapshot_department)
 
 
 class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
@@ -145,21 +148,11 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
 
         # Snapshot employee_name, work_name and department
         if self.employee:
-            try:
-                self.employee_name = self.employee.name
-            except Exception:
-                self.employee_name = None
-            try:
-                # prefer employee.department (piecework is per-employee)
-                self.department = getattr(self.employee, 'department', None)
-            except Exception:
-                self.department = None
+            self.employee_name = snapshot_employee_name(self.employee)
+            self.department = snapshot_department(self.employee)
 
         if self.work:
-            try:
-                self.work_name = getattr(self.work, 'work_name', None)
-            except Exception:
-                self.work_name = None
+            self.work_name = snapshot_work_name(self.work)
 
         self.amount_time = canculate_amount_time(self.work, self.amount or Decimal('0'))
         self.amount_material = canculate_amount_material(self.work, self.amount or Decimal('0'))
