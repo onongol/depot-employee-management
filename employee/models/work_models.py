@@ -62,7 +62,7 @@ class Work(models.Model):
         default=Decimal('0.00'), 
         validators=[MinValueValidator(0)]
     )
-    
+
     class Meta:
         """
         Domain model representing a work item/task configured per department and job title.
@@ -108,5 +108,4 @@ class Work(models.Model):
         return self.type_wagon or DEFAULT_WAGON_TYPE
 
     def __str__(self):
-        """String representation of the Work model."""
         return self.work_name
