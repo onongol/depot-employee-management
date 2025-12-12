@@ -5,13 +5,13 @@ from django.db import models
 from django.db.models import Q
 
 from employee.constants.constants import (ALLOWED_WAGON_DEPARTMENTS,
-                                          DEFAULT_MATERIAL_TYPE,
-                                          DEFAULT_WAGON_TYPE,
                                           JOB_TITLE_CHOICES,
                                           TYPE_WAGON_CHOICES)
+from employee.models.models_mixins.display_mixins import (TypeMaterialDisplayMixin,
+                                                          TypeWagonDisplayMixin)
 
 
-class Work(models.Model):
+class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
     """This model represents a work item in the system."""
     work_id = models.AutoField(
         primary_key=True, 
@@ -101,11 +101,4 @@ class Work(models.Model):
         # Ensure clean is called before saving
         self.full_clean()
         return super().save(*args, **kwargs)
-        
-    @property
-    def type_material_display(self):
-        return self.type_material or DEFAULT_MATERIAL_TYPE
-
-    @property
-    def type_wagon_display(self):
-        return self.type_wagon or DEFAULT_WAGON_TYPE
+    
