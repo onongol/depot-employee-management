@@ -87,7 +87,12 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
         return self.work_name
 
     def clean(self):
-        # Normalize empty strings -> None
+        """
+        Normalize and validate fields before saving:
+        - If type_material is empty, set it to None and reset usage_material to 0.
+        - Enforce business rule for type_wagon:
+          only allowed for departments in ALLOWED_WAGON_DEPARTMENTS, else set to None.
+        """
         if not self.type_material:
             self.type_material = None
             self.usage_material = Decimal('0.0000')
@@ -98,7 +103,11 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
             self.type_wagon = None
 
     def save(self, *args, **kwargs):
-        # Ensure clean is called before saving
+        """
+        Ensure the instance is valid and normalized before persisting:
+        - Call full_clean() to run model/field validators and clean().
+        - Then save to the database.
+        """
         self.full_clean()
         return super().save(*args, **kwargs)
     
