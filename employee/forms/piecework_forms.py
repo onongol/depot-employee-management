@@ -5,7 +5,6 @@ from employee.models import Piecework
 
 
 class PieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
-    """Form for creating a new Piecework record."""
     class Meta:
         model = Piecework
         fields = '__all__'
@@ -28,7 +27,6 @@ class PieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
         
 
 class UpdatePieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
-    """Form for updating an existing Piecework record."""
     class Meta:
         model = Piecework
         fields = ['type_work', 'wagon_number', 'amount', 'work_date']
