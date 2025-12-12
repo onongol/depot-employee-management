@@ -9,8 +9,9 @@ from employee.forms.daily_work_forms import UpdateDailyWorkForm
 from employee.mixins.context_mixins import DailyWorkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
+from employee.mixins.permissions_mixins import OnlyAdminMixin
 from employee.models import DailyWork
-from employee.utils.permissions import OnlyAdminMixin, is_creater
+from employee.utils.access import is_creater
 from employee.views.daily_work.daily_work_piecework_create import daily_work_piecework_create
 
 
