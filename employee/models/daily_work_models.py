@@ -7,10 +7,13 @@ from django.db import models
 from employee.constants.constants import (JOB_TITLE_CHOICES,
                                           TYPE_WAGON_CHOICES,
                                           TYPE_WORK_CHOICES)
+from employee.models.work_models import Work
 from employee.models.models_mixins.display_mixins import (TypeWagonDisplayMixin,
                                                           WagonNumberDisplayMixin)
-from employee.models.work_models import Work
 from employee.services.daily_work_sync import sync_piecework_with_dailywork
+from employee.services.daily_work_canculate import (canculate_amount_time,
+                                                    canculate_amount_material,
+                                                    canculate_amount_price)
 
 
 class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
@@ -106,10 +109,11 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         if self.work:
             if not self.job_title:
                 self.job_title = self.work.job_title
+
             # Always normalize type_wagon: only keep if present, else None
             self.type_wagon = self.work.type_wagon or None
 
-        # Snapshot work_name and department from related Work
+            # Snapshot work_name and department from related Work
             try:
                 self.work_name = getattr(self.work, 'work_name', None)
                 self.department = getattr(self.work, 'department', None)
@@ -117,19 +121,9 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
                 self.work_name = None
                 self.department = None
 
-        # Calculate amount_time
-        std_time = getattr(self.work, 'standard_time', None)
-        std_time_dec = Decimal(str(std_time or 0))
-        amt = self.amount or Decimal('0.000000')
-        self.amount_time = (std_time_dec * amt).quantize(Decimal('0.000000'))
-        
-        # Calculate amount_material
-        self.amount_material = self.work.usage_material * self.amount
-
-        # Calculate amount_price
-        price = getattr(self.work, 'price', None)
-        price_dec = Decimal(str(price or 0))
-        self.amount_price = (price_dec * amt).quantize(Decimal('0.00'))
+        self.amount_time = canculate_amount_time(self.work, self.amount or Decimal('0'))
+        self.amount_material = canculate_amount_material(self.work, self.amount or Decimal('0'))
+        self.amount_price = canculate_amount_price(self.work, self.amount or Decimal('0'))
 
         # Save the DailyWork instance
         super().save(*args, **kwargs)
