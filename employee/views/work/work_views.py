@@ -4,9 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, UpdateView
 
 from employee.forms import UpdateWorkForm, WorkForm
-from employee.mixins.block_message_mixins import BlockMessageMixin
+from employee.mixins.block_delete_mixins import BlockDeleteMixin
 from employee.mixins.context_mixins import WorkContextMixin
-from employee.mixins.delete_mixins import DeleteProtectionMixin
+from employee.mixins.delete_protection_mixins import DeleteProtectionMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
 from employee.mixins.wagon_context_mixins import WagonContextMixin
 from employee.models import Piecework
@@ -27,7 +27,7 @@ class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, Wagon
     success_message = _("Work updated successfully.")
 
 
-class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, BlockMessageMixin, DeleteProtectionMixin, DeleteView):
+class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, BlockDeleteMixin, DeleteProtectionMixin, DeleteView):
     login_url = 'login'
     template_name = "work/work_confirm_delete.html"
     block_related_models = [_('Daily Work'), _('Piecework')]
