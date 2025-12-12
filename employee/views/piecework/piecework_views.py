@@ -5,7 +5,8 @@ from django.views.generic import DeleteView
 
 from employee.mixins.context_mixins import PieceworkContextMixin
 from employee.mixins.delete_warning_mixins import DeleteWarningMixin
-from employee.utils.permissions import OnlyAdminMixin, is_creater
+from employee.mixins.permissions_mixins import OnlyAdminMixin
+from employee.utils.access import  is_creater
 
 
 class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, DeleteWarningMixin, DeleteView):
