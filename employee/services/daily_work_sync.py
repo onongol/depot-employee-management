@@ -3,7 +3,20 @@ from decimal import Decimal
 
 
 def sync_piecework_with_dailywork(dailywork):
-    """ After saving DailyWork, update related Piecework.amount_price """
+    """
+    Synchronize related Piecework records after a DailyWork is saved.
+
+    Purpose:
+    - Propagate normalized fields from DailyWork (type_work, wagon_number, type_wagon,
+      job_title, amount, work_date) to linked Piecework entries.
+    - Recompute derived values (amount_time, amount_price) based on the updated work settings
+      and current DailySalary context (per employee and department/date).
+    - Keep Piecework data consistent with its source DailyWork for accurate reporting/exports.
+
+    Notes:
+    - Runs post-save; uses local imports to avoid circular dependencies.
+    - Fails safe: logs exceptions without interrupting the primary DailyWork save.
+    """
     try:
         # Local imports to avoid circular import issues
         from employee.models import DailySalary, Piecework
