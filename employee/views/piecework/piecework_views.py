@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView
 
 from employee.mixins.context_mixins import PieceworkContextMixin
-from employee.mixins.delete_mixins import DeleteWarningMixin
+from employee.mixins.delete_warning_mixins import DeleteWarningMixin
 from employee.utils.permissions import OnlyAdminMixin, is_creater
 
 
