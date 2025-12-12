@@ -1,16 +1,7 @@
 from django import forms
 
-from employee.constants.constants import get_type_work_choices
+from employee.forms.forms_mixins.type_work_mixins import TypeWorkChoiceMixin
 from employee.models import DailyWork
-
-
-class TypeWorkChoiceMixin:
-    """Mixin to set type work choices based on department."""
-    def __init__(self, *args, **kwargs):
-        department = kwargs.pop('department', None)
-        super().__init__(*args, **kwargs)
-        if 'type_work' in self.fields:
-            self.fields['type_work'].choices = get_type_work_choices(department)
 
 
 class DailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
