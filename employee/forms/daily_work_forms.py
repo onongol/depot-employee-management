@@ -5,7 +5,6 @@ from employee.models import DailyWork
 
 
 class DailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
-    """Form for creating a new DailyWork record."""
     class Meta:
         model = DailyWork
         fields = '__all__'
@@ -38,7 +37,6 @@ class DailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
         
 
 class UpdateDailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
-    """Form for updating an existing DailyWork record."""
     class Meta:
         model = DailyWork
         fields = ['type_work', 'wagon_number', 'amount', 'work_date']
