@@ -14,6 +14,8 @@ from employee.services.daily_work_sync import sync_piecework_with_dailywork
 from employee.services.daily_work_canculate import (canculate_amount_time,
                                                     canculate_amount_material,
                                                     canculate_amount_price)
+from employee.services.snapshots import (snapshot_work_name,
+                                         snapshot_department)
 
 
 class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
@@ -114,12 +116,8 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
             self.type_wagon = self.work.type_wagon or None
 
             # Snapshot work_name and department from related Work
-            try:
-                self.work_name = getattr(self.work, 'work_name', None)
-                self.department = getattr(self.work, 'department', None)
-            except Exception:
-                self.work_name = None
-                self.department = None
+            self.work_name = snapshot_work_name(self.work)
+            self.department = snapshot_department(self.work)
 
         self.amount_time = canculate_amount_time(self.work, self.amount or Decimal('0'))
         self.amount_material = canculate_amount_material(self.work, self.amount or Decimal('0'))
