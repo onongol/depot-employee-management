@@ -2,11 +2,11 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from employee.models import Employee
+from employee.forms.forms_mixins.employee_job_titel_mixins import JobTitleChoicesMixin
 from employee.forms.forms_mixins.name_mixins import NameValidationMixin
-from employee.forms.forms_mixins.job_titel_mixins import JobTitleChoicesMixin
 
 
-class EmployeeForm(NameValidationMixin, JobTitleChoicesMixin, forms.ModelForm):
+class EmployeeForm(JobTitleChoicesMixin, NameValidationMixin, forms.ModelForm):
     """Form to create a new employee."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -35,7 +35,7 @@ class EmployeeForm(NameValidationMixin, JobTitleChoicesMixin, forms.ModelForm):
         }
 
 
-class UpdateEmployeeForm( JobTitleChoicesMixin, NameValidationMixin, forms.ModelForm):
+class UpdateEmployeeForm(NameValidationMixin, JobTitleChoicesMixin, forms.ModelForm):
     """Form to update employee details, excluding employee_id."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
