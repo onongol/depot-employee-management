@@ -7,8 +7,8 @@ from employee.forms import UpdateDailySalaryForm
 from employee.mixins.block_delete_mixins import BlockDeleteMixin
 from employee.mixins.context_mixins import DailySalaryContextMixin
 from employee.mixins.delete_protection_mixins import DeleteProtectionMixin
+from employee.mixins.permissions_mixins import OnlyAdminMixin
 from employee.models import Piecework
-from employee.utils.permissions import OnlyAdminMixin
 
 
 class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, SuccessMessageMixin, UpdateView):
