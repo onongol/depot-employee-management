@@ -4,9 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView, UpdateView
 
 from employee.forms import UpdateDailySalaryForm
-from employee.mixins.block_message_mixins import BlockMessageMixin
+from employee.mixins.block_delete_mixins import BlockDeleteMixin
 from employee.mixins.context_mixins import DailySalaryContextMixin
-from employee.mixins.delete_mixins import DeleteProtectionMixin
+from employee.mixins.delete_protection_mixins import DeleteProtectionMixin
 from employee.models import Piecework
 from employee.utils.permissions import OnlyAdminMixin
 
@@ -18,7 +18,7 @@ class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryConte
     success_message = _("Daily Salary updated successfully.")
 
 
-class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, BlockMessageMixin, DeleteProtectionMixin, DeleteView):
+class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, BlockDeleteMixin, DeleteProtectionMixin, DeleteView):
     login_url = 'login'
     template_name = "daily_salary/daily_salary_confirm_delete.html"
     block_related_models = [_('Daily Salary'), _('Piecework')]
