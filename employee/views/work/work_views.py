@@ -8,9 +8,9 @@ from employee.mixins.block_delete_mixins import BlockDeleteMixin
 from employee.mixins.context_mixins import WorkContextMixin
 from employee.mixins.delete_protection_mixins import DeleteProtectionMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
+from employee.mixins.permissions_mixins import OnlyAdminMixin
 from employee.mixins.wagon_context_mixins import WagonContextMixin
 from employee.models import Piecework
-from employee.utils.permissions import OnlyAdminMixin
 
 
 class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin,  WagonContextMixin, SuccessMessageMixin, FormDepartmentMixin, CreateView):
