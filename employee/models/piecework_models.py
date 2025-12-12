@@ -5,15 +5,15 @@ from uuid import uuid4
 from django.core.validators import MinValueValidator
 from django.db import models
 
-from employee.constants.constants import (DEFAULT_WAGON_NUMBER,
-                                          DEFAULT_WAGON_TYPE,
-                                          JOB_TITLE_CHOICES,
+from employee.constants.constants import (JOB_TITLE_CHOICES,
                                           TYPE_WAGON_CHOICES,
                                           TYPE_WORK_CHOICES)
+from employee.models.models_mixins.display_mixins import (TypeWagonDisplayMixin,
+                                                          WagonNumberDisplayMixin)
 from employee.models import DailyWork, Employee, Work
 
 
-class Piecework(models.Model):
+class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     """Model to record the piecework done by employees."""
     TYPE_WORK_CHOICES = TYPE_WORK_CHOICES
 
@@ -165,14 +165,3 @@ class Piecework(models.Model):
         self.amount_time = (std_time_dec * amt).quantize(Decimal('0.000000'))
         self.amount_material = self.work.usage_material * self.amount
         super().save(*args, **kwargs)
-    
-    @property
-    def wagon_number_display(self):
-        return DEFAULT_WAGON_NUMBER if not self.wagon_number else self.wagon_number
-    
-    @property
-    def type_wagon_display(self):
-        # Prefer stored snapshot; fallback to default symbol
-        return self.type_wagon or DEFAULT_WAGON_TYPE
-
-
