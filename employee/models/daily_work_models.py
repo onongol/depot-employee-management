@@ -10,7 +10,7 @@ from employee.constants.constants import (DEFAULT_WAGON_NUMBER,
                                           TYPE_WAGON_CHOICES,
                                           TYPE_WORK_CHOICES)
 from employee.models.work_models import Work
-from employee.utils.daily_work_sync import sync_piecework_with_dailywork
+from employee.services.daily_work_sync import sync_piecework_with_dailywork
 
 
 class DailyWork(models.Model):
