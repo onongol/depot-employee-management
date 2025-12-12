@@ -5,9 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserCreationForm(UserCreationForm):
-    """
-    User registration form with additional employee_id field.
-    """
+    """User registration form with additional employee_id field."""
     employee_id = forms.IntegerField(
         label=_("Employee ID"),
         required=True,
