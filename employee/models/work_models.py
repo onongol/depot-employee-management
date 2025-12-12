@@ -65,10 +65,10 @@ class Work(models.Model):
 
     class Meta:
         """
-        Domain model representing a work item/task configured per department and job title.
-        Stores pricing and time standards, optional wagon/material attributes,
-        enforces business constraints (unique name within department, wagon type only for allowed departments),
-        and normalizes display values for UI and exports.
+        Model-level metadata:
+        - Enforces business rules via database constraints:
+        * type_wagon can only be set for allowed departments; otherwise it must be NULL.
+        * work_name must be unique within the same department.
         """
         constraints = [
             # Ensure type_wagon is only set for allowed departments
@@ -82,6 +82,9 @@ class Work(models.Model):
                 name='unique_work_name_per_department'
             ),
         ]
+
+    def __str__(self):
+        return self.work_name
 
     def clean(self):
         # Normalize empty strings -> None
@@ -107,5 +110,4 @@ class Work(models.Model):
     def type_wagon_display(self):
         return self.type_wagon or DEFAULT_WAGON_TYPE
 
-    def __str__(self):
-        return self.work_name
+
