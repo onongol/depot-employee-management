@@ -119,6 +119,9 @@ class Piecework(models.Model):
         null=True, 
         db_index=True
     )
+
+    def __str__(self):
+        return f"{self.employee.employee_id}/{self.employee.name}/{self.work.work_name}/{self.type_work}/{self.work_date}"
     
     def save(self, *args, **kwargs):
         """
@@ -172,6 +175,4 @@ class Piecework(models.Model):
         # Prefer stored snapshot; fallback to default symbol
         return self.type_wagon or DEFAULT_WAGON_TYPE
 
-    def __str__(self):
-        """String representation of the Piecework model."""
-        return f"{self.employee.employee_id}/{self.employee.name}/{self.work.work_name}/{self.type_work}/{self.work_date}"
+
