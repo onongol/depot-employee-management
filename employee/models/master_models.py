@@ -36,5 +36,4 @@ class Master(models.Model):
     )
 
     def __str__(self):
-        """String representation of the Master model."""
         return f"{self.master_id}/{self.name}"
