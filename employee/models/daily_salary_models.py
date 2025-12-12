@@ -62,15 +62,21 @@ class DailySalary(models.Model):
         return f"{self.employee.employee_id}/{self.employee.name}/{self.salary_date}"
 
     def save(self, *args, **kwargs):
-        # Ensure snapshot of employee name is stored
+        """
+        Override save to:
+        - Snapshot employee_name and department from the related Employee for stable reporting.
+        - Validate that employee.money_per_hour is present.
+        - Compute salary_day (hours_per_day * money_per_hour) before persisting.
+
+        This keeps denormalized fields consistent and ensures salary calculations
+        are stored with each record for simpler exports and historical accuracy.
+        """
         if self.employee:
             self.employee_name = self.employee.name
 
-        # Ensure that the employee's money_per_hour is not None
         if self.employee.money_per_hour is None:
             raise ValueError("Employee's money_per_hour must not be None")
         
-        # Calculate salary_day before saving
         self.salary_day = Decimal(self.hours_per_day) * self.employee.money_per_hour
 
         super().save(*args, **kwargs)
