@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from employee.models import Employee
-from employee.utils.permissions import is_admin
+from employee.utils.access import is_admin
 
 
 @login_required(login_url='login')
