@@ -8,7 +8,6 @@ from employee.models import Work
 
 
 class WorkForm(TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin, forms.ModelForm):
-    """Form for creating or updating a Work record."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -47,7 +46,6 @@ class WorkForm(TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin,
 
 
 class UpdateWorkForm(TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin, forms.ModelForm):
-    """Form for updating an existing Work record."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
