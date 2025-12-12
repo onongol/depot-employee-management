@@ -115,7 +115,7 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
             # Always normalize type_wagon: only keep if present, else None
             self.type_wagon = self.work.type_wagon or None
 
-            # Snapshot work_name and department from related Work
+            # Snapshot
             self.work_name = snapshot_work_name(self.work)
             self.department = snapshot_department(self.work)
 
