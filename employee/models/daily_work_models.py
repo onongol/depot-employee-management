@@ -14,6 +14,9 @@ from employee.services.daily_work_sync import sync_piecework_with_dailywork
 from employee.services.daily_work_canculate import (canculate_amount_time,
                                                     canculate_amount_material,
                                                     canculate_amount_price)
+from employee.services.normalizes import (normalize_wagon_number,
+                                          normalize_job_title,
+                                          normalize_type_wagon)
 from employee.services.snapshots import (snapshot_work_name,
                                          snapshot_department)
 
@@ -100,22 +103,19 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     
     def save(self, *args, **kwargs):
         """
-        Override save to calculate amount_time and amount_material.
-        Also updates related Piecework entries after saving.
+        Override save to:
+        - Normalize inputs (wagon_number, job_title, type_wagon).
+        - Snapshot denormalized fields from Work (work_name, department) for reporting stability.
+        - Compute derived amounts (time, material, price) based on Work settings and quantity.
+        - Persist the record, then synchronize related Piecework entries.
+
+        This ensures consistent domain data and keeps downstream exports/reports robust.
         """
-        # Set wagon_number to None if empty
-        if not self.wagon_number:
-            self.wagon_number = None
+        self.wagon_number = normalize_wagon_number(self.wagon_number)
 
-        # Set job_title and type_wagon from Work if not set
         if self.work:
-            if not self.job_title:
-                self.job_title = self.work.job_title
-
-            # Always normalize type_wagon: only keep if present, else None
-            self.type_wagon = self.work.type_wagon or None
-
-            # Snapshot
+            self.job_title = normalize_job_title(self.job_title, self.work)
+            self.type_wagon = normalize_type_wagon(self.work)
             self.work_name = snapshot_work_name(self.work)
             self.department = snapshot_department(self.work)
 
