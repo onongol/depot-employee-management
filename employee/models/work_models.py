@@ -109,5 +109,3 @@ class Work(models.Model):
     @property
     def type_wagon_display(self):
         return self.type_wagon or DEFAULT_WAGON_TYPE
-
-
