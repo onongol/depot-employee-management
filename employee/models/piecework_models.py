@@ -146,7 +146,7 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
             # Always normalize type_wagon: only keep if present, else None
             self.type_wagon = self.work.type_wagon or None
 
-        # Snapshot employee_name, work_name and department
+        # Snapshot
         if self.employee:
             self.employee_name = snapshot_employee_name(self.employee)
             self.department = snapshot_department(self.employee)
