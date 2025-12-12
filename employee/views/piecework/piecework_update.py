@@ -5,8 +5,8 @@ from django.views.generic import UpdateView
 
 from employee.forms import UpdatePieceworkForm
 from employee.mixins.context_mixins import PieceworkContextMixin
+from employee.mixins.permissions_mixins import OnlyAdminMixin
 from employee.models import DailySalary
-from employee.utils.permissions import OnlyAdminMixin
 from employee.utils.select_department import get_selected_department
 from employee.views.piecework.piecework_calculation import piecework_calculate_update
 
