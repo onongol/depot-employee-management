@@ -52,18 +52,25 @@ class DailySalary(models.Model):
         # Ensure snapshot of employee name is stored
         if self.employee:
             self.employee_name = self.employee.name
+
         # Ensure that the employee's money_per_hour is not None
         if self.employee.money_per_hour is None:
             raise ValueError("Employee's money_per_hour must not be None")
+        
+        # Calculate salary_day before saving
         self.salary_day = Decimal(self.hours_per_day) * self.employee.money_per_hour
+
         super().save(*args, **kwargs)
 
     class Meta:
-        """Meta information for DailySalary model."""
+        """"
+        Model-level metadata:
+        - Enforces a unique constraint on (employee, salary_date) to prevent
+        multiple DailySalary records for the same employee on the same date.
+        """
         constraints = [
             models.UniqueConstraint(fields=['employee', 'salary_date'], name='unique_employee_salary_date')
         ]
 
     def __str__(self):
-        """String representation of the DailySalary model."""
         return f"{self.employee.employee_id}/{self.employee.name}/{self.salary_date}"
