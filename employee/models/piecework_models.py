@@ -8,9 +8,11 @@ from django.db import models
 from employee.constants.constants import (JOB_TITLE_CHOICES,
                                           TYPE_WAGON_CHOICES,
                                           TYPE_WORK_CHOICES)
-from employee.models.models_mixins.display_mixins import (TypeWagonDisplayMixin,
-                                                          WagonNumberDisplayMixin)
 from employee.models import DailyWork, Employee, Work
+from employee.models.models_mixins.display_mixins import (TypeWagonDisplayMixin, 
+                                                          WagonNumberDisplayMixin)
+from employee.services.daily_work_canculate import (canculate_amount_material,
+                                                    canculate_amount_time)
 
 
 class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
@@ -159,9 +161,7 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
             except Exception:
                 self.work_name = None
 
-        std_time = getattr(self.work, 'standard_time', None)
-        std_time_dec = Decimal(str(std_time or 0))
-        amt = self.amount or Decimal('0.000000')
-        self.amount_time = (std_time_dec * amt).quantize(Decimal('0.000000'))
-        self.amount_material = self.work.usage_material * self.amount
+        self.amount_time = canculate_amount_time(self.work, self.amount or Decimal('0'))
+        self.amount_material = canculate_amount_material(self.work, self.amount or Decimal('0'))
+
         super().save(*args, **kwargs)
