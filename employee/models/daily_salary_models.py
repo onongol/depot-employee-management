@@ -48,6 +48,19 @@ class DailySalary(models.Model):
         auto_now_add=True
     )
 
+    class Meta:
+        """"
+        Model-level metadata:
+        - Enforces a unique constraint on (employee, salary_date) to prevent
+        multiple DailySalary records for the same employee on the same date.
+        """
+        constraints = [
+            models.UniqueConstraint(fields=['employee', 'salary_date'], name='unique_employee_salary_date')
+        ]
+
+    def __str__(self):
+        return f"{self.employee.employee_id}/{self.employee.name}/{self.salary_date}"
+
     def save(self, *args, **kwargs):
         # Ensure snapshot of employee name is stored
         if self.employee:
@@ -62,15 +75,4 @@ class DailySalary(models.Model):
 
         super().save(*args, **kwargs)
 
-    class Meta:
-        """"
-        Model-level metadata:
-        - Enforces a unique constraint on (employee, salary_date) to prevent
-        multiple DailySalary records for the same employee on the same date.
-        """
-        constraints = [
-            models.UniqueConstraint(fields=['employee', 'salary_date'], name='unique_employee_salary_date')
-        ]
 
-    def __str__(self):
-        return f"{self.employee.employee_id}/{self.employee.name}/{self.salary_date}"
