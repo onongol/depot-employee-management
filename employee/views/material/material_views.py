@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from employee.utils.filters import filter_material
 from employee.utils.pagination import paginate_queryset
-from employee.utils.permissions import is_admin
+from employee.utils.access import is_admin
 from employee.utils.sorting import apply_ordering
 from employee.views.material.material_grouping import group_and_sum_materials
 from employee.views.material.material_prepare import material_prepare
