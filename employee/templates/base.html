@@ -55,7 +55,7 @@
         <div class="flex items-center gap-2 ml-auto lg:order-2">          
           <!-- Login/Logout -->
           {% if request.user.is_authenticated %}
-            {% include "includes/user_dropdown.html" %}
+            {% include "includes/user/user_dropdown.html" %}
           {% else %}
             <a 
               href="{% url 'login' %}" 
