@@ -7,7 +7,7 @@
 {% block form_fields %}
   <fieldset class="space-y-4">
     <legend class="sr-only">Create Work Details</legend>
-    {% include "includes/department_input_hidden.html" %}
+    {% include "includes/department/department_input_hidden.html" %}
 
     {% include "includes/form_input.html" with id="work_name" label=_("Work Name") name="work_name" type="text" value=form.work_name.value form_errors=form.work_name required=True placeholder=_("Unique name of the work") %}
 
