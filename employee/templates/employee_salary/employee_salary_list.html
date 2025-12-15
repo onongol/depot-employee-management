@@ -67,21 +67,12 @@
     {% include "includes/pagination.html" %}
   </nav>
 
+  <!-- Export Button -->
   <div class="flex gap-2 w-24 mt-4 mb-4">
-    <!-- Export Button Excel -->
-    <a
-      href="{% url 'employee_salary_export_excel' %}?month_period={{ filters.month_period }}&month={{ filters.month }}&year={{ filters.year }}&employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}"
-      class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-400"
-      role="button"
-      aria-label="Download filtered employee salaries as Excel"
-    >
-      <svg class="w-5 h-5 mr-1" aria-hidden="true">
-        <use xlink:href="#download" />
-      </svg>
-      <span>Excel</span>
-    </a>
+    <!-- Excel -->
+    {% include "includes/export_button.html" with url_name='employee_salary_export_excel' params=filters aria_label=_("Download filtered employee salaries as Excel") %}
 
-    <!-- Export Button PDF -->
+    <!-- PDF -->
     <a
       href="{% url 'employee_salary_export_pdf' %}?month_period={{ filters.month_period }}&month={{ filters.month }}&year={{ filters.year }}&employee_id={{ filters.employee_id }}&employee_name={{ filters.employee_name }}&department={{ filters.department }}&job_title={{ filters.job_title }}"
       class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-red-100 hover:text-red-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-red-400 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-red-700 dark:hover:text-white dark:focus:ring-red-400"
