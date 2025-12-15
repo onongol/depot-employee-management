@@ -1,0 +1,39 @@
+{% load i18n %}
+
+{% load static %}
+
+<div class="relative">
+
+  <!-- User avatar button -->
+  {% include "includes/user/avatar_button.html" %}
+  
+  <!-- Main Dropdown Menu -->
+  <div
+    class="absolute right-0 mt-2 w-48 bg-gray-50 border border-gray-100 rounded-md shadow-sm z-10 py-2 hidden dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+    id="user-dropdown-menu"
+    tabindex="0"
+    role="menu"
+  >
+  
+    <!-- Username -->
+    {% include "includes/user/menu_header.html" %}
+
+    <!-- Password Change Link -->
+    {% include "includes/user/menu_password_link.html" %} 
+    
+    <!-- Language Switcher Parent -->
+    {% include "includes/user/language_switcher.html" %}
+
+    <!-- Theme Switcher -->
+    {% include "includes/user/theme_switcher.html" %}
+
+    <!-- Divider -->
+    <hr class="my-2 border-gray-200 dark:border-gray-700"/>
+
+    <!-- Sign Out Form -->
+    {% include "includes/user/menu_logout.html" %}
+  </div>
+</div>
+
+<script src="{% static 'js/user_dropdown.js' %}"></script>
+<script src="{% static 'js/theme_switcher.js' %}"></script>
