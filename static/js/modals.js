@@ -1,15 +1,12 @@
-// Modal management: open/close modals, populate dynamic content, focus management
+// Modal functionality for editing, deleting, activating, and deactivating employees
 document.addEventListener("DOMContentLoaded", function () {
-  // Focus first input in modal
+  // Focus first button in modal
   function openModal(modalId) {
     const modal = document.getElementById(modalId);
-    if (!modal) {
-      console.warn(`Modal with id "${modalId}" not found`);
-      return;
-    }
+    if (!modal) return;
     modal.classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
-    if (typeof focusFirst === 'function') focusFirst(modalId);
+    focusFirst(modalId);
   }
 
   // Close all modals and restore scroll
@@ -18,43 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
       modal.classList.add('hidden');
     });
     document.body.classList.remove('overflow-hidden');
-  }
-
-  // Safe setters with error handling
-  function safeSetText(id, value) {
-    const el = document.getElementById(id);
-    if (!el) {
-      console.warn(`Element with id "${id}" not found`);
-      return;
-    }
-    el.textContent = value;
-  }
-  function safeSetHref(id, value) {
-    const el = document.getElementById(id);
-    if (!el) {
-      console.warn(`Element with id "${id}" not found`);
-      return;
-    }
-    el.href = value;
-  }
-  function safeSetAction(id, value) {
-    const el = document.getElementById(id);
-    if (!el) {
-      console.warn(`Element with id "${id}" not found`);
-      return;
-    }
-    el.action = value;
-  }
-
-  // Fill modal details based on type
-  function fillModalDetails(modalType, itemId, itemName, url) {
-    if (modalType === 'edit') {
-      safeSetHref('updateLink', url);
-      safeSetText('updateDetails', `${itemId}/${itemName}`);
-    } else if (modalType === 'delete') {
-      safeSetAction('deleteForm', url);
-      safeSetText('deleteDetails', `${itemId}/${itemName}`);
-    }
   }
 
   // Edit
@@ -79,6 +39,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Deactivate
+  document.querySelectorAll('a[aria-label^="Deactivate"]').forEach(function (button) {
+    button.addEventListener("click", function (e) {
+      e.preventDefault();
+      const itemId = button.getAttribute("data-id");
+      const itemName = button.getAttribute("data-name");
+      const deactivateUrl = button.getAttribute("href");
+      fillModalDetails('deactivate', itemId, itemName, deactivateUrl);
+      openModal('deactivateModal');
+    });
+  });
+
+  // Activate
+  document.querySelectorAll('a[aria-label^="Activate"]').forEach(function (button) {
+    button.addEventListener("click", function (e) {
+      e.preventDefault();
+      const itemId = button.getAttribute("data-id");
+      const itemName = button.getAttribute("data-name");
+      const activateUrl = button.getAttribute("href");
+      fillModalDetails('activate', itemId, itemName, activateUrl);
+      openModal('activateModal');
+    });
+  });
+
   // Close modals with Esc
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
@@ -86,10 +70,53 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Close modals on Cancel button
+  // Close modals when clicking outside content
   document.querySelectorAll('[data-modal-cancel]').forEach(function(btn) {
     btn.addEventListener('click', function() {
       closeAllModals();
     });
   });
 });
+
+// Safe setters with error handling
+function safeSetText(id, value) {
+  const el = document.getElementById(id);
+  if (!el) {
+    console.warn(`Element with id "${id}" not found`);
+    return;
+  }
+  el.textContent = value;
+}
+function safeSetHref(id, value) {
+  const el = document.getElementById(id);
+  if (!el) {
+    console.warn(`Element with id "${id}" not found`);
+    return;
+  }
+  el.href = value;
+}
+function safeSetAction(id, value) {
+  const el = document.getElementById(id);
+  if (!el) {
+    console.warn(`Element with id "${id}" not found`);
+    return;
+  }
+  el.action = value;
+}
+
+// Fill modal details based on type
+function fillModalDetails(type, id, name, url) {
+  if (type === 'edit') {
+    safeSetHref('updateLink', url);
+    safeSetText('updateDetails', `${id}/${name}`);
+  } else if (type === 'delete') {
+    safeSetAction('deleteForm', url);
+    safeSetText('deleteDetails', `${id}/${name}`);
+  } else if (type === 'deactivate') {
+    safeSetHref('deactivateLink', url);
+    safeSetText('deactivateDetails', `${id}/${name}`);
+  } else if (type === 'activate') {
+    safeSetHref('activateLink', url);
+    safeSetText('activateDetails', `${id}/${name}`);
+  }
+}
