@@ -8,11 +8,7 @@
   {% url 'daily_work_create' as create_url %}
 
   <!-- Header -->
-  {% if not is_employee %}
-    {% include "includes/list_header.html" with header_id="daily-work-list-title" title=selected_department create_url=create_url %}
-  {% else %}
-    {% include "includes/section_title.html" with section_id="daily-work-list-title" section_title=selected_department %}
-  {% endif %}
+  {% include "includes/list_header.html" with header_id="daily-work-list-title" title=selected_department create_url=create_url %}
   
   <!-- Filter Form -->
   {% include "daily_work/daily_work_filters.html" %}
