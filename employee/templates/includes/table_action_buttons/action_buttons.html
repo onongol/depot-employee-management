@@ -1,0 +1,18 @@
+{% load i18n %}
+
+<div class="flex gap-2">
+  <!-- Edit Button -->
+  {% include "includes/table_action_buttons/edit_button.html" with id=id name=name edit_url=edit_url is_active=is_active show_activation=show_activation %}
+
+
+  <!-- Delete Button -->
+  {% include "includes/table_action_buttons/delete_button.html" with id=id name=name delete_url=delete_url is_active=is_active show_activation=show_activation %}
+
+  <!-- Activation/Deactivation Button -->
+  {% include "includes/table_action_buttons/activation_button.html" with id=id name=name is_active=is_active show_activation=show_activation %}
+</div>
+
+{% include "includes/modals/modal_update.html" %}
+{% include "includes/modals/modal_delete.html" %}
+{% include "includes/modals/modal_deactivate.html" %}
+{% include "includes/modals/modal_activate.html" %}
