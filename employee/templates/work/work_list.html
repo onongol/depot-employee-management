@@ -9,11 +9,7 @@
   {% url 'work_create' as create_url %}
 
   <!-- Header -->
-  {% if not is_master %}
-    {% include "includes/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url %}
-  {% else %}
-    {% include "includes/section_title.html" with section_id="work-list-title" section_title=selected_department %}
-  {% endif %}
+  {% include "includes/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url %}
 
   <!-- Filter Form -->
   {% include "work/work_filters.html" %}
