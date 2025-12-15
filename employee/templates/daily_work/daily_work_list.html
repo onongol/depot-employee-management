@@ -16,7 +16,7 @@
   <!-- Filter Form -->
   <form method="get" class="mb-6" aria-labelledby="daily-work-list-title">
     <div class="flex flex-col md:flex-row gap-4">
-      {% include "includes/filter_input.html" with id="filter-work" label=_("Work Name") name="work_name" type="text" value=request.GET.work placeholder=_("Work Name") %}
+      {% include "includes/filter_input.html" with id="filter-work" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name placeholder=_("Work Name") %}
 
       {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
 
