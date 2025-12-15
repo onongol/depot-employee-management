@@ -14,8 +14,8 @@
   {% trans "New" %} {% trans object_type %} ({{ selected_department }})
 </h2>
 
-<!-- Alert for potential duplicate piecework entries -->
-{% include "includes/piecework_form_alert.html" %}
+<!-- Alert for potential duplicate entries -->
+{% include "includes/alerts/duplicate_warning.html" %}
 
 {% include "includes/form/form_errors.html" %}
 
