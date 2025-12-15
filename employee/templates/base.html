@@ -74,7 +74,7 @@
             >
               <!-- Dropdown for Departments -->
               {% if not is_employee and not is_master %} 
-                {% include "includes/department_dropdown.html" %}
+                {% include "includes/department/department_dropdown.html" %}
               {% endif %}
               <!-- Employee -->
               {% include "includes/menu_link.html" with url_name='employee_list' label=_('Employee') %}
