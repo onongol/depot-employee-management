@@ -1,0 +1,16 @@
+{% load i18n %}
+
+{% if messages %}
+  {% for message in messages %}
+    <!-- Attention Message -->
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+      {% include "includes/alerts/alerts_info.html" %}
+    <!-- Warning Message -->
+    {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+      {% include "includes/alerts/alerts_warning.html" %}
+    <!-- Success Message -->
+    {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+      {% include "includes/alerts/alerts_success.html" %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
