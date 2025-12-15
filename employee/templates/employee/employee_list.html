@@ -8,6 +8,7 @@
 
   {% url 'employee_create' as create_url %}
 
+  <!-- Header -->
   {% if not is_employee and not is_master %}
     {% include "includes/list_header.html" with header_id="employee-list-title" title=selected_department create_url=create_url %}
   {% else %} 
@@ -15,19 +16,7 @@
   {% endif %}
   
   <!-- Filter Form -->
-  <form method="get" class="mb-6" aria-labelledby="employee-list-title">
-    <div class="flex flex-col md:flex-row gap-4">
-      {% if not is_employee %}
-        {% include "includes/filter_input.html" with id="filter-employee-id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
-        
-        {% include "includes/filter_input.html" with id="filter-employee-name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name %}
-        
-        {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
-
-        {% include "includes/filter_button.html" %}
-      {% endif %}
-    </div>
-  </form>
+  {% include "employee/employee_filters.html" %}
 
   <!-- Messages -->
   {% include "includes/alerts.html" %}
@@ -85,7 +74,7 @@
     </table>
   </div>
 
-  <!-- Include Pagination -->
+  <!-- Pagination -->
   <nav aria-label="Employee list pagination" class="mt-6">
     {% include "includes/pagination.html" %}
   </nav>
