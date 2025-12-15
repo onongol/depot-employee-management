@@ -17,7 +17,7 @@
 <!-- Alert for potential duplicate piecework entries -->
 {% include "includes/piecework_form_alert.html" %}
 
-{% include "includes/form_errors.html" %}
+{% include "includes/form/form_errors.html" %}
 
 <form
   method="post"
@@ -27,12 +27,12 @@
 >
   {% csrf_token %}
 
-  {% include "includes/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True %}
+  {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True %}
 
-  {% include "includes/form_select.html" with id=form.type_work.id_for_label label=_("Type Work") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
+  {% include "includes/form/form_select.html" with id=form.type_work.id_for_label label=_("Type Work") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
 
   {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-    {% include "includes/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number placeholder=_("Enter if necessary") %}
+    {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number placeholder=_("Enter if necessary") %}
   {% endif %}
 
   <!-- If employees exist show -->
