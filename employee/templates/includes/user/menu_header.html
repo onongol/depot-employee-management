@@ -1,0 +1,4 @@
+<div 
+  class="mx-2 mb-2 px-4 py-2 text-sm text-gray-700 font-medium text-center border border-gray-200 rounded-md bg-gray-100 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400">
+  {{ request.user.get_full_name|default:request.user.username }}
+</div>
