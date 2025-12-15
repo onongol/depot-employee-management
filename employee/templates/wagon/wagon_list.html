@@ -63,19 +63,9 @@
     {% include "includes/pagination.html" %}
   </nav>
 
+  <!-- Export Button Excel -->
   <div class="flex gap-2 w-24 mt-4 mb-4">
-      <!-- Export Button Excel -->
-      <a
-        href="{% url 'wagon_export_excel' %}?wagon_number={{ request.GET.wagon_number }}&type_wagon={{ request.GET.type_wagon }}&work={{ request.GET.work }}&type_work={{ request.GET.type_work }}&work_date={{ request.GET.work_date }}"
-        class="flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-400"
-        role="button"
-        aria-label="Download filtered wagons as Excel"
-      >
-        <svg class="w-5 h-5 mr-1" aria-hidden="true">
-          <use xlink:href="#download" />
-        </svg>
-        <span>Excel</span>
-      </a>
+    {% include "includes/export_button.html" with url_name='wagon_export_excel' params=filters aria_label=_("Download filtered wagons as Excel") %}
   </div>
 
 {% endblock %}
