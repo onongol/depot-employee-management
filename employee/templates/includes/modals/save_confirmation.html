@@ -1,6 +1,7 @@
+<!-- Confirmation modal shown when saving updates to an object. Included on edit pages to warn that saving will update related records. -->
+
 {% load static %}
 
-<!-- Confirmation Modal -->
 <div
   id="saveModal"
   class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden"
@@ -40,4 +41,4 @@
   </div>
 </div>
 
-<script src="{% static 'js/update_form_save_modal.js' %}"></script>
+<script src="{% static 'js/save_confirmation.js' %}"></script>
