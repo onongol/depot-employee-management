@@ -74,7 +74,7 @@
                     {% url 'daily_work_update' daily_work.pk as update_url %}
                     {% url 'daily_work_delete' daily_work.pk as delete_url %}
                     {% with work_date=daily_work.work_date|date:"Y-m-d" %}
-                      {% include "includes/table_action_buttons.html" with id=daily_work.pk name=daily_work.work.work_name|add:", "|add:work_date edit_url=update_url delete_url=delete_url %}
+                      {% include "includes/table_action_buttons/action_buttons.html" with id=daily_work.pk name=daily_work.work.work_name|add:", "|add:work_date edit_url=update_url delete_url=delete_url %}
                     {% endwith %}
                   </td>
                 {% endif %}
@@ -100,8 +100,5 @@
   <div class="flex gap-2 w-24 mt-4 mb-4">
     {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label=_("Download filtered daily works as Excel") %}
   </div>
-
-  <!-- Modals for delete and update -->
-  {% include "includes/modals.html" %}
 
 {% endblock %}
