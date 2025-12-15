@@ -39,12 +39,12 @@
   {% if employees %}
     <!-- Add search input above the employee table -->
     <div class="flex flex-col md:flex-row gap-4 mb-4">
-      {% include "includes/filter_input.html" with id="employee-search" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id placeholder=_("Search by ID...") min="1" %}
+      {% include "includes/filters/filter_input.html" with id="employee-search" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id placeholder=_("Search by ID...") min="1" %}
 
-      {% include "includes/filter_input.html" with id="employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Search by Name...") %}
+      {% include "includes/filters/filter_input.html" with id="employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Search by Name...") %}
 
       <!-- Job Title Filter for employees and works -->
-      {% include "includes/filter_select.html" with id="select-job-title" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
+      {% include "includes/filters/filter_select.html" with id="select-job-title" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
     </div>
 
     <!-- Employee Table -->
@@ -102,10 +102,10 @@
 
     <!-- Add search input above the works table -->
     <div class="flex flex-col md:flex-row gap-4 mt-4 mb-4">
-      {% include "includes/filter_input.html" with id="work-search" label=_("Work") name="work_name" type="text" value=request.GET.work_name placeholder=_("Search works by name...") %}
+      {% include "includes/filters/filter_input.html" with id="work-search" label=_("Work") name="work_name" type="text" value=request.GET.work_name placeholder=_("Search works by name...") %}
 
       {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-        {% include "includes/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagon") %}
+        {% include "includes/filters/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagon") %}
       {% endif %}
     </div>
 
