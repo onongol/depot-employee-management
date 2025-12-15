@@ -35,11 +35,11 @@
             <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
             <th scope="col" class="{{ col_class }}">
-              {% include "includes/order_by_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
+              {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
             </th>
             {% if not is_employee %}
               <th scope="col" class="{{ col_class }}">
-                {% include "includes/order_by_column.html" with label=_("Record") field="record_date" col_class=col_class selected_department=selected_department %}
+                {% include "includes/table/sort_column.html" with label=_("Record") field="record_date" col_class=col_class selected_department=selected_department %}
               </th>
             {% endif %}
           {% endwith %}
