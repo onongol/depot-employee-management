@@ -70,7 +70,7 @@
   <!-- Export Button -->
   <div class="flex gap-2 w-24 mt-4 mb-4">
     <!-- Excel -->
-    {% include "includes/export_button.html" with url_name='employee_salary_export_excel' params=filters aria_label=_("Download filtered employee salaries as Excel") %}
+    {% include "includes/export_excel_button.html" with url_name='employee_salary_export_excel' params=filters aria_label=_("Download filtered employee salaries as Excel") %}
 
     <!-- PDF -->
     <a
