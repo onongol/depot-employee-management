@@ -8,6 +8,7 @@
 
   {% url 'work_create' as create_url %}
 
+  <!-- Header -->
   {% if not is_master %}
     {% include "includes/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url %}
   {% else %}
@@ -15,19 +16,7 @@
   {% endif %}
 
   <!-- Filter Form -->
-  <form method="get" class="mb-6" aria-labelledby="work-list-title">
-    <div class="flex flex-col md:flex-row gap-4">
-      {% include "includes/filter_input.html" with id="filter-work-name" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name %}
-
-      {% include "includes/filter_select.html" with id="filter-job-title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
-
-      {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-        {% include "includes/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagons") %}
-      {% endif %}
-      
-      {% include "includes/filter_button.html" %}
-    </div>
-  </form>
+  {% include "work/work_filters.html" with section_id="work-list-title" %}
 
   <!-- Messages -->
   {% include "includes/alerts.html" %}
@@ -88,7 +77,7 @@
     </table>
   </div>
 
-  <!-- Include Pagination -->
+  <!-- Pagination -->
   <nav aria-label="Work list pagination" class="mt-6">
     {% include "includes/pagination.html" %}
   </nav>
