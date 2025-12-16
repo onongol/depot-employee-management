@@ -7,7 +7,7 @@
 {% block content %}
 
 <!-- Injects server-side existing pieceworks as JSON for client-side duplicate detection. 
-    Used by static/js/piecework_form_duplicate.js to validate, warn, and populate includes/modals/save_duplicate.html before submission. -->
+Used by static/js/piecework_form_duplicate.js to validate, warn, and populate includes/modals/save_duplicate.html before submission. -->
 {{ existing_pieceworks|json_script:"existing-pieceworks" }}
 
 <!-- Form Title -->
@@ -39,13 +39,13 @@
     {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number placeholder=_("Enter if necessary") %}
   {% endif %}
 
-  <!-- If employees exist show -->
   {% if employees %}
+
     <!-- Filters employee table -->
-    {% include "daily_work/employee_table_filters.html" %}
+    {% include "includes/filters/employee_search_filters.html" %}
 
     <!-- Employee Table -->
-    {% include "daily_work/employee_table.html" %}
+    {% include "includes/employee_table.html" with employees=employees max_height="max-h-68" aria_desc="daily-work-list-title" %}
 
     <!-- Filters works table -->
     {% include "daily_work/work_table_filters.html" %}
@@ -53,6 +53,7 @@
     <!-- Works Table -->
     {% include "daily_work/work_table.html" %}
   {% else %}
+  
     <!-- Info notice when no employees for selected date -->
     <div class="mb-4 rounded-md shadow-sm border-l-4 border-yellow-400 bg-yellow-50 p-3 dark:bg-yellow-500/20 dark:border-yellow-600">
       <p class="text-sm text-yellow-800 dark:text-yellow-400">
