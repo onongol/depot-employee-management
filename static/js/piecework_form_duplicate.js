@@ -1,5 +1,9 @@
 // This script handles the duplicate check for piecework entries in a form.
 document.addEventListener('DOMContentLoaded', function () {
+  // Read server data injected via json_script
+  const existingPieceworksEl = document.getElementById('existing-pieceworks');
+  const existingPieceworks = existingPieceworksEl ? JSON.parse(existingPieceworksEl.textContent) : [];
+
   // Get form by ID
   const form = document.getElementById('createForm');
   if (!form) return;
