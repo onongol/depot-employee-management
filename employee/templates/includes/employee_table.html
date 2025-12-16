@@ -1,0 +1,63 @@
+{% load i18n %}
+
+<div class="overflow-hidden rounded-md border border-gray-200 bg-white mb-4 employee-table-container dark:bg-gray-900 dark:border-gray-700">
+  <div 
+    class="overflow-x-auto overflow-y-auto {{ max_height|default:'max-h-68' }} w-full"
+  >
+    <table 
+      class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400" aria-describedby="daily-salary-list-title"
+    >
+      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
+        <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
+          {% with col_class="px-6 py-3" %}
+            <th 
+              scope="col" 
+              class="{{ col_class }} text-center"
+            >
+              <input
+                type="checkbox"
+                id="select-all-employees"
+                class="h-4 w-4"
+                onclick="toggleAllVisible(this, 'employee_ids')"
+                aria-label="Select all employees"
+              >
+              <label for="select-all-employees" class="sr-only">{% trans "Select all employees" %}</label>
+            </th>
+                <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
+                <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+                <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
+          {% endwith %}
+        </tr>
+      </thead>
+      <tbody 
+        id="employees-table-body" 
+        class="divide-y divide-gray-100 dark:divide-gray-700"
+      >
+        {% for employee in employees %}
+          <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
+            {% with col_class="px-6 py-3" %}
+              <td class="{{ col_class }} align-middle text-center">
+                <input
+                  type="checkbox"
+                  class="form-checkbox h-4 w-4"
+                  id="employee_{{ employee.pk }}"
+                  name="employee_ids"
+                  value="{{ employee.pk }}"
+                  aria-labelledby="label_employee_{{ employee.pk }}"
+                >
+              </td>
+              <td class="{{ col_class }}">
+                <label id="label_employee_{{ employee.pk }}" for="employee_{{ employee.pk }}" class="sr-only">
+                  {{ employee.employee_id }}
+                </label>
+                {{ employee.employee_id }}
+              </td>
+              <td class="{{ col_class }}">{{ employee.name }}</td>
+              <td class="{{ col_class }}">{{ employee.job_title }}</td>
+            {% endwith %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>  
+</div>
