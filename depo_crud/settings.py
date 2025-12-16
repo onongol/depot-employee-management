@@ -123,6 +123,7 @@ TEMPLATES = [
                 'employee.context_processors.is_employee',   # Check if user is an employee
                 'employee.context_processors.is_master',    # Check if user is a master
                 'employee.context_processors.is_payroll',  # Check if user is a payroll specialist
+                'employee.context_processors.needs_department_warning', # Department warning
             ],
         },
     },
