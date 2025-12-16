@@ -6,10 +6,11 @@
 
 {% block content %}
 
-<script>
-  const existingPieceworks = {{ existing_pieceworks_json|safe }};
-</script>
+<!-- Injects server-side existing pieceworks as JSON for client-side duplicate detection. 
+    Used by static/js/piecework_form_duplicate.js to validate, warn, and populate includes/modals/save_duplicate.html before submission. -->
+{{ existing_pieceworks|json_script:"existing-pieceworks" }}
 
+<!-- Form Title -->
 <h2 id="form-title" class="text-xl text-gray-700 font-semibold mb-6 dark:text-gray-400">
   {% trans "New" %} {% trans object_type %} ({{ selected_department }})
 </h2>
@@ -17,8 +18,10 @@
 <!-- Alert for potential duplicate entries -->
 {% include "includes/alerts/duplicate_warning.html" %}
 
+<!-- Form Errors -->
 {% include "includes/form/form_errors.html" %}
 
+<!-- Daily Work Piecework Create Form -->
 <form
   method="post"
   class="bg-white rounded-md border border-gray-100 shadow-md p-6 dark:bg-gray-800 dark:border-gray-700"
@@ -27,6 +30,7 @@
 >
   {% csrf_token %}
 
+  <!-- Field -->
   {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True %}
 
   {% include "includes/form/form_select.html" with id=form.type_work.id_for_label label=_("Type Work") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
@@ -37,147 +41,17 @@
 
   <!-- If employees exist show -->
   {% if employees %}
-    <!-- Add search input above the employee table -->
-    <div class="flex flex-col md:flex-row gap-4 mb-4">
-      {% include "includes/filters/filter_input.html" with id="employee-search" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id placeholder=_("Search by ID...") min="1" %}
-
-      {% include "includes/filters/filter_input.html" with id="employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Search by Name...") %}
-
-      <!-- Job Title Filter for employees and works -->
-      {% include "includes/filters/filter_select.html" with id="select-job-title" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
-    </div>
+    <!-- Filters employee table -->
+    {% include "daily_work/employee_table_filters.html" %}
 
     <!-- Employee Table -->
-    <div class="overflow-hidden rounded-md border border-gray-200 bg-white mb-4 employee-table-container dark:bg-gray-900 dark:border-gray-700">
-      <div class="overflow-x-auto overflow-y-auto max-h-68 w-full">
-        <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400" aria-describedby="daily-salary-list-title">
-          <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
-            <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
-              {% with col_class="px-6 py-3" %}
-                <th scope="col" class="{{ col_class }} text-center">
-                  <input
-                    type="checkbox"
-                    id="select-all-employees"
-                    class="h-4 w-4"
-                    onclick="toggleAllVisible(this, 'employee_ids')"
-                    aria-label="Select all employees"
-                  >
-                  <label for="select-all-employees" class="sr-only">{% trans " Select all employees" %}</label>
-                </th>
-                <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
-                <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
-                <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
-              {% endwith %}
-            </tr>
-          </thead>
-          <tbody id="employees-table-body" class="divide-y divide-gray-100 dark:divide-gray-700">
-            {% for employee in employees %}
-              <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-                {% with col_class="px-6 py-3" %}
-                  <td class="{{ col_class }} align-middle text-center">
-                    <input
-                      type="checkbox"
-                      class="form-checkbox h-4 w-4"
-                      id="employee_{{ employee.pk }}"
-                      name="employee_ids"
-                      value="{{ employee.pk }}"
-                      aria-labelledby="label_employee_{{ employee.pk }}"
-                    >
-                  </td>
-                  <td class="{{ col_class }}">
-                    <label id="label_employee_{{ employee.pk }}" for="employee_{{ employee.pk }}" class="sr-only">
-                      {{ employee.employee_id }}
-                    </label>
-                    {{ employee.employee_id }}
-                  </td>
-                  <td class="{{ col_class }}">{{ employee.name }}</td>
-                  <td class="{{ col_class }}">{{ employee.job_title }}</td>
-                {% endwith %}
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>  
-    </div>
+    {% include "daily_work/employee_table.html" %}
 
-    <!-- Add search input above the works table -->
-    <div class="flex flex-col md:flex-row gap-4 mt-4 mb-4">
-      {% include "includes/filters/filter_input.html" with id="work-search" label=_("Work") name="work_name" type="text" value=request.GET.work_name placeholder=_("Search works by name...") %}
-
-      {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-        {% include "includes/filters/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagon") %}
-      {% endif %}
-    </div>
+    <!-- Filters works table -->
+    {% include "daily_work/work_table_filters.html" %}
 
     <!-- Works Table -->
-    <div class="overflow-hidden rounded-md border border-gray-200 bg-white mb-4 works-table-container dark:bg-gray-900 dark:border-gray-700">
-      <div class="overflow-x-auto overflow-y-auto max-h-148 w-full">
-        <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400" aria-describedby="daily-salary-list-title">
-          <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
-            <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
-              {% with col_class="px-6 py-3" %}
-                <th scope="col" class="{{ col_class }} text-center">
-                  <input
-                    type="checkbox"
-                    id="select-all-works"
-                    class="h-4 w-4"
-                    onclick="toggleAllVisible(this, 'work_ids')"
-                    aria-label="Select all works"
-                  >
-                  <label for="select-all-works" class="sr-only">{% trans "Select all works" %}</label>
-                </th>
-                <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
-                <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
-                {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                  <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
-                {% endif %}
-                <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
-              {% endwith %}
-            </tr>
-          </thead>
-          <tbody id="works-table-body" class="divide-y divide-gray-100 dark:divide-gray-700">
-            {% for work in works %}
-              <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-                {% with col_class="px-6 py-3" %}
-                  <td class="{{ col_class }} align-middle text-center">
-                    <input
-                      type="checkbox"
-                      class="work-checkbox h-4 w-4"
-                      id="work_{{ work.pk }}"
-                      name="work_ids"
-                      value="{{ work.pk }}"
-                      aria-labelledby="label_work_{{ work.pk }}"
-                      data-work-name="{{ work.work_name }}"
-                    >
-                  </td>
-                  <td class="{{ col_class }}">
-                    <label id="label_work_{{ work.pk }}" for="work_{{ work.pk }}" class="sr-only">
-                      {{ work.work_name }}
-                    </label>
-                    {{ work.work_name }}
-                  </td>
-                  <td class="{{ col_class }}">{{ work.job_title }}</td>
-                  {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                    <td class="{{ col_class }}">{{ work.type_wagon_display }}</td>
-                  {% endif %}
-                  <td class="{{ col_class }}">
-                    <label for="amount_{{ work.pk }}" class="sr-only">Amount for {{ work.work_name }}</label>
-                    <input
-                      type="number"
-                      id="amount_{{ work.pk }}"
-                      name="amount_{{ work.pk }}"
-                      min="0"
-                      class="block w-full max-w-[80px] rounded-xl border border-gray-300 bg-gray-100 px-4 py-1 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition disabled:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:placeholder-gray-500 dark:focus:ring-gray-500 dark:focus:border-gray-500 dark:disabled:bg-gray-900{% if form_errors.errors %}border-red-600 focus:ring-red-600 focus:border-red-600 focus:text-red-600 dark:border-red-600 dark:focus:ring-red-600 dark:focus:border-red-600 dark:focus:text-red-600{% endif %}"
-                      disabled
-                    >
-                  </td>
-                {% endwith %}
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>  
-    </div>
+    {% include "daily_work/work_table.html" %}
   {% else %}
     <!-- Info notice when no employees for selected date -->
     <div class="mb-4 rounded-md shadow-sm border-l-4 border-yellow-400 bg-yellow-50 p-3 dark:bg-yellow-500/20 dark:border-yellow-600">
@@ -191,76 +65,15 @@
   {% endif %}
 
   <!-- Selected summary section -->
-  <div id="selected-summary" class="bg-gray-100 border border-gray-300 rounded px-4 py-3 mt-4 mb-4 text-sm text-gray-700 font-medium dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
-    {% trans "Selected Employees:" %}
-    <span id="selected-employees-list"></span>
-    <br>
-    {% trans "Selected Works:" %}
-    <span id="selected-works-list"></span>
-  </div>
+  {% include "includes/form/selected_summary.html" with selected_employees=selected_employees selected_works=selected_works %}
 
   <!-- Form Buttons -->
-  <!-- Save active if employees exist -->
-  <div class="flex flex-col sm:flex-row gap-2 mt-6">
-    <button
-      type="submit"
-      {% if not employees %}
-        disabled
-        aria-disabled="true"
-        class="px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow opacity-50 cursor-not-allowed"
-      {% else %}
-        class="px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-      {% endif %}
-    >
-      {% trans "Save" %}
-    </button>
-    <a
-      href="{{ cancel_url }}"
-      class="px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-center dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-500"
-    >
-      {% trans "Cancel" %}
-    </a>
-  </div>
+  {% include "includes/form/form_actions.html" with cancel_url=cancel_url %}
 </form>
 
 <!-- Save Duplicate Modal -->
 {% include "includes/modals/save_duplicate.html" %}
 
-<!-- JS Script -->
-<script src="{% static 'js/type_work_id.js' %}"></script>
-<script src="{% static 'js/toggle_all.js' %}"></script>
-<script src="{% static 'js/piecework_amount_inputs.js' %}"></script>
-<script src="{% static 'js/summary_selected_employees.js' %}"></script>
-<script src="{% static 'js/summary_selected_works.js' %}"></script>
-<script src="{% static 'js/form_navigation.js' %}"></script>
-<!-- Table Search Script -->
-<script>
-  window.TABLE_SEARCHES = [
-    ['employee-search', 'employees-table-body', 1],
-    ['employee-name-search', 'employees-table-body', 2],
-    ['work-search', 'works-table-body', 1],
-  ];
-  window.TABLE_SELECT_FILTERS = [
-    ['select-job-title', 'employees-table-body', 3],
-    ['select-job-title', 'works-table-body', 2],
-    ['filter-type-wagon', 'works-table-body', 3],
-  ];
-</script>
-<script src="{% static 'js/table_search.js' %}"></script>
-<!-- Checkbox Validation Script -->
-<script src="{% static 'js/validate_checkbox_selection.js' %}"></script>
-{% trans "Please select at least one employee." as employee_select_msg %}
-{% trans "Please select at least one work." as work_select_msg %}
-<script>
-  setupCheckboxValidation('createForm', 'employee_ids', '.employee-table-container', "{{ employee_select_msg|escapejs }}");
-  // For another table:
-  setupCheckboxValidation('createForm', 'work_ids', '.works-table-container', "{{ work_select_msg|escapejs }}");
-</script>
-<script src="{% static 'js/piecework_amount_validation.js' %}"></script>
-{% trans "Please fill in the amount for selected work(s)" as amount_fill_msg %}
-<script>
-  setupAmountValidation('createForm', 'work_ids', '.works-table-container', "{{ amount_fill_msg|escapejs }}");
-</script>
-<script src="{% static 'js/piecework_form_duplicate.js' %}"></script>
-<script src="{% static 'js/work_date_change.js' %}"></script>
+<!-- JS Scripts -->
+{% include "daily_work/scripts.html" %}
 {% endblock %}
