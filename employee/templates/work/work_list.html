@@ -9,7 +9,7 @@
   {% url 'work_create' as create_url %}
 
   <!-- Header -->
-  {% include "includes/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url %}
+  {% include "includes/components/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url %}
 
   <!-- Filter Form -->
   {% include "work/work_filters.html" %}
