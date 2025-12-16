@@ -1,0 +1,26 @@
+{% load static %}
+
+{% include "includes/messages.html" %}
+
+<script src="{% static 'js/form_navigation.js' %}"></script>
+<script src="{% static 'js/summary_selected_employees.js' %}"></script>
+
+<!-- Table Search config (must be before table_search.js) -->
+<script>
+window.TABLE_SEARCHES = [
+    ['employee-search', 'employees-table-body', 1],
+    ['employee-name-search', 'employees-table-body', 2],
+];
+window.TABLE_SELECT_FILTERS = [
+    ['select-job-title', 'employees-table-body', 3],
+];
+</script>
+
+<script src="{% static 'js/table_search.js' %}"></script>
+
+<script src="{% static 'js/toggle_all.js' %}"></script>
+<script src="{% static 'js/validate_checkbox_selection.js' %}"></script>
+
+<script>
+    setupCheckboxValidation('createForm', 'employee_ids', '.employee-table-container', window.PIECEWORK_MESSAGES.employeeSelect);
+</script>
