@@ -77,28 +77,28 @@
                 {% include "includes/department/department_dropdown.html" %}
               {% endif %}
               <!-- Employee -->
-              {% include "includes/menu_link.html" with url_name='employee_list' label=_('Employee') %}
+              {% include "includes/navbar/menu_link.html" with url_name='employee_list' label=_('Employee') %}
               <!-- Work -->
               {% if not is_employee %}
-                {% include "includes/menu_link.html" with url_name='work_list' label=_('Work') %}
+                {% include "includes/navbar/menu_link.html" with url_name='work_list' label=_('Work') %}
               {% endif %}
               <!-- Daily Salary -->
-              {% include "includes/menu_link.html" with url_name='daily_salary_list' label=_('Daily Salary') %}
+              {% include "includes/navbar/menu_link.html" with url_name='daily_salary_list' label=_('Daily Salary') %}
               <!-- Daily Work -->
               {% if not is_employee %}
-                {% include "includes/menu_link.html" with url_name='daily_work_list' label=_('Daily Work') %}
+                {% include "includes/navbar/menu_link.html" with url_name='daily_work_list' label=_('Daily Work') %}
               {% endif %}
               <!-- Piecework -->
-              {% include "includes/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
+              {% include "includes/navbar/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
               <!-- Salary -->
-              {% include "includes/menu_link.html" with url_name='employee_salary_list' label=_('Salary') %}
+              {% include "includes/navbar/menu_link.html" with url_name='employee_salary_list' label=_('Salary') %}
               <!-- Wagon -->
               {% if not is_employee %}
-                {% include "includes/menu_link.html" with url_name='wagon_list' label=_('Wagon') %}
+                {% include "includes/navbar/menu_link.html" with url_name='wagon_list' label=_('Wagon') %}
               {% endif %}
               <!-- Material -->
               {% if not is_employee and not is_master %}
-                {% include "includes/menu_link.html" with url_name='material_list' label=_('Material') %}
+                {% include "includes/navbar/menu_link.html" with url_name='material_list' label=_('Material') %}
               {% endif %}
             </ul>
           </div>
