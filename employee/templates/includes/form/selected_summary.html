@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<div id="selected-summary" class="bg-gray-100 border border-gray-300 rounded px-4 py-3 mt-4 mb-4 text-sm text-gray-700 font-medium dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
+  {% if selected_employees is not defined or selected_employees %} 
+    {% trans "Selected Employees:" %}
+    <span id="selected-employees-list"></span>
+  {% endif %}
+  <br>
+  {% if selected_works is not defined or selected_works %} 
+    {% trans "Selected Works:" %}
+    <span id="selected-works-list"></span>
+  {% endif %}
+</div>
