@@ -81,7 +81,8 @@ def build_daily_piecework_context(request):
         'errors': [],
         'selected_department': department,
         'cancel_url': reverse('daily_work_list'),
-        'existing_pieceworks_json': json.dumps(existing_pieceworks, cls=DjangoJSONEncoder), # Pass existing records as JSON
+        'existing_pieceworks': existing_pieceworks,
+        #'existing_pieceworks_json': json.dumps(existing_pieceworks, cls=DjangoJSONEncoder), # Pass existing records as JSON
         'job_titles': job_titles,
         'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
         'type_wagons': type_wagons,
