@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 
 {% load static %}
 
@@ -31,7 +31,7 @@
       {% include "includes/filters/employee_search_filters.html" %}
 
       <!-- Employee Table -->
-      {% include "includes/employee_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-salary-list-title" %}
+      {% include "includes/table/employee_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-salary-list-title" %}
     {% else %}
       <!-- Info notice when no employees -->
       <div class="mb-4 rounded-md shadow-sm border-l-4 border-yellow-400 bg-yellow-50 p-3 dark:bg-yellow-500/20 dark:border-yellow-600">
