@@ -1,0 +1,40 @@
+{% load static %}
+
+{% include "daily_work/messages.html" %}
+
+<script src="{% static 'js/form_navigation.js' %}"></script>
+<script src="{% static 'js/piecework_amount_inputs.js' %}"></script>
+<script src="{% static 'js/piecework_amount_validation.js' %}"></script>
+<script src="{% static 'js/piecework_form_duplicate.js' %}"></script>
+<script src="{% static 'js/summary_selected_employees.js' %}"></script>
+<script src="{% static 'js/summary_selected_works.js' %}"></script>
+
+<!-- Table Search config (must be before table_search.js) -->
+<script>
+  window.TABLE_SEARCHES = [
+    ['employee-search', 'employees-table-body', 1],
+    ['employee-name-search', 'employees-table-body', 2],
+    ['work-search', 'works-table-body', 1],
+  ];
+  window.TABLE_SELECT_FILTERS = [
+    ['select-job-title', 'employees-table-body', 3],
+    ['select-job-title', 'works-table-body', 2],
+    ['filter-type-wagon', 'works-table-body', 3],
+  ];
+</script>
+
+<script src="{% static 'js/table_search.js' %}"></script>
+
+<script src="{% static 'js/toggle_all.js' %}"></script>
+<script src="{% static 'js/type_work_id.js' %}"></script>
+<script src="{% static 'js/validate_checkbox_selection.js' %}"></script>
+
+<script>
+  setupCheckboxValidation('createForm', 'employee_ids', '.employee-table-container', window.PIECEWORK_MESSAGES.employeeSelect);
+  setupCheckboxValidation('createForm', 'work_ids', '.works-table-container', window.PIECEWORK_MESSAGES.workSelect);
+</script>
+<script>
+  setupAmountValidation('createForm', 'work_ids', '.works-table-container', window.PIECEWORK_MESSAGES.amountFill);
+</script>
+
+<script src="{% static 'js/work_date_change.js' %}"></script>
