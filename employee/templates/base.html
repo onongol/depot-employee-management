@@ -5,12 +5,9 @@
 <!DOCTYPE html>
 <html lang="en">
   {% include "base/head.html" %}
-
-  <body class="bg-white dark:bg-gray-900">
-    
+  <body class="bg-white dark:bg-gray-900">    
     {% include "base/navbar.html" %}
 
-    <!-- Main Content -->
     <main class="max-w-screen-xl mx-auto mt-8 px-4 outline-none bg-white dark:bg-gray-900" id="main-content" tabindex="-1">
       <!-- If no department is selected -->
       {% if needs_department_warning %}
@@ -36,6 +33,5 @@
     <script src="{% static 'dist/flatpickr_bundle.js' %}" defer></script>
     <script src="{% static 'js/navbar_toggle.js' %}"></script>
     <script src="{% static 'js/modals.js' %}"></script>
-
   </body>
 </html>
