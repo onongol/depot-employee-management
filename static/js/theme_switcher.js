@@ -1,3 +1,5 @@
+// Controls app theme (light/dark/auto): updates root class, stores selection in localStorage, toggles Flatpickr dark CSS, updates icon/label, and reacts to system preference changes.
+
 document.addEventListener('DOMContentLoaded', function () {
   // Get theme dropdown button and menu elements
   const themeBtn = document.getElementById('theme-dropdown-btn');
