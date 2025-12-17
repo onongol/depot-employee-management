@@ -1,7 +1,8 @@
+// Toggles password visibility with optional auto-hide: reveals/hides input, updates icons and ARIA attributes, and manages per-input auto-hide timers.
+
 // Store auto-hide timers by input id
 const autoHideTimers = new Map();
 
-// Toggle password visibility (with optional auto-hide)
 // revealMs (optional) — reveal duration in ms. If not provided, it can be set on the button via data-reveal-ms.
 function togglePasswordVisibility(inputId, btn, revealMs) {
   const input = document.getElementById(inputId);
