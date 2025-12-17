@@ -1,3 +1,5 @@
+// Toggles the navigation menu for mobile/desktop: manages open/close state at the lg breakpoint, updates aria-expanded for accessibility, adjusts classes for responsive display, and listens to toggle clicks and screen-size changes.
+
 document.addEventListener('DOMContentLoaded', () => {
   // Find the mobile menu toggle button by its data attribute
   const btn = document.querySelector('[data-collapse-toggle="navbar-menu"]');
