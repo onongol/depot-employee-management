@@ -1,4 +1,5 @@
-// Universal form navigation: move to next/previous input/select/textarea on Enter/Shift+Enter (except textarea itself)
+// Provides keyboard form navigation: Enter focuses the next input (Shift+Enter goes back), skips textareas/hidden/disabled elements, and submits when Enter is pressed on the last field for forms with IDs "createForm" and "updateForm".
+
 document.addEventListener('DOMContentLoaded', function () {
   const formIds = ['createForm', 'updateForm'];
   // Add more form IDs as needed
