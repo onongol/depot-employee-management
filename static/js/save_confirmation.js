@@ -1,4 +1,5 @@
-// Get elements
+// Shows a confirmation modal before saving: opens modal on Save click, prevents page scroll, submits the form on confirm, and closes modal on Escape or Cancel.
+
 const saveBtn = document.getElementById('saveButton');
 const saveModal = document.getElementById('saveModal');
 const confirmBtn = document.getElementById('confirmSaveButton');
