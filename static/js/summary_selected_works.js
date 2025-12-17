@@ -1,4 +1,4 @@
-// Update the summary of selected works
+// Updates and displays a compact summary of selected works: shows first five names with a "more" toggle, handles "select all", and shows/hides the summary box based on selected employees/works.
 
 // Helper: safely get work name from checkbox row
 function getWorkName(cb) {
