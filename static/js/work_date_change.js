@@ -1,4 +1,5 @@
-// JavaScript to handle work date changes
+// Handles the work date input: on change or Enter it updates the URL's work_date param, clears page, and navigates to the new URL.
+
 (function() {
   const input = document.getElementById('work_date');
   if (!input) return;
