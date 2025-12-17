@@ -1,5 +1,6 @@
+// Validates amount inputs for selected piecework items before form submission: highlights invalid inputs, shows/clears error messages, prevents submission when selected works have missing/invalid amounts, and exposes initializer setupAmountValidation.
+
 (function () {
-  // UI helpers
   // Add or remove red border classes for invalid inputs
   function addRedBorder(input) {
     if (input) input.classList.add(
