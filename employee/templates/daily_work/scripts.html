@@ -2,8 +2,8 @@
 
 {% include "includes/scripts/messages.html" %}
 
-<script src="{% static 'js/daily_work/amount_inputs.js' %}"></script>
-<script src="{% static 'js/daily_work/amount_validation.js' %}"></script>
+<script src="{% static 'js/amount/amount_inputs.js' %}"></script>
+<script src="{% static 'js/amount/amount_validation.js' %}"></script>
 <script src="{% static 'js/modals/duplicate_check.js' %}"></script>
 <script src="{% static 'js/summary/summary_selected_employees.js' %}"></script>
 <script src="{% static 'js/summary/summary_selected_works.js' %}"></script>
@@ -24,9 +24,10 @@
 
 <script src="{% static 'js/filters/table_search.js' %}"></script>
 
-<script src="{% static 'js/toggle_all.js' %}"></script>
-<script src="{% static 'js/type_work_id.js' %}"></script>
-<script src="{% static 'js/validate_checkbox_selection.js' %}"></script>
+<script src="{% static 'js/checkboxe/select_all.js' %}"></script>
+<script src="{% static 'js/checkboxe/checkbox_validation.js' %}"></script>
+<script src="{% static 'js/forms/ensure_type_work.js' %}"></script>
+<script src="{% static 'js/forms/work_date_change.js' %}"></script>
 
 <script>
   setupCheckboxValidation('createForm', 'employee_ids', '.employee-table-container', window.PIECEWORK_MESSAGES.employeeSelect);
@@ -36,4 +37,3 @@
   setupAmountValidation('createForm', 'work_ids', '.works-table-container', window.PIECEWORK_MESSAGES.amountFill);
 </script>
 
-<script src="{% static 'js/work_date_change.js' %}"></script>
