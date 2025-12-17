@@ -79,6 +79,48 @@
     const form = document.getElementById(formId);
     if (!form) return;
 
+    // Helper: check selected amounts quickly (no scrolling / UI side-effects)
+    function allSelectedAmountsValid() {
+      const selected = Array.from(document.querySelectorAll(`input[name="${checkboxName}"]:checked`));
+      if (selected.length === 0) return true;
+      for (const cb of selected) {
+        const input = document.getElementById(`amount_${cb.value}`);
+        const val = input ? String(input.value).trim() : '';
+        if (!input || val === '' || isNaN(val) || Number(val) <= 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // Clear UI state when user fixes an amount or toggles checkboxes
+    function attachLiveClearHandlers() {
+      // on amount input change
+      document.querySelectorAll('input[id^="amount_"]').forEach(function (input) {
+        input.addEventListener('input', function () {
+          removeRedBorder(input);
+          const container = document.querySelector(containerSelector);
+          if (allSelectedAmountsValid()) clearAmountError(container);
+        });
+      });
+
+      // on work checkbox change
+      document.querySelectorAll(`input[name="${checkboxName}"]`).forEach(function (cb) {
+        cb.addEventListener('change', function () {
+          const container = document.querySelector(containerSelector);
+          // remove red border from inputs that are no longer selected
+          if (!cb.checked) {
+            const input = document.getElementById(`amount_${cb.value}`);
+            removeRedBorder(input);
+          }
+          if (allSelectedAmountsValid()) clearAmountError(container);
+        });
+      });
+    }
+
+    // attach handlers now (and it's safe to call multiple times)
+    attachLiveClearHandlers();
+
     // Validate on form submit
     form.addEventListener('submit', function (e) {
       if (!validateSelectedWorkAmounts(checkboxName, containerSelector, message)) {
