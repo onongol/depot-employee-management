@@ -1,4 +1,5 @@
-// Clear form input errors on user input
+// Removes form validation UI when users edit inputs: clears red-border classes and deletes associated error message elements (id + '_error') on input events.
+
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('input, select, textarea').forEach(function (el) {
     el.addEventListener('input', function () {
