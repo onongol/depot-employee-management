@@ -1,4 +1,5 @@
-// This script manages the enabling and disabling of amount inputs based on work checkbox selections.
+// Manages enabling/disabling amount inputs tied to work checkboxes: toggles input disabled state on checkbox changes, handles "select all", prevents Enter from submitting amount fields, and initializes input states on page load.
+
 document.addEventListener('DOMContentLoaded', function () {
   // Update amount input state for a single checkbox
   function updateAmountInput(checkbox) {
