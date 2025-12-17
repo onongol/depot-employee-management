@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.utils.export_excel import export_to_excel
+from employee.utils.exports.export_excel import export_to_excel
 from employee.utils.filters import filter_pieceworks
 from employee.views.piecework.piecework_export.build_headers import build_headers
 from employee.views.piecework.piecework_export.build_totals_row import build_totals_row
