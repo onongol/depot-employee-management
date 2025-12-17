@@ -1,4 +1,5 @@
-// Dropdown functionality for department, theme, and user menus
+// Manages dropdown menus: toggles visibility, prevents click propagation, auto-closes on outside clicks, and closes menus when internal buttons are clicked; tracks open menus in a Set.
+
 document.addEventListener('DOMContentLoaded', function () {
   const openMenus = new Set();
   // Universal function for any dropdown
