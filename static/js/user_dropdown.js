@@ -1,4 +1,5 @@
-// JavaScript for handling User and Language dropdown menus
+// Handles user, language, and theme dropdowns: toggles menus, stops click propagation to keep menus open when interacting inside, and closes all menus on outside clicks.
+
 document.addEventListener('DOMContentLoaded', function () {
   const userBtn = document.getElementById('user-dropdown-btn');
   const userMenu = document.getElementById('user-dropdown-menu');
