@@ -1,4 +1,5 @@
-// Update the selected employees summary display
+// Updates and displays a summary of selected employees (ID/name list), handles "select all" state, toggles the summary box visibility, and initializes event listeners on DOMContentLoaded.
+
 function updateSelectedEmployeesSummary() {
   const empCheckboxes = document.querySelectorAll('input[name="employee_ids"]');
   const empChecked = document.querySelectorAll('input[name="employee_ids"]:checked');
