@@ -1,4 +1,4 @@
-// Universal checkbox selection validation for tables.
+// Validates checkbox selection in tables: shows/removes error messages and red border on submit/change, preventing form submission when no checkboxes are checked; exposes setupCheckboxValidation for per-form setup.
 
 // Utility: show error message and add red border
 function showSelectionError(tableDiv, errorId, errorMessage) {
