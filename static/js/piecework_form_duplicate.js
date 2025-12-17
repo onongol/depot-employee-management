@@ -1,4 +1,5 @@
-// This script handles the duplicate check for piecework entries in a form.
+// Prevents duplicate piecework entries on create: checks selected employees/works against server-provided existing entries, shows a confirmation modal if duplicates found, and controls form submission flow.
+
 document.addEventListener('DOMContentLoaded', function () {
   // Read server data injected via json_script
   const existingPieceworksEl = document.getElementById('existing-pieceworks');
