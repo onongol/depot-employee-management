@@ -1,4 +1,5 @@
-// Function to toggle all visible checkboxes with the same name
+// Toggles all visible checkboxes sharing the same name (used for "select all" controls); ignores hidden elements and warns if no checkboxes found.
+
 function toggleAllVisible(source, name) {
   const checkboxes = document.getElementsByName(name);
   if (!checkboxes || checkboxes.length === 0) {
