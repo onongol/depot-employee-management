@@ -1,4 +1,5 @@
-// Modal functionality for editing, deleting, activating, and deactivating employees
+// Manages modal dialogs for edit/delete/activate/deactivate actions: opens/closes modals, populates modal content and targets (links/forms), traps page scrolling, and binds keyboard/overlay close handlers.
+
 document.addEventListener("DOMContentLoaded", function () {
   // Focus first button in modal
   function openModal(modalId) {
