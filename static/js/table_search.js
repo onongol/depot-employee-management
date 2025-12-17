@@ -1,4 +1,5 @@
-// Universal table search function
+// Provides client-side table search and select filters: filters rows by text input or select dropdown, and initializes per-page configs via window.TABLE_SEARCHES and window.TABLE_SELECT_FILTERS.
+
 function filterTableRows(inputId, tableBodyId, columnIndex = 1) {
   const input = document.getElementById(inputId);
   if (!input) return;
