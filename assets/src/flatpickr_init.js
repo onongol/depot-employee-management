@@ -1,5 +1,8 @@
+import "flatpickr/dist/flatpickr.min.css";
+import "flatpickr/dist/themes/dark.css";
+import "flatpickr/dist/plugins/monthSelect/style.css";
+
 import flatpickr from "flatpickr";
-//import "flatpickr/dist/flatpickr.min.css"; // import styles
 import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect/index.js";
 
 document.addEventListener('DOMContentLoaded', function () {
