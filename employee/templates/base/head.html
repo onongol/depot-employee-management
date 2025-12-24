@@ -6,13 +6,15 @@
   <meta name="description" content="Depot Management — employee, salary, and materials management system.">
 
   <!-- Prevent theme flash: -->
-  <script src="{% static 'js/theme/theme_init.js' %}"></script>
+  <script src="{% static 'js/theme_init-bundle.js' %}"></script>
 
   <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.svg' %}">
   
-  <link rel="stylesheet" href="{% static 'dist/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/styles-ChN-NeAG.css' %}" />
 
-  <link rel="stylesheet" href="{% static 'dist/flatpickr_bundle.css' %}" />
-  
+  <!-- Flatpickr styles -->
+  <link rel="stylesheet" href="{% static 'assets/flatpickr-DRf1F60d.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/flatpickr-RC47VOZj.css' %}" id="flatpickr-dark-css" disabled />
+
   <title>{% block title %}Depot Management{% endblock %}</title>
 </head>
