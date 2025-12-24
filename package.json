@@ -4,18 +4,17 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.17",
-    "flatpickr": "^4.6.13",
-    "tailwindcss": "^4.1.17"
+    "flatpickr": "^4.6.13"
   },
   "devDependencies": {
-    "esbuild": "^0.27.1"
+    "vite": "^7.3.0",
+    "esbuild": "^0.27.1",
+    "tailwindcss": "^4.1.18",
+    "@tailwindcss/vite": "^4.1.18"
   },
   "scripts": {
-    "prepare:dist": "node -e \"require('fs').mkdirSync('static/dist',{recursive:true})\"",
-    "watch:css": "npx @tailwindcss/cli -i ./assets/src/styles.css -o ./static/dist/styles.css --watch",
-    "build:css": "npx @tailwindcss/cli -i ./assets/src/styles.css -o ./static/dist/styles.css --minify",
-    "build:flatpickr": "npx esbuild ./assets/src/flatpickr_init.js --bundle --outfile=./static/dist/flatpickr_bundle.js",
-    "build": "npm run prepare:dist && npm run build:css && npm run build:flatpickr"
+    "dev": "vite",
+    "build:js": "vite build",
+    "build": "npm run build:js"
   }
 }
