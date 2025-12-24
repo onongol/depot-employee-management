@@ -30,7 +30,8 @@ python manage.py auto_admin --force
 echo "Check built assets before collectstatic:"
 ls -la static || true
 ls -la static/dist || true
-test -f static/dist/styles.css || echo "WARN: static/dist/styles.css not found"
+# test -f static/dist/styles.css || echo "WARN: static/dist/styles.css not found"
+test -f static/manifest.json || echo "WARN: static/manifest.json not found (check static/assets or static/js)"
 
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
