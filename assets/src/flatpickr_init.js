@@ -5,6 +5,7 @@ import "flatpickr/dist/plugins/monthSelect/style.css";
 import flatpickr from "flatpickr";
 import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect/index.js";
 
+
 document.addEventListener('DOMContentLoaded', function () {
   // Single Date Picker
   flatpickr(".js-flatpickr", {
@@ -28,5 +29,3 @@ document.addEventListener('DOMContentLoaded', function () {
     })]
   });
 });
-
-
