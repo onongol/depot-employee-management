@@ -2,32 +2,16 @@
 
 {% include "includes/scripts/messages.html" %}
 
-<script src="{% static 'js/amount/amount_inputs.js' %}"></script>
-<script src="{% static 'js/amount/amount_validation.js' %}"></script>
-<script src="{% static 'js/modals/duplicate_check.js' %}"></script>
-<script src="{% static 'js/summary/summary_selected_employees.js' %}"></script>
-<script src="{% static 'js/summary/summary_selected_works.js' %}"></script>
-
-<!-- Table Search config (must be before table_search.js) -->
-<script>
-  window.TABLE_SEARCHES = [
-    ['employee-search', 'employees-table-body', 1],
-    ['employee-name-search', 'employees-table-body', 2],
-    ['work-search', 'works-table-body', 1],
-  ];
-  window.TABLE_SELECT_FILTERS = [
-    ['select-job-title', 'employees-table-body', 3],
-    ['select-job-title', 'works-table-body', 2],
-    ['filter-type-wagon', 'works-table-body', 3],
-  ];
-</script>
-
-<script src="{% static 'js/filters/table_search.js' %}"></script>
-
-<script src="{% static 'js/checkboxe/select_all.js' %}"></script>
-<script src="{% static 'js/checkboxe/checkbox_validation.js' %}"></script>
-<script src="{% static 'js/forms/ensure_type_work.js' %}"></script>
-<script src="{% static 'js/forms/work_date_change.js' %}"></script>
+<script src="{% static 'js/amount_inputs-bundle.js' %}"></script>
+<script src="{% static 'js/amount_validation-bundle.js' %}"></script>
+<script src="{% static 'js/duplicate_check-bundle.js' %}"></script>
+<script src="{% static 'js/ensure_type_work-bundle.js' %}"></script>
+<script src="{% static 'js/work_date_change-bundle.js' %}"></script>
+<script src="{% static 'js/summary_selected_employees-bundle.js' %}"></script>
+<script src="{% static 'js/summary_selected_works-bundle.js' %}"></script>
+<script src="{% static 'js/table_search-bundle.js' %}"></script>
+<script src="{% static 'js/select_all-bundle.js' %}"></script>
+<script src="{% static 'js/checkbox_validation-bundle.js' %}"></script>
 
 <script>
   setupCheckboxValidation('createForm', 'employee_ids', '.employee-table-container', window.PIECEWORK_MESSAGES.employeeSelect);
@@ -36,4 +20,3 @@
 <script>
   setupAmountValidation('createForm', 'work_ids', '.works-table-container', window.PIECEWORK_MESSAGES.amountFill);
 </script>
-
