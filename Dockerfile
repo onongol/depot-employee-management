@@ -64,7 +64,8 @@ WORKDIR /app
 COPY --chown=depouser:depouser . .
 
 # Copy the built CSS from the Tailwind stage
-COPY --from=frontend-builder --chown=depouser:depouser /app/static/dist/ /app/static/dist/
+# COPY --from=frontend-builder --chown=depouser:depouser /app/static/dist/ /app/static/dist/
+COPY --from=frontend-builder --chown=depouser:depouser /app/static/ /app/static/
 
 # Switch to root user
 USER root
