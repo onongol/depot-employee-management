@@ -1,0 +1,1 @@
+function n(l,e){const c=Array.from(typeof e=="string"?document.querySelectorAll(`input[name="${CSS.escape?CSS.escape(e):e}"]`):e||[]);c.length&&c.forEach(t=>{t.type==="checkbox"&&t.offsetParent!==null&&(t.checked=!!(l&&l.checked),t.dispatchEvent(new Event("change",{bubbles:!0})))})}window.toggleAllVisible=n;
