@@ -1,11 +1,12 @@
 {% load static %}
-
 {% load i18n %}
 
 <!DOCTYPE html>
 <html lang="en">
   {% include "base/head.html" %}
-  <body class="bg-white dark:bg-gray-900">   
+  <body class="bg-white dark:bg-gray-900">
+    
+    {% include "includes/svg_symbols.html" %}
      
     {% include "base/navbar.html" %}
 
@@ -25,19 +26,24 @@
       {% endif %}
     </main>
 
-    {% include "includes/svg_symbols.html" %}
-
     <!-- Provides Django's JavaScript translation catalog (gettext) for client-side i18n;
     load this before any scripts that call gettext() or use translated strings. -->    
     <script src="{% url 'javascript-catalog' %}"></script> 
 
-    <!-- Vendor/bundles -->
-    <script src="{% static 'dist/flatpickr_bundle.js' %}" defer></script>
+    <!-- Flatpickr -->
+    <script src="{% static 'js/flatpickr-bundle.js' %}"></script>
 
-    <script src="{% static 'js/forms/form_navigation.js' %}"></script>
-    <script src="{% static 'js/forms/form_error_clear.js' %}"></script>
-    <script src="{% static 'js/dropdowns/department_dropdown.js' %}"></script>
-    <script src="{% static 'js/navbar/navbar_toggle.js' %}"></script>
-    <script src="{% static 'js/modals/modals.js' %}"></script>
+    {% if request.user.is_authenticated %}
+      <script src="{% static 'js/department_dropdown-bundle.js' %}"></script>
+      <script src="{% static 'js/user_dropdown-bundle.js' %}"></script>
+      <script src="{% static 'js/theme_switcher-bundle.js' %}"></script>
+    {% endif %}
+
+    <script src="{% static 'js/form_navigation-bundle.js' %}"></script>
+    <script src="{% static 'js/form_error_clear-bundle.js' %}"></script>
+    <script src="{% static 'js/navbar_toggle-bundle.js' %}"></script>
+    <script src="{% static 'js/modals-bundle.js' %}"></script>
+    <script src="{% static 'js/save_confirmation-bundle.js' %}"></script>
+    <script src="{% static 'js/password_toggle-bundle.js' %}"></script>
   </body>
 </html>
