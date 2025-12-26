@@ -1,22 +1,12 @@
 {% load static %}
 
-{% include "includes/scripts/messages.html" %}
-
-<script src="{% static 'js/amount_inputs-bundle.js' %}"></script>
-<script src="{% static 'js/amount_validation-bundle.js' %}"></script>
-<script src="{% static 'js/duplicate_check-bundle.js' %}"></script>
-<script src="{% static 'js/ensure_type_work-bundle.js' %}"></script>
-<script src="{% static 'js/work_date_change-bundle.js' %}"></script>
-<script src="{% static 'js/summary_selected_employees-bundle.js' %}"></script>
-<script src="{% static 'js/summary_selected_works-bundle.js' %}"></script>
-<script src="{% static 'js/table_search-bundle.js' %}"></script>
-<script src="{% static 'js/select_all-bundle.js' %}"></script>
-<script src="{% static 'js/checkbox_validation-bundle.js' %}"></script>
-
-<script>
-  setupCheckboxValidation('createForm', 'employee_ids', '.employee-table-container', window.PIECEWORK_MESSAGES.employeeSelect);
-  setupCheckboxValidation('createForm', 'work_ids', '.works-table-container', window.PIECEWORK_MESSAGES.workSelect);
-</script>
-<script>
-  setupAmountValidation('createForm', 'work_ids', '.works-table-container', window.PIECEWORK_MESSAGES.amountFill);
-</script>
+<script type="module" src="{% static 'js/table_search-bundle.js' %}"></script>
+<script type="module" src="{% static 'js/select_all-bundle.js' %}"></script>
+<script type="module" src="{% static 'js/checkbox_validation-bundle.js' %}"></script>
+<script type="module" src="{% static 'js/amount_inputs-bundle.js' %}"></script>
+<script type="module" src="{% static 'js/amount_validation-bundle.js' %}"></script>
+<script type="module" src="{% static 'js/duplicate_check-bundle.js' %}"></script>
+<script type="module" src="{% static 'js/ensure_type_work-bundle.js' %}"></script>
+<script type="module" src="{% static 'js/work_date_change-bundle.js' %}"></script>
+<script type="module" src="{% static 'js/summary_selected_employees-bundle.js' %}"></script>
+<script type="module" src="{% static 'js/summary_selected_works-bundle.js' %}"></script>
