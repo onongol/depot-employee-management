@@ -1,135 +1,135 @@
 {
-  "assets/js/amount/amount_inputs.js": {
+  "assets/js/amount/amount_inputs.ts": {
     "file": "js/amount_inputs-bundle.js",
     "name": "amount_inputs",
-    "src": "assets/js/amount/amount_inputs.js",
+    "src": "assets/js/amount/amount_inputs.ts",
     "isEntry": true
   },
-  "assets/js/amount/amount_validation.js": {
+  "assets/js/amount/amount_validation.ts": {
     "file": "js/amount_validation-bundle.js",
     "name": "amount_validation",
-    "src": "assets/js/amount/amount_validation.js",
+    "src": "assets/js/amount/amount_validation.ts",
     "isEntry": true
   },
-  "assets/js/auth/password_toggle.js": {
+  "assets/js/auth/password_toggle.ts": {
     "file": "js/password_toggle-bundle.js",
     "name": "password_toggle",
-    "src": "assets/js/auth/password_toggle.js",
+    "src": "assets/js/auth/password_toggle.ts",
     "isEntry": true
   },
-  "assets/js/checkbox/checkbox_validation.js": {
+  "assets/js/checkbox/checkbox_validation.ts": {
     "file": "js/checkbox_validation-bundle.js",
     "name": "checkbox_validation",
-    "src": "assets/js/checkbox/checkbox_validation.js",
+    "src": "assets/js/checkbox/checkbox_validation.ts",
     "isEntry": true
   },
-  "assets/js/checkbox/select_all.js": {
+  "assets/js/checkbox/select_all.ts": {
     "file": "js/select_all-bundle.js",
     "name": "select_all",
-    "src": "assets/js/checkbox/select_all.js",
+    "src": "assets/js/checkbox/select_all.ts",
     "isEntry": true
   },
-  "assets/js/dropdowns/department_dropdown.js": {
+  "assets/js/dropdowns/department_dropdown.ts": {
     "file": "js/department_dropdown-bundle.js",
     "name": "department_dropdown",
-    "src": "assets/js/dropdowns/department_dropdown.js",
+    "src": "assets/js/dropdowns/department_dropdown.ts",
     "isEntry": true
   },
-  "assets/js/dropdowns/user_dropdown.js": {
+  "assets/js/dropdowns/user_dropdown.ts": {
     "file": "js/user_dropdown-bundle.js",
     "name": "user_dropdown",
-    "src": "assets/js/dropdowns/user_dropdown.js",
+    "src": "assets/js/dropdowns/user_dropdown.ts",
     "isEntry": true
   },
-  "assets/js/filters/table_search.js": {
+  "assets/js/filters/table_search.ts": {
     "file": "js/table_search-bundle.js",
     "name": "table_search",
-    "src": "assets/js/filters/table_search.js",
+    "src": "assets/js/filters/table_search.ts",
     "isEntry": true
   },
-  "assets/js/forms/ensure_type_work.js": {
+  "assets/js/forms/ensure_type_work.ts": {
     "file": "js/ensure_type_work-bundle.js",
     "name": "ensure_type_work",
-    "src": "assets/js/forms/ensure_type_work.js",
+    "src": "assets/js/forms/ensure_type_work.ts",
     "isEntry": true
   },
-  "assets/js/forms/form_error_clear.js": {
+  "assets/js/forms/form_error_clear.ts": {
     "file": "js/form_error_clear-bundle.js",
     "name": "form_error_clear",
-    "src": "assets/js/forms/form_error_clear.js",
+    "src": "assets/js/forms/form_error_clear.ts",
     "isEntry": true
   },
-  "assets/js/forms/form_navigation.js": {
+  "assets/js/forms/form_navigation.ts": {
     "file": "js/form_navigation-bundle.js",
     "name": "form_navigation",
-    "src": "assets/js/forms/form_navigation.js",
+    "src": "assets/js/forms/form_navigation.ts",
     "isEntry": true
   },
-  "assets/js/forms/work_date_change.js": {
+  "assets/js/forms/work_date_change.ts": {
     "file": "js/work_date_change-bundle.js",
     "name": "work_date_change",
-    "src": "assets/js/forms/work_date_change.js",
+    "src": "assets/js/forms/work_date_change.ts",
     "isEntry": true
   },
-  "assets/js/modals/duplicate_check.js": {
+  "assets/js/modals/duplicate_check.ts": {
     "file": "js/duplicate_check-bundle.js",
     "name": "duplicate_check",
-    "src": "assets/js/modals/duplicate_check.js",
+    "src": "assets/js/modals/duplicate_check.ts",
     "isEntry": true
   },
-  "assets/js/modals/modals.js": {
+  "assets/js/modals/modals.ts": {
     "file": "js/modals-bundle.js",
     "name": "modals",
-    "src": "assets/js/modals/modals.js",
+    "src": "assets/js/modals/modals.ts",
     "isEntry": true
   },
-  "assets/js/modals/save_confirmation.js": {
+  "assets/js/modals/save_confirmation.ts": {
     "file": "js/save_confirmation-bundle.js",
     "name": "save_confirmation",
-    "src": "assets/js/modals/save_confirmation.js",
+    "src": "assets/js/modals/save_confirmation.ts",
     "isEntry": true
   },
-  "assets/js/navbar/navbar_toggle.js": {
+  "assets/js/navbar/navbar_toggle.ts": {
     "file": "js/navbar_toggle-bundle.js",
     "name": "navbar_toggle",
-    "src": "assets/js/navbar/navbar_toggle.js",
+    "src": "assets/js/navbar/navbar_toggle.ts",
     "isEntry": true
   },
-  "assets/js/summary/summary_selected_employees.js": {
+  "assets/js/summary/summary_selected_employees.ts": {
     "file": "js/summary_selected_employees-bundle.js",
     "name": "summary_selected_employees",
-    "src": "assets/js/summary/summary_selected_employees.js",
+    "src": "assets/js/summary/summary_selected_employees.ts",
     "isEntry": true
   },
-  "assets/js/summary/summary_selected_works.js": {
+  "assets/js/summary/summary_selected_works.ts": {
     "file": "js/summary_selected_works-bundle.js",
     "name": "summary_selected_works",
-    "src": "assets/js/summary/summary_selected_works.js",
+    "src": "assets/js/summary/summary_selected_works.ts",
     "isEntry": true
   },
-  "assets/js/theme/theme_init.js": {
+  "assets/js/theme/theme_init.ts": {
     "file": "js/theme_init-bundle.js",
     "name": "theme_init",
-    "src": "assets/js/theme/theme_init.js",
+    "src": "assets/js/theme/theme_init.ts",
     "isEntry": true
   },
-  "assets/js/theme/theme_switcher.js": {
+  "assets/js/theme/theme_switcher.ts": {
     "file": "js/theme_switcher-bundle.js",
     "name": "theme_switcher",
-    "src": "assets/js/theme/theme_switcher.js",
+    "src": "assets/js/theme/theme_switcher.ts",
     "isEntry": true
   },
-  "assets/src/flatpickr_init.js": {
+  "assets/src/flatpickr_init.ts": {
     "file": "js/flatpickr-bundle.js",
     "name": "flatpickr",
-    "src": "assets/src/flatpickr_init.js",
+    "src": "assets/src/flatpickr_init.ts",
     "isEntry": true,
     "css": [
-      "assets/flatpickr-RC47VOZj.css"
+      "assets/flatpickr-DRf1F60d.css"
     ]
   },
   "assets/src/styles.css": {
-    "file": "assets/styles-ChN-NeAG.css",
+    "file": "assets/styles-CFuR3BfH.css",
     "src": "assets/src/styles.css",
     "isEntry": true,
     "name": "styles",
