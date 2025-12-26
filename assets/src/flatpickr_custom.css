@@ -1,0 +1,117 @@
+/* Custom Flatpickr theme overrides: maps theme-aware CSS variables to flatpickr selectors, controls colors, hover/selected/range styles, removes default shadows, and adapts calendar appearance for light/dark modes. Keep UI consistent with Tailwind theme and enable easy overrides. */
+
+/* Base: calendar container colors and shadow */
+.flatpickr-calendar,
+.flatpickr-months {
+  /* calendar background and text */
+  background: var(--fp-bg) !important;
+  color: var(--fp-text) !important;
+}
+
+.flatpickr-calendar {
+  /* outer frame, radius and drop shadow */
+  border-color: var(--fp-border) !important;
+  border-radius: 1rem !important;
+  overflow: hidden;
+  box-shadow: var(--fp-shadow) !important;
+}
+
+/* Typography: days, time and inputs use theme text */
+.flatpickr-day,
+.flatpickr-time,
+.flatpickr-input {
+  color: var(--fp-text) !important;
+}
+
+/* Weekday labels */
+.flatpickr-weekday {
+  color: var(--fp-text) !important;  
+  color: var(--fp-muted) !important;
+}
+
+/* Hover state for individual day */
+.flatpickr-day:hover {
+  background: var(--fp-hover) !important;
+  border: none !important;
+}
+
+/* Selected day styles */
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange{
+  color: var(--fp-selected-text) !important;
+}
+
+/* Muted / disabled / out-of-month days */
+.flatpickr-day.nextMonthDay,
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.notAllowed,
+.flatpickr-day.disabled {
+  color: var(--fp-muted) !important;
+  opacity: 0.6;
+  background: none !important;
+  cursor: not-allowed;
+}
+
+/* Month / year header text */
+.flatpickr-current-month,
+.flatpickr-current-month .cur-month,
+.flatpickr-current-month .numInputWrapper,
+.flatpickr-current-month .flatpickr-year {
+  color: var(--fp-text) !important;
+}
+
+/* MonthSelect plugin: month buttons */
+.flatpickr-monthSelect-month {
+  color: var(--fp-text) !important;
+  transition: color 0.2s;
+}
+
+/* MonthSelect selected / hover */
+.flatpickr-monthSelect-month.selected,
+.flatpickr-monthSelect-month:hover {
+  background: var(--fp-accent) !important;
+  color: var(--fp-selected-text) !important;
+}
+
+/* MonthSelect rounding for selected months */
+.flatpickr-monthSelect-month.selected,
+.flatpickr-monthSelect-month:hover,
+.flatpickr-monthSelect-month.today {
+    border-radius: 1rem !important;
+}
+
+/* Prev/next arrows: fill and hover accent */
+.flatpickr-prev-month svg,
+.flatpickr-next-month svg,
+.flatpickr-prev-month .flatpickr-prev-arrow,
+.flatpickr-next-month .flatpickr-next-arrow {
+  fill: var(--fp-text) !important;
+  color: var(--fp-text) !important;
+  opacity: 0.7;
+  transition: fill 0.2s, color 0.2s;
+}
+
+.flatpickr-prev-month:hover svg,
+.flatpickr-next-month:hover svg,
+.flatpickr-prev-month:hover .flatpickr-prev-arrow,
+.flatpickr-next-month:hover .flatpickr-next-arrow {
+  fill: var(--fp-accent) !important;
+  color: var(--fp-accent) !important;
+  opacity: 1;
+}
+
+/* Range styling: make inRange cells and separators use same range color */
+/* Use --fp-range-bg so range color follows theme variables */
+.flatpickr-day.inRange,
+.flatpickr-day.prevMonthDay.inRange,
+.flatpickr-day.nextMonthDay.inRange,
+.flatpickr-day.today.inRange,
+.flatpickr-day.prevMonthDay.today.inRange,
+.flatpickr-day.nextMonthDay.today.inRange {
+  background: var(--fp-range-bg) !important;
+  border-color: var(--fp-range-bg) !important;
+  color: var(--fp-text) !important;
+  border-radius: 0 !important;
+  box-shadow: -5px 0 0 var(--fp-range-bg), 5px 0 0 var(--fp-range-bg) !important;
+}
