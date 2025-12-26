@@ -5,5 +5,5 @@
 
   {% include "includes/filters/filter_input.html" with id="employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Search by Name...") data_table="employees-table-body" data_column=2 %}
   
-  {% include "includes/filters/filter_select.html" with id="select-job-title" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") data_table="employees-table-body" data_column=3 %}
+  {% include "includes/filters/filter_select.html" with id="select-job-title-employees" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") data_table="employees-table-body" data_column=3 %}
 </div>
