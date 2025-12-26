@@ -1,1 +1,1 @@
-document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll('select[name="type_work"]').forEach(function(e){e&&e.id!=="type_work"&&(e.id="type_work")})});
+const n=()=>{const e=document.querySelectorAll('select[name="type_work"]');if(e.length===0||document.getElementById("type_work"))return;const t=e[0];t.id="type_work"};document.addEventListener("DOMContentLoaded",n);
