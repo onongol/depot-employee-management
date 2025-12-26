@@ -12,10 +12,23 @@ const RED_BORDER_CLASSES = [
 
 function clearValidationUi(el: FormElement): void {
   el.classList.remove(...RED_BORDER_CLASSES);
+
+  // try id-based error id (e.g. id="amount_1" -> "amount_1_error")
   const id = el.id?.trim();
-  if (!id) return;
-  const errorDiv = document.getElementById(`${id}_error`);
-  if (errorDiv) errorDiv.remove();
+  if (id) {
+    const errorDiv = document.getElementById(`${id}_error`);
+    if (errorDiv) {
+      errorDiv.remove();
+      return;
+    }
+  }
+
+  // fallback: try name-based error id (e.g. name="amount" -> "amount_error")
+  const name = (el as HTMLInputElement).name?.trim();
+  if (name) {
+    const nameErr = document.getElementById(`${name}_error`);
+    if (nameErr) nameErr.remove();
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
