@@ -6,7 +6,7 @@ from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 def build_headers(department):
     """Build headers for DailyWork export based on department."""
     headers = [
-        _("#"),
+        ("#"),
         _("Work"),
         _("Position"),
         _("Type"),

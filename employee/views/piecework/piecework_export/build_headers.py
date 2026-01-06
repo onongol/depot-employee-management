@@ -5,7 +5,7 @@ from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 
 def build_headers(department):
     headers = [
-        _("#"),
+        ("#"),
         _("ID"),
         _("Name"),
         _("Department"),
