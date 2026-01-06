@@ -6,7 +6,9 @@ from django.utils.translation import gettext_lazy as _
 
 from employee.models import Piecework
 from employee.views.daily_work.daily_work_piecework_create_entries import create_daily_work_entries
-from employee.views.daily_work.validators import validate_daily_salary, validate_required
+from employee.views.daily_work.validators import (validate_daily_salary, 
+                                                  validate_duplicate, 
+                                                  validate_required)
 from employee.views.piecework.piecework_calculation import piecework_calculate_records
 
 
@@ -26,6 +28,13 @@ def process_piecework(request_data):
     # Validate daily salary for selected employees
     employees_salary, salary_errors = validate_daily_salary(selected_employee_ids, work_date)
     errors.extend(salary_errors)
+    
+    # Validate no duplicate piecework entries
+    errors.extend(validate_duplicate(selected_employee_ids, selected_work_ids, work_date, type_work, wagon_number))
+    
+    # Validate required fields and amounts
+    errors.extend(validate_required(selected_employee_ids, selected_work_ids, work_date, type_work, amounts))
+    
     if errors:
         return None, None, errors
 
@@ -33,11 +42,6 @@ def process_piecework(request_data):
     daily_works, works_dict = create_daily_work_entries(
         selected_work_ids, amounts, job_title, type_work, wagon_number, work_date
     )
-
-    # Validate required fields and amounts
-    errors.extend(validate_required(selected_employee_ids, selected_work_ids, work_date, type_work, amounts, works_dict))
-    if errors:
-        return None, None, errors
 
     # Calculate piecework records
     results, calc_errors = piecework_calculate_records(
