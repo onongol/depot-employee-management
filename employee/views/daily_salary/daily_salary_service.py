@@ -4,13 +4,13 @@ from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
 from employee.models import DailySalary, Employee
-from employee.views.daily_salary.validators import validate_required_daily_salary
+from employee.views.daily_salary.validators import validate_required
 
 
 def create_daily_salary_records(selected_ids, salary_date, hours_per_day):
     """Create daily salary records for multiple employees."""
     # Validate required fields
-    errors = validate_required_daily_salary(selected_ids, salary_date, hours_per_day)
+    errors = validate_required(selected_ids, salary_date, hours_per_day)
 
     if errors:
         return None, errors
