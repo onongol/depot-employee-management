@@ -192,3 +192,7 @@ DEFAULT_WAGON_TYPE = '-'
 
 # Default select choice, only UI display value
 EMPTY_SELECT = [('', '---------')]
+
+# Grouping constants
+GROUP_MONTH = "month"
+GROUP_YEAR = "year"
