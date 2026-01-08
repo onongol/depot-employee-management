@@ -33,7 +33,7 @@ class DailySalary(models.Model):
     )
     hours_per_day = models.IntegerField(
         default=11,
-        validators=[MinValueValidator(0), MaxValueValidator(24)]
+        validators=[MinValueValidator(1), MaxValueValidator(24)]
     )
     salary_day = models.DecimalField(
         max_digits=20,
