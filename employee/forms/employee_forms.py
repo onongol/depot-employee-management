@@ -28,7 +28,7 @@ class EmployeeForm(JobTitleChoicesMixin, NameValidationMixin, forms.ModelForm):
             'money_per_hour': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'type': 'number',
-                'min': '0',
+                'min': '0.01',
                 'step': '0.01'
             }),
         }
@@ -48,7 +48,7 @@ class UpdateEmployeeForm(NameValidationMixin, JobTitleChoicesMixin, forms.ModelF
             'money_per_hour': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'type': 'number',
-                'min': '0',
+                'min': '0.01',
                 'step': '0.01'
             }),
         }
