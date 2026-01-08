@@ -1,16 +1,17 @@
 from django.utils.translation import gettext_lazy as _
 
+from employee.constants.constants import GROUP_MONTH, GROUP_YEAR
 from employee.utils.exports.export_excel import export_to_excel
 from employee.utils.filters import filter_daily_works
 from employee.views.daily_work.daily_work_export.build_headers import build_headers
 from employee.views.daily_work.daily_work_export.build_totals_row import build_totals_row
 from employee.views.daily_work.daily_work_export.daily_work_prepare import daily_work_prepare
 from employee.views.daily_work.daily_work_export.format_data import iter_rows
+from employee.views.daily_work.group_and_sort import group_and_sort
 
 
 def daily_work_export_excel(request):
     """Export filtered DailyWork list to Excel."""
-    # Prepare data
     (
         daily_works,
         department,
@@ -22,9 +23,15 @@ def daily_work_export_excel(request):
         type_material,
         range_date,
         record_date,
+        group,
+        selected_year,
+        month,
+        year,
+        order_by,
+        direction,
+        show_wagon,
     ) = daily_work_prepare(request)
 
-    # Apply all filters using a reusable filter function
     daily_works = filter_daily_works(
         daily_works,
         job_title=job_title,
@@ -37,19 +44,29 @@ def daily_work_export_excel(request):
         record_date=record_date
     )
 
-    # Sort in descending order
-    daily_works = daily_works.order_by('-work_date', '-record_date')
+    daily_works = group_and_sort(
+        daily_works,
+        group=group,
+        month=month,
+        year=year,
+        selected_year=selected_year,
+        show_wagon=show_wagon,
+        order_by=order_by,
+        direction=direction,
+    )
 
-    # Build headers
-    headers = build_headers(department)
+    headers = build_headers(department, group=group)
 
-    # Format data for Excel
-    data = list(iter_rows(daily_works, department))
+    data = list(iter_rows(daily_works, department, group=group))
 
-    # Append totals row
-    data.append(build_totals_row(daily_works, department))
+    data.append(build_totals_row(daily_works, department, group=group))
 
-    file_name = "daily_work.xlsx"
-    sheet_title = str(_("Daily Work"))
+    meta = {
+        GROUP_MONTH: ("monthly_work.xlsx", _("Monthly Work")),
+        GROUP_YEAR: ("yearly_work.xlsx", _("Yearly Work")),
+    }
+
+    file_name, title = meta.get(group, ("daily_work.xlsx", _("Daily Work")))
+    sheet_title = str(title)
 
     return export_to_excel(data, headers, file_name, sheet_title)
