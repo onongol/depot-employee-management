@@ -1,9 +1,9 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_MONTH, GROUP_YEAR
 
 
-def build_headers(department):
+def build_headers(department, group=None):
     """Build headers for DailyWork export based on department."""
     headers = [
         ("#"),
@@ -20,8 +20,14 @@ def build_headers(department):
         _("Amount"), 
         _("Time"), 
         _("Price"), 
-        _("Date")
     ]
+
+    if group == GROUP_MONTH:
+        headers += [_("Month"), _("Year")]
+    elif group == GROUP_YEAR:
+        headers += [_("Year")]
+    else:
+        headers += [_("Date")]
 
     headers = [str(h) for h in headers]
 
