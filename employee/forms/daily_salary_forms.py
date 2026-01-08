@@ -13,7 +13,7 @@ class DailySalaryForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control', 
                     'type': 'number', 
-                    'min': '0',
+                    'min': '1',
                     'max': '24'
                 }
             ),
@@ -35,7 +35,7 @@ class UpdateDailySalaryForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control', 
                     'type': 'number', 
-                    'min': '0',
+                    'min': '1',
                     'max': '24'
                 }
             ),
