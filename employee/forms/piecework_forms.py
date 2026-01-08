@@ -20,7 +20,7 @@ class PieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
             'amount': forms.NumberInput(attrs={
                 'class': 'form-control', 
                 'type': 'number', 
-                'min': '0'
+                'min': '0.01'
                 }
             ),
         }        
@@ -40,7 +40,7 @@ class UpdatePieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
             'amount': forms.NumberInput(attrs={
                 'class': 'form-control', 
                 'type': 'number', 
-                'min': '0'
+                'min': '0.01'
                 }
             ),  
         }
