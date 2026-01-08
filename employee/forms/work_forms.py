@@ -30,7 +30,7 @@ class WorkForm(TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin,
                 attrs={
                     'class': 'form-control', 
                     'type': 'number', 
-                    'min': '0',
+                    'min': '0.000001',
                     'step': '0.000001'
                 }
             ),
@@ -38,7 +38,7 @@ class WorkForm(TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin,
                 attrs={
                     'class': 'form-control', 
                     'type': 'number', 
-                    'min': '0',
+                    'min': '0.01',
                     'step': '0.01'
                 }
             ),
