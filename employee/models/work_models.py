@@ -53,14 +53,14 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
     standard_time = models.DecimalField(
         max_digits=20, 
         decimal_places=6, 
-        default=Decimal('0.000000'), 
-        validators=[MinValueValidator(0)]
+        default=Decimal('0.000001'), 
+        validators=[MinValueValidator(0.000001)]
     )
     price = models.DecimalField(
         max_digits=20, 
         decimal_places=2, 
-        default=Decimal('0.00'), 
-        validators=[MinValueValidator(0)]
+        default=Decimal('0.01'), 
+        validators=[MinValueValidator(0.01)]
     )
 
     class Meta:
