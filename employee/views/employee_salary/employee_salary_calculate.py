@@ -10,7 +10,7 @@ def employee_salary_calculate(employees, month, year):
     """Calculate employee salaries based on daily salary records and piecework using aggregation."""
     # Get sums of daily salaries
     salary_qs = DailySalary.objects.filter(employee__in=employees)
-    salary_qs = filter_month_year(salary_qs, month=month, year=year)
+    salary_qs = filter_month_year(salary_qs, month=month, year=year, date_field="salary_date")
     salary_groups = (
         salary_qs
         .values('employee', 'salary_date__year', 'salary_date__month')
