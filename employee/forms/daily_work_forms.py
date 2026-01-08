@@ -30,7 +30,7 @@ class DailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
             'amount': forms.NumberInput(attrs={
                 'class': 'form-control', 
                 'type': 'number', 
-                'min': '0'
+                'min': '0.01'
                 }
             ),
         }        
@@ -58,7 +58,7 @@ class UpdateDailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
             'amount': forms.NumberInput(attrs={
                 'class': 'form-control', 
                 'type': 'number', 
-                'min': '0'
+                'min': '0.01'
                 }
             ),
         }
