@@ -1,0 +1,55 @@
+{% load i18n %}
+{% load querystring %}
+
+<div class="mb-3 md:flex-row gap-4 flex flex-col"> 
+  <div class="flex flex-col">
+    <span class="sr-only">{% trans "View" %}</span>
+
+    <div class="inline-flex rounded-xl border border-gray-300 bg-gray-100 p-1 dark:bg-gray-800 dark:border-gray-600">
+      <a
+        href="{% querystring group='' page=None month_period=None %}"
+        class="
+          px-4 py-2 text-sm font-medium rounded-lg transition
+          {% if group != GROUP_MONTH and group != GROUP_YEAR %}
+            bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400
+          {% else %}
+            text-gray-500 hover:bg-gray-200 dark:text-gray-700 dark:hover:bg-gray-700
+          {% endif %}
+        "
+        aria-current="{% if group != GROUP_MONTH and group != GROUP_YEAR %}page{% else %}false{% endif %}"
+      >
+        {% trans "Daily" %}
+      </a>
+
+      <a
+        href="{% querystring group=GROUP_MONTH page=None range_date=None record_date=None %}"
+        class="
+          px-4 py-2 text-sm font-medium rounded-lg transition
+          {% if group == GROUP_MONTH %}
+            bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400
+          {% else %}
+            text-gray-500 hover:bg-gray-200 dark:text-gray-700 dark:hover:bg-gray-700
+          {% endif %}
+        "
+        aria-current="{% if group == GROUP_MONTH %}page{% else %}false{% endif %}"
+      >
+        {% trans "Monthly" %}
+      </a>
+
+      <a
+        href="{% querystring group=GROUP_YEAR page=None range_date=None record_date=None %}"
+        class="
+          px-4 py-2 text-sm font-medium rounded-lg transition
+          {% if group == GROUP_YEAR %}
+            bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400
+          {% else %}
+            text-gray-500 hover:bg-gray-200 dark:text-gray-700 dark:hover:bg-gray-700
+          {% endif %}
+        "
+        aria-current="{% if group == GROUP_YEAR %}page{% else %}false{% endif %}"
+      >
+        {% trans "Yearly" %}
+      </a>
+    </div>
+  </div>
+</div>
