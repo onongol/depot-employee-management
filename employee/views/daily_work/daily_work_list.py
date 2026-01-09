@@ -5,21 +5,37 @@ from django.shortcuts import render
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_MONTH, GROUP_YEAR
 from employee.models import DailyWork
 from employee.utils.filters import filter_daily_works
-from employee.utils.month_period import parse_month_period
 from employee.utils.pagination import paginate_queryset
-from employee.utils.select_department import get_selected_department
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
+from employee.views.daily_work.daily_work_prepare import daily_work_prepare
 from employee.views.daily_work.group_and_sort import group_and_sort
+from employee.views.daily_work.totals import calc_totals
 
 
 @login_required(login_url='login')
 def daily_work_list(request):
     """List daily work entries with filtering and pagination."""
-    department = get_selected_department(request)
-
-    # Filter daily works by the selected department
-    daily_works = DailyWork.objects.filter(work__department=department).select_related('work')
+    (
+        daily_works,
+        department,
+        job_title,
+        work_name,
+        type_work,
+        wagon_number,
+        type_wagon,
+        type_material,
+        range_date,
+        record_date,
+        group,
+        selected_year,
+        month,
+        year,
+        month_period,
+        order_by,
+        direction,
+        show_wagon,
+    ) = daily_work_prepare(request)
 
     # Get distinct values for filtering dropdown
     job_titles = get_distinct_values(DailyWork, 'job_title', department, department_field='work__department')
@@ -31,26 +47,6 @@ def daily_work_list(request):
 
     # Get available years for filtering
     years = [str(d.year) for d in daily_works.dates("work_date", "year", order="DESC")]
-
-    work_name = request.GET.get('work_name')
-    job_title = request.GET.get('job_title')
-    type_work = request.GET.get('type_work')
-    type_wagon = request.GET.get('type_wagon')
-    wagon_number = request.GET.get('wagon_number')
-    type_material = request.GET.get('type_material')
-    range_date = request.GET.get('range_date')
-    record_date = request.GET.get('record_date')
-    
-    # Grouping params
-    group = request.GET.get('group') 
-    selected_year = (request.GET.get('year') or "").strip()
-    month, year, month_period = parse_month_period(request) 
-
-    # Sorting params
-    order_by = request.GET.get('order_by')
-    direction = request.GET.get('direction')
-
-    show_wagon = department in ALLOWED_WAGON_DEPARTMENTS
 
     # Apply all filters using a reusable filter function
     daily_works = filter_daily_works(
@@ -66,11 +62,7 @@ def daily_work_list(request):
     )
 
     # Aggregation for totals
-    totals = daily_works.aggregate(
-        total_amount=Sum('amount'),
-        total_time=Sum('amount_time'),
-        total_price=Sum('amount_price')
-    )
+    totals = calc_totals(daily_works)
 
     # Grouping and sorting
     daily_works = group_and_sort(
