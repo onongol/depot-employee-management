@@ -6,7 +6,7 @@ from employee.views.daily_work.group_by_year import group_daily_works_by_year
 
 
 def group_and_sort(
-    daily_works,
+    qs,
     *,
     group: str | None,
     month: int | None = None,
@@ -24,16 +24,16 @@ def group_and_sort(
     """
     if group == GROUP_MONTH:
         if month and year:
-            daily_works = filter_month_year(daily_works, month=month, year=year, date_field="work_date")
+            qs = filter_month_year(qs, month=month, year=year, date_field="work_date")
 
-        daily_works = group_daily_works_by_month(daily_works, show_wagon=show_wagon)
+        qs = group_daily_works_by_month(qs, show_wagon=show_wagon)
 
         allowed_fields = ['work_name', 'job_title', 'type_work', 'year', 'month']
         if show_wagon:
             allowed_fields += ['type_wagon', 'wagon_number']
 
-        daily_works = apply_ordering(
-            daily_works,
+        qs = apply_ordering(
+            qs,
             order_by,
             direction,
             allowed_fields=allowed_fields,
@@ -41,28 +41,28 @@ def group_and_sort(
         )
     elif group == GROUP_YEAR:
         if selected_year:
-            daily_works = filter_month_year(daily_works, year=selected_year, date_field="work_date")
+            qs = filter_month_year(qs, year=selected_year, date_field="work_date")
 
-        daily_works = group_daily_works_by_year(daily_works, show_wagon=show_wagon)
+        qs = group_daily_works_by_year(qs, show_wagon=show_wagon)
 
         allowed_fields = ['work_name', 'job_title', 'type_work', 'year']
         if show_wagon:
             allowed_fields += ['type_wagon', 'wagon_number']
 
-        daily_works = apply_ordering(
-            daily_works,
+        qs = apply_ordering(
+            qs,
             order_by,
             direction,
             allowed_fields=allowed_fields,
             default=['-year', 'work_name']
         )
     else:
-        daily_works = apply_ordering(
-            daily_works,
+        qs = apply_ordering(
+            qs,
             order_by,
             direction,
             allowed_fields=['work_date', 'record_date'],
             default=['-work_date', '-record_date']
         )
 
-    return daily_works
+    return qs
