@@ -3,30 +3,45 @@ from django.db.models import Sum
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_MONTH, GROUP_YEAR
 from employee.models import Piecework
 from employee.utils.filters import filter_pieceworks
+from employee.utils.month_period import parse_month_period
 from employee.utils.pagination import paginate_queryset
 from employee.utils.select_department import get_selected_department
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
-from employee.utils.sorting import apply_ordering
+from employee.utils.totals import calc_totals
+from employee.views.piecework.piecework_prepare import piecework_prepare
+from employee.views.piecework.group_and_sort import group_and_sort_pieceworks
 
 
 @login_required(login_url='login')
 def piecework_list(request):
     """View to list all piecework records with filtering and pagination."""
     # Only show pieceworks for employees in the selected department
-    department = get_selected_department(request)
-
-    # If not an employee, show all pieceworks in the department
-    if request.user.groups.filter(name='Employees').exists():
-        pieceworks = Piecework.objects.select_related('employee', 'work').filter(
-            employee__user=request.user, employee__department=department, employee__is_active=True
-        )
-    else:
-        # If not an employee, show all pieceworks in the department
-        pieceworks = Piecework.objects.select_related('employee', 'work').filter(employee__department=department, employee__is_active=True)
+    (
+        pieceworks,
+        department,
+        employee_id,
+        employee_name,
+        job_title,
+        work_name,
+        type_work,
+        wagon_number,
+        type_wagon,
+        type_material,
+        range_date,
+        record_date,
+        group,
+        selected_year,
+        month,
+        year,
+        month_period,
+        order_by,
+        direction,
+        show_wagon,
+    ) = piecework_prepare(request)
 
     # Get distinct values for filtering dropdown
     job_titles = get_distinct_values(Piecework, 'job_title', department, department_field='employee__department')
@@ -36,17 +51,8 @@ def piecework_list(request):
     # Get snapshot values of type_wagon from Piecework
     type_wagons = get_type_wagon_filter_values(department, source_model='piecework')
 
-    # Extract filter parameters from the request
-    employee_id = request.GET.get('employee_id')
-    employee_name = request.GET.get('employee_name')
-    job_title = request.GET.get('job_title')
-    work_name = request.GET.get('work_name')
-    type_work = request.GET.get('type_work')
-    wagon_number = request.GET.get('wagon_number')
-    type_wagon = request.GET.get('type_wagon')
-    type_material = request.GET.get('type_material')
-    range_date = request.GET.get('range_date')
-    record_date = request.GET.get('record_date')
+    # Years for Yearly filter dropdown
+    years = [str(d.year) for d in pieceworks.dates("work_date", "year", order="DESC")]
 
     # Apply all filters using a reusable filter function
     pieceworks = filter_pieceworks(
@@ -64,22 +70,17 @@ def piecework_list(request):
     )
 
     # Aggregation for totals
-    totals = pieceworks.aggregate(
-        total_amount=Sum('amount'),
-        total_time=Sum('amount_time'),
-        total_price=Sum('amount_price')
-    )
+    totals = calc_totals(pieceworks)
 
-    # Sorting
-    order_by = request.GET.get('order_by')
-    direction = request.GET.get('direction')
-
-    pieceworks = apply_ordering(
-        pieceworks, 
-        order_by, 
-        direction, 
-        allowed_fields=['work_date', 'record_date'], 
-        default=['-work_date', '-record_date']
+    pieceworks = group_and_sort_pieceworks(
+        pieceworks,
+        group=group,
+        month=month,
+        year=year,
+        selected_year=selected_year,
+        show_wagon=show_wagon,
+        order_by=order_by,
+        direction=direction,
     )
 
     # Paginate the results, 10 records per page
@@ -97,6 +98,9 @@ def piecework_list(request):
         'type_material': type_material or '',
         'range_date': range_date or '',
         'record_date': record_date or '',
+        'group': group or '',
+        'month_period': month_period or '',
+        'year': selected_year or '',
     }
 
     # Render the template with all context data
@@ -104,6 +108,9 @@ def piecework_list(request):
         request,
         'piecework/piecework_list.html',
         {   
+            'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
+            'GROUP_MONTH': GROUP_MONTH,
+            'GROUP_YEAR': GROUP_YEAR,
             'employee_id': employee_id,
             'employee_name': employee_name,
             'job_title': job_title,
@@ -120,8 +127,11 @@ def piecework_list(request):
             'type_materials': type_materials,
             'job_titles': job_titles,
             'type_wagons': type_wagons,
-            'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
             'totals': totals,
             'filters': filters,
+            'group': group,
+            'month_period': month_period,
+            'years': years,
+            'selected_year': selected_year,
         }
     )
