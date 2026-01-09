@@ -123,9 +123,13 @@
           <tr>
             <td colspan="13" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No daily work records found..." %}</td>
           </tr>
-        {% endif %}
-          {% include "daily_work/daily_work_total_row.html" %}
+        {% endif %}         
       </tbody>
+      {% if daily_works %}
+        <tfoot>
+          {% include "daily_work/daily_work_total_row.html" %}
+        </tfoot>
+      {% endif %}
     </table>
   </div>
 
