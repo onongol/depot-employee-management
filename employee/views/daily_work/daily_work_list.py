@@ -9,7 +9,7 @@ from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
 from employee.utils.totals import calc_totals
 from employee.views.daily_work.daily_work_prepare import daily_work_prepare
-from employee.views.daily_work.group_and_sort import group_and_sort
+from employee.views.daily_work.group_and_sort import group_and_sort_daily_works
 
 
 @login_required(login_url='login')
@@ -64,7 +64,7 @@ def daily_work_list(request):
     totals = calc_totals(daily_works)
 
     # Grouping and sorting
-    daily_works = group_and_sort(
+    daily_works = group_and_sort_daily_works(
         daily_works,
         group=group,
         month=month,

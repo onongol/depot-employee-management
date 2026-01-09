@@ -7,7 +7,7 @@ from employee.views.daily_work.daily_work_export.build_headers import build_head
 from employee.views.daily_work.daily_work_export.build_totals_row import build_totals_row
 from employee.views.daily_work.daily_work_export.format_data import iter_rows
 from employee.views.daily_work.daily_work_prepare import daily_work_prepare
-from employee.views.daily_work.group_and_sort import group_and_sort
+from employee.views.daily_work.group_and_sort import group_and_sort_daily_works
 
 
 def daily_work_export_excel(request):
@@ -45,7 +45,7 @@ def daily_work_export_excel(request):
         record_date=record_date
     )
 
-    daily_works = group_and_sort(
+    daily_works = group_and_sort_daily_works(
         daily_works,
         group=group,
         month=month,
