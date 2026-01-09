@@ -1,4 +1,4 @@
-def parse_month_period(request, *, param_name: str = "month_period", legacy_month: str = "month", legacy_year: str = "year"):
+def parse_month_period(request, *, param_name: str = "month_period", legacy_month: str = "legacy_month", legacy_year: str = "legacy_year"):
     """
     Parse month-period from request.GET.
 
