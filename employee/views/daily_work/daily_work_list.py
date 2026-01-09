@@ -7,9 +7,9 @@ from employee.utils.filters import filter_daily_works
 from employee.utils.pagination import paginate_queryset
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
+from employee.utils.totals import calc_totals
 from employee.views.daily_work.daily_work_prepare import daily_work_prepare
 from employee.views.daily_work.group_and_sort import group_and_sort
-from employee.views.daily_work.totals import calc_totals
 
 
 @login_required(login_url='login')
