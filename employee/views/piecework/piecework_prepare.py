@@ -1,4 +1,6 @@
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 from employee.models import Piecework
+from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
 
 
@@ -31,6 +33,17 @@ def piecework_prepare(request):
     range_date = request.GET.get('range_date')
     record_date = request.GET.get('record_date')
 
+    # Segmentation params
+    group = request.GET.get("group")
+    selected_year = (request.GET.get("year") or "").strip()
+    month, year, month_period = parse_month_period(request)
+
+    # Sorting
+    order_by = request.GET.get('order_by')
+    direction = request.GET.get('direction')
+
+    show_wagon = department in ALLOWED_WAGON_DEPARTMENTS
+
     return (
         pieceworks,
         department,
@@ -44,4 +57,12 @@ def piecework_prepare(request):
         type_material,
         range_date,
         record_date,
+        group,
+        selected_year,
+        month,
+        year,
+        month_period,
+        order_by,
+        direction,
+        show_wagon
     )
