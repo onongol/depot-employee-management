@@ -1,5 +1,5 @@
 from django.db.models import Sum
-from django.db.models.functions import ExtractMonth, ExtractYear
+from django.db.models.functions import ExtractYear
 
 
 def group_daily_works_by_year(qs, *, show_wagon: bool):
