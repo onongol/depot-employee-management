@@ -12,6 +12,7 @@
       <td class="{{ col_class }}">{{ wagon_number|default:""  }}</td>
       <td class="{{ col_class }}">{{ type_wagon|default:"" }}</td>
     {% endif %}
+    
     <td class="{{ col_class }}">{{ totals.total_amount|default_if_none:"0.00" }}</td>
     <td class="{{ col_class }}">{{ totals.total_time|floatformat:2|default_if_none:"0.00" }}</td>
     <td class="{{ col_class }}">{{ totals.total_price|floatformat:2|default_if_none:"0.00" }}</td>
@@ -20,7 +21,7 @@
       <td class="{{ col_class }}">{{ month|default:"" }}</td>
       <td class="{{ col_class }}">{{ year|default:"" }}</td>
     {% elif group == GROUP_YEAR %}
-      <td class="{{ col_class }}">{{ year|default:"" }}</td>
+      <td class="{{ col_class }}">{{ selected_year|default:"" }}</td>
     {% else %}
       <td class="{{ col_class }}">{{ range_date|default:"" }}</td>
       {% if not is_employee %}
