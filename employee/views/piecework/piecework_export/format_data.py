@@ -1,25 +1,62 @@
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_MONTH, GROUP_YEAR 
+from employee.utils.get_value import get_value
 
 
-def iter_rows(qs, department):
+def iter_rows(qs, department, group=None):
     show_wagon = department in ALLOWED_WAGON_DEPARTMENTS
+    is_grouped = group in (GROUP_MONTH, GROUP_YEAR)
+
     for i, pw in enumerate(qs, start=1):
+        # Snapshot/values keys used by grouped queries
+        employee_id = get_value(pw, "employee_id", "") or ""
+        employee_name = get_value(pw, "employee_name", "") or ""
+        department_val = get_value(pw, "department", "") or ""
+        job_title = get_value(pw, "job_title", "") or ""
+        work_name = get_value(pw, "work_name", "") or ""
+        type_work = get_value(pw, "type_work", "") or ""
+
+        # For non-grouped (model instances), fall back to related objects if needed
+        if not is_grouped:
+            employee_id = employee_id or getattr(getattr(pw, "employee", None), "employee_id", "") or ""
+            employee_name = employee_name or getattr(getattr(pw, "employee", None), "name", "") or ""
+            department_val = department_val or getattr(pw, "department", "") or ""
+            work_name = work_name or getattr(getattr(pw, "work", None), "work_name", "") or ""
+
         row = [
             i,
-            pw.employee.employee_id or "",
-            pw.employee.name or "",
-            pw.department or "",
-            pw.job_title or "",
-            pw.work.work_name or "",
-            pw.type_work or "",
+            employee_id,
+            employee_name,
+            department_val,
+            job_title,
+            work_name,
+            type_work,
         ]
+
         if show_wagon:
-            row.append(pw.wagon_number_display or "")
-            row.append(pw.type_wagon_display or "")
-        row.extend([
-            pw.amount or 0,
-            pw.amount_time or 0,
-            pw.amount_price or 0,
-            pw.work_date or "",
-        ])
+            if is_grouped:
+                row.append(get_value(pw, "wagon_number", "") or "")
+                row.append(get_value(pw, "type_wagon", "") or "")
+            else:
+                row.append(get_value(pw, "wagon_number_display", "") or "")
+                row.append(get_value(pw, "type_wagon_display", "") or "")
+
+        if is_grouped:
+            row.extend([
+                get_value(pw, "total_amount", 0) or 0,
+                get_value(pw, "total_time", 0) or 0,
+                get_value(pw, "total_price", 0) or 0,
+            ])
+            if group == GROUP_MONTH:
+                row.extend([get_value(pw, "month", "") or "", get_value(pw, "year", "") or ""])
+            else:
+                row.append(get_value(pw, "year", "") or "")
+
+        else:
+            row.extend([
+                get_value(pw, "amount", 0) or 0,
+                get_value(pw, "amount_time", 0) or 0,
+                get_value(pw, "amount_price", 0) or 0,
+                get_value(pw, "work_date", "") or "",
+            ])
+            
         yield row
