@@ -22,7 +22,9 @@
     {% else %}
       {% include "includes/filters/filter_date_range.html" with id="filter-range-date" label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
 
-      {% include "includes/filters/filter_date.html" with id="filter-record-date" label=_("Record Date") name="record_date" type="text" value=request.GET.record_date %}
+      {% if not is_employee %}
+        {% include "includes/filters/filter_date.html" with id="filter-record-date" label=_("Record Date") name="record_date" type="text" value=request.GET.record_date %}
+      {% endif %}
     {% endif %}
 
     {% include "includes/filters/filter_button.html" %}
