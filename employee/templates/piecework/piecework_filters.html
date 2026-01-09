@@ -1,6 +1,7 @@
 {% load i18n %}
 
 <form method="get" class="mb-6" aria-labelledby="piecework-list-title">
+  <input type="hidden" name="group" value="{{ group|default:'' }}">
   <div class="flex flex-col md:flex-row gap-4">
     {% if not is_employee %}
       {% include "includes/filters/filter_input.html" with id="filter-employee-id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
@@ -15,15 +16,20 @@
     {% include "includes/filters/filter_select.html" with id="filter-type-work" label=_("Type Work") name="type_work" choices=type_works selected=request.GET.type_work empty_label=_("Types") %}
 
     {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-      {% include "includes/filters/filter_input.html" with id="filter-wagon-number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
-      
       {% include "includes/filters/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagons") %}
+
+      {% include "includes/filters/filter_input.html" with id="filter-wagon-number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
     {% endif %}
 
-    {% include "includes/filters/filter_date_range.html" with id="filter-range-date" label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
-
-    {% if not is_employee %}
-      {% include "includes/filters/filter_date.html" with id="filter-record-date" label=_("Record Date") name="record_date" type="text" value=request.GET.record_date %}
+    {% if group == GROUP_MONTH %}
+      {% include "includes/filters/filter_month.html" with id="filter-month-only" label=_("Month/Year") name="month_period" value=month_period %}
+    {% elif group == GROUP_YEAR %}
+      {% include "includes/filters/filter_select.html" with id="filter-year-only" label=_("Year") name="year" choices=years selected=selected_year empty_label=_("Years") %}
+    {% else %}
+      {% include "includes/filters/filter_date_range.html" with id="filter-range-date" label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
+      {% if not is_employee %}
+        {% include "includes/filters/filter_date.html" with id="filter-record-date" label=_("Record Date") name="record_date" type="text" value=request.GET.record_date %}
+      {% endif %}
     {% endif %}
 
     {% include "includes/filters/filter_button.html" %}
