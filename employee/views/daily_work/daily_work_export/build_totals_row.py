@@ -1,18 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_MONTH, GROUP_YEAR
-
-
-def _get(item, key, default=0):
-    """Helper to get value from dict or object."""
-    if isinstance(item, dict):
-        return item.get(key, default)
-    return getattr(item, key, default)
-
-
-def _sum_field(qs, key: str):
-    """Sum numeric field from dict/object rows, treating None as 0."""
-    return sum((_get(row, key, 0) or 0) for row in qs)
+from employee.utils.sum_field import sum_field
 
 
 def build_totals_row(qs, department, group=None):
@@ -39,9 +28,9 @@ def build_totals_row(qs, department, group=None):
     if not rows:
         total_amount = total_time = total_price = 0
     else:
-        total_amount = _sum_field(rows, amount_key)
-        total_time = _sum_field(rows, time_key)
-        total_price = _sum_field(rows, price_key)
+        total_amount = sum_field(rows, amount_key)
+        total_time = sum_field(rows, time_key)
+        total_price = sum_field(rows, price_key)
 
     totals_row = [total_str] + [empty] * empty_cols + [total_amount, total_time, total_price] + [empty] * tail_empties
 
