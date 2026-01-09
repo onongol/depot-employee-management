@@ -24,7 +24,7 @@ def daily_work_prepare(request):
     # Grouping params
     group = request.GET.get("group")
     selected_year = (request.GET.get("year") or "").strip()
-    month, year, _month_period = parse_month_period(request)
+    month, year, month_period = parse_month_period(request)
 
     order_by = request.GET.get("order_by")
     direction = request.GET.get("direction")
@@ -46,6 +46,7 @@ def daily_work_prepare(request):
         selected_year,
         month,
         year,
+        month_period,
         order_by,
         direction,
         show_wagon,
