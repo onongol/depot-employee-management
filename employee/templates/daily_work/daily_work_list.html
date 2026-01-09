@@ -11,7 +11,7 @@
   {% include "includes/components/list_header.html" with header_id="daily-work-list-title" title=selected_department create_url=create_url %}
 
   <!-- View Mode Segmented Control -->
-  {% include "includes/components/view_mode_segmented.html" with group=group GROUP_MONTH=GROUP_MONTH %}
+  {% include "includes/components/view_mode_segmented.html" with group=group GROUP_MONTH=GROUP_MONTH GROUP_YEAR=GROUP_YEAR %}
   
   <!-- Filter Form -->
   {% include "daily_work/daily_work_filters.html" %}
