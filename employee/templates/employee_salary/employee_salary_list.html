@@ -9,8 +9,13 @@
   <!-- Header -->
   {% include "includes/components/list_header.html" with header_id="employee-salary-list-title" title=selected_department %}
 
+  <!-- Salary Mode Segmented Control -->
+  {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+    {% include "includes/components/salary_mode_segmented.html" with group=group selected_department=selected_department ALLOWED_WAGON_DEPARTMENTS=ALLOWED_WAGON_DEPARTMENTS GROUP_WAGON=GROUP_WAGON %}
+  {% endif %}
+
   <!-- Filter Form -->
-    {% include "employee_salary/employee_salary_filters.html" %}
+  {% include "employee_salary/employee_salary_filters.html" %}
 
   <!-- Employee Salary Table -->
   <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
@@ -25,6 +30,11 @@
             <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Rank" %}</th>
+
+            {% if selected_department in ALLOWED_WAGON_DEPARTMENTS and group == GROUP_WAGON %}
+              <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
+            {% endif %}
+
             <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
             <th scope="col" class="{{ col_class }}">
@@ -36,7 +46,7 @@
           {% endwith %}
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+      <tbody id="employee-salaries-table-body" class="divide-y divide-gray-100 dark:divide-gray-700">
         {% if employee_salaries %}
           {% for employee_salary in employee_salaries %}
             <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
@@ -46,6 +56,11 @@
                 <td class="{{ col_class }}">{{ employee_salary.employee.name }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.employee.job_title }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.employee.rank }}</td>
+
+                {% if selected_department in ALLOWED_WAGON_DEPARTMENTS and group == GROUP_WAGON %}
+                  <td scope="col" class="{{ col_class }}">{{ employee_salary.wagon_number|default_if_none:"-" }}</td>
+                {% endif %}
+
                 <td class="{{ col_class }}">{{ employee_salary.total_piecework_time|floatformat:2 }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.total_piecework_amount|floatformat:2 }}</td>
                 <td class="{{ col_class }}">{{ employee_salary.month }}</td>
@@ -61,7 +76,7 @@
       </tbody>
     </table>
   </div>
-
+ 
   <!-- Pagination -->
   <nav aria-label="Employee salary list pagination" class="mt-6">
     {% include "includes/table/pagination.html" %}
