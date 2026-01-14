@@ -1,34 +1,43 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_WAGON
 from employee.models import Employee
 from employee.utils.filters import filter_employees
 from employee.utils.pagination import paginate_queryset
-from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
 from employee.views.employee_salary.employee_salary_calculate import employee_salary_calculate
 from employee.views.employee_salary.employee_salary_prepare import employee_salaries_prepare
+from employee.views.employee_salary.employee_salary_sort import apply_ordering
 
 
 @login_required(login_url='login')
 def employee_salary_list(request):
     """View to list all employee salaries with filters and pagination."""
-    # Prepare the base queryset and filter parameters
-    employees, employee_id, employee_name, department, job_title, month, year, month_period = employee_salaries_prepare(request)
+    (
+        employees, 
+        employee_id, 
+        employee_name, 
+        department, 
+        job_title,
+        wagon_number, 
+        month, 
+        year, 
+        month_period, 
+        group,
+        order_by,
+        direction
+    ) = employee_salaries_prepare(request)
 
-    # Get the selected department from the request
-    department = get_selected_department(request)
+    # Populate the job_title filter dropdown with distinct titles (scoped to the selected department and only employees with salary data).
+    job_titles = get_distinct_values(
+        Employee, 
+        'job_title', 
+        department, 
+        department_field='department', 
+        only_with_salary=True
+    )
 
-    # Only active employees
-    if request.user.groups.filter(name='Employees').exists():
-        employees = employees.filter(user=request.user, is_active=True)
-    else:
-        employees = employees.filter(is_active=True)
-
-    # Get all unique job titles that exist in DailySalary for filter dropdown
-    job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department', only_with_salary=True)
-
-    # Apply filters to the employee queryset using reusable filter functions
     employees = filter_employees(
         employees, 
         department=department, 
@@ -37,54 +46,49 @@ def employee_salary_list(request):
         job_title=job_title
     )
     
-    # Calculate salaries for the filtered employees using the shared function
-    employee_salaries = employee_salary_calculate(employees, month, year)
+    # Enable wagon-level grouping only when the user selected the "wagon" group and the department supports wagon tracking.
+    group_by_wagon = (group == GROUP_WAGON) and (department in ALLOWED_WAGON_DEPARTMENTS)
 
-    # Handle sorting based on query parameters
-    order_by = request.GET.get('order_by')
-    direction = request.GET.get('direction')
+    employee_salaries = employee_salary_calculate(
+        employees, 
+        month, 
+        year, 
+        group_by_wagon=group_by_wagon,
+        wagon_number=wagon_number if group_by_wagon else None
+    )
+       
+    apply_ordering(
+        employee_salaries,
+        order_by,
+        direction,
+        allowed_fields=["employee_id", "month", "year"],
+    )
 
-    if order_by in ['employee_id', 'month', 'year']:
-        reverse = direction == 'desc'
-        if order_by == 'employee_id':
-            # Sort by employee_id
-            employee_salaries.sort(
-                key=lambda x: x['employee'].employee_id, reverse=reverse
-            )
-        else:
-            # Sort by year and month
-            employee_salaries.sort(
-                key=lambda x: (x['year'], x['month']), reverse=reverse
-            )
-    else:
-        # Default sorting by year and month, descending
-        employee_salaries.sort(
-            key=lambda x: (x['year'], x['month']), reverse=True
-        )
-
-    # Paginate the results (10 per page)
     page_obj = paginate_queryset(request, employee_salaries)
 
-    # Preserve filter values in the context for template rendering
     filters = {
         'employee_id': employee_id,
         'employee_name': employee_name,
         'department': department,
         'job_title': job_title,
+        'wagon_number': wagon_number,
         'month': month,
         'year': year,
         'month_period': month_period,
+        'group': group
     }
 
-    # Render the template with all context data
     return render(
         request,
         'employee_salary/employee_salary_list.html',
-        {
+        {   
+            'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
+            'GROUP_WAGON': GROUP_WAGON,
             'employee_salaries': page_obj,
             'job_titles': job_titles,
             'page_obj': page_obj,
             'selected_department': department,
-            'filters': filters
+            'filters': filters,
+            'group': group
         }
     )
