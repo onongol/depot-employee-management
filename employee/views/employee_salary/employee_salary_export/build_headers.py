@@ -1,7 +1,9 @@
 from django.utils.translation import gettext_lazy as _
 
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_WAGON
 
-def build_headers():
+
+def build_headers(*, show_wagon: bool = False):
     headers = [
         ("#"),
         _("ID"),
@@ -9,14 +11,19 @@ def build_headers():
         _("Department"),
         _("Position"),
         _("Rank"),
-        #_("Month Salary"),
+    ]
+
+    if show_wagon:
+        headers += [
+            _("Wagon"),
+        ]
+
+    headers += [    
         _("Time"),
         _("Salary"),
-        #_("Total Salary"),
         _("Month"),
         _("Year"),
     ]
 
     headers = [str(h) for h in headers]
-
     return headers
