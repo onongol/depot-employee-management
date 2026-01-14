@@ -1,4 +1,3 @@
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_WAGON
 from employee.utils.filters import filter_employees
 from employee.views.employee_salary.employee_salary_calculate import employee_salary_calculate
 from employee.views.employee_salary.employee_salary_prepare import employee_salaries_prepare
