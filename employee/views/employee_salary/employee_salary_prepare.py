@@ -1,6 +1,7 @@
 from employee.models import Employee
 from employee.utils.select_department import get_selected_department
 from employee.utils.month_period import parse_month_period
+from employee.views.employee_salary.employee_salary_wagon import is_wagon_group
 
 
 def employee_salaries_prepare(request):
@@ -24,6 +25,8 @@ def employee_salaries_prepare(request):
     else:
         employees = Employee.objects.filter(is_active=True)
 
+    wagon_mode = is_wagon_group(department=department, group=group)
+
     return (
         employees, 
         employee_id, 
@@ -36,5 +39,6 @@ def employee_salaries_prepare(request):
         month_period, 
         group, 
         order_by, 
-        direction
+        direction,
+        wagon_mode
     )
