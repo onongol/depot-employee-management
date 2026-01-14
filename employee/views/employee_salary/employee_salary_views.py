@@ -26,7 +26,8 @@ def employee_salary_list(request):
         month_period, 
         group,
         order_by,
-        direction
+        direction,
+        wagon_mode
     ) = employee_salaries_prepare(request)
 
     # Populate the job_title filter dropdown with distinct titles (scoped to the selected department and only employees with salary data).
@@ -45,16 +46,13 @@ def employee_salary_list(request):
         employee_name=employee_name, 
         job_title=job_title
     )
-    
-    # Enable wagon-level grouping only when the user selected the "wagon" group and the department supports wagon tracking.
-    group_by_wagon = (group == GROUP_WAGON) and (department in ALLOWED_WAGON_DEPARTMENTS)
 
     employee_salaries = employee_salary_calculate(
         employees, 
         month, 
         year, 
-        group_by_wagon=group_by_wagon,
-        wagon_number=wagon_number if group_by_wagon else None
+        group_by_wagon=wagon_mode,
+        wagon_number=wagon_number if wagon_mode else None
     )
        
     apply_ordering(
