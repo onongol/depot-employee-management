@@ -1,13 +1,27 @@
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_WAGON
 from employee.utils.filters import filter_employees
 from employee.views.employee_salary.employee_salary_calculate import employee_salary_calculate
 from employee.views.employee_salary.employee_salary_prepare import employee_salaries_prepare
+from employee.views.employee_salary.employee_salary_sort import apply_ordering
 
 
 def get_employee_salaries(request):
-    # Prepare the base queryset and filter parameters
-    employees, employee_id, employee_name, department, job_title, month, year, month_period = employee_salaries_prepare(request)
+    (
+        employees, 
+        employee_id, 
+        employee_name, 
+        department, 
+        job_title,
+        wagon_number, 
+        month, 
+        year, 
+        month_period, 
+        group, 
+        order_by, 
+        direction,
+        wagon_mode
+    ) = employee_salaries_prepare(request)
 
-    # Apply filters to the employee queryset using reusable filter functions
     employees = filter_employees(
         employees, 
         department=department, 
@@ -15,11 +29,20 @@ def get_employee_salaries(request):
         employee_name=employee_name, 
         job_title=job_title
     )
+   
+    employee_salaries = employee_salary_calculate(
+        employees, 
+        month, 
+        year, 
+        group_by_wagon=wagon_mode,
+        wagon_number=wagon_number if wagon_mode else None
+    )
 
-    # Calculate salaries for the filtered employees
-    employee_salaries = employee_salary_calculate(employees, month, year)
+    apply_ordering(
+        employee_salaries,
+        order_by,
+        direction,
+        allowed_fields=["employee_id", "month", "year"],
+    )
 
-    # Sort by year and month descending (newest first)
-    employee_salaries.sort(key=lambda x: (x['year'], x['month']), reverse=True)
-
-    return employee_salaries
+    return employee_salaries, group, wagon_mode
