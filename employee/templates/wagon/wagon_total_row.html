@@ -2,32 +2,27 @@
 
 <tr class="bg-blue-100 font-semibold dark:bg-blue-500/20">
   {% with col_class="px-6 py-3" %}
-    <td class="{{ col_class }}">
-      {% trans "Total" %}:
-    </td>
-    <td class="{{ col_class }}">
-      {{ wagon_number }}
-    </td>
-    <td class="{{ col_class }}">
-      {{ type_wagon }}
-    </td>
-    <td class="{{ col_class }}">
-       {{ work_name }}
-    </td>
-    <td class="{{ col_class }}">
-      {{ type_work }}
-    </td>
-    <td class="{{ col_class }}">
-      {{ total_amount|floatformat:2|default_if_none:"0.00" }}
-    </td>
-    <td class="{{ col_class }}">
-      {{ total_time|floatformat:2|default_if_none:"0.00" }}
-    </td>
-    <td class="{{ col_class }}">
-      {{ total_price|floatformat:2|default_if_none:"0.00" }}
-    </td>
-    <td class="{{ col_class }}">
-      {{ range_date }}
-    </td>
+    {% if group == GROUP_MONTH %}
+      <td class="{{ col_class }}">{% trans "Total" %}:</td>
+
+      <td class="{{ col_class }}">{{ wagon_number|default:"" }}</td>
+      <td class="{{ col_class }}">{{ type_wagon|default:"" }}</td>
+      <td class="{{ col_class }}">{{ total_time|floatformat:2|default_if_none:"0.00" }}</td>
+      <td class="{{ col_class }}">{{ total_price|floatformat:2|default_if_none:"0.00" }}</td>
+      <td class="{{ col_class }}">{{ month|default:"" }}</td>
+      <td class="{{ col_class }}">{{ year|default:"" }}</td>
+      
+    {% else %}
+      <td class="{{ col_class }}">{% trans "Total" %}:</td>
+
+      <td class="{{ col_class }}">{{ wagon_number|default:"" }}</td>
+      <td class="{{ col_class }}">{{ type_wagon|default:"" }}</td>
+      <td class="{{ col_class }}">{{ work_name|default:"" }}</td>
+      <td class="{{ col_class }}">{{ type_work|default:"" }}</td>
+      <td class="{{ col_class }}">{{ total_amount|floatformat:2|default_if_none:"0.00" }}</td>
+      <td class="{{ col_class }}">{{ total_time|floatformat:2|default_if_none:"0.00" }}</td>
+      <td class="{{ col_class }}">{{ total_price|floatformat:2|default_if_none:"0.00" }}</td>
+      <td class="{{ col_class }}">{{ range_date|default:"" }}</td>
+    {% endif %}
   {% endwith %}
 </tr>
