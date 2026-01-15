@@ -1,17 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_MONTH, GROUP_YEAR
 from employee.models import Piecework
 from employee.utils.filters import filter_pieceworks
-from employee.utils.month_period import parse_month_period
 from employee.utils.pagination import paginate_queryset
-from employee.utils.select_department import get_selected_department
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
-from employee.utils.totals import calc_totals
+from employee.utils.totals import calc_totals_for_group
 from employee.views.piecework.piecework_prepare import piecework_prepare
 from employee.views.piecework.group_and_sort import group_and_sort_pieceworks
 
@@ -70,7 +67,14 @@ def piecework_list(request):
     )
 
     # Aggregation for totals
-    totals = calc_totals(pieceworks)
+    totals = calc_totals_for_group(
+        pieceworks,
+        group=group,
+        month=month,
+        year=year,
+        selected_year=selected_year,
+        date_field="work_date",
+    )
 
     pieceworks = group_and_sort_pieceworks(
         pieceworks,
