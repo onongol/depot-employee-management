@@ -4,7 +4,7 @@ from django.shortcuts import render
 from employee.constants.constants import GROUP_MONTH
 from employee.utils.filters import filter_wagon
 from employee.utils.pagination import paginate_queryset
-from employee.utils.totals import calc_totals
+from employee.utils.totals import calc_totals_for_group
 from employee.views.wagon.group_and_sort import group_and_sort_wagons
 from employee.views.wagon.wagon_prepare import wagon_prepare
 
@@ -48,7 +48,13 @@ def wagon_list(request):
         range_date=range_date
     )
 
-    totals = calc_totals(dailyworks)
+    totals = calc_totals_for_group(
+        dailyworks,
+        group=group,
+        month=month,
+        year=year,
+        date_field="work_date",
+    )
 
     wagon_data = group_and_sort_wagons(
         dailyworks,
