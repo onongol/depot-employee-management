@@ -22,10 +22,13 @@
     {% if group == GROUP_MONTH %}
       <td class="{{ col_class }}">{{ month|default:"" }}</td>
       <td class="{{ col_class }}">{{ year|default:"" }}</td>
+
     {% elif group == GROUP_YEAR %}
       <td class="{{ col_class }}">{{ selected_year |default:"" }}</td>
+
     {% else %}
       <td class="{{ col_class }}">{{ range_date|default:"" }}</td>
+      
       {% if not is_employee %}
         <td class="{{ col_class }}">{{ record_date|default:"" }}</td>
       {% endif %}
