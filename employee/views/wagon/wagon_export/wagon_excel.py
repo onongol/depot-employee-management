@@ -12,7 +12,6 @@ from employee.views.wagon.wagon_prepare import wagon_prepare
 
 
 def wagon_export_excel(request):
-    """Export wagon data to Excel."""
     (
         dailyworks, 
         wagon_number, 
