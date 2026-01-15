@@ -1,14 +1,28 @@
-def iter_rows(qs):
+from employee.constants.constants import GROUP_MONTH
+
+
+def iter_rows(qs, group=None):
     for i, item in enumerate(qs, start=1):
-        row = [
-            i,
-            item['wagon_number'] or "",
-            item['type_wagon'] or "",
-            item['work__work_name'] or "",
-            item['type_work'] or "",
-            item['amount'] or 0,
-            item['total_time'] or 0,
-            item['total_price'] or 0,
-            item['work_date'] or "",
-        ]
+        if group == GROUP_MONTH:
+            row = [
+                i,
+                item.get('wagon_number') or "",
+                item.get('type_wagon') or "",
+                item.get('total_time') or 0,
+                item.get('total_price') or 0,
+                item.get('month') or "",
+                item.get('year') or "",
+            ]
+        else:
+            row = [
+                i,
+                item.get('wagon_number') or "",
+                item.get('type_wagon') or "",
+                item.get('work__work_name') or "",
+                item.get('type_work') or "",
+                item.get('amount') or 0,
+                item.get('total_time') or 0,
+                item.get('total_price') or 0,
+                item.get('work_date') or "",
+            ]
         yield row
