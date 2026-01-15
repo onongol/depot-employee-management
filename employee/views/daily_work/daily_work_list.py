@@ -7,7 +7,7 @@ from employee.utils.filters import filter_daily_works
 from employee.utils.pagination import paginate_queryset
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
-from employee.utils.totals import calc_totals
+from employee.utils.totals import calc_totals_for_group
 from employee.views.daily_work.daily_work_prepare import daily_work_prepare
 from employee.views.daily_work.group_and_sort import group_and_sort_daily_works
 
@@ -61,7 +61,14 @@ def daily_work_list(request):
     )
 
     # Aggregation for totals
-    totals = calc_totals(daily_works)
+    totals = calc_totals_for_group(
+        daily_works,
+        group=group,
+        month=month,
+        year=year,
+        selected_year=selected_year,
+        date_field="work_date",
+    )
 
     # Grouping and sorting
     daily_works = group_and_sort_daily_works(
