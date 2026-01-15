@@ -1,31 +1,44 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
+from employee.constants.constants import GROUP_MONTH
 from employee.utils.filters import filter_wagon
 from employee.utils.pagination import paginate_queryset
-from employee.utils.sorting import apply_ordering
-from employee.views.wagon.wagon_grouping import get_grouped_wagon_data
+from employee.utils.totals import calc_totals
+from employee.views.wagon.group_and_sort import group_and_sort_wagons
 from employee.views.wagon.wagon_prepare import wagon_prepare
-from employee.views.wagon.wagon_totals import get_totals
 
 
 @login_required(login_url='login')
 def wagon_list(request):
     """
-    View to list all wagons with related works, amount, total time, price, and date.
-    Aggregates piecework records by wagon, work, date, and group.
-    For each group, amount is taken as the maximum value (not summed), 
-    while price is summed for all records in the group.
+    Lists wagon-related DailyWork rows. The view:
+    1) calls wagon_prepare() to parse GET params and build the base queryset,
+    2) applies filters (filter_wagon),
+    3) groups/sorts results (group_and_sort_wagons),
+    4) paginates and renders the table.
+    This keeps request parsing and queryset setup consistent across the list and exports.
     """
-    # Get the selected department from the request/session
-    dailyworks, wagon_number, type_wagon, work_name, type_work, range_date, department = wagon_prepare(request)
+    (
+        dailyworks, 
+        wagon_number, 
+        type_wagon, 
+        work_name, 
+        type_work, 
+        range_date, 
+        department,
+        group,
+        month,
+        year,
+        month_period,
+        order_by,
+        direction
+    ) = wagon_prepare(request)
 
     # Get distinct type_wagon and type_work for filter options
     type_wagons = dailyworks.values_list('type_wagon', flat=True).distinct()
-
     type_works = dailyworks.values_list('type_work', flat=True).distinct()
 
-    # Apply filters based on request parameters
     dailyworks = filter_wagon(
         dailyworks,
         wagon_number=wagon_number,
@@ -35,28 +48,19 @@ def wagon_list(request):
         range_date=range_date
     )
 
-    # Aggregate dailywork data by wagon, work, date, and group_id
-    wagon_data = get_grouped_wagon_data(dailyworks)
+    totals = calc_totals(dailyworks)
 
-    # Sorting
-    order_by = request.GET.get('order_by')
-    direction = request.GET.get('direction')
-    
-    wagon_data = apply_ordering(
-        wagon_data,
-        order_by,
-        direction,
-        allowed_fields=['work_date', 'work__work_name', 'type_work', 'wagon_number', 'type_wagon'],
-        default='-work_date'
+    wagon_data = group_and_sort_wagons(
+        dailyworks,
+        group=group,
+        month=month,
+        year=year,
+        order_by=order_by,
+        direction=direction,
     )
     
-    # Paginate the aggregated data for the template
     page_obj = paginate_queryset(request, wagon_data)
 
-    # Calculate totals
-    totals = get_totals(dailyworks)
-
-    # Prepare filters for the template
     filters = {
         'wagon_number': wagon_number or '',
         'type_wagon': type_wagon or '',
@@ -64,13 +68,15 @@ def wagon_list(request):
         'type_work': type_work or '',
         'range_date': range_date or '',
         'department': department or '',
+        'group': group or '',
+        'month_period': month_period or '',
     }
 
-    # Render the wagon list template with grouped data
     return render(
         request,
         'wagon/wagon_list.html',
         {   
+            'GROUP_MONTH': GROUP_MONTH,
             'wagon_number': wagon_number,
             'type_wagon': type_wagon,
             'work_name': work_name,
@@ -86,6 +92,8 @@ def wagon_list(request):
             'total_price': totals['total_price'],
             'type_wagons': type_wagons,
             'type_works': type_works,
-            'filters': filters
+            'filters': filters,
+            'group': group,
+            'month_period': month_period,
         }
     )
