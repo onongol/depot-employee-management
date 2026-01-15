@@ -1,17 +1,33 @@
 from django.utils.translation import gettext_lazy as _
 
+from employee.constants.constants import GROUP_MONTH
 from employee.utils.exports.export_excel import export_to_excel
 from employee.utils.filters import filter_wagon
+from employee.utils.totals import calc_totals
+from employee.views.wagon.group_and_sort import group_and_sort_wagons
 from employee.views.wagon.wagon_export.build_headers import build_headers
 from employee.views.wagon.wagon_export.build_totals_row import build_totals_row
 from employee.views.wagon.wagon_export.format_data import iter_rows
-from employee.views.wagon.wagon_grouping import get_grouped_wagon_data
 from employee.views.wagon.wagon_prepare import wagon_prepare
 
 
 def wagon_export_excel(request):
     """Export wagon data to Excel."""
-    dailyworks, wagon_number, type_wagon, work_name, type_work, range_date, department = wagon_prepare(request)
+    (
+        dailyworks, 
+        wagon_number, 
+        type_wagon, 
+        work_name, 
+        type_work, 
+        range_date, 
+        department,
+        group,
+        month,
+        year,
+        month_period,
+        order_by,
+        direction
+    ) = wagon_prepare(request)
 
     dailyworks = filter_wagon(
         dailyworks,
@@ -22,15 +38,30 @@ def wagon_export_excel(request):
         range_date=range_date
     )
 
-    wagon_data = get_grouped_wagon_data(dailyworks)
+    totals = calc_totals(dailyworks)
 
-    headers = build_headers()
+    wagon_data = group_and_sort_wagons(
+        dailyworks,
+        group=group,
+        month=month,
+        year=year,
+        order_by=order_by,
+        direction=direction,
+    )
 
-    data = list(iter_rows(wagon_data))
+    headers = build_headers(group=group)
+    data = list(iter_rows(wagon_data, group=group))
 
-    data.append(build_totals_row(wagon_data))
+    data.append(build_totals_row(totals, group=group))
 
     file_name = "wagon.xlsx"
     sheet_title = str(_("Wagon"))
+
+    meta = {
+        GROUP_MONTH: ("wagon_work_monthly.xlsx", _("Monthly work for wagons")),
+    }
+
+    file_name, title = meta.get(group, ("wagon_work_daily.xlsx", _("Daily work for wagons")))
+    sheet_title = str(title)
 
     return export_to_excel(data, headers, file_name, sheet_title)
