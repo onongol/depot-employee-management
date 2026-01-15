@@ -3,18 +3,14 @@
 <form method="get" class="mb-6" aria-labelledby="wagon-list-title">
   <input type="hidden" name="group" value="{{ group|default:'detail' }}"/>
   <div class="flex flex-col md:flex-row gap-4">
+    {% include "includes/filters/filter_input.html" with id="filter-wagon-number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
+
+    {% include "includes/filters/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagon") %}
+    
     {% if group == GROUP_MONTH %}
-      {% include "includes/filters/filter_input.html" with id="filter-wagon-number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
-
-      {% include "includes/filters/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagon") %}
-
       {% include "includes/filters/filter_month.html" with id="filter-month-only" label=_("Month/Year") name="month_period" value=month_period %}
 
     {% else %}
-      {% include "includes/filters/filter_input.html" with id="filter-wagon-number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
-
-      {% include "includes/filters/filter_select.html" with id="filter-type-wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagon") %}
-
       {% include "includes/filters/filter_input.html" with id="filter-work" label=_("Work") name="work" type="text" value=request.GET.work placeholder=_("Work Name") %}
     
       {% include "includes/filters/filter_select.html" with id="filter-type-work" label=_("Type Work") name="type_work" choices=type_works selected=request.GET.type_work empty_label=_("Types") %}
