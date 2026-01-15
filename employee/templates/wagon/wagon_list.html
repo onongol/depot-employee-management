@@ -20,10 +20,11 @@
     <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
       <tr>
         {% with col_class="px-6 py-3" %}
+          <th scope="col" class="{{ col_class }}">#</th>
+          <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
+          <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
+
           {% if group == GROUP_MONTH %}
-            <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
             <th scope="col" class="{{ col_class }}">
@@ -32,10 +33,8 @@
             <th scope="col" class="{{ col_class }}">
               {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
             </th>
+
           {% else %}
-            <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Type" %}</th>
             <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
@@ -53,18 +52,17 @@
         {% for row in rows %}
           <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
             {% with col_class="px-6 py-3" %}
-              {% if group == GROUP_MONTH %}
-                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                <td class="{{ col_class }}">{{ row.wagon_number }}</td>
-                <td class="{{ col_class }}">{{ row.type_wagon }}</td>
+              <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+              <td class="{{ col_class }}">{{ row.wagon_number }}</td>
+              <td class="{{ col_class }}">{{ row.type_wagon }}</td>
+
+              {% if group == GROUP_MONTH %} 
                 <td class="{{ col_class }}">{{ row.total_time|floatformat:2 }}</td>
                 <td class="{{ col_class }}">{{ row.total_price|floatformat:2 }}</td>
                 <td class="{{ col_class }}">{{ row.month }}</td>
                 <td class="{{ col_class }}">{{ row.year }}</td>
+                
               {% else %}
-                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                <td class="{{ col_class }}">{{ row.wagon_number }}</td>
-                <td class="{{ col_class }}">{{ row.type_wagon }}</td>
                 <td class="{{ col_class }}">{{ row.work__work_name }}</td>
                 <td class="{{ col_class }}">{{ row.type_work }}</td>
                 <td class="{{ col_class }}">{{ row.amount|floatformat:2 }}</td>
