@@ -57,10 +57,10 @@ def wagon_export_excel(request):
     sheet_title = str(_("Wagon"))
 
     meta = {
-        GROUP_MONTH: ("wagon_work_monthly.xlsx", _("Monthly work for wagons")),
+        GROUP_MONTH: ("wagon_work_monthly.xlsx", _("Monthly Work for Wagons")),
     }
 
-    file_name, title = meta.get(group, ("wagon_work_daily.xlsx", _("Daily work for wagons")))
+    file_name, title = meta.get(group, ("wagon_work_daily.xlsx", _("Daily Work for Wagons")))
     sheet_title = str(title)
 
     return export_to_excel(data, headers, file_name, sheet_title)
