@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% load i18n %}
 
 {% block title %}Wagon{% endblock %}
@@ -49,33 +48,34 @@
         {% endwith %}
       </tr>
     </thead>
-    <tbody class="divide-y divide-gray-100 dark:divide-gray-700"> 
-      {% for row in rows %}
-        <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-          {% with col_class="px-6 py-3" %}
-            {% if group == GROUP_MONTH %}
-              <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-              <td class="{{ col_class }}">{{ row.wagon_number }}</td>
-              <td class="{{ col_class }}">{{ row.type_wagon }}</td>
-              <td class="{{ col_class }}">{{ row.total_time|floatformat:2 }}</td>
-              <td class="{{ col_class }}">{{ row.total_price|floatformat:2 }}</td>
-              <td class="{{ col_class }}">{{ row.month }}</td>
-              <td class="{{ col_class }}">{{ row.year }}</td>
-            {% else %}
-              <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-              <td class="{{ col_class }}">{{ row.wagon_number }}</td>
-              <td class="{{ col_class }}">{{ row.type_wagon }}</td>
-              <td class="{{ col_class }}">{{ row.work__work_name }}</td>
-              <td class="{{ col_class }}">{{ row.type_work }}</td>
-              <td class="{{ col_class }}">{{ row.amount|floatformat:2 }}</td>
-              <td class="{{ col_class }}">{{ row.total_time|floatformat:2 }}</td>
-              <td class="{{ col_class }}">{{ row.total_price|floatformat:2 }}</td>
-              <td class="{{ col_class }}">{{ row.work_date|date:"Y-m-d" }}</td>
-            {% endif %}
-          {% endwith %}
-        </tr>
-      {% endfor %}
-      {% if rows|length == 0 %}
+    <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+      {% if rows %} 
+        {% for row in rows %}
+          <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
+            {% with col_class="px-6 py-3" %}
+              {% if group == GROUP_MONTH %}
+                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                <td class="{{ col_class }}">{{ row.wagon_number }}</td>
+                <td class="{{ col_class }}">{{ row.type_wagon }}</td>
+                <td class="{{ col_class }}">{{ row.total_time|floatformat:2 }}</td>
+                <td class="{{ col_class }}">{{ row.total_price|floatformat:2 }}</td>
+                <td class="{{ col_class }}">{{ row.month }}</td>
+                <td class="{{ col_class }}">{{ row.year }}</td>
+              {% else %}
+                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                <td class="{{ col_class }}">{{ row.wagon_number }}</td>
+                <td class="{{ col_class }}">{{ row.type_wagon }}</td>
+                <td class="{{ col_class }}">{{ row.work__work_name }}</td>
+                <td class="{{ col_class }}">{{ row.type_work }}</td>
+                <td class="{{ col_class }}">{{ row.amount|floatformat:2 }}</td>
+                <td class="{{ col_class }}">{{ row.total_time|floatformat:2 }}</td>
+                <td class="{{ col_class }}">{{ row.total_price|floatformat:2 }}</td>
+                <td class="{{ col_class }}">{{ row.work_date|date:"Y-m-d" }}</td>
+              {% endif %}
+            {% endwith %}
+          </tr>
+        {% endfor %}
+      {% else %}
         <tr>
           <td colspan="9" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No wagon records found..." %}</td>
         </tr>
