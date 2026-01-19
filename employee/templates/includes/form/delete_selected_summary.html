@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<div id="selected-summary" class="bg-gray-100 border border-gray-300 rounded px-4 py-3 mb-4 text-sm text-gray-700 font-medium dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
+  {% if selected_daily_salaries is not defined or selected_daily_salaries %}
+    {% trans "Selected Daily Salaries:" %}
+    <span id="selected-daily-salary"></span>
+  {% endif %}
+</div>
