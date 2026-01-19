@@ -24,14 +24,14 @@
         {% csrf_token %}
         <button
           type="submit"
-          class="px-6 py-2 rounded-md bg-red-600 text-white font-semibold shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition"
+          class="cursor-pointer px-6 py-2 rounded-md bg-red-600 text-white font-semibold shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition"
         >
           {% trans "Delete" %}
         </button>
       </form>
       <button
         type="button"
-        class="px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-500"
+        class="cursor-pointer px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-500"
         onclick="document.getElementById('deleteModal').classList.add('hidden')"
         aria-label="Cancel"
       >
