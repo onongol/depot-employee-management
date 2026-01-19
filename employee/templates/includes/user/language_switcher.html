@@ -6,7 +6,7 @@
 <div class="relative group">
   <button
     type="button"
-    class="flex items-center gap-3 px-4 py-2 text-sm w-full hover:bg-gray-200 transition focus:outline-none dark:hover:bg-gray-700"
+    class="cursor-pointer flex items-center gap-3 px-4 py-2 text-sm w-full hover:bg-gray-200 transition focus:outline-none dark:hover:bg-gray-700"
     id="language-dropdown-btn"
     aria-haspopup="true"
     aria-expanded="false"
@@ -40,11 +40,11 @@
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ request.get_full_path }}">
       <button type="submit" name="language" value="en"
-        class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 {% if LANGUAGE_CODE == 'en' %}font-bold text-gray-600 dark:text-gray-400{% endif %}">
+        class="cursor-pointer block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 {% if LANGUAGE_CODE == 'en' %}font-bold text-gray-600 dark:text-gray-400{% endif %}">
         {% trans 'English' %}
       </button>
       <button type="submit" name="language" value="mn"
-        class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 {% if LANGUAGE_CODE == 'mn' %}font-bold text-gray-600 dark:text-gray-400{% endif %}">
+        class="cursor-pointer block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 {% if LANGUAGE_CODE == 'mn' %}font-bold text-gray-600 dark:text-gray-400{% endif %}">
         {% trans 'Mongolian' %}
       </button>
     </form>
