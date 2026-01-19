@@ -3,10 +3,10 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from employee.messages.daily_salary_success import send_daily_salary_creation_message
 from employee.utils.access import is_creater
 from employee.views.daily_salary.context_builders import build_daily_salary_context
 from employee.views.daily_salary.daily_salary_service import create_daily_salary_records
+from employee.views.daily_salary.daily_salary_success import send_daily_salary_creation_message
 
 
 @login_required(login_url='login')
