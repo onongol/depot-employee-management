@@ -12,7 +12,7 @@
           {% if group != GROUP_MONTH and group != GROUP_YEAR %}
             bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400
           {% else %}
-            text-gray-500 hover:bg-gray-200 dark:text-gray-700 dark:hover:bg-gray-700
+            text-gray-500 hover:bg-gray-200 dark:text-gray-500 dark:hover:bg-gray-700
           {% endif %}
         "
         aria-current="{% if group != GROUP_MONTH and group != GROUP_YEAR %}page{% else %}false{% endif %}"
@@ -26,7 +26,7 @@
           {% if group == GROUP_MONTH %}
             bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400
           {% else %}
-            text-gray-500 hover:bg-gray-200 dark:text-gray-700 dark:hover:bg-gray-700
+            text-gray-500 hover:bg-gray-200 dark:text-gray-500 dark:hover:bg-gray-700
           {% endif %}
         "
         aria-current="{% if group == GROUP_MONTH %}page{% else %}false{% endif %}"
@@ -40,7 +40,7 @@
           {% if group == GROUP_YEAR %}
             bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400
           {% else %}
-            text-gray-500 hover:bg-gray-200 dark:text-gray-700 dark:hover:bg-gray-700
+            text-gray-500 hover:bg-gray-200 dark:text-gray-500 dark:hover:bg-gray-700
           {% endif %}
         "
         aria-current="{% if group == GROUP_YEAR %}page{% else %}false{% endif %}"
