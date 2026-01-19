@@ -58,7 +58,7 @@
                   <td class="{{ col_class }}">
                     {% url 'work_update' work.pk as edit_url %}
                     {% url 'work_delete' work.pk as delete_url %}
-                    {% include "includes/table_action_buttons/action_buttons.html" with id=work.work_id name=work.work_name edit_url=edit_url delete_url=delete_url %}
+                    {% include "includes/table_action_buttons/action_buttons.html" with id=work.work_id name=work.work_name edit_url=edit_url delete_url=delete_url show_delete=True %}
                   </td>
                 {% endif %}
               {% endwith %}
