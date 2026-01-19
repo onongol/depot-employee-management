@@ -7,26 +7,35 @@ from employee.views.auth.register_views import register_view
 from employee.views.daily_salary import (DailySalaryDeleteView,
                                          DailySalaryUpdateView,
                                          daily_salary_create,
-                                         daily_salary_list)
+                                         daily_salary_list,
+                                         daily_salary_delete_bulk,)
 from employee.views.daily_work import (DailyWorkDeleteView,
-                                       DailyWorkUpdateView, daily_work_create,
+                                       DailyWorkUpdateView, 
+                                       daily_work_create,
                                        daily_work_export_excel,
                                        daily_work_list)
 from employee.views.department import set_department
-from employee.views.employee import (EmployeeCreateView, EmployeeDeleteView,
-                                     EmployeeUpdateView, employee_activate,
-                                     employee_deactivate, employee_list)
+from employee.views.employee import (EmployeeCreateView, 
+                                     EmployeeDeleteView,
+                                     EmployeeUpdateView, 
+                                     employee_activate,
+                                     employee_deactivate, 
+                                     employee_list)
 from employee.views.employee_salary import (employee_salary_export_excel,
                                             employee_salary_export_pdf,
                                             employee_salary_list)
 from employee.views.home import home
 from employee.views.material import material_export_excel, material_list
-from employee.views.piecework import (PieceworkDeleteView, PieceworkUpdateView,
-                                      piecework_create, piecework_export_excel,
+from employee.views.piecework import (PieceworkDeleteView, 
+                                      PieceworkUpdateView,
+                                      piecework_create, 
+                                      piecework_export_excel,
                                       piecework_list)
 from employee.views.wagon import wagon_export_excel, wagon_list
-from employee.views.work import (WorkCreateView, WorkDeleteView,
-                                 WorkUpdateView, work_list)
+from employee.views.work import (WorkCreateView, 
+                                 WorkDeleteView,
+                                 WorkUpdateView, 
+                                 work_list)
 
 urlpatterns = [
     # Home URL
@@ -64,6 +73,7 @@ urlpatterns = [
     path('daily_salary_create/', daily_salary_create, name="daily_salary_create"),
     path('daily_salary_update/<int:pk>/', DailySalaryUpdateView.as_view(), name="daily_salary_update"),
     path('daily_salary_delete/<int:pk>/', DailySalaryDeleteView.as_view(), name="daily_salary_delete"),
+    path("daily_salary_delete_bulk/", daily_salary_delete_bulk, name="daily_salary_delete_bulk"),
 
     # Daily Work URLs
     path('daily_work/', daily_work_list, name="daily_work_list"),
