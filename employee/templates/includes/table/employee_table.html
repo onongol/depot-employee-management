@@ -17,7 +17,7 @@
               <input
                 type="checkbox"
                 id="select-all-employees"
-                class="h-4 w-4"
+                class="cursor-pointer h-4 w-4"
                 onclick="toggleAllVisible(this, 'employee_ids')"
                 aria-label="Select all employees"
               >
@@ -39,7 +39,7 @@
               <td class="{{ col_class }} align-middle text-center">
                 <input
                   type="checkbox"
-                  class="form-checkbox h-4 w-4"
+                  class="cursor-pointer form-checkbox h-4 w-4 "
                   id="employee_{{ employee.pk }}"
                   name="employee_ids"
                   value="{{ employee.pk }}"
