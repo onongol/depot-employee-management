@@ -33,6 +33,7 @@ export default defineConfig({
         'navbar_toggle': path.resolve(__dirname, 'assets/js/navbar/navbar_toggle.ts'),
         'summary_selected_employees': path.resolve(__dirname, 'assets/js/summary/summary_selected_employees.ts'),
         'summary_selected_works': path.resolve(__dirname, 'assets/js/summary/summary_selected_works.ts'),
+        'summary_selected_daily_salaries': path.resolve(__dirname, 'assets/js/summary/summary_selected_daily_salaries.ts'),
         'theme_init': path.resolve(__dirname, 'assets/js/theme/theme_init.ts'),
         'theme_switcher': path.resolve(__dirname, 'assets/js/theme/theme_switcher.ts'),
         'flatpickr': path.resolve(__dirname, 'assets/src/flatpickr_init.ts'),
