@@ -32,7 +32,7 @@
 
   <!-- Selected summary section -->
   {% if not is_employee and not is_master and group != GROUP_MONTH and group != GROUP_YEAR %}
-    {% include "includes/summaries/delete_selected_daily_work_summary.html" with selected_daily_works=selected_daily_works %}
+    {% include "includes/summaries/delete_selected_daily_work_summary.html" %}
   {% endif %}
 
   <form method="post" id="bulkDeleteForm" action="{% url 'daily_work_delete_bulk' %}">
