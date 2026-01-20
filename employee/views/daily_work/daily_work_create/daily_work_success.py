@@ -16,7 +16,7 @@ def send_daily_work_piecework_created(request, *, results: Iterable[Mapping], wo
     """
     if template is None:
         template = _(
-            "Daily work and piecework records for %(employees)s (work(s): %(works)s) on %(date)s created successfully."
+            "Daily Work and related Piecework record(s) for %(employees)s (work(s): %(works)s) on %(date)s created successfully."
         )
 
     # Collect unique employee ids and names from DB (fallback to 'employee_name' in results)
