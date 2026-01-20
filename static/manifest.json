@@ -101,6 +101,12 @@
     "src": "assets/js/summary/summary_selected_daily_salaries.ts",
     "isEntry": true
   },
+  "assets/js/summary/summary_selected_daily_works.ts": {
+    "file": "js/summary_selected_daily_works-bundle.js",
+    "name": "summary_selected_daily_works",
+    "src": "assets/js/summary/summary_selected_daily_works.ts",
+    "isEntry": true
+  },
   "assets/js/summary/summary_selected_employees.ts": {
     "file": "js/summary_selected_employees-bundle.js",
     "name": "summary_selected_employees",
@@ -135,7 +141,7 @@
     ]
   },
   "assets/src/styles.css": {
-    "file": "assets/styles-C93vBhvM.css",
+    "file": "assets/styles-CFX2gFDl.css",
     "src": "assets/src/styles.css",
     "isEntry": true,
     "name": "styles",
