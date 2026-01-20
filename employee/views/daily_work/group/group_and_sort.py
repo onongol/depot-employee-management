@@ -1,8 +1,8 @@
 from employee.constants.constants import GROUP_MONTH, GROUP_YEAR
 from employee.utils.filters import filter_month_year
 from employee.utils.sorting import apply_ordering
-from employee.views.daily_work.group_by_month import group_daily_works_by_month
-from employee.views.daily_work.group_by_year import group_daily_works_by_year    
+from employee.views.daily_work.group.group_by_month import group_daily_works_by_month
+from employee.views.daily_work.group.group_by_year import group_daily_works_by_year    
 
 
 def group_and_sort_daily_works(
