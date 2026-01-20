@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-19 14:15+0800\n"
+"POT-Creation-Date: 2026-01-20 15:21+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,7 +87,7 @@ msgstr "Ажилтан"
 
 #: employee/mixins/context_mixins.py:18
 #: employee/templates/base/navbar/menu.html:16
-#: employee/templates/daily_work/daily_work_list.html:29
+#: employee/templates/daily_work/daily_work_list.html:61
 #: employee/templates/daily_work/work_table.html:19
 #: employee/templates/daily_work/work_table_filters.html:2
 #: employee/templates/includes/modals/save_duplicate.html:39
@@ -172,7 +172,7 @@ msgid "Salary"
 msgstr "Цалин"
 
 #: employee/templates/base/navbar/menu.html:30
-#: employee/templates/daily_work/daily_work_list.html:35
+#: employee/templates/daily_work/daily_work_list.html:67
 #: employee/templates/employee_salary/employee_salary_list.html:35
 #: employee/templates/includes/components/salary_mode_segmented.html:36
 #: employee/templates/includes/modals/save_duplicate.html:41
@@ -203,7 +203,7 @@ msgstr "Шинэ"
 #: employee/templates/daily_salary/daily_salary_filters.html:13
 #: employee/templates/daily_salary/daily_salary_list.html:71
 #: employee/templates/daily_salary/daily_salary_update.html:11
-#: employee/templates/daily_work/daily_work_list.html:57
+#: employee/templates/daily_work/daily_work_list.html:89
 #: employee/templates/daily_work/daily_work_piecework_create.html:36
 #: employee/templates/daily_work/daily_work_piecework_update.html:16
 #: employee/templates/includes/modals/save_duplicate.html:42
@@ -218,7 +218,7 @@ msgid "Date"
 msgstr "Огноо"
 
 #: employee/templates/daily_salary/daily_salary_create.html:28
-#: employee/templates/daily_work/daily_work_list.html:39
+#: employee/templates/daily_work/daily_work_list.html:71
 #: employee/templates/employee_salary/employee_salary_list.html:38
 #: employee/templates/piecework/piecework_list.html:40
 #: employee/templates/wagon/wagon_list.html:28
@@ -278,6 +278,7 @@ msgid "Record Date"
 msgstr "Бичлэг Хийх Огноо"
 
 #: employee/templates/daily_salary/daily_salary_list.html:57
+#: employee/templates/daily_work/daily_work_list.html:55
 msgid "Select all"
 msgstr "Бүгдийг сонгох"
 
@@ -302,7 +303,7 @@ msgid "Name"
 msgstr "Нэр"
 
 #: employee/templates/daily_salary/daily_salary_list.html:65
-#: employee/templates/daily_work/daily_work_list.html:30
+#: employee/templates/daily_work/daily_work_list.html:62
 #: employee/templates/daily_work/work_table.html:20
 #: employee/templates/daily_work/work_table_filters.html:4
 #: employee/templates/employee/employee_create.html:16
@@ -327,13 +328,13 @@ msgid "Hours"
 msgstr "Цаг"
 
 #: employee/templates/daily_salary/daily_salary_list.html:75
-#: employee/templates/daily_work/daily_work_list.html:61
+#: employee/templates/daily_work/daily_work_list.html:93
 #: employee/templates/piecework/piecework_list.html:63
 msgid "Record"
 msgstr "Бичлэг"
 
 #: employee/templates/daily_salary/daily_salary_list.html:79
-#: employee/templates/daily_work/daily_work_list.html:65
+#: employee/templates/daily_work/daily_work_list.html:97
 #: employee/templates/employee/employee_list.html:33
 #: employee/templates/includes/table_action_buttons/actions_dropdown.html:7
 #: employee/templates/work/work_list.html:37
@@ -341,6 +342,7 @@ msgid "Actions"
 msgstr "Үйлдлүүд"
 
 #: employee/templates/daily_salary/daily_salary_list.html:97
+#: employee/templates/daily_work/daily_work_list.html:116
 msgid "Select"
 msgstr "Сонгох"
 
@@ -375,7 +377,7 @@ msgid "Types"
 msgstr "Төрөл"
 
 #: employee/templates/daily_work/daily_work_filters.html:13
-#: employee/templates/daily_work/daily_work_list.html:34
+#: employee/templates/daily_work/daily_work_list.html:66
 #: employee/templates/daily_work/work_table.html:22
 #: employee/templates/daily_work/work_table_filters.html:7
 #: employee/templates/piecework/piecework_filters.html:19
@@ -418,8 +420,8 @@ msgid "Month/Year"
 msgstr "Сар/Он"
 
 #: employee/templates/daily_work/daily_work_filters.html:21
-#: employee/templates/daily_work/daily_work_list.html:47
-#: employee/templates/daily_work/daily_work_list.html:52
+#: employee/templates/daily_work/daily_work_list.html:79
+#: employee/templates/daily_work/daily_work_list.html:84
 #: employee/templates/employee_salary/employee_salary_list.html:44
 #: employee/templates/piecework/piecework_filters.html:28
 #: employee/templates/piecework/piecework_list.html:48
@@ -446,7 +448,7 @@ msgstr "Онүүд"
 msgid "Select Range of Date"
 msgstr "Огнооны Мужийг Сонгоно уу"
 
-#: employee/templates/daily_work/daily_work_list.html:31
+#: employee/templates/daily_work/daily_work_list.html:63
 #: employee/templates/includes/modals/save_duplicate.html:40
 #: employee/templates/piecework/piecework_list.html:32
 #: employee/templates/wagon/wagon_list.html:39
@@ -455,7 +457,7 @@ msgstr "Огнооны Мужийг Сонгоно уу"
 msgid "Type"
 msgstr "Төрөл"
 
-#: employee/templates/daily_work/daily_work_list.html:38
+#: employee/templates/daily_work/daily_work_list.html:70
 #: employee/templates/daily_work/daily_work_piecework_update.html:14
 #: employee/templates/daily_work/work_table.html:24
 #: employee/templates/material/material_list.html:26
@@ -467,7 +469,7 @@ msgstr "Төрөл"
 msgid "Amount"
 msgstr "Тоо"
 
-#: employee/templates/daily_work/daily_work_list.html:40
+#: employee/templates/daily_work/daily_work_list.html:72
 #: employee/templates/piecework/piecework_list.html:41
 #: employee/templates/wagon/wagon_list.html:29
 #: employee/templates/wagon/wagon_list.html:42
@@ -479,7 +481,7 @@ msgstr "Тоо"
 msgid "Price"
 msgstr "Үнэ"
 
-#: employee/templates/daily_work/daily_work_list.html:44
+#: employee/templates/daily_work/daily_work_list.html:76
 #: employee/templates/employee_salary/employee_salary_list.html:41
 #: employee/templates/piecework/piecework_list.html:45
 #: employee/templates/wagon/wagon_list.html:31
@@ -490,7 +492,7 @@ msgstr "Үнэ"
 msgid "Month"
 msgstr "Сар"
 
-#: employee/templates/daily_work/daily_work_list.html:130
+#: employee/templates/daily_work/daily_work_list.html:175
 msgid "No daily work records found..."
 msgstr "Өдөр тутмын ажлын бүртгэл олдсонгүй..."
 
@@ -512,7 +514,7 @@ msgstr ""
 "strong>. Боломжит ажилтны бүртгэлтэй огноог сонгосны дараа л ажилтнуудад "
 "ажил хуваарилах боломжтой."
 
-#: employee/templates/daily_work/daily_work_total_row.html:5
+#: employee/templates/daily_work/daily_work_total_row.html:9
 #: employee/templates/material/material_total_row.html:5
 #: employee/templates/piecework/piecework_total_row.html:5
 #: employee/templates/wagon/wagon_total_row.html:5
@@ -697,21 +699,9 @@ msgstr "Нэрээр хайх..."
 msgid "Filter"
 msgstr "Шүүлтүүр"
 
-#: employee/templates/includes/form/delete_selected_summary.html:5
-msgid "Selected Daily Salaries:"
-msgstr "Сонгосон Өдрийн Бүртгэл:"
-
 #: employee/templates/includes/form/form_errors.html:12
 msgid "Error"
 msgstr "Алдаа"
-
-#: employee/templates/includes/form/selected_summary.html:5
-msgid "Selected Employees:"
-msgstr "Сонгогдсон Ажилчид:"
-
-#: employee/templates/includes/form/selected_summary.html:10
-msgid "Selected Works:"
-msgstr "Сонгосон бүтээлүүд:"
 
 #: employee/templates/includes/modals/modal_activate.html:14
 #: employee/templates/includes/modals/modal_activate.html:28
@@ -790,6 +780,22 @@ msgstr ""
 #: employee/templates/includes/modals/save_duplicate.html:37
 msgid "A Daily Work & Piecework entry already exists for:"
 msgstr "Өдөр Тутмын Ажил, Хэсэгчилсэн Ажил аль хэдийн байна:"
+
+#: employee/templates/includes/summaries/delete_selected_daily_salary_summary.html:5
+msgid "Selected Daily Salaries:"
+msgstr "Сонгосон Өдрийн Бүртгэл:"
+
+#: employee/templates/includes/summaries/delete_selected_daily_work_summary.html:4
+msgid "Selected Daily Works:"
+msgstr "Сонгосон Өдөр Тутмын Ажил:"
+
+#: employee/templates/includes/summaries/selected_summary.html:5
+msgid "Selected Employees:"
+msgstr "Сонгогдсон Ажилчид:"
+
+#: employee/templates/includes/summaries/selected_summary.html:10
+msgid "Selected Works:"
+msgstr "Сонгосон Бүтээлүүд:"
 
 #: employee/templates/includes/table/employee_table.html:24
 msgid "Select all employees"
@@ -902,6 +908,7 @@ msgstr ""
 "холбогдоно уу."
 
 #: employee/views/daily_salary/daily_salary_delete_bulk/daily_salary_delete_bulk.py:31
+#: employee/views/daily_work/daily_work_delete_bulk/daily_work_delete_bulk.py:30
 msgid "Please select at least one record."
 msgstr "Наад зах нь нэг бичлэг сонгоно уу."
 
@@ -911,15 +918,16 @@ msgid ""
 "Cannot delete %(count)s record(s) because they are associated with Daily "
 "Work / Piecework: %(items)s%(tail)s"
 msgstr ""
-"%(count)s бичлэгийг устгах боломжгүй. Учир нь эдгээр нь Өдрийн "
-"ажил / Хийснээрх ажлын бүртгэлтэй холбоотой байна: %(items)s%(tail)s"
+"%(count)s бичлэгийг устгах боломжгүй. Учир нь эдгээр нь Өдрийн ажил / "
+"Хийснээрх ажлын бүртгэлтэй холбоотой байна: %(items)s%(tail)s"
 
 #: employee/views/daily_salary/daily_salary_delete_bulk/messages/delete_bulk_messanges.py:15
 #, python-format
 msgid "Deleted %(count)s record(s): %(items)s%(tail)s"
 msgstr "%(count)s бичлэгийг устгагдлаа: %(items)s%(tail)s"
 
-#: employee/views/daily_salary/daily_salary_delete_bulk/messages/messages_bulk_preview.py:7
+#: employee/views/daily_salary/daily_salary_delete_bulk/messages/messages_bulk_preview.py:10
+#: employee/views/daily_work/daily_work_delete_bulk/employees_preview.py:14
 #, python-format
 msgid " … and %(n)s more"
 msgstr " … болон өөр %(n)s"
@@ -950,6 +958,29 @@ msgstr "Өдөр тутмын цалинг амжилттай шинэчилсэ
 msgid "Please select date and hours!"
 msgstr "Огноо, цагийг сонгоно уу!"
 
+#: employee/views/daily_work/daily_work_create/daily_work_piecework_service.py:85
+#, python-format
+msgid "Error creating piecework records: %(error)s"
+msgstr "Өдөр тутмын цалингийн бүртгэл үүсгэх алдаа: %(error)s"
+
+#: employee/views/daily_work/daily_work_create/daily_work_success.py:19
+#, python-format
+msgid ""
+"Daily Work and related Piecework record(s) for %(employees)s (work(s): "
+"%(works)s) on %(date)s created successfully."
+msgstr ""
+"%(date)s-ны өдөр %(employees)s-н Өдөр Тутмын Ажил болон холбогдох Хийснээрх ажлын бичлэгүүд (ажил: "
+"%(works)s) амжилттай үүслээ."
+
+#: employee/views/daily_work/daily_work_delete_bulk/messages_bulk_preview.py:20
+#, python-format
+msgid ""
+"Deleted Daily Work record: %(work)s on %(date)s with %(pieceworks_count)d "
+"related Piecework record(s): %(employees)s."
+msgstr ""
+"Өдөр тутмын ажлын бичлэг устгагдлаа: %(date)s-ны өдөр %(work)s, холбогдох %(pieceworks_count)d "
+"Хийснээрх ажлын бичлэгийн хамт: %(employees)s."
+
 #: employee/views/daily_work/daily_work_export/daily_work_export_excel.py:66
 msgid "Monthly Work"
 msgstr "Сарын Хийсэн Ажил"
@@ -957,20 +988,6 @@ msgstr "Сарын Хийсэн Ажил"
 #: employee/views/daily_work/daily_work_export/daily_work_export_excel.py:67
 msgid "Yearly Work"
 msgstr "Жилд Хийсэн Ажил"
-
-#: employee/views/daily_work/daily_work_piecework_service.py:85
-#, python-format
-msgid "Error creating piecework records: %(error)s"
-msgstr "Өдөр тутмын цалингийн бүртгэл үүсгэх алдаа: %(error)s"
-
-#: employee/views/daily_work/daily_work_success.py:19
-#, python-format
-msgid ""
-"Daily work and piecework records for %(employees)s (work(s): %(works)s) on "
-"%(date)s created successfully."
-msgstr ""
-"%(date)s дээрх %(employees)s (ажил(ууд): %(works)s)-ын Өдөр Тутмын Ажил "
-"болон ажлын бүртгэлийг амжилттай үүсгэсэн."
 
 #: employee/views/daily_work/daily_work_views.py:23
 msgid "Daily Work and Piecework updated successfully."
