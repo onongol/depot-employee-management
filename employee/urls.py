@@ -13,7 +13,8 @@ from employee.views.daily_work import (DailyWorkDeleteView,
                                        DailyWorkUpdateView, 
                                        daily_work_create,
                                        daily_work_export_excel,
-                                       daily_work_list)
+                                       daily_work_list,
+                                       daily_work_delete_bulk)
 from employee.views.department import set_department
 from employee.views.employee import (EmployeeCreateView, 
                                      EmployeeDeleteView,
@@ -81,6 +82,7 @@ urlpatterns = [
     path('daily_work_update/<int:pk>/', DailyWorkUpdateView.as_view(), name="daily_work_update"),
     path('daily_work_delete/<int:pk>/', DailyWorkDeleteView.as_view(), name="daily_work_delete"),
     path('daily_work_export_excel/', daily_work_export_excel, name='daily_work_export_excel'),
+    path("daily_work_delete_bulk/", daily_work_delete_bulk, name="daily_work_delete_bulk"),
 
     # Piecework URLs
     path('piecework/', piecework_list, name="piecework_list"),
