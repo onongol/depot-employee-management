@@ -6,12 +6,12 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
 from employee.utils.access import is_admin
+from employee.utils.parse_ids import parse_ids
 from employee.utils.select_department import get_selected_department
 from employee.views.daily_salary.daily_salary_delete_bulk.bulk_queryset_split import get_deletable_and_blocked_qs
 from employee.views.daily_salary.daily_salary_delete_bulk.messages.block_bulk_messages import block_bulk_messages
 from employee.views.daily_salary.daily_salary_delete_bulk.messages.delete_bulk_messanges import delete_bulk_messages
 from employee.views.daily_salary.daily_salary_delete_bulk.messages.messages_bulk_preview import preview_items
-from employee.views.daily_salary.daily_salary_delete_bulk.parse_ids import parse_ids
 
 
 @require_POST
