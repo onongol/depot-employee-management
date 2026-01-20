@@ -32,7 +32,7 @@
 
   <!-- Selected summary section -->
   {% if not is_employee and not is_master %}
-    {% include "includes/form/delete_selected_summary.html" with selected_daily_salaries=selected_daily_salaries %}
+    {% include "includes/summaries/delete_selected_daily_salary_summary.html" with selected_daily_salaries=selected_daily_salaries %}
   {% endif %}
   
   <!-- Bulk action form: wraps the table checkboxes so selected DailySalary IDs are submitted via POST -->
