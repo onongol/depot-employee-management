@@ -1,3 +1,6 @@
+from django.utils.translation import gettext_lazy as _
+
+
 def preview_items(qs, count, limit=10):
     """Generates a preview list and summary tail for bulk action messages, limiting displayed items for user-friendly feedback."""
     items = [
