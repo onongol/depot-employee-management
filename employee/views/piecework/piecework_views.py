@@ -28,7 +28,7 @@ class PieceworkDeleteView(LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMi
 def piecework_create(request):
     """View to create new piecework records."""
     # Circular import avoidance
-    from employee.views.daily_work.daily_work_piecework_create import \
+    from employee.views.daily_work.daily_work_create.daily_work_piecework_create import \
         daily_work_piecework_create
 
     return daily_work_piecework_create(request)
