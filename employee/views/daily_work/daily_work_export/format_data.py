@@ -1,6 +1,7 @@
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_MONTH, GROUP_YEAR
 from employee.utils.get_value import get_value
 
+
 def iter_rows(qs, department, group=None):
     """Generate rows for DailyWork export (detailed or grouped)."""
     show_wagon = department in ALLOWED_WAGON_DEPARTMENTS
