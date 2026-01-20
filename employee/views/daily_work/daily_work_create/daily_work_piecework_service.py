@@ -5,7 +5,7 @@ from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
 from employee.models import Piecework
-from employee.views.daily_work.daily_work_piecework_create_entries import create_daily_work_entries
+from employee.views.daily_work.daily_work_create.daily_work_piecework_create_entries import create_daily_work_entries
 from employee.views.daily_work.validators import (validate_daily_salary, 
                                                   validate_duplicate, 
                                                   validate_required)
