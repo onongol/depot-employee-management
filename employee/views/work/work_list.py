@@ -9,6 +9,7 @@ from employee.utils.pagination import paginate_queryset
 from employee.utils.select_department import get_selected_department
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
+from employee.utils.sorting import apply_ordering
 
 
 @login_required(login_url='login')
@@ -38,8 +39,20 @@ def work_list(request):
     type_wagons = get_type_wagon_filter_values(department, source_model='work')
 
     # Ensure consistent ordering for pagination
-    works = works.order_by('work_name')
+    #works = works.order_by('work_name')
 
+    # Sorting
+    order_by = request.GET.get('order_by')
+    direction = request.GET.get('direction')
+
+    works = apply_ordering(
+        works, 
+        order_by, 
+        direction, 
+        allowed_fields=['work_name'], 
+        default=['work_name']
+    )
+    
     # Paginate the results, 10 records per page
     page_obj = paginate_queryset(request, works)
 
