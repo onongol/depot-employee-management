@@ -7,6 +7,7 @@ from employee.utils.filters import filter_employees
 from employee.utils.pagination import paginate_queryset
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
+from employee.utils.sorting import apply_ordering
 
 
 @login_required(login_url='login')
@@ -30,7 +31,19 @@ def employee_list(request):
     job_titles = get_distinct_values(Employee, 'job_title', department, department_field='department')
 
     # Ensure consistent ordering for pagination
-    employees = employees.order_by('employee_id')
+    #employees = employees.order_by('employee_id')
+
+    # Sorting
+    order_by = request.GET.get('order_by')
+    direction = request.GET.get('direction')
+
+    employees = apply_ordering(
+        employees, 
+        order_by, 
+        direction, 
+        allowed_fields=['employee_id'], 
+        default=['employee_id']
+    )
     
     # Paginate the results, 10 records per page
     page_obj = paginate_queryset(request, employees)
