@@ -84,7 +84,12 @@
         <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
           {% if daily_salaries %}
             {% for daily_salary in daily_salaries %}
-              <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-red-100 dark:has-[:checked]:bg-red-500/20">
+              <tr 
+                class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-red-100 dark:has-[:checked]:bg-red-500/20"
+                data-emp-id="{{ daily_salary.employee.employee_id }}"
+                data-emp-name="{{ daily_salary.employee.name }}"
+                data-salary-date="{{ daily_salary.salary_date|date:'Y-m-d' }}"
+              >
                 {% with col_class="px-6 py-3" %}
 
                   {% if not is_employee and not is_master %}
