@@ -67,7 +67,8 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
   {% endif %}
 
   <!-- Selected summary section -->
-  {% include "includes/summaries/selected_summary.html" with selected_employees=selected_employees selected_works=selected_works %}
+  {% include "includes/summaries/employees_selected_summary.html" %}
+  {% include "includes/summaries/works_selected_summary.html" %}
 
   <!-- Form Buttons -->
   {% include "includes/form/form_actions.html" with cancel_url=cancel_url %}
