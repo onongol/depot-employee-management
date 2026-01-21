@@ -21,7 +21,11 @@
                 onclick="toggleAllVisible(this, 'employee_ids')"
                 aria-label="Select all employees"
               >
-              <label for="select-all-employees" class="sr-only">{% trans "Select all employees" %}</label>
+              <label 
+                for="select-all-employees"
+                class="sr-only">
+                  {% trans "Select all employees" %}
+              </label>
             </th>
                 <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
                 <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
@@ -34,7 +38,11 @@
         class="divide-y divide-gray-100 dark:divide-gray-700"
       >
         {% for employee in employees %}
-          <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-500/20">
+          <tr 
+            class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-500/20"
+            data-emp-id="{{ employee.employee_id }}"
+            data-emp-name="{{ employee.name }}"
+          >
             {% with col_class="px-6 py-3" %}
               <td class="{{ col_class }} align-middle text-center">
                 <input
