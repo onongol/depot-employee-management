@@ -103,7 +103,12 @@
         <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
           {% if daily_works %}
             {% for daily_work in daily_works %}
-              <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-red-100 dark:has-[:checked]:bg-red-500/20">
+              <tr 
+                class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-red-100 dark:has-[:checked]:bg-red-500/20"
+                data-work-name="{{ daily_work.work.work_name }}"
+                data-type-work="{{ daily_work.type_work }}"
+                data-work-date="{{ daily_work.work_date|date:'Y-m-d' }}"
+              >
                 {% with col_class="px-6 py-3" %}
 
                   {% if not is_employee and not is_master and group != GROUP_MONTH and group != GROUP_YEAR %}
