@@ -27,7 +27,10 @@
       </thead>
       <tbody id="works-table-body" class="divide-y divide-gray-100 dark:divide-gray-700">
         {% for work in works %}
-          <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-500/20">
+          <tr 
+            class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-500/20"
+            data-work-name="{{ work.work_name }}"
+          >
             {% with col_class="px-6 py-3" %}
               <td class="{{ col_class }} align-middle text-center">
                 <input
