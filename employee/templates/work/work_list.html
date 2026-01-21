@@ -24,7 +24,9 @@
         <tr>
           {% with col_class="px-6 py-3" %}
             <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
+            <th scope="col" class="{{ col_class }}">
+              {% include "includes/table/sort_column.html" with label=_("Work") field="work_name" col_class=col_class selected_department=selected_department %}
+            </th>
             <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
             {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
               <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
