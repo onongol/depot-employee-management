@@ -95,6 +95,12 @@
     "src": "assets/js/navbar/navbar_toggle.ts",
     "isEntry": true
   },
+  "assets/js/summary/summary_selected.ts": {
+    "file": "js/summary_selected-bundle.js",
+    "name": "summary_selected",
+    "src": "assets/js/summary/summary_selected.ts",
+    "isEntry": true
+  },
   "assets/js/summary/summary_selected_daily_salaries.ts": {
     "file": "js/summary_selected_daily_salaries-bundle.js",
     "name": "summary_selected_daily_salaries",
