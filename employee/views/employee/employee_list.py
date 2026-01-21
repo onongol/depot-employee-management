@@ -18,11 +18,14 @@ def employee_list(request):
     else:
         employees = Employee.objects.all()
 
-    # Extract filter parameters from the request
     department = get_selected_department(request)
+
     employee_id = request.GET.get('employee_id')
     employee_name = request.GET.get('employee_name')
     job_title = request.GET.get('job_title')
+
+    order_by = request.GET.get('order_by')
+    direction = request.GET.get('direction')
 
     # Filtering logic: apply all filters using a reusable filter function
     employees = filter_employees(employees, department, employee_id, employee_name, job_title)
@@ -32,10 +35,6 @@ def employee_list(request):
 
     # Ensure consistent ordering for pagination
     #employees = employees.order_by('employee_id')
-
-    # Sorting
-    order_by = request.GET.get('order_by')
-    direction = request.GET.get('direction')
 
     employees = apply_ordering(
         employees, 
