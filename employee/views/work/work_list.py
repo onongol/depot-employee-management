@@ -17,11 +17,14 @@ def work_list(request):
     """View to list all works with filtering and pagination."""
     works = Work.objects.all()
 
-    # Extract filter parameters from the request
     department = get_selected_department(request)
+
     job_title = request.GET.get('job_title')
     work_name = request.GET.get('work_name')
     type_wagon = request.GET.get('type_wagon')
+
+    order_by = request.GET.get('order_by')
+    direction = request.GET.get('direction')
 
     # Apply all filters using a reusable filter function
     works = filter_works(
@@ -40,10 +43,6 @@ def work_list(request):
 
     # Ensure consistent ordering for pagination
     #works = works.order_by('work_name')
-
-    # Sorting
-    order_by = request.GET.get('order_by')
-    direction = request.GET.get('direction')
 
     works = apply_ordering(
         works, 
