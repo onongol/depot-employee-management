@@ -19,7 +19,7 @@ def build_daily_piecework_context(request):
     today = timezone.now().date()
 
     # Get and format the work_date from GET or POST parameters
-    raw_work_date = request.GET.get('work_date') or request.POST.get('work_date')
+    raw_work_date = request.GET.get("work_date") or request.POST.get("work_date")
     if not raw_work_date:
         work_date = today
     else:
@@ -30,11 +30,9 @@ def build_daily_piecework_context(request):
     # Filter employees and works by selected department.
     # Only include employees who have a DailySalary record for work_date.
     if department:
-        employees = (
-            Employee.objects
-            .filter(department=department, is_active=True)
-            .order_by('employee_id')
-        )
+        employees = Employee.objects.filter(
+            department=department, is_active=True
+        ).order_by("employee_id")
         # If a work_date is provided, filter to employees with DailySalary on that date
         if work_date:
             employees = employees.filter(dailysalary__salary_date=work_date).distinct()
@@ -43,16 +41,19 @@ def build_daily_piecework_context(request):
 
     # Expand department for works filtering
     works = (
-        Work.objects.filter(department=department).order_by('work_name')
-        if department else Work.objects.none()
+        Work.objects.filter(department=department).order_by("work_name")
+        if department
+        else Work.objects.none()
     )
 
     # Get distinct job titles for filtering dropdown
     emp_job_titles = get_distinct_values(
-        Employee, 'job_title', department, department_field='department'
+        Employee, "job_title", department, department_field="department"
     )
     work_job_titles = get_distinct_values(
-        Work, 'job_title', extra_filters={'department': department} if department else None
+        Work,
+        "job_title",
+        extra_filters={"department": department} if department else None,
     )
 
     # Combine and sort job titles from employees and works
@@ -63,24 +64,24 @@ def build_daily_piecework_context(request):
 
     # Fetch existing Piecework records for the department to prevent duplicates
     existing_pieceworks = list(
-        Piecework.objects.filter(employee__department=department)
-        .values('employee_id', 'work_id', 'type_work', 'work_date', 'wagon_number')
+        Piecework.objects.filter(employee__department=department).values(
+            "employee_id", "work_id", "type_work", "work_date", "wagon_number"
+        )
     )
 
     # Build and return the context dictionary
     return {
-        'form': PieceworkForm(department=department),
-        'object_type': 'Daily Work & Piecework',
-        'employees': employees,
-        'works': works,
-        'today': today,
-        'work_date': work_date,
-        'errors': [],
-        'selected_department': department,
-        'cancel_url': reverse('daily_work_list'),
-        'existing_pieceworks': existing_pieceworks,
-        #'existing_pieceworks_json': json.dumps(existing_pieceworks, cls=DjangoJSONEncoder), # Pass existing records as JSON
-        'job_titles': job_titles,
-        'ALLOWED_WAGON_DEPARTMENTS': ALLOWED_WAGON_DEPARTMENTS,
-        'type_wagons': type_wagons,
+        "form": PieceworkForm(department=department),
+        "object_type": "Daily Work & Piecework",
+        "employees": employees,
+        "works": works,
+        "today": today,
+        "work_date": work_date,
+        "errors": [],
+        "selected_department": department,
+        "cancel_url": reverse("daily_work_list"),
+        "existing_pieceworks": existing_pieceworks,
+        "job_titles": job_titles,
+        "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
+        "type_wagons": type_wagons,
     }
