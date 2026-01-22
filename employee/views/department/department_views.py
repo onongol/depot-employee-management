@@ -15,7 +15,7 @@ def get_user_department(user):
             obj = model.objects.get(user=user, is_active=True)
             if not obj:
                 continue
-            department = getattr(obj, 'department', None)
+            department = getattr(obj, "department", None)
             if department in DEPARTMENTS:
                 return department
         except model.DoesNotExist:
@@ -26,15 +26,15 @@ def get_user_department(user):
 @receiver(user_logged_in)
 def set_department_on_login(sender, user, request, **kwargs):
     """Set the department in the session when a user logs in."""
-    request.session['department'] = get_user_department(user)
+    request.session["department"] = get_user_department(user)
 
 
-@login_required(login_url='login')
+@login_required(login_url="login")
 def set_department(request):
     """Set the department in the user's session."""
     department = get_selected_department(request)
     if department in DEPARTMENTS:
-        request.session['department'] = department
+        request.session["department"] = department
     else:
-        request.session['department'] = None
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+        request.session["department"] = None
+    return redirect(request.META.get("HTTP_REFERER", "/"))
