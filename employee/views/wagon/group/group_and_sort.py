@@ -1,6 +1,6 @@
 from employee.constants.constants import GROUP_MONTH
 from employee.utils.sorting import apply_ordering
-from employee.views.wagon.wagon_grouping import get_grouped_wagons
+from employee.views.wagon.group.wagon_grouping import get_grouped_wagons
 
 
 def group_and_sort_wagons(
