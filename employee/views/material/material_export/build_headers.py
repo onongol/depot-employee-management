@@ -5,7 +5,7 @@ def build_headers():
     headers = [
         ("#"),
         _("Type Material"),
-        _("Work Name"), 
+        _("Work Name"),
         _("Amount Material"),
         _("Date"),
     ]
