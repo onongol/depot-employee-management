@@ -12,29 +12,50 @@ from employee.mixins.permissions_mixins import OnlyAdminMixin
 from employee.models import DailySalary
 
 
-class EmployeeCreateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, InitialDepartmentMixin, SuccessMessageMixin, CreateView):
-    login_url = 'login'
+class EmployeeCreateView(
+    LoginRequiredMixin,
+    OnlyAdminMixin,
+    EmployeeContextMixin,
+    InitialDepartmentMixin,
+    SuccessMessageMixin,
+    CreateView,
+):
+    login_url = "login"
     form_class = EmployeeForm
     template_name = "employee/employee_create.html"
     success_message = _("Employee %(employee_id)s/%(name)s created successfully.")
 
 
-class EmployeeUpdateView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, InitialDepartmentMixin, SuccessMessageMixin, UpdateView):
-    login_url = 'login'
+class EmployeeUpdateView(
+    LoginRequiredMixin,
+    OnlyAdminMixin,
+    EmployeeContextMixin,
+    InitialDepartmentMixin,
+    SuccessMessageMixin,
+    UpdateView,
+):
+    login_url = "login"
     form_class = UpdateEmployeeForm
     template_name = "employee/employee_update.html"
     success_message = _("Employee updated successfully.")
 
 
-class EmployeeDeleteView(LoginRequiredMixin, OnlyAdminMixin, EmployeeContextMixin, BlockDeleteMixin, DeleteProtectionMixin, DeleteView):
-    login_url = 'login'
+class EmployeeDeleteView(
+    LoginRequiredMixin,
+    OnlyAdminMixin,
+    EmployeeContextMixin,
+    BlockDeleteMixin,
+    DeleteProtectionMixin,
+    DeleteView,
+):
+    login_url = "login"
     template_name = "employee/employee_confirm_delete.html"
-    block_related_models = [_('Daily Salary'), _('Daily Work'), _('Piecework')]
+    block_related_models = [_("Daily Salary"), _("Daily Work"), _("Piecework")]
 
     # Get related daily salary records to check if deletion is allowed.
     def get_related_objects(self):
         return DailySalary.objects.filter(employee=self.object)
-  
+
     def get_redirect_url(self):
         return self.success_url
 
