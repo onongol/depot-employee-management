@@ -7,73 +7,87 @@ from employee.forms.forms_mixins.work_mixins import WorkNameUniqueMixin
 from employee.models import Work
 
 
-class WorkForm(TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin, forms.ModelForm):
+class WorkForm(
+    TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin, forms.ModelForm
+):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     class Meta:
         model = Work
-        fields = '__all__'
+        fields = "__all__"
         widgets = {
-            'job_title': forms.Select(attrs={'class': 'form-control'}),
-            'work_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'type_wagon': forms.Select(attrs={'class': 'form-control'}),
-            'type_material': forms.TextInput(attrs={'class': 'form-control'}),
-            'usage_material': forms.NumberInput(
+            "job_title": forms.Select(attrs={"class": "form-control"}),
+            "work_name": forms.TextInput(attrs={"class": "form-control"}),
+            "type_wagon": forms.Select(attrs={"class": "form-control"}),
+            "type_material": forms.TextInput(attrs={"class": "form-control"}),
+            "usage_material": forms.NumberInput(
                 attrs={
-                    'class': 'form-control', 
-                    'type': 'number', 
-                    'min': '0',
+                    "class": "form-control",
+                    "type": "number",
+                    "min": "0",
                 }
             ),
-            'standard_time': forms.NumberInput(
+            "standard_time": forms.NumberInput(
                 attrs={
-                    'class': 'form-control', 
-                    'type': 'number', 
-                    'min': '0.000001',
-                    'step': '0.000001'
+                    "class": "form-control",
+                    "type": "number",
+                    "min": "0.000001",
+                    "step": "0.000001",
                 }
             ),
-            'price': forms.NumberInput(
+            "price": forms.NumberInput(
                 attrs={
-                    'class': 'form-control', 
-                    'type': 'number', 
-                    'min': '0.01',
-                    'step': '0.01'
+                    "class": "form-control",
+                    "type": "number",
+                    "min": "0.01",
+                    "step": "0.01",
                 }
             ),
         }
 
 
-class UpdateWorkForm(TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin, forms.ModelForm):
+class UpdateWorkForm(
+    TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin, forms.ModelForm
+):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-    
+
     class Meta:
         model = Work
-        fields = ['job_title', 'type_wagon', 'type_material', 'usage_material', 'standard_time', 'price']
-        widgets = { 
-            'job_title': forms.Select(attrs={'class': 'form-control'}),
-            'type_wagon': forms.Select(attrs={'class': 'form-control'}),
-            'type_material': forms.TextInput(attrs={'class': 'form-control'}),
-            'usage_material': forms.NumberInput(attrs={
-                'class': 'form-control', 
-                'type': 'number',
-                'min': '0',
+        fields = [
+            "job_title",
+            "type_wagon",
+            "type_material",
+            "usage_material",
+            "standard_time",
+            "price",
+        ]
+        widgets = {
+            "job_title": forms.Select(attrs={"class": "form-control"}),
+            "type_wagon": forms.Select(attrs={"class": "form-control"}),
+            "type_material": forms.TextInput(attrs={"class": "form-control"}),
+            "usage_material": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "number",
+                    "min": "0",
                 }
             ),
-            'standard_time': forms.NumberInput(attrs={
-                'class': 'form-control', 
-                'type': 'number', 
-                'min': '0',
-                'step': '0.000001'
+            "standard_time": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "number",
+                    "min": "0",
+                    "step": "0.000001",
                 }
             ),
-            'price': forms.NumberInput(attrs={
-                'class': 'form-control', 
-                'type': 'number', 
-                'min': '0',
-                'step': '0.01'
+            "price": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "number",
+                    "min": "0",
+                    "step": "0.01",
                 }
             ),
         }
