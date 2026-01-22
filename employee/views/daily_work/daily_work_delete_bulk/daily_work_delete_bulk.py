@@ -9,19 +9,23 @@ from django.views.decorators.http import require_POST
 from employee.utils.access import is_admin
 from employee.utils.parse_ids import parse_ids
 from employee.utils.select_department import get_selected_department
-from employee.views.daily_work.daily_work_delete_bulk.bulk_queryset import get_bulk_daily_work_qs
-from employee.views.daily_work.daily_work_delete_bulk.messages_bulk_preview import preview_daily_work_items
+from employee.views.daily_work.daily_work_delete_bulk.bulk_queryset import (
+    get_bulk_daily_work_qs,
+)
+from employee.views.daily_work.daily_work_delete_bulk.messages_bulk_preview import (
+    preview_daily_work_items,
+)
 
 
 @require_POST
 @login_required(login_url="login")
-@user_passes_test(is_admin, login_url='login')
+@user_passes_test(is_admin, login_url="login")
 def daily_work_delete_bulk(request):
-    '''
+    """
     This code implements a secure and user-friendly bulk delete operation for DailyWork records.
     It validates user input, efficiently fetches related data, generates a detailed preview message for the user, and performs the deletion in a single transaction.
     The approach ensures good UX, prevents accidental deletions, and avoids performance issues by using optimized querysets.
-    '''
+    """
     department = get_selected_department(request)
     fallback_url = reverse("daily_work_list")
     ids = parse_ids(request.POST.getlist("daily_work_ids"))
@@ -31,7 +35,7 @@ def daily_work_delete_bulk(request):
         return redirect(request.META.get("HTTP_REFERER") or fallback_url)
 
     base_qs = get_bulk_daily_work_qs(ids=ids, department=department)
-    
+
     parts = preview_daily_work_items(base_qs=base_qs)
 
     deleted_count, _deleted_details = base_qs.delete()
