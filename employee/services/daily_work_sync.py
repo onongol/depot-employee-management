@@ -20,7 +20,7 @@ def sync_piecework_with_dailywork(dailywork):
     try:
         # Local imports to avoid circular import issues
         from employee.models import DailySalary, Piecework
-        from employee.views.piecework.piecework_calculation import piecework_calculate_update
+        from employee.views.piecework.calculation.piecework_calculation import piecework_calculate_update
 
         # Get department from the related Work
         department = getattr(dailywork.work, 'department', None)
