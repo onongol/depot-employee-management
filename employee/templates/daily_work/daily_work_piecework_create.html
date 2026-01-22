@@ -43,16 +43,16 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
     {% endif %}
 
     <!-- Filters employee table -->
-    {% include "includes/select_tables/employee_search_filters.html" %}
+    {% include "includes/select_table/employee_search_filters.html" %}
 
     <!-- Employee Table -->
-    {% include "includes/select_tables/employees_select_table.html" with employees=employees max_height="max-h-68" aria_desc="daily-work-list-title" %}
+    {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-68" aria_desc="daily-work-list-title" %}
 
     <!-- Filters works table -->
-    {% include "includes/select_tables/work_search_filters.html" %}
+    {% include "includes/select_table/work_search_filters.html" %}
 
     <!-- Works Table -->
-    {% include "includes/select_tables/works_select_table.html" %}
+    {% include "includes/select_table/works_select_table.html" %}
   {% else %}
   
     <!-- Info notice when no employees for selected date -->
