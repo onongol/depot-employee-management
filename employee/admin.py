@@ -21,6 +21,7 @@ class ImportExportMixin:
 @admin.register(User)
 class UserAdmin(BaseUserAdmin, ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
     """Custom User Admin for the Employee Management System."""
+
     # Forms loaded from `unfold.forms`
     form = UserChangeForm
     add_form = UserCreationForm
@@ -33,12 +34,21 @@ class UserAdmin(BaseUserAdmin, ModelAdmin, ImportExportModelAdmin, ImportExportM
 @admin.register(Group)
 class GroupAdmin(BaseGroupAdmin, ModelAdmin, ImportExportModelAdmin):
     """Custom Group Admin for the Employee Management System."""
+
     pass
 
 
 @admin.register(Employee)
 class EmployeeAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
-    list_display = ("employee_id", "name", "department", "job_title", "rank", "money_per_hour", "is_active")
+    list_display = (
+        "employee_id",
+        "name",
+        "department",
+        "job_title",
+        "rank",
+        "money_per_hour",
+        "is_active",
+    )
     search_fields = ("employee_id", "name")
     list_filter = ["department"]
 
@@ -57,6 +67,14 @@ class PayrollAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
 
 @admin.register(Work)
 class WorkAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
-    list_display = ("work_id", "department", "work_name", "type_material", "usage_material", "standard_time", "price")
+    list_display = (
+        "work_id",
+        "department",
+        "work_name",
+        "type_material",
+        "usage_material",
+        "standard_time",
+        "price",
+    )
     search_fields = ("work_name", "type_material")
     list_filter = ["department"]
