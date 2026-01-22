@@ -1,6 +1,10 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_MONTH, GROUP_YEAR
+from employee.constants.constants import (
+    ALLOWED_WAGON_DEPARTMENTS,
+    GROUP_MONTH,
+    GROUP_YEAR,
+)
 from employee.utils.sum_field import sum_field
 
 
@@ -27,6 +31,11 @@ def build_totals_row(qs, department, group=None):
         total_time = sum_field(rows, time_key)
         total_price = sum_field(rows, price_key)
 
-    totals_row = [total_str] + [empty] * empty_cols + [total_amount, total_time, total_price] + [empty] * tail_empties
-    
+    totals_row = (
+        [total_str]
+        + [empty] * empty_cols
+        + [total_amount, total_time, total_price]
+        + [empty] * tail_empties
+    )
+
     return totals_row
