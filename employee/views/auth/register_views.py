@@ -19,9 +19,9 @@ def link_user_to_instance(user, instance, group_name):
 def find_instance_by_id(register_id):
     """Find the instance and corresponding group by the given register ID."""
     for model, id_field, group_name in [
-        (Employee, 'employee_id', GroupNames.EMPLOYEES.value),
-        (Master, 'master_id', GroupNames.MASTERS.value),
-        (Payroll, 'payroll_id', GroupNames.PAYROLLS.value),
+        (Employee, "employee_id", GroupNames.EMPLOYEES.value),
+        (Master, "master_id", GroupNames.MASTERS.value),
+        (Payroll, "payroll_id", GroupNames.PAYROLLS.value),
     ]:
         # Find the instance by ID
         instance = model.objects.filter(**{id_field: register_id}).first()
@@ -32,24 +32,36 @@ def find_instance_by_id(register_id):
 
 def register_view(request):
     """User registration view."""
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            register_id = form.cleaned_data.get('employee_id')
+            register_id = form.cleaned_data.get("employee_id")
             # Try to find the corresponding instance (Employee, Master, or Payroll) by ID
             instance, group_name = find_instance_by_id(register_id)
             if instance:
                 # Check if this instance is already linked to a user
                 if instance.user:
-                    form.add_error('employee_id', _("A user with this ID already exists."))
+                    form.add_error(
+                        "employee_id", _("A user with this ID already exists.")
+                    )
                 else:
                     user = form.save()
                     link_user_to_instance(user, instance, group_name)
-                    messages.success(request, _("Registration successful! Please sign in with your new account."))
-                    return redirect('login')
+                    messages.success(
+                        request,
+                        _(
+                            "Registration successful! Please sign in with your new account."
+                        ),
+                    )
+                    return redirect("login")
             else:
-                form.add_error('employee_id', _("Your ID is not registered. Check your ID. Contact the administrator."))
-        return render(request, 'auth/register.html', {'form': form})
+                form.add_error(
+                    "employee_id",
+                    _(
+                        "Your ID is not registered. Check your ID. Contact the administrator."
+                    ),
+                )
+        return render(request, "auth/register.html", {"form": form})
     else:
         form = CustomUserCreationForm()
-    return render(request, 'auth/register.html', {'form': form})
+    return render(request, "auth/register.html", {"form": form})
