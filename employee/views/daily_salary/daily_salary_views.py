@@ -11,30 +11,40 @@ from employee.mixins.permissions_mixins import OnlyAdminMixin
 from employee.models import Piecework
 
 
-class DailySalaryUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, SuccessMessageMixin, UpdateView):
-    login_url = 'login'
+class DailySalaryUpdateView(
+    LoginRequiredMixin,
+    OnlyAdminMixin,
+    DailySalaryContextMixin,
+    SuccessMessageMixin,
+    UpdateView,
+):
+    login_url = "login"
     form_class = UpdateDailySalaryForm
     template_name = "daily_salary/daily_salary_update.html"
     success_message = _("Daily Salary updated successfully.")
 
 
-class DailySalaryDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailySalaryContextMixin, BlockDeleteMixin, DeleteProtectionMixin, DeleteView):
-    login_url = 'login'
+class DailySalaryDeleteView(
+    LoginRequiredMixin,
+    OnlyAdminMixin,
+    DailySalaryContextMixin,
+    BlockDeleteMixin,
+    DeleteProtectionMixin,
+    DeleteView,
+):
+    login_url = "login"
     template_name = "daily_salary/daily_salary_confirm_delete.html"
-    block_related_models = [_('Daily Salary'), _('Piecework')]
+    block_related_models = [_("Daily Salary"), _("Piecework")]
 
     # Get related piecework records to check if deletion is allowed.
     def get_related_objects(self):
         return Piecework.objects.filter(
-            employee=self.object.employee,
-            work_date=self.object.salary_date
+            employee=self.object.employee, work_date=self.object.salary_date
         )
-        
+
     # Handle the deletion and send a warning.
     def get_redirect_url(self):
         return self.success_url
-    
+
     def get_object_name(self):
-        return (
-            f"{self.object.employee.employee_id}/{self.object.employee.name}/{self.object.salary_date}"
-        )
+        return f"{self.object.employee.employee_id}/{self.object.employee.name}/{self.object.salary_date}"
