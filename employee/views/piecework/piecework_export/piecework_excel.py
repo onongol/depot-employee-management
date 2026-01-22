@@ -3,11 +3,11 @@ from django.utils.translation import gettext_lazy as _
 from employee.constants.constants import GROUP_MONTH, GROUP_YEAR
 from employee.utils.exports.export_excel import export_to_excel
 from employee.utils.filters import filter_pieceworks
+from employee.views.piecework.group.group_and_sort import group_and_sort_pieceworks
 from employee.views.piecework.piecework_export.build_headers import build_headers
 from employee.views.piecework.piecework_export.build_totals_row import build_totals_row
 from employee.views.piecework.piecework_export.format_data import iter_rows
 from employee.views.piecework.piecework_prepare import piecework_prepare
-from employee.views.piecework.group.group_and_sort import group_and_sort_pieceworks
 
 
 def piecework_export_excel(request):
@@ -50,7 +50,7 @@ def piecework_export_excel(request):
         range_date=range_date,
         record_date=record_date,
     )
-    
+
     pieceworks = group_and_sort_pieceworks(
         pieceworks,
         group=group,
@@ -77,6 +77,6 @@ def piecework_export_excel(request):
     }
 
     file_name, title = meta.get(group, ("piecework.xlsx", _("Piecework")))
-    sheet_title = str(title)   
-    
+    sheet_title = str(title)
+
     return export_to_excel(data, headers, file_name, sheet_title)
