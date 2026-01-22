@@ -26,8 +26,12 @@ def calc_totals_for_group(
     totals_qs = qs
 
     if group == GROUP_MONTH and month and year:
-        totals_qs = filter_month_year(totals_qs, month=month, year=year, date_field=date_field)
+        totals_qs = filter_month_year(
+            totals_qs, month=month, year=year, date_field=date_field
+        )
     elif group == GROUP_YEAR and selected_year:
-        totals_qs = filter_month_year(totals_qs, year=selected_year, date_field=date_field)
+        totals_qs = filter_month_year(
+            totals_qs, year=selected_year, date_field=date_field
+        )
 
     return calc_totals(totals_qs)
