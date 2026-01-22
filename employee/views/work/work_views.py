@@ -13,32 +13,55 @@ from employee.mixins.wagon_context_mixins import WagonContextMixin
 from employee.models import Piecework
 
 
-class WorkCreateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin,  WagonContextMixin, SuccessMessageMixin, FormDepartmentMixin, CreateView):
-    login_url = 'login'
+class WorkCreateView(
+    LoginRequiredMixin,
+    OnlyAdminMixin,
+    WorkContextMixin,
+    WagonContextMixin,
+    SuccessMessageMixin,
+    FormDepartmentMixin,
+    CreateView,
+):
+    login_url = "login"
     form_class = WorkForm
-    template_name = "work/work_create.html" 
+    template_name = "work/work_create.html"
     success_message = _("Work %(work_name)s created successfully.")
 
 
-class WorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, WagonContextMixin, SuccessMessageMixin, FormDepartmentMixin, UpdateView):
-    login_url = 'login'
+class WorkUpdateView(
+    LoginRequiredMixin,
+    OnlyAdminMixin,
+    WorkContextMixin,
+    WagonContextMixin,
+    SuccessMessageMixin,
+    FormDepartmentMixin,
+    UpdateView,
+):
+    login_url = "login"
     form_class = UpdateWorkForm
     template_name = "work/work_update.html"
     success_message = _("Work updated successfully.")
 
 
-class WorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, WorkContextMixin, BlockDeleteMixin, DeleteProtectionMixin, DeleteView):
-    login_url = 'login'
+class WorkDeleteView(
+    LoginRequiredMixin,
+    OnlyAdminMixin,
+    WorkContextMixin,
+    BlockDeleteMixin,
+    DeleteProtectionMixin,
+    DeleteView,
+):
+    login_url = "login"
     template_name = "work/work_confirm_delete.html"
-    block_related_models = [_('Daily Work'), _('Piecework')]
+    block_related_models = [_("Daily Work"), _("Piecework")]
 
     # Get related piecework records to check if deletion is allowed.
     def get_related_objects(self):
         return Piecework.objects.filter(work=self.object)
-    
+
     # Handle the deletion and send a warning.
     def get_redirect_url(self):
         return self.success_url
-    
+
     def get_object_name(self):
         return f"{self.object.work_name}"
