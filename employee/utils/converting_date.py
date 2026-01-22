@@ -8,7 +8,7 @@ def format_date(date_str):
     """Helper function to format datetime.date objects into strings."""
     if not date_str:
         return None
-    for fmt in ('%Y-%m-%d', '%B %d, %Y', '%b %d, %Y'):
+    for fmt in ("%Y-%m-%d", "%B %d, %Y", "%b %d, %Y"):
         try:
             return datetime.strptime(date_str, fmt).date()
         except ValueError:
@@ -31,9 +31,11 @@ def parse_date_range(range_date):
             return None, None
 
         # Try known separators
-        for sep in (' to ', ' - ', '–', '—'):
+        for sep in (" to ", " - ", "–", "—"):
             if sep in range_str:
-                start_str, end_str = [date_obj.strip() for date_obj in range_str.split(sep, 1)]
+                start_str, end_str = [
+                    date_obj.strip() for date_obj in range_str.split(sep, 1)
+                ]
                 start = parse_date(start_str)
                 end = parse_date(end_str)
                 return (start, end) if start and end else (None, None)
@@ -44,7 +46,7 @@ def parse_date_range(range_date):
             return single, single
 
         return None, None
-    
+
     except Exception as e:
-        logging.warning(f'Invalid date range: {range_date} ({e})')
+        logging.warning(f"Invalid date range: {range_date} ({e})")
         return None, None
