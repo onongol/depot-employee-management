@@ -21,10 +21,7 @@ def build_totals_row(totals: dict, group=None):
         totals_cells = [total_amount, total_time, total_price]
 
     totals_row = (
-        [total_str] 
-        + [empty] * empty_cols 
-        + totals_cells 
-        + [empty] * tail_empties
+        [total_str] + [empty] * empty_cols + totals_cells + [empty] * tail_empties
     )
-    
+
     return totals_row
