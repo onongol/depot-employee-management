@@ -6,9 +6,10 @@ from employee.messages.delete_warning import send_delete_warning
 
 class DeleteProtectionMixin:
     """Mixin to check for delete attentions before allowing deletion."""
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        
+
         # Check for related objects
         related_objects = self.get_related_objects()
         if related_objects and related_objects.exists():
