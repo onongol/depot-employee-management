@@ -2,7 +2,9 @@ from django.contrib import messages
 from django.utils.translation import gettext as _
 
 
-def send_daily_salary_creation_message(request, *, employees_dict, selected_ids, salary_date, template: str | None = None):
+def send_daily_salary_creation_message(
+    request, *, employees_dict, selected_ids, salary_date, template: str | None = None
+):
     """
     Send a success message for created DailySalary records.
     - employees_dict: mapping employee_id -> Employee instance
@@ -10,7 +12,9 @@ def send_daily_salary_creation_message(request, *, employees_dict, selected_ids,
     - salary_date: date string
     """
     if template is None:
-        template = _("Daily salary records %(employees)s on %(date)s created successfully.")
+        template = _(
+            "Daily salary records %(employees)s on %(date)s created successfully."
+        )
 
     employee_list = [
         f"{emp.employee_id}/{emp.name}"
@@ -19,5 +23,7 @@ def send_daily_salary_creation_message(request, *, employees_dict, selected_ids,
     ]
 
     employees_str = ", ".join(sorted(employee_list)) if employee_list else ""
-    
-    messages.success(request, template % {'employees': employees_str, 'date': salary_date})
+
+    messages.success(
+        request, template % {"employees": employees_str, "date": salary_date}
+    )
