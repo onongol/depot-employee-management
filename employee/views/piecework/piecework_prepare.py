@@ -9,29 +9,29 @@ def piecework_prepare(request):
     department = get_selected_department(request)
 
     # Base queryset (same visibility rules as list view)
-    if request.user.groups.filter(name='Employees').exists():
-        pieceworks = Piecework.objects.select_related('employee', 'work').filter(
+    if request.user.groups.filter(name="Employees").exists():
+        pieceworks = Piecework.objects.select_related("employee", "work").filter(
             employee__user=request.user,
             employee__department=department,
             employee__is_active=True,
         )
     else:
-        pieceworks = Piecework.objects.select_related('employee', 'work').filter(
+        pieceworks = Piecework.objects.select_related("employee", "work").filter(
             employee__department=department,
             employee__is_active=True,
         )
 
     # Extract filter parameters from request
-    employee_id = request.GET.get('employee_id')
-    employee_name = request.GET.get('employee_name')
-    job_title = request.GET.get('job_title')
-    work_name = request.GET.get('work_name')
-    type_work = request.GET.get('type_work')
-    wagon_number = request.GET.get('wagon_number')
-    type_wagon = request.GET.get('type_wagon')
-    type_material = request.GET.get('type_material')
-    range_date = request.GET.get('range_date')
-    record_date = request.GET.get('record_date')
+    employee_id = request.GET.get("employee_id")
+    employee_name = request.GET.get("employee_name")
+    job_title = request.GET.get("job_title")
+    work_name = request.GET.get("work_name")
+    type_work = request.GET.get("type_work")
+    wagon_number = request.GET.get("wagon_number")
+    type_wagon = request.GET.get("type_wagon")
+    type_material = request.GET.get("type_material")
+    range_date = request.GET.get("range_date")
+    record_date = request.GET.get("record_date")
 
     # Segmentation params
     group = request.GET.get("group")
@@ -39,8 +39,8 @@ def piecework_prepare(request):
     month, year, month_period = parse_month_period(request)
 
     # Sorting
-    order_by = request.GET.get('order_by')
-    direction = request.GET.get('direction')
+    order_by = request.GET.get("order_by")
+    direction = request.GET.get("direction")
 
     show_wagon = department in ALLOWED_WAGON_DEPARTMENTS
 
@@ -64,5 +64,5 @@ def piecework_prepare(request):
         month_period,
         order_by,
         direction,
-        show_wagon
+        show_wagon,
     )
