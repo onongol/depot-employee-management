@@ -12,6 +12,7 @@ and simplify downstream reporting and validation.
 
 from typing import Optional
 
+
 def normalize_wagon_number(wagon_number: Optional[str]) -> Optional[str]:
     """Normalize wagon_number: return None if empty or only whitespace."""
     if not wagon_number:
