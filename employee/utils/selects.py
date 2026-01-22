@@ -1,5 +1,10 @@
 def get_distinct_values(
-    model, field, department=None, department_field=None, only_with_salary=False, extra_filters=None
+    model,
+    field,
+    department=None,
+    department_field=None,
+    only_with_salary=False,
+    extra_filters=None,
 ):
     """
     Returns a queryset of distinct values for the specified field and department.
