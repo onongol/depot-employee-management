@@ -8,13 +8,13 @@ from employee.views.employee_salary.piecework_queries import build_piecework_qs
 
 
 def employee_salary_calculate(
-    employees, 
-    month, 
-    year, 
-    *, 
-    wagon_number: str | None = None, 
-    group_by_wagon: bool = False, 
-    include_daily_salary: bool = False
+    employees,
+    month,
+    year,
+    *,
+    wagon_number: str | None = None,
+    group_by_wagon: bool = False,
+    include_daily_salary: bool = False,
 ):
     """Calculate employee salary totals from piecework, optionally merging DailySalary aggregates."""
     qs = build_piecework_qs(
@@ -44,6 +44,8 @@ def employee_salary_calculate(
         group_by_wagon=group_by_wagon,
     )
 
-    employee_salaries = build_employee_salary(salary_data=salary_data, employees=employees)
+    employee_salaries = build_employee_salary(
+        salary_data=salary_data, employees=employees
+    )
 
     return employee_salaries
