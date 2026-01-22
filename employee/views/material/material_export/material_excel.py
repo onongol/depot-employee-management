@@ -17,7 +17,7 @@ def material_export_excel(request):
         daily_works,
         work_name=work_name,
         type_material=type_material,
-        range_date=range_date
+        range_date=range_date,
     )
 
     daily_works = group_and_sum_materials(daily_works)
