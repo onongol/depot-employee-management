@@ -1,6 +1,10 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_MONTH, GROUP_YEAR
+from employee.constants.constants import (
+    ALLOWED_WAGON_DEPARTMENTS,
+    GROUP_MONTH,
+    GROUP_YEAR,
+)
 
 
 def build_headers(department, group=None):
@@ -12,14 +16,11 @@ def build_headers(department, group=None):
         _("Type"),
     ]
     if department in ALLOWED_WAGON_DEPARTMENTS:
-        headers += [
-            _("Wagon"), 
-            _("Type Wagon")
-        ]
+        headers += [_("Wagon"), _("Type Wagon")]
     headers += [
-        _("Amount"), 
-        _("Time"), 
-        _("Price"), 
+        _("Amount"),
+        _("Time"),
+        _("Price"),
     ]
 
     if group == GROUP_MONTH:
