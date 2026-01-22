@@ -1,18 +1,29 @@
 from django.db.models import Q
 
-from employee.constants.constants import (DEFAULT_WAGON_NUMBER,
-                                          DEFAULT_WAGON_TYPE)
+from employee.constants.constants import DEFAULT_WAGON_NUMBER, DEFAULT_WAGON_TYPE
 from employee.utils.converting_date import parse_date_range
 
 
-def filter_pieceworks(queryset, employee_id=None, employee_name=None, job_title=None, work_name=None, type_work=None, wagon_number=None, type_wagon=None, type_material=None, range_date=None, record_date=None):
+def filter_pieceworks(
+    queryset,
+    employee_id=None,
+    employee_name=None,
+    job_title=None,
+    work_name=None,
+    type_work=None,
+    wagon_number=None,
+    type_wagon=None,
+    type_material=None,
+    range_date=None,
+    record_date=None,
+):
     """Reusable filter for Piecework queryset."""
     if employee_id:
         queryset = queryset.filter(employee__employee_id=employee_id)
     if employee_name:
         queryset = queryset.filter(employee__name__icontains=employee_name)
     if job_title:
-        queryset = queryset.filter(job_title=job_title)   
+        queryset = queryset.filter(job_title=job_title)
     if work_name:
         queryset = queryset.filter(work__work_name__icontains=work_name)
     if type_work:
