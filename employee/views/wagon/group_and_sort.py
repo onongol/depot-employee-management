@@ -32,6 +32,12 @@ def group_and_sort_wagons(
         grouped,
         order_by,
         direction,
-        allowed_fields=["work_date", "work__work_name", "type_work", "wagon_number", "type_wagon"],
+        allowed_fields=[
+            "work_date",
+            "work__work_name",
+            "type_work",
+            "wagon_number",
+            "type_wagon",
+        ],
         default="-work_date",
     )
