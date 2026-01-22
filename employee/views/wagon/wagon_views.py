@@ -9,7 +9,7 @@ from employee.views.wagon.group_and_sort import group_and_sort_wagons
 from employee.views.wagon.wagon_prepare import wagon_prepare
 
 
-@login_required(login_url='login')
+@login_required(login_url="login")
 def wagon_list(request):
     """
     Lists wagon-related DailyWork rows. The view:
@@ -20,24 +20,24 @@ def wagon_list(request):
     This keeps request parsing and queryset setup consistent across the list and exports.
     """
     (
-        dailyworks, 
-        wagon_number, 
-        type_wagon, 
-        work_name, 
-        type_work, 
-        range_date, 
+        dailyworks,
+        wagon_number,
+        type_wagon,
+        work_name,
+        type_work,
+        range_date,
         department,
         group,
         month,
         year,
         month_period,
         order_by,
-        direction
+        direction,
     ) = wagon_prepare(request)
 
     # Get distinct type_wagon and type_work for filter options
-    type_wagons = dailyworks.values_list('type_wagon', flat=True).distinct()
-    type_works = dailyworks.values_list('type_work', flat=True).distinct()
+    type_wagons = dailyworks.values_list("type_wagon", flat=True).distinct()
+    type_works = dailyworks.values_list("type_work", flat=True).distinct()
 
     dailyworks = filter_wagon(
         dailyworks,
@@ -45,7 +45,7 @@ def wagon_list(request):
         type_wagon=type_wagon,
         work_name=work_name,
         type_work=type_work,
-        range_date=range_date
+        range_date=range_date,
     )
 
     totals = calc_totals_for_group(
@@ -64,42 +64,42 @@ def wagon_list(request):
         order_by=order_by,
         direction=direction,
     )
-    
+
     page_obj = paginate_queryset(request, wagon_data)
 
     filters = {
-        'wagon_number': wagon_number or '',
-        'type_wagon': type_wagon or '',
-        'work_name': work_name or '',
-        'type_work': type_work or '',
-        'range_date': range_date or '',
-        'department': department or '',
-        'group': group or '',
-        'month_period': month_period or '',
+        "wagon_number": wagon_number or "",
+        "type_wagon": type_wagon or "",
+        "work_name": work_name or "",
+        "type_work": type_work or "",
+        "range_date": range_date or "",
+        "department": department or "",
+        "group": group or "",
+        "month_period": month_period or "",
     }
 
     return render(
         request,
-        'wagon/wagon_list.html',
-        {   
-            'GROUP_MONTH': GROUP_MONTH,
-            'wagon_number': wagon_number,
-            'type_wagon': type_wagon,
-            'work_name': work_name,
-            'type_work': type_work,
-            'range_date': range_date,
-            'wagon_data': wagon_data,
-            'rows': page_obj,
-            'page_obj': page_obj,
-            'selected_wagon': wagon_number,
-            'selected_department': department,
-            'total_amount': totals['total_amount'],
-            'total_time': totals['total_time'],
-            'total_price': totals['total_price'],
-            'type_wagons': type_wagons,
-            'type_works': type_works,
-            'filters': filters,
-            'group': group,
-            'month_period': month_period,
-        }
+        "wagon/wagon_list.html",
+        {
+            "GROUP_MONTH": GROUP_MONTH,
+            "wagon_number": wagon_number,
+            "type_wagon": type_wagon,
+            "work_name": work_name,
+            "type_work": type_work,
+            "range_date": range_date,
+            "wagon_data": wagon_data,
+            "rows": page_obj,
+            "page_obj": page_obj,
+            "selected_wagon": wagon_number,
+            "selected_department": department,
+            "total_amount": totals["total_amount"],
+            "total_time": totals["total_time"],
+            "total_price": totals["total_price"],
+            "type_wagons": type_wagons,
+            "type_works": type_works,
+            "filters": filters,
+            "group": group,
+            "month_period": month_period,
+        },
     )
