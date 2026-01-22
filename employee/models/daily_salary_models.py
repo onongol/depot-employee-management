@@ -9,19 +9,14 @@ from employee.models.employee_models import Employee
 
 class DailySalary(models.Model):
     """Model to record daily salary for employees."""
-    salary_id = models.AutoField(
-        primary_key=True, 
-        editable=False
-    )
-    employee = models.ForeignKey(
-        Employee, 
-        on_delete=models.CASCADE
-    )
+
+    salary_id = models.AutoField(primary_key=True, editable=False)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     employee_name = models.CharField(
         max_length=255,
         blank=True,
         null=False,
-        editable=False, # This field is auto-populated from Employee.name
+        editable=False,  # This field is auto-populated from Employee.name
         db_index=True,
     )
     department = models.CharField(
@@ -32,30 +27,25 @@ class DailySalary(models.Model):
         db_index=True,
     )
     hours_per_day = models.IntegerField(
-        default=11,
-        validators=[MinValueValidator(1), MaxValueValidator(24)]
+        default=11, validators=[MinValueValidator(1), MaxValueValidator(24)]
     )
     salary_day = models.DecimalField(
-        max_digits=20,
-        decimal_places=2,
-        default=Decimal('0.00'),
-        editable=False
+        max_digits=20, decimal_places=2, default=Decimal("0.00"), editable=False
     )
-    salary_date = models.DateField(
-        default=date.today
-    )
-    record_date = models.DateTimeField(
-        auto_now_add=True
-    )
+    salary_date = models.DateField(default=date.today)
+    record_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        """"
+        """ "
         Model-level metadata:
         - Enforces a unique constraint on (employee, salary_date) to prevent
         multiple DailySalary records for the same employee on the same date.
         """
+
         constraints = [
-            models.UniqueConstraint(fields=['employee', 'salary_date'], name='unique_employee_salary_date')
+            models.UniqueConstraint(
+                fields=["employee", "salary_date"], name="unique_employee_salary_date"
+            )
         ]
 
     def __str__(self):
@@ -76,9 +66,7 @@ class DailySalary(models.Model):
 
         if self.employee.money_per_hour is None:
             raise ValueError("Employee's money_per_hour must not be None")
-        
+
         self.salary_day = Decimal(self.hours_per_day) * self.employee.money_per_hour
 
         super().save(*args, **kwargs)
-
-
