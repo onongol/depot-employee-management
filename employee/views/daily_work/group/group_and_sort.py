@@ -2,7 +2,7 @@ from employee.constants.constants import GROUP_MONTH, GROUP_YEAR
 from employee.utils.filters import filter_month_year
 from employee.utils.sorting import apply_ordering
 from employee.views.daily_work.group.group_by_month import group_daily_works_by_month
-from employee.views.daily_work.group.group_by_year import group_daily_works_by_year    
+from employee.views.daily_work.group.group_by_year import group_daily_works_by_year
 
 
 def group_and_sort_daily_works(
@@ -28,16 +28,16 @@ def group_and_sort_daily_works(
 
         qs = group_daily_works_by_month(qs, show_wagon=show_wagon)
 
-        allowed_fields = ['work_name', 'job_title', 'type_work', 'year', 'month']
+        allowed_fields = ["work_name", "job_title", "type_work", "year", "month"]
         if show_wagon:
-            allowed_fields += ['type_wagon', 'wagon_number']
+            allowed_fields += ["type_wagon", "wagon_number"]
 
         qs = apply_ordering(
             qs,
             order_by,
             direction,
             allowed_fields=allowed_fields,
-            default=['-year', '-month', 'work_name']
+            default=["-year", "-month", "work_name"],
         )
     elif group == GROUP_YEAR:
         if selected_year:
@@ -45,24 +45,24 @@ def group_and_sort_daily_works(
 
         qs = group_daily_works_by_year(qs, show_wagon=show_wagon)
 
-        allowed_fields = ['work_name', 'job_title', 'type_work', 'year']
+        allowed_fields = ["work_name", "job_title", "type_work", "year"]
         if show_wagon:
-            allowed_fields += ['type_wagon', 'wagon_number']
+            allowed_fields += ["type_wagon", "wagon_number"]
 
         qs = apply_ordering(
             qs,
             order_by,
             direction,
             allowed_fields=allowed_fields,
-            default=['-year', 'work_name']
+            default=["-year", "work_name"],
         )
     else:
         qs = apply_ordering(
             qs,
             order_by,
             direction,
-            allowed_fields=['work_date', 'record_date'],
-            default=['-work_date', '-record_date']
+            allowed_fields=["work_date", "record_date"],
+            default=["-work_date", "-record_date"],
         )
 
     return qs
