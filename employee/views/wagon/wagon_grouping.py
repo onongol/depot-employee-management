@@ -6,9 +6,9 @@ from employee.utils.filters import filter_month_year
 
 
 def get_grouped_wagons(
-    qs, 
-    *, 
-    group: str | None, 
+    qs,
+    *,
+    group: str | None,
     month: int | None = None,
     year: int | None = None,
 ):
@@ -27,8 +27,7 @@ def get_grouped_wagons(
         )
 
         return (
-            qs
-            .values("year", "month", "wagon_number", "type_wagon")
+            qs.values("year", "month", "wagon_number", "type_wagon")
             .annotate(
                 amount=Sum("amount"),
                 total_time=Sum("amount_time"),
@@ -36,14 +35,17 @@ def get_grouped_wagons(
             )
             .order_by("-year", "-month", "wagon_number", "type_wagon")
         )
-    
+
     return (
-        qs
-        .values("work__work_name", "type_work", "wagon_number", "type_wagon", "work_date")
+        qs.values(
+            "work__work_name", "type_work", "wagon_number", "type_wagon", "work_date"
+        )
         .annotate(
             amount=Sum("amount"),
             total_time=Sum("amount_time"),
             total_price=Sum("amount_price"),
         )
-        .order_by("-work_date", "work__work_name", "type_work", "wagon_number", "type_wagon")
+        .order_by(
+            "-work_date", "work__work_name", "type_work", "wagon_number", "type_wagon"
+        )
     )
