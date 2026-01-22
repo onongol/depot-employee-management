@@ -7,7 +7,7 @@ from employee.views.piecework.piecework_export.build_headers import build_header
 from employee.views.piecework.piecework_export.build_totals_row import build_totals_row
 from employee.views.piecework.piecework_export.format_data import iter_rows
 from employee.views.piecework.piecework_prepare import piecework_prepare
-from employee.views.piecework.group_and_sort import group_and_sort_pieceworks
+from employee.views.piecework.group.group_and_sort import group_and_sort_pieceworks
 
 
 def piecework_export_excel(request):
