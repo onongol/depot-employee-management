@@ -8,7 +8,7 @@ def apply_ordering(rows, order_by, direction, *, allowed_fields):
     - allowed_fields: whitelist of sortable fields
     - default_key: key function used for the default sort order
     """
-    reverse = (direction == "desc")
+    reverse = direction == "desc"
 
     if order_by not in allowed_fields:
         rows.sort(key=lambda x: (x.get("year") or 0, x.get("month") or 0), reverse=True)
