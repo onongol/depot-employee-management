@@ -11,6 +11,7 @@ def merge_piecework(
     Build the final salary rows for rendering/export from aggregated salary_data.
     It maps employee IDs back to Employee objects and computes per-row totals for each (employee, year, month, wagon).
     """
+    
     for group in piecework_groups:
         wagon = group.get("wagon_number") if group_by_wagon else None
         key = (
@@ -19,5 +20,9 @@ def merge_piecework(
             group["work_date__month"],
             wagon,
         )
-        salary_data[key]["total_piecework_amount"] = group.get("total_piecework_amount") or 0
-        salary_data[key]["total_piecework_time"] = group.get("total_piecework_time") or 0
+        salary_data[key]["total_piecework_amount"] = (
+            group.get("total_piecework_amount") or 0
+        )
+        salary_data[key]["total_piecework_time"] = (
+            group.get("total_piecework_time") or 0
+        )
