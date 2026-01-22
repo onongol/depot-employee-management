@@ -28,10 +28,10 @@
       {% include "includes/form/form_input.html" with id=form.hours_per_day.id_for_label label=_("Time") name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day  min=form.hours_per_day.field.widget.attrs.min max=form.hours_per_day.field.widget.attrs.max required=True %}
 
       <!-- Filters -->
-      {% include "includes/select_tables/employee_search_filters.html" %}
+      {% include "includes/select_table/employee_search_filters.html" %}
 
       <!-- Employee Table -->
-      {% include "includes/select_tables/employees_select_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-salary-list-title" %}
+      {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-salary-list-title" %}
 
     {% else %}
       <!-- Info notice when no employees -->
