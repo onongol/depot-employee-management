@@ -1,4 +1,8 @@
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_MONTH, GROUP_YEAR 
+from employee.constants.constants import (
+    ALLOWED_WAGON_DEPARTMENTS,
+    GROUP_MONTH,
+    GROUP_YEAR,
+)
 from employee.utils.get_value import get_value
 
 
@@ -17,10 +21,20 @@ def iter_rows(qs, department, group=None):
 
         # For non-grouped (model instances), fall back to related objects if needed
         if not is_grouped:
-            employee_id = employee_id or getattr(getattr(pw, "employee", None), "employee_id", "") or ""
-            employee_name = employee_name or getattr(getattr(pw, "employee", None), "name", "") or ""
+            employee_id = (
+                employee_id
+                or getattr(getattr(pw, "employee", None), "employee_id", "")
+                or ""
+            )
+            employee_name = (
+                employee_name
+                or getattr(getattr(pw, "employee", None), "name", "")
+                or ""
+            )
             department_val = department_val or getattr(pw, "department", "") or ""
-            work_name = work_name or getattr(getattr(pw, "work", None), "work_name", "") or ""
+            work_name = (
+                work_name or getattr(getattr(pw, "work", None), "work_name", "") or ""
+            )
 
         row = [
             i,
@@ -41,22 +55,28 @@ def iter_rows(qs, department, group=None):
                 row.append(get_value(pw, "type_wagon_display", "") or "")
 
         if is_grouped:
-            row.extend([
-                get_value(pw, "total_amount", 0) or 0,
-                get_value(pw, "total_time", 0) or 0,
-                get_value(pw, "total_price", 0) or 0,
-            ])
+            row.extend(
+                [
+                    get_value(pw, "total_amount", 0) or 0,
+                    get_value(pw, "total_time", 0) or 0,
+                    get_value(pw, "total_price", 0) or 0,
+                ]
+            )
             if group == GROUP_MONTH:
-                row.extend([get_value(pw, "month", "") or "", get_value(pw, "year", "") or ""])
+                row.extend(
+                    [get_value(pw, "month", "") or "", get_value(pw, "year", "") or ""]
+                )
             else:
                 row.append(get_value(pw, "year", "") or "")
 
         else:
-            row.extend([
-                get_value(pw, "amount", 0) or 0,
-                get_value(pw, "amount_time", 0) or 0,
-                get_value(pw, "amount_price", 0) or 0,
-                get_value(pw, "work_date", "") or "",
-            ])
-            
+            row.extend(
+                [
+                    get_value(pw, "amount", 0) or 0,
+                    get_value(pw, "amount_time", 0) or 0,
+                    get_value(pw, "amount_price", 0) or 0,
+                    get_value(pw, "work_date", "") or "",
+                ]
+            )
+
         yield row
