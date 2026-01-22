@@ -12,22 +12,37 @@ from employee.mixins.department_form_mixins import FormDepartmentMixin
 from employee.mixins.permissions_mixins import OnlyAdminMixin
 from employee.models import DailyWork
 from employee.utils.access import is_creater
-from employee.views.daily_work.daily_work_create.daily_work_piecework_create import daily_work_piecework_create
+from employee.views.daily_work.daily_work_create.daily_work_piecework_create import (
+    daily_work_piecework_create,
+)
 
 
-class DailyWorkUpdateView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMixin, SuccessMessageMixin, FormDepartmentMixin, UpdateView):
-    login_url = 'login'
+class DailyWorkUpdateView(
+    LoginRequiredMixin,
+    OnlyAdminMixin,
+    DailyWorkContextMixin,
+    SuccessMessageMixin,
+    FormDepartmentMixin,
+    UpdateView,
+):
+    login_url = "login"
     model = DailyWork
     form_class = UpdateDailyWorkForm
     template_name = "daily_work/daily_work_piecework_update.html"
     success_message = _("Daily Work and Piecework updated successfully.")
 
     def get_success_url(self):
-        return reverse('daily_work_list')
-    
+        return reverse("daily_work_list")
 
-class DailyWorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMixin, DeleteWarningMixin, DeleteView):
-    login_url = 'login'
+
+class DailyWorkDeleteView(
+    LoginRequiredMixin,
+    OnlyAdminMixin,
+    DailyWorkContextMixin,
+    DeleteWarningMixin,
+    DeleteView,
+):
+    login_url = "login"
     model = DailyWork
     template_name = "daily_work/daily_work_confirm_delete.html"
 
@@ -36,16 +51,14 @@ class DailyWorkDeleteView(LoginRequiredMixin, OnlyAdminMixin, DailyWorkContextMi
         return super().delete(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('daily_work_list')
-    
+        return reverse("daily_work_list")
+
     def get_object_name(self):
-        return (
-            f"{self.object.work.work_name}/{self.object.type_work}/{self.object.work_date}"
-        )
+        return f"{self.object.work.work_name}/{self.object.type_work}/{self.object.work_date}"
 
 
-@login_required(login_url='login')
-@user_passes_test(is_creater, login_url='login')
+@login_required(login_url="login")
+@user_passes_test(is_creater, login_url="login")
 def daily_work_create(request):
     """Create daily work entry view. Redirect to piecework creation if department allows wagon work."""
     return daily_work_piecework_create(request)
