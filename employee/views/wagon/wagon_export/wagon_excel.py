@@ -4,7 +4,7 @@ from employee.constants.constants import GROUP_MONTH
 from employee.utils.exports.export_excel import export_to_excel
 from employee.utils.filters import filter_wagon
 from employee.utils.totals import calc_totals
-from employee.views.wagon.group_and_sort import group_and_sort_wagons
+from employee.views.wagon.group.group_and_sort import group_and_sort_wagons
 from employee.views.wagon.wagon_export.build_headers import build_headers
 from employee.views.wagon.wagon_export.build_totals_row import build_totals_row
 from employee.views.wagon.wagon_export.format_data import iter_rows
