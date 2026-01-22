@@ -2,9 +2,13 @@ from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import GROUP_WAGON
 from employee.utils.exports.export_pdf import export_to_pdf
-from employee.views.employee_salary.employee_salary_export.build_headers import build_headers
+from employee.views.employee_salary.employee_salary_export.build_headers import (
+    build_headers,
+)
+from employee.views.employee_salary.employee_salary_export.employee_salary_service import (
+    get_employee_salaries,
+)
 from employee.views.employee_salary.employee_salary_export.format_data import iter_rows
-from employee.views.employee_salary.employee_salary_export.employee_salary_service import get_employee_salaries
 
 
 def employee_salary_export_pdf(request):
@@ -34,11 +38,11 @@ def employee_salary_export_pdf(request):
     }
 
     col_widths = [widths_by_key[col] for col in columns]
-    
+
     # Define column alignments
     last_col = len(col_widths) - 1
     col_alignments = [
-        ('ALIGN', (0, 1), (last_col, -1), 'LEFT'),
+        ("ALIGN", (0, 1), (last_col, -1), "LEFT"),
     ]
 
     data = list(iter_rows(employee_salaries, show_wagon=wagon_mode))
@@ -47,7 +51,11 @@ def employee_salary_export_pdf(request):
         GROUP_WAGON: ("employee_salaries_wagon.pdf", _("Employee Salaries by Wagon")),
     }
 
-    file_name, title = meta.get(group, ("employee_salaries.pdf", _("Employee Salaries")))
+    file_name, title = meta.get(
+        group, ("employee_salaries.pdf", _("Employee Salaries"))
+    )
     sheet_title = str(title)
 
-    return export_to_pdf(data, headers, col_widths, col_alignments, sheet_title, file_name)
+    return export_to_pdf(
+        data, headers, col_widths, col_alignments, sheet_title, file_name
+    )
