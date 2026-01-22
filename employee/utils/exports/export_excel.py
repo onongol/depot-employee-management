@@ -19,8 +19,8 @@ def export_to_excel(data, headers, filename, title):
     for row in data:
         ws.append(row)
     response = HttpResponse(
-        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
-    response['Content-Disposition'] = f'attachment; filename="{quote(filename)}"'
+    response["Content-Disposition"] = f"attachment; filename='{quote(filename)}'"
     wb.save(response)
     return response
