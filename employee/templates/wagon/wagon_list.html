@@ -19,7 +19,7 @@
                         <th scope="col" class="{{ col_class }}">#</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
-                        {% if group == GROUP_MONTH %}
+                        {% if month_group %}
                             <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
                             <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
                             <th scope="col" class="{{ col_class }}">
@@ -49,7 +49,7 @@
                                 <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
                                 <td class="{{ col_class }}">{{ row.wagon_number }}</td>
                                 <td class="{{ col_class }}">{{ row.type_wagon }}</td>
-                                {% if group == GROUP_MONTH %}
+                                {% if month_group %}
                                     <td class="{{ col_class }}">{{ row.total_time|floatformat:2 }}</td>
                                     <td class="{{ col_class }}">{{ row.total_price|floatformat:2 }}</td>
                                     <td class="{{ col_class }}">{{ row.month }}</td>
