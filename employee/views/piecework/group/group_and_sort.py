@@ -1,5 +1,5 @@
-from employee.constants.constants import GROUP_MONTH, GROUP_YEAR
 from employee.utils.filters import filter_month_year
+from employee.utils.group_modes import is_month_group, is_year_group
 from employee.utils.sorting import apply_ordering
 from employee.views.piecework.group.group_by_month import group_pieceworks_by_month
 from employee.views.piecework.group.group_by_year import group_pieceworks_by_year
@@ -16,7 +16,10 @@ def group_and_sort_pieceworks(
     order_by: str | None = None,
     direction: str | None = None,
 ):
-    if group == GROUP_MONTH:
+    month_group = is_month_group(group)
+    year_group = is_year_group(group)
+    
+    if month_group:
         if month and year:
             qs = filter_month_year(qs, month=month, year=year, date_field="work_date")
 
@@ -42,7 +45,7 @@ def group_and_sort_pieceworks(
             default=["-year", "-month", "employee_id"],
         )
 
-    elif group == GROUP_YEAR:
+    elif year_group:
         if selected_year:
             qs = filter_month_year(qs, year=selected_year, date_field="work_date")
 
