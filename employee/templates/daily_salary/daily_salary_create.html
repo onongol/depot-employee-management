@@ -15,8 +15,8 @@
         {% csrf_token %}
         {% if employees %}
             <!-- Fields -->
-            {% include "includes/form/form_date.html" with id=form.salary_date.id_for_label label=_("Date") name="salary_date" type="text" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True %}
-            {% include "includes/form/form_input.html" with id=form.hours_per_day.id_for_label label=_("Time") name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day  min=form.hours_per_day.field.widget.attrs.min max=form.hours_per_day.field.widget.attrs.max required=True %}
+            {% include "includes/form/form_date.html" with id="salary_date" label=_("Date") name="salary_date" type="text" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True %}
+            {% include "includes/form/form_input.html" with id="hours_per_day" label=_("Time") name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day  min=form.hours_per_day.field.widget.attrs.min max=form.hours_per_day.field.widget.attrs.max required=True %}
             <!-- Filters -->
             {% include "includes/select_table/employee_search_filters.html" %}
             <!-- Employee Table -->
