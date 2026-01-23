@@ -1,23 +1,13 @@
 {% load i18n %}
 
 <div class="flex flex-col sm:flex-row gap-2 mt-6">
-  <!-- Save active if employees exist -->
-  <button
-    type="submit"
-    {% if not employees %}
-    disabled
-    aria-disabled="true"
-    class="px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow opacity-50 cursor-not-allowed"
-    {% else %}
-    class="cursor-pointer px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-    {% endif %}
-  >
-    {% trans "Save" %}
-  </button>
-  <a
-    href="{{ cancel_url }}"
-    class="cursor-pointer px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-center dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-500"
-  >
-    {% trans "Cancel" %}
-  </a>
+    <!-- Save active if employees exist -->
+    <button type="submit"
+            {% if not employees %} disabled aria-disabled="true" class="px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow opacity-50 cursor-not-allowed" {% else %} class="cursor-pointer px-6 py-2 rounded-md bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition" {% endif %}>
+        {% trans "Save" %}
+    </button>
+    <a href="{{ cancel_url }}"
+       class="cursor-pointer px-6 py-2 rounded-md bg-gray-100 text-gray-700 font-semibold shadow hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-center dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-500">
+        {% trans "Cancel" %}
+    </a>
 </div>
