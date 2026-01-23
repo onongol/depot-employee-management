@@ -1,11 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.utils.group_modes import is_month_group
 
-
-def build_totals_row(totals: dict, group=None):
-    month_group = is_month_group(group)
-
+def build_totals_row(totals: dict, month_group=None):
     total_str = str(_("Total"))
     empty = ""
 
