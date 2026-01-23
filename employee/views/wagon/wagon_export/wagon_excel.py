@@ -26,6 +26,7 @@ def wagon_export_excel(request):
         month_period,
         order_by,
         direction,
+        month_group,
     ) = wagon_prepare(request)
 
     dailyworks = filter_wagon(
