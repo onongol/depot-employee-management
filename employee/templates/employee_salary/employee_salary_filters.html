@@ -11,7 +11,7 @@
             {% include "includes/filters/filter_input.html" with id=form.employee_name.id_for_label label=_("Employee Name") name="employee_name" value=request.GET.employee_name %}
             {% include "includes/filters/filter_select.html" with id=form.job_title.id_for_label label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
         {% endif %}
-        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS and group == GROUP_WAGON %}
+        {% if wagon_mode %}
             {% include "includes/filters/filter_input.html" with id=form.wagon_number.id_for_label label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
         {% endif %}
         {% include "includes/filters/filter_month.html" with id=form.month_period.id_for_label label=_("Month/Year") name="month_period" value=filters.month_period %}
