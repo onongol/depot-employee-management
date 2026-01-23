@@ -1,14 +1,10 @@
 <div class="flex items-center">
-  <a
-    href="?{% for key, value in filters.items %}{% if value %}{{ key }}={{ value|urlencode }}&{% endif %}{% endfor %}order_by={{ field }}&direction={% if request.GET.order_by == field and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}"
-    class="flex items-center gap-1 group"
-  >
-    {{ label }}
-    <svg
-      class="w-4 h-4 {% if request.GET.order_by == field %}text-gray-600{% else %}text-gray-400 group-hover:text-gray-600{% endif %}"
-      aria-hidden="true"
-    >
-      <use xlink:href="#order-by"></use>
-    </svg>
-  </a>
+    <a href="?{% for key, value in filters.items %}{% if value %}{{ key }}={{ value|urlencode }}&{% endif %}{% endfor %}order_by={{ field }}&direction={% if request.GET.order_by == field and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}"
+       class="flex items-center gap-1 group">
+        {{ label }}
+        <svg class="w-4 h-4 {% if request.GET.order_by == field %}text-gray-600{% else %}text-gray-400 group-hover:text-gray-600{% endif %}"
+             aria-hidden="true">
+            <use xlink:href="#order-by"></use>
+        </svg>
+    </a>
 </div>
