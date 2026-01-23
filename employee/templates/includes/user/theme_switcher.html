@@ -1,68 +1,58 @@
 {% load i18n %}
-
 {% load static %}
 
 <!-- Theme Switcher -->
 <div class="relative group">
-  <button
-    type="button"
-    class="cursor-pointer flex items-center gap-3 px-4 py-2 text-sm w-full hover:bg-gray-200 transition focus:outline-none dark:hover:bg-gray-700"
-    id="theme-dropdown-btn"
-    aria-haspopup="true"
-    aria-expanded="false"
-  >
-    <svg id="theme-icon" class="w-5 h-5 flex-shrink-0">
-      <use href="#sun-fill"></use>
-    </svg>
-    <span id="theme-label">{% trans "Theme" %}</span>
-    <svg class="w-4 h-4 ml-auto"><use href="#chevron-down"></use></svg>
-  </button>
-  
-  <!-- Dropdown theme menu -->
-  <div
-    class="absolute right-full top-0 w-36 bg-gray-50 border border-gray-100 rounded-md shadow-sm z-20 py-2 hidden dark:bg-gray-800 dark:border-gray-700 dark:text-gray-500"
-    id="theme-dropdown-menu"
-    role="menu"
-    tabindex="0"
-  >
-    <div class="relative group">
-      <button 
-        type="button" 
-        class="cursor-pointer flex items-center gap-2 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700" 
-        data-theme-value="light"
-        data-label="{% trans 'Light' %}"
-      >
+    <button type="button"
+            class="cursor-pointer flex items-center gap-3 px-4 py-2 text-sm w-full hover:bg-gray-200 transition focus:outline-none dark:hover:bg-gray-700"
+            id="theme-dropdown-btn"
+            aria-haspopup="true"
+            aria-expanded="false">
         <svg id="theme-icon" class="w-5 h-5 flex-shrink-0">
-          <use href="#sun-fill"></use>
+            <use href="#sun-fill"></use>
         </svg>
-        {% trans "Light" %}
-      </button>
-    </div>
-    <div>
-      <button 
-        type="button" 
-        class="cursor-pointer flex items-center gap-2 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700" 
-        data-theme-value="dark"
-        data-label="{% trans 'Dark' %}"
-      >
-        <svg id="theme-icon" class="w-5 h-5 flex-shrink-0">
-          <use href="#moon-stars-fill"></use>
+        <span id="theme-label">{% trans "Theme" %}</span>
+        <svg class="w-4 h-4 ml-auto">
+            <use href="#chevron-down"></use>
         </svg>
-        {% trans "Dark" %}
-      </button>
+    </button>
+    <!-- Dropdown theme menu -->
+    <div class="absolute right-full top-0 w-36 bg-gray-50 border border-gray-100 rounded-md shadow-sm z-20 py-2 hidden dark:bg-gray-800 dark:border-gray-700 dark:text-gray-500"
+         id="theme-dropdown-menu"
+         role="menu"
+         tabindex="0">
+        <div class="relative group">
+            <button type="button"
+                    class="cursor-pointer flex items-center gap-2 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    data-theme-value="light"
+                    data-label="{% trans 'Light' %}">
+                <svg id="theme-icon" class="w-5 h-5 flex-shrink-0">
+                    <use href="#sun-fill"></use>
+                </svg>
+                {% trans "Light" %}
+            </button>
+        </div>
+        <div>
+            <button type="button"
+                    class="cursor-pointer flex items-center gap-2 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    data-theme-value="dark"
+                    data-label="{% trans 'Dark' %}">
+                <svg id="theme-icon" class="w-5 h-5 flex-shrink-0">
+                    <use href="#moon-stars-fill"></use>
+                </svg>
+                {% trans "Dark" %}
+            </button>
+        </div>
+        <div>
+            <button type="button"
+                    class="cursor-pointer flex items-center gap-2 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    data-theme-value="auto"
+                    data-label="{% trans 'Device' %}">
+                <svg id="theme-icon" class="w-5 h-5 flex-shrink-0">
+                    <use href="#device"></use>
+                </svg>
+                {% trans "Device" %}
+            </button>
+        </div>
     </div>
-    <div>
-      <button 
-        type="button" 
-        class="cursor-pointer flex items-center gap-2 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700" 
-        data-theme-value="auto"
-        data-label="{% trans 'Device' %}"
-      >
-        <svg id="theme-icon" class="w-5 h-5 flex-shrink-0">
-          <use href="#device"></use>
-        </svg>
-        {% trans "Device" %}
-      </button>
-    </div>
-  </div>
 </div>
