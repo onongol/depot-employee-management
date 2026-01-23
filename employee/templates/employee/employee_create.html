@@ -6,10 +6,10 @@
     <fieldset class="space-y-4">
         <legend class="sr-only">Create Employee Details</legend>
         {% include "includes/department/department_input_hidden.html" %}
-        {% include "includes/form/form_input.html" with id=form.employee_id.id_for_label label=_("Employee ID") name="employee_id" type="number" value=form.employee_id.value form_errors=form.employee_id required=True placeholder=_("Unique number (e.g. 1001)") %}
-        {% include "includes/form/form_input.html" with id=form.name.id_for_label label=_("Employee Name") name="name" type="text" value=form.name.value form_errors=form.name required=True placeholder=_("Full Name (e.g. D.Sukhbaatar)") %}
-        {% include "includes/form/form_select.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
-        {% include "includes/form/form_select.html" with id=form.rank.id_for_label label=_("Employee Rank") name="rank" choices=form.rank.field.choices selected=form.rank.value required=True %}
-        {% include "includes/form/form_input.html" with id=form.money_per_hour.id_for_label label=_("Hourly Wage") name="money_per_hour" type="number" value=form.money_per_hour.value form_errors=form.money_per_hour step="0.01" required=True placeholder=_("According to rank") %}
+        {% include "includes/form/form_input.html" with id="employee_id" label=_("Employee ID") name="employee_id" type="number" value=form.employee_id.value form_errors=form.employee_id required=True placeholder=_("Unique number (e.g. 1001)") %}
+        {% include "includes/form/form_input.html" with id="name" label=_("Employee Name") name="name" type="text" value=form.name.value form_errors=form.name required=True placeholder=_("Full Name (e.g. D.Sukhbaatar)") %}
+        {% include "includes/form/form_select.html" with id="job_title" label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
+        {% include "includes/form/form_select.html" with id="rank" label=_("Employee Rank") name="rank" choices=form.rank.field.choices selected=form.rank.value required=True %}
+        {% include "includes/form/form_input.html" with id="money_per_hour" label=_("Hourly Wage") name="money_per_hour" type="number" value=form.money_per_hour.value form_errors=form.money_per_hour step="0.01" required=True placeholder=_("According to rank") %}
     </fieldset>
 {% endblock %}
