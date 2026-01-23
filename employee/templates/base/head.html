@@ -1,20 +1,19 @@
 {% load static %}
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Depot Management — employee, salary, and materials management system.">
-
-  <!-- Prevent theme flash: -->
-  <script src="{% static 'js/theme_init-bundle.js' %}"></script>
-
-  <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.svg' %}">
-  
-  <!-- Main styles -->
-  <link rel="stylesheet" href="{% static 'assets/styles-CFX2gFDl.css' %}" />
-
-  <!-- Flatpickr styles -->
-  <link rel="stylesheet" href="{% static 'assets/flatpickr-DRf1F60d.css' %}" />
-
-  <title>{% block title %}Depot Management{% endblock %}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+          content="Depot Management — employee, salary, and materials management system.">
+    <!-- Prevent theme flash: -->
+    <script src="{% static 'js/theme_init-bundle.js' %}"></script>
+    <link rel="icon"
+          type="image/x-icon"
+          href="{% static 'images/favicon.svg' %}">
+    <!-- Main styles -->
+    <link rel="stylesheet" href="{% static 'assets/styles-CFX2gFDl.css' %}" />
+    <!-- Flatpickr styles -->
+    <link rel="stylesheet" href="{% static 'assets/flatpickr-DRf1F60d.css' %}" />
+    <title>
+        {% block title %}Depot Management{% endblock %}
+    </title>
 </head>
