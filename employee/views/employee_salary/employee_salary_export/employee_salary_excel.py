@@ -15,8 +15,8 @@ def employee_salary_export_excel(request):
     """Export employee salaries data to Excel."""
     employee_salaries, group, wagon_mode = get_employee_salaries(request)
 
-    headers = build_headers(show_wagon=wagon_mode)
-    data = list(iter_rows(employee_salaries, show_wagon=wagon_mode))
+    headers = build_headers(wagon_mode=wagon_mode)
+    data = list(iter_rows(employee_salaries, wagon_mode=wagon_mode))
 
     meta = {
         GROUP_WAGON: ("employee_salaries_wagon.xlsx", _("Employee Salaries by Wagon")),
