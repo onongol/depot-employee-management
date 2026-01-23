@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 
 
-def build_headers(*, show_wagon: bool = False):
+def build_headers(*, wagon_mode: bool = False):
     headers = [
         ("#"),
         _("ID"),
@@ -11,7 +11,7 @@ def build_headers(*, show_wagon: bool = False):
         _("Rank"),
     ]
 
-    if show_wagon:
+    if wagon_mode:
         headers += [
             _("Wagon"),
         ]
