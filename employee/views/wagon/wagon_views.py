@@ -33,6 +33,7 @@ def wagon_list(request):
         month_period,
         order_by,
         direction,
+        month_group,
     ) = wagon_prepare(request)
 
     # Get distinct type_wagon and type_work for filter options
@@ -101,5 +102,6 @@ def wagon_list(request):
             "filters": filters,
             "group": group,
             "month_period": month_period,
+            "month_group": month_group,
         },
     )
