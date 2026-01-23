@@ -1,24 +1,23 @@
 <!-- Reusable warning alert shown when creating Daily Work and Piecework for the same Employee, Work, Type, and Date. -->
-
 {% load i18n %}
 
-<div class="relative mb-4 flex items-start rounded-md shadow-sm bg-blue-50 p-4 text-blue-800 transition-opacity duration-300 dark:bg-blue-500/20 dark:text-blue-400" role="alert" aria-live="polite">
-  <div>
-    <h4 class="font-semibold mb-1">{% trans "Heads up!" %}</h4>
-    <span class="text-sm">
-      {% blocktrans trimmed %}
-      If you add Daily Work & Piecework for the same: <strong>Employee(s), Work, Type Work, Work Date</strong>. Make sure this is necessary!
-      {% endblocktrans %}
-    </span>
-  </div>
-  <button
-    type="button"
-    class="absolute cursor-pointer right-2 top-2 p-1 rounded hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 transition dark:hover:bg-blue-200/10"
-    onclick="this.parentElement.style.display='none'"
-    aria-label="{% trans 'Close' %}"
-  >
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-    </svg>
-  </button>
+<div class="relative mb-4 flex items-start rounded-md shadow-sm bg-blue-50 p-4 text-blue-800 transition-opacity duration-300 dark:bg-blue-500/20 dark:text-blue-400"
+     role="alert"
+     aria-live="polite">
+    <div>
+        <h4 class="font-semibold mb-1">{% trans "Heads up!" %}</h4>
+        <span class="text-sm">
+            {% blocktrans trimmed %}
+                If you add Daily Work & Piecework for the same: <strong>Employee(s), Work, Type Work, Work Date</strong>. Make sure this is necessary!
+            {% endblocktrans %}
+        </span>
+    </div>
+    <button type="button"
+            class="absolute cursor-pointer right-2 top-2 p-1 rounded hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 transition dark:hover:bg-blue-200/10"
+            onclick="this.parentElement.style.display='none'"
+            aria-label="{% trans 'Close' %}">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
 </div>
