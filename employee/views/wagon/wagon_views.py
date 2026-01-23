@@ -59,7 +59,7 @@ def wagon_list(request):
 
     wagon_data = group_and_sort_wagons(
         dailyworks,
-        group=group,
+        month_group=month_group,
         month=month,
         year=year,
         order_by=order_by,
