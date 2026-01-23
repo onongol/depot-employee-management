@@ -6,13 +6,13 @@
         {% include "includes/filters/filter_input.html" with id=form.work_name.id_for_label label=_("Work Name") name="work_name" type="text" value=request.GET.work_name placeholder=_("Work Name") %}
         {% include "includes/filters/filter_select.html" with id=form.job_title.id_for_label label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
         {% include "includes/filters/filter_select.html" with id=form.type_work.id_for_label label=_("Type Work") name="type_work" choices=type_works selected=request.GET.type_work empty_label=_("Types") %}
-        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+        {% if show_wagon %}
             {% include "includes/filters/filter_select.html" with id=form.type_wagon.id_for_label label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagons") %}
             {% include "includes/filters/filter_input.html" with id=form.wagon_number.id_for_label label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
         {% endif %}
-        {% if group == GROUP_MONTH %}
+        {% if month_group %}
             {% include "includes/filters/filter_month.html" with id=form.month_period.id_for_label label=_("Month/Year") name="month_period" value=filters.month_period %}
-        {% elif group == GROUP_YEAR %}
+        {% elif year_group %}
             {% include "includes/filters/filter_select.html" with id=form.year.id_for_label label=_("Year") name="year" choices=years selected=request.GET.year empty_label=_("Years") %}
         {% else %}
             {% include "includes/filters/filter_date_range.html" with id=form.range_date.id_for_label label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
