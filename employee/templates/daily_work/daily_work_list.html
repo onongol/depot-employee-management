@@ -7,10 +7,10 @@
     <!-- Header -->
     {% include "includes/components/list_header.html" with header_id="daily-work-list-title" title=selected_department create_url=create_url %}
     <!-- View Mode Segmented Control -->
-    {% include "includes/components/view_mode_segmented.html" with group=group GROUP_MONTH=GROUP_MONTH GROUP_YEAR=GROUP_YEAR %}
+    {% include "includes/components/view_mode_segmented.html" %}
     <div class="flex flex-col gap-3 md:flex-row md:items-start md:gap-4">
         <!-- Actions dropdown (does NOT submit GET form) -->
-        {% if not is_employee and not is_master and group != GROUP_MONTH and group != GROUP_YEAR %}
+        {% if not is_employee and not is_master and detail_group %}
             <div class="shrink-0">{% include "includes/table_action_buttons/actions_dropdown.html" %}</div>
         {% endif %}
         <!-- Filters -->
@@ -19,7 +19,7 @@
     <!-- Messages -->
     {% include "includes/alerts/alerts.html" %}
     <!-- Selected summary section -->
-    {% if not is_employee and not is_master and group != GROUP_MONTH and group != GROUP_YEAR %}
+    {% if not is_employee and not is_master and detail_group %}
         {% include "includes/summaries/delete_selected_daily_work_summary.html" %}
     {% endif %}
     <form method="post"
@@ -33,7 +33,7 @@
                 <thead>
                     <tr>
                         {% with col_class="px-6 py-3" %}
-                            {% if not is_employee and not is_master and group != GROUP_MONTH and group != GROUP_YEAR %}
+                            {% if not is_employee and not is_master and detail_group %}
                                 <th scope="col" class="{{ col_class }} text-center">
                                     <input type="checkbox"
                                            id="select-all-daily-works"
@@ -46,21 +46,21 @@
                             <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
                             <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
                             <th scope="col" class="{{ col_class }}">{% trans "Type" %}</th>
-                            {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                            {% if show_wagon %}
                                 <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
                                 <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
                             {% endif %}
                             <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
                             <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
                             <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
-                            {% if group == GROUP_MONTH %}
+                            {% if month_group %}
                                 <th scope="col" class="{{ col_class }}">
                                     {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
                                 </th>
                                 <th scope="col" class="{{ col_class }}">
                                     {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
                                 </th>
-                            {% elif group == GROUP_YEAR %}
+                            {% elif year_group %}
                                 <th scope="col" class="{{ col_class }}">
                                     {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
                                 </th>
@@ -88,7 +88,7 @@
                                 data-type-work="{{ daily_work.type_work }}"
                                 data-work-date="{{ daily_work.work_date|date:'Y-m-d' }}">
                                 {% with col_class="px-6 py-3" %}
-                                    {% if not is_employee and not is_master and group != GROUP_MONTH and group != GROUP_YEAR %}
+                                    {% if not is_employee and not is_master and detail_group %}
                                         <td class="{{ col_class }} text-center">
                                             <input type="checkbox"
                                                    class="cursor-pointer h-4 w-4 accent-red-700 dark:accent-red-400"
@@ -98,18 +98,18 @@
                                         </td>
                                     {% endif %}
                                     <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                                    {% if group == GROUP_MONTH or group == GROUP_YEAR %}
+                                    {% if month_group or year_group %}
                                         <td class="{{ col_class }}">{{ daily_work.work_name }}</td>
                                         <td class="{{ col_class }}">{{ daily_work.job_title }}</td>
                                         <td class="{{ col_class }}">{{ daily_work.type_work }}</td>
-                                        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                                        {% if show_wagon %}
                                             <td class="{{ col_class }}">{{ daily_work.type_wagon }}</td>
                                             <td class="{{ col_class }}">{{ daily_work.wagon_number|default:"-" }}</td>
                                         {% endif %}
                                         <td class="{{ col_class }}">{{ daily_work.total_amount }}</td>
                                         <td class="{{ col_class }}">{{ daily_work.total_time|floatformat:2 }}</td>
                                         <td class="{{ col_class }}">{{ daily_work.total_price|floatformat:2 }}</td>
-                                        {% if group == GROUP_MONTH %}
+                                        {% if month_group %}
                                             <td class="{{ col_class }}">{{ daily_work.month }}</td>
                                             <td class="{{ col_class }}">{{ daily_work.year }}</td>
                                         {% else %}
@@ -119,7 +119,7 @@
                                         <td class="{{ col_class }}">{{ daily_work.work.work_name }}</td>
                                         <td class="{{ col_class }}">{{ daily_work.job_title }}</td>
                                         <td class="{{ col_class }}">{{ daily_work.type_work }}</td>
-                                        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                                        {% if show_wagon %}
                                             <td class="{{ col_class }}">{{ daily_work.type_wagon_display }}</td>
                                             <td class="{{ col_class }}">{{ daily_work.wagon_number_display }}</td>
                                         {% endif %}
