@@ -1,149 +1,126 @@
 {% extends "base.html" %}
-
 {% load i18n %}
 
 {% block title %}Piecework{% endblock %}
-
 {% block content %}
-
-  <!-- Header -->
-  {% include "includes/components/list_header.html" with header_id="piecework-list-title" title=selected_department %}
-
-  <!-- View Mode Segmented Control -->
-  {% include "includes/components/view_mode_segmented.html" with group=group GROUP_MONTH=GROUP_MONTH GROUP_YEAR=GROUP_YEAR %}
-
-  <!-- Filter Form -->
-  {% include "piecework/piecework_filters.html" %}
-
-  <!-- Messages -->
-  {% include "includes/alerts/alerts.html" %}
-
-  <!-- Piecework Table -->
-  <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
-    <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400" aria-describedby="piecework-list-title">
-      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          {% with col_class="px-6 py-3" %}
-            <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Type" %}</th>
-
-            {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-              <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
-              <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
-            {% endif %}
-
-            <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
-
-            {% if group == GROUP_MONTH %}
-              <th scope="col" class="{{ col_class }}">
-                {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
-              </th>
-              <th scope="col" class="{{ col_class }}">
-                {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
-              </th>
-
-            {% elif group == GROUP_YEAR %}
-              <th scope="col" class="{{ col_class }}">
-                {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
-              </th>
-
-            {% else %}
-              <th scope="col" class="{{ col_class }}">
-                {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
-              </th>
-              
-              {% if not is_employee %}
-                <th scope="col" class="{{ col_class }}">
-                  {% include "includes/table/sort_column.html" with label=_("Record") field="record_date" col_class=col_class selected_department=selected_department %}
-                </th>
-              {% endif %}
-            {% endif %}
-          {% endwith %}
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-        {% if pieceworks %}
-          {% for piecework in pieceworks %}
-            <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-              {% with col_class="px-6 py-3" %}
-                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-
-                {% if group == GROUP_MONTH or group == GROUP_YEAR %}
-                  <td class="{{ col_class }}">{{ piecework.employee_id }}</td>
-                  <td class="{{ col_class }}">{{ piecework.employee_name }}</td>
-                  <td class="{{ col_class }}">{{ piecework.job_title }}</td>
-                  <td class="{{ col_class }}">{{ piecework.work_name }}</td>
-                  <td class="{{ col_class }}">{{ piecework.type_work }}</td>
-
-                  {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                    <td class="{{ col_class }}">{{ piecework.type_wagon }}</td>
-                    <td class="{{ col_class }}">{{ piecework.wagon_number|default:"-" }}</td>
-                  {% endif %}
-
-                  <td class="{{ col_class }}">{{ piecework.total_amount }}</td>
-                  <td class="{{ col_class }}">{{ piecework.total_time|floatformat:2 }}</td>
-                  <td class="{{ col_class }}">{{ piecework.total_price|floatformat:2 }}</td>
-                  
-                  {% if group == GROUP_MONTH %}
-                    <td class="{{ col_class }}">{{ piecework.month }}</td>
-                    <td class="{{ col_class }}">{{ piecework.year }}</td>
-
-                  {% else %}
-                    <td class="{{ col_class }}">{{ piecework.year }}</td>
-                  {% endif %}
-
+    <!-- Header -->
+    {% include "includes/components/list_header.html" with header_id="piecework-list-title" title=selected_department %}
+    <!-- View Mode Segmented Control -->
+    {% include "includes/components/view_mode_segmented.html" with group=group GROUP_MONTH=GROUP_MONTH GROUP_YEAR=GROUP_YEAR %}
+    <!-- Filter Form -->
+    {% include "piecework/piecework_filters.html" %}
+    <!-- Messages -->
+    {% include "includes/alerts/alerts.html" %}
+    <!-- Piecework Table -->
+    <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
+        <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400"
+               aria-describedby="piecework-list-title">
+            <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    {% with col_class="px-6 py-3" %}
+                        <th scope="col" class="{{ col_class }}">#</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Type" %}</th>
+                        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                            <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
+                            <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
+                        {% endif %}
+                        <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
+                        {% if group == GROUP_MONTH %}
+                            <th scope="col" class="{{ col_class }}">
+                                {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
+                            </th>
+                            <th scope="col" class="{{ col_class }}">
+                                {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
+                            </th>
+                        {% elif group == GROUP_YEAR %}
+                            <th scope="col" class="{{ col_class }}">
+                                {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
+                            </th>
+                        {% else %}
+                            <th scope="col" class="{{ col_class }}">
+                                {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
+                            </th>
+                            {% if not is_employee %}
+                                <th scope="col" class="{{ col_class }}">
+                                    {% include "includes/table/sort_column.html" with label=_("Record") field="record_date" col_class=col_class selected_department=selected_department %}
+                                </th>
+                            {% endif %}
+                        {% endif %}
+                    {% endwith %}
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+                {% if pieceworks %}
+                    {% for piecework in pieceworks %}
+                        <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
+                            {% with col_class="px-6 py-3" %}
+                                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                {% if group == GROUP_MONTH or group == GROUP_YEAR %}
+                                    <td class="{{ col_class }}">{{ piecework.employee_id }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.employee_name }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.job_title }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.work_name }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.type_work }}</td>
+                                    {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                                        <td class="{{ col_class }}">{{ piecework.type_wagon }}</td>
+                                        <td class="{{ col_class }}">{{ piecework.wagon_number|default:"-" }}</td>
+                                    {% endif %}
+                                    <td class="{{ col_class }}">{{ piecework.total_amount }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.total_time|floatformat:2 }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.total_price|floatformat:2 }}</td>
+                                    {% if group == GROUP_MONTH %}
+                                        <td class="{{ col_class }}">{{ piecework.month }}</td>
+                                        <td class="{{ col_class }}">{{ piecework.year }}</td>
+                                    {% else %}
+                                        <td class="{{ col_class }}">{{ piecework.year }}</td>
+                                    {% endif %}
+                                {% else %}
+                                    <td class="{{ col_class }}">{{ piecework.employee.employee_id }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.employee.name }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.job_title }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.work.work_name }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.type_work }}</td>
+                                    {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                                        <td class="{{ col_class }}">{{ piecework.type_wagon_display }}</td>
+                                        <td class="{{ col_class }}">{{ piecework.wagon_number_display }}</td>
+                                    {% endif %}
+                                    <td class="{{ col_class }}">{{ piecework.amount }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.amount_time|floatformat:2 }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.amount_price|floatformat:2 }}</td>
+                                    <td class="{{ col_class }}">{{ piecework.work_date|date:"Y-m-d" }}</td>
+                                    {% if not is_employee %}<td class="{{ col_class }}">{{ piecework.record_date|date:"Y-m-d H:i" }}</td>{% endif %}
+                                {% endif %}
+                            {% endwith %}
+                        </tr>
+                    {% endfor %}
                 {% else %}
-                  <td class="{{ col_class }}">{{ piecework.employee.employee_id }}</td>
-                  <td class="{{ col_class }}">{{ piecework.employee.name }}</td>
-                  <td class="{{ col_class }}">{{ piecework.job_title }}</td>
-                  <td class="{{ col_class }}">{{ piecework.work.work_name }}</td>
-                  <td class="{{ col_class }}">{{ piecework.type_work }}</td>
-                  
-                  {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                    <td class="{{ col_class }}">{{ piecework.type_wagon_display }}</td>
-                    <td class="{{ col_class }}">{{ piecework.wagon_number_display }}</td>
-                  {% endif %}
-
-                  <td class="{{ col_class }}">{{ piecework.amount }}</td>
-                  <td class="{{ col_class }}">{{ piecework.amount_time|floatformat:2 }}</td>
-                  <td class="{{ col_class }}">{{ piecework.amount_price|floatformat:2 }}</td>
-                  <td class="{{ col_class }}">{{ piecework.work_date|date:"Y-m-d" }}</td>
-
-                  {% if not is_employee %}
-                    <td class="{{ col_class }}">{{ piecework.record_date|date:"Y-m-d H:i" }}</td>
-                  {% endif %}
+                    <tr>
+                        <td colspan="12"
+                            class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">
+                            {% trans "No piecework records found..." %}
+                        </td>
+                    </tr>
                 {% endif %}
-              {% endwith %}
-            </tr>
-          {% endfor %}
-        {% else %}
-          <tr>
-            <td colspan="12" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No piecework records found..." %}</td>
-          </tr>
-        {% endif %}
-      </tbody>
-      {% if pieceworks %}
-        <tfoot>
-          {% include "piecework/piecework_total_row.html" %}
-        </tfoot>
-      {% endif %}
-    </table>
-  </div>
-
-  <!-- Pagination -->
-  <nav aria-label="Piecework list pagination" class="mt-6">
-    {% include "includes/table/pagination.html" %}
-  </nav>
-
-  <!-- Export Button Excel -->
-  <div class="flex gap-2 w-24 mt-4 mb-4">
-    {% include "includes/export/export_excel_button.html" with url_name='piecework_export_excel' params=request.GET aria_label="Download filtered pieceworks as Excel" %}
-  </div>
-    
+            </tbody>
+            {% if pieceworks %}
+                <tfoot>
+                    {% include "piecework/piecework_total_row.html" %}
+                </tfoot>
+            {% endif %}
+        </table>
+    </div>
+    <!-- Pagination -->
+    <nav aria-label="Piecework list pagination" class="mt-6">
+        {% include "includes/table/pagination.html" %}
+    </nav>
+    <!-- Export Button Excel -->
+    <div class="flex gap-2 w-24 mt-4 mb-4">
+        {% include "includes/export/export_excel_button.html" with url_name='piecework_export_excel' params=request.GET aria_label="Download filtered pieceworks as Excel" %}
+    </div>
 {% endblock %}
