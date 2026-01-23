@@ -1,10 +1,12 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.constants.constants import GROUP_MONTH
+from employee.utils.group_modes import is_month_group
 
 
 def build_headers(group=None):
-    if group == GROUP_MONTH:
+    month_group = is_month_group(group)
+    
+    if month_group:
         headers = [
             ("#"),
             _("Wagon Number"),
