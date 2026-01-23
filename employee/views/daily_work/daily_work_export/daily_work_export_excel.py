@@ -33,6 +33,9 @@ def daily_work_export_excel(request):
         order_by,
         direction,
         show_wagon,
+        detail_group,
+        month_group,
+        year_group,
     ) = daily_work_prepare(request)
 
     daily_works = filter_daily_works(
