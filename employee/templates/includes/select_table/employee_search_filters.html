@@ -1,9 +1,7 @@
 {% load i18n %}
 
 <div class="flex flex-col md:flex-row gap-4 mb-4">
-  {% include "includes/filters/filter_input.html" with id="employee-search" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id placeholder=_("Search by ID...") min="1" data_table="employees-table-body" data_column=1 %}
-
-  {% include "includes/filters/filter_input.html" with id="employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Search by Name...") data_table="employees-table-body" data_column=2 %}
-  
-  {% include "includes/filters/filter_select.html" with id="select-job-title-employees" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") data_table="employees-table-body" data_column=3 %}
+    {% include "includes/filters/filter_input.html" with id="employee-search" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id placeholder=_("Search by ID...") min="1" data_table="employees-table-body" data_column=1 %}
+    {% include "includes/filters/filter_input.html" with id="employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Search by Name...") data_table="employees-table-body" data_column=2 %}
+    {% include "includes/filters/filter_select.html" with id="select-job-title-employees" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") data_table="employees-table-body" data_column=3 %}
 </div>
