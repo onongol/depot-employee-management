@@ -1,25 +1,17 @@
 {% load i18n %}
 
 <details class="relative">
-  <summary
-    class="cursor-pointer flex items-center justify-between gap-2 rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 select-none focus:border-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:placeholder-gray-500 dark:focus:border-gray-500 dark:focus:ring-gray-500"
-  >
-    {% trans "Actions" %}
-    <svg class="w-4 h-4" aria-hidden="true">
-      <use href="#chevron-down"></use>
-    </svg>
-  </summary>
-  <div
-    class="absolute z-10 mt-2 rounded-md border border-gray-100 bg-gray-50 text-red-500 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-red-500"
-  >
-    <button
-      type="button"
-      class="cursor-pointer block w-full rounded-md px-4 py-2 text-left text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
-      onclick="
-        document.getElementById('bulkDeleteModal').classList.remove('hidden')
-      "
-    >
-      {% trans "Delete" %}
-    </button>
-  </div>
+    <summary class="cursor-pointer flex items-center justify-between gap-2 rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 select-none focus:border-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:placeholder-gray-500 dark:focus:border-gray-500 dark:focus:ring-gray-500">
+        {% trans "Actions" %}
+        <svg class="w-4 h-4" aria-hidden="true">
+            <use href="#chevron-down"></use>
+        </svg>
+    </summary>
+    <div class="absolute z-10 mt-2 rounded-md border border-gray-100 bg-gray-50 text-red-500 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-red-500">
+        <button type="button"
+                class="cursor-pointer block w-full rounded-md px-4 py-2 text-left text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
+                onclick=" document.getElementById('bulkDeleteModal').classList.remove('hidden') ">
+            {% trans "Delete" %}
+        </button>
+    </div>
 </details>
