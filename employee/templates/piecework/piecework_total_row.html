@@ -8,17 +8,17 @@
         <td class="{{ col_class }}">{{ job_title|default:"" }}</td>
         <td class="{{ col_class }}">{{ work_name|default:"" }}</td>
         <td class="{{ col_class }}">{{ type_work|default:"" }}</td>
-        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+        {% if show_wagon %}
             <td class="{{ col_class }}">{{ type_wagon|default:"" }}</td>
             <td class="{{ col_class }}">{{ wagon_number|default:"" }}</td>
         {% endif %}
         <td class="{{ col_class }}">{{ totals.total_amount|default_if_none:"0.00" }}</td>
         <td class="{{ col_class }}">{{ totals.total_time|floatformat:2|default_if_none:"0.00" }}</td>
         <td class="{{ col_class }}">{{ totals.total_price|floatformat:2|default_if_none:"0.00" }}</td>
-        {% if group == GROUP_MONTH %}
+        {% if month_group %}
             <td class="{{ col_class }}">{{ month|default:"" }}</td>
             <td class="{{ col_class }}">{{ year|default:"" }}</td>
-        {% elif group == GROUP_YEAR %}
+        {% elif year_group %}
             <td class="{{ col_class }}">{{ selected_year |default:"" }}</td>
         {% else %}
             <td class="{{ col_class }}">{{ range_date|default:"" }}</td>
