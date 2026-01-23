@@ -1,4 +1,4 @@
-from employee.constants.constants import GROUP_MONTH, GROUP_YEAR
+from employee.constants.constants import GROUP_MONTH, GROUP_YEAR, GROUP_WAGON
 
 
 def is_detail_group(group):
@@ -15,3 +15,7 @@ def is_month_group(group):
 
 def is_year_group(group):
     return group == GROUP_YEAR
+
+
+def is_wagon_group(group):
+    return group == GROUP_WAGON
