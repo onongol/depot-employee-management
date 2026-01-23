@@ -2,24 +2,24 @@
 
 <tr class="bg-blue-100 font-semibold dark:bg-blue-500/20">
     {% with col_class="px-6 py-3" %}
-        {% if not is_employee and not is_master and group != GROUP_MONTH and group != GROUP_YEAR %}
+        {% if not is_employee and not is_master and detail_group %}
             <td class="{{ col_class }}"></td>
         {% endif %}
         <td class="{{ col_class }}">{% trans "Total" %}:</td>
         <td class="{{ col_class }}">{{ work_name|default:"" }}</td>
         <td class="{{ col_class }}">{{ job_title|default:"" }}</td>
         <td class="{{ col_class }}">{{ type_work|default:"" }}</td>
-        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+        {% if show_wagon %}
             <td class="{{ col_class }}">{{ wagon_number|default:"" }}</td>
             <td class="{{ col_class }}">{{ type_wagon|default:"" }}</td>
         {% endif %}
         <td class="{{ col_class }}">{{ totals.total_amount|default_if_none:"0.00" }}</td>
         <td class="{{ col_class }}">{{ totals.total_time|floatformat:2|default_if_none:"0.00" }}</td>
         <td class="{{ col_class }}">{{ totals.total_price|floatformat:2|default_if_none:"0.00" }}</td>
-        {% if group == GROUP_MONTH %}
+        {% if month_group %}
             <td class="{{ col_class }}">{{ month|default:"" }}</td>
             <td class="{{ col_class }}">{{ year|default:"" }}</td>
-        {% elif group == GROUP_YEAR %}
+        {% elif year_group %}
             <td class="{{ col_class }}">{{ selected_year|default:"" }}</td>
         {% else %}
             <td class="{{ col_class }}">{{ range_date|default:"" }}</td>
