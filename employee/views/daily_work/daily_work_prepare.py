@@ -1,7 +1,8 @@
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
 from employee.models import DailyWork
+from employee.utils.group_modes import is_detail_group, is_month_group, is_year_group
 from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
+from employee.utils.wagon_department import is_wagon_department
 
 
 def daily_work_prepare(request):
@@ -31,7 +32,10 @@ def daily_work_prepare(request):
     order_by = request.GET.get("order_by")
     direction = request.GET.get("direction")
 
-    show_wagon = department in ALLOWED_WAGON_DEPARTMENTS
+    show_wagon = is_wagon_department(department)
+    detail_group = is_detail_group(group)
+    month_group = is_month_group(group)
+    year_group = is_year_group(group)
 
     return (
         dailyworks,
@@ -52,4 +56,7 @@ def daily_work_prepare(request):
         order_by,
         direction,
         show_wagon,
+        detail_group,
+        month_group,
+        year_group,
     )
