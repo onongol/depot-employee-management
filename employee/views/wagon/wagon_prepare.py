@@ -1,5 +1,6 @@
 from employee.constants.constants import DEFAULT_WAGON_NUMBER
 from employee.models import DailyWork
+from employee.utils.group_modes import is_month_group
 from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
 
@@ -22,6 +23,8 @@ def wagon_prepare(request):
 
     order_by = request.GET.get("order_by")
     direction = request.GET.get("direction")
+
+    month_group = is_month_group(group)
 
     # Base queryset for dailyworks related to wagons
     dailyworks = (
@@ -48,4 +51,5 @@ def wagon_prepare(request):
         month_period,
         order_by,
         direction,
+        month_group,
     )
