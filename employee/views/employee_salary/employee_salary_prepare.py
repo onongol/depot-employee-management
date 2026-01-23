@@ -1,7 +1,8 @@
 from employee.models import Employee
+from employee.utils.group_modes import is_wagon_group
 from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
-from employee.views.employee_salary.employee_salary_wagon import is_wagon_group
+from employee.utils.wagon_department import is_wagon_department
 
 
 def employee_salaries_prepare(request):
@@ -25,7 +26,9 @@ def employee_salaries_prepare(request):
     else:
         employees = Employee.objects.filter(is_active=True)
 
-    wagon_mode = is_wagon_group(department=department, group=group)
+    show_wagon = is_wagon_department(department)
+    wagon_group = is_wagon_group(group)
+    wagon_mode = wagon_group and show_wagon
 
     return (
         employees,
@@ -40,5 +43,7 @@ def employee_salaries_prepare(request):
         group,
         order_by,
         direction,
+        show_wagon,
+        wagon_group,
         wagon_mode,
     )
