@@ -34,6 +34,9 @@ def piecework_export_excel(request):
         order_by,
         direction,
         show_wagon,
+        detail_group,
+        month_group,
+        year_group,
     ) = piecework_prepare(request)
 
     # Apply filters
