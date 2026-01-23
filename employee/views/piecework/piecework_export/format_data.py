@@ -1,14 +1,12 @@
-from employee.constants.constants import (
-    ALLOWED_WAGON_DEPARTMENTS,
-    GROUP_MONTH,
-    GROUP_YEAR,
-)
 from employee.utils.get_value import get_value
+from employee.utils.group_modes import is_grouped, is_month_group
+from employee.utils.wagon_department import is_wagon_department
 
 
 def iter_rows(qs, department, group=None):
-    show_wagon = department in ALLOWED_WAGON_DEPARTMENTS
-    is_grouped = group in (GROUP_MONTH, GROUP_YEAR)
+    show_wagon = is_wagon_department(department)
+    grouped = is_grouped(group)
+    month_group = is_month_group(group)
 
     for i, pw in enumerate(qs, start=1):
         # Snapshot/values keys used by grouped queries
@@ -20,7 +18,7 @@ def iter_rows(qs, department, group=None):
         type_work = get_value(pw, "type_work", "") or ""
 
         # For non-grouped (model instances), fall back to related objects if needed
-        if not is_grouped:
+        if not grouped:
             employee_id = (
                 employee_id
                 or getattr(getattr(pw, "employee", None), "employee_id", "")
@@ -47,14 +45,14 @@ def iter_rows(qs, department, group=None):
         ]
 
         if show_wagon:
-            if is_grouped:
+            if grouped:
                 row.append(get_value(pw, "wagon_number", "") or "")
                 row.append(get_value(pw, "type_wagon", "") or "")
             else:
                 row.append(get_value(pw, "wagon_number_display", "") or "")
                 row.append(get_value(pw, "type_wagon_display", "") or "")
 
-        if is_grouped:
+        if grouped:
             row.extend(
                 [
                     get_value(pw, "total_amount", 0) or 0,
@@ -62,7 +60,7 @@ def iter_rows(qs, department, group=None):
                     get_value(pw, "total_price", 0) or 0,
                 ]
             )
-            if group == GROUP_MONTH:
+            if month_group:
                 row.extend(
                     [get_value(pw, "month", "") or "", get_value(pw, "year", "") or ""]
                 )
