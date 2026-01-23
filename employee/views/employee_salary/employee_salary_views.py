@@ -31,6 +31,8 @@ def employee_salary_list(request):
         group,
         order_by,
         direction,
+        show_wagon,
+        wagon_group,
         wagon_mode,
     ) = employee_salaries_prepare(request)
 
@@ -92,5 +94,8 @@ def employee_salary_list(request):
             "selected_department": department,
             "filters": filters,
             "group": group,
+            "show_wagon": show_wagon,
+            "wagon_group": wagon_group,
+            "wagon_mode": wagon_mode,
         },
     )
