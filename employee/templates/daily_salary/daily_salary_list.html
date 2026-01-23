@@ -1,151 +1,126 @@
 {% extends "base.html" %}
-
 {% load i18n %}
-
 {% load static %}
 
 {% block title %}Daily Salary{% endblock %}
-
 {% block content %}
-
-  {% url 'daily_salary_create' as create_url %}
-
-  <!-- Header -->
-  {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url %}
-
-  <div class="flex flex-col gap-3 md:flex-row md:items-start md:gap-4">
-    <!-- Actions dropdown (does NOT submit GET form) -->
+    {% url 'daily_salary_create' as create_url %}
+    <!-- Header -->
+    {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url %}
+    <div class="flex flex-col gap-3 md:flex-row md:items-start md:gap-4">
+        <!-- Actions dropdown (does NOT submit GET form) -->
+        {% if not is_employee and not is_master %}
+            <div class="shrink-0">{% include "includes/table_action_buttons/actions_dropdown.html" %}</div>
+        {% endif %}
+        <!-- Filters -->
+        <div class="flex-1">{% include "daily_salary/daily_salary_filters.html" %}</div>
+    </div>
+    <!-- Messages -->
+    {% include "includes/alerts/alerts.html" %}
+    <!-- Selected summary section -->
     {% if not is_employee and not is_master %}
-      <div class="shrink-0">
-        {% include "includes/table_action_buttons/actions_dropdown.html" %}
-      </div>
+        {% include "includes/summaries/delete_selected_daily_salary_summary.html" %}
     {% endif %}
-    
-    <!-- Filters -->
-    <div class="flex-1">
-      {% include "daily_salary/daily_salary_filters.html" %}
-    </div>
-  </div>
-
-  <!-- Messages -->
-  {% include "includes/alerts/alerts.html" %}
-
-  <!-- Selected summary section -->
-  {% if not is_employee and not is_master %}
-    {% include "includes/summaries/delete_selected_daily_salary_summary.html" %}
-  {% endif %}
-  
-  <!-- Bulk action form: wraps the table checkboxes so selected DailySalary IDs are submitted via POST -->
-  <!-- The Delete button in the modal uses form="bulkDeleteForm" to submit this form without moving the button here. -->
-  <form method="post" id="bulkDeleteForm" action="{% url 'daily_salary_delete_bulk' %}">
-    {% csrf_token %}
-
-    <!-- Daily Work Table -->
-    <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
-      <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400" aria-describedby="daily-salary-list-title">
-        <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            {% with col_class="px-6 py-3" %}
-
-              {% if not is_employee and not is_master %}
-                <th scope="col" class="{{ col_class }} text-center">
-                  <input
-                    type="checkbox"
-                    id="select-all-daily-salaries"
-                    class="cursor-pointer h-4 w-4 accent-red-700 dark:accent-red-400"
-                    onclick="toggleAllVisible(this, 'daily_salary_ids')"
-                    aria-label="{% trans 'Select all' %}"
-                  >
-                </th>
-              {% endif %}
-
-              <th scope="col" class="{{ col_class }}">#</th>
-              <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
-              <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
-              <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
-              <th scope="col" class="{{ col_class }}">{% trans "Hours" %}</th>
-              {% if not is_employee and not is_master %}
-                <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
-              {% endif %}
-              <th scope="col" class="{{ col_class }}">
-                {% include "includes/table/sort_column.html" with label=_("Date") field="salary_date" col_class=col_class selected_department=selected_department %}
-              </th>
-              {% if not is_employee %}
-                <th scope="col" class="{{ col_class }}">
-                  {% include "includes/table/sort_column.html" with label=_("Record") field="record_date" col_class=col_class selected_department=selected_department %}
-                </th>
-              {% endif %}
-              {% if not is_employee and not is_master %}
-                <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
-              {% endif %}
-            {% endwith %}
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-          {% if daily_salaries %}
-            {% for daily_salary in daily_salaries %}
-              <tr 
-                class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-red-100 dark:has-[:checked]:bg-red-500/20"
-                data-emp-id="{{ daily_salary.employee.employee_id }}"
-                data-emp-name="{{ daily_salary.employee.name }}"
-                data-salary-date="{{ daily_salary.salary_date|date:'Y-m-d' }}"
-              >
-                {% with col_class="px-6 py-3" %}
-
-                  {% if not is_employee and not is_master %}
-                    <td class="{{ col_class }} text-center">
-                      <input
-                        type="checkbox"
-                        class="cursor-pointer h-4 w-4 accent-red-700 dark:accent-red-400"
-                        name="daily_salary_ids"
-                        value="{{ daily_salary.pk }}"
-                        aria-label="{% trans 'Select' %} {{ daily_salary.employee.employee_id }}"
-                      >
-                    </td>
-                  {% endif %}
-                  
-                  <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                  <td class="{{ col_class }}">{{ daily_salary.employee.employee_id }}</td>
-                  <td class="{{ col_class }}">{{ daily_salary.employee.name }}</td>
-                  <td class="{{ col_class }}">{{ daily_salary.employee.job_title }}</td>
-                  <td class="{{ col_class }}">{{ daily_salary.hours_per_day }}</td>
-                  {% if not is_employee and not is_master %}
-                    <td class="{{ col_class }}">{{ daily_salary.salary_day|floatformat:2 }}</td>
-                  {% endif %}
-                  <td class="{{ col_class }}">{{ daily_salary.salary_date|date:"Y-m-d" }}</td>
-                  {% if not is_employee %}
-                    <td class="{{ col_class }}">{{ daily_salary.record_date|date:"Y-m-d H:i" }}</td>
-                  {% endif %}
-                  {% if not is_employee and not is_master %}
-                    <td class="{{ col_class }}">
-                      {% url 'daily_salary_update' daily_salary.pk as update_url %}
-                      {% with salary_date=daily_salary.salary_date|date:"Y-m-d" %}
-                        {% include "includes/table_action_buttons/action_buttons.html" with id=daily_salary.employee.employee_id name=daily_salary.employee.name|add:", "|add:salary_date edit_url=update_url %}
-                      {% endwith %}
-                    </td>
-                  {% endif %}
-                {% endwith %}
-              </tr>
-            {% endfor %}
-          {% else %}
-            <tr>
-              <td colspan="9" class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">{% trans "No daily salaries found..." %}</td>
-            </tr>
-          {% endif %}
-        </tbody>
-      </table>
-    </div>
-  </form>
-
-  <!-- Pagination -->
-  <nav aria-label="Daily salary list pagination" class="mt-6">
-    {% include "includes/table/pagination.html" %}
-  </nav>
-
-  <!-- Bulk Delete Modal -->
-  {% include "includes/modals/modal_delete_bulk.html" %}
-  
-  <!-- JS Script -->
-  {% include "daily_salary/scripts.html" %}
-
+    <!-- Bulk action form: wraps the table checkboxes so selected DailySalary IDs are submitted via POST -->
+    <!-- The Delete button in the modal uses form="bulkDeleteForm" to submit this form without moving the button here. -->
+    <form method="post"
+          id="bulkDeleteForm"
+          action="{% url 'daily_salary_delete_bulk' %}">
+        {% csrf_token %}
+        <!-- Daily Work Table -->
+        <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
+            <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400"
+                   aria-describedby="daily-salary-list-title">
+                <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        {% with col_class="px-6 py-3" %}
+                            {% if not is_employee and not is_master %}
+                                <th scope="col" class="{{ col_class }} text-center">
+                                    <input type="checkbox"
+                                           id="select-all-daily-salaries"
+                                           class="cursor-pointer h-4 w-4 accent-red-700 dark:accent-red-400"
+                                           onclick="toggleAllVisible(this, 'daily_salary_ids')"
+                                           aria-label="{% trans 'Select all' %}">
+                                </th>
+                            {% endif %}
+                            <th scope="col" class="{{ col_class }}">#</th>
+                            <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
+                            <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+                            <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
+                            <th scope="col" class="{{ col_class }}">{% trans "Hours" %}</th>
+                            {% if not is_employee and not is_master %}
+                                <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
+                            {% endif %}
+                            <th scope="col" class="{{ col_class }}">
+                                {% include "includes/table/sort_column.html" with label=_("Date") field="salary_date" col_class=col_class selected_department=selected_department %}
+                            </th>
+                            {% if not is_employee %}
+                                <th scope="col" class="{{ col_class }}">
+                                    {% include "includes/table/sort_column.html" with label=_("Record") field="record_date" col_class=col_class selected_department=selected_department %}
+                                </th>
+                            {% endif %}
+                            {% if not is_employee and not is_master %}
+                                <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
+                            {% endif %}
+                        {% endwith %}
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+                    {% if daily_salaries %}
+                        {% for daily_salary in daily_salaries %}
+                            <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-red-100 dark:has-[:checked]:bg-red-500/20"
+                                data-emp-id="{{ daily_salary.employee.employee_id }}"
+                                data-emp-name="{{ daily_salary.employee.name }}"
+                                data-salary-date="{{ daily_salary.salary_date|date:'Y-m-d' }}">
+                                {% with col_class="px-6 py-3" %}
+                                    {% if not is_employee and not is_master %}
+                                        <td class="{{ col_class }} text-center">
+                                            <input type="checkbox"
+                                                   class="cursor-pointer h-4 w-4 accent-red-700 dark:accent-red-400"
+                                                   name="daily_salary_ids"
+                                                   value="{{ daily_salary.pk }}"
+                                                   aria-label="{% trans 'Select' %} {{ daily_salary.employee.employee_id }}">
+                                        </td>
+                                    {% endif %}
+                                    <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                    <td class="{{ col_class }}">{{ daily_salary.employee.employee_id }}</td>
+                                    <td class="{{ col_class }}">{{ daily_salary.employee.name }}</td>
+                                    <td class="{{ col_class }}">{{ daily_salary.employee.job_title }}</td>
+                                    <td class="{{ col_class }}">{{ daily_salary.hours_per_day }}</td>
+                                    {% if not is_employee and not is_master %}
+                                        <td class="{{ col_class }}">{{ daily_salary.salary_day|floatformat:2 }}</td>
+                                    {% endif %}
+                                    <td class="{{ col_class }}">{{ daily_salary.salary_date|date:"Y-m-d" }}</td>
+                                    {% if not is_employee %}<td class="{{ col_class }}">{{ daily_salary.record_date|date:"Y-m-d H:i" }}</td>{% endif %}
+                                    {% if not is_employee and not is_master %}
+                                        <td class="{{ col_class }}">
+                                            {% url 'daily_salary_update' daily_salary.pk as update_url %}
+                                            {% with salary_date=daily_salary.salary_date|date:"Y-m-d" %}
+                                                {% include "includes/table_action_buttons/action_buttons.html" with id=daily_salary.employee.employee_id name=daily_salary.employee.name|add:", "|add:salary_date edit_url=update_url %}
+                                            {% endwith %}
+                                        </td>
+                                    {% endif %}
+                                {% endwith %}
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="9"
+                                class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">
+                                {% trans "No daily salaries found..." %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <!-- Pagination -->
+    <nav aria-label="Daily salary list pagination" class="mt-6">
+        {% include "includes/table/pagination.html" %}
+    </nav>
+    <!-- Bulk Delete Modal -->
+    {% include "includes/modals/modal_delete_bulk.html" %}
+    <!-- JS Script -->
+    {% include "daily_salary/scripts.html" %}
 {% endblock %}
