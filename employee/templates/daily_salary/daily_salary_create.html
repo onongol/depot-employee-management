@@ -1,58 +1,43 @@
 {% extends "base.html" %}
-
 {% load static %}
-
 {% load i18n %}
 
 {% block content %}
-
-  <h2 id="form-title" class="text-xl text-gray-700 font-semibold mb-6 dark:text-gray-400">
-    {% trans "New" %} {% trans object_type %} ({{ selected_department }})
-  </h2>
-
-  {% include "includes/form/form_errors.html" %}
-
-  <form
-    method="post"
-    class="bg-white rounded-md border border-gray-100 shadow-md p-6 dark:bg-gray-800 dark:border-gray-700"
-    id="createForm"
-    aria-labelledby="form-title"
-  >
-    {% csrf_token %}
-
-    {% if employees %}
-
-      <!-- Fields -->
-      {% include "includes/form/form_date.html" with id="salary_date" label=_("Date") name="salary_date" type="text" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True %}
-
-      {% include "includes/form/form_input.html" with id=form.hours_per_day.id_for_label label=_("Time") name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day  min=form.hours_per_day.field.widget.attrs.min max=form.hours_per_day.field.widget.attrs.max required=True %}
-
-      <!-- Filters -->
-      {% include "includes/select_table/employee_search_filters.html" %}
-
-      <!-- Employee Table -->
-      {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-salary-list-title" %}
-
-    {% else %}
-      <!-- Info notice when no employees -->
-      <div class="mb-4 rounded-md shadow-sm border-l-4 border-yellow-400 bg-yellow-50 p-3 dark:bg-yellow-500/20 dark:border-yellow-600">
-        <p class="text-sm text-yellow-800 dark:text-yellow-400">
-          {% blocktrans trimmed %}
-          <strong>No employee profiles exist for the selected department.</strong><br>
-          Please <strong>create employee profiles</strong> for this department. You can then proceed to create the <strong>Daily Salary</strong> records.
-          {% endblocktrans %}
-        </p>
-      </div>
-    {% endif %}
-
-    <!-- Selected summary section -->
-    {% include "includes/summaries/employees_selected_summary.html" %}
-
-    <!-- Form Buttons -->
-    {% include "includes/form/form_actions.html" with cancel_url=cancel_url %}
-  </form>
-
-  <!-- JS Script -->
-  {% include "daily_salary/scripts.html" %}
-
+    <h2 id="form-title"
+        class="text-xl text-gray-700 font-semibold mb-6 dark:text-gray-400">
+        {% trans "New" %} {% trans object_type %} ({{ selected_department }})
+    </h2>
+    {% include "includes/form/form_errors.html" %}
+    <form method="post"
+          class="bg-white rounded-md border border-gray-100 shadow-md p-6 dark:bg-gray-800 dark:border-gray-700"
+          id="createForm"
+          aria-labelledby="form-title">
+        {% csrf_token %}
+        {% if employees %}
+            <!-- Fields -->
+            {% include "includes/form/form_date.html" with id=form.salary_date.id_for_label label=_("Date") name="salary_date" type="text" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True %}
+            {% include "includes/form/form_input.html" with id=form.hours_per_day.id_for_label label=_("Time") name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day  min=form.hours_per_day.field.widget.attrs.min max=form.hours_per_day.field.widget.attrs.max required=True %}
+            <!-- Filters -->
+            {% include "includes/select_table/employee_search_filters.html" %}
+            <!-- Employee Table -->
+            {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-salary-list-title" %}
+        {% else %}
+            <!-- Info notice when no employees -->
+            <div class="mb-4 rounded-md shadow-sm border-l-4 border-yellow-400 bg-yellow-50 p-3 dark:bg-yellow-500/20 dark:border-yellow-600">
+                <p class="text-sm text-yellow-800 dark:text-yellow-400">
+                    {% blocktrans trimmed %}
+                        <strong>No employee profiles exist for the selected department.</strong>
+                        <br>
+                        Please <strong>create employee profiles</strong> for this department. You can then proceed to create the <strong>Daily Salary</strong> records.
+                    {% endblocktrans %}
+                </p>
+            </div>
+        {% endif %}
+        <!-- Selected summary section -->
+        {% include "includes/summaries/employees_selected_summary.html" %}
+        <!-- Form Buttons -->
+        {% include "includes/form/form_actions.html" with cancel_url=cancel_url %}
+    </form>
+    <!-- JS Script -->
+    {% include "daily_salary/scripts.html" %}
 {% endblock %}
