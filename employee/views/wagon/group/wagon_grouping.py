@@ -2,13 +2,12 @@ from django.db.models import Sum
 from django.db.models.functions import ExtractMonth, ExtractYear
 
 from employee.utils.filters import filter_month_year
-from employee.utils.group_modes import is_month_group
 
 
 def get_grouped_wagons(
     qs,
     *,
-    group: str | None,
+    month_group: bool | None = None,
     month: int | None = None,
     year: int | None = None,
 ):
@@ -17,8 +16,6 @@ def get_grouped_wagons(
     We group first (this adds month/year annotations in GROUP_MONTH mode) and only then sort,
     so ordering by month/year works and the UI behaves consistently across endpoints.
     """
-    month_group = is_month_group(group)
-
     if month_group:
         if month and year:
             qs = filter_month_year(qs, month=month, year=year, date_field="work_date")
