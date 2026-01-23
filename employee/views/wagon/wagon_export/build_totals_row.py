@@ -1,9 +1,11 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.constants.constants import GROUP_MONTH
+from employee.utils.group_modes import is_month_group
 
 
 def build_totals_row(totals: dict, group=None):
+    month_group = is_month_group(group)
+
     total_str = str(_("Total"))
     empty = ""
 
@@ -11,7 +13,7 @@ def build_totals_row(totals: dict, group=None):
     total_time = totals.get("total_time") or 0
     total_price = totals.get("total_price") or 0
 
-    if group == GROUP_MONTH:
+    if month_group:
         empty_cols = 2
         tail_empties = 2
         totals_cells = [total_time, total_price]
