@@ -1,9 +1,11 @@
-from employee.constants.constants import GROUP_MONTH
+from employee.utils.group_modes import is_month_group
 
 
 def iter_rows(qs, group=None):
+    month_group = is_month_group(group)
+
     for i, item in enumerate(qs, start=1):
-        if group == GROUP_MONTH:
+        if month_group:
             row = [
                 i,
                 item.get("wagon_number") or "",
