@@ -1,82 +1,63 @@
 {% extends "base.html" %}
-
 {% load static %}
-
 {% load i18n %}
 
 {% block content %}
-
-<!-- Injects server-side existing pieceworks as JSON for client-side duplicate detection. 
+    <!-- Injects server-side existing pieceworks as JSON for client-side duplicate detection. 
 Used by static/js/piecework_form_duplicate.js to validate, warn, and populate includes/modals/save_duplicate.html before submission. -->
-{{ existing_pieceworks|json_script:"existing-pieceworks" }}
-
-<!-- Form Title -->
-<h2 id="form-title" class="text-xl text-gray-700 font-semibold mb-6 dark:text-gray-400">
-  {% trans "New" %} {% trans object_type %} ({{ selected_department }})
-</h2>
-
-<!-- Alert for potential duplicate entries -->
-{% if employees %}
-  {% include "includes/alerts/duplicate_warning.html" %}
-{% endif %}
-
-<!-- Form Errors -->
-{% include "includes/form/form_errors.html" %}
-
-<!-- Daily Work Piecework Create Form -->
-<form
-  method="post"
-  class="bg-white rounded-md border border-gray-100 shadow-md p-6 dark:bg-gray-800 dark:border-gray-700"
-  id="createForm"
-  aria-labelledby="form-title"
->
-  {% csrf_token %}
-
-  <!-- Field -->
-  {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True %}
-
-  {% if employees %}
-    {% include "includes/form/form_select.html" with id=form.type_work.id_for_label label=_("Type Work") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
-
-    {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-      {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number placeholder=_("Enter if necessary") %}
+    {{ existing_pieceworks|json_script:"existing-pieceworks" }}
+    <!-- Form Title -->
+    <h2 id="form-title"
+        class="text-xl text-gray-700 font-semibold mb-6 dark:text-gray-400">
+        {% trans "New" %} {% trans object_type %} ({{ selected_department }})
+    </h2>
+    <!-- Alert for potential duplicate entries -->
+    {% if employees %}
+        {% include "includes/alerts/duplicate_warning.html" %}
     {% endif %}
-
-    <!-- Filters employee table -->
-    {% include "includes/select_table/employee_search_filters.html" %}
-
-    <!-- Employee Table -->
-    {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-68" aria_desc="daily-work-list-title" %}
-
-    <!-- Filters works table -->
-    {% include "includes/select_table/work_search_filters.html" %}
-
-    <!-- Works Table -->
-    {% include "includes/select_table/works_select_table.html" %}
-  {% else %}
-  
-    <!-- Info notice when no employees for selected date -->
-    <div class="mb-4 rounded-md shadow-sm border-l-4 border-yellow-400 bg-yellow-50 p-3 dark:bg-yellow-500/20 dark:border-yellow-600">
-      <p class="text-sm text-yellow-800 dark:text-yellow-400">
-        {% blocktrans trimmed %}
-        <strong>No available employees for the selected date.</strong><br>
-        Please <strong>create Daily Salary</strong> records for this date or <strong>choose another date</strong> to assign work. Employees can only be assigned works after selecting a date with available employee records.
-        {% endblocktrans %}
-      </p>
-    </div>
-  {% endif %}
-
-  <!-- Selected summary section -->
-  {% include "includes/summaries/employees_selected_summary.html" %}
-  {% include "includes/summaries/works_selected_summary.html" %}
-
-  <!-- Form Buttons -->
-  {% include "includes/form/form_actions.html" with cancel_url=cancel_url %}
-</form>
-
-<!-- Save Duplicate Modal -->
-{% include "includes/modals/save_duplicate.html" %}
-
-<!-- JS Scripts -->
-{% include "daily_work/scripts.html" %}
+    <!-- Form Errors -->
+    {% include "includes/form/form_errors.html" %}
+    <!-- Daily Work Piecework Create Form -->
+    <form method="post"
+          class="bg-white rounded-md border border-gray-100 shadow-md p-6 dark:bg-gray-800 dark:border-gray-700"
+          id="createForm"
+          aria-labelledby="form-title">
+        {% csrf_token %}
+        <!-- Field -->
+        {% include "includes/form/form_date.html" with id=form.work_date.id_for_label label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True %}
+        {% if employees %}
+            {% include "includes/form/form_select.html" with id=form.type_work.id_for_label label=_("Type Work") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
+            {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                {% include "includes/form/form_input.html" with id=form.wagon_number.id_for_label label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number placeholder=_("Enter if necessary") %}
+            {% endif %}
+            <!-- Filters employee table -->
+            {% include "includes/select_table/employee_search_filters.html" %}
+            <!-- Employee Table -->
+            {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-68" aria_desc="daily-work-list-title" %}
+            <!-- Filters works table -->
+            {% include "includes/select_table/work_search_filters.html" %}
+            <!-- Works Table -->
+            {% include "includes/select_table/works_select_table.html" %}
+        {% else %}
+            <!-- Info notice when no employees for selected date -->
+            <div class="mb-4 rounded-md shadow-sm border-l-4 border-yellow-400 bg-yellow-50 p-3 dark:bg-yellow-500/20 dark:border-yellow-600">
+                <p class="text-sm text-yellow-800 dark:text-yellow-400">
+                    {% blocktrans trimmed %}
+                        <strong>No available employees for the selected date.</strong>
+                        <br>
+                        Please <strong>create Daily Salary</strong> records for this date or <strong>choose another date</strong> to assign work. Employees can only be assigned works after selecting a date with available employee records.
+                    {% endblocktrans %}
+                </p>
+            </div>
+        {% endif %}
+        <!-- Selected summary section -->
+        {% include "includes/summaries/employees_selected_summary.html" %}
+        {% include "includes/summaries/works_selected_summary.html" %}
+        <!-- Form Buttons -->
+        {% include "includes/form/form_actions.html" with cancel_url=cancel_url %}
+    </form>
+    <!-- Save Duplicate Modal -->
+    {% include "includes/modals/save_duplicate.html" %}
+    <!-- JS Scripts -->
+    {% include "daily_work/scripts.html" %}
 {% endblock %}
