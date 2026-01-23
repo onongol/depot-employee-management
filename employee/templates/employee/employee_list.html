@@ -1,79 +1,72 @@
 {% extends "base.html" %}
-
 {% load i18n %}
 
 {% block title %}Employee{% endblock %}
-
 {% block content %}
-
-  {% url 'employee_create' as create_url %}
-
-  <!-- Header -->
-  {% include "includes/components/list_header.html" with header_id="employee-list-title" title=selected_department create_url=create_url %}
-  
-  <!-- Filter Form -->
-  {% include "employee/employee_filters.html" %}
-
-  <!-- Messages -->
-  {% include "includes/alerts/alerts.html" %}
-
-  <!-- Employee Table -->
-  <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
-    <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400" aria-describedby="employee-list-title">
-      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          {% with col_class="px-6 py-3" %}
-            <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">
-              {% include "includes/table/sort_column.html" with label=_("ID") field="employee_id" col_class=col_class selected_department=selected_department %}
-            </th>
-            <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Rank" %}</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Hourly Wage" %}</th>
-            {% if not is_employee and not is_master %}
-              <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
-            {% endif %}
-          {% endwith %}
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-        {% if employees %}
-          {% for employee in employees %}
-            <tr class="{% if not employee.is_active %}bg-gray-200 text-gray-400 dark:bg-gray-600 dark:text-gray-500{% else %}odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600{% endif %}">
-              {% with col_class="px-6 py-3" %}
-                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                <td class="{{ col_class }}">{{ employee.employee_id }}</td>
-                <td class="{{ col_class }}">{{ employee.name }}</td>
-                <td class="{{ col_class }}">{{ employee.job_title }}</td>
-                <td class="{{ col_class }}">{{ employee.rank }}</td>
-                <td class="{{ col_class }}">{{ employee.money_per_hour|floatformat:2 }}</td>
-                {% if not is_employee and not is_master %}
-                  <td class="{{ col_class }}">
-                    {% url 'employee_update' employee.pk as edit_url %}
-                    {% url 'employee_delete' employee.pk as delete_url %}
-                    {% if employee.is_active %}
-                      {% url 'employee_deactivate' employee.pk as deactivate_url %}
-                    {% else %}
-                      {% url 'employee_activate' employee.pk as activate_url %}
-                    {% endif %}
-                    {% include "includes/table_action_buttons/action_buttons.html" with id=employee.employee_id name=employee.name edit_url=edit_url delete_url=delete_url show_delete=True deactivate_url=deactivate_url activate_url=activate_url show_activation=True is_active=employee.is_active %}
-                  </td>
+    {% url 'employee_create' as create_url %}
+    <!-- Header -->
+    {% include "includes/components/list_header.html" with header_id="employee-list-title" title=selected_department create_url=create_url %}
+    <!-- Filter Form -->
+    {% include "employee/employee_filters.html" %}
+    <!-- Messages -->
+    {% include "includes/alerts/alerts.html" %}
+    <!-- Employee Table -->
+    <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
+        <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400"
+               aria-describedby="employee-list-title">
+            <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    {% with col_class="px-6 py-3" %}
+                        <th scope="col" class="{{ col_class }}">#</th>
+                        <th scope="col" class="{{ col_class }}">
+                            {% include "includes/table/sort_column.html" with label=_("ID") field="employee_id" col_class=col_class selected_department=selected_department %}
+                        </th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Rank" %}</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Hourly Wage" %}</th>
+                        {% if not is_employee and not is_master %}
+                            <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
+                        {% endif %}
+                    {% endwith %}
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+                {% if employees %}
+                    {% for employee in employees %}
+                        <tr class="{% if not employee.is_active %}bg-gray-200 text-gray-400 dark:bg-gray-600 dark:text-gray-500{% else %}odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600{% endif %}">
+                            {% with col_class="px-6 py-3" %}
+                                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                <td class="{{ col_class }}">{{ employee.employee_id }}</td>
+                                <td class="{{ col_class }}">{{ employee.name }}</td>
+                                <td class="{{ col_class }}">{{ employee.job_title }}</td>
+                                <td class="{{ col_class }}">{{ employee.rank }}</td>
+                                <td class="{{ col_class }}">{{ employee.money_per_hour|floatformat:2 }}</td>
+                                {% if not is_employee and not is_master %}
+                                    <td class="{{ col_class }}">
+                                        {% url 'employee_update' employee.pk as edit_url %}
+                                        {% url 'employee_delete' employee.pk as delete_url %}
+                                        {% if employee.is_active %}
+                                            {% url 'employee_deactivate' employee.pk as deactivate_url %}
+                                        {% else %}
+                                            {% url 'employee_activate' employee.pk as activate_url %}
+                                        {% endif %}
+                                        {% include "includes/table_action_buttons/action_buttons.html" with id=employee.employee_id name=employee.name edit_url=edit_url delete_url=delete_url show_delete=True deactivate_url=deactivate_url activate_url=activate_url show_activation=True is_active=employee.is_active %}
+                                    </td>
+                                {% endif %}
+                            {% endwith %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No employees found..." %}</td>
+                    </tr>
                 {% endif %}
-              {% endwith %}
-            </tr>
-          {% endfor %}
-        {% else %}
-          <tr>
-            <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No employees found..." %}</td>
-          </tr>
-        {% endif %}
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Pagination -->
-  <nav aria-label="Employee list pagination" class="mt-6">
-    {% include "includes/table/pagination.html" %}
-  </nav>
+            </tbody>
+        </table>
+    </div>
+    <!-- Pagination -->
+    <nav aria-label="Employee list pagination" class="mt-6">
+        {% include "includes/table/pagination.html" %}
+    </nav>
 {% endblock %}
