@@ -42,17 +42,17 @@ def wagon_export_excel(request):
 
     wagon_data = group_and_sort_wagons(
         dailyworks,
-        group=group,
+        month_group=month_group,
         month=month,
         year=year,
         order_by=order_by,
         direction=direction,
     )
 
-    headers = build_headers(group=group)
-    data = list(iter_rows(wagon_data, group=group))
+    headers = build_headers(month_group=month_group)
+    data = list(iter_rows(wagon_data, month_group=month_group))
 
-    data.append(build_totals_row(totals, group=group))
+    data.append(build_totals_row(totals, month_group=month_group))
 
     file_name = "wagon.xlsx"
     sheet_title = str(_("Wagon"))
