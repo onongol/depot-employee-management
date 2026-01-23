@@ -1,11 +1,8 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.constants.constants import (
-    ALLOWED_WAGON_DEPARTMENTS,
-    GROUP_MONTH,
-    GROUP_YEAR,
-)
+from employee.utils.group_modes import is_grouped, is_month_group
 from employee.utils.sum_field import sum_field
+from employee.utils.wagon_department import is_wagon_department
 
 
 def build_totals_row(qs, department, group=None):
@@ -13,16 +10,17 @@ def build_totals_row(qs, department, group=None):
     total_str = str(_("Total"))
     empty = ""
 
-    show_wagon = department in ALLOWED_WAGON_DEPARTMENTS
+    show_wagon = is_wagon_department(department)
     empty_cols = 5 if show_wagon else 3  # Work/Position/Type + (optional wagon cols)
 
-    is_grouped = group in (GROUP_MONTH, GROUP_YEAR)
+    month_group = is_month_group(group)
+    grouped = is_grouped(group)
 
-    tail_empties = 2 if group == GROUP_MONTH else 1
+    tail_empties = 2 if month_group else 1
 
     amount_key, time_key, price_key = (
         ("total_amount", "total_time", "total_price")
-        if is_grouped
+        if grouped
         else ("amount", "amount_time", "amount_price")
     )
 
