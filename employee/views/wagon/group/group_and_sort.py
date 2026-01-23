@@ -1,4 +1,3 @@
-from employee.utils.group_modes import is_month_group
 from employee.utils.sorting import apply_ordering
 from employee.views.wagon.group.wagon_grouping import get_grouped_wagons
 
@@ -6,7 +5,7 @@ from employee.views.wagon.group.wagon_grouping import get_grouped_wagons
 def group_and_sort_wagons(
     qs,
     *,
-    group: str | None,
+    month_group: bool | None = None,
     month: int | None = None,
     year: int | None = None,
     order_by: str | None = None,
@@ -17,8 +16,7 @@ def group_and_sort_wagons(
     Used by list views/exports so grouping + sorting rules stay consistent and year/month sorting
     works only after the queryset is annotated with those fields.
     """
-    month_group = is_month_group(group)
-    grouped = get_grouped_wagons(qs, group=group, month=month, year=year)
+    grouped = get_grouped_wagons(qs, month_group=month_group, month=month, year=year)
 
     if month_group:
         return apply_ordering(
