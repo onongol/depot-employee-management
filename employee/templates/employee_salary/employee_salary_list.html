@@ -6,8 +6,8 @@
     <!-- Header -->
     {% include "includes/components/list_header.html" with header_id="employee-salary-list-title" title=selected_department %}
     <!-- Salary Mode Segmented Control -->
-    {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-        {% include "includes/components/salary_mode_segmented.html" with group=group selected_department=selected_department ALLOWED_WAGON_DEPARTMENTS=ALLOWED_WAGON_DEPARTMENTS GROUP_WAGON=GROUP_WAGON %}
+    {% if show_wagon %}
+        {% include "includes/components/salary_mode_segmented.html" %}
     {% endif %}
     <!-- Filter Form -->
     {% include "employee_salary/employee_salary_filters.html" %}
@@ -25,7 +25,7 @@
                         <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Rank" %}</th>
-                        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS and group == GROUP_WAGON %}
+                        {% if wagon_mode %}
                             <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
                         {% endif %}
                         <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
@@ -50,7 +50,7 @@
                                 <td class="{{ col_class }}">{{ employee_salary.employee.name }}</td>
                                 <td class="{{ col_class }}">{{ employee_salary.employee.job_title }}</td>
                                 <td class="{{ col_class }}">{{ employee_salary.employee.rank }}</td>
-                                {% if selected_department in ALLOWED_WAGON_DEPARTMENTS and group == GROUP_WAGON %}
+                                {% if wagon_mode %}
                                     <td scope="col" class="{{ col_class }}">{{ employee_salary.wagon_number|default_if_none:"-" }}</td>
                                 {% endif %}
                                 <td class="{{ col_class }}">{{ employee_salary.total_piecework_time|floatformat:2 }}</td>
