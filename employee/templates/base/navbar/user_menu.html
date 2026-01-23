@@ -1,15 +1,13 @@
 {% load i18n %}
 
-<div class="flex items-center gap-2 ml-auto lg:order-2">          
-  <!-- Login/Logout -->
-  {% if request.user.is_authenticated %}
-    {% include "includes/user/user_dropdown.html" %}
-  {% else %}
-    <a 
-      href="{% url 'login' %}" 
-      class="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 mr-2 dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-700"
-    >
-      {% trans 'Sign In' %}
-    </a>
-  {% endif %}
+<div class="flex items-center gap-2 ml-auto lg:order-2">
+    <!-- Login/Logout -->
+    {% if request.user.is_authenticated %}
+        {% include "includes/user/user_dropdown.html" %}
+    {% else %}
+        <a href="{% url 'login' %}"
+           class="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium text-gray-700 bg-gray-100 shadow transition hover:bg-gray-200 focus:outline-none focus:ring-0 mr-2 dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-700">
+            {% trans 'Sign In' %}
+        </a>
+    {% endif %}
 </div>
