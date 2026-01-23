@@ -140,6 +140,6 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     buffer.seek(0)
     # Prepare the HTTP response with the PDF file
     response = HttpResponse(buffer, content_type="application/pdf")
-    response["Content-Disposition"] = f"attachment; filename='{quote(filename)}'"
+    response["Content-Disposition"] = f'attachment; filename="{quote(filename)}"'
 
     return response
