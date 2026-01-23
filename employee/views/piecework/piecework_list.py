@@ -41,6 +41,9 @@ def piecework_list(request):
         order_by,
         direction,
         show_wagon,
+        detail_group,
+        month_group,
+        year_group,
     ) = piecework_prepare(request)
 
     # Get distinct values for filtering dropdown
@@ -149,5 +152,9 @@ def piecework_list(request):
             "month_period": month_period,
             "years": years,
             "selected_year": selected_year,
+            "show_wagon": show_wagon,
+            "detail_group": detail_group,
+            "month_group": month_group,
+            "year_group": year_group,
         },
     )
