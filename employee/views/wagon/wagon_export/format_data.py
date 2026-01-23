@@ -1,9 +1,4 @@
-from employee.utils.group_modes import is_month_group
-
-
-def iter_rows(qs, group=None):
-    month_group = is_month_group(group)
-
+def iter_rows(qs, month_group=None):
     for i, item in enumerate(qs, start=1):
         if month_group:
             row = [
