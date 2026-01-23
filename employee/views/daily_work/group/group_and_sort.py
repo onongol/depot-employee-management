@@ -1,4 +1,4 @@
-from employee.constants.constants import GROUP_MONTH, GROUP_YEAR
+from employee.utils.group_modes import is_month_group, is_year_group
 from employee.utils.filters import filter_month_year
 from employee.utils.sorting import apply_ordering
 from employee.views.daily_work.group.group_by_month import group_daily_works_by_month
@@ -22,7 +22,10 @@ def group_and_sort_daily_works(
     and enforces safe ordering fields (including wagon columns only when relevant).
     Used by both list views and exports to keep behavior consistent.
     """
-    if group == GROUP_MONTH:
+    month_group = is_month_group(group)
+    year_group = is_year_group(group)
+
+    if month_group:
         if month and year:
             qs = filter_month_year(qs, month=month, year=year, date_field="work_date")
 
@@ -39,7 +42,7 @@ def group_and_sort_daily_works(
             allowed_fields=allowed_fields,
             default=["-year", "-month", "work_name"],
         )
-    elif group == GROUP_YEAR:
+    elif year_group:
         if selected_year:
             qs = filter_month_year(qs, year=selected_year, date_field="work_date")
 
