@@ -22,6 +22,8 @@ def get_employee_salaries(request):
         group,
         order_by,
         direction,
+        show_wagon,
+        wagon_group,
         wagon_mode,
     ) = employee_salaries_prepare(request)
 
