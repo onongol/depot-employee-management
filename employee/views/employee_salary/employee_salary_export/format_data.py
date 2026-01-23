@@ -1,7 +1,7 @@
 from employee.constants.constants import DEFAULT_WAGON_NUMBER
 
 
-def iter_rows(qs, *, show_wagon: bool = False):
+def iter_rows(qs, *, wagon_mode: bool = False):
     for i, item in enumerate(qs, start=1):
         row = [
             i,
@@ -12,7 +12,7 @@ def iter_rows(qs, *, show_wagon: bool = False):
             item["employee"].rank or "",
         ]
 
-        if show_wagon:
+        if wagon_mode:
             wagon = item.get("wagon_number")
             row.append(wagon if wagon else DEFAULT_WAGON_NUMBER)
 
