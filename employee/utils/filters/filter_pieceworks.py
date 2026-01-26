@@ -4,20 +4,19 @@ from employee.constants.constants import DEFAULT_WAGON_NUMBER, DEFAULT_WAGON_TYP
 from employee.utils.converting_date import parse_date_range
 
 
-def filter_pieceworks(
-    queryset,
-    employee_id=None,
-    employee_name=None,
-    job_title=None,
-    work_name=None,
-    type_work=None,
-    wagon_number=None,
-    type_wagon=None,
-    type_material=None,
-    range_date=None,
-    record_date=None,
-):
+def filter_pieceworks(queryset, context):
     """Reusable filter for Piecework queryset."""
+    employee_id = context.employee_id
+    employee_name = context.employee_name
+    job_title = context.job_title
+    work_name = context.work_name
+    type_work = context.type_work
+    wagon_number = context.wagon_number
+    type_wagon = context.type_wagon
+    type_material = context.type_material
+    range_date = context.range_date
+    record_date = context.record_date
+
     if employee_id:
         queryset = queryset.filter(employee__employee_id=employee_id)
     if employee_name:
