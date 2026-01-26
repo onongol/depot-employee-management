@@ -1,15 +1,8 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.utils.group_modes import is_month_group, is_year_group
-from employee.utils.wagon_department import is_wagon_department
 
-
-def build_headers(department, group=None):
+def build_headers(show_wagon=False, month_group=None, year_group=None):
     """Build headers for DailyWork export based on department."""
-    show_wagon = is_wagon_department(department)
-    month_group = is_month_group(group)
-    year_group = is_year_group(group)
-
     headers = [
         ("#"),
         _("Work"),
