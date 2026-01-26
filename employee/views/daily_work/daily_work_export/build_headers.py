@@ -1,8 +1,12 @@
 from django.utils.translation import gettext_lazy as _
 
 
-def build_headers(show_wagon=False, month_group=None, year_group=None):
+def build_headers(context):
     """Build headers for DailyWork export based on department."""
+    show_wagon = context.show_wagon
+    month_group = context.month_group
+    year_group = context.year_group
+    
     headers = [
         ("#"),
         _("Work"),
