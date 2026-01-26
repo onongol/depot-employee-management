@@ -1,29 +1,24 @@
-from employee.utils.group_modes import is_month_group, is_year_group
 from employee.utils.filters import filter_month_year
 from employee.utils.sorting import apply_ordering
 from employee.views.daily_work.group.group_by_month import group_daily_works_by_month
 from employee.views.daily_work.group.group_by_year import group_daily_works_by_year
 
 
-def group_and_sort_daily_works(
-    qs,
-    *,
-    group: str | None,
-    month: int | None = None,
-    year: int | None = None,
-    selected_year: str = "",
-    show_wagon: bool = False,
-    order_by: str | None = None,
-    direction: str | None = None,
-):
+def group_and_sort_daily_works(qs, context):
     """
     Applies grouping (monthly/yearly) and ordering to DailyWork querysets.
     Optionally filters by month/year, aggregates totals via group_by_month/year,
     and enforces safe ordering fields (including wagon columns only when relevant).
     Used by both list views and exports to keep behavior consistent.
     """
-    month_group = is_month_group(group)
-    year_group = is_year_group(group)
+    month_group = context.month_group
+    year_group = context.year_group
+    month = context.month
+    year = context.year
+    selected_year = context.selected_year
+    show_wagon = context.show_wagon
+    order_by = context.order_by
+    direction = context.direction
 
     if month_group:
         if month and year:
