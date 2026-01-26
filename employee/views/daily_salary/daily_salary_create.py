@@ -1,10 +1,14 @@
+from dataclasses import asdict
+
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from employee.utils.access import is_creater
-from employee.views.daily_salary.context_builders import build_daily_salary_context
-from employee.views.daily_salary.daily_salary_service import create_daily_salary_records
+from employee.views.daily_salary.create_prepare import (
+    daily_salary_create_prepare,
+)
+from employee.views.daily_salary.create_service import create_daily_salary_records
 from employee.views.daily_salary.daily_salary_success import (
     send_daily_salary_creation_message,
 )
@@ -15,11 +19,13 @@ from employee.views.daily_salary.daily_salary_success import (
 def daily_salary_create(request):
     """View to create daily salary records for multiple employees, filtered by department."""
     # Build context for the template
-    context = build_daily_salary_context(request)
+    dsc_context = daily_salary_create_prepare(request)
 
     # PRE-CHECK: no employees available for selected department
-    if not context.get("employees"):
-        return render(request, "daily_salary/daily_salary_create.html", context)
+    if not dsc_context.employees:
+        return render(
+            request, "daily_salary/daily_salary_create.html", asdict(dsc_context)
+        )
 
     # Handle form submission
     if request.method == "POST":
@@ -35,8 +41,10 @@ def daily_salary_create(request):
         )
 
         if errors:
-            context["errors"] = errors
-            return render(request, "daily_salary/daily_salary_create.html", context)
+            dsc_context.errors = errors
+            return render(
+                request, "daily_salary/daily_salary_create.html", asdict(dsc_context)
+            )
 
         # Send success message and redirect to daily salary list
         send_daily_salary_creation_message(
@@ -47,8 +55,8 @@ def daily_salary_create(request):
         )
 
         # Redirect to daily salary list with department filter
-        department = context.get("selected_department")
+        department = dsc_context.selected_department
 
         return redirect(f"{reverse('daily_salary_list')}?department={department}")
 
-    return render(request, "daily_salary/daily_salary_create.html", context)
+    return render(request, "daily_salary/daily_salary_create.html", asdict(dsc_context))
