@@ -78,8 +78,8 @@
     <!-- Export Button -->
     <div class="flex gap-2 w-24 mt-4 mb-4">
         <!-- Excel -->
-        {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=filters aria_label="Download filtered employee salaries as Excel" %}
+        {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
         <!-- PDF -->
-        {% include "includes/export/export_pdf_button.html" with url_name='employee_salary_export_pdf' params=filters aria_label="Download filtered employee salaries as PDF" target="_blank" %}
+        {% include "includes/export/export_pdf_button.html" with url_name='employee_salary_export_pdf' params=request.GET aria_label="Download filtered employee salaries as PDF" target="_blank" %}
     </div>
 {% endblock %}
