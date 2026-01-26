@@ -13,18 +13,23 @@ from employee.views.employee_salary.employee_salary_export.format_data import it
 
 def employee_salary_export_excel(request):
     """Export employee salaries data to Excel."""
-    employee_salaries, group, wagon_mode = get_employee_salaries(request)
+    employee_salaries, es_context = get_employee_salaries(request)
 
-    headers = build_headers(wagon_mode=wagon_mode)
-    data = list(iter_rows(employee_salaries, wagon_mode=wagon_mode))
+    department = es_context.selected_department
+
+    safe_department = (department or "all").replace(" ", "_")
+
+    headers = build_headers(context=es_context)
+    data = list(iter_rows(employee_salaries, context=es_context))
 
     meta = {
-        GROUP_WAGON: ("employee_salaries_wagon.xlsx", _("Employee Salaries by Wagon")),
+        GROUP_WAGON: ("employee_salaries_wagon", _("Employee Salaries by Wagon")),
     }
 
     file_name, title = meta.get(
-        group, ("employee_salaries.xlsx", _("Employee Salaries"))
+        es_context.group, ("employee_salaries", _("Employee Salaries"))
     )
-    sheet_title = str(title)
+    file_name = f"{file_name}_{safe_department}.xlsx"
+    sheet_title = f"{title} ({department})"
 
     return export_to_excel(data, headers, file_name, sheet_title)
