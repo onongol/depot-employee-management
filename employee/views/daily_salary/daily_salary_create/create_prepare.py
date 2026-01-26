@@ -5,7 +5,7 @@ from employee.forms import DailySalaryForm
 from employee.models import Employee
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
-from employee.views.daily_salary.daily_salary_create_context import (
+from employee.views.daily_salary.daily_salary_create.daily_salary_create_context import (
     DailySalaryCreateContext,
 )
 
