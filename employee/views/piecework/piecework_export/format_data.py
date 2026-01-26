@@ -1,12 +1,11 @@
 from employee.utils.get_value import get_value
-from employee.utils.group_modes import is_grouped, is_month_group
-from employee.utils.wagon_department import is_wagon_department
 
 
-def iter_rows(qs, department, group=None):
-    show_wagon = is_wagon_department(department)
-    grouped = is_grouped(group)
-    month_group = is_month_group(group)
+def iter_rows(qs, context):
+    show_wagon = context.show_wagon
+    month_group = context.month_group
+    year_group = context.year_group
+    grouped = month_group or year_group
 
     for i, pw in enumerate(qs, start=1):
         # Snapshot/values keys used by grouped queries
