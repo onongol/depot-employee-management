@@ -15,6 +15,9 @@ def piecework_export_excel(request):
     pw_context = piecework_prepare(request)
 
     pieceworks = pw_context.pieceworks
+    department = pw_context.selected_department
+
+    safe_department = (department or "all").replace(" ", "_")
 
     pieceworks = filter_pieceworks(pieceworks, context=pw_context)
 
@@ -27,11 +30,12 @@ def piecework_export_excel(request):
     data.append(build_totals_row(pieceworks, context=pw_context))
 
     meta = {
-        GROUP_MONTH: ("monthly_piecework.xlsx", _("Monthly Piecework")),
-        GROUP_YEAR: ("yearly_piecework.xlsx", _("Yearly Piecework")),
+        GROUP_MONTH: ("monthly_piecework", _("Monthly Piecework")),
+        GROUP_YEAR: ("yearly_piecework", _("Yearly Piecework")),
     }
 
-    file_name, title = meta.get(pw_context.group, ("piecework.xlsx", _("Piecework")))
-    sheet_title = str(title)
+    file_name, title = meta.get(pw_context.group, ("piecework", _("Piecework")))
+    file_name = f"{file_name}_{safe_department}.xlsx"
+    sheet_title = f"{title} ({department})"
 
     return export_to_excel(data, headers, file_name, sheet_title)
