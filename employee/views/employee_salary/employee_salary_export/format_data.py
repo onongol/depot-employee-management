@@ -1,7 +1,9 @@
 from employee.constants.constants import DEFAULT_WAGON_NUMBER
 
 
-def iter_rows(qs, *, wagon_mode: bool = False):
+def iter_rows(qs, context):
+    wagon_mode = context.wagon_mode
+
     for i, item in enumerate(qs, start=1):
         row = [
             i,
