@@ -12,6 +12,11 @@ def daily_work_prepare(request) -> DailyWorkContext:
     """Prepare base queryset and filter params for DailyWork export/list."""
     department = get_selected_department(request)
 
+    # Build base queryset filtered by department
+    daily_works = DailyWork.objects.filter(work__department=department).select_related(
+        "work"
+    )
+
     # Filter parameters
     job_title = request.GET.get("job_title")
     work_name = request.GET.get("work_name")
@@ -36,11 +41,6 @@ def daily_work_prepare(request) -> DailyWorkContext:
     detail_group = is_detail_group(group)
     month_group = is_month_group(group)
     year_group = is_year_group(group)
-
-     # Build base queryset filtered by department
-    daily_works = DailyWork.objects.filter(work__department=department).select_related(
-        "work"
-    )
 
     # Get distinct values for dropdown filters
     job_titles = get_distinct_values(
