@@ -1,24 +1,19 @@
 from employee.utils.filters import filter_month_year
-from employee.utils.group_modes import is_month_group, is_year_group
 from employee.utils.sorting import apply_ordering
 from employee.views.piecework.group.group_by_month import group_pieceworks_by_month
 from employee.views.piecework.group.group_by_year import group_pieceworks_by_year
 
 
-def group_and_sort_pieceworks(
-    qs,
-    *,
-    group: str | None,
-    month: int | None = None,
-    year: int | None = None,
-    selected_year: str = "",
-    show_wagon: bool = False,
-    order_by: str | None = None,
-    direction: str | None = None,
-):
-    month_group = is_month_group(group)
-    year_group = is_year_group(group)
-    
+def group_and_sort_pieceworks(qs, context):
+    month_group = context.month_group
+    year_group = context.year_group
+    month = context.month
+    year = context.year
+    selected_year = context.selected_year
+    show_wagon = context.show_wagon
+    order_by = context.order_by
+    direction = context.direction
+
     if month_group:
         if month and year:
             qs = filter_month_year(qs, month=month, year=year, date_field="work_date")
