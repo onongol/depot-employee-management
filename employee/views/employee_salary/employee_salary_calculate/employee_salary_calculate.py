@@ -1,10 +1,20 @@
 from collections import defaultdict
 
-from employee.views.employee_salary.aggregate_piecework import aggregate_piecework
-from employee.views.employee_salary.build_employee_salary import build_employee_salary
-from employee.views.employee_salary.include_daily_salary import add_daily_salary
-from employee.views.employee_salary.merge_piecework import merge_piecework
-from employee.views.employee_salary.piecework_queries import build_piecework_qs
+from employee.views.employee_salary.employee_salary_calculate.aggregate_piecework import (
+    aggregate_piecework,
+)
+from employee.views.employee_salary.employee_salary_calculate.build_employee_salary import (
+    build_employee_salary,
+)
+from employee.views.employee_salary.employee_salary_calculate.include_daily_salary import (
+    add_daily_salary,
+)
+from employee.views.employee_salary.employee_salary_calculate.merge_piecework import (
+    merge_piecework,
+)
+from employee.views.employee_salary.employee_salary_calculate.piecework_queries import (
+    build_piecework_qs,
+)
 
 
 def employee_salary_calculate(
