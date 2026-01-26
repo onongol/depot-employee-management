@@ -1,5 +1,5 @@
 from employee.utils.filters import filter_employees_salary
-from employee.views.employee_salary.employee_salary_calculate import (
+from employee.views.employee_salary.employee_salary_calculate.employee_salary_calculate import (
     employee_salary_calculate,
 )
 from employee.views.employee_salary.employee_salary_prepare import (
