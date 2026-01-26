@@ -14,65 +14,45 @@ from employee.views.daily_work.group.group_and_sort import group_and_sort_daily_
 
 def daily_work_export_excel(request):
     """Export filtered DailyWork list to Excel."""
-    (
-        daily_works,
-        department,
-        job_title,
-        work_name,
-        type_work,
-        wagon_number,
-        type_wagon,
-        type_material,
-        range_date,
-        record_date,
-        group,
-        selected_year,
-        month,
-        year,
-        month_period,
-        order_by,
-        direction,
-        show_wagon,
-        detail_group,
-        month_group,
-        year_group,
-    ) = daily_work_prepare(request)
+    dw_context = daily_work_prepare(request)
 
-    daily_works = filter_daily_works(
-        daily_works,
-        job_title=job_title,
-        work_name=work_name,
-        type_work=type_work,
-        wagon_number=wagon_number,
-        type_wagon=type_wagon,
-        type_material=type_material,
-        range_date=range_date,
-        record_date=record_date,
+    daily_works = dw_context.daily_works
+    show_wagon = dw_context.show_wagon
+    month_group = dw_context.month_group
+    year_group = dw_context.year_group
+
+    daily_works = filter_daily_works(daily_works, context=dw_context)
+
+    daily_works = group_and_sort_daily_works(daily_works, context=dw_context)
+
+    headers = build_headers(
+        show_wagon=show_wagon, month_group=month_group, year_group=year_group
     )
 
-    daily_works = group_and_sort_daily_works(
-        daily_works,
-        group=group,
-        month=month,
-        year=year,
-        selected_year=selected_year,
-        show_wagon=show_wagon,
-        order_by=order_by,
-        direction=direction,
+    data = list(
+        iter_rows(
+            daily_works,
+            show_wagon=show_wagon,
+            month_group=month_group,
+            year_group=year_group,
+        )
     )
 
-    headers = build_headers(department, group=group)
-
-    data = list(iter_rows(daily_works, department, group=group))
-
-    data.append(build_totals_row(daily_works, department, group=group))
+    data.append(
+        build_totals_row(
+            daily_works,
+            show_wagon=show_wagon,
+            month_group=month_group,
+            year_group=year_group,
+        )
+    )
 
     meta = {
         GROUP_MONTH: ("monthly_work.xlsx", _("Monthly Work")),
         GROUP_YEAR: ("yearly_work.xlsx", _("Yearly Work")),
     }
 
-    file_name, title = meta.get(group, ("daily_work.xlsx", _("Daily Work")))
+    file_name, title = meta.get(dw_context.group, ("daily_work.xlsx", _("Daily Work")))
     sheet_title = str(title)
 
     return export_to_excel(data, headers, file_name, sheet_title)
