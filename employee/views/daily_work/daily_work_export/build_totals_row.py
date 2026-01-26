@@ -1,21 +1,23 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.utils.group_modes import is_grouped, is_month_group
 from employee.utils.sum_field import sum_field
-from employee.utils.wagon_department import is_wagon_department
 
 
-def build_totals_row(qs, department, group=None):
+def build_totals_row(qs, show_wagon=False, month_group=None, year_group=None):
     """Build totals row for DailyWork export based on department and grouping."""
+    grouped = month_group or year_group
+
     total_str = str(_("Total"))
     empty = ""
 
-    show_wagon = is_wagon_department(department)
-    empty_cols = 5 if show_wagon else 3  # Work/Position/Type + (optional wagon cols)
+    # Number of empty columns before totals.
+    # 5 if show_wagon: [#, Work, Position, Type, Wagon, Type Wagon]
+    # 3 if not:        [#, Work, Position, Type]
+    empty_cols = 5 if show_wagon else 3
 
-    month_group = is_month_group(group)
-    grouped = is_grouped(group)
-
+    # Number of empty columns after totals.
+    # 2 if month_group: for example, [Month, Year] columns after totals
+    # 1 if not: usually just [Date] or similar
     tail_empties = 2 if month_group else 1
 
     amount_key, time_key, price_key = (
