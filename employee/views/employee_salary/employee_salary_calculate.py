@@ -9,14 +9,15 @@ from employee.views.employee_salary.piecework_queries import build_piecework_qs
 
 def employee_salary_calculate(
     employees,
-    month,
-    year,
-    *,
+    context,
     wagon_number: str | None = None,
-    group_by_wagon: bool = False,
     include_daily_salary: bool = False,
 ):
     """Calculate employee salary totals from piecework, optionally merging DailySalary aggregates."""
+    month = context.month
+    year = context.year
+    group_by_wagon = context.wagon_mode
+
     qs = build_piecework_qs(
         employees=employees,
         month=month,
