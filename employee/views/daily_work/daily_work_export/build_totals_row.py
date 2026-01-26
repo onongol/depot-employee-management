@@ -3,8 +3,11 @@ from django.utils.translation import gettext_lazy as _
 from employee.utils.sum_field import sum_field
 
 
-def build_totals_row(qs, show_wagon=False, month_group=None, year_group=None):
+def build_totals_row(qs, context):
     """Build totals row for DailyWork export based on department and grouping."""
+    show_wagon = context.show_wagon
+    month_group = context.month_group
+    year_group = context.year_group
     grouped = month_group or year_group
 
     total_str = str(_("Total"))
