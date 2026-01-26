@@ -4,7 +4,7 @@ from django.shortcuts import render
 from employee.constants.constants import GROUP_MONTH
 from employee.utils.filters import filter_wagon
 from employee.utils.pagination import paginate_queryset
-from employee.utils.totals import calc_totals_for_group
+from employee.utils.totals_for_group import calc_totals_for_group
 from employee.views.wagon.group.group_and_sort import group_and_sort_wagons
 from employee.views.wagon.wagon_prepare import wagon_prepare
 
