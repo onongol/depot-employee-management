@@ -1,4 +1,4 @@
-def apply_ordering(rows, order_by, direction, *, allowed_fields):
+def apply_ordering(rows, context, *, allowed_fields):
     """
     Sort a list[dict] in memory in a similar way to apply_ordering() for QuerySets.
 
@@ -8,6 +8,8 @@ def apply_ordering(rows, order_by, direction, *, allowed_fields):
     - allowed_fields: whitelist of sortable fields
     - default_key: key function used for the default sort order
     """
+    order_by = context.order_by
+    direction = context.direction
     reverse = direction == "desc"
 
     if order_by not in allowed_fields:
