@@ -1,12 +1,11 @@
-def filter_daily_salaries(
-    queryset,
-    employee_id=None,
-    employee_name=None,
-    job_title=None,
-    salary_date=None,
-    record_date=None,
-):
+def filter_daily_salaries(queryset, context):
     """Reusable filter for DailySalary queryset."""
+    employee_id = context.employee_id
+    employee_name = context.employee_name
+    job_title = context.job_title
+    salary_date = context.salary_date
+    record_date = context.record_date
+
     if employee_id:
         queryset = queryset.filter(employee__employee_id=employee_id)
     if employee_name:
