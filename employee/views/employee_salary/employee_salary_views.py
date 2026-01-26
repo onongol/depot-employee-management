@@ -6,7 +6,7 @@ from django.shortcuts import render
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_WAGON
 from employee.utils.filters import filter_employees_salary
 from employee.utils.pagination import paginate_queryset
-from employee.views.employee_salary.employee_salary_calculate import (
+from employee.views.employee_salary.employee_salary_calculate.employee_salary_calculate import (
     employee_salary_calculate,
 )
 from employee.views.employee_salary.employee_salary_prepare import (
