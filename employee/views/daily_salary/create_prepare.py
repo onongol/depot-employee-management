@@ -5,9 +5,12 @@ from employee.forms import DailySalaryForm
 from employee.models import Employee
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
+from employee.views.daily_salary.daily_salary_create_context import (
+    DailySalaryCreateContext,
+)
 
 
-def build_daily_salary_context(request):
+def daily_salary_create_prepare(request) -> DailySalaryCreateContext:
     """Build context for daily salary creation view."""
     department = get_selected_department(request)
 
@@ -18,18 +21,21 @@ def build_daily_salary_context(request):
             department=department, is_active=True
         ).order_by("employee_id")
 
+    today = timezone.now().date()
+
     # Get distinct job titles for filtering dropdown
     job_titles = get_distinct_values(
         Employee, "job_title", department, department_field="department"
     )
 
-    return {
-        "form": DailySalaryForm(),
-        "object_type": "Daily Salary",
-        "employees": employees,
-        "errors": [],
-        "today": timezone.now().date(),
-        "selected_department": department,
-        "cancel_url": reverse("daily_salary_list"),
-        "job_titles": job_titles,
-    }
+    cancel_url = reverse("daily_salary_list")
+
+    return DailySalaryCreateContext(
+        form=DailySalaryForm(),
+        object_type="Daily Salary",
+        employees=employees,
+        today=today,
+        selected_department=department,
+        cancel_url=cancel_url,
+        job_titles=job_titles,
+    )
