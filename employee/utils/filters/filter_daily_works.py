@@ -4,18 +4,17 @@ from employee.constants.constants import DEFAULT_WAGON_NUMBER, DEFAULT_WAGON_TYP
 from employee.utils.converting_date import parse_date_range
 
 
-def filter_daily_works(
-    queryset,
-    job_title=None,
-    work_name=None,
-    type_work=None,
-    wagon_number=None,
-    type_wagon=None,
-    type_material=None,
-    range_date=None,
-    record_date=None,
-):
+def filter_daily_works(queryset, context):
     """Reusable filter for DailyWork queryset."""
+    work_name = context.work_name
+    job_title = context.job_title
+    type_work = context.type_work
+    wagon_number = context.wagon_number
+    type_wagon = context.type_wagon
+    type_material = context.type_material
+    range_date = context.range_date
+    record_date = context.record_date
+
     if job_title:
         queryset = queryset.filter(job_title=job_title)
     if work_name:
