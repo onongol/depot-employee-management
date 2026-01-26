@@ -5,11 +5,11 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from employee.utils.access import is_creater
-from employee.views.daily_salary.create_prepare import (
+from employee.views.daily_salary.daily_salary_create.create_prepare import (
     daily_salary_create_prepare,
 )
-from employee.views.daily_salary.create_service import create_daily_salary_records
-from employee.views.daily_salary.daily_salary_success import (
+from employee.views.daily_salary.daily_salary_create.create_service import create_daily_salary_records
+from employee.views.daily_salary.daily_salary_create.create_success import (
     send_daily_salary_creation_message,
 )
 
