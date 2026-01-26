@@ -1,8 +1,11 @@
 from employee.utils.get_value import get_value
 
 
-def iter_rows(qs, show_wagon=False, month_group=None, year_group=None):
+def iter_rows(qs, context):
     """Generate rows for DailyWork export (detailed or grouped)."""
+    show_wagon = context.show_wagon
+    month_group = context.month_group
+    year_group = context.year_group
     grouped = month_group or year_group
 
     for i, dw in enumerate(qs, start=1):
