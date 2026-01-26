@@ -1,13 +1,10 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.utils.group_modes import is_month_group, is_year_group
-from employee.utils.wagon_department import is_wagon_department
 
-
-def build_headers(department, group=None):
-    show_wagon = is_wagon_department(department)
-    month_group = is_month_group(group)
-    year_group = is_year_group(group)
+def build_headers(context):
+    show_wagon = context.show_wagon
+    month_group = context.month_group
+    year_group = context.year_group
 
     headers = [
         ("#"),
