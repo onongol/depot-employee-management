@@ -1,3 +1,4 @@
+from tokenize import group
 from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import GROUP_WAGON
@@ -13,13 +14,17 @@ from employee.views.employee_salary.employee_salary_export.format_data import it
 
 def employee_salary_export_pdf(request):
     """Export employee salaries data to PDF."""
-    employee_salaries, group, wagon_mode = get_employee_salaries(request)
+    employee_salaries, es_context = get_employee_salaries(request)
 
-    headers = build_headers(wagon_mode=wagon_mode)
+    department = es_context.selected_department
+
+    safe_department = (department or "all").replace(" ", "_")
+
+    headers = build_headers(context=es_context)
 
     # A4 Landscape ~842pt;
     columns = ["#", "id", "name", "department", "position", "rank"]
-    if wagon_mode:
+    if es_context.wagon_mode:
         columns.append("wagon")
     columns += ["time", "salary", "month", "year"]
 
@@ -45,16 +50,17 @@ def employee_salary_export_pdf(request):
         ("ALIGN", (0, 1), (last_col, -1), "LEFT"),
     ]
 
-    data = list(iter_rows(employee_salaries, wagon_mode=wagon_mode))
+    data = list(iter_rows(employee_salaries, context=es_context))
 
     meta = {
         GROUP_WAGON: ("employee_salaries_wagon.pdf", _("Employee Salaries by Wagon")),
     }
 
     file_name, title = meta.get(
-        group, ("employee_salaries.pdf", _("Employee Salaries"))
+        es_context.group, ("employee_salaries.pdf", _("Employee Salaries"))
     )
-    sheet_title = str(title)
+    file_name = f"{file_name}_{safe_department}.xlsx"
+    sheet_title = f"{title} ({department})"
 
     return export_to_pdf(
         data, headers, col_widths, col_alignments, sheet_title, file_name
