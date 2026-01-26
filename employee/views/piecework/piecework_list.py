@@ -11,7 +11,7 @@ from employee.utils.filters import filter_pieceworks
 from employee.utils.pagination import paginate_queryset
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
-from employee.utils.totals import calc_totals_for_group
+from employee.utils.totals_for_group import calc_totals_for_group
 from employee.views.piecework.group.group_and_sort import group_and_sort_pieceworks
 from employee.views.piecework.piecework_prepare import piecework_prepare
 
