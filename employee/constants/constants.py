@@ -10,13 +10,13 @@ class GroupNames(str, Enum):
 
 # Department list
 class Department(str, Enum):
-    MECHANIC = "Механик"
+    AUTO_UGSRAA = "Авто угсраа"
     AKP = "Авто хяналтын бүс (АКП)"
     ZASVAR_1 = "Засвар 1"
     ZASVAR_2 = "Засвар 2"
-    HOS_DUGUI = "Хос дугуй"
+    MECHANIC = "Механик"
     TERGENTSER = "Тэргэнцэр"
-    AUTO_UGSRAA = "Авто угсраа"
+    HOS_DUGUI = "Хос дугуй"
 
 
 DEPARTMENTS = [dept.value for dept in Department]
