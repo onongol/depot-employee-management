@@ -36,7 +36,7 @@ def daily_salary_prepare(request) -> DailySalaryContext:
 
     return DailySalaryContext(
         daily_salaries=daily_salaries,
-        department=department,
+        selected_department=department,
         employee_id=employee_id,
         employee_name=employee_name,
         job_title=job_title,

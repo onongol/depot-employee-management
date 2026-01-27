@@ -5,7 +5,7 @@ from typing import Any, List, Optional
 @dataclass
 class DailySalaryContext:
     daily_salaries: Any
-    department: Optional[str]
+    selected_department: Optional[str]
     employee_id: Optional[str]
     employee_name: Optional[str]
     job_title: Optional[str]
