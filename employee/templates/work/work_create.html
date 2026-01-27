@@ -6,14 +6,14 @@
     <fieldset class="space-y-4">
         <legend class="sr-only">Create Work Details</legend>
         {% include "includes/department/department_input_hidden.html" %}
-        {% include "includes/form/form_input.html" with id="work_name" label=_("Work Name") name="work_name" type="text" value=form.work_name.value form_errors=form.work_name required=True placeholder=_("Unique name of the work") %}
-        {% include "includes/form/form_select.html" with id="job_title" label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
+        {% include "includes/form/form_input.html" with id=form.work_name.id_for_label label=_("Work Name") name="work_name" type="text" value=form.work_name.value form_errors=form.work_name required=True placeholder=_("Unique name of the work") %}
+        {% include "includes/form/form_select.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
         {% if SHOW_TYPE_WAGON %}
-            {% include "includes/form/form_select.html" with id="type_wagon" label=_("Type Wagon") name="type_wagon" choices=form.type_wagon.field.choices selected=form.type_wagon.value required=False %}
+            {% include "includes/form/form_select.html" with id=form.type_wagon.id_for_label label=_("Type Wagon") name="type_wagon" choices=form.type_wagon.field.choices selected=form.type_wagon.value required=False %}
         {% endif %}
-        {% include "includes/form/form_input.html" with id="type_material"   label=_("Type Material") name="type_material" type="text" value=form.type_material.value placeholder=_("Used at work (Not necessarily)") %}
-        {% include "includes/form/form_input.html" with id="usage_material" label=_("Usage Material") name="usage_material" type="number" value=form.usage_material.field.widget.attrs.value step=form.usage_material.field.widget.attrs.step form_errors=form.usage_material required=True placeholder=_("0.00 if Type Material is not used") %}
-        {% include "includes/form/form_input.html" with id="standard_time" label=_("Standard Time") name="standard_time" type="number" value=form.standard_time.field.widget.attrs.value step=form.standard_time.field.widget.attrs.step form_errors=form.standard_time required=True placeholder="0.000001" %}
-        {% include "includes/form/form_input.html" with id="price" label=_("Price") name="price" type="number" value=form.price.field.widget.attrs.value step=form.price.field.widget.attrs.step form_errors=form.price required=True placeholder="0.01" %}
+        {% include "includes/form/form_input.html" with id=form.type_material.id_for_label   label=_("Type Material") name="type_material" type="text" value=form.type_material.value placeholder=_("Used at work (Not necessarily)") %}
+        {% include "includes/form/form_input.html" with id=form.usage_material.id_for_label label=_("Usage Material") name="usage_material" type="number" value=form.usage_material.field.widget.attrs.value step=form.usage_material.field.widget.attrs.step form_errors=form.usage_material required=True placeholder=_("0.00 if Type Material is not used") %}
+        {% include "includes/form/form_input.html" with id=form.standard_time.id_for_label label=_("Standard Time") name="standard_time" type="number" value=form.standard_time.field.widget.attrs.value step=form.standard_time.field.widget.attrs.step form_errors=form.standard_time required=True placeholder="0.000001" %}
+        {% include "includes/form/form_input.html" with id=form.price.id_for_label label=_("Price") name="price" type="number" value=form.price.field.widget.attrs.value step=form.price.field.widget.attrs.step form_errors=form.price required=True placeholder="0.01" %}
     </fieldset>
 {% endblock %}
