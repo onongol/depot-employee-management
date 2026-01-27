@@ -2,15 +2,14 @@ from employee.constants.constants import DEFAULT_WAGON_TYPE
 from employee.utils.converting_date import parse_date_range
 
 
-def filter_wagon(
-    queryset,
-    wagon_number=None,
-    type_wagon=None,
-    work_name=None,
-    type_work=None,
-    range_date=None,
-):
+def filter_wagon(queryset, context):
     """Reusable filter for Wagon queryset."""
+    wagon_number = context.wagon_number
+    type_wagon = context.type_wagon
+    work_name = context.work_name
+    type_work = context.type_work
+    range_date = context.range_date
+
     if wagon_number:
         queryset = queryset.filter(wagon_number=wagon_number)
     if type_wagon:
