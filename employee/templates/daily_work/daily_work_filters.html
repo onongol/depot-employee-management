@@ -3,21 +3,21 @@
 <form method="get" class="mb-6" aria-labelledby="daily-work-list-title">
     <input type="hidden" name="group" value="{{ group|default:'' }}">
     <div class="flex flex-col md:flex-row gap-4">
-        {% include "includes/filters/filter_input.html" with id=form.work_name.id_for_label label=_("Work Name") name="work_name" type="text" value=request.GET.work_name placeholder=_("Work Name") %}
-        {% include "includes/filters/filter_select.html" with id=form.job_title.id_for_label label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
-        {% include "includes/filters/filter_select.html" with id=form.type_work.id_for_label label=_("Type Work") name="type_work" choices=type_works selected=request.GET.type_work empty_label=_("Types") %}
+        {% include "includes/filters/filter_input.html" with id="id_work_name" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name placeholder=_("Work Name") %}
+        {% include "includes/filters/filter_select.html" with id="id_job_title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
+        {% include "includes/filters/filter_select.html" with id="id_type_work" label=_("Type Work") name="type_work" choices=type_works selected=request.GET.type_work empty_label=_("Types") %}
         {% if show_wagon %}
-            {% include "includes/filters/filter_select.html" with id=form.type_wagon.id_for_label label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagons") %}
-            {% include "includes/filters/filter_input.html" with id=form.wagon_number.id_for_label label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
+            {% include "includes/filters/filter_select.html" with id="id_type_wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagons") %}
+            {% include "includes/filters/filter_input.html" with id="id_wagon_number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
         {% endif %}
         {% if month_group %}
-            {% include "includes/filters/filter_month.html" with id=form.month_period.id_for_label label=_("Month/Year") name="month_period" value=filters.month_period %}
+            {% include "includes/filters/filter_month.html" with id="id_month_period" label=_("Month/Year") name="month_period" value=request.GET.month_period %}
         {% elif year_group %}
-            {% include "includes/filters/filter_select.html" with id=form.year.id_for_label label=_("Year") name="year" choices=years selected=request.GET.year empty_label=_("Years") %}
+            {% include "includes/filters/filter_select.html" with id="id_year" label=_("Year") name="year" choices=years selected=request.GET.year empty_label=_("Years") %}
         {% else %}
-            {% include "includes/filters/filter_date_range.html" with id=form.range_date.id_for_label label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
+            {% include "includes/filters/filter_date_range.html" with id="id_range_date" label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
             {% if not is_employee %}
-                {% include "includes/filters/filter_date.html" with id=form.record_date.id_for_label label=_("Record Date") name="record_date" type="text" value=request.GET.record_date %}
+                {% include "includes/filters/filter_date.html" with id="id_record_date" label=_("Record Date") name="record_date" type="text" value=request.GET.record_date %}
             {% endif %}
         {% endif %}
         {% include "includes/filters/filter_button.html" %}
