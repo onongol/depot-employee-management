@@ -12,47 +12,19 @@ from employee.views.wagon.wagon_prepare import wagon_prepare
 
 
 def wagon_export_excel(request):
-    (
-        dailyworks,
-        wagon_number,
-        type_wagon,
-        work_name,
-        type_work,
-        range_date,
-        department,
-        group,
-        month,
-        year,
-        month_period,
-        order_by,
-        direction,
-        month_group,
-    ) = wagon_prepare(request)
+    w_context = wagon_prepare(request)
 
-    dailyworks = filter_wagon(
-        dailyworks,
-        wagon_number=wagon_number,
-        type_wagon=type_wagon,
-        work_name=work_name,
-        type_work=type_work,
-        range_date=range_date,
-    )
+    daily_works = w_context.daily_works
 
-    totals = calc_totals(dailyworks)
+    daily_works = filter_wagon(daily_works, context=w_context)
+    totals = calc_totals(daily_works)
 
-    wagon_data = group_and_sort_wagons(
-        dailyworks,
-        month_group=month_group,
-        month=month,
-        year=year,
-        order_by=order_by,
-        direction=direction,
-    )
+    wagon_data = group_and_sort_wagons(daily_works, context=w_context)
 
-    headers = build_headers(month_group=month_group)
-    data = list(iter_rows(wagon_data, month_group=month_group))
+    headers = build_headers(context=w_context)
 
-    data.append(build_totals_row(totals, month_group=month_group))
+    data = list(iter_rows(wagon_data, context=w_context))
+    data.append(build_totals_row(totals, context=w_context))
 
     file_name = "wagon.xlsx"
     sheet_title = str(_("Wagon"))
@@ -62,7 +34,7 @@ def wagon_export_excel(request):
     }
 
     file_name, title = meta.get(
-        group, ("wagon_work_daily.xlsx", _("Daily Work for Wagons"))
+        w_context.group, ("wagon_work_daily.xlsx", _("Daily Work for Wagons"))
     )
     sheet_title = str(title)
 
