@@ -1,0 +1,14 @@
+from dataclasses import dataclass, field
+from typing import Any, List, Optional
+
+
+@dataclass
+class EmployeeContext:
+    employees: Any
+    selected_department: Optional[str]
+    employee_id: Optional[str]
+    employee_name: Optional[str]
+    job_title: Optional[str]
+    order_by: Optional[str]
+    direction: Optional[str]
+    job_titles: List[str] = field(default_factory=list)
