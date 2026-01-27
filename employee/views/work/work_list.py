@@ -1,49 +1,30 @@
+from dataclasses import asdict
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
-from employee.models import Work
 from employee.utils.filters import filter_works
 from employee.utils.pagination import paginate_queryset
-from employee.utils.select_department import get_selected_department
-from employee.utils.select_type_wagon import get_type_wagon_filter_values
-from employee.utils.selects import get_distinct_values
 from employee.utils.sorting import apply_ordering
+from employee.views.work.work_prepare import work_prepare
 
 
 @login_required(login_url="login")
 def work_list(request):
     """View to list all works with filtering and pagination."""
-    works = Work.objects.all()
+    work_context = work_prepare(request)
 
-    department = get_selected_department(request)
+    works = work_context.works
 
-    job_title = request.GET.get("job_title")
-    work_name = request.GET.get("work_name")
-    type_wagon = request.GET.get("type_wagon")
-
-    order_by = request.GET.get("order_by")
-    direction = request.GET.get("direction")
-
-    # Apply all filters using a reusable filter function
-    works = filter_works(
-        works,
-        department=department,
-        job_title=job_title,
-        work_name=work_name,
-        type_wagon=type_wagon,
-    )
-
-    # Get distinct job titles for filtering dropdown
-    job_titles = get_distinct_values(
-        Work, "job_title", department, department_field="department"
-    )
-
-    # Get distinct type_wagons for filtering dropdown
-    type_wagons = get_type_wagon_filter_values(department, source_model="work")
+    works = filter_works(works, work_context)
 
     works = apply_ordering(
-        works, order_by, direction, allowed_fields=["work_name"], default=["work_name"]
+        works,
+        work_context.order_by,
+        work_context.direction,
+        allowed_fields=["work_name"],
+        default=["work_name"],
     )
 
     page_obj = paginate_queryset(request, works)
@@ -52,11 +33,9 @@ def work_list(request):
         request,
         "work/work_list.html",
         {
+            **asdict(work_context),
             "works": page_obj,
             "page_obj": page_obj,
-            "job_titles": job_titles,
-            "type_wagons": type_wagons,
-            "selected_department": department,
             "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
         },
     )
