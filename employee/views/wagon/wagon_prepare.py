@@ -3,14 +3,26 @@ from employee.models import DailyWork
 from employee.utils.group_modes import is_month_group
 from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
+from employee.views.wagon.wagon_context import WagonContext
 
 
-def wagon_prepare(request):
+def wagon_prepare(request) -> WagonContext:
     """
     Centralizes parsing of GET params and building the base DailyWork queryset for wagon pages/exports,
     so views can reuse the same inputs before applying filters, grouping, sorting, and pagination.
     """
     department = get_selected_department(request)
+
+    # Base queryset for dailyworks related to wagons
+    daily_works = (
+        DailyWork.objects.select_related("work")
+        .exclude(wagon_number__isnull=True)
+        .exclude(wagon_number=DEFAULT_WAGON_NUMBER)
+    )
+    
+    # Filter by selected department (was missing)
+    if department:
+        daily_works = daily_works.filter(work__department=department)
 
     wagon_number = request.GET.get("wagon_number", "").strip()
     type_wagon = request.GET.get("type_wagon")
@@ -26,30 +38,25 @@ def wagon_prepare(request):
 
     month_group = is_month_group(group)
 
-    # Base queryset for dailyworks related to wagons
-    dailyworks = (
-        DailyWork.objects.select_related("work")
-        .exclude(wagon_number__isnull=True)
-        .exclude(wagon_number=DEFAULT_WAGON_NUMBER)
-    )
+    # Get distinct type_wagon and type_work for filter options
+    type_wagons = daily_works.values_list("type_wagon", flat=True).distinct()
+    type_works = daily_works.values_list("type_work", flat=True).distinct()
 
-    # Filter by selected department (was missing)
-    if department:
-        dailyworks = dailyworks.filter(work__department=department)
-
-    return (
-        dailyworks,
-        wagon_number,
-        type_wagon,
-        work_name,
-        type_work,
-        range_date,
-        department,
-        group,
-        month,
-        year,
-        month_period,
-        order_by,
-        direction,
-        month_group,
+    return WagonContext(
+        daily_works=daily_works,
+        selected_department=department,
+        wagon_number=wagon_number,
+        type_wagon=type_wagon,
+        work_name=work_name,
+        type_work=type_work,
+        range_date=range_date,
+        group=group,
+        month=month,
+        year=year,
+        month_period=month_period,
+        order_by=order_by,
+        direction=direction,
+        month_group=month_group,
+        type_wagons=list(type_wagons),
+        type_works=list(type_works),
     )
