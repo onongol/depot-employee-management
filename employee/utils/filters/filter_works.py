@@ -1,10 +1,13 @@
 from employee.constants.constants import DEFAULT_WAGON_TYPE
 
 
-def filter_works(
-    queryset, department=None, job_title=None, work_name=None, type_wagon=None
-):
+def filter_works(queryset, context):
     """Reusable filter for Work queryset."""
+    department = context.selected_department
+    job_title = context.job_title
+    work_name = context.work_name
+    type_wagon = context.type_wagon
+
     if department:
         queryset = queryset.filter(department=department)
     if job_title:
