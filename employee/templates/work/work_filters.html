@@ -2,10 +2,10 @@
 
 <form method="get" class="mb-6" aria-labelledby="work-list-title">
     <div class="flex flex-col md:flex-row gap-4">
-        {% include "includes/filters/filter_input.html" with id=form.work_name.id_for_label label=_("Work Name") name="work_name" type="text" value=request.GET.work_name %}
-        {% include "includes/filters/filter_select.html" with id=form.job_title.id_for_label label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
+        {% include "includes/filters/filter_input.html" with id="id_work_name" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name %}
+        {% include "includes/filters/filter_select.html" with id="id_job_title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
         {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-            {% include "includes/filters/filter_select.html" with id=form.type_wagon.id_for_label label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagons") %}
+            {% include "includes/filters/filter_select.html" with id="id_type_wagon" label=_("Type Wagon") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Type Wagons") %}
         {% endif %}
         {% include "includes/filters/filter_button.html" %}
     </div>
