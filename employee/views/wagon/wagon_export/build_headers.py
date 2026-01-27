@@ -1,7 +1,9 @@
 from django.utils.translation import gettext_lazy as _
 
 
-def build_headers(month_group=None):
+def build_headers(context):
+    month_group = context.month_group
+
     if month_group:
         headers = [
             ("#"),
