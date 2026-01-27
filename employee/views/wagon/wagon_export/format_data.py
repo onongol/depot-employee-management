@@ -1,4 +1,6 @@
-def iter_rows(qs, month_group=None):
+def iter_rows(qs, context):
+    month_group = context.month_group
+
     for i, item in enumerate(qs, start=1):
         if month_group:
             row = [
