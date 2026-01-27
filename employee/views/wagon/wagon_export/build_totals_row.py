@@ -1,7 +1,9 @@
 from django.utils.translation import gettext_lazy as _
 
 
-def build_totals_row(totals: dict, month_group=None):
+def build_totals_row(totals: dict, context):
+    month_group = context.month_group
+
     total_str = str(_("Total"))
     empty = ""
 
