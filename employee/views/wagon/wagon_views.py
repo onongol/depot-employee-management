@@ -1,3 +1,5 @@
+from dataclasses import asdict
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
@@ -19,89 +21,33 @@ def wagon_list(request):
     4) paginates and renders the table.
     This keeps request parsing and queryset setup consistent across the list and exports.
     """
-    (
-        dailyworks,
-        wagon_number,
-        type_wagon,
-        work_name,
-        type_work,
-        range_date,
-        department,
-        group,
-        month,
-        year,
-        month_period,
-        order_by,
-        direction,
-        month_group,
-    ) = wagon_prepare(request)
+    w_context = wagon_prepare(request)
 
-    # Get distinct type_wagon and type_work for filter options
-    type_wagons = dailyworks.values_list("type_wagon", flat=True).distinct()
-    type_works = dailyworks.values_list("type_work", flat=True).distinct()
+    daily_works = w_context.daily_works
 
-    dailyworks = filter_wagon(
-        dailyworks,
-        wagon_number=wagon_number,
-        type_wagon=type_wagon,
-        work_name=work_name,
-        type_work=type_work,
-        range_date=range_date,
-    )
+    daily_works = filter_wagon(daily_works, context=w_context)
 
     totals = calc_totals_for_group(
-        dailyworks,
-        group=group,
-        month=month,
-        year=year,
+        daily_works,
+        context=w_context,
         date_field="work_date",
     )
 
-    wagon_data = group_and_sort_wagons(
-        dailyworks,
-        month_group=month_group,
-        month=month,
-        year=year,
-        order_by=order_by,
-        direction=direction,
-    )
+    wagon_data = group_and_sort_wagons(daily_works, context=w_context)
 
     page_obj = paginate_queryset(request, wagon_data)
-
-    filters = {
-        "wagon_number": wagon_number or "",
-        "type_wagon": type_wagon or "",
-        "work_name": work_name or "",
-        "type_work": type_work or "",
-        "range_date": range_date or "",
-        "department": department or "",
-        "group": group or "",
-        "month_period": month_period or "",
-    }
 
     return render(
         request,
         "wagon/wagon_list.html",
         {
-            "GROUP_MONTH": GROUP_MONTH,
-            "wagon_number": wagon_number,
-            "type_wagon": type_wagon,
-            "work_name": work_name,
-            "type_work": type_work,
-            "range_date": range_date,
+            **asdict(w_context),
             "wagon_data": wagon_data,
             "rows": page_obj,
             "page_obj": page_obj,
-            "selected_wagon": wagon_number,
-            "selected_department": department,
             "total_amount": totals["total_amount"],
             "total_time": totals["total_time"],
             "total_price": totals["total_price"],
-            "type_wagons": type_wagons,
-            "type_works": type_works,
-            "filters": filters,
-            "group": group,
-            "month_period": month_period,
-            "month_group": month_group,
+            "GROUP_MONTH": GROUP_MONTH,
         },
     )
