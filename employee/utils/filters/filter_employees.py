@@ -1,7 +1,10 @@
-def filter_employees(
-    queryset, department=None, employee_id=None, employee_name=None, job_title=None
-):
+def filter_employees(queryset, context):
     """Reusable filter for Employee queryset."""
+    department = context.selected_department
+    employee_id = context.employee_id
+    employee_name = context.employee_name
+    job_title = context.job_title
+
     if department:
         queryset = queryset.filter(department=department)
     if employee_id:
