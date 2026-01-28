@@ -1,68 +1,55 @@
+from dataclasses import asdict
+
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from employee.constants.constants import DEFAULT_WAGON_NUMBER
-from employee.views.daily_work.daily_work_create.context_builders import (
-    build_daily_piecework_context,
+from employee.views.daily_work.daily_work_create.create_prepare import (
+    daily_work_piecework_create_prepare,
 )
-from employee.views.daily_work.daily_work_create.daily_work_piecework_service import (
-    process_piecework,
+from employee.views.daily_work.daily_work_create.create_service import (
+    create_records,
 )
-from employee.views.daily_work.daily_work_create.daily_work_success import (
-    send_daily_work_piecework_created,
+from employee.views.daily_work.daily_work_create.messages.create_success import (
+    success_creation_message,
+)
+from employee.views.daily_work.daily_work_create.post_data.extract_post_data import (
+    extract_post_data,
 )
 
 
 def daily_work_piecework_create(request):
     """Handle the creation of daily work and piecework entries."""
-    # Build the context for the view
-    context = build_daily_piecework_context(request)
+    context = daily_work_piecework_create_prepare(request)
 
     # PRE-CHECK: no employees available for selected date/department
-    if not context.get("employees"):
-        return render(request, "daily_work/daily_work_piecework_create.html", context)
-
-    # Handle form submission
-    if request.method == "POST":
-        work_date = request.POST.get("work_date")
-        type_work = request.POST.get("type_work")
-        wagon_number = request.POST.get("wagon_number", "").strip()
-        if not wagon_number or wagon_number == DEFAULT_WAGON_NUMBER:
-            wagon_number = None
-        selected_employee_ids = request.POST.getlist("employee_ids")
-        selected_work_ids = request.POST.getlist("work_ids")
-        amounts = {wid: request.POST.get(f"amount_{wid}") for wid in selected_work_ids}
-        job_title = request.POST.get("job_title")
-
-        # Process piecework creation
-        results, works_dict, errors = process_piecework(
-            {
-                "work_date": work_date,
-                "type_work": type_work,
-                "wagon_number": wagon_number,
-                "selected_employee_ids": selected_employee_ids,
-                "selected_work_ids": selected_work_ids,
-                "amounts": amounts,
-                "job_title": job_title,
-            }
+    if not context.employees:
+        return render(
+            request, "daily_work/daily_work_piecework_create.html", asdict(context)
         )
 
-        # If there are errors, re-render the form with error messages
+    # Process form submission: extract data, create records, handle errors, show success message, and redirect to the daily work list
+    if request.method == "POST":
+        post_data = extract_post_data(request)
+        results, works_dict, errors = create_records(request_data=post_data)
+
         if errors:
-            context["errors"] = errors
+            context.errors = errors
             return render(
-                request, "daily_work/daily_work_piecework_create.html", context
+                request,
+                "daily_work/daily_work_piecework_create.html",
+                asdict(context),
             )
 
-        # On successful creation, redirect to the daily work list with a success message
-        send_daily_work_piecework_created(
-            request, results=results, works_dict=works_dict, work_date=work_date
+        success_creation_message(
+            request,
+            results=results,
+            works_dict=works_dict,
+            work_date=post_data.work_date,
         )
 
-        # Redirect to the daily work list with the selected department as a query parameter
-        department = context.get("selected_department")
-
+        department = context.selected_department
         return redirect(f"{reverse('daily_work_list')}?department={department}")
 
-    # Render the template with all context data
-    return render(request, "daily_work/daily_work_piecework_create.html", context)
+    return render(
+        request, "daily_work/daily_work_piecework_create.html", asdict(context)
+    )
