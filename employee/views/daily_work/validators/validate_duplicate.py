@@ -21,24 +21,25 @@ def validate_duplicate(
     wagon_number = normalize_wagon_number(wagon_number)
 
     # Check for existing Piecework entries that would duplicate the new ones
-    qs = Piecework.objects.filter(
+    pieceworks = Piecework.objects.filter(
         employee__employee_id__in=selected_employee_ids,
         work_id__in=selected_work_ids,
         type_work=type_work,
         work_date=work_date,
     )
+    
     if wagon_number is None:
-        qs = qs.filter(wagon_number__isnull=True)
+        pieceworks = pieceworks.filter(wagon_number__isnull=True)
     else:
-        qs = qs.filter(wagon_number=wagon_number)
+        pieceworks = pieceworks.filter(wagon_number=wagon_number)
 
-    if not qs.exists():
+    if not pieceworks.exists():
         return errors
 
     # Prepare error message with existing entries
     pairs = {
-        f"{pw.employee.employee_id}/{pw.employee.name} — {pw.work.work_name}"
-        for pw in qs.select_related("employee", "work")
+        f"{piecework.employee.employee_id}/{piecework.employee.name} — {piecework.work.work_name}"
+        for piecework in pieceworks.select_related("employee", "work")
     }
 
     errors.append(
