@@ -14,6 +14,8 @@ def daily_salary_create_prepare(request) -> DailySalaryCreateContext:
     """Build context for daily salary creation view."""
     department = get_selected_department(request)
 
+    today = timezone.now().date()
+
     # Filter employees by selected department, or show none if not selected
     employees = Employee.objects.none()
     if department:
@@ -21,14 +23,10 @@ def daily_salary_create_prepare(request) -> DailySalaryCreateContext:
             department=department, is_active=True
         ).order_by("employee_id")
 
-    today = timezone.now().date()
-
     # Get distinct job titles for filtering dropdown
     job_titles = get_distinct_values(
         Employee, "job_title", department, department_field="department"
     )
-
-    cancel_url = reverse("daily_salary_list")
 
     return DailySalaryCreateContext(
         form=DailySalaryForm(),
@@ -36,6 +34,6 @@ def daily_salary_create_prepare(request) -> DailySalaryCreateContext:
         employees=employees,
         today=today,
         selected_department=department,
-        cancel_url=cancel_url,
+        cancel_url=reverse("daily_salary_list"),
         job_titles=job_titles,
     )
