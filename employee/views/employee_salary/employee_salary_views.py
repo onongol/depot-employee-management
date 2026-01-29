@@ -6,8 +6,8 @@ from django.shortcuts import render
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, GROUP_WAGON
 from employee.utils.filters import filter_employees_salary
 from employee.utils.pagination import paginate_queryset
-from employee.views.employee_salary.employee_salary_calculate.employee_salary_calculate import (
-    employee_salary_calculate,
+from employee.views.employee_salary.calculation.calculate_employee_salaries import (
+    calculate_employee_salaries,
 )
 from employee.views.employee_salary.employee_salary_prepare import (
     employee_salaries_prepare,
@@ -24,7 +24,7 @@ def employee_salary_list(request):
 
     employees = filter_employees_salary(employees, context=es_context)
 
-    employee_salaries = employee_salary_calculate(
+    employee_salaries = calculate_employee_salaries(
         employees,
         context=es_context,
         wagon_number=es_context.wagon_number if es_context.wagon_mode else None,
