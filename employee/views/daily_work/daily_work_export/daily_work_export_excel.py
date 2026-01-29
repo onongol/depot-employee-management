@@ -14,29 +14,28 @@ from employee.views.daily_work.group.group_and_sort import group_and_sort_daily_
 
 def daily_work_export_excel(request):
     """Export filtered DailyWork list to Excel."""
-    dw_context = daily_work_prepare(request)
+    context = daily_work_prepare(request)
 
-    daily_works = dw_context.daily_works
-    department = dw_context.selected_department
+    daily_works = context.daily_works
+    department = context.selected_department
 
     safe_department = (department or "all").replace(" ", "_")
 
-    daily_works = filter_daily_works(daily_works, context=dw_context)
+    daily_works = filter_daily_works(daily_works, context=context)  
+    daily_works = group_and_sort_daily_works(daily_works, context=context)
 
-    daily_works = group_and_sort_daily_works(daily_works, context=dw_context)
+    headers = build_headers(context=context)
 
-    headers = build_headers(context=dw_context)
+    data = list(iter_rows(daily_works, context=context))
 
-    data = list(iter_rows(daily_works, context=dw_context))
-
-    data.append(build_totals_row(daily_works, context=dw_context))
+    data.append(build_totals_row(daily_works, context=context))
 
     meta = {
         GROUP_MONTH: ("monthly_work", _("Monthly Work")),
         GROUP_YEAR: ("yearly_work", _("Yearly Work")),
     }
 
-    file_name, title = meta.get(dw_context.group, ("daily_work", _("Daily Work")))
+    file_name, title = meta.get(context.group, ("daily_work", _("Daily Work")))
     file_name = f"{file_name}_{safe_department}.xlsx"
     sheet_title = f"{title} ({department})"
 
