@@ -1,6 +1,8 @@
 import logging
 from decimal import Decimal
 
+from employee.services import sync_single_piecework
+
 
 def sync_piecework_with_dailywork(dailywork):
     """
@@ -20,9 +22,6 @@ def sync_piecework_with_dailywork(dailywork):
     try:
         # Local imports to avoid circular import issues
         from employee.models import DailySalary, Piecework
-        from employee.views.piecework.calculation.calculate_piecework_update import (
-            calculate_piecework_update,
-        )
 
         # Get department from the related Work
         department = getattr(dailywork.work, "department", None)
@@ -35,48 +34,8 @@ def sync_piecework_with_dailywork(dailywork):
         # Find all Piecework entries linked to this DailyWork
         related_pieceworks = Piecework.objects.filter(daily_work=dailywork)
 
-        for pw in related_pieceworks:
-            # Synchronize fields from DailyWork to Piecework
-            pw.type_work = dailywork.type_work
-            pw.wagon_number = dailywork.wagon_number
-            pw.type_wagon = dailywork.type_wagon
-            pw.job_title = dailywork.job_title
-            pw.amount = dailywork.amount
-            pw.work_date = dailywork.work_date
-
-            # Calculate amount_time for Piecework
-            std_time = getattr(dailywork.work, "standard_time", None)
-            std_time_dec = Decimal(str(std_time or 0))
-            amt = pw.amount or Decimal("0.000000")
-            pw.amount_time = (std_time_dec * amt).quantize(Decimal("0.000000"))
-
-            # Get the DailySalary for the Piecework's employee on the work_date
-            daily_salary = DailySalary.objects.filter(
-                employee=pw.employee, salary_date=dailywork.work_date
-            ).first()
-
-            # Recalculate amount_price
-            new_price = calculate_piecework_update(
-                dailywork.work, pw.amount, daily_salary, employees_salary
-            )
-
-            # Update amount_price if changed
-            if pw.amount_price != new_price:
-                pw.amount_price = new_price
-
-            # Save the updated Piecework
-            pw.save(
-                update_fields=[
-                    "type_work",
-                    "wagon_number",
-                    "type_wagon",
-                    "job_title",
-                    "amount",
-                    "amount_time",
-                    "amount_price",
-                    "work_date",
-                ]
-            )
+        for piecework in related_pieceworks:
+            sync_single_piecework(piecework, dailywork, employees_salary)
 
     except Exception as e:
         # Don't break primary save if update fails; log the problem
