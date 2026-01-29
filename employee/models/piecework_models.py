@@ -15,9 +15,9 @@ from employee.models.models_mixins.display_mixins import (
     TypeWagonDisplayMixin,
     WagonNumberDisplayMixin,
 )
-from employee.services.daily_work_canculate import (
-    canculate_amount_material,
-    canculate_amount_time,
+from employee.services.daily_work_calculations import (
+    calculate_material_amount,
+    calculate_time_amount,
 )
 from employee.services.normalizes import (
     normalize_job_title,
@@ -145,8 +145,8 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         if self.work:
             self.work_name = snapshot_work_name(self.work)
 
-        self.amount_time = canculate_amount_time(self.work, self.amount or Decimal("0"))
-        self.amount_material = canculate_amount_material(
+        self.amount_time = calculate_time_amount(self.work, self.amount or Decimal("0"))
+        self.amount_material = calculate_material_amount(
             self.work, self.amount or Decimal("0")
         )
 
