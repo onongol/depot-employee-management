@@ -14,17 +14,17 @@ from employee.views.employee_salary.employee_salary_export.format_data import it
 
 def employee_salary_export_pdf(request):
     """Export employee salaries data to PDF."""
-    employee_salaries, es_context = get_employee_salaries(request)
+    employee_salaries, context = get_employee_salaries(request)
 
-    department = es_context.selected_department
+    department = context.selected_department
 
     safe_department = (department or "all").replace(" ", "_")
 
-    headers = build_headers(context=es_context)
+    headers = build_headers(context=context)
 
     # A4 Landscape ~842pt;
     columns = ["#", "id", "name", "department", "position", "rank"]
-    if es_context.wagon_mode:
+    if context.wagon_mode:
         columns.append("wagon")
     columns += ["time", "salary", "month", "year"]
 
@@ -50,14 +50,14 @@ def employee_salary_export_pdf(request):
         ("ALIGN", (0, 1), (last_col, -1), "LEFT"),
     ]
 
-    data = list(iter_rows(employee_salaries, context=es_context))
+    data = list(iter_rows(employee_salaries, context=context))
 
     meta = {
         GROUP_WAGON: ("employee_salaries_wagon.pdf", _("Employee Salaries by Wagon")),
     }
 
     file_name, title = meta.get(
-        es_context.group, ("employee_salaries.pdf", _("Employee Salaries"))
+        context.group, ("employee_salaries.pdf", _("Employee Salaries"))
     )
     file_name = f"{file_name}_{safe_department}.xlsx"
     sheet_title = f"{title} ({department})"
