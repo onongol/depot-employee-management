@@ -12,19 +12,19 @@ from employee.views.wagon.wagon_prepare import wagon_prepare
 
 
 def wagon_export_excel(request):
-    w_context = wagon_prepare(request)
+    context = wagon_prepare(request)
 
-    daily_works = w_context.daily_works
+    daily_works = context.daily_works
 
-    daily_works = filter_wagon(daily_works, context=w_context)
+    daily_works = filter_wagon(daily_works, context=context)
     totals = calc_totals(daily_works)
 
-    wagon_data = group_and_sort_wagons(daily_works, context=w_context)
+    wagon_data = group_and_sort_wagons(daily_works, context=context)
 
-    headers = build_headers(context=w_context)
+    headers = build_headers(context=context)
 
-    data = list(iter_rows(wagon_data, context=w_context))
-    data.append(build_totals_row(totals, context=w_context))
+    data = list(iter_rows(wagon_data, context=context))
+    data.append(build_totals_row(totals, context=context))
 
     file_name = "wagon.xlsx"
     sheet_title = str(_("Wagon"))
@@ -34,7 +34,7 @@ def wagon_export_excel(request):
     }
 
     file_name, title = meta.get(
-        w_context.group, ("wagon_work_daily.xlsx", _("Daily Work for Wagons"))
+        context.group, ("wagon_work_daily.xlsx", _("Daily Work for Wagons"))
     )
     sheet_title = str(title)
 
