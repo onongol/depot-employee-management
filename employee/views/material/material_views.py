@@ -17,19 +17,19 @@ from employee.views.material.material_prepare import material_prepare
 def material_list(request):
     """View for calculating and listing material usage in piecework records,
     with filtering and pagination."""
-    m_context = material_prepare(request)
+    context = material_prepare(request)
 
-    daily_works = m_context.daily_works
+    daily_works = context.daily_works
 
-    daily_works = filter_material(daily_works, context=m_context)
+    daily_works = filter_material(daily_works, context=context)
 
     # Group and sum duplicate materials
     daily_works = group_and_sum_materials(daily_works)
 
     daily_works = apply_ordering(
         daily_works,
-        order_by=m_context.order_by,
-        direction=m_context.direction,
+        order_by=context.order_by,
+        direction=context.direction,
         allowed_fields=["work_date", "work__work_name", "work__type_material"],
         default="-work_date",
     )
@@ -43,7 +43,7 @@ def material_list(request):
         request,
         "material/material_list.html",
         {
-            **asdict(m_context),
+            **asdict(context),
             "daily_works": page_obj.object_list,
             "page_obj": page_obj,
             "sum_amount": sum_amount,
