@@ -7,8 +7,8 @@ from employee.mixins.context_mixins import PieceworkContextMixin
 from employee.mixins.permissions_mixins import OnlyAdminMixin
 from employee.models import DailySalary
 from employee.utils.select_department import get_selected_department
-from employee.views.piecework.calculation.piecework_calculation_update import (
-    piecework_calculate_update,
+from employee.views.piecework.calculation.calculate_piecework_update import (
+    calculate_piecework_update,
 )
 
 
@@ -50,7 +50,7 @@ class PieceworkUpdateView(
         )
 
         # Calculate amount_price using business logic function
-        amount_price = piecework_calculate_update(
+        amount_price = calculate_piecework_update(
             work, amount, daily_salary, employees_salary
         )
 
