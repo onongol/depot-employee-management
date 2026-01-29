@@ -7,7 +7,7 @@ from employee.views.daily_work.daily_work_create.daily_work_create_entries impor
 from employee.views.daily_work.daily_work_create.piecework_create_bulk import (
     piecework_create_bulk,
 )
-from employee.views.daily_work.validators.validator_create import CreateValidator
+from employee.views.daily_work.validators.validate_create import CreateValidator
 
 
 def create_records(request_data):
