@@ -12,29 +12,29 @@ from employee.views.piecework.piecework_prepare import piecework_prepare
 
 def piecework_export_excel(request):
     """Export filtered Piecework queryset to Excel."""
-    pw_context = piecework_prepare(request)
+    context = piecework_prepare(request)
 
-    pieceworks = pw_context.pieceworks
-    department = pw_context.selected_department
+    pieceworks = context.pieceworks
+    department = context.selected_department
 
     safe_department = (department or "all").replace(" ", "_")
 
-    pieceworks = filter_pieceworks(pieceworks, context=pw_context)
+    pieceworks = filter_pieceworks(pieceworks, context=context)
 
-    pieceworks = group_and_sort_pieceworks(pieceworks, context=pw_context)
+    pieceworks = group_and_sort_pieceworks(pieceworks, context=context)
 
-    headers = build_headers(context=pw_context)
+    headers = build_headers(context=context)
 
-    data = list(iter_rows(pieceworks, context=pw_context))
+    data = list(iter_rows(pieceworks, context=context))
 
-    data.append(build_totals_row(pieceworks, context=pw_context))
+    data.append(build_totals_row(pieceworks, context=context))
 
     meta = {
         GROUP_MONTH: ("monthly_piecework", _("Monthly Piecework")),
         GROUP_YEAR: ("yearly_piecework", _("Yearly Piecework")),
     }
 
-    file_name, title = meta.get(pw_context.group, ("piecework", _("Piecework")))
+    file_name, title = meta.get(context.group, ("piecework", _("Piecework")))
     file_name = f"{file_name}_{safe_department}.xlsx"
     sheet_title = f"{title} ({department})"
 
