@@ -21,19 +21,19 @@ def wagon_list(request):
     4) paginates and renders the table.
     This keeps request parsing and queryset setup consistent across the list and exports.
     """
-    w_context = wagon_prepare(request)
+    context = wagon_prepare(request)
 
-    daily_works = w_context.daily_works
+    daily_works = context.daily_works
 
-    daily_works = filter_wagon(daily_works, context=w_context)
+    daily_works = filter_wagon(daily_works, context=context)
 
     totals = calc_totals_for_group(
         daily_works,
-        context=w_context,
+        context=context,
         date_field="work_date",
     )
 
-    wagon_data = group_and_sort_wagons(daily_works, context=w_context)
+    wagon_data = group_and_sort_wagons(daily_works, context=context)
 
     page_obj = paginate_queryset(request, wagon_data)
 
@@ -41,7 +41,7 @@ def wagon_list(request):
         request,
         "wagon/wagon_list.html",
         {
-            **asdict(w_context),
+            **asdict(context),
             "wagon_data": wagon_data,
             "rows": page_obj,
             "page_obj": page_obj,
