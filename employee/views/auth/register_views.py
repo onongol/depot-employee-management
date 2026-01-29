@@ -1,33 +1,9 @@
 from django.contrib import messages
-from django.contrib.auth.models import Group
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
-from employee.constants.constants import GroupNames
 from employee.forms.register_forms import CustomUserCreationForm
-from employee.models import Employee, Master, Payroll
-
-
-def link_user_to_instance(user, instance, group_name):
-    """Link user to the given instance and assign the appropriate group."""
-    group, _ = Group.objects.get_or_create(name=group_name)
-    user.groups.add(group)
-    instance.user = user
-    instance.save()
-
-
-def find_instance_by_id(register_id):
-    """Find the instance and corresponding group by the given register ID."""
-    for model, id_field, group_name in [
-        (Employee, "employee_id", GroupNames.EMPLOYEES.value),
-        (Master, "master_id", GroupNames.MASTERS.value),
-        (Payroll, "payroll_id", GroupNames.PAYROLLS.value),
-    ]:
-        # Find the instance by ID
-        instance = model.objects.filter(**{id_field: register_id}).first()
-        if instance:
-            return instance, group_name
-    return None, None
+from employee.views.auth.services import find_instance_by_id, link_user_to_instance
 
 
 def register_view(request):
@@ -36,6 +12,7 @@ def register_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             register_id = form.cleaned_data.get("employee_id")
+
             # Try to find the corresponding instance (Employee, Master, or Payroll) by ID
             instance, group_name = find_instance_by_id(register_id)
             if instance:
@@ -61,6 +38,7 @@ def register_view(request):
                         "Your ID is not registered. Check your ID. Contact the administrator."
                     ),
                 )
+                
         return render(request, "auth/register.html", {"form": form})
     else:
         form = CustomUserCreationForm()
