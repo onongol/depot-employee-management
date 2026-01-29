@@ -13,16 +13,15 @@ from employee.views.work.work_prepare import work_prepare
 @login_required(login_url="login")
 def work_list(request):
     """View to list all works with filtering and pagination."""
-    work_context = work_prepare(request)
+    context = work_prepare(request)
 
-    works = work_context.works
+    works = context.works
 
-    works = filter_works(works, work_context)
-
+    works = filter_works(works, context=context)
     works = apply_ordering(
         works,
-        work_context.order_by,
-        work_context.direction,
+        context.order_by,
+        context.direction,
         allowed_fields=["work_name"],
         default=["work_name"],
     )
@@ -33,7 +32,7 @@ def work_list(request):
         request,
         "work/work_list.html",
         {
-            **asdict(work_context),
+            **asdict(context),
             "works": page_obj,
             "page_obj": page_obj,
             "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
