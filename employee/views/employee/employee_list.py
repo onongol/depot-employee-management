@@ -12,16 +12,16 @@ from employee.views.employee.employee_prepare import employee_prepare
 @login_required(login_url="login")
 def employee_list(request):
     """View to list employees. Workers see only their own record."""
-    e_context = employee_prepare(request)
+    context = employee_prepare(request)
 
-    employees = e_context.employees
+    employees = context.employees
 
-    employees = filter_employees(employees, context=e_context)
+    employees = filter_employees(employees, context=context)
 
     employees = apply_ordering(
         employees,
-        e_context.order_by,
-        e_context.direction,
+        context.order_by,
+        context.direction,
         allowed_fields=["employee_id"],
         default=["employee_id"],
     )
@@ -32,7 +32,7 @@ def employee_list(request):
         request,
         "employee/employee_list.html",
         {
-            **asdict(e_context),
+            **asdict(context),
             "employees": page_obj,
             "page_obj": page_obj,
         },
