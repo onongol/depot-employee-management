@@ -20,8 +20,8 @@ def sync_piecework_with_dailywork(dailywork):
     try:
         # Local imports to avoid circular import issues
         from employee.models import DailySalary, Piecework
-        from employee.views.daily_work.daily_work_create.calculation.piecework_calculation import (
-            piecework_calculate_update,
+        from employee.views.piecework.calculation.calculate_piecework_update import (
+            calculate_piecework_update,
         )
 
         # Get department from the related Work
@@ -56,7 +56,7 @@ def sync_piecework_with_dailywork(dailywork):
             ).first()
 
             # Recalculate amount_price
-            new_price = piecework_calculate_update(
+            new_price = calculate_piecework_update(
                 dailywork.work, pw.amount, daily_salary, employees_salary
             )
 
