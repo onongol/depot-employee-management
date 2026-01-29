@@ -85,9 +85,7 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     )
 
     # Prepare table data: first row is headers, then data rows
-    table_data = [
-        [Paragraph(str(h), header_style) for h in headers]  # Title Paragraph
-    ]
+    table_data = [[Paragraph(str(h), header_style) for h in headers]]
     for row in data:
         table_data.append([Paragraph(str(cell), cell_style) for cell in row])
 
@@ -131,6 +129,7 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
         page_num_text = f"{doc.page}"
         canvas.saveState()
         canvas.setFont(FONT_NAME, 9)
+
         # Draw the page number at the bottom right
         canvas.drawRightString(doc.pagesize[0] - 40, 20, page_num_text)
         canvas.restoreState()
@@ -138,6 +137,7 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     # Build the PDF document with the elements and page number callback
     doc.build(elements, onFirstPage=add_page_number, onLaterPages=add_page_number)
     buffer.seek(0)
+
     # Prepare the HTTP response with the PDF file
     response = HttpResponse(buffer, content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="{quote(filename)}"'
