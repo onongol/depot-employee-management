@@ -18,19 +18,18 @@ from employee.views.daily_work.group.group_and_sort import group_and_sort_daily_
 @login_required(login_url="login")
 def daily_work_list(request):
     """List daily work entries with filtering and pagination."""
-    dw_context = daily_work_prepare(request)
+    context = daily_work_prepare(request)
 
-    daily_works = dw_context.daily_works
+    daily_works = context.daily_works
 
-    daily_works = filter_daily_works(daily_works, context=dw_context)
-
+    daily_works = filter_daily_works(daily_works, context=context)
     totals = calc_totals_for_group(
         daily_works,
-        context=dw_context,
+        context=context,
         date_field="work_date",
     )
 
-    daily_works = group_and_sort_daily_works(daily_works, context=dw_context)
+    daily_works = group_and_sort_daily_works(daily_works, context=context)
 
     page_obj = paginate_queryset(request, daily_works)
 
@@ -38,7 +37,7 @@ def daily_work_list(request):
         request,
         "daily_work/daily_work_list.html",
         {
-            **asdict(dw_context),
+            **asdict(context),
             "daily_works": page_obj,
             "page_obj": page_obj,
             "totals": totals,
