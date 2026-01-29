@@ -7,10 +7,10 @@ from employee.constants.constants import (
     JOB_TITLE_CHOICES,
     RANK_CHOICES,
 )
-from employee.services.employee_salary_calculate import (
-    get_total_piecework_amount,
-    get_total_salary,
-    get_total_salary_day,
+from employee.services.employee_salary_single import (
+    get_employee_total_piecework_amount,
+    get_employee_total_salary,
+    get_employee_total_salary_day,
 )
 
 
@@ -51,10 +51,10 @@ class Employee(models.Model):
 
     # Domain/business helpers
     def get_total_salary_day(self, month, year):
-        return get_total_salary_day(self, month, year)
+        return get_employee_total_salary_day(self, month, year)
 
     def get_total_piecework_amount(self, month, year):
-        return get_total_piecework_amount(self, month, year)
+        return get_employee_total_piecework_amount(self, month, year)
 
     def get_total_salary(self, month, year):
-        return get_total_salary(self, month, year)
+        return get_employee_total_salary(self, month, year)
