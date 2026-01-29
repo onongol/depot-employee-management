@@ -18,19 +18,19 @@ from employee.views.piecework.piecework_prepare import piecework_prepare
 @login_required(login_url="login")
 def piecework_list(request):
     """View to list all piecework records with filtering and pagination."""
-    pw_context = piecework_prepare(request)
+    context = piecework_prepare(request)
 
-    pieceworks = pw_context.pieceworks
+    pieceworks = context.pieceworks
 
-    pieceworks = filter_pieceworks(pieceworks, context=pw_context)
+    pieceworks = filter_pieceworks(pieceworks, context=context)
 
     totals = calc_totals_for_group(
         pieceworks,
-        context=pw_context,
+        context=context,
         date_field="work_date",
     )
 
-    pieceworks = group_and_sort_pieceworks(pieceworks, context=pw_context)
+    pieceworks = group_and_sort_pieceworks(pieceworks, context=context)
 
     page_obj = paginate_queryset(request, pieceworks)
 
@@ -38,7 +38,7 @@ def piecework_list(request):
         request,
         "piecework/piecework_list.html",
         {
-            **asdict(pw_context),
+            **asdict(context),
             "pieceworks": page_obj,
             "page_obj": page_obj,
             "totals": totals,
