@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 
 
-def validate_required(selected_ids, salary_date, hours_per_day):
+def validate_daily_salary_required(selected_ids, salary_date, hours_per_day):
     """Validate required fields for daily salary creation."""
     errors = []
 
