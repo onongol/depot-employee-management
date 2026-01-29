@@ -14,10 +14,10 @@ from employee.models.models_mixins.display_mixins import (
     WagonNumberDisplayMixin,
 )
 from employee.models.work_models import Work
-from employee.services.daily_work_canculate import (
-    canculate_amount_material,
-    canculate_amount_price,
-    canculate_amount_time,
+from employee.services.daily_work_calculations import (
+    calculate_material_amount,
+    calculate_price_amount,
+    calculate_time_amount,
 )
 from employee.services.daily_work_sync import sync_piecework_with_dailywork
 from employee.services.normalizes import (
@@ -113,11 +113,11 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
             self.work_name = snapshot_work_name(self.work)
             self.department = snapshot_department(self.work)
 
-        self.amount_time = canculate_amount_time(self.work, self.amount or Decimal("0"))
-        self.amount_material = canculate_amount_material(
+        self.amount_time = calculate_time_amount(self.work, self.amount or Decimal("0"))
+        self.amount_material = calculate_material_amount(
             self.work, self.amount or Decimal("0")
         )
-        self.amount_price = canculate_amount_price(
+        self.amount_price = calculate_price_amount(
             self.work, self.amount or Decimal("0")
         )
 
