@@ -11,12 +11,12 @@ from employee.views.material.material_prepare import material_prepare
 
 def material_export_excel(request):
     """Export calculation materials data to Excel."""
-    m_context = material_prepare(request)
+    context = material_prepare(request)
 
-    daily_works = m_context.daily_works
+    daily_works = context.daily_works
 
-    daily_works = filter_material(daily_works, context=m_context)
-
+    daily_works = filter_material(daily_works, context=context)
+    
     daily_works = group_and_sum_materials(daily_works)
 
     headers = build_headers()
