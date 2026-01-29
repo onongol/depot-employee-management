@@ -18,21 +18,20 @@ from employee.views.employee_salary.employee_salary_sort import apply_ordering
 @login_required(login_url="login")
 def employee_salary_list(request):
     """View to list all employee salaries with filters and pagination."""
-    es_context = employee_salaries_prepare(request)
+    context = employee_salaries_prepare(request)
 
-    employees = es_context.employees
+    employees = context.employees
 
-    employees = filter_employees_salary(employees, context=es_context)
-
+    employees = filter_employees_salary(employees, context=context)
     employee_salaries = calculate_employee_salaries(
         employees,
-        context=es_context,
-        wagon_number=es_context.wagon_number if es_context.wagon_mode else None,
+        context=context,
+        wagon_number=context.wagon_number if context.wagon_mode else None,
     )
 
     apply_ordering(
         employee_salaries,
-        context=es_context,
+        context=context,
         allowed_fields=["employee_id", "month", "year"],
     )
 
@@ -42,7 +41,7 @@ def employee_salary_list(request):
         request,
         "employee_salary/employee_salary_list.html",
         {
-            **asdict(es_context),
+            **asdict(context),
             "employee_salaries": page_obj,
             "page_obj": page_obj,
             "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
