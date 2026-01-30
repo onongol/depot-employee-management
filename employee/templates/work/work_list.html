@@ -5,7 +5,11 @@
 {% block content %}
     {% url 'work_create' as create_url %}
     <!-- Header -->
-    {% include "includes/components/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url %}
+    {% if not is_master %}
+        {% include "includes/components/list_header.html" with header_id="work-list-title" title=selected_department create_url=create_url %}
+    {% else %}
+        {% include "includes/components/list_header.html" with header_id="work-list-title" title=selected_department only %}
+    {% endif %}
     <!-- Filter Form -->
     {% include "work/work_filters.html" %}
     <!-- Messages -->
