@@ -7,6 +7,7 @@ from employee.utils.converting_date import format_date
 from employee.utils.select_department import get_selected_department
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
+from employee.utils.wagon_department import is_wagon_department
 from employee.views.daily_work.daily_work_create.daily_work_create_context import (
     DailyWorkPieceworkCreateContext,
 )
@@ -15,6 +16,8 @@ from employee.views.daily_work.daily_work_create.daily_work_create_context impor
 def daily_work_piecework_create_prepare(request) -> DailyWorkPieceworkCreateContext:
     """Build context for daily work and piecework views."""
     department = get_selected_department(request)
+
+    show_wagon = is_wagon_department(department)
 
     today = timezone.now().date()
 
@@ -67,4 +70,5 @@ def daily_work_piecework_create_prepare(request) -> DailyWorkPieceworkCreateCont
         existing_pieceworks=existing_pieceworks,
         job_titles=job_titles,
         type_wagons=type_wagons,
+        show_wagon=show_wagon,
     )

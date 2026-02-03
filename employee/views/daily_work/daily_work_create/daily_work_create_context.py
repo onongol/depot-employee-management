@@ -16,3 +16,4 @@ class DailyWorkPieceworkCreateContext:
     existing_pieceworks: List[dict] = field(default_factory=list)
     job_titles: List[str] = field(default_factory=list)
     type_wagons: List[str] = field(default_factory=list)
+    show_wagon: bool = False
