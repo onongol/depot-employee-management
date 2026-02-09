@@ -23,7 +23,12 @@ class EmployeeCreateView(
     login_url = "login"
     form_class = EmployeeForm
     template_name = "employee/employee_create.html"
-    success_message = _("Employee %(employee_id)s/%(name)s created successfully.")
+    success_message = _("Created %(object_name)s")
+
+    def get_success_message(self, _cleaned_data):
+        return self.success_message % {
+            "object_name": self.get_object_name(self.object),
+        }
 
 
 class EmployeeUpdateView(
@@ -37,7 +42,7 @@ class EmployeeUpdateView(
     login_url = "login"
     form_class = UpdateEmployeeForm
     template_name = "employee/employee_update.html"
-    success_message = _("Employee updated successfully.")
+    success_message = _("Updated")
 
 
 class EmployeeDeleteView(
@@ -58,6 +63,3 @@ class EmployeeDeleteView(
 
     def get_redirect_url(self):
         return self.success_url
-
-    def get_object_name(self):
-        return f"{self.object.employee_id}/{self.object.name}"
