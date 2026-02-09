@@ -8,13 +8,14 @@ def get_employees_preview(pieceworks, limit=10):
     pieceworks_count = len(pieceworks)
 
     emp_preview = [
-        f"{pw.employee.employee_id}/{pw.employee.name or ''}"
+        str(pw.employee)
         for pw in pieceworks[:limit]
+        if getattr(pw, "employee", None)
     ]
     emp_tail = (
         ""
         if pieceworks_count <= limit
-        else _(" … and %(n)s more") % {"n": pieceworks_count - limit}
+        else _(" ... and %(n)s more") % {"n": pieceworks_count - limit}
     )
 
     employees_summary = ", ".join(emp_preview) + (emp_tail or "")
