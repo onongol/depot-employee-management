@@ -6,16 +6,16 @@ def build_headers(context):
     show_wagon = context.show_wagon
     month_group = context.month_group
     year_group = context.year_group
-    
+
     headers = [
         ("#"),
         _("Work"),
         _("Position"),
-        _("Type"),
+        _("Work Type"),
     ]
 
     if show_wagon:
-        headers += [_("Wagon"), _("Type Wagon")]
+        headers += [_("Wagon Type"), _("Wagon Number")]
 
     headers += [
         _("Amount"),
