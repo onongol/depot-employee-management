@@ -1,6 +1,5 @@
 <div class="flex flex-col md:flex-row gap-4 mt-4 mb-4">
     {% include "includes/filters/filter_input.html" with id="id_work-search" label=_("Work") name="work_name" type="text" value=request.GET.work_name placeholder=_("Work Name") data_table="works-table-body" data_column=1 %}
-    {% include "includes/filters/filter_select.html" with id="id_select-job-title-works" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") data_table="works-table-body" data_column=2 %}
     {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
         {% include "includes/filters/filter_select.html" with id="id_filter-type-wagon" label=_("Wagon Type") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Wagon Types") data_table="works-table-body" data_column=3 %}
     {% endif %}
