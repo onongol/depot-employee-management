@@ -4,22 +4,34 @@
 
 {% block content %}
     <section class="max-w-7xl mx-auto my-8 px-4">
-        <div class="flex flex-col lg:flex-row">
-            <div class="my-4 flex-1 flex flex-col justify-center">
-                <h1 class="mb-3 text-4xl lg:text-5xl font-bold leading-tight font-sans text-gray-700 dark:text-gray-500">
-                    {% blocktrans trimmed %}
-                        Electronic workflow and workload registration system for Depos
-                    {% endblocktrans %}
-                </h1>
-                <p class="text-gray-700 dark:text-gray-500">
-                    {% blocktrans trimmed %}
-                        This system is designed to record and manage the work performed by employees, automate payroll calculations, and provide comprehensive reporting and monitoring tools.
-                    {% endblocktrans %}
-                </p>
-                {% include "home/auth_actions.html" %}
-            </div>
-            <div class="my-4 flex-1 flex justify-center items-center">
-                <!-- Optional: Add an image or illustration here -->
+        {% include "includes/components/list_header.html" with header_id="employee-list-title" title=selected_department only %}
+        <!-- Quick navigation -->
+        <div class="mt-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Employees -->
+                {% include "includes/cards/card.html" with url_name='employee_list' title=_("Employees") desc=_("Manage employee profiles, positions, and hourly wage rates.") %}
+                <!-- Works (not employee) -->
+                {% if not is_employee %}
+                    {% include "includes/cards/card.html" with url_name='work_list' title=_("Works") desc=_("Create work types, standard times, and pricing.") %}
+                {% endif %}
+                <!-- Daily Salary -->
+                {% include "includes/cards/card.html" with url_name='daily_salary_list' title=_("Daily Attendance") desc=_("Track attendance, shifts, and working hours.") %}
+                <!-- Daily Work (not employee) -->
+                {% if not is_employee %}
+                    {% include "includes/cards/card.html" with url_name='daily_work_list' title=_("Daily Work") desc=_("Log daily work performed.") %}
+                {% endif %}
+                <!-- Piecework -->
+                {% include "includes/cards/card.html" with url_name='piecework_list' title=_("Piecework") desc=_("Record piecework volumes, rates, and performance history.") %}
+                <!-- Salaries -->
+                {% include "includes/cards/card.html" with url_name='employee_salary_list' title=_("Salaries") desc=_("Calculate payroll, view summaries, and generate earnings reports.") %}
+                <!-- Wagons (not employee) -->
+                {% if not is_employee %}
+                    {% include "includes/cards/card.html" with url_name='wagon_list' title=_("Wagons") desc=_("View wagon reports.") %}
+                {% endif %}
+                <!-- Materials (not employee, not master) -->
+                {% if not is_employee and not is_master %}
+                    {% include "includes/cards/card.html" with url_name='material_list' title=_("Materials") desc=_("Track material usage and consumption from work records.") %}
+                {% endif %}
             </div>
         </div>
     </section>
