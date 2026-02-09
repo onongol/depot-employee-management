@@ -1,5 +1,6 @@
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from employee.forms import PieceworkForm
 from employee.models import Employee, Piecework, Work
@@ -60,7 +61,7 @@ def daily_work_piecework_create_prepare(request) -> DailyWorkPieceworkCreateCont
 
     return DailyWorkPieceworkCreateContext(
         form=PieceworkForm(department=department),
-        object_type="Daily Work, Piecework",
+        object_type=_("Daily Work"),
         employees=employees,
         works=works,
         today=today,
