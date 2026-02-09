@@ -9,7 +9,9 @@
         {% trans "Update" %} {{ object_type }} ({{ selected_department }})
     </h2>
     <!-- Dynamic Warning Message -->
-    {% include "includes/alerts/alerts_warning_update.html" %}
+    {% block update_warning %}
+        {% include "includes/alerts/alerts_warning_update.html" %}
+    {% endblock %}
     <!-- Form Errors -->
     {% include "includes/form/form_errors.html" %}
     <form method="post"
