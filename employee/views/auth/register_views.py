@@ -19,7 +19,7 @@ def register_view(request):
                 # Check if this instance is already linked to a user
                 if instance.user:
                     form.add_error(
-                        "employee_id", _("A user with this ID already exists.")
+                        "employee_id", _("An account with this ID already exists.")
                     )
                 else:
                     user = form.save()
@@ -27,7 +27,7 @@ def register_view(request):
                     messages.success(
                         request,
                         _(
-                            "Registration successful! Please sign in with your new account."
+                            "Registration successful. Please sign in."
                         ),
                     )
                     return redirect("login")
@@ -35,10 +35,10 @@ def register_view(request):
                 form.add_error(
                     "employee_id",
                     _(
-                        "Your ID is not registered. Check your ID. Contact the administrator."
+                        "This ID is not registered. Please check for typos or contact your administrator for assistance."
                     ),
                 )
-                
+
         return render(request, "auth/register.html", {"form": form})
     else:
         form = CustomUserCreationForm()
