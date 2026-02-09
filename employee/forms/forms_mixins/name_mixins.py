@@ -8,16 +8,10 @@ NAME_PATTERN = r"^[А-ЯA-ZҮӨЁ]\.[А-ЯA-ZҮӨЁ][а-яa-zёүө]*(?:-[А-ЯA
 
 
 class NameValidationMixin:
-    """Validate 'name' field as: L.Name (e.g. D.Sukhbaatar, A.Gun-Aajav)."""
-
     def clean_name(self):
         name = self.cleaned_data.get("name")
         if not name:
             return name
         if not re.match(NAME_PATTERN, name):
-            raise forms.ValidationError(
-                _(
-                    "Name must be in the format: L.Name (e.g. D.Sukhbaatar or A.Gun-Aajav)."
-                )
-            )
+            raise forms.ValidationError(_("Format: Surname.Name (e.g. R.Choinom)."))
         return name
