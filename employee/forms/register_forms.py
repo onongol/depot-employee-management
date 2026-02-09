@@ -18,7 +18,7 @@ class CustomUserCreationForm(UserCreationForm):
                 "min": "1",
             }
         ),
-        help_text=_("Enter your Employee ID to link your account."),
+        help_text=_("Enter your ID to sync your profile."),
     )
 
     class Meta:
