@@ -13,12 +13,12 @@
                                    class="cursor-pointer h-4 w-4"
                                    onclick="toggleAllVisible(this, 'work_ids')"
                                    aria-label="Select all works">
-                            <label for="select-all-works" class="sr-only">{% trans "Select all works" %}</label>
+                            <label for="select-all-works" class="sr-only">{% trans "Select all" %}</label>
                         </th>
                         <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
                         {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                            <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
+                            <th scope="col" class="{{ col_class }}">{% trans "Wagon Type" %}</th>
                         {% endif %}
                         <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
                     {% endwith %}
@@ -69,6 +69,6 @@
      data-form-id="createForm"
      data-checkbox-name="work_ids"
      data-table-selector=".works-table-container"
-     data-error-message='{{ _("Please select at least one work.") |escapejs }}'
+     data-error-message='{{ _("Select at least one work.") |escapejs }}'
      data-amount-validation="true"
-     data-amount-error-message='{{ _("Please fill in the amount for selected work(s)") |escapejs }}'></div>
+     data-amount-error-message='{{ _("Enter an amount for each selected work entry.") |escapejs }}'></div>
