@@ -13,12 +13,11 @@ def build_headers(context):
         _("Department"),
         _("Position"),
         _("Work"),
-        _("Type"),
+        _("Work Type"),
     ]
 
     if show_wagon:
-        headers += [_("Wagon"), _("Type Wagon")]
-
+        headers += [_("Wagon Type"), _("Wagon Number")]
     headers += [
         _("Amount"),
         _("Time"),
