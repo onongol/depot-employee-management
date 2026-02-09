@@ -16,7 +16,7 @@
         {% if employees %}
             <!-- Fields -->
             {% include "includes/form/form_date.html" with id="salary_date" label=_("Date") name="salary_date" type="text" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True %}
-            {% include "includes/form/form_input.html" with id="hours_per_day" label=_("Time") name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day  min=form.hours_per_day.field.widget.attrs.min max=form.hours_per_day.field.widget.attrs.max required=True %}
+            {% include "includes/form/form_input.html" with id="hours_per_day" label=_("Hours") name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day  min=form.hours_per_day.field.widget.attrs.min max=form.hours_per_day.field.widget.attrs.max required=True %}
             <!-- Filters -->
             {% include "includes/select_table/employee_search_filters.html" %}
             <!-- Employee Table -->
@@ -26,9 +26,9 @@
             <div class="mb-4 rounded-md shadow-sm border-l-4 border-yellow-400 bg-yellow-50 p-3 dark:bg-yellow-500/20 dark:border-yellow-600">
                 <p class="text-sm text-yellow-800 dark:text-yellow-400">
                     {% blocktrans trimmed %}
-                        <strong>No employee profiles exist for the selected department.</strong>
+                        <strong>No employee profiles found.</strong>
                         <br>
-                        Please <strong>create employee profiles</strong> for this department. You can then proceed to create the <strong>Daily Salary</strong> records.
+                        Please <strong>create profiles</strong> to get started.
                     {% endblocktrans %}
                 </p>
             </div>
