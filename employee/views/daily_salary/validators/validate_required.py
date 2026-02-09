@@ -7,10 +7,10 @@ def validate_daily_salary_required(selected_ids, salary_date, hours_per_day):
 
     # Check if any employees are selected
     if not selected_ids:
-        errors.append(_("Please select at least one employee."))
+        errors.append(_("Select at least one employee."))
 
     # Validate required fields
     if not salary_date or not hours_per_day:
-        errors.append(_("Please select date and hours!"))
+        errors.append(_("Select date and hours."))
 
     return errors
