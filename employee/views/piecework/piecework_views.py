@@ -22,9 +22,6 @@ class PieceworkDeleteView(
     def get_redirect_url(self):
         return self.success_url
 
-    def get_object_name(self):
-        return f"{self.object.employee.employee_id}/{self.object.employee.name}/{self.object.work.work_name}/{self.object.type_work}/{self.object.work_date}"
-
 
 @login_required(login_url="login")
 @user_passes_test(is_creater, login_url="login")
