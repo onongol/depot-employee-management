@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import (
     DEPARTMENT_CHOICES,
@@ -18,7 +19,11 @@ class Employee(models.Model):
     """This model represents an employee in the system."""
 
     employee_id = models.IntegerField(
-        primary_key=True, null=False, validators=[MinValueValidator(1)], unique=True
+        primary_key=True,
+        null=False,
+        validators=[MinValueValidator(1)],
+        unique=True,
+        error_messages={"unique": _("Must be unique.")},
     )
     name = models.CharField(max_length=255)
     department = models.CharField(max_length=255, choices=DEPARTMENT_CHOICES)

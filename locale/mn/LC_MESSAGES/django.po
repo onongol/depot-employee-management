@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-09 15:04+0800\n"
+"POT-Creation-Date: 2026-02-09 15:54+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,6 +37,7 @@ msgid "Format: Surname.Name (e.g. R.Choinom)."
 msgstr "Овог.Нэр (жишээ нь: Р.Чойном)."
 
 #: employee/forms/forms_mixins/work_mixins.py:28
+#: employee/models/employee_models.py:26
 msgid "Must be unique."
 msgstr "Давхардаагүй байх ёстой."
 
