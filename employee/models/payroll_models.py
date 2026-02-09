@@ -24,4 +24,4 @@ class Payroll(models.Model):
     )
 
     def __str__(self):
-        return f"{self.payroll_id}/{self.name}"
+        return f"(ID: {self.payroll_id}) {self.name}"
