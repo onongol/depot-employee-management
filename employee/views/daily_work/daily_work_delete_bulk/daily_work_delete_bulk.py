@@ -31,7 +31,7 @@ def daily_work_delete_bulk(request):
     ids = parse_ids(request.POST.getlist("daily_work_ids"))
 
     if not ids:
-        messages.warning(request, _("Please select at least one record."))
+        messages.warning(request, _("Select at least one record."))
         return redirect(request.META.get("HTTP_REFERER") or fallback_url)
 
     base_qs = get_bulk_daily_work_qs(ids=ids, department=department)
