@@ -17,7 +17,7 @@ class CustomPasswordChangeView(PasswordChangeView):
         form.save()
         messages.success(
             self.request,
-            _("Password changed successfully. Please sign in with your new password."),
+            _("Password changed successfully. Please sign in."),
         )
         logout(self.request)
         return redirect(self.get_success_url())
