@@ -1,12 +1,17 @@
 {% extends "forms/update_form.html" %}
 
 {% block title %}Update Daily Work{% endblock %}
+
+{% block update_warning %}
+    {% include "includes/alerts/alerts_warning_update_daily_work.html" %}
+{% endblock %}
+
 {% block form_fields %}
     <fieldset class="space-y-4">
         <legend class="sr-only">Update Daily Work Details</legend>
-        {% include "includes//form/form_select.html" with id=form.type_work.id_for_label label=_("Type Work") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
-        {% if show_wagon %}
-            {% include "includes/form/form_input.html" with id=form.wagon_number.id_for_label label=_("Wagon Number") name="wagon_number" type="text" value=form.wagon_number.value form_errors=form.wagon_number placeholder=_("Enter if necessary") %}
+        {% include "includes//form/form_select.html" with id=form.type_work.id_for_label label=_("Work Type") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
+        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+            {% include "includes/form/form_input.html" with id=form.wagon_number.id_for_label label=_("Wagon Number") name="wagon_number" type="text" value=form.wagon_number.value form_errors=form.wagon_number placeholder=_("Optional") %}
         {% endif %}
         {% include "includes/form/form_input.html" with id=form.amount.id_for_label label=_("Amount") name="amount" type="number" value=form.amount.value form_errors=form.amount required=True %}
         {% include "includes/form/form_date.html" with id=form.work_date.id_for_label label=_("Date") name="work_date" type="text" value=form.work_date.value|date:"Y-m-d" form_errors=form.work_date required=True %}
