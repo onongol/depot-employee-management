@@ -1,3 +1,5 @@
+from django.utils.translation import gettext_lazy as _
+
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, DEPARTMENTS
 
 
@@ -7,8 +9,8 @@ def global_departments(request):
     departments_list = sorted(DEPARTMENTS)
 
     if not departments_list:
-        departments_list = ["No departments available"]
-        
+        departments_list = [_("No departments available.")]
+
     return {
         "departments": departments_list,
         "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
