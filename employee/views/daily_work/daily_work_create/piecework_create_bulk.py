@@ -29,7 +29,7 @@ def piecework_create_bulk(results, daily_works, works_dict, employees_map, error
 
                 Piecework.objects.create(**data)
     except Exception as e:
-        logging.exception("Error creating daily work/piecework")
+        logging.exception("Error creating daily work, piecework")
         errors.append(
-            _("Error creating piecework records: %(error)s") % {"error": str(e)}
+            _("Error creating piecework records: %(error)s.") % {"error": str(e)}
         )
