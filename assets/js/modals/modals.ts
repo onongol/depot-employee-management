@@ -117,7 +117,7 @@ function safeSetAction(id: string, value: string): void {
 
 // Fill modal details based on type
 function fillModalDetails(type: ModalType, id: string, name: string, url: string): void {
-  const details = `${id}/${name}`;
+  const details = name || id;
   switch (type) {
     case 'edit':
       safeSetHref('updateLink', url);
