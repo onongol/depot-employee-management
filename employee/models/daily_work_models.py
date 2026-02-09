@@ -93,7 +93,7 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     record_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.work.work_name}/{self.type_work}/{self.work_date}"
+        return f"{self.work.work_name} ({self.type_work}) - {self.work_date}"
 
     def save(self, *args, **kwargs):
         """
