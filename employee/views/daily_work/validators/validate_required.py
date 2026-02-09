@@ -9,17 +9,17 @@ def validate_required(
 
     # Check for required selections
     if not selected_employee_ids:
-        errors.append(_("Please select at least one employee."))
+        errors.append(_("Select at least one employee."))
     if not selected_work_ids:
-        errors.append(_("Please select at least one work."))
+        errors.append(_("Select at least one work."))
     if not work_date or not type_work:
-        errors.append(_("Please select work date, type work."))
+        errors.append(_("Select work date and type."))
 
     # Check for missing amounts for any selected work
     missing_amounts = [work_id for work_id in selected_work_ids if not amounts.get(work_id)]
 
     # If there are missing amounts, add an error message
     if missing_amounts:
-        errors.append(_("Please fill in the amount for selected work(s)."))
+        errors.append(_("Enter an amount for each selected work entry."))
 
     return errors
