@@ -26,7 +26,7 @@
                         <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Rank" %}</th>
                         {% if wagon_mode %}
-                            <th scope="col" class="{{ col_class }}">{% trans "Wagon" %}</th>
+                            <th scope="col" class="{{ col_class }}">{% trans "Wagon Number" %}</th>
                         {% endif %}
                         <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
@@ -63,8 +63,8 @@
                 {% else %}
                     <tr>
                         <td colspan="8"
-                            class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">
-                            {% trans "No employee salary records found..." %}
+                            class="text-center px-3 py-4 text-gray-500">
+                            {% trans "No records found" %}
                         </td>
                     </tr>
                 {% endif %}
