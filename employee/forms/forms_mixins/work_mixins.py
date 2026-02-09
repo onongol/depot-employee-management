@@ -25,6 +25,6 @@ class WorkNameUniqueMixin:
             if qs.exists():
                 self.add_error(
                     "work_name",
-                    _("The Work Name must be unique within the department."),
+                    _("Must be unique."),
                 )
         return work_name
