@@ -36,7 +36,7 @@ def daily_salary_delete_bulk(request):
     ids = parse_ids(request.POST.getlist("daily_salary_ids"))
 
     if not ids:
-        messages.warning(request, _("Please select at least one record."))
+        messages.warning(request, _("Select at least one record."))
         return redirect(request.META.get("HTTP_REFERER") or fallback_url)
 
     blocked_qs, deletable_qs = get_deletable_and_blocked_daily_salaries(ids, department)
