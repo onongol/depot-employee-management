@@ -28,7 +28,7 @@ def send_success_creation_message(
     """
     if template is None:
         template = _(
-            "Daily Work and related Piecework record(s) for %(employees)s (work(s): %(works)s) on %(date)s created successfully."
+            "Created %(employees)s for %(works)s on %(date)s"
         )
 
     employee_entries = get_employee_entries(results)
