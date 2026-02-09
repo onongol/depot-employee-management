@@ -15,7 +15,7 @@ def build_headers(context):
 
     if wagon_mode:
         headers += [
-            _("Wagon"),
+            _("Wagon Number"),
         ]
 
     headers += [
