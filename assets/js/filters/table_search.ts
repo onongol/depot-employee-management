@@ -81,11 +81,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3) Auto-init selects with data-table
   document.querySelectorAll<HTMLSelectElement>('select[data-table]').forEach((sel) => {
-    const table = sel.dataset.table;
-    if (!table) return;
-    const col = sel.dataset.column ? Number(sel.dataset.column) : 1;
+    const tables = (sel.dataset.table ?? '')
+      .split(',')
+      .map(t => t.trim())
+      .filter(Boolean);
+    if (!tables.length) return;
+
+    const cols = (sel.dataset.column ?? '')
+      .split(',')
+      .map(c => Number(c.trim()))
+      .filter(n => !Number.isNaN(n));
+
     sel.addEventListener('change', () => {
-      filterTableBySelect(sel.id, table, col);
+      tables.forEach((tableId, idx) => {
+        const col = cols[idx] ?? cols[cols.length - 1] ?? 1;
+        filterTableBySelect(sel.id, tableId, col);
+      });
     });
   });
 
