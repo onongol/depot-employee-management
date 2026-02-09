@@ -3,6 +3,7 @@ from decimal import Decimal
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from employee.models.employee_models import Employee
 
@@ -49,7 +50,7 @@ class DailySalary(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.employee.employee_id}/{self.employee.name}/{self.salary_date}"
+        return f"(ID: {self.employee.employee_id}) {self.employee.name} - {self.salary_date}"
 
     def save(self, *args, **kwargs):
         """
@@ -65,7 +66,9 @@ class DailySalary(models.Model):
             self.employee_name = self.employee.name
 
         if self.employee.money_per_hour is None:
-            raise ValueError("Employee's money_per_hour must not be None")
+            raise ValueError(
+                _("Cannot save: hourly rate is not set for this employee.")
+            )
 
         self.salary_day = Decimal(self.hours_per_day) * self.employee.money_per_hour
 
