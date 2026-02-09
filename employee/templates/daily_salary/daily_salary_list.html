@@ -56,7 +56,7 @@
                             </th>
                             {% if not is_employee %}
                                 <th scope="col" class="{{ col_class }}">
-                                    {% include "includes/table/sort_column.html" with label=_("Record") field="record_date" col_class=col_class selected_department=selected_department %}
+                                    {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department %}
                                 </th>
                             {% endif %}
                             {% if not is_employee and not is_master %}
@@ -96,7 +96,7 @@
                                         <td class="{{ col_class }}">
                                             {% url 'daily_salary_update' daily_salary.pk as update_url %}
                                             {% with salary_date=daily_salary.salary_date|date:"Y-m-d" %}
-                                                {% include "includes/table_action_buttons/action_buttons.html" with id=daily_salary.employee.employee_id name=daily_salary.employee.name|add:", "|add:salary_date edit_url=update_url %}
+                                                {% include "includes/table_action_buttons/action_buttons.html" with id=daily_salary.employee.employee_id name=daily_salary edit_url=update_url %}
                                             {% endwith %}
                                         </td>
                                     {% endif %}
@@ -106,8 +106,8 @@
                     {% else %}
                         <tr>
                             <td colspan="9"
-                                class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">
-                                {% trans "No daily salaries found..." %}
+                                class="text-center px-3 py-4 text-gray-500">
+                                {% trans "No records found" %}
                             </td>
                         </tr>
                     {% endif %}
