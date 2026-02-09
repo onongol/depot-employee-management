@@ -19,10 +19,10 @@ def preview_daily_work_items(base_qs) -> List[str]:
 
         parts.append(
             _(
-                "Deleted Daily Work record: %(work)s on %(date)s with %(pieceworks_count)d related Piecework record(s): %(employees)s."
+                "Deleted %(work)s - %(date)s and %(pieceworks_count)d piecework records: %(employees)s"
             )
             % {
-                "work": daily_work.work.work_name,
+                "work": daily_work.work,
                 "date": daily_work.work_date,
                 "pieceworks_count": pieceworks_count,
                 "employees": employees_summary,
