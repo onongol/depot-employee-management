@@ -23,94 +23,105 @@ const getEl = <T extends HTMLElement = HTMLElement>(id?: string | null): T | nul
 const getCellText = (td: HTMLTableCellElement | undefined | null): string =>
   (td?.textContent ?? '').trim();
 
-export function filterTableRows(inputId: string, tableBodyId: string, columnIndex = 1): void {
-  const input = getEl<HTMLInputElement | HTMLTextAreaElement | HTMLInputElement>(inputId);
-  if (!input) return;
-  const filter = (input.value ?? '').toLowerCase();
+const splitIds = (raw?: string | null): string[] =>
+  (raw ?? '')
+    .split(',')
+    .map((t) => t.trim())
+    .filter(Boolean);
+
+type ActiveFilter = { col: number; value: string; mode: 'text' | 'select' };
+
+function collectFilters(tableId: string): ActiveFilter[] {
+  const filters: ActiveFilter[] = [];
+
+  document.querySelectorAll<HTMLInputElement>('input[data-table]').forEach((input) => {
+    const tables = splitIds(input.dataset.table);
+    if (!tables.includes(tableId)) return;
+    const col = input.dataset.column ? Number(input.dataset.column) : 1;
+    const val = (input.value ?? '').trim();
+    if (val) filters.push({ col, value: val.toLowerCase(), mode: 'text' });
+  });
+
+  document.querySelectorAll<HTMLSelectElement>('select[data-table]').forEach((sel) => {
+    const tables = splitIds(sel.dataset.table);
+    if (!tables.includes(tableId)) return;
+    const cols = splitIds(sel.dataset.column).map((c) => Number(c));
+    const col = cols[tables.indexOf(tableId)] ?? cols[cols.length - 1] ?? 1;
+    const val = (sel.value ?? '').trim();
+    if (val) filters.push({ col, value: val, mode: 'select' });
+  });
+
+  return filters;
+}
+
+export function applyTableFilters(tableBodyId: string): void {
   const table = getEl<HTMLTableSectionElement>(tableBodyId);
   if (!table) return;
-
+  const filters = collectFilters(tableBodyId);
   const trs = Array.from(table.getElementsByTagName('tr'));
+
   for (const tr of trs) {
-    const td = tr.getElementsByTagName('td')[columnIndex];
-    const txt = getCellText(td).toLowerCase();
-    tr.style.display = txt.indexOf(filter) > -1 ? '' : 'none';
+    const keep = filters.every((f) => {
+      const td = tr.getElementsByTagName('td')[f.col];
+      const cell = getCellText(td);
+      return f.mode === 'text'
+        ? cell.toLowerCase().includes(f.value)
+        : cell === f.value;
+    });
+    tr.style.display = keep ? '' : 'none';
   }
 }
 
-export function filterTableBySelect(selectId: string, tableBodyId: string, columnIndex = 1): void {
-  const select = getEl<HTMLSelectElement>(selectId);
-  const table = getEl<HTMLTableSectionElement>(tableBodyId);
-  if (!select || !table) return;
-  const value = select.value;
-  const trs = Array.from(table.getElementsByTagName('tr'));
-  for (const tr of trs) {
-    const td = tr.getElementsByTagName('td')[columnIndex];
-    const cell = getCellText(td);
-    tr.style.display = !value || cell === value ? '' : 'none';
-  }
+// Update legacy functions for compatibility with the new filtering logic
+export function filterTableRows(inputId: string, tableBodyId: string, _columnIndex = 1): void {
+  applyTableFilters(tableBodyId);
+}
+
+export function filterTableBySelect(selectId: string, tableBodyId: string, _columnIndex = 1): void {
+  applyTableFilters(tableBodyId);
 }
 
 /* DOM init (backwards-compatible) */
 document.addEventListener('DOMContentLoaded', () => {
   // 1) Legacy window.TABLE_SEARCHES initializer
   const searches: TableSearchConfig[] = window.TABLE_SEARCHES ?? [];
-  searches.forEach(([inputId, tableBodyId, columnIndex]) => {
+  searches.forEach(([inputId, tableBodyId]) => {
     const input = getEl<HTMLInputElement>(inputId);
     if (!input) return;
     input.addEventListener('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         event.preventDefault();
-        filterTableRows(inputId, tableBodyId, columnIndex ?? 1);
+        applyTableFilters(tableBodyId);
       }
     });
   });
 
   // 2) Auto-init from data-attributes on inputs
   document.querySelectorAll<HTMLInputElement>('input[data-table]').forEach((input) => {
-    const table = input.dataset.table;
-    if (!table) return;
-    const col = input.dataset.column ? Number(input.dataset.column) : 1;
+    const tables = splitIds(input.dataset.table);
     input.addEventListener('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         event.preventDefault();
-        filterTableRows(input.id, table, col);
+        tables.forEach(applyTableFilters);
       }
     });
   });
 
   // 3) Auto-init selects with data-table
   document.querySelectorAll<HTMLSelectElement>('select[data-table]').forEach((sel) => {
-    const tables = (sel.dataset.table ?? '')
-      .split(',')
-      .map(t => t.trim())
-      .filter(Boolean);
-    if (!tables.length) return;
-
-    const cols = (sel.dataset.column ?? '')
-      .split(',')
-      .map(c => Number(c.trim()))
-      .filter(n => !Number.isNaN(n));
-
-    sel.addEventListener('change', () => {
-      tables.forEach((tableId, idx) => {
-        const col = cols[idx] ?? cols[cols.length - 1] ?? 1;
-        filterTableBySelect(sel.id, tableId, col);
-      });
-    });
+    const tables = splitIds(sel.dataset.table);
+    sel.addEventListener('change', () => tables.forEach(applyTableFilters));
   });
 
   // 4) Compatibility: window.TABLE_SELECT_FILTERS
   const selectFilters: TableSelectConfig[] = window.TABLE_SELECT_FILTERS ?? [];
-  selectFilters.forEach(([selectId, tableBodyId, columnIndex]) => {
+  selectFilters.forEach(([selectId, tableBodyId]) => {
     const sel = getEl<HTMLSelectElement>(selectId);
     if (!sel) return;
-    sel.addEventListener('change', () => {
-      filterTableBySelect(selectId, tableBodyId, columnIndex ?? 1);
-    });
+    sel.addEventListener('change', () => applyTableFilters(tableBodyId));
   });
 });
 
-/* Expose for legacy inline usage */
+// Expose for legacy inline usage
 window.filterTableRows = filterTableRows;
 window.filterTableBySelect = filterTableBySelect;
