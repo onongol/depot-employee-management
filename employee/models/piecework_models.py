@@ -116,7 +116,7 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     group_id = models.CharField(max_length=36, blank=True, null=True, db_index=True)
 
     def __str__(self):
-        return f"{self.employee.employee_id}/{self.employee.name}/{self.work.work_name}/{self.type_work}/{self.work_date}"
+        return f"(ID: {self.employee.employee_id}) {self.employee.name}, {self.work.work_name} ({self.type_work}) - {self.work_date}"
 
     def save(self, *args, **kwargs):
         """
