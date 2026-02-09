@@ -29,11 +29,11 @@ def validate_daily_salary(selected_employee_ids, work_date):
     # If any employees are missing DailySalary, add an error message
     if missing_salary_employees:
         missing_names = [
-            f"{emp.employee_id}/{emp.name}" for emp in missing_salary_employees
+            str(emp) for emp in missing_salary_employees
         ]
         errors.append(
             _(
-                "First create Daily Salary for these employee(s): %(employees)s for the selected date %(date)s."
+                "Please create daily attendance for %(employees)s on %(date)s before proceeding."
             )
             % {"employees": ", ".join(missing_names), "date": work_date}
         )
