@@ -211,7 +211,7 @@ INTERNAL_IPS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Login and logout redirect URLs
-LOGIN_REDIRECT_URL = "employee_list"
+LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
 # Unfold settings
