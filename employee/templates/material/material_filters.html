@@ -2,9 +2,9 @@
 
 <form method="get" class="mb-6" aria-labelledby="material-list-title">
     <div class="flex flex-col md:flex-row gap-4">
-        {% include "includes/filters/filter_input.html" with id="id_type_material" label=_("Type Material") name="type_material" type="text" value=request.GET.type_material %}
+        {% include "includes/filters/filter_input.html" with id="id_type_material" label=_("Material Type") name="type_material" type="text" value=request.GET.type_material %}
         {% include "includes/filters/filter_input.html" with id="id_work_name" label=_("Work Name") name="work_name" type="text" value=request.GET.work_name %}
-        {% include "includes/filters/filter_date_range.html" with id="id_range_date" label=_("Select Range of Date") name="range_date" type="text" value=request.GET.range_date %}
+        {% include "includes/filters/filter_date_range.html" with id="id_range_date" label=_("Date Range") name="range_date" type="text" value=request.GET.range_date %}
         {% include "includes/filters/filter_button.html" %}
     </div>
 </form>
