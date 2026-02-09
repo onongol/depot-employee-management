@@ -13,11 +13,11 @@ def send_daily_salary_creation_message(
     """
     if template is None:
         template = _(
-            "Daily salary records %(employees)s on %(date)s created successfully."
+            "Created records for %(employees)s - %(date)s"
         )
 
     employee_list = [
-        f"{emp.employee_id}/{emp.name}"
+        str(emp)
         for emp_id, emp in employees_dict.items()
         if emp_id in selected_ids
     ]
