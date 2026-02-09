@@ -23,11 +23,11 @@ def employee_salary_export_excel(request):
     data = list(iter_rows(employee_salaries, context=context))
 
     meta = {
-        GROUP_WAGON: ("employee_salaries_wagon", _("Employee Salaries by Wagon")),
+        GROUP_WAGON: ("salaries_by_wagon", _("Salaries by Wagon")),
     }
 
     file_name, title = meta.get(
-        context.group, ("employee_salaries", _("Employee Salaries"))
+        context.group, ("salaries", _("Salaries"))
     )
     file_name = f"{file_name}_{safe_department}.xlsx"
     sheet_title = f"{title} ({department})"
