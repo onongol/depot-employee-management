@@ -8,7 +8,7 @@ def build_headers(context):
         headers = [
             ("#"),
             _("Wagon Number"),
-            _("Type Wagon"),
+            _("Wagon Type"),
             _("Total Time"),
             _("Total Price"),
             _("Month"),
@@ -18,9 +18,9 @@ def build_headers(context):
         headers = [
             ("#"),
             _("Wagon Number"),
-            _("Type Wagon"),
+            _("Wagon Type"),
             _("Work Name"),
-            _("Type Work"),
+            _("Work Type"),
             _("Amount"),
             _("Total Time"),
             _("Total Price"),
