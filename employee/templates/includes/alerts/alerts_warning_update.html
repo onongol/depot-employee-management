@@ -8,7 +8,7 @@
         <h4 class="font-semibold mb-1">{% trans "Warning" %}!</h4>
         <p class="text-sm">
             {% blocktrans trimmed with object_type=object_type object_name=object_name %}
-                All records associated with this {{ object_type }} <strong>{{ object_name }}</strong> will also be updated.
+                All future records will reflect the changes made to <strong>{{ object_name }}</strong>.
             {% endblocktrans %}
         </p>
     </div>
