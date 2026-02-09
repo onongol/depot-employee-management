@@ -9,7 +9,7 @@ def validate_parse_amount(amount, work, errors):
     If invalid, adds an error to errors and returns None.
     If valid, returns Decimal(amount).
     """
-    work_name = work.work_name
+    work_name = str(work)
 
     if not amount:
         errors.append(
