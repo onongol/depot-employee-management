@@ -60,7 +60,7 @@ def daily_work_piecework_create_prepare(request) -> DailyWorkPieceworkCreateCont
 
     return DailyWorkPieceworkCreateContext(
         form=PieceworkForm(department=department),
-        object_type="Daily Work & Piecework",
+        object_type="Daily Work, Piecework",
         employees=employees,
         works=works,
         today=today,
