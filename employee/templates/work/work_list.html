@@ -27,10 +27,10 @@
                         </th>
                         <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
                         {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                            <th scope="col" class="{{ col_class }}">{% trans "Type Wagon" %}</th>
+                            <th scope="col" class="{{ col_class }}">{% trans "Wagon Type" %}</th>
                         {% endif %}
                         <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Size" %}</th>
+                        <th scope="col" class="{{ col_class }}">{% trans "Quantity" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
                         {% if not is_master %}
@@ -58,7 +58,7 @@
                                     <td class="{{ col_class }}">
                                         {% url 'work_update' work.pk as edit_url %}
                                         {% url 'work_delete' work.pk as delete_url %}
-                                        {% include "includes/table_action_buttons/action_buttons.html" with id=work.work_id name=work.work_name edit_url=edit_url delete_url=delete_url show_delete=True %}
+                                        {% include "includes/table_action_buttons/action_buttons.html" with id=work.work_id name=work edit_url=edit_url delete_url=delete_url show_delete=True %}
                                     </td>
                                 {% endif %}
                             {% endwith %}
@@ -67,8 +67,8 @@
                 {% else %}
                     <tr>
                         <td colspan="9"
-                            class="text-center px-3 py-4 text-gray-500 dark:text-gray-400">
-                            {% trans "No work found..." %}
+                            class="text-center px-3 py-4 text-gray-500">
+                            {% trans "No records found" %}
                         </td>
                     </tr>
                 {% endif %}
