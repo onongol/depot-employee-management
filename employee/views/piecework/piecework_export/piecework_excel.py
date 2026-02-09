@@ -30,11 +30,11 @@ def piecework_export_excel(request):
     data.append(build_totals_row(pieceworks, context=context))
 
     meta = {
-        GROUP_MONTH: ("monthly_piecework", _("Monthly Piecework")),
-        GROUP_YEAR: ("yearly_piecework", _("Yearly Piecework")),
+        GROUP_MONTH: ("monthly_piecework_records", _("Monthly Piecework Records")),
+        GROUP_YEAR: ("yearly_piecework_records", _("Yearly Piecework Records")),
     }
 
-    file_name, title = meta.get(context.group, ("piecework", _("Piecework")))
+    file_name, title = meta.get(context.group, ("daily_piecework_records", _("Daily Piecework Records")))
     file_name = f"{file_name}_{safe_department}.xlsx"
     sheet_title = f"{title} ({department})"
 
