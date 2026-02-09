@@ -6,35 +6,37 @@
      aria-labelledby="saveDuplicateModalLabel"
      aria-modal="true"
      role="dialog">
-  <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full p-6 dark:bg-gray-800 dark:border-gray-700"
-       tabindex="0">
-    <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-3 mb-4">
-      <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-400"
-          id="saveDuplicateModalLabel">{% trans "Duplicate" %}</h3>
-      <button type="button"
-              class="cursor-pointer text-gray-500 bg-transparent hover:bg-gray-100 hover:text-gray-800 rounded inline-flex justify-center items-center p-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-500"
-              data-modal-cancel
-              aria-label='{% trans "Close" %}'>
-        <svg class="w-5 h-5" aria-hidden="true">
-          <use href="#close"></use>
-        </svg>
-        <span class="sr-only">{% trans "Close" %}</span>
-      </button>
+    <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full max-h-screen overflow-y-auto p-6 dark:bg-gray-800 dark:border-gray-700"
+         tabindex="0">
+        <div class="flex items-center justify-between pb-3 mb-2">
+            <h3 class="text-lg text-gray-700 font-semibold dark:text-gray-400"
+                id="saveDuplicateModalLabel">{% trans "Duplicate" %}</h3>
+            <button type="button"
+                    class="cursor-pointer text-gray-500 bg-transparent hover:bg-gray-100 hover:text-gray-800 rounded inline-flex justify-center items-center p-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-500"
+                    data-modal-cancel
+                    aria-label='{% trans "Close" %}'>
+                <svg class="w-5 h-5" aria-hidden="true">
+                    <use href="#close"></use>
+                </svg>
+                <span class="sr-only">{% trans "Close" %}</span>
+            </button>
+        </div>
+        <p class="mb-4 text-sm text-gray-700 dark:text-gray-400">
+            {% trans "Contact Payroll to update or delete." %}
+            <br>
+            {% trans "Conflict details:" %}
+            <br>
+            <span class="pl-8 block">
+                {% trans "Employee" %}: <strong id="modal-employee"></strong>
+                <br>
+                {% trans "Work" %}: <strong id="modal-work"></strong>
+                <br>
+                {% trans "Work Type" %}: <strong id="modal-type-work"></strong>
+                <br>
+                {% trans "Wagon Number" %}: <strong id="modal-wagon-number"></strong>
+                <br>
+                {% trans "Date" %}: <strong id="modal-work-date"></strong>
+            </span>
+        </p>
     </div>
-    <p class="mb-4 text-gray-700 dark:text-gray-400">
-      {% trans "Duplicate Entry Detected! This record already exists in Daily Work & Piecework. Please contact the Payroll Department to update or delete the existing entry. Once the duplicate is removed, you can add a new one. If the entry is updated, you will be able to review the changes." %}
-      <br>
-      {% trans "A Daily Work & Piecework entry already exists for:" %}
-      <br>
-      {% trans "Employee" %}: <strong id="modal-employee"></strong>,
-      <br>
-      {% trans "Work" %}: <strong id="modal-work"></strong>,
-      <br>
-      {% trans "Type" %}: <strong id="modal-type-work"></strong>,
-      <br>
-      {% trans "Wagon" %}: <strong id="modal-wagon-number"></strong>,
-      <br>
-      {% trans "Date" %}: <strong id="modal-work-date"></strong>.
-    </p>
-  </div>
 </div>
