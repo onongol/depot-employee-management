@@ -48,7 +48,7 @@ const employeesSummaryConfig = {
     if (!row) return '';
     const id = (row.dataset.empId ?? '').trim();
     const name = (row.dataset.empName ?? '').trim();
-    return id && name ? `${id}/${name}` : id || name;
+    return id && name ? `(ID: ${id}) ${name}` : id || name;
   }
 };
 
@@ -75,7 +75,7 @@ const dailySalariesSummaryConfig = {
     const id = (row.dataset.empId ?? '').trim();
     const name = (row.dataset.empName ?? '').trim();
     const date = (row.dataset.salaryDate ?? '').trim();
-    return `${id}/${name} - ${date}`;
+    return `(ID: ${id}) ${name} - ${date}`;
   }
 };
 
@@ -89,7 +89,7 @@ const dailyWorksSummaryConfig = {
     const work = (row.dataset.workName ?? '').trim();
     const type = (row.dataset.typeWork ?? '').trim();
     const date = (row.dataset.workDate ?? '').trim();
-    return `${work}(${type}) - ${date}`;
+    return `${work} (${type}) - ${date}`;
   }
 };
 
