@@ -27,4 +27,4 @@ class Master(models.Model):
     )
 
     def __str__(self):
-        return f"{self.master_id}/{self.name}"
+        return f"(ID: {self.master_id}) {self.name}"
