@@ -38,13 +38,13 @@ def validate_duplicate(
 
     # Prepare error message with existing entries
     pairs = {
-        f"{piecework.employee.employee_id}/{piecework.employee.name} — {piecework.work.work_name}"
+        str(piecework)
         for piecework in pieceworks.select_related("employee", "work")
     }
 
     errors.append(
         _(
-            "Daily Work & Piecework already exists for: %(pairs)s on %(date)s. Creating duplicates is not allowed."
+            "Record already exists for: %(pairs)s on %(date)s."
         )
         % {
             "pairs": ", ".join(sorted(pairs)),
