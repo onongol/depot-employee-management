@@ -21,7 +21,7 @@ class DailySalaryUpdateView(
     login_url = "login"
     form_class = UpdateDailySalaryForm
     template_name = "daily_salary/daily_salary_update.html"
-    success_message = _("Daily Salary updated successfully.")
+    success_message = _("Updated")
 
 
 class DailySalaryDeleteView(
@@ -45,6 +45,3 @@ class DailySalaryDeleteView(
     # Handle the deletion and send a warning.
     def get_redirect_url(self):
         return self.success_url
-
-    def get_object_name(self):
-        return f"{self.object.employee.employee_id}/{self.object.employee.name}/{self.object.salary_date}"
