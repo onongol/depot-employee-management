@@ -47,7 +47,7 @@ class Employee(models.Model):
     )
 
     def __str__(self):
-        return f"{self.employee_id}/{self.name}"
+        return f"(ID: {self.employee_id}) {self.name}"
 
     # Domain/business helpers
     def get_total_salary_day(self, month, year):
