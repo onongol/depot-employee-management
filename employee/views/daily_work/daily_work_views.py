@@ -29,7 +29,7 @@ class DailyWorkUpdateView(
     model = DailyWork
     form_class = UpdateDailyWorkForm
     template_name = "daily_work/daily_work_piecework_update.html"
-    success_message = _("Daily Work and Piecework updated successfully.")
+    success_message = _("Updated")
 
     def get_success_url(self):
         return reverse("daily_work_list")
@@ -52,9 +52,6 @@ class DailyWorkDeleteView(
 
     def get_success_url(self):
         return reverse("daily_work_list")
-
-    def get_object_name(self):
-        return f"{self.object.work.work_name}/{self.object.type_work}/{self.object.work_date}"
 
 
 @login_required(login_url="login")
