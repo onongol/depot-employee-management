@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 16:01+0800\n"
+"POT-Creation-Date: 2026-02-09 11:44+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,13 +99,12 @@ msgstr "Ажил"
 #: employee/mixins/context_mixins.py:24
 #: employee/views/daily_salary/daily_salary_views.py:37
 #: employee/views/employee/employee_views.py:58
-#, fuzzy
-#| msgid "Total Salary"
 msgid "Daily Salary"
-msgstr "Нийт Цалин"
+msgstr "Өдрийн цалин"
 
 #: employee/mixins/context_mixins.py:31
 #: employee/templates/base/navbar/menu.html:21
+#: employee/templates/home/home.html:21
 #: employee/views/employee/employee_views.py:58
 #: employee/views/work/work_views.py:64
 msgid "Daily Work"
@@ -113,6 +112,7 @@ msgstr "Өдөр Тутмын Ажил"
 
 #: employee/mixins/context_mixins.py:38
 #: employee/templates/base/navbar/menu.html:24
+#: employee/templates/home/home.html:24
 #: employee/views/daily_salary/daily_salary_views.py:37
 #: employee/views/employee/employee_views.py:58
 #: employee/views/work/work_views.py:64
@@ -163,29 +163,35 @@ msgid "Data will be displayed once a department is selected."
 msgstr "Хэлтсээ сонгож өгөгдлийг харна уу."
 
 #: employee/templates/base/navbar/menu.html:12
+#: employee/templates/home/home.html:12
 msgid "Employees"
 msgstr "Ажилтнууд"
 
 #: employee/templates/base/navbar/menu.html:15
+#: employee/templates/home/home.html:15
 msgid "Works"
 msgstr "Ажлууд"
 
 #: employee/templates/base/navbar/menu.html:18
+#: employee/templates/home/home.html:18
 msgid "Daily Attendance"
 msgstr "Өдрийн Бүртгэл"
 
 #: employee/templates/base/navbar/menu.html:26
+#: employee/templates/home/home.html:26
 #: employee/views/employee_salary/employee_salary_export/employee_salary_excel.py:30
 #: employee/views/employee_salary/employee_salary_export/employee_salary_pdf.py:60
 msgid "Salaries"
 msgstr "Цалин"
 
 #: employee/templates/base/navbar/menu.html:29
+#: employee/templates/home/home.html:29
 #: employee/views/wagon/wagon_export/wagon_excel.py:30
 msgid "Wagons"
 msgstr "Вагон"
 
 #: employee/templates/base/navbar/menu.html:33
+#: employee/templates/home/home.html:33
 msgid "Materials"
 msgstr "Материал"
 
@@ -572,19 +578,50 @@ msgstr "Хадгалах"
 msgid "Update"
 msgstr "Шинэчлэх"
 
-#: employee/templates/home/home.html:10
-msgid "Electronic workflow and workload registration system for Depos"
-msgstr "Депогийн цахим ажлын урсгал болон ажлын ачааллын бүртгэлийн систем"
+#: employee/templates/home/home.html:12
+msgid "Manage employee profiles, positions, and hourly wage rates."
+msgstr "Ажилтны танилцуулга, албан тушаал болон цагийн үнэлгээний удирдлага."
 
 #: employee/templates/home/home.html:15
+msgid "Create work types, standard times, and pricing."
+msgstr "Ажлын төрөл, нормын хугацаа болон үнэлгээг шинээр үүсгэх."
+
+#: employee/templates/home/home.html:18
+msgid "Track attendance, shifts, and working hours."
+msgstr "Ажилтны ирц, ээлж болон ажлын цагийг хянах."
+
+#: employee/templates/home/home.html:21
+msgid "Log daily work performed."
+msgstr "Өдрийн ажлын бүртгэл."
+
+#: employee/templates/home/home.html:24
+msgid "Record piecework volumes, rates, and performance history."
+msgstr "Хийснээрх ажлын хэмжээ, үнэлгээ болон гүйцэтгэлийн түүхийг бүртгэх."
+
+#: employee/templates/home/home.html:26
+msgid "Calculate payroll, view summaries, and generate earnings reports."
+msgstr "Цалин тооцоолох, нэгдсэн мэдээлэл харах болон орлогын тайлан гаргах."
+
+#: employee/templates/home/home.html:29
+msgid "View wagon reports."
+msgstr "Вагоны тайлан харах."
+
+#: employee/templates/home/home.html:33
+msgid "Track material usage and consumption from work records."
+msgstr "Ажлын бүртгэлээс материалын ашиглалт болон зарцуулалтыг хянах."
+
+#: employee/templates/home/home_signin.html:10
+msgid "Depo Management System"
+msgstr "Депо менежментийн систем"
+
+#: employee/templates/home/home_signin.html:15
 msgid ""
-"This system is designed to record and manage the work performed by "
-"employees, automate payroll calculations, and provide comprehensive "
-"reporting and monitoring tools."
+"Central hub for tracking work logs, attendance, and payroll. Streamline "
+"depot operations with integrated reporting and automated salary calculations."
 msgstr ""
-"Энэхүү систем нь ажилтнуудын гүйцэтгэсэн ажлыг бүртгэх, удирдах, цалин "
-"бодолтыг автоматжуулах болон тайлан мэдээлэл, хяналтын цогц хэрэгслээр "
-"хангах зориулалттай. "
+"Ажлын бүртгэл, ирц болон цалин хяналтын нэгдсэн систем. Тайлан мэдээ болон "
+"цалингийн автомат тооцооллын тусламжтайгаар депогийн үйл ажиллагааг "
+"хялбарчлаарай."
 
 #: employee/templates/includes/alerts/alerts_info.html:8
 #: employee/templates/includes/alerts/duplicate_warning.html:8
@@ -632,6 +669,10 @@ msgstr "Хаах"
 #: employee/templates/includes/auth/password_toggle.html:10
 msgid "Show or hide password"
 msgstr "Нууц үг харуулах/нуух"
+
+#: employee/templates/includes/components/list_header.html:6
+msgid "Select a department"
+msgstr "Хэлтэс сонгох"
 
 #: employee/templates/includes/components/list_header.html:13
 msgid "Create"
@@ -1024,6 +1065,18 @@ msgstr "Вагоны Сарын Тайлан"
 #: employee/views/wagon/wagon_export/wagon_excel.py:37
 msgid "Wagon Daily Report"
 msgstr "Вагоны Өдрийн Тайлан"
+
+#~ msgid "Electronic workflow and workload registration system for Depos"
+#~ msgstr "Депогийн цахим ажлын урсгал болон ажлын ачааллын бүртгэлийн систем"
+
+#~ msgid ""
+#~ "This system is designed to record and manage the work performed by "
+#~ "employees, automate payroll calculations, and provide comprehensive "
+#~ "reporting and monitoring tools."
+#~ msgstr ""
+#~ "Энэхүү систем нь ажилтнуудын гүйцэтгэсэн ажлыг бүртгэх, удирдах, цалин "
+#~ "бодолтыг автоматжуулах болон тайлан мэдээлэл, хяналтын цогц хэрэгслээр "
+#~ "хангах зориулалттай. "
 
 #~ msgid "According to rank (e.g. 9715.83)"
 #~ msgstr "Зэргийн дагуу (жишээ нь: 9715.83)"
