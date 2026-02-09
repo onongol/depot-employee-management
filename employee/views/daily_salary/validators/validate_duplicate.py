@@ -7,9 +7,9 @@ def validate_daily_salary_duplicate(
     if emp_id in existing_records:
         errors.append(
             _(
-                "Daily salary record for Employee: %(employee)s on %(date)s already exists!"
+                "Record for %(employee)s on %(date)s already exists."
             )
-            % {"employee": f"{emp_id}/{emp.name}", "date": salary_date}
+            % {"employee": str(emp), "date": salary_date}
         )
         return None
     return False
