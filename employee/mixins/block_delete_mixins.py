@@ -1,7 +1,5 @@
 from django.utils.translation import gettext_lazy as _
 
-from employee.messages.delete_block import DELETE_BLOCK_MESSAGE
-
 
 class BlockDeleteMixin:
     """
@@ -16,7 +14,12 @@ class BlockDeleteMixin:
             return ""
 
         related = ", ".join(str(_(label)) for label in self.block_related_models)
-        return DELETE_BLOCK_MESSAGE % {
+
+        template = _(
+            "Cannot delete %(object_name)s. Linked to existing entries."
+        )
+
+        return template % {
             "object_name": self.get_object_name(),
             "related": related,
         }
