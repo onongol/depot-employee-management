@@ -27,14 +27,14 @@ def wagon_export_excel(request):
     data.append(build_totals_row(totals, context=context))
 
     file_name = "wagon.xlsx"
-    sheet_title = str(_("Wagon"))
+    sheet_title = str(_("Wagons"))
 
     meta = {
-        GROUP_MONTH: ("wagon_work_monthly.xlsx", _("Monthly Work for Wagons")),
+        GROUP_MONTH: ("wagon_monthly_report.xlsx", _("Wagon Monthly Report")),
     }
 
     file_name, title = meta.get(
-        context.group, ("wagon_work_daily.xlsx", _("Daily Work for Wagons"))
+        context.group, ("wagon_daily_report.xlsx", _("Wagon Daily Report"))
     )
     sheet_title = str(title)
 
