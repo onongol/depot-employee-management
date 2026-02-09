@@ -55,7 +55,7 @@
                                         {% else %}
                                             {% url 'employee_activate' employee.pk as activate_url %}
                                         {% endif %}
-                                        {% include "includes/table_action_buttons/action_buttons.html" with id=employee.employee_id name=employee.name edit_url=edit_url delete_url=delete_url show_delete=True deactivate_url=deactivate_url activate_url=activate_url show_activation=True is_active=employee.is_active %}
+                                        {% include "includes/table_action_buttons/action_buttons.html" with id=employee.employee_id name=employee edit_url=edit_url delete_url=delete_url show_delete=True deactivate_url=deactivate_url activate_url=activate_url show_activation=True is_active=employee.is_active %}
                                     </td>
                                 {% endif %}
                             {% endwith %}
@@ -63,7 +63,7 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No employees found..." %}</td>
+                        <td colspan="7" class="text-center px-3 py-4 text-gray-500">{% trans "No records found" %}</td>
                     </tr>
                 {% endif %}
             </tbody>
