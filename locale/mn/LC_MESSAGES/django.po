@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-09 11:44+0800\n"
+"POT-Creation-Date: 2026-02-09 15:04+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,6 +105,7 @@ msgstr "Өдрийн цалин"
 #: employee/mixins/context_mixins.py:31
 #: employee/templates/base/navbar/menu.html:21
 #: employee/templates/home/home.html:21
+#: employee/views/daily_work/daily_work_create/daily_work_create_prepare.py:64
 #: employee/views/employee/employee_views.py:58
 #: employee/views/work/work_views.py:64
 msgid "Daily Work"
@@ -257,7 +258,6 @@ msgstr "Албан Тушаал"
 #: employee/templates/employee/employee_filters.html:8
 #: employee/templates/employee_salary/employee_salary_filters.html:12
 #: employee/templates/includes/select_table/employee_search_filters.html:6
-#: employee/templates/includes/select_table/work_search_filters.html:3
 #: employee/templates/piecework/piecework_filters.html:9
 #: employee/templates/work/work_filters.html:6
 msgid "Positions"
@@ -307,7 +307,6 @@ msgstr "Нэр"
 #: employee/templates/employee_salary/employee_salary_list.html:26
 #: employee/templates/includes/select_table/employee_search_filters.html:6
 #: employee/templates/includes/select_table/employees_select_table.html:20
-#: employee/templates/includes/select_table/work_search_filters.html:3
 #: employee/templates/includes/select_table/works_select_table.html:19
 #: employee/templates/piecework/piecework_list.html:24
 #: employee/templates/work/work_create.html:10
@@ -384,7 +383,7 @@ msgstr "Ажлын Төрөл"
 
 #: employee/templates/daily_work/daily_work_filters.html:10
 #: employee/templates/daily_work/daily_work_list.html:50
-#: employee/templates/includes/select_table/work_search_filters.html:5
+#: employee/templates/includes/select_table/work_search_filters.html:4
 #: employee/templates/includes/select_table/works_select_table.html:21
 #: employee/templates/piecework/piecework_filters.html:14
 #: employee/templates/piecework/piecework_list.html:28
@@ -402,7 +401,7 @@ msgid "Wagon Type"
 msgstr "Вагоны Төрөл"
 
 #: employee/templates/daily_work/daily_work_filters.html:10
-#: employee/templates/includes/select_table/work_search_filters.html:5
+#: employee/templates/includes/select_table/work_search_filters.html:4
 #: employee/templates/piecework/piecework_filters.html:14
 #: employee/templates/wagon/wagon_filters.html:7
 #: employee/templates/work/work_filters.html:8
