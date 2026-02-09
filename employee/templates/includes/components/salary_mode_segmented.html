@@ -6,10 +6,10 @@
         <div class="inline-flex rounded-xl border border-gray-300 bg-gray-100 p-1 dark:bg-gray-800 dark:border-gray-600">
             <a href="{% querystring group='' page=None wagon_number=None %}"
                class=" px-4 py-2 text-sm font-medium rounded-lg transition {% if not wagon_group %} bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400 {% else %} text-gray-500 hover:bg-gray-200 dark:text-gray-500 dark:hover:bg-gray-700 {% endif %} "
-               {% if not wagon_group %}aria-current="page"{% endif %}>{% trans "Full" %}</a>
+               {% if not wagon_group %}aria-current="page"{% endif %}>{% trans "Total" %}</a>
             <a href="{% querystring group=GROUP_WAGON page=None %}"
                class=" px-4 py-2 text-sm font-medium rounded-lg transition {% if wagon_group %} bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400 {% else %} text-gray-500 hover:bg-gray-200 dark:text-gray-500 dark:hover:bg-gray-700 {% endif %} "
-               {% if wagon_group %}aria-current="page"{% endif %}>{% trans "Wagon" %}</a>
+               {% if wagon_group %}aria-current="page"{% endif %}>{% trans "By Wagon" %}</a>
         </div>
     </div>
 </div>
