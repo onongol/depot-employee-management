@@ -1,10 +1,12 @@
+{% load i18n %}
+
 {% if request.user.is_authenticated %}
-    <button data-collapse-toggle="navbar-menu"
-            type="button"
+    <button type="button"
+            id="{{ id_btn|default:'navbar-toggle' }}"
             class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 rounded-2xl transition hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 lg:hidden dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-            aria-controls="navbar-menu"
+            aria-controls="app-sidebar"
             aria-expanded="false">
-        <span class="sr-only">Open main mobile menu</span>
+        <span class="sr-only">Open main sidebar</span>
         <svg class="w-5 h-5" aria-hidden="true">
             <use href="#mobile-menu"></use>
         </svg>
