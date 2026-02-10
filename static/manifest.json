@@ -89,10 +89,10 @@
     "src": "assets/js/modals/save_confirmation.ts",
     "isEntry": true
   },
-  "assets/js/navbar/navbar_toggle.ts": {
-    "file": "js/navbar_toggle-bundle.js",
-    "name": "navbar_toggle",
-    "src": "assets/js/navbar/navbar_toggle.ts",
+  "assets/js/sidebar/sidebar_toggle.ts": {
+    "file": "js/sidebar_toggle-bundle.js",
+    "name": "sidebar_toggle",
+    "src": "assets/js/sidebar/sidebar_toggle.ts",
     "isEntry": true
   },
   "assets/js/summary/summary_selected.ts": {
@@ -123,7 +123,7 @@
     ]
   },
   "assets/src/styles.css": {
-    "file": "assets/styles-DHcd8tTM.css",
+    "file": "assets/styles-BFWIfH9e.css",
     "src": "assets/src/styles.css",
     "isEntry": true,
     "name": "styles",
