@@ -5,16 +5,19 @@
       class="mb-6"
       aria-labelledby="employee-salary-list-title">
     <input type="hidden" name="group" value="{{ group|default:'' }}">
-    <div class="flex flex-col md:flex-row gap-4">
-        {% if not is_employee %}
-            {% include "includes/filters/filter_input.html" with id="id_employee_id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
-            {% include "includes/filters/filter_input.html" with id="id_employee_name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name %}
-            {% include "includes/filters/filter_select.html" with id="id_job_title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
-        {% endif %}
-        {% if wagon_mode %}
-            {% include "includes/filters/filter_input.html" with id="id_wagon_number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
-        {% endif %}
-        {% include "includes/filters/filter_month.html" with id="id_month_period" label=_("Month/Year") name="month_period" value=request.GET.month_period %}
-        {% include "includes/filters/filter_button.html" %}
+    {% include "includes/filters/filter_toggle.html" with toggle_id="employee-salary-filters-toggle" panel_id="employee-salary-filters-panel" %}
+    <div id="employee-salary-filters-panel" class="hidden lg:block">
+        <div class="flex flex-col md:flex-row gap-4">
+            {% if not is_employee %}
+                {% include "includes/filters/filter_input.html" with id="id_employee_id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
+                {% include "includes/filters/filter_input.html" with id="id_employee_name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name %}
+                {% include "includes/filters/filter_select.html" with id="id_job_title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
+            {% endif %}
+            {% if wagon_mode %}
+                {% include "includes/filters/filter_input.html" with id="id_wagon_number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
+            {% endif %}
+            {% include "includes/filters/filter_month.html" with id="id_month_period" label=_("Month/Year") name="month_period" value=request.GET.month_period %}
+            {% include "includes/filters/filter_button.html" %}
+        </div>
     </div>
 </form>
