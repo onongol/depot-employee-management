@@ -41,6 +41,12 @@
     "src": "assets/js/dropdowns/user_dropdown.ts",
     "isEntry": true
   },
+  "assets/js/filters/filter_toggle.ts": {
+    "file": "js/filter_toggle-bundle.js",
+    "name": "filter_toggle",
+    "src": "assets/js/filters/filter_toggle.ts",
+    "isEntry": true
+  },
   "assets/js/filters/table_search.ts": {
     "file": "js/table_search-bundle.js",
     "name": "table_search",
@@ -123,7 +129,7 @@
     ]
   },
   "assets/src/styles.css": {
-    "file": "assets/styles-BFWIfH9e.css",
+    "file": "assets/styles-CdotIS_H.css",
     "src": "assets/src/styles.css",
     "isEntry": true,
     "name": "styles",
