@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Initialize known dropdowns
 	setupDropdown("department-dropdown-btn", "department-dropdown-menu");
+	setupDropdown("department-sidebar-btn", "department-sidebar-menu");
 
 	// Helpers
 	function openMenu(menu: HTMLElement): void {
