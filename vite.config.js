@@ -22,6 +22,7 @@ export default defineConfig({
         'select_all': path.resolve(__dirname, 'assets/js/checkbox/select_all.ts'),
         'department_dropdown': path.resolve(__dirname, 'assets/js/dropdowns/department_dropdown.ts'),
         'user_dropdown': path.resolve(__dirname, 'assets/js/dropdowns/user_dropdown.ts'),
+        'filter_toggle': path.resolve(__dirname, 'assets/js/filters/filter_toggle.ts'),
         'table_search': path.resolve(__dirname, 'assets/js/filters/table_search.ts'),
         'ensure_type_work': path.resolve(__dirname, 'assets/js/forms/ensure_type_work.ts'),
         'form_error_clear': path.resolve(__dirname, 'assets/js/forms/form_error_clear.ts'),
