@@ -30,18 +30,33 @@ document.addEventListener("DOMContentLoaded", () => {
 		e.stopPropagation();
 	}
 
-	function setupToggle(pair: DropdownPair): void {
-		if (!pair.btn || !pair.menu) return;
-		pair.btn.addEventListener("click", (e: MouseEvent) => {
-			e.stopPropagation();
-			pair.menu!.classList.toggle("hidden");
+	function closeAllMenus(except: Array<HTMLElement | null> = []): void {
+		const keep = new Set(except.filter(Boolean));
+		allPairs.forEach((p) => {
+			if (p.menu && !keep.has(p.menu)) p.menu.classList.add("hidden");
 		});
-		// clicks inside menu shouldn't close it
-		pair.menu.addEventListener("click", stopPropagationHandler);
 	}
 
-	function closeAllMenus(): void {
-		allPairs.forEach((p) => p.menu?.classList.add("hidden"));
+	function setupToggle(pair: DropdownPair): void {
+		if (!pair.btn || !pair.menu) return;
+
+		pair.btn.addEventListener("click", (e: MouseEvent) => {
+			e.stopPropagation();
+
+			const isHidden = pair.menu!.classList.contains("hidden");
+			const isUserMenu = pair.menu === user.menu;
+			const keepMenus = isUserMenu ? [pair.menu] : [pair.menu, user.menu];
+
+			if (isHidden) {
+				closeAllMenus(keepMenus);
+				pair.menu!.classList.remove("hidden");
+			} else {
+				pair.menu!.classList.add("hidden");
+				if (isUserMenu) closeAllMenus();
+			}
+		});
+
+		pair.menu.addEventListener("click", stopPropagationHandler);
 	}
 
 	// init toggles
