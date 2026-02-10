@@ -1,0 +1,34 @@
+{% load i18n %}
+
+<div id="sidebar-overlay"
+     class="fixed inset-0 bg-black/50 z-50 hidden lg:hidden transition-opacity"></div>
+<aside id="app-sidebar"
+       class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-50 dark:bg-gray-800 shadow transform -translate-x-full lg:translate-x-0 lg:block hidden lg:hidden transition-transform duration-200">
+    <div class="h-full overflow-y-auto py-2 px-4">
+        <div class="flex items-center gap-2 mb-4">
+            {% include "base/navbar/menu_button.html" with id_btn="sidebar-toggle" %}
+            {% include "base/navbar/logo.html" %}
+        </div>
+        <ul class="flex flex-col mt-2 space-y-4 lg:flex-col lg:items-start lg:p-4 lg:mt-0 lg:space-y-2">
+            {% if not is_employee and not is_master %}
+                {% include "includes/department/department_dropdown.html" with id_btn="department-sidebar-btn" id_menu="department-sidebar-menu" %}
+            {% endif %}
+            {% include "includes/navbar/menu_link.html" with url_name='employee_list' label=_('Employees') %}
+            {% if not is_employee %}
+                {% include "includes/navbar/menu_link.html" with url_name='work_list' label=_('Works') %}
+            {% endif %}
+            {% include "includes/navbar/menu_link.html" with url_name='daily_salary_list' label=_('Daily Attendance') %}
+            {% if not is_employee %}
+                {% include "includes/navbar/menu_link.html" with url_name='daily_work_list' label=_('Daily Work') %}
+            {% endif %}
+            {% include "includes/navbar/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
+            {% include "includes/navbar/menu_link.html" with url_name='employee_salary_list' label=_('Salaries') %}
+            {% if not is_employee %}
+                {% include "includes/navbar/menu_link.html" with url_name='wagon_list' label=_('Wagons') %}
+            {% endif %}
+            {% if not is_employee and not is_master %}
+                {% include "includes/navbar/menu_link.html" with url_name='material_list' label=_('Materials') %}
+            {% endif %}
+        </ul>
+    </div>
+</aside>
