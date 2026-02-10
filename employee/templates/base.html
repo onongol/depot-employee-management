@@ -14,7 +14,7 @@
               type="image/x-icon"
               href="{% static 'images/favicon.svg' %}">
         <!-- Main styles -->
-        <link rel="stylesheet" href="{% static 'assets/styles-DHcd8tTM.css' %}" />
+        <link rel="stylesheet" href="{% static 'assets/styles-BFWIfH9e.css' %}" />
         <!-- Flatpickr styles -->
         <link rel="stylesheet" href="{% static 'assets/flatpickr-DRf1F60d.css' %}" />
         <title>
@@ -24,7 +24,7 @@
     <body class="bg-white dark:bg-gray-900">
         {% include "includes/svg_symbols.html" %}
         {% include "base/navbar.html" %}
-
+        {% include "base/sidebar.html" %}
         <main class="max-w-screen-xl mx-auto mt-8 px-4 outline-none bg-white dark:bg-gray-900"
               id="main-content"
               tabindex="-1">
@@ -38,7 +38,6 @@
                 {% block content %}{% endblock %}
             {% endif %}
         </main>
-
         <!-- Provides Django's JavaScript translation catalog (gettext) for client-side i18n;
 load this before any scripts that call gettext() or use translated strings. -->
         <script src="{% url 'javascript-catalog' %}"></script>
@@ -51,10 +50,9 @@ load this before any scripts that call gettext() or use translated strings. -->
         {% endif %}
         <script src="{% static 'js/form_navigation-bundle.js' %}"></script>
         <script src="{% static 'js/form_error_clear-bundle.js' %}"></script>
-        <script src="{% static 'js/navbar_toggle-bundle.js' %}"></script>
         <script src="{% static 'js/modals-bundle.js' %}"></script>
         <script src="{% static 'js/save_confirmation-bundle.js' %}"></script>
         <script src="{% static 'js/password_toggle-bundle.js' %}"></script>
-
+        <script src="{% static 'js/sidebar_toggle-bundle.js' %}"></script>
     </body>
 </html>
