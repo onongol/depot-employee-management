@@ -2,7 +2,7 @@
     <label for="{{ id }}" class="sr-only">{{ label }}</label>
     <select name="{{ name }}"
             id="{{ id }}"
-            class="cursor-pointer block w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition appearance-none pr-10 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:placeholder-gray-500 dark:focus:ring-gray-500 dark:focus:border-gray-500"
+            class="cursor-pointer block w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 focus:ring-inset focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition appearance-none pr-10 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:placeholder-gray-500 dark:focus:ring-gray-500 dark:focus:border-gray-500"
             {% if data_table %}data-table="{{ data_table }}"{% endif %}
             {% if data_column %}data-column="{{ data_column }}"{% endif %}
             {% if required %}required{% endif %}>
