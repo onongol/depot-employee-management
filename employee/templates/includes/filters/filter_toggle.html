@@ -1,11 +1,11 @@
 {% load i18n %}
 
-<div class="flex items-center gap-2 mb-3 lg:hidden w-full">
+<div class="flex items-center gap-2 lg:hidden">
     <button type="button"
             id="{{ toggle_id }}"
             data-filter-toggle="true"
             data-target="{{ panel_id }}"
-            class="cursor-pointer inline-flex items-center justify-start text-left gap-2 px-4 py-2 text-sm font-medium text-gray-700 rounded-xl border border-gray-300 bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-gray-400 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 w-full"
+            class="cursor-pointer inline-flex items-center justify-start text-left gap-2 px-4 py-2 text-sm font-medium text-gray-700 rounded-xl border border-gray-300 bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-gray-400 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700"
             aria-controls="{{ panel_id }}"
             aria-expanded="false">
         <svg class="w-5 h-5" aria-hidden="true">
