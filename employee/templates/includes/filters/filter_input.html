@@ -1,14 +1,14 @@
 <div class="flex flex-col">
     <label for="{{ id }}" class="sr-only">{{ label }}</label>
     <input type="{{ type }}"
-           name="{{ name }}"
-           id="{{ id }}"
-           class="block w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:focus:ring-gray-500 dark:focus:border-gray-500"
-           placeholder="{{ placeholder|default:label }}"
-           value="{{ value|default:'' }}"
-           {% if data_table %}data-table="{{ data_table }}"{% endif %}
-           {% if data_column %}data-column="{{ data_column }}"{% endif %}
-           {% if min %}min="{{ min }}"{% endif %}
-           {% if max %}max="{{ max }}"{% endif %}
-           {% if step %}step="{{ step }}"{% endif %}>
+       name="{{ name }}"
+       id="{{ id }}"
+       class="block w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-400 focus:border-gray-400 transition dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:focus:ring-gray-500 dark:focus:border-gray-500"
+       placeholder="{{ placeholder|default:label }}"
+       value="{{ value|default:'' }}"
+       {% if data_table %}data-table="{{ data_table }}"{% endif %}
+       {% if data_column %}data-column="{{ data_column }}"{% endif %}
+       {% if min %}min="{{ min }}"{% endif %}
+       {% if max %}max="{{ max }}"{% endif %}
+       {% if step %}step="{{ step }}"{% endif %}>
 </div>
