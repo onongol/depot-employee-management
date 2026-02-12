@@ -43,7 +43,7 @@
                                            aria-label="{% trans 'Select all' %}" />
                                 </th>
                             {% endif %}
-                            <th scope="col" class="{{ col_class }}">#</th>
+                            <th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
                             <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
                             <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
                             <th scope="col" class="{{ col_class }}">{% trans "Work Type" %}</th>
@@ -98,7 +98,7 @@
                                                    aria-label="{% trans 'Select' %} {{ daily_work.work.work_name }}" />
                                         </td>
                                     {% endif %}
-                                    <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                    <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
                                     {% if month_group or year_group %}
                                         <td class="{{ col_class }}">{{ daily_work.work_name }}</td>
                                         <td class="{{ col_class }}">{{ daily_work.job_title }}</td>
@@ -149,7 +149,7 @@
                     {% endif %}
                 </tbody>
                 {% if daily_works %}
-                    <tfoot>
+                    <tfoot class="hidden md:table-footer-group">
                         {% include "daily_work/daily_work_total_row.html" %}
                     </tfoot>
                 {% endif %}
