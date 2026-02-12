@@ -1,7 +1,5 @@
 {% load i18n %}
 <!-- Mobile: department title inline with logo -->
-<div class="lg:hidden min-w-0 flex-1 pl-4">
-    <div class="text-sm font-semibold text-gray-700 dark:text-gray-200 truncate">
-        {{ selected_department|default:_("Select a department") }}
-    </div>
+<div class="min-w-0 flex-1 pl-4 lg:hidden">
+    <div class="truncate text-sm font-semibold text-gray-700 dark:text-gray-200">{{ selected_department|default:"" }}</div>
 </div>
