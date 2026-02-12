@@ -4,7 +4,7 @@
 {% block content %}
     <!-- Header -->
     {% include "includes/components/list_header.html" with header_id="employee-salary-list-title" title=selected_department %}
-    <div class="mb-4 flex flex-row items-center justify-between gap-2 md:flex-col md:items-stretch md:gap-4">
+    <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
         <!-- Salary Mode Segmented Control -->
         {% if show_wagon %}
             {% include "includes/components/salary_mode_segmented.html" %}
