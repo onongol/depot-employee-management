@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 {% load i18n %}
-
 {% block content %}
     <h2 id="form-title"
-        class="text-xl text-gray-700 font-semibold mb-6 dark:text-gray-400">
+        class="mb-6 hidden text-xl font-semibold text-gray-700 md:block dark:text-gray-400">
         {% trans "New" %} {% trans object_type %} ({{ selected_department }})
     </h2>
     {% include "includes/form/form_errors.html" %}
     <form method="post"
-          class="bg-white rounded-md border border-gray-100 shadow-md p-6 dark:bg-gray-800 dark:border-gray-700"
+          class="rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
           id="createForm"
           aria-labelledby="form-title">
         {% csrf_token %}
@@ -23,11 +22,11 @@
             {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-salary-list-title" %}
         {% else %}
             <!-- Info notice when no employees -->
-            <div class="mb-4 rounded-md shadow-sm border-l-4 border-yellow-400 bg-yellow-50 p-3 dark:bg-yellow-500/20 dark:border-yellow-600">
+            <div class="mb-4 rounded-md border-l-4 border-yellow-400 bg-yellow-50 p-3 shadow-sm dark:border-yellow-600 dark:bg-yellow-500/20">
                 <p class="text-sm text-yellow-800 dark:text-yellow-400">
                     {% blocktrans trimmed %}
                         <strong>No employee profiles found.</strong>
-                        <br>
+                        <br />
                         Please <strong>create profiles</strong> to get started.
                     {% endblocktrans %}
                 </p>
