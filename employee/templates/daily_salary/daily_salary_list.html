@@ -6,7 +6,7 @@
     {% url 'daily_salary_create' as create_url %}
     <!-- Header -->
     {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url %}
-    <div class="mb-4 flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
+    <div class="mb-2 flex flex-row items-center justify-end gap-2 md:mb-4 md:justify-start md:gap-4">
         <!-- Actions dropdown (does NOT submit GET form) -->
         {% if not is_employee and not is_master %}
             {% include "includes/table_action_buttons/actions_dropdown.html" %}
