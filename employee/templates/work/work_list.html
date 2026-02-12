@@ -22,7 +22,7 @@
             <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     {% with col_class="px-6 py-3" %}
-                        <th scope="col" class="{{ col_class }}">#</th>
+                        <th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
                         <th scope="col" class="{{ col_class }}">
                             {% include "includes/table/sort_column.html" with label=_("Work") field="work_name" col_class=col_class selected_department=selected_department %}
                         </th>
@@ -45,7 +45,7 @@
                     {% for work in works %}
                         <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
                             {% with col_class="px-6 py-3" %}
-                                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
                                 <td class="{{ col_class }}">{{ work.work_name }}</td>
                                 <td class="{{ col_class }}">{{ work.job_title }}</td>
                                 {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
