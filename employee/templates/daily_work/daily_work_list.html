@@ -5,7 +5,7 @@
     {% url 'daily_work_create' as create_url %}
     <!-- Header -->
     {% include "includes/components/list_header.html" with header_id="daily-work-list-title" title=selected_department create_url=create_url %}
-    <div class="mb-4 flex flex-row items-center justify-between gap-2 md:flex-col md:items-stretch md:gap-4">
+    <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
         <!-- View Mode Segmented Control -->
         {% include "includes/components/view_mode_segmented.html" %}
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
