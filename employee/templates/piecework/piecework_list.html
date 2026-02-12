@@ -19,7 +19,7 @@
             <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     {% with col_class="px-6 py-3" %}
-                        <th scope="col" class="{{ col_class }}">#</th>
+                        <th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
                         <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
@@ -61,7 +61,7 @@
                     {% for piecework in pieceworks %}
                         <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
                             {% with col_class="px-6 py-3" %}
-                                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
                                 {% if month_group or year_group %}
                                     <td class="{{ col_class }}">{{ piecework.employee_id }}</td>
                                     <td class="{{ col_class }}">{{ piecework.employee_name }}</td>
@@ -107,7 +107,7 @@
                 {% endif %}
             </tbody>
             {% if pieceworks %}
-                <tfoot>
+                <tfoot class="hidden md:table-footer-group">
                     {% include "piecework/piecework_total_row.html" %}
                 </tfoot>
             {% endif %}
