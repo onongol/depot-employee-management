@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 {% load i18n %}
-
 {% block title %}Daily Work{% endblock %}
 {% block content %}
     {% url 'daily_work_create' as create_url %}
     <!-- Header -->
     {% include "includes/components/list_header.html" with header_id="daily-work-list-title" title=selected_department create_url=create_url %}
-    <!-- View Mode Segmented Control -->
-    {% include "includes/components/view_mode_segmented.html" %}
-    <div class="flex flex-row items-center gap-2 md:gap-4 mb-6">
-        <!-- Actions dropdown (does NOT submit GET form) -->
-        {% if not is_employee and not is_master and detail_group %}
-            <div class="shrink-0">{% include "includes/table_action_buttons/actions_dropdown.html" %}</div>
-        {% endif %}
-        <!-- Filters -->
-        <div class="flex-1 min-w-0">{% include "daily_work/daily_work_filters.html" %}</div>
+    <div class="mb-4 flex flex-row items-center justify-between gap-2 md:flex-col md:items-stretch md:gap-4">
+        <!-- View Mode Segmented Control -->
+        {% include "includes/components/view_mode_segmented.html" %}
+        <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
+            <!-- Actions dropdown (does NOT submit GET form) -->
+            {% if not is_employee and not is_master and detail_group %}
+                {% include "includes/table_action_buttons/actions_dropdown.html" %}
+            {% endif %}
+            <!-- Filters -->
+            {% include "daily_work/daily_work_filters.html" %}
+        </div>
     </div>
     <!-- Messages -->
     {% include "includes/alerts/alerts.html" %}
@@ -27,8 +28,8 @@
           action="{% url 'daily_work_delete_bulk' %}">
         {% csrf_token %}
         <!-- Daily Work Table -->
-        <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
-            <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400"
+        <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
+            <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
                    aria-describedby="daily-work-list-title">
                 <thead>
                     <tr>
@@ -37,9 +38,9 @@
                                 <th scope="col" class="{{ col_class }} text-center">
                                     <input type="checkbox"
                                            id="select-all-daily-works"
-                                           class="cursor-pointer h-4 w-4 accent-red-700 dark:accent-red-400"
+                                           class="h-4 w-4 cursor-pointer accent-red-700 dark:accent-red-400"
                                            onclick="toggleAllVisible(this, 'daily_work_ids')"
-                                           aria-label="{% trans 'Select all' %}">
+                                           aria-label="{% trans 'Select all' %}" />
                                 </th>
                             {% endif %}
                             <th scope="col" class="{{ col_class }}">#</th>
@@ -83,7 +84,7 @@
                 <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
                     {% if daily_works %}
                         {% for daily_work in daily_works %}
-                            <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-red-100 dark:has-[:checked]:bg-red-500/20"
+                            <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-red-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-red-500/20"
                                 data-work-name="{{ daily_work.work.work_name }}"
                                 data-type-work="{{ daily_work.type_work }}"
                                 data-work-date="{{ daily_work.work_date|date:'Y-m-d' }}">
@@ -91,10 +92,10 @@
                                     {% if not is_employee and not is_master and detail_group %}
                                         <td class="{{ col_class }} text-center">
                                             <input type="checkbox"
-                                                   class="cursor-pointer h-4 w-4 accent-red-700 dark:accent-red-400"
+                                                   class="h-4 w-4 cursor-pointer accent-red-700 dark:accent-red-400"
                                                    name="daily_work_ids"
                                                    value="{{ daily_work.pk }}"
-                                                   aria-label="{% trans 'Select' %} {{ daily_work.work.work_name }}">
+                                                   aria-label="{% trans 'Select' %} {{ daily_work.work.work_name }}" />
                                         </td>
                                     {% endif %}
                                     <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
@@ -143,10 +144,7 @@
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td colspan="13"
-                                class="text-center px-3 py-4 text-gray-500">
-                                {% trans "No records found" %}
-                            </td>
+                            <td colspan="13" class="px-3 py-4 text-center text-gray-500">{% trans "No records found" %}</td>
                         </tr>
                     {% endif %}
                 </tbody>
@@ -163,7 +161,7 @@
         {% include "includes/table/pagination.html" %}
     </nav>
     <!-- Export to Excel Button -->
-    <div class="flex gap-2 w-24 mt-4 mb-4">
+    <div class="mt-4 mb-4 flex w-24 gap-2">
         {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
     </div>
     <!-- Bulk Delete Modal -->
