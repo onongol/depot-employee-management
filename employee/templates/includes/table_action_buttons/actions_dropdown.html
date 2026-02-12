@@ -1,12 +1,13 @@
 {% load i18n %}
 <details class="relative">
-    <summary class="flex cursor-pointer items-center justify-between gap-2 rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 placeholder-gray-400 select-none focus:border-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:placeholder-gray-500 dark:focus:border-gray-500 dark:focus:ring-gray-500">
+    <summary title="{% trans 'Actions' %}"
+             class="flex cursor-pointer items-center justify-between gap-2 rounded-full p-2 text-sm font-medium text-gray-700 placeholder-gray-400 select-none hover:bg-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none md:rounded-xl md:border md:border-gray-300 md:bg-gray-100 md:px-4 md:py-2 dark:text-gray-400 dark:placeholder-gray-500 dark:hover:bg-gray-700 dark:focus:border-gray-500 dark:focus:ring-gray-500 md:dark:border-gray-600 md:dark:bg-gray-800">
         <span class="hidden md:inline">{% trans "Actions" %}</span>
         <svg class="h-5 w-5 md:hidden" aria-hidden="true">
             <use href="#actions-dots"></use>
         </svg>
     </summary>
-    <div class="absolute z-10 mt-2 rounded-md border border-gray-100 bg-gray-50 text-red-500 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-red-500">
+    <div class="absolute z-10 mt-2 rounded-md border border-gray-200 bg-gray-50 text-red-500 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-red-500">
         <button type="button"
                 class="block w-full cursor-pointer rounded-md px-4 py-2 text-left text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
                 onclick=" document.getElementById('bulkDeleteModal').classList.remove('hidden') ">
