@@ -44,7 +44,7 @@ def material_list(request):
         "material/material_list.html",
         {
             **asdict(context),
-            "daily_works": page_obj.object_list,
+            "materials": page_obj.object_list,
             "page_obj": page_obj,
             "sum_amount": sum_amount,
         },
