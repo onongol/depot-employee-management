@@ -9,7 +9,7 @@
     {% else %}
         {% include "includes/components/list_header.html" with header_id="employee-list-title" title=selected_department only %}
     {% endif %}
-    <div class="mb-4 flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
+    <div class="mb-2 flex flex-row items-center justify-end gap-2 md:mb-4 md:justify-start md:gap-4">
         <!-- Filter Form -->
         {% include "employee/employee_filters.html" %}
     </div>
