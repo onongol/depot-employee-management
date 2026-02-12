@@ -27,25 +27,28 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-                {% for dw in daily_works %}
-                    <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-                        {% with col_class="px-6 py-3" %}
-                            <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                            <td class="{{ col_class }}">{{ dw.work__type_material }}</td>
-                            <td class="{{ col_class }}">{{ dw.work__work_name }}</td>
-                            <td class="{{ col_class }}">{{ dw.amount_material|floatformat:2 }}</td>
-                            <td class="{{ col_class }}">{{ dw.work_date|date:"Y-m-d" }}</td>
-                        {% endwith %}
-                    </tr>
-                {% endfor %}
-                {% if daily_works|length == 0 %}
+                {% if materials %}
+                    {% for material in materials %}
+                        <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
+                            {% with col_class="px-6 py-3" %}
+                                <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                <td class="{{ col_class }}">{{ material.work__type_material }}</td>
+                                <td class="{{ col_class }}">{{ material.work__work_name }}</td>
+                                <td class="{{ col_class }}">{{ material.amount_material|floatformat:2 }}</td>
+                                <td class="{{ col_class }}">{{ material.work_date|date:"Y-m-d" }}</td>
+                            {% endwith %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
                     <tr>
                         <td colspan="5" class="px-3 py-4 text-center text-gray-500">{% trans "No records found" %}</td>
                     </tr>
                 {% endif %}
-                <tfoot class="hidden md:table-footer-group">
-                    {% include "material/material_total_row.html" %}
-                </tfoot>
+                {% if materials %}
+                    <tfoot class="hidden md:table-footer-group">
+                        {% include "material/material_total_row.html" %}
+                    </tfoot>
+                {% endif %}
             </tbody>
         </table>
     </div>
