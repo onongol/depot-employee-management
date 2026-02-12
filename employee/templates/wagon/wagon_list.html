@@ -17,7 +17,7 @@
             <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     {% with col_class="px-6 py-3" %}
-                        <th scope="col" class="{{ col_class }}">#</th>
+                        <th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Wagon Number" %}</th>
                         <th scope="col" class="{{ col_class }}">{% trans "Wagon Type" %}</th>
                         {% if month_group %}
@@ -47,7 +47,7 @@
                     {% for row in rows %}
                         <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
                             {% with col_class="px-6 py-3" %}
-                                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
                                 <td class="{{ col_class }}">{{ row.wagon_number }}</td>
                                 <td class="{{ col_class }}">{{ row.type_wagon }}</td>
                                 {% if month_group %}
@@ -73,7 +73,9 @@
                 {% endif %}
             </tbody>
             {% if rows %}
-                {% include "wagon/wagon_total_row.html" %}
+                <tfoot class="hidden md:table-footer-group">
+                    {% include "wagon/wagon_total_row.html" %}
+                </tfoot>
             {% endif %}
         </table>
     </div>
