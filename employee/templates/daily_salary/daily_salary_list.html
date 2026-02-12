@@ -42,7 +42,7 @@
                                            aria-label="{% trans 'Select all' %}" />
                                 </th>
                             {% endif %}
-                            <th scope="col" class="{{ col_class }}">#</th>
+                            <th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
                             <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
                             <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
                             <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
@@ -81,7 +81,7 @@
                                                    aria-label="{% trans 'Select' %} {{ daily_salary.employee.employee_id }}" />
                                         </td>
                                     {% endif %}
-                                    <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                    <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
                                     <td class="{{ col_class }}">{{ daily_salary.employee.employee_id }}</td>
                                     <td class="{{ col_class }}">{{ daily_salary.employee.name }}</td>
                                     <td class="{{ col_class }}">{{ daily_salary.employee.job_title }}</td>
