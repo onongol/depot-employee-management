@@ -1,25 +1,18 @@
 {% load i18n %}
 {% load querystring %}
-
-<div class="mb-3 md:flex-row gap-4 flex flex-col">
+<div class="flex flex-col md:flex-row gap-4 ">
     <div class="flex flex-col">
         <span class="sr-only">{% trans "View" %}</span>
         <div class="inline-flex w-fit rounded-xl border border-gray-300 bg-gray-100 p-1 dark:bg-gray-800 dark:border-gray-600">
             <a href="{% querystring group='' page=None month_period=None year=None range_date=None record_date=None %}"
                class=" px-4 py-2 text-sm font-medium rounded-lg transition {% if detail_group %} bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400 {% else %} text-gray-500 hover:bg-gray-200 dark:text-gray-500 dark:hover:bg-gray-700 {% endif %} "
-               {% if detail_group %}aria-current="page"{% endif %}>
-                {% trans "Daily" %}
-            </a>
+               {% if detail_group %}aria-current="page"{% endif %}>{% trans "Daily" %}</a>
             <a href="{% querystring group=GROUP_MONTH page=None range_date=None record_date=None year=None %}"
                class=" px-4 py-2 text-sm font-medium rounded-lg transition {% if month_group %} bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400 {% else %} text-gray-500 hover:bg-gray-200 dark:text-gray-500 dark:hover:bg-gray-700 {% endif %} "
-               {% if month_group %}aria-current="page"{% endif %}>
-                {% trans "Monthly" %}
-            </a>
+               {% if month_group %}aria-current="page"{% endif %}>{% trans "Monthly" %}</a>
             <a href="{% querystring group=GROUP_YEAR page=None range_date=None record_date=None month_period=None %}"
                class=" px-4 py-2 text-sm font-medium rounded-lg transition {% if year_group %} bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400 {% else %} text-gray-500 hover:bg-gray-200 dark:text-gray-500 dark:hover:bg-gray-700 {% endif %} "
-               {% if year_group %}aria-current="page"{% endif %}>
-                {% trans "Yearly" %}
-            </a>
+               {% if year_group %}aria-current="page"{% endif %}>{% trans "Yearly" %}</a>
         </div>
     </div>
 </div>
