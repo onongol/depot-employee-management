@@ -1,21 +1,22 @@
 {% extends "base.html" %}
 {% load i18n %}
-
 {% block title %}Salary{% endblock %}
 {% block content %}
     <!-- Header -->
     {% include "includes/components/list_header.html" with header_id="employee-salary-list-title" title=selected_department %}
-    <!-- Salary Mode Segmented Control -->
-    {% if show_wagon %}
-        {% include "includes/components/salary_mode_segmented.html" %}
-    {% endif %}
-    <!-- Filter Form -->
-    {% include "employee_salary/employee_salary_filters.html" %}
+    <div class="mb-4 flex flex-row items-center justify-between gap-2 md:flex-col md:items-stretch md:gap-4">
+        <!-- Salary Mode Segmented Control -->
+        {% if show_wagon %}
+            {% include "includes/components/salary_mode_segmented.html" %}
+        {% endif %}
+        <!-- Filter Form -->
+        {% include "employee_salary/employee_salary_filters.html" %}
+    </div>
     <!-- Employee Salary Table -->
-    <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700">
-        <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400"
+    <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
+        <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
                aria-describedby="employee-list-title">
-            <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
+            <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     {% with col_class="px-6 py-3" %}
                         <th scope="col" class="{{ col_class }}">#</th>
@@ -62,10 +63,7 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="8"
-                            class="text-center px-3 py-4 text-gray-500">
-                            {% trans "No records found" %}
-                        </td>
+                        <td colspan="8" class="px-3 py-4 text-center text-gray-500">{% trans "No records found" %}</td>
                     </tr>
                 {% endif %}
             </tbody>
@@ -76,7 +74,7 @@
         {% include "includes/table/pagination.html" %}
     </nav>
     <!-- Export Button -->
-    <div class="flex gap-2 w-24 mt-4 mb-4">
+    <div class="mt-4 mb-4 flex w-24 gap-2">
         <!-- Excel -->
         {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
         <!-- PDF -->
