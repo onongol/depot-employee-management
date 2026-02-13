@@ -71,6 +71,12 @@
     "src": "assets/js/forms/form_navigation.ts",
     "isEntry": true
   },
+  "assets/js/forms/step_navigation.ts": {
+    "file": "js/step_navigation-bundle.js",
+    "name": "step_navigation",
+    "src": "assets/js/forms/step_navigation.ts",
+    "isEntry": true
+  },
   "assets/js/forms/work_date_change.ts": {
     "file": "js/work_date_change-bundle.js",
     "name": "work_date_change",
@@ -129,7 +135,7 @@
     ]
   },
   "assets/src/styles.css": {
-    "file": "assets/styles-C7VGdCnF.css",
+    "file": "assets/styles-C5h1xkoR.css",
     "src": "assets/src/styles.css",
     "isEntry": true,
     "name": "styles",
