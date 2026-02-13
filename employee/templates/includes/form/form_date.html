@@ -1,6 +1,17 @@
 <div class="flex flex-col items-start md:flex-row md:items-center">
-    <label for="{{ id }}"
-           class="mb-1 hidden text-sm font-medium text-gray-700 md:mb-0 md:block md:w-1/5 dark:text-gray-400">{{ label }}</label>
+    {% if label %}
+        {% if hide_label_mobile %}
+            <label for="{{ id }}"
+                   class="mb-1 hidden text-sm font-medium text-gray-700 md:mb-0 md:block md:w-1/5 dark:text-gray-400">
+                {{ label }}
+            </label>
+        {% else %}
+            <label for="{{ id }}"
+                   class="mb-1 text-sm font-medium text-gray-700 md:mb-0 md:w-1/5 dark:text-gray-400">
+                {{ label }}
+            </label>
+        {% endif %}
+    {% endif %}
     <div class="w-full">
         <input type="{{ type }}"
                name="{{ name }}"
@@ -12,7 +23,7 @@
                {% if required %}required{% endif %}
                {% if min %}min="{{ min }}"{% endif %}
                {% if max %}max="{{ max }}"{% endif %}
-               {% if step %}step="{{ step }}"{% endif %} 
+               {% if step %}step="{{ step }}"{% endif %}
                {% if placeholder %}placeholder="{{ placeholder }}"{% endif %} />
         {% include "includes/form/field_errors.html" with field=form_errors %}
     </div>
