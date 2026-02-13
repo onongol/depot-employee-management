@@ -18,45 +18,58 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
     {% include "includes/form/form_errors.html" %}
     <!-- Daily Work Piecework Create Form -->
     <form method="post"
-          class="rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
+          class="relative rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
           id="createForm"
           aria-labelledby="form-title">
         {% csrf_token %}
-        <!-- Field -->
-        <div class="mb-1 space-y-2 md:space-y-4">
-            {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True hide_label_mobile=True placeholder=_("Date") %}
-            {% if employees %}
-                {% include "includes/form/form_select.html" with id="type_work" label=_("Work Type") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
-                {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                    {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number hide_label_mobile=True placeholder=_("Wagon Number (optional)") %}
+        {% include "includes/buttons/mobile_back_button.html" %}
+        {% include "includes/buttons/mobile_cancel_button.html" %}
+        <div id="step-1" class="pt-6 md:pt-0">
+            <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
+                {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True hide_label_mobile=True placeholder=_("Date") %}
+                {% if employees %}
+                    {% include "includes/select_table/employee_search_filters.html" %}
                 {% endif %}
             </div>
-            <!-- Filters employee table -->
-            {% include "includes/select_table/employee_search_filters.html" %}
-            <!-- Employee Table -->
-            {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-68" aria_desc="daily-work-list-title" %}
-            <!-- Filters works table -->
-            {% include "includes/select_table/work_search_filters.html" %}
-            <!-- Works Table -->
-            {% include "includes/select_table/works_select_table.html" %}
-        {% else %}
-            <!-- Info notice when no employees for selected date -->
-            <div class="mb-4 rounded-md border-l-4 border-yellow-400 bg-yellow-50 p-3 shadow-sm dark:border-yellow-600 dark:bg-yellow-500/20">
-                <p class="text-sm text-yellow-800 dark:text-yellow-400">
-                    {% blocktrans trimmed %}
-                        <strong>No available employees for this date.</strong>
-                        <br />
-                        Please <strong>create daily attendance</strong> first or choose
-                        another date.
-                    {% endblocktrans %}
-                </p>
+            {% if employees %}
+                {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-work-list-title" %}
+            {% else %}
+                <div class="mb-4 rounded-md border-l-4 border-yellow-400 bg-yellow-50 p-3 shadow-sm dark:border-yellow-600 dark:bg-yellow-500/20">
+                    <p class="text-sm text-yellow-800 dark:text-yellow-400">
+                        {% blocktrans trimmed %}
+                            <strong>No available employees for this date.</strong>
+                            <br />
+                            Please <strong>create daily attendance</strong> first or choose
+                            another date.
+                        {% endblocktrans %}
+                    </p>
+                </div>
+            {% endif %}
+            <div class="mt-6 flex flex-col gap-2 sm:flex-row">
+                {% include "includes/buttons/cancel_button.html" %}
+                {% include "includes/buttons/continue_button.html" %}
+            </div>
+        </div>
+        {% if employees %}
+            <div id="step-2" class="hidden pt-6 md:pt-0">
+                <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
+                    {% include "includes/form/form_select.html" with id="type_work" label=_("Work Type") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True hide_label_mobile=True %}
+                    {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                        {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number hide_label_mobile=True placeholder=_("Wagon Number (optional)") %}
+                    {% endif %}
+                    {% include "includes/select_table/work_search_filters.html" %}
+                </div>
+                {% include "includes/select_table/works_select_table.html" %}
+                <!-- Selected summary section -->
+                {% include "includes/summaries/employees_selected_summary.html" %}
+                {% include "includes/summaries/works_selected_summary.html" %}
+                <div class="mt-6 flex flex-col gap-2 sm:flex-row">
+                    {% include "includes/buttons/back_button.html" %}
+                    {% include "includes/buttons/cancel_button.html" %}
+                    {% include "includes/buttons/save_button.html" %}
+                </div>
             </div>
         {% endif %}
-        <!-- Selected summary section -->
-        {% include "includes/summaries/employees_selected_summary.html" %}
-        {% include "includes/summaries/works_selected_summary.html" %}
-        <!-- Form Buttons -->
-        {% include "includes/form/form_actions.html" with cancel_url=cancel_url %}
     </form>
     <!-- Save Duplicate Modal -->
     {% include "includes/modals/save_duplicate.html" %}
