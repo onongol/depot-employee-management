@@ -27,6 +27,7 @@ export default defineConfig({
         'ensure_type_work': path.resolve(__dirname, 'assets/js/forms/ensure_type_work.ts'),
         'form_error_clear': path.resolve(__dirname, 'assets/js/forms/form_error_clear.ts'),
         'form_navigation': path.resolve(__dirname, 'assets/js/forms/form_navigation.ts'),
+        'step_navigation': path.resolve(__dirname, 'assets/js/forms/step_navigation.ts'),
         'work_date_change': path.resolve(__dirname, 'assets/js/forms/work_date_change.ts'),
         'duplicate_check': path.resolve(__dirname, 'assets/js/modals/duplicate_check.ts'),
         'modals': path.resolve(__dirname, 'assets/js/modals/modals.ts'),
