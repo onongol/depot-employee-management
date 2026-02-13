@@ -4,7 +4,7 @@
         {% include "includes/filters/filter_toggle.html" with toggle_id="employee-filters-toggle" panel_id="employee-filters-panel" %}
     {% endif %}
     <div id="employee-filters-panel"
-         class="fixed inset-x-0 bottom-0 z-50 hidden max-h-[80vh] translate-y-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl transition-transform duration-200 lg:static lg:block lg:max-h-none lg:translate-y-0 lg:rounded-none lg:p-0 lg:shadow-none dark:bg-gray-900">
+         class="fixed inset-x-0 bottom-0 z-50 hidden max-h-[80vh] translate-y-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl transition-transform duration-200 lg:static lg:inset-auto lg:bottom-auto lg:z-auto lg:block lg:max-h-none lg:translate-y-0 lg:rounded-none lg:bg-inherit lg:p-0 lg:shadow-none dark:bg-gray-900 lg:dark:bg-inherit">
         <div class="flex flex-col gap-2 md:flex-row">
             {% if not is_employee %}
                 {% include "includes/filters/filter_input.html" with id="id_employee_id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
