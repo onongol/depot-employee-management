@@ -3,7 +3,7 @@
 
 {% block title %}Create Work{% endblock %}
 {% block form_fields %}
-    <fieldset class="space-y-4">
+    <fieldset class="space-y-2 md:space-y-4">
         <legend class="sr-only">Create Work Details</legend>
         {% include "includes/department/department_input_hidden.html" %}
         {% include "includes/form/form_input.html" with id=form.work_name.id_for_label label=_("Work Name") name="work_name" type="text" value=form.work_name.value form_errors=form.work_name required=True placeholder=_("Unique") %}
