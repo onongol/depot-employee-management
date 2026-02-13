@@ -1,18 +1,17 @@
 {% load i18n %}
-
-<div class="overflow-hidden rounded-md border border-gray-200 bg-white mb-4 works-table-container dark:bg-gray-900 dark:border-gray-700">
-    <div class="overflow-x-auto overflow-y-auto max-h-148 w-full">
-        <table class="w-full text-left text-sm text-gray-500 bg-gray-50 dark:bg-gray-800 dark:text-gray-400"
+<div class="works-table-container mb-4 overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+    <div class="max-h-148 w-full overflow-x-auto overflow-y-auto">
+        <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
                aria-describedby="daily-salary-list-title">
-            <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide dark:bg-gray-700 dark:text-gray-400">
+            <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
                 <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
                     {% with col_class="px-6 py-3" %}
                         <th scope="col" class="{{ col_class }} text-center">
                             <input type="checkbox"
                                    id="select-all-works"
-                                   class="cursor-pointer h-4 w-4"
+                                   class="h-4 w-4 cursor-pointer"
                                    onclick="toggleAllVisible(this, 'work_ids')"
-                                   aria-label="Select all works">
+                                   aria-label="Select all works" />
                             <label for="select-all-works" class="sr-only">{% trans "Select all" %}</label>
                         </th>
                         <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
@@ -27,17 +26,17 @@
             <tbody id="works-table-body"
                    class="divide-y divide-gray-100 dark:divide-gray-700">
                 {% for work in works %}
-                    <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-500/20"
+                    <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20"
                         data-work-name="{{ work.work_name }}">
                         {% with col_class="px-6 py-3" %}
-                            <td class="{{ col_class }} align-middle text-center">
+                            <td class="{{ col_class }} text-center align-middle">
                                 <input type="checkbox"
-                                       class="cursor-pointer work-checkbox h-4 w-4"
+                                       class="work-checkbox h-4 w-4 cursor-pointer"
                                        id="work_{{ work.pk }}"
                                        name="work_ids"
                                        value="{{ work.pk }}"
                                        aria-labelledby="label_work_{{ work.pk }}"
-                                       data-work-name="{{ work.work_name }}">
+                                       data-work-name="{{ work.work_name }}" />
                             </td>
                             <td class="{{ col_class }}">
                                 <label id="label_work_{{ work.pk }}"
@@ -55,8 +54,8 @@
                                        id="amount_{{ work.pk }}"
                                        name="amount_{{ work.pk }}"
                                        min="0"
-                                       class="block w-full max-w-[80px] rounded-xl border border-gray-300 bg-gray-100 px-4 py-1 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition disabled:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:placeholder-gray-500 dark:focus:ring-gray-500 dark:focus:border-gray-500 dark:disabled:bg-gray-900{% if form_errors.errors %}border-red-600 focus:ring-red-600 focus:border-red-600 focus:text-red-600 dark:border-red-600 dark:focus:ring-red-600 dark:focus:border-red-600 dark:focus:text-red-600{% endif %}"
-                                       disabled>
+                                       class="dark:disabled:bg-gray-900{% if form_errors.errors %} border-red-600 focus:ring-red-600 focus:border-red-600 focus:text-red-600 dark:border-red-600 dark:focus:ring-red-600 dark:focus:border-red-600 dark:focus:text-red-600 {% endif %} block w-full max-w-20 rounded-xl border border-gray-300 bg-gray-100 px-4 py-1 text-gray-700 placeholder-gray-400 transition focus:border-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none disabled:bg-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:placeholder-gray-500 dark:focus:border-gray-500 dark:focus:ring-gray-500"
+                                       disabled />
                             </td>
                         {% endwith %}
                     </tr>
@@ -69,6 +68,6 @@
      data-form-id="createForm"
      data-checkbox-name="work_ids"
      data-table-selector=".works-table-container"
-     data-error-message='{{ _("Select at least one work.") |escapejs }}'
+     data-error-message="{{ _('Select at least one work.') |escapejs }}"
      data-amount-validation="true"
-     data-amount-error-message='{{ _("Enter an amount for each selected work entry.") |escapejs }}'></div>
+     data-amount-error-message="{{ _('Enter an amount for each selected work entry.') |escapejs }}"></div>
