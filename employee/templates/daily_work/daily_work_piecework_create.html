@@ -23,12 +23,12 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
           aria-labelledby="form-title">
         {% csrf_token %}
         <!-- Field -->
-        <div class="mb-1 space-y-4">
-            {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True %}
+        <div class="mb-1 space-y-2 md:space-y-4">
+            {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True hide_label_mobile=True placeholder=_("Date") %}
             {% if employees %}
                 {% include "includes/form/form_select.html" with id="type_work" label=_("Work Type") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True %}
                 {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                    {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number placeholder=_("Optional") %}
+                    {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number hide_label_mobile=True placeholder=_("Wagon Number (optional)") %}
                 {% endif %}
             </div>
             <!-- Filters employee table -->
