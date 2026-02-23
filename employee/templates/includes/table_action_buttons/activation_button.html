@@ -3,24 +3,24 @@
     {% if is_active %}
         <!-- Deactivate -->
         <a href="{% url 'employee_deactivate' id %}"
-           class="cursor-pointer flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 hover:bg-yellow-100 hover:text-yellow-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-yellow-400 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-yellow-700 dark:hover:text-white"
+           class="flex cursor-pointer items-center gap-1 rounded bg-gray-100 px-2 py-1 text-gray-700 transition hover:bg-yellow-100 hover:text-yellow-700 focus:ring-1 focus:ring-yellow-400 focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-yellow-700 dark:hover:text-white"
            aria-label="Deactivate {{ name }}"
            title="{% trans 'Deactivate' %}"
            data-id="{{ id }}"
            data-name="{{ name }}">
-            <svg class="w-4 h-4" aria-hidden="true">
+            <svg class="h-4 w-4" aria-hidden="true">
                 <use href="#archive"></use>
             </svg>
         </a>
     {% else %}
         <!-- Activate -->
         <a href="{% url 'employee_activate' id %}"
-           class="cursor-pointer flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 hover:bg-green-100  hover:text-green-700 transition gap-1 focus:outline-none focus:ring-1 focus:ring-green-400 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white"
+           class="flex cursor-pointer items-center gap-1 rounded bg-gray-100 px-2 py-1 text-gray-700 transition hover:bg-green-100 hover:text-green-700 focus:ring-1 focus:ring-green-400 focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white"
            aria-label="Activate {{ name }}"
            title="{% trans 'Activate' %}"
            data-id="{{ id }}"
            data-name="{{ name }}">
-            <svg class="w-4 h-4" aria-hidden="true">
+            <svg class="h-4 w-4" aria-hidden="true">
                 <use href="#archive"></use>
             </svg>
         </a>
