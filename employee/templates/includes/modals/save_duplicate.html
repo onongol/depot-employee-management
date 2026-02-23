@@ -1,42 +1,44 @@
 <!-- Modal warning shown when creating duplicate Daily Work/Piecework entries. -->
 {% load i18n %}
-
 <div id="saveDuplicateModal"
-     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden"
+     class="fixed inset-0 z-50 hidden"
      aria-labelledby="saveDuplicateModalLabel"
      aria-modal="true"
      role="dialog">
-    <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full max-h-screen overflow-y-auto p-6 dark:bg-gray-800 dark:border-gray-700"
-         tabindex="0">
-        <div class="flex items-center justify-between pb-3 mb-2">
-            <h3 class="text-lg text-gray-700 font-semibold dark:text-gray-400"
-                id="saveDuplicateModalLabel">{% trans "Duplicate" %}</h3>
-            <button type="button"
-                    class="cursor-pointer text-gray-500 bg-transparent hover:bg-gray-100 hover:text-gray-800 rounded inline-flex justify-center items-center p-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-500"
-                    data-modal-cancel
-                    aria-label='{% trans "Close" %}'>
-                <svg class="w-5 h-5" aria-hidden="true">
-                    <use href="#close"></use>
-                </svg>
-                <span class="sr-only">{% trans "Close" %}</span>
-            </button>
+    <div class="absolute inset-0 bg-black/50" data-modal-cancel>
+        <div class="absolute inset-0 grid place-items-center">
+            <div class="relative max-h-screen w-full max-w-md overflow-y-auto rounded-lg bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-800"
+                 tabindex="0">
+                <div class="mb-2 flex items-center justify-between pb-3">
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-400"
+                        id="saveDuplicateModalLabel">{% trans "Duplicate" %}</h3>
+                    <button type="button"
+                            class="inline-flex cursor-pointer items-center justify-center rounded bg-transparent p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-800 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-500"
+                            data-modal-cancel
+                            aria-label="Close">
+                        <svg class="h-5 w-5" aria-hidden="true">
+                            <use href="#close"></use>
+                        </svg>
+                        <span class="sr-only">{% trans "Close" %}</span>
+                    </button>
+                </div>
+                <p class="mb-4 text-sm text-gray-700 dark:text-gray-400">
+                    {% trans "Contact Payroll to update or delete." %}
+                    <span>
+                        <br />
+                        {% trans "Employee" %}: <strong id="modal-employee"></strong>
+                        <br />
+                        {% trans "Work" %}: <strong id="modal-work"></strong>
+                        <br />
+                        {% trans "Work Type" %}: <strong id="modal-type-work"></strong>
+                        <br />
+                        {% trans "Wagon Number" %}:
+                        <strong id="modal-wagon-number"></strong>
+                        <br />
+                        {% trans "Date" %}: <strong id="modal-work-date"></strong>
+                    </span>
+                </p>
+            </div>
         </div>
-        <p class="mb-4 text-sm text-gray-700 dark:text-gray-400">
-            {% trans "Contact Payroll to update or delete." %}
-            <br>
-            {% trans "Conflict details:" %}
-            <br>
-            <span>
-                {% trans "Employee" %}: <strong id="modal-employee"></strong>
-                <br>
-                {% trans "Work" %}: <strong id="modal-work"></strong>
-                <br>
-                {% trans "Work Type" %}: <strong id="modal-type-work"></strong>
-                <br>
-                {% trans "Wagon Number" %}: <strong id="modal-wagon-number"></strong>
-                <br>
-                {% trans "Date" %}: <strong id="modal-work-date"></strong>
-            </span>
-        </p>
     </div>
 </div>
