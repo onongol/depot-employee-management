@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Hide all modals and restore scroll
   function closeAllModals(): void {
-    document.querySelectorAll<HTMLElement>('.fixed.inset-0').forEach((modal) => {
+    document.querySelectorAll<HTMLElement>('[role="dialog"]').forEach((modal) => {
       modal.classList.add('hidden');
     });
     document.body.classList.remove('overflow-hidden');
