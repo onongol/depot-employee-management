@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% load i18n %}
-
 {% block content %}
-    <section class="max-w-7xl mx-auto my-8 px-4">
+    <section class="mx-auto my-8 max-w-7xl px-4">
         {% include "includes/components/list_header.html" with header_id="employee-list-title" title=selected_department only %}
         <!-- Quick navigation -->
         <div class="mt-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <!-- Employees -->
                 {% include "includes/cards/card.html" with url_name='employee_list' title=_("Employees") desc=_("Manage employee profiles, positions, and hourly wage rates.") %}
                 <!-- Works (not employee) -->
