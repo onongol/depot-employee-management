@@ -1,6 +1,6 @@
 <!-- Renders inline validation errors for a form field. Expects 'field' in context and outputs an alert div with joined error messages. -->
 {% if field.errors %}
     <div id="{{ field.name }}_error"
-         class="text-red-500 text-sm mt-1"
+         class="mt-1 text-sm text-red-500"
          role="alert">{{ field.errors|join:", " }}</div>
 {% endif %}
