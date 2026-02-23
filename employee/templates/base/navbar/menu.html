@@ -1,9 +1,8 @@
 {% load i18n %}
-
 {% if request.user.is_authenticated %}
-    <div class="hidden items-center justify-between w-full px-4 lg:flex lg:w-auto lg:order-1"
+    <div class="hidden w-full items-center justify-between px-4 lg:order-1 lg:flex lg:w-auto"
          id="navbar-menu">
-        <ul class="flex flex-col p-4 mt-2 space-y-4 lg:flex-row lg:items-center lg:p-0 lg:mt-0 lg:space-y-0 lg:space-x-4">
+        <ul class="mt-2 flex flex-col space-y-4 p-4 lg:mt-0 lg:flex-row lg:items-center lg:space-y-0 lg:space-x-4 lg:p-0">
             <!-- Dropdown for Departments -->
             {% if not is_employee and not is_master %}
                 {% include "includes/department/department_dropdown.html" %}
