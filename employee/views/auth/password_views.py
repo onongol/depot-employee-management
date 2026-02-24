@@ -5,11 +5,14 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
+from employee.forms.password_change_forms import CustomPasswordChangeForm
+
 
 class CustomPasswordChangeView(PasswordChangeView):
     """Logs out the user after a successful password change and redirects to home."""
 
     template_name = "auth/password_change.html"
+    form_class = CustomPasswordChangeForm
     success_url = reverse_lazy("login")
 
     def form_valid(self, form):
