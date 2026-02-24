@@ -39,13 +39,15 @@
                     {% endif %}
                 </div>
             {% endfor %}
-            <div class="mt-6 flex flex-col gap-2 sm:flex-row">
+            <div class="mt-6">
                 <button type="submit"
-                        class="cursor-pointer rounded-md bg-blue-700 px-6 py-2 font-semibold text-white shadow transition hover:bg-blue-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                        class="w-full cursor-pointer rounded-md bg-blue-700 px-6 py-2 font-semibold text-white shadow transition hover:bg-blue-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         aria-label="Sign In">{% trans 'Sign In' %}</button>
-                <a href="{% url 'home' %}"
-                   class="cursor-pointer rounded-md bg-gray-100 px-6 py-2 text-center font-semibold text-gray-700 shadow transition hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-500"
-                   aria-label="Cancel and return">{% trans 'Cancel' %}</a>
+                <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                    {% trans "Don't have an account?" %}
+                    <a href="{% url 'register' %}"
+                       class="text-blue-700 hover:underline dark:text-blue-400">{% trans "Create one" %}</a>
+                </p>
             </div>
         </form>
     </div>
