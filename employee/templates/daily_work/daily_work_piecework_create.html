@@ -22,9 +22,13 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
           id="createForm"
           aria-labelledby="form-title">
         {% csrf_token %}
-        {% include "includes/buttons/mobile_back_button.html" %}
-        {% include "includes/buttons/mobile_cancel_button.html" %}
-        <div id="step-1" class="pt-6 md:pt-0">
+        <div class="mb-4 md:hidden">
+            {% if employees %}
+                {% include "includes/buttons/mobile_back_button.html" %}
+            {% endif %}
+            {% include "includes/buttons/mobile_cancel_button.html" %}
+        </div>
+        <div id="step-1" class="">
             <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
                 {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True hide_label_mobile=True placeholder=_("Date") %}
                 {% if employees %}
@@ -51,7 +55,7 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
             </div>
         </div>
         {% if employees %}
-            <div id="step-2" class="hidden pt-6 md:pt-0">
+            <div id="step-2" class="hidden">
                 <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
                     {% include "includes/form/form_select.html" with id="type_work" label=_("Work Type") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True hide_label_mobile=True %}
                     {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
@@ -66,7 +70,7 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
                 <div class="mt-6 flex flex-col gap-2 sm:flex-row">
                     {% include "includes/buttons/back_button.html" %}
                     {% include "includes/buttons/cancel_button.html" %}
-                    {% include "includes/buttons/save_button.html" %}
+                    {% include "includes/buttons/save_button.html" with disable_if_no_employees=1 %}
                 </div>
             </div>
         {% endif %}
