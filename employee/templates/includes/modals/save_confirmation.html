@@ -17,14 +17,11 @@
                     <strong id="saveObjectDetails">{{ object_name }}</strong>?
                 </p>
                 <div class="flex justify-end gap-2">
+                    {% include "includes/buttons/modal_cancel_button.html" %}
                     <button type="button"
                             class="cursor-pointer rounded-md bg-blue-700 px-6 py-2 font-semibold text-white shadow transition hover:bg-blue-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                             id="confirmSaveButton"
                             aria-label="Confirm save">Save</button>
-                    <button type="button"
-                            class="cursor-pointer rounded-md bg-gray-100 px-6 py-2 font-semibold text-gray-700 shadow transition hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-500"
-                            data-modal-cancel
-                            aria-label="Cancel">Cancel</button>
                 </div>
             </div>
         </div>
