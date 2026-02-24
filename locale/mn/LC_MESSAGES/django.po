@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-24 14:07+0800\n"
+"POT-Creation-Date: 2026-02-24 15:33+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,6 +96,17 @@ msgstr "Нууц үг нь хэт түгээмэл ашиглагддаг бай
 #: employee/locale_strings.py:18
 msgid "Your password can’t be entirely numeric."
 msgstr "Нууц үг нь дан тооноос бүрдэж болохгүй."
+
+#: employee/locale_strings.py:19
+msgid "The two password fields didn’t match."
+msgstr "Нууц үг зөрүүтэй байна."
+
+#: employee/locale_strings.py:20
+#, python-format
+"This password is too short. It must contain at least %(min_length)d "
+"characters."
+msgstr "Нууц үг хэтэрхий богино байна. Хамгийн багадаа %(min_length)d "
+"тэмдэгт байх ёстой."
 
 #: employee/messages/delete_success_message.py:10
 #, python-format
