@@ -19,7 +19,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     )
 
     new_password2 = forms.CharField(
-        label=_("New password confirmation"),
+        label=_("Confirm new password"),
         strip=False,
         widget=forms.PasswordInput,
         help_text="",
