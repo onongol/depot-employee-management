@@ -35,7 +35,7 @@ class CustomUserCreationForm(UserCreationForm):
     )
 
     password2 = forms.CharField(
-        label=_("Password confirmation"),
+        label=_("Confirm password"),
         widget=forms.PasswordInput,
         strip=False,
         help_text="",
