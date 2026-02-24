@@ -12,20 +12,17 @@
     <!-- Dynamic Message for Piecework -->
     {% block form_alert %}{% endblock %}
     <form method="post"
-          class="rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
+          class="relative rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
           id="createForm"
           aria-labelledby="form-title"
           novalidate>
         {% csrf_token %}
+        <div class="mb-4 md:hidden">{% include "includes/buttons/mobile_cancel_button.html" %}</div>
         <!-- Form fields will be provided by child templates -->
         {% block form_fields %}{% endblock %}
         <div class="mt-6 flex flex-col gap-2 sm:flex-row">
-            <button type="submit"
-                    class="cursor-pointer rounded-md bg-blue-700 px-6 py-2 font-semibold text-white shadow transition hover:bg-blue-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                    aria-label="Save new {{ object_type }}">{% trans "Save" %}</button>
-            <a href="{{ cancel_url }}"
-               class="cursor-pointer rounded-md bg-gray-100 px-6 py-2 text-center font-semibold text-gray-700 shadow transition hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-500"
-               aria-label="Cancel and return">{% trans "Cancel" %}</a>
+            {% include "includes/buttons/cancel_button.html" %}
+            {% include "includes/buttons/save_button.html" %}
         </div>
     </form>
 {% endblock %}
