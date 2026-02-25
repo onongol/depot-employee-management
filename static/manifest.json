@@ -17,6 +17,12 @@
     "src": "assets/js/auth/password_toggle.ts",
     "isEntry": true
   },
+  "assets/js/buttons/bulk_delete_toggle.ts": {
+    "file": "js/bulk_delete_toggle-bundle.js",
+    "name": "bulk_delete_toggle",
+    "src": "assets/js/buttons/bulk_delete_toggle.ts",
+    "isEntry": true
+  },
   "assets/js/checkbox/checkbox_validation.ts": {
     "file": "js/checkbox_validation-bundle.js",
     "name": "checkbox_validation",
