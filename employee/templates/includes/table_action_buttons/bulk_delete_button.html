@@ -1,0 +1,10 @@
+{% load i18n %}
+<button id="bulk-delete-button"
+        type="button"
+        class="hidden cursor-pointer items-center justify-between gap-2 rounded-full p-2 text-sm font-medium text-red-500 placeholder-gray-400 select-none hover:bg-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none md:rounded-xl md:border md:border-gray-300 md:bg-gray-100 md:px-4 md:py-2 dark:text-gray-400 dark:placeholder-gray-500 dark:hover:bg-gray-700 dark:focus:border-gray-500 dark:focus:ring-gray-500 md:dark:border-gray-600 md:dark:bg-gray-800"
+        aria-label="Bulk Delete">
+    <svg class="h-5 w-5" aria-hidden="true">
+        <use href="#delete"></use>
+    </svg>
+    <span class="hidden md:inline">{% trans "Delete" %}</span>
+</button>
