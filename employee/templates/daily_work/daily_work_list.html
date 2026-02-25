@@ -11,7 +11,7 @@
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
             <!-- Actions dropdown (does NOT submit GET form) -->
             {% if not is_employee and not is_master and detail_group %}
-                {% include "includes/table_action_buttons/actions_dropdown.html" %}
+                {% include "includes/table_action_buttons/bulk_delete_button.html" %}
             {% endif %}
             <!-- Filters -->
             {% include "daily_work/daily_work_filters.html" %}
