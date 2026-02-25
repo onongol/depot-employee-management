@@ -18,6 +18,7 @@ export default defineConfig({
         'amount_inputs': path.resolve(__dirname, 'assets/js/amount/amount_inputs.ts'),
         'amount_validation': path.resolve(__dirname, 'assets/js/amount/amount_validation.ts'),
         'password_toggle': path.resolve(__dirname, 'assets/js/auth/password_toggle.ts'),
+        'bulk_delete_toggle': path.resolve(__dirname, 'assets/js/buttons/bulk_delete_toggle.ts'),
         'checkbox_validation': path.resolve(__dirname, 'assets/js/checkbox/checkbox_validation.ts'),
         'select_all': path.resolve(__dirname, 'assets/js/checkbox/select_all.ts'),
         'department_dropdown': path.resolve(__dirname, 'assets/js/dropdowns/department_dropdown.ts'),
