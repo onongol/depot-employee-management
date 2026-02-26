@@ -1,0 +1,20 @@
+{% load i18n %}
+<div id="{{ summary_id }}"
+     class="mb-2 hidden rounded-2xl border border-slate-200 bg-gray-100 px-4 py-3 text-sm font-medium text-gray-500 shadow-sm md:mb-4 dark:border-slate-700 dark:bg-gray-700 dark:text-gray-400"
+     data-all-text="{% trans 'All' %}"
+     data-selected-text="{% trans 'selected' %}">
+    <!-- collapsible list -->
+    <details id="{{ details_id }}" class="group">
+        <summary class="custom-scrollbar flex cursor-pointer items-center gap-2">
+            <span id="{{ count_id }}">0</span>
+            <span id="{{ label_id }}" class="tracking-wider">{% trans "selected" %}</span>
+            <svg class="h-4 w-4 transition-transform group-open:rotate-180"
+                 aria-hidden="true">
+                <use href="#chevron-down" />
+            </svg>
+        </summary>
+        <div class="px-4 py-2">
+            <div id="{{ list_id }}" class="custom-scrollbar max-h-24 overflow-y-auto"></div>
+        </div>
+    </details>
+</div>
