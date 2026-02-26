@@ -37,6 +37,7 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
             </div>
             {% if employees %}
                 {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-work-list-title" %}
+                {% include "includes/summaries/selected_summary.html" with summary_id="selected-employees-summary" details_id="selected-employees-details" list_id="selected-employees-list" count_id="selected-employees-count" label_id="selected-employees-label" %}
             {% else %}
                 <div class="mb-4 rounded-md border-l-4 border-yellow-400 bg-yellow-50 p-3 shadow-sm dark:border-yellow-600 dark:bg-yellow-500/20">
                     <p class="text-sm text-yellow-800 dark:text-yellow-400">
@@ -64,9 +65,7 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
                     {% include "includes/select_table/work_search_filters.html" %}
                 </div>
                 {% include "includes/select_table/works_select_table.html" %}
-                <!-- Selected summary section -->
-                {% include "includes/summaries/employees_selected_summary.html" %}
-                {% include "includes/summaries/works_selected_summary.html" %}
+                {% include "includes/summaries/selected_summary.html" with summary_id="selected-works-summary" details_id="selected-works-details" list_id="selected-works-list" count_id="selected-works-count" label_id="selected-works-label" %}
                 <div class="mt-6 flex flex-col gap-2 sm:flex-row">
                     {% include "includes/buttons/back_button.html" %}
                     {% include "includes/buttons/cancel_button.html" %}
