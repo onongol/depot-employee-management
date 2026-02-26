@@ -36,7 +36,7 @@
             </div>
         {% endif %}
         <!-- Selected summary section -->
-        {% include "includes/summaries/employees_selected_summary.html" %}
+        {% include "includes/summaries/selected_summary.html" with summary_id="selected-employees-summary" details_id="selected-employees-details" list_id="selected-employees-list" count_id="selected-employees-count" label_id="selected-employees-label" %}
         <!-- Form Buttons -->
         <div class="mt-6 flex flex-col gap-2 sm:flex-row">
             {% include "includes/buttons/cancel_button.html" %}
