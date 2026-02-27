@@ -10,6 +10,14 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
         class="mb-6 hidden text-xl font-semibold text-gray-700 md:block dark:text-gray-400">
         {% trans "New" %} {% trans object_type %} ({{ selected_department }})
     </h2>
+    <header class="mb-6 flex items-center justify-between md:hidden">
+        <div class="md:hidden">
+            {% if employees %}
+                {% include "includes/buttons/mobile_back_button.html" %}
+            {% endif %}
+            {% include "includes/buttons/mobile_cancel_button.html" %}
+        </div>
+    </header>
     <!-- Alert for potential duplicate entries -->
     {% if employees %}
         {% include "includes/alerts/duplicate_warning.html" %}
@@ -22,13 +30,7 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
           id="createForm"
           aria-labelledby="form-title">
         {% csrf_token %}
-        <div class="mb-4 md:hidden">
-            {% if employees %}
-                {% include "includes/buttons/mobile_back_button.html" %}
-            {% endif %}
-            {% include "includes/buttons/mobile_cancel_button.html" %}
-        </div>
-        <div id="step-1" class="">
+        <div id="step-1">
             <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
                 {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True hide_label_mobile=True placeholder=_("Date") %}
                 {% if employees %}
