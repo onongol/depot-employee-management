@@ -11,9 +11,9 @@
         <div class="md:hidden">{% include "includes/buttons/mobile_cancel_button.html" %}</div>
     </header>
     <!-- Dynamic Warning Message -->
-    <div class="hidden md:block">{% include "includes/alerts/alerts_warning_update.html" %}</div>
+    <div>{% include "includes/alerts/alerts_warning_update.html" %}</div>
     <!-- Form Errors -->
-    {% include "includes/form/form_errors.html" %}
+    {% include "includes/alerts/alerts.html" %}
     <form method="post"
           class="relative rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
           id="updateForm"
@@ -27,9 +27,6 @@
             {% include "includes/buttons/save_update_button.html" %}
         </div>
     </form>
-    <div class="fixed inset-x-0 bottom-10 z-50 px-4 pb-4 md:hidden">
-        {% include "includes/alerts/alerts_warning_update.html" %}
-    </div>
     <!-- Confirmation Modal -->
     {% include "includes/modals/save_confirmation.html" %}
 {% endblock %}
