@@ -15,6 +15,7 @@ export default defineConfig({
     manifest: "manifest.json",
     rollupOptions: {
       input: {
+        'auto_hide_alert': path.resolve(__dirname, 'assets/js/alert/auto_hide_alert.ts'),
         'amount_inputs': path.resolve(__dirname, 'assets/js/amount/amount_inputs.ts'),
         'amount_validation': path.resolve(__dirname, 'assets/js/amount/amount_validation.ts'),
         'password_toggle': path.resolve(__dirname, 'assets/js/auth/password_toggle.ts'),
