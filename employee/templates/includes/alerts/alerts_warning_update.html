@@ -1,19 +1,26 @@
 <!-- Reusable warning shown on update pages to inform that updating an object will also update all related records. -->
 {% load i18n %}
-<div class="sticky top-2 z-40 mb-3 flex w-full items-start rounded-md bg-yellow-50 p-3 text-yellow-800 shadow-sm transition-opacity duration-300 md:relative md:top-auto md:mb-4 md:p-4 dark:bg-yellow-500/20 dark:text-yellow-400"
+<div class="sticky top-2 z-40 mb-3 flex w-full items-start rounded-md bg-yellow-50 p-3 text-yellow-800 shadow-sm transition-opacity duration-300 md:relative md:top-auto md:mb-4 md:p-4 dark:bg-yellow-500/20 dark:text-yellow-400 dark:backdrop-blur-xl"
      role="alert"
      aria-live="polite">
     <div class="pr-8">
         <h4 class="mb-1 text-sm font-semibold md:text-base">{% trans "Warning" %}!</h4>
         <p class="text-xs leading-5 md:text-sm">
-            {% blocktrans trimmed with object_type=object_type object_name=object_name %}
-                All future records will reflect the changes made to
-                <strong>{{ object_name }}</strong>.
-            {% endblocktrans %}
+            {% if update_type == "daily_work" %}
+                {% blocktrans trimmed with object_type=object_type object_name=object_name %}
+                    All related records for <strong>{{ object_name }}</strong> will also
+                    be updated.
+                {% endblocktrans %}
+            {% else %}
+                {% blocktrans trimmed with object_type=object_type object_name=object_name %}
+                    All future records will reflect the changes made to
+                    <strong>{{ object_name }}</strong>.
+                {% endblocktrans %}
+            {% endif %}
         </p>
     </div>
     <button type="button"
-            class="absolute top-2 right-2 rounded p-2 hover:bg-yellow-100 focus:ring-2 focus:ring-yellow-400 focus:outline-none dark:hover:bg-yellow-200/10"
+            class="absolute top-2 right-2 rounded p-1 hover:bg-yellow-100 focus:ring-2 focus:ring-yellow-400 focus:outline-none dark:hover:bg-yellow-200/10"
             onclick="this.closest('[role=alert]').classList.add('hidden')"
             aria-label="Close warning">
         <svg class="h-5 w-5" aria-hidden="true">
