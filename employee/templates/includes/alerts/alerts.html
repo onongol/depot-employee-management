@@ -1,15 +1,16 @@
 {% load i18n %}
 {% if messages %}
-    {% for message in messages %}
-        <!-- Attention Message -->
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
-            {% include "includes/alerts/alerts_info.html" %}
-        <!-- Warning Message -->
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
-            {% include "includes/alerts/alerts_warning.html" %}
-        <!-- Success Message -->
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-            {% include "includes/alerts/alerts_success.html" %}
-        {% endif %}
-    {% endfor %}
+    <div class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center px-4">
+        {% for message in messages %}
+            <div class="pointer-events-auto w-full px-4 md:max-w-md">
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                    {% include "includes/alerts/alerts_info.html" %}
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    {% include "includes/alerts/alerts_warning.html" %}
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    {% include "includes/alerts/alerts_success.html" %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 {% endif %}
