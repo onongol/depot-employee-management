@@ -9,8 +9,6 @@
                     {% include "includes/alerts/alerts_warning.html" %}
                 {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
                     {% include "includes/alerts/alerts_success.html" %}
-                {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                    {% include "includes/alerts/alerts_error.html" %}
                 {% endif %}
             </div>
         {% endfor %}
