@@ -3,7 +3,7 @@ from dataclasses import asdict
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS
+from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, MECHANIC
 from employee.utils.filters import filter_works
 from employee.utils.pagination import paginate_queryset
 from employee.utils.sorting import apply_ordering
@@ -36,5 +36,6 @@ def work_list(request):
             "works": page_obj,
             "page_obj": page_obj,
             "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
+            "MECHANIC": MECHANIC,
         },
     )
