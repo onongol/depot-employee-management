@@ -1,12 +1,13 @@
 {% load i18n %}
 {% url url_name as base_url %}
 <a href="{{ base_url }}{% if params %}?{% for key, value in params.items %}{% if value %}{{ key }}={{ value|urlencode }}&{% endif %}{% endfor %}{% endif %}"
-   class="{{ btn_class|default:'flex items-center justify-center px-4 py-2 rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-400' }}"
+   class="{{ btn_class|default:'flex items-center justify-center p-2 md:px-4 md:py-2 md:gap-1 rounded-full md:rounded bg-gray-100 text-sm font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition focus:outline-none focus:ring-1 focus:ring-green-400 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-400 md:w-24' }}"
    role="button"
    aria-label="{{ aria_label|default:'Download as Excel' }}"
+   title="{% trans 'Excel' %}"
    {% if target %}target="{{ target }}"{% endif %}>
-    <svg class="mr-1 h-5 w-5" aria-hidden="true">
+    <svg class="h-5 w-5" aria-hidden="true">
         <use xlink:href="#download" />
     </svg>
-    <span>{{ label|default:'Excel' }}</span>
+    <span class="hidden md:block">{{ label|default:'Excel' }}</span>
 </a>
