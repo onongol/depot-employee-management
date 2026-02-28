@@ -15,6 +15,9 @@
             {% endif %}
             <!-- Filters -->
             {% include "daily_work/daily_work_filters.html" %}
+            <div class="md:hidden">
+                {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
+            </div>
         </div>
     </div>
     <!-- Messages -->
@@ -162,8 +165,10 @@
         {% include "includes/table/pagination.html" %}
     </nav>
     <!-- Export to Excel Button -->
-    <div class="mt-4 mb-4 flex w-24 gap-2">
-        {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
+    <div class="hidden md:block">
+        <div class="mt-4 mb-4 flex gap-2">
+            {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
+        </div>
     </div>
     <!-- Bulk Delete Modal -->
     {% include "includes/modals/modal_delete_bulk.html" %}
