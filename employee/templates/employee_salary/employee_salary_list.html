@@ -9,8 +9,16 @@
         {% if show_wagon %}
             {% include "includes/components/salary_mode_segmented.html" %}
         {% endif %}
-        <!-- Filter Form -->
-        {% include "employee_salary/employee_salary_filters.html" %}
+        <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
+            <!-- Filter Form -->
+            {% include "employee_salary/employee_salary_filters.html" %}
+            <div class="md:hidden">
+                {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
+            </div>    
+            <div class="md:hidden">    
+                {% include "includes/export/export_pdf_button.html" with url_name='employee_salary_export_pdf' params=request.GET aria_label="Download filtered employee salaries as PDF" target="_blank" %}
+            </div>
+        </div>
     </div>
     <!-- Employee Salary Table -->
     <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
@@ -74,10 +82,12 @@
         {% include "includes/table/pagination.html" %}
     </nav>
     <!-- Export Button -->
-    <div class="mt-4 mb-4 flex w-24 gap-2">
-        <!-- Excel -->
-        {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
-        <!-- PDF -->
-        {% include "includes/export/export_pdf_button.html" with url_name='employee_salary_export_pdf' params=request.GET aria_label="Download filtered employee salaries as PDF" target="_blank" %}
+    <div class="hidden md:block">
+        <div class="mt-4 mb-4 flex gap-2">
+            <!-- Excel -->
+            {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
+            <!-- PDF -->
+            {% include "includes/export/export_pdf_button.html" with url_name='employee_salary_export_pdf' params=request.GET aria_label="Download filtered employee salaries as PDF" target="_blank" %}
+        </div>
     </div>
 {% endblock %}
