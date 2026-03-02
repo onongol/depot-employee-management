@@ -5,7 +5,7 @@
                aria-describedby="daily-salary-list-title">
             <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
                 <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
-                    {% with col_class="px-2 md:px-6 py-3" %}
+                    {% with col_class="px-6 py-3" %}
                         <th scope="col" class="{{ col_class }} text-center">
                             <input type="checkbox"
                                    id="select-all-employees"
@@ -27,7 +27,7 @@
                     <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20"
                         data-emp-id="{{ employee.employee_id }}"
                         data-emp-name="{{ employee.name }}">
-                        {% with col_class="px-2 md:px-6 py-3" %}
+                        {% with col_class="px-6 py-3" %}
                             <td class="{{ col_class }} text-center align-middle">
                                 <input type="checkbox"
                                        class="form-checkbox h-4 w-4 cursor-pointer"
