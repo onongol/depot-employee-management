@@ -7,9 +7,6 @@
         class="mb-6 hidden text-xl font-semibold text-gray-700 md:block dark:text-gray-400">
         {% trans "Update" %} {{ object_type }} ({{ selected_department }})
     </h2>
-    <header class="mb-6 flex items-center justify-between md:hidden">
-        <div class="md:hidden">{% include "includes/buttons/mobile_cancel_button.html" %}</div>
-    </header>
     <!-- Dynamic Warning Message -->
     <div>{% include "includes/alerts/alerts_warning_update.html" %}</div>
     <!-- Form Errors -->
