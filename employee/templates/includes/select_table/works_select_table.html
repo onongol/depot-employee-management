@@ -16,9 +16,9 @@
                             <label for="select-all-works" class="sr-only">{% trans "Select all" %}</label>
                         </th>
                         <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
+                        <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Position" %}</th>
                         {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                            <th scope="col" class="{{ col_class }}">{% trans "Wagon Type" %}</th>
+                            <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Wagon Type" %}</th>
                         {% endif %}
                         <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
                     {% endwith %}
@@ -30,7 +30,7 @@
                     <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20"
                         data-work-name="{{ work.work_name }}">
                         {% with col_class="px-6 py-3" %}
-                            <td class="{{ col_class }} text-center align-middle">
+                            <td class="{{ col_class }} text-center align-top">
                                 <input type="checkbox"
                                        class="work-checkbox h-4 w-4 cursor-pointer"
                                        id="work_{{ work.pk }}"
@@ -43,11 +43,20 @@
                                 <label id="label_work_{{ work.pk }}"
                                        for="work_{{ work.pk }}"
                                        class="sr-only">{{ work.work_name }}</label>
-                                {{ work.work_name }}
+                                <div class="flex items-start justify-between gap-2">
+                                    <span>{{ work.work_name }}</span>
+                                </div>
+                                <div data-mobile-meta
+                                     class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 md:hidden">
+                                    <div class="overflow-hidden pt-2 text-xs text-gray-600 dark:text-gray-300">
+                                        <div>{{ work.job_title }}</div>
+                                        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}<div>{{ work.type_wagon_display }}</div>{% endif %}
+                                    </div>
+                                </div>
                             </td>
-                            <td class="{{ col_class }}">{{ work.job_title }}</td>
+                            <td class="{{ col_class }} hidden md:table-cell">{{ work.job_title }}</td>
                             {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                                <td class="{{ col_class }}">{{ work.type_wagon_display }}</td>
+                                <td class="{{ col_class }} hidden md:table-cell">{{ work.type_wagon_display }}</td>
                             {% endif %}
                             <td class="{{ col_class }}">
                                 <label for="amount_{{ work.pk }}" class="sr-only">Amount for {{ work.work_name }}</label>
