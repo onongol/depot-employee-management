@@ -41,7 +41,7 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
                 {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-work-list-title" %}
                 {% include "includes/summaries/selected_summary.html" with summary_id="selected-employees-summary" details_id="selected-employees-details" list_id="selected-employees-list" count_id="selected-employees-count" label_id="selected-employees-label" %}
             {% else %}
-                <div class="mb-4 rounded-md border-l-4 border-yellow-400 bg-yellow-50 p-3 shadow-sm dark:border-yellow-600 dark:bg-yellow-500/20">
+                <div class="mt-4 mb-4 rounded-md border-l-4 border-yellow-400 bg-yellow-50 p-3 shadow-sm dark:border-yellow-600 dark:bg-yellow-500/20">
                     <p class="text-sm text-yellow-800 dark:text-yellow-400">
                         {% blocktrans trimmed %}
                             <strong>No available employees for this date.</strong>
