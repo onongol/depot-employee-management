@@ -2,7 +2,7 @@
 <div class="mb-1 flex flex-row items-center justify-end gap-2 md:mb-0 md:justify-start md:gap-4">
     {% include "includes/filters/filter_toggle.html" with toggle_id="employee-search-filters-toggle" panel_id="employee-search-filters-panel" %}
     <div id="employee-search-filters-panel"
-         class="fixed inset-x-0 bottom-0 z-50 hidden max-h-[80vh] translate-y-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl transition-transform duration-200 lg:static lg:inset-auto lg:bottom-auto lg:z-auto lg:block lg:max-h-none lg:translate-y-0 lg:rounded-none lg:bg-inherit lg:p-0 lg:shadow-none dark:bg-gray-900 lg:dark:bg-inherit">
+         class="fixed inset-x-0 bottom-0 z-50 hidden max-h-[80vh] translate-y-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl transition-transform duration-200 md:static md:inset-auto md:bottom-auto md:z-auto md:block md:max-h-none md:translate-y-0 md:rounded-none md:bg-inherit md:p-0 md:shadow-none dark:bg-gray-900 md:dark:bg-inherit">
         <div class="flex flex-col gap-2 md:flex-row">
             {% include "includes/filters/filter_input.html" with id="id_employee-search" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id placeholder=_("Employee ID") min="1" data_table="employees-table-body" data_column=1 %}
             {% include "includes/filters/filter_input.html" with id="id_employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Employee Name") data_table="employees-table-body" data_column=2 %}
