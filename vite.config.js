@@ -21,6 +21,7 @@ export default defineConfig({
         'password_toggle': path.resolve(__dirname, 'assets/js/auth/password_toggle.ts'),
         'bulk_delete_toggle': path.resolve(__dirname, 'assets/js/buttons/bulk_delete_toggle.ts'),
         'checkbox_validation': path.resolve(__dirname, 'assets/js/checkbox/checkbox_validation.ts'),
+        'mobile_select_details': path.resolve(__dirname, 'assets/js/checkbox/mobile_select_details.ts'),
         'select_all': path.resolve(__dirname, 'assets/js/checkbox/select_all.ts'),
         'department_dropdown': path.resolve(__dirname, 'assets/js/dropdowns/department_dropdown.ts'),
         'user_dropdown': path.resolve(__dirname, 'assets/js/dropdowns/user_dropdown.ts'),
