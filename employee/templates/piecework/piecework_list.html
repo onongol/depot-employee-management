@@ -5,13 +5,18 @@
     <!-- Header -->
     {% include "includes/components/list_header.html" with header_id="piecework-list-title" title=selected_department %}
     <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
-        <!-- View Mode Segmented Control -->
-        {% include "includes/components/view_mode_segmented.html" %}
+        <div class="flex flex-row items-center justify-between gap-2 md:gap-4">
+            <!-- View Mode Segmented Control -->
+            {% include "includes/components/view_mode_segmented.html" %}
+            <div class="hidden md:block">
+                {% include "includes/export/export_excel_button.html" with url_name='piecework_export_excel' params=request.GET aria_label="Download filtered pieceworks as Excel" %}
+            </div>
+        </div>
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
             <!-- Filter Form -->
             {% include "piecework/piecework_filters.html" %}
             <div class="md:hidden">
-                {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
+                {% include "includes/export/export_excel_button.html" with url_name='piecework_export_excel' params=request.GET aria_label="Download filtered pieceworks as Excel" %}
             </div>
         </div>
     </div>
@@ -122,10 +127,4 @@
     <nav aria-label="Piecework list pagination">
         {% include "includes/table/pagination.html" %}
     </nav>
-    <!-- Export Button Excel -->
-    <div class="hidden md:block">
-        <div class="mt-4 mb-4 flex gap-2">
-            {% include "includes/export/export_excel_button.html" with url_name='piecework_export_excel' params=request.GET aria_label="Download filtered pieceworks as Excel" %}
-        </div>
-    </div>
 {% endblock %}
