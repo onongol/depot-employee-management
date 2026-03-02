@@ -10,14 +10,6 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
         class="mb-6 hidden text-xl font-semibold text-gray-700 md:block dark:text-gray-400">
         {% trans "New" %} {% trans object_type %} ({{ selected_department }})
     </h2>
-    <header class="mb-6 flex items-center justify-between md:hidden">
-        <div class="md:hidden">
-            {% if employees %}
-                {% include "includes/buttons/mobile_back_button.html" %}
-            {% endif %}
-            {% include "includes/buttons/mobile_cancel_button.html" %}
-        </div>
-    </header>
     <!-- Alert for potential duplicate entries -->
     {% if employees %}
         {% include "includes/alerts/duplicate_warning.html" %}
