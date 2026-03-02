@@ -6,7 +6,7 @@
             <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
                 <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
                     {% with col_class="px-2 py-3 md:px-6" %}
-                        <th scope="col" class="{{ col_class }} text-center">
+                        <th scope="col" class="px-6 py-3 text-center">
                             <input type="checkbox"
                                    id="select-all-employees"
                                    data-checkbox-name="employee_ids"
@@ -28,7 +28,7 @@
                         data-emp-id="{{ employee.employee_id }}"
                         data-emp-name="{{ employee.name }}">
                         {% with col_class="px-2 py-3 md:px-6" %}
-                            <td class="{{ col_class }} text-center align-middle">
+                            <td class="px-6 py-3 text-center align-middle">
                                 <input type="checkbox"
                                        class="form-checkbox h-4 w-4 cursor-pointer"
                                        id="employee_{{ employee.pk }}"
