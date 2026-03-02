@@ -35,6 +35,12 @@
     "src": "assets/js/checkbox/checkbox_validation.ts",
     "isEntry": true
   },
+  "assets/js/checkbox/mobile_select_details.ts": {
+    "file": "js/mobile_select_details-bundle.js",
+    "name": "mobile_select_details",
+    "src": "assets/js/checkbox/mobile_select_details.ts",
+    "isEntry": true
+  },
   "assets/js/checkbox/select_all.ts": {
     "file": "js/select_all-bundle.js",
     "name": "select_all",
@@ -147,7 +153,7 @@
     ]
   },
   "assets/src/styles.css": {
-    "file": "assets/styles-Bk_yJ48O.css",
+    "file": "assets/styles-dbrcWg3y.css",
     "src": "assets/src/styles.css",
     "isEntry": true,
     "name": "styles",
