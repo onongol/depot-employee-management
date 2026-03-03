@@ -1,0 +1,8 @@
+{% load i18n %}
+<td class="{{ col_class }} text-center">
+    <input type="checkbox"
+           class="h-4 w-4 cursor-pointer accent-red-700 dark:accent-red-400"
+           name="{{ checkbox_name }}"
+           value="{{ row_value }}"
+           aria-label="{% trans 'Select' %} {{ row_label }}" />
+</td>
