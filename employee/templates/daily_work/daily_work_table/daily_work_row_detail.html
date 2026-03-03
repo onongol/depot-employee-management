@@ -13,8 +13,7 @@
         <td class="{{ col_class }}">
             {% if not is_employee and not is_master and detail_group %}
                 {% include "daily_work/daily_work_table/mobile_meta_detail.html" %}
-            {% else %}
-                <span class="hidden md:inline">{{ daily_work.work.work_name }}</span>
+            {% else %}             
                 {% include "daily_work/daily_work_table/mobile_summary_detail.html" %}
             {% endif %}
         </td>
