@@ -5,7 +5,9 @@
         data-type-work="{{ daily_work.type_work }}"
         data-work-date="{{ daily_work.work_date|date:'Y-m-d' }}">
         {% if not is_employee and not is_master and detail_group %}
-            {% include "daily_work/daily_work_table/list_select_row_checkbox.html" with col_class=col_class checkbox_name="daily_work_ids" row_value=daily_work.pk row_label=daily_work.work.work_name %}
+            <td class="{{ col_class }} text-center">
+                {% include "daily_work/daily_work_table/list_select_row_checkbox.html" with checkbox_name="daily_work_ids" row_value=daily_work.pk row_label=daily_work.work.work_name %}
+            </td>    
         {% endif %}
         <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
         <td class="{{ col_class }}">
