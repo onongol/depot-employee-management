@@ -42,9 +42,9 @@
                    aria-describedby="daily-work-list-title">
                 <thead>
                     <tr>
-                        {% with col_class="px-6 py-3" %}
+                        {% with col_class="px-2 py-3 md:px-6" %}
                             {% if not is_employee and not is_master and detail_group %}
-                                <th scope="col" class="{{ col_class }} text-center">
+                                <th scope="col" class="px-6 py-3 text-center">
                                     <input type="checkbox"
                                            id="select-all-daily-works"
                                            data-checkbox-name="daily_work_ids"
@@ -98,9 +98,9 @@
                                 data-work-name="{{ daily_work.work.work_name }}"
                                 data-type-work="{{ daily_work.type_work }}"
                                 data-work-date="{{ daily_work.work_date|date:'Y-m-d' }}">
-                                {% with col_class="px-6 py-3" %}
+                                {% with col_class="px-2 py-3 md:px-6" %}
                                     {% if not is_employee and not is_master and detail_group %}
-                                        <td class="{{ col_class }} text-center">
+                                        <td class="px-6 py-3 text-center">
                                             <input type="checkbox"
                                                    class="h-4 w-4 cursor-pointer accent-red-700 dark:accent-red-400"
                                                    name="daily_work_ids"
