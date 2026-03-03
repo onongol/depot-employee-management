@@ -1,0 +1,13 @@
+{% load i18n %}
+<thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
+    <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
+        {% with col_class="px-2 py-3 md:px-6" %}
+            <th scope="col" class="px-6 py-3 text-center">
+                {% include "includes/select_table/create_select_all_checkbox.html" with select_all_id="select-all-employees" checkbox_name="employee_ids" aria_label=_("Select all employees") label=_("Select all") %}
+            </th>
+            <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
+            <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+            <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Position" %}</th>
+        {% endwith %}
+    </tr>
+</thead>
