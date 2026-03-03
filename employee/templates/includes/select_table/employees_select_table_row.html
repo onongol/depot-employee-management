@@ -1,0 +1,25 @@
+{% load i18n %}
+<tbody id="employees-table-body"
+       class="divide-y divide-gray-100 dark:divide-gray-700">
+    {% for employee in employees %}
+        <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20"
+            data-emp-id="{{ employee.employee_id }}"
+            data-emp-name="{{ employee.name }}">
+            {% with col_class="px-2 py-3 md:px-6" %}
+                <td class="px-6 py-3 text-center align-middle">
+                    {% include "includes/select_table/create_select_row_checkbox.html" with row_id="employee_{{ employee.pk }}" checkbox_name="employee_ids" row_value=employee.pk aria_labelledby="label_employee_{{ employee.pk }}" %}
+                </td>
+                <td class="{{ col_class }}">
+                    <label id="label_employee_{{ employee.pk }}"
+                           for="employee_{{ employee.pk }}"
+                           class="sr-only">{{ employee.employee_id }}</label>
+                    {{ employee.employee_id }}
+                </td>
+                <td class="{{ col_class }}">
+                    {% include "includes/select_table/mobile_meta_create_employee.html" %}
+                </td>
+                <td class="{{ col_class }} hidden md:table-cell">{{ employee.job_title }}</td>
+            {% endwith %}
+        </tr>
+    {% endfor %}
+</tbody>
