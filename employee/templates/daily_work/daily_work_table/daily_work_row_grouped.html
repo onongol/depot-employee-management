@@ -1,0 +1,28 @@
+{% load i18n %}
+{% with col_class="px-6 py-3" col_class_hidden="px-6 py-3 hidden md:table-cell" %}
+    <tr class="transition-colors odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600"
+        data-work-name="{{ daily_work.work_name }}"
+        data-type-work="{{ daily_work.type_work }}">
+        {% if not is_employee and not is_master and detail_group %}<td class="{{ col_class }}"></td>{% endif %}
+        <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+        <td class="{{ col_class }}">
+            <span class="hidden md:inline">{{ daily_work.work_name }}</span>
+            {% include "daily_work/daily_work_table/mobile_summary_group.html" %}
+        </td>
+        <td class="{{ col_class_hidden }}">{{ daily_work.job_title }}</td>
+        <td class="{{ col_class_hidden }}">{{ daily_work.type_work }}</td>
+        {% if show_wagon %}
+            <td class="{{ col_class_hidden }}">{{ daily_work.type_wagon }}</td>
+            <td class="{{ col_class_hidden }}">{{ daily_work.wagon_number|default:"-" }}</td>
+        {% endif %}
+        <td class="{{ col_class_hidden }}">{{ daily_work.total_amount }}</td>
+        <td class="{{ col_class_hidden }}">{{ daily_work.total_time|floatformat:2 }}</td>
+        <td class="{{ col_class_hidden }}">{{ daily_work.total_price|floatformat:2 }}</td>
+        {% if month_group %}
+            <td class="{{ col_class }}">{{ daily_work.month }}</td>
+            <td class="{{ col_class }}">{{ daily_work.year }}</td>
+        {% else %}
+            <td class="{{ col_class }}">{{ daily_work.year }}</td>
+        {% endif %}
+    </tr>
+{% endwith %}
