@@ -3,61 +3,8 @@
     <div class="{{ max_height|default:'max-h-126' }} w-full overflow-x-auto overflow-y-auto">
         <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
                aria-describedby="daily-salary-list-title">
-            <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
-                <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
-                    {% with col_class="px-2 py-3 md:px-6" %}
-                        <th scope="col" class="px-6 py-3 text-center">
-                            <input type="checkbox"
-                                   id="select-all-employees"
-                                   data-checkbox-name="employee_ids"
-                                   class="h-4 w-4 cursor-pointer"
-                                   onclick="toggleAllVisible(this, 'employee_ids')"
-                                   aria-label="Select all employees" />
-                            <label for="select-all-employees" class="sr-only">{% trans "Select all" %}</label>
-                        </th>
-                        <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
-                        <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Position" %}</th>
-                    {% endwith %}
-                </tr>
-            </thead>
-            <tbody id="employees-table-body"
-                   class="divide-y divide-gray-100 dark:divide-gray-700">
-                {% for employee in employees %}
-                    <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20"
-                        data-emp-id="{{ employee.employee_id }}"
-                        data-emp-name="{{ employee.name }}">
-                        {% with col_class="px-2 py-3 md:px-6" %}
-                            <td class="px-6 py-3 text-center align-middle">
-                                <input type="checkbox"
-                                       class="form-checkbox h-4 w-4 cursor-pointer"
-                                       id="employee_{{ employee.pk }}"
-                                       name="employee_ids"
-                                       value="{{ employee.pk }}"
-                                       aria-labelledby="label_employee_{{ employee.pk }}" />
-                            </td>
-                            <td class="{{ col_class }}">
-                                <label id="label_employee_{{ employee.pk }}"
-                                       for="employee_{{ employee.pk }}"
-                                       class="sr-only">{{ employee.employee_id }}</label>
-                                {{ employee.employee_id }}
-                            </td>
-                            <td class="{{ col_class }}">
-                                <div class="flex items-start justify-between gap-2">
-                                    <span>{{ employee.name }}</span>
-                                </div>
-                                <div data-mobile-meta
-                                     class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 md:hidden">
-                                    <div class="overflow-hidden text-xs text-gray-600 dark:text-gray-300">
-                                        <div>{{ employee.job_title }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="{{ col_class }} hidden md:table-cell">{{ employee.job_title }}</td>
-                        {% endwith %}
-                    </tr>
-                {% endfor %}
-            </tbody>
+            {% include "includes/select_table/employees_select_table_head.html" %}
+            {% include "includes/select_table/employees_select_table_row.html" %}
         </table>
     </div>
 </div>
@@ -65,4 +12,4 @@
      data-form-id="createForm"
      data-checkbox-name="employee_ids"
      data-table-selector=".employee-table-container"
-     data-error-message="{{ _('Select at least one employee.') |escapejs }}"></div>
+     data-error-message="{{ _("Select at least one employee.") |escapejs }}"></div>
