@@ -71,35 +71,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (selectedEmployeeIds.length === 0 || selectedWorkIds.length === 0) return;
 
-    // Check duplicates
-    const isDuplicate = selectedEmployeeIds.some(empId =>
-      selectedWorkIds.some(workId =>
-        existingPieceworks.some(pw =>
-          String(pw.employee_id) === String(empId) &&
-          String(pw.work_id) === String(workId) &&
-          pw.type_work === typeWork &&
-          pw.work_date === workDate &&
-          normalizeWagon(pw.wagon_number) === wagonNumber
-        )
-      )
-    );
+    // Check duplicates + collect matched pairs
+    const duplicatePairs: Array<{ empId: string; workId: string }> = [];
 
-    if (!isDuplicate) return;
+    selectedEmployeeIds.forEach((empId) => {
+      selectedWorkIds.forEach((workId) => {
+        const exists = existingPieceworks.some(
+          (pw) =>
+            String(pw.employee_id) === String(empId) &&
+            String(pw.work_id) === String(workId) &&
+            pw.type_work === typeWork &&
+            pw.work_date === workDate &&
+            normalizeWagon(pw.wagon_number) === wagonNumber
+        );
+        if (exists) duplicatePairs.push({ empId: String(empId), workId: String(workId) });
+      });
+    });
+
+    if (duplicatePairs.length === 0) return;
 
     // Prevent submit and show modal
     e.preventDefault();
     if (!modalDiv) return;
 
-    const selectedEmployees = Array.from(document.querySelectorAll<HTMLInputElement>('input[name="employee_ids"]:checked')).map(cb => {
-      const tr = cb.closest('tr');
-      const id = cb.value;
-      const name = tr ? (tr.children[2]?.textContent ?? '').trim() : '';
-      return `${id}/${name}`;
-    });
+    const duplicateEmpIds = new Set(duplicatePairs.map((p) => p.empId));
+    const duplicateWorkIds = new Set(duplicatePairs.map((p) => p.workId));
 
-    const selectedWorks = Array.from(new Set(
-      Array.from(document.querySelectorAll<HTMLInputElement>('input[name="work_ids"]:checked')).map(cb => cb.dataset.workName?.trim() ?? '')
-    )).filter(Boolean);
+    const selectedEmployees = Array.from(
+      document.querySelectorAll<HTMLInputElement>('input[name="employee_ids"]:checked')
+    )
+      .filter((cb) => duplicateEmpIds.has(String(cb.value)))
+      .map((cb) => {
+        const tr = cb.closest('tr');
+        const id = (tr?.getAttribute('data-emp-id') ?? cb.value ?? '').trim();
+        const name = (tr?.getAttribute('data-emp-name') ?? '').trim();
+        return name ? `(ID: ${id}) ${name}` : id;
+      });
+
+    const selectedWorks = Array.from(
+      new Set(
+        Array.from(document.querySelectorAll<HTMLInputElement>('input[name="work_ids"]:checked'))
+          .filter((cb) => duplicateWorkIds.has(String(cb.value)))
+          .map((cb) => {
+            const tr = cb.closest('tr');
+            return (
+              cb.dataset.workName?.trim() ||
+              tr?.getAttribute('data-work-name')?.trim() ||
+              ''
+            );
+          })
+          .filter(Boolean)
+      )
+    );
 
     const setText = (id: string, text: string) => {
       const el = document.getElementById(id);
