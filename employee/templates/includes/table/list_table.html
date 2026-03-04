@@ -1,0 +1,45 @@
+<div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
+    <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+           aria-describedby="{{ aria_desc }}">
+        <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                {% with col_class="px-6 py-3" %}
+                    {% include head_template %}
+                {% endwith %}
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+            {% with col_class="px-6 py-3" col_class_hidden="px-6 py-3 hidden md:table-cell" %}
+                {% if rows %}
+                    {% for row in rows %}
+                        {% if month_group or year_group %}
+                            <tr class="transition-colors odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600"
+                                {% if row.work_name %}data-work-name="{{ row.work_name }}"{% endif %}
+                                {% if row.type_work %}data-type-work="{{ row.type_work }}"{% endif %}>
+                                {% include row_grouped_template with daily_work=row %}
+                            </tr>
+                        {% else %}
+                            <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-red-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-red-500/20"
+                                {% if row.work.work_name %}data-work-name="{{ row.work.work_name }}"{% endif %}
+                                {% if row.type_work %}data-type-work="{{ row.type_work }}"{% endif %}
+                                {% if row.work_date %}data-work-date="{{ row.work_date|date:'Y-m-d' }}"{% endif %}>
+                                {% include row_detail_template with daily_work=row %}
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% include empty_template|default:"includes/table/empty_row.html" %}
+                {% endif %}
+            {% endwith %}
+        </tbody>
+        {% if rows and footer_template %}
+            <tfoot class="hidden md:table-footer-group">
+                <tr class="bg-blue-100 font-semibold dark:bg-blue-500/20">
+                    {% with col_class="px-6 py-3" %}
+                        {% include footer_template %}
+                    {% endwith %}
+                </tr>
+            </tfoot>
+        {% endif %}
+    </table>
+</div>
