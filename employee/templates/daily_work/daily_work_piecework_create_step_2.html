@@ -1,0 +1,20 @@
+{% load i18n %}
+<div id="step-2" class="hidden">
+    <fieldset class="space-y-2 md:space-y-4">
+        <legend class="sr-only">Create Daily Salary Details Step 2</legend>
+        <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
+            {% include "includes/form/form_select.html" with id="type_work" label=_("Work Type") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True hide_label_mobile=True %}
+            {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+                {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number hide_label_mobile=True placeholder=_("Wagon Number (optional)") %}
+            {% endif %}
+            {% include "includes/create_table/create_table_filters.html" with toggle_id="work-search-filters-toggle" panel_id="work-search-filters-panel" fields_template="includes/create_table/works/works_filter_fields.html" %}
+        </div>
+        {% include "includes/create_table/works/works_create_table.html" %}
+        {% include "includes/summaries/selected_summary.html" with summary_id="selected-works-summary" details_id="selected-works-details" list_id="selected-works-list" count_id="selected-works-count" label_id="selected-works-label" %}
+    </fieldset>
+    <div class="flex flex-col gap-2 sm:flex-row">
+        {% include "includes/buttons/back_button.html" %}
+        {% include "includes/buttons/cancel_button.html" %}
+        {% include "includes/buttons/save_button.html" with disable_if_no_employees=1 %}
+    </div>
+</div>
