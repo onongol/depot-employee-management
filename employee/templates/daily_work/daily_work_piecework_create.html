@@ -1,66 +1,20 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "forms/create_form.html" %}
 {% load i18n %}
-{% block content %}
-    <!-- Injects server-side existing pieceworks as JSON for client-side duplicate detection.
-Used by static/js/piecework_form_duplicate.js to validate, warn, and populate includes/modals/save_duplicate.html before submission. -->
-    {{ existing_pieceworks|json_script:"existing-pieceworks" }}
-    <!-- Form Title -->
-    <h2 id="form-title"
-        class="mb-6 hidden text-xl font-semibold text-gray-700 md:block dark:text-gray-400">
-        {% trans "New" %} {% trans object_type %} ({{ selected_department }})
-    </h2>
-    <!-- Alert for potential duplicate entries -->
+{% load static %}
+{% block title %}Create Daily Work{% endblock %}
+{% block form_alert %}
     {% if employees %}
         {% include "includes/alerts/duplicate_warning.html" %}
     {% endif %}
-    <!-- Form Errors -->
-    {% include "includes/form/form_errors.html" %}
-    <!-- Daily Work Piecework Create Form -->
-    <form method="post"
-          class="relative rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
-          id="createForm"
-          aria-labelledby="form-title">
-        {% csrf_token %}
-        <div id="step-1">
-            <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
-                {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True hide_label_mobile=True placeholder=_("Date") %}
-                {% if employees %}
-                    {% include "includes/create_table/create_table_filters.html" with toggle_id="employee-search-filters-toggle" panel_id="employee-search-filters-panel" fields_template="includes/create_table/employees/employees_filter_fields.html" %}
-                {% endif %}
-            </div>
-            {% if employees %}
-                {% include "includes/create_table/employees/employees_create_table.html" %}
-                {% include "includes/summaries/selected_summary.html" with summary_id="selected-employees-summary" details_id="selected-employees-details" list_id="selected-employees-list" count_id="selected-employees-count" label_id="selected-employees-label" %}
-            {% else %}
-                {% include "includes/alerts/info_notice.html" with info_text_template="includes/alerts/info_text_daily_work.html" %}
-            {% endif %}
-            <div class="mt-6 flex flex-col gap-2 sm:flex-row">
-                {% include "includes/buttons/cancel_button.html" %}
-                {% include "includes/buttons/continue_button.html" %}
-            </div>
-        </div>
-        {% if employees %}
-            <div id="step-2" class="hidden">
-                <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
-                    {% include "includes/form/form_select.html" with id="type_work" label=_("Work Type") name="type_work" choices=form.type_work.field.choices selected=form.type_work.value required=True hide_label_mobile=True %}
-                    {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                        {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number hide_label_mobile=True placeholder=_("Wagon Number (optional)") %}
-                    {% endif %}
-                    {% include "includes/create_table/create_table_filters.html" with toggle_id="work-search-filters-toggle" panel_id="work-search-filters-panel" fields_template="includes/create_table/works/works_filter_fields.html" %}
-                </div>
-                {% include "includes/create_table/works/works_create_table.html" %}
-                {% include "includes/summaries/selected_summary.html" with summary_id="selected-works-summary" details_id="selected-works-details" list_id="selected-works-list" count_id="selected-works-count" label_id="selected-works-label" %}
-                <div class="mt-6 flex flex-col gap-2 sm:flex-row">
-                    {% include "includes/buttons/back_button.html" %}
-                    {% include "includes/buttons/cancel_button.html" %}
-                    {% include "includes/buttons/save_button.html" with disable_if_no_employees=1 %}
-                </div>
-            </div>
-        {% endif %}
-    </form>
-    <!-- Save Duplicate Modal -->
+{% endblock %}
+{% block form_fields %}
+    <!-- Injects server-side existing pieceworks as JSON for client-side duplicate detection.
+Used by static/js/piecework_form_duplicate.js to validate, warn, and populate includes/modals/save_duplicate.html before submission. -->
+    {{ existing_pieceworks|json_script:"existing-pieceworks" }}
+    {% include "daily_work/daily_work_piecework_create_step_1.html" %}
+    {% if employees %}
+        {% include "daily_work/daily_work_piecework_create_step_2.html" %}
+    {% endif %}
     {% include "includes/modals/save_duplicate.html" %}
-    <!-- JS Scripts -->
     {% include "daily_work/scripts.html" %}
 {% endblock %}
