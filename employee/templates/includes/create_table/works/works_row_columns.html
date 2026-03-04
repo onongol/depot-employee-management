@@ -7,7 +7,7 @@
         <label id="label_work_{{ work.pk }}"
                for="work_{{ work.pk }}"
                class="sr-only">{{ work.work_name }}</label>
-        {% include "includes/create_table/works/mobile_meta_create_works.html" %}
+        {% include "includes/create_table/mobile_meta.html" with col_name=work.work_name details_template="includes/create_table/works/works_details.html" %}
     </td>
     <td class="{{ col_class }} hidden md:table-cell">{{ work.job_title }}</td>
     {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
