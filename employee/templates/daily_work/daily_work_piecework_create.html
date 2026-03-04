@@ -26,23 +26,14 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
             <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
                 {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True hide_label_mobile=True placeholder=_("Date") %}
                 {% if employees %}
-                    {% include "includes/select_table/employee_search_filters.html" %}
+                    {% include "includes/create_table/create_table_filters.html" with toggle_id="employee-search-filters-toggle" panel_id="employee-search-filters-panel" fields_template="includes/create_table/employees/employees_filter_fields.html" %}
                 {% endif %}
             </div>
             {% if employees %}
-                {% include "includes/select_table/employees_select_table.html" with employees=employees max_height="max-h-126" aria_desc="daily-work-list-title" %}
+                {% include "includes/create_table/employees/employees_create_table.html" %}
                 {% include "includes/summaries/selected_summary.html" with summary_id="selected-employees-summary" details_id="selected-employees-details" list_id="selected-employees-list" count_id="selected-employees-count" label_id="selected-employees-label" %}
             {% else %}
-                <div class="mt-4 mb-4 rounded-md border-l-4 border-yellow-400 bg-yellow-50 p-3 shadow-sm dark:border-yellow-600 dark:bg-yellow-500/20">
-                    <p class="text-sm text-yellow-800 dark:text-yellow-400">
-                        {% blocktrans trimmed %}
-                            <strong>No available employees for this date.</strong>
-                            <br />
-                            Please <strong>create daily attendance</strong> first or choose
-                            another date.
-                        {% endblocktrans %}
-                    </p>
-                </div>
+                {% include "includes/alerts/info_notice.html" with info_text_template="includes/alerts/info_text_daily_work.html" %}
             {% endif %}
             <div class="mt-6 flex flex-col gap-2 sm:flex-row">
                 {% include "includes/buttons/cancel_button.html" %}
@@ -56,9 +47,9 @@ Used by static/js/piecework_form_duplicate.js to validate, warn, and populate in
                     {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
                         {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number hide_label_mobile=True placeholder=_("Wagon Number (optional)") %}
                     {% endif %}
-                    {% include "includes/select_table/work_search_filters.html" %}
+                    {% include "includes/create_table/create_table_filters.html" with toggle_id="work-search-filters-toggle" panel_id="work-search-filters-panel" fields_template="includes/create_table/works/works_filter_fields.html" %}
                 </div>
-                {% include "includes/select_table/works_select_table.html" %}
+                {% include "includes/create_table/works/works_create_table.html" %}
                 {% include "includes/summaries/selected_summary.html" with summary_id="selected-works-summary" details_id="selected-works-details" list_id="selected-works-list" count_id="selected-works-count" label_id="selected-works-label" %}
                 <div class="mt-6 flex flex-col gap-2 sm:flex-row">
                     {% include "includes/buttons/back_button.html" %}
