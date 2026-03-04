@@ -11,4 +11,5 @@
         {% include "includes/form/form_select.html" with id=form.rank.id_for_label label=_("Employee Rank") name="rank" choices=form.rank.field.choices selected=form.rank.value required=True %}
         {% include "includes/form/form_input.html" with id=form.money_per_hour.id_for_label label=_("Hourly Wage") name="money_per_hour" type="number" value=form.money_per_hour.value form_errors=form.money_per_hour step="0.01" required=True placeholder="9715.83" %}
     </fieldset>
+    {% include "forms/create_form_buttons.html" %}
 {% endblock %}
