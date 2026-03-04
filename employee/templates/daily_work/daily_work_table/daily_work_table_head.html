@@ -1,47 +1,41 @@
 {% load i18n %}
-<thead>
-    <tr>
-        {% with col_class="px-6 py-3" %}
-            {% if not is_employee and not is_master and detail_group %}
-                <th scope="col" class="{{ col_class }} text-center">
-                    {% include "daily_work/daily_work_table/list_select_all_checkbox.html" with select_all_id="select-all-daily-works" checkbox_name="daily_work_ids" %}
-                </th>
-            {% endif %}
-            <th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
-            <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
-            <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Position" %}</th>
-            <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Work Type" %}</th>
-            {% if show_wagon %}
-                <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Wagon Type" %}</th>
-                <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Wagon Number" %}</th>
-            {% endif %}
-            <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Amount" %}</th>
-            <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Time" %}</th>
-            <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Price" %}</th>
-            {% if month_group %}
-                <th scope="col" class="{{ col_class }}">
-                    {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
-                </th>
-                <th scope="col" class="{{ col_class }}">
-                    {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
-                </th>
-            {% elif year_group %}
-                <th scope="col" class="{{ col_class }}">
-                    {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
-                </th>
-            {% else %}
-                <th scope="col" class="{{ col_class }}">
-                    {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
-                </th>
-                {% if not is_employee %}
-                    <th scope="col" class="{{ col_class }}">
-                        {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department %}
-                    </th>
-                {% endif %}
-                {% if not is_employee and not is_master %}
-                    <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
-                {% endif %}
-            {% endif %}
-        {% endwith %}
-    </tr>
-</thead>
+{% if not is_employee and not is_master and detail_group %}
+    <th scope="col" class="{{ col_class }} text-center">
+        {% include "includes/table/list_select_all_checkbox.html" with select_all_id="select-all-daily-works" checkbox_name="daily_work_ids" %}
+    </th>
+{% endif %}
+<th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
+<th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
+<th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Position" %}</th>
+<th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Work Type" %}</th>
+{% if show_wagon %}
+    <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Wagon Type" %}</th>
+    <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Wagon Number" %}</th>
+{% endif %}
+<th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Amount" %}</th>
+<th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Time" %}</th>
+<th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Price" %}</th>
+{% if month_group %}
+    <th scope="col" class="{{ col_class }}">
+        {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
+    </th>
+    <th scope="col" class="{{ col_class }}">
+        {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
+    </th>
+{% elif year_group %}
+    <th scope="col" class="{{ col_class }}">
+        {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
+    </th>
+{% else %}
+    <th scope="col" class="{{ col_class }}">
+        {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
+    </th>
+    {% if not is_employee %}
+        <th scope="col" class="{{ col_class }}">
+            {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department %}
+        </th>
+    {% endif %}
+    {% if not is_employee and not is_master %}
+        <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
+    {% endif %}
+{% endif %}
