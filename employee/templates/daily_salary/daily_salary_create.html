@@ -1,17 +1,9 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "forms/create_form.html" %}
 {% load i18n %}
-{% block content %}
-    <h2 id="form-title"
-        class="mb-6 hidden text-xl font-semibold text-gray-700 md:block dark:text-gray-400">
-        {% trans "New" %} {% trans object_type %} ({{ selected_department }})
-    </h2>
-    {% include "includes/form/form_errors.html" %}
-    <form method="post"
-          class="relative rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
-          id="createForm"
-          aria-labelledby="form-title">
-        {% csrf_token %}
+{% block title %}Create Daily Salary{% endblock %}
+{% block form_fields %}
+    <fieldset class="space-y-2 md:space-y-4">
+        <legend class="sr-only">Create Daily Salary Details</legend>
         {% if employees %}
             <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
                 {% include "includes/form/form_date.html" with id="salary_date" label=_("Date") name="salary_date" type="text" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True hide_label_mobile=True placeholder=_("Date") %}
@@ -23,10 +15,10 @@
         {% else %}
             {% include "includes/alerts/info_notice.html" with info_text_template="includes/alerts/info_text_daily_salary.html" %}
         {% endif %}
-        <div class="mt-6 flex flex-col gap-2 sm:flex-row">
-            {% include "includes/buttons/cancel_button.html" %}
-            {% include "includes/buttons/save_button.html" with disable_if_no_employees=1 %}
-        </div>
-    </form>
+    </fieldset>
+    <div class="flex flex-col gap-2 sm:flex-row">
+        {% include "includes/buttons/cancel_button.html" %}
+        {% include "includes/buttons/save_button.html" with disable_if_no_employees=1 %}
+    </div>
     {% include "daily_salary/scripts.html" %}
 {% endblock %}
