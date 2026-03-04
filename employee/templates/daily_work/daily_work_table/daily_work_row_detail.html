@@ -1,38 +1,31 @@
 {% load i18n %}
-{% with col_class="px-6 py-3" col_class_hidden="px-6 py-3 hidden md:table-cell" %}
-    <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-red-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-red-500/20"
-        data-work-name="{{ daily_work.work.work_name }}"
-        data-type-work="{{ daily_work.type_work }}"
-        data-work-date="{{ daily_work.work_date|date:'Y-m-d' }}">
-        {% if not is_employee and not is_master and detail_group %}
-            <td class="{{ col_class }} text-center">
-                {% include "daily_work/daily_work_table/list_select_row_checkbox.html" with checkbox_name="daily_work_ids" row_value=daily_work.pk row_label=daily_work.work.work_name %}
-            </td>    
-        {% endif %}
-        <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-        <td class="{{ col_class }}">
-            {% if not is_employee and not is_master and detail_group %}
-                {% include "daily_work/daily_work_table/mobile_meta_detail.html" %}
-            {% else %}             
-                {% include "daily_work/daily_work_table/mobile_summary_detail.html" %}
-            {% endif %}
-        </td>
-        <td class="{{ col_class_hidden }}">{{ daily_work.job_title }}</td>
-        <td class="{{ col_class_hidden }}">{{ daily_work.type_work }}</td>
-        {% if show_wagon %}
-            <td class="{{ col_class_hidden }}">{{ daily_work.type_wagon_display }}</td>
-            <td class="{{ col_class_hidden }}">{{ daily_work.wagon_number_display }}</td>
-        {% endif %}
-        <td class="{{ col_class_hidden }}">{{ daily_work.amount }}</td>
-        <td class="{{ col_class_hidden }}">{{ daily_work.amount_time|floatformat:2 }}</td>
-        <td class="{{ col_class_hidden }}">{{ daily_work.amount_price|floatformat:2 }}</td>
-        <td class="{{ col_class }}">{{ daily_work.work_date|date:"Y-m-d" }}</td>
-        {% if not is_employee %}<td class="{{ col_class }}">{{ daily_work.record_date|date:"Y-m-d H:i" }}</td>{% endif %}
-        {% if not is_employee and not is_master %}
-            <td class="{{ col_class }}">
-                {% url 'daily_work_update' daily_work.pk as update_url %}
-                {% include "includes/table_action_buttons/action_buttons.html" with id=daily_work.pk name=daily_work edit_url=update_url %}
-            </td>
-        {% endif %}
-    </tr>
-{% endwith %}
+{% if not is_employee and not is_master and detail_group %}
+    <td class="{{ col_class }} text-center">
+        {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="daily_work_ids" row_value=daily_work.pk row_label=daily_work.work.work_name %}
+    </td>    
+{% endif %}
+<td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+<td class="{{ col_class }}">
+    {% if not is_employee and not is_master and detail_group %}
+        {% include "includes/table/mobile_meta.html" with col_name=daily_work.work.work_name details_template="daily_work/daily_work_table/daily_work_mobile_details.html" %}
+    {% else %}             
+        {% include "includes/table/mobile_summary.html" with col_name=daily_work.work.work_name details_template="daily_work/daily_work_table/daily_work_mobile_details.html" %}
+    {% endif %}
+</td>
+<td class="{{ col_class_hidden }}">{{ daily_work.job_title }}</td>
+<td class="{{ col_class_hidden }}">{{ daily_work.type_work }}</td>
+{% if show_wagon %}
+    <td class="{{ col_class_hidden }}">{{ daily_work.type_wagon_display }}</td>
+    <td class="{{ col_class_hidden }}">{{ daily_work.wagon_number_display }}</td>
+{% endif %}
+<td class="{{ col_class_hidden }}">{{ daily_work.amount }}</td>
+<td class="{{ col_class_hidden }}">{{ daily_work.amount_time|floatformat:2 }}</td>
+<td class="{{ col_class_hidden }}">{{ daily_work.amount_price|floatformat:2 }}</td>
+<td class="{{ col_class }}">{{ daily_work.work_date|date:"Y-m-d" }}</td>
+{% if not is_employee %}<td class="{{ col_class }}">{{ daily_work.record_date|date:"Y-m-d H:i" }}</td>{% endif %}
+{% if not is_employee and not is_master %}
+    <td class="{{ col_class }}">
+        {% url 'daily_work_update' daily_work.pk as update_url %}
+        {% include "includes/table_action_buttons/action_buttons.html" with id=daily_work.pk name=daily_work edit_url=update_url %}
+    </td>
+{% endif %}
