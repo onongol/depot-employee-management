@@ -9,13 +9,13 @@
         <div class="flex flex-row items-center justify-between gap-2 md:gap-4">
             <!-- View Mode Segmented Control -->
             {% include "includes/components/view_mode_segmented.html" %}
-            <!-- Export to Excel Button -->
+            <!-- Export Excel Button -->
             <div class="hidden md:block">
                 {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
             </div>
         </div>
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
-            <!-- Actions dropdown (does NOT submit GET form) -->
+            <!-- Delete Button -->
             {% if not is_employee and not is_master and detail_group %}
                 {% include "includes/table_action_buttons/bulk_delete_button.html" %}
             {% endif %}
@@ -26,7 +26,7 @@
             </div>
         </div>
     </div>
-    <!-- Messages -->
+    <!-- Alerts -->
     {% include "includes/alerts/alerts.html" %}
     <!-- Selected summary section -->
     {% if not is_employee and not is_master and detail_group %}
@@ -37,30 +37,7 @@
           action="{% url 'daily_work_delete_bulk' %}">
         {% csrf_token %}
         <!-- Daily Work Table -->
-        <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
-            <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-                   aria-describedby="daily-work-list-title">
-                {% include "daily_work/daily_work_table/daily_work_table_head.html" %}
-                <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-                    {% if daily_works %}
-                        {% for daily_work in daily_works %}
-                            {% if month_group or year_group %}
-                                {% include "daily_work/daily_work_table/daily_work_row_grouped.html" %}
-                            {% else %}
-                                {% include "daily_work/daily_work_table/daily_work_row_detail.html" %}
-                            {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        {% include "includes/table/empty_row.html" %}
-                    {% endif %}
-                </tbody>
-                {% if daily_works %}
-                    <tfoot class="hidden md:table-footer-group">
-                        {% include "daily_work/daily_work_table/daily_work_total_row.html" %}
-                    </tfoot>
-                {% endif %}
-            </table>
-        </div>
+        {% include "daily_work/daily_work_table/daily_work_table.html" %}
     </form>
     {% include "includes/table/pagination.html" %}
     {% include "includes/modals/modal_delete_bulk.html" %}
