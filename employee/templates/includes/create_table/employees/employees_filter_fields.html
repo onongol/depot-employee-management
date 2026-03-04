@@ -1,0 +1,4 @@
+{% load i18n %}
+{% include "includes/filters/filter_input.html" with id="id_employee-search" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id placeholder=_("Employee ID") min="1" data_table="employees-table-body" data_column=1 %}
+{% include "includes/filters/filter_input.html" with id="id_employee-name-search" label=_("Employee Name") name="employee_name" type="text" value=request.GET.employee_name placeholder=_("Employee Name") data_table="employees-table-body" data_column=2 %}
+{% include "includes/filters/filter_select.html" with id="id_select-job-title-employees" label=_("Position") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") data_table="employees-table-body" data_column="3" %}
