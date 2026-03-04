@@ -1,7 +1,0 @@
-{% load i18n %}
-<input type="checkbox"
-       id="{{ select_all_id|default:'select-all' }}"
-       data-checkbox-name="{{ checkbox_name|default:'ids' }}"
-       class="h-4 w-4 cursor-pointer accent-red-700 dark:accent-red-400"
-       onclick="toggleAllVisible(this, '{{ checkbox_name|default:'ids' }}')"
-       aria-label="{% trans 'Select all' %}" />
