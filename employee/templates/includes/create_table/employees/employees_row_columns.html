@@ -10,7 +10,7 @@
         {{ employee.employee_id }}
     </td>
     <td class="{{ col_class }}">
-        {% include "includes/create_table/mobile_meta.html" with col_name=employee.name details_template="includes/create_table/employees/employees_details.html" %}
+        {% include "includes/table/mobile_meta.html" with col_name=employee.name details_template="includes/create_table/employees/employees_details.html" %}
     </td>
     <td class="{{ col_class }} hidden md:table-cell">{{ employee.job_title }}</td>
 {% endwith %}
