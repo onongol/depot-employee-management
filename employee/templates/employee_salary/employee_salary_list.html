@@ -6,10 +6,11 @@
     {% include "includes/components/list_header.html" with header_id="employee-salary-list-title" title=selected_department %}
     <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
         <div class="{% if show_wagon %}justify-between{% else %}justify-end{% endif %} flex flex-row items-center gap-2 md:gap-4">
-            <!-- Salary Mode Segmented Control -->
+            <!-- Segmented  -->
             {% if show_wagon %}
                 {% include "includes/components/salary_mode_segmented.html" %}
             {% endif %}
+            <!-- Export Excel PDF -->
             <div class="hidden md:block">
                 <div class="flex gap-2">
                     {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
@@ -18,8 +19,9 @@
             </div>
         </div>
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
-            <!-- Filter Form -->
-            {% include "employee_salary/employee_salary_filters.html" %}
+            <!-- Filters -->
+            {% include "includes/table/list_table_filters.html" with toggle_id="employee-salary-filters-toggle" panel_id="employee-salary-filters-panel" fields_template="employee_salary/employee_salary_filters_fields.html" %}
+            <!-- Export Excel PDF Mobile -->
             <div class="md:hidden">
                 {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
             </div>
@@ -28,65 +30,8 @@
             </div>
         </div>
     </div>
-    <!-- Employee Salary Table -->
-    <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
-        <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-               aria-describedby="employee-list-title">
-            <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    {% with col_class="px-6 py-3" %}
-                        <th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
-                        <th scope="col" class="{{ col_class }}">
-                            {% include "includes/table/sort_column.html" with label=_("ID") field="employee_id" col_class=col_class selected_department=selected_department %}
-                        </th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Rank" %}</th>
-                        {% if wagon_mode %}
-                            <th scope="col" class="{{ col_class }}">{% trans "Wagon Number" %}</th>
-                        {% endif %}
-                        <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
-                        <th scope="col" class="{{ col_class }}">
-                            {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
-                        </th>
-                        <th scope="col" class="{{ col_class }}">
-                            {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
-                        </th>
-                    {% endwith %}
-                </tr>
-            </thead>
-            <tbody id="employee-salaries-table-body"
-                   class="divide-y divide-gray-100 dark:divide-gray-700">
-                {% if employee_salaries %}
-                    {% for employee_salary in employee_salaries %}
-                        <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-                            {% with col_class="px-6 py-3" %}
-                                <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                                <td class="{{ col_class }}">{{ employee_salary.employee.employee_id }}</td>
-                                <td class="{{ col_class }}">{{ employee_salary.employee.name }}</td>
-                                <td class="{{ col_class }}">{{ employee_salary.employee.job_title }}</td>
-                                <td class="{{ col_class }}">{{ employee_salary.employee.rank }}</td>
-                                {% if wagon_mode %}
-                                    <td scope="col" class="{{ col_class }}">{{ employee_salary.wagon_number|default_if_none:"-" }}</td>
-                                {% endif %}
-                                <td class="{{ col_class }}">{{ employee_salary.total_piecework_time|floatformat:2 }}</td>
-                                <td class="{{ col_class }}">{{ employee_salary.total_piecework_amount|floatformat:2 }}</td>
-                                <td class="{{ col_class }}">{{ employee_salary.month }}</td>
-                                <td class="{{ col_class }}">{{ employee_salary.year }}</td>
-                            {% endwith %}
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="8" class="px-3 py-4 text-center text-gray-500">{% trans "No records found" %}</td>
-                    </tr>
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
+    <!-- Table -->
+    {% include "employee_salary/employee_salary_table/employee_salary_table.html" %}
     <!-- Pagination -->
-    <nav aria-label="Employee salary list pagination">
-        {% include "includes/table/pagination.html" %}
-    </nav>
+    {% include "includes/table/pagination.html" %}
 {% endblock %}
