@@ -1,0 +1,18 @@
+{% load i18n %}
+<th scope="col" class="{{ col_class_hidden }}">#</th>
+<th scope="col" class="{{ col_class }}">
+    {% include "includes/table/sort_column.html" with label=_("Work") field="work_name" col_class=col_class selected_department=selected_department %}
+</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Position" %}</th>
+{% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+    <th scope="col" class="{{ col_class_hidden }}">{% trans "Wagon Type" %}</th>
+{% endif %}
+{% if selected_department == MECHANIC %}
+    <th scope="col" class="{{ col_class_hidden }}">{% trans "Material" %}</th>
+    <th scope="col" class="{{ col_class_hidden }}">{% trans "Quantity" %}</th>
+{% endif %}
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Time" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Price" %}</th>
+{% if not is_master %}
+    <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
+{% endif %}
