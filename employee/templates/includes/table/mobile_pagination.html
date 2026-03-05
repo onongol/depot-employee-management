@@ -1,5 +1,9 @@
 <!-- Mobile: prev / current / next only -->
 <div class="sm:hidden">
+    <p class="mb-1 text-center text-sm text-gray-500 opacity-70">
+        {{ page_obj.start_index }} - {{ page_obj.end_index }} /
+        {{ page_obj.paginator.count }}
+    </p>
     <div class="flex items-center justify-center gap-2">
         {% if page_obj.has_previous %}
             <a class="inline-flex size-12 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
@@ -34,8 +38,4 @@
             </span>
         {% endif %}
     </div>
-    <p class="mt-1 text-center text-sm text-gray-500 opacity-70">
-        {{ page_obj.start_index }} - {{ page_obj.end_index }} /
-        {{ page_obj.paginator.count }}
-    </p>
 </div>
