@@ -1,0 +1,6 @@
+{% load i18n %}
+<div>{{ material.work__work_name }}</div>
+<div>
+    <span>{% trans "amount:" %}</span>
+    {{ material.amount_material|floatformat:2 }}
+</div>
