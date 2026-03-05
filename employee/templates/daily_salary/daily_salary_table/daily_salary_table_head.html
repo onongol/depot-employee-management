@@ -1,0 +1,25 @@
+{% load i18n %}
+{% if not is_employee and not is_master %}
+    <th scope="col" class="{{ col_class_checkbox }}">
+         {% include "includes/table/list_select_all_checkbox.html" with select_all_id="select-all-daily-salaries" checkbox_name="daily_salary_ids" %}
+    </th>
+{% endif %}
+<th scope="col" class="{{ col_class_hidden }}">#</th>
+<th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
+<th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Position" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Hours" %}</th>
+{% if not is_employee and not is_master %}
+    <th scope="col" class="{{ col_class_hidden }}">{% trans "Salary" %}</th>
+{% endif %}
+<th scope="col" class="{{ col_class }}">
+    {% include "includes/table/sort_column.html" with label=_("Date") field="salary_date" col_class=col_class selected_department=selected_department %}
+</th>
+{% if not is_employee %}
+    <th scope="col" class="{{ col_class }}">
+        {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department %}
+    </th>
+{% endif %}
+{% if not is_employee and not is_master %}
+    <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
+{% endif %}
