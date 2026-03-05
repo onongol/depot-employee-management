@@ -1,0 +1,22 @@
+{% load i18n %}
+<td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+<td class="{{ col_class }}">{{ piecework.employee_id }}</td>
+<td class="{{ col_class }}">
+    {% include "includes/table/mobile_summary.html" with col_name=piecework.employee_name  details_template="piecework/piecework_table/piecework_mobile_details_grouped.html" %}
+</td>
+<td class="{{ col_class_hidden }}">{{ piecework.job_title }}</td>
+<td class="{{ col_class }}">{{ piecework.work_name }}</td>
+<td class="{{ col_class_hidden }}">{{ piecework.type_work }}</td>
+{% if show_wagon %}
+    <td class="{{ col_class_hidden }}">{{ piecework.type_wagon }}</td>
+    <td class="{{ col_class_hidden }}">{{ piecework.wagon_number|default:"-" }}</td>
+{% endif %}
+<td class="{{ col_class_hidden }}">{{ piecework.total_amount }}</td>
+<td class="{{ col_class_hidden }}">{{ piecework.total_time|floatformat:2 }}</td>
+<td class="{{ col_class_hidden }}">{{ piecework.total_price|floatformat:2 }}</td>
+{% if month_group %}
+    <td class="{{ col_class }}">{{ piecework.month }}</td>
+    <td class="{{ col_class }}">{{ piecework.year }}</td>
+{% else %}
+    <td class="{{ col_class }}">{{ piecework.year }}</td>
+{% endif %}
