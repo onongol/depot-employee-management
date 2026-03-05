@@ -1,6 +1,6 @@
 {% load i18n %}
 {% if not is_employee and not is_master and detail_group %}
-    <td class="{{ col_class }} text-center">
+    <td class="{{ col_class_checkbox }}">
         {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="daily_work_ids" row_value=daily_work.pk row_label=daily_work.work.work_name %}
     </td>    
 {% endif %}
