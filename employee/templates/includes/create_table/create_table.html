@@ -4,7 +4,11 @@
         <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
                aria-describedby="{{ aria_desc|default:'' }}">
             <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
-                <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">{% include columns_template %}</tr>
+                <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
+                    {% with col_class="px-2 py-3 md:px-6" col_class_hidden="px-2 py-3 md:px-6 hidden md:table-cell" col_class_checkbox="px-6 py-3 text-center" %}
+                        {% include columns_template %}
+                    {% endwith %}
+                </tr>
             </thead>
             <tbody id="{{ tbody_id }}"
                    class="divide-y divide-gray-100 dark:divide-gray-700">
@@ -13,7 +17,9 @@
                         {% if row.employee_id %}data-emp-id="{{ row.employee_id }}"{% endif %}
                         {% if row.name %}data-emp-name="{{ row.name }}"{% endif %}
                         {% if row.work_name %}data-work-name="{{ row.work_name }}"{% endif %}>
-                        {% include row_template with employee=row work=row %}
+                        {% with col_class="px-2 py-3 md:px-6" col_class_hidden="px-2 py-3 md:px-6 hidden md:table-cell" col_class_checkbox="px-6 py-3 text-center align-middle" %}
+                            {% include row_template with employee=row work=row %}
+                        {% endwith %}
                     </tr>
                 {% endfor %}
             </tbody>
