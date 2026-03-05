@@ -1,0 +1,10 @@
+{% load i18n %}
+{% include "includes/filters/filter_input.html" with id="id_wagon_number" label=_("Wagon Number") name="wagon_number" value=request.GET.wagon_number %}
+{% include "includes/filters/filter_select.html" with id="id_type_wagon" label=_("Wagon Type") name="type_wagon" choices=type_wagons selected=request.GET.type_wagon empty_label=_("Wagon Types") %}
+{% if month_group %}
+    {% include "includes/filters/filter_month.html" with id="id_month_period" label=_("Month/Year") name="month_period" value=month_period %}
+{% else %}
+    {% include "includes/filters/filter_input.html" with id="id_work" label=_("Work") name="work" type="text" value=request.GET.work placeholder=_("Work Name") %}
+    {% include "includes/filters/filter_select.html" with id="id_type_work" label=_("Work Type") name="type_work" choices=type_works selected=request.GET.type_work empty_label=_("Work Types") %}
+    {% include "includes/filters/filter_date_range.html" with id="id_range_date" label=_("Date Range") name="range_date" type="text" value=request.GET.range_date %}
+{% endif %}
