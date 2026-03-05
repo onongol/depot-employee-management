@@ -3,13 +3,13 @@
            aria-describedby="{{ aria_desc }}">
         <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                {% with col_class="px-6 py-3" %}
+                {% with col_class="px-6 py-3" col_class_hidden="px-6 py-3 hidden md:table-cell" col_class_checkbox="px-6 py-3 text-center" %}
                     {% include head_template %}
                 {% endwith %}
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-            {% with col_class="px-6 py-3" col_class_hidden="px-6 py-3 hidden md:table-cell" %}
+            {% with col_class="px-6 py-3" col_class_hidden="px-6 py-3 hidden md:table-cell" col_class_checkbox="px-6 py-3 text-center" %}
                 {% if rows %}
                     {% for row in rows %}
                         {% if month_group or year_group %}
@@ -20,10 +20,13 @@
                             </tr>
                         {% else %}
                             <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-red-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-red-500/20"
+                                {% if row.employee.employee_id %}data-emp-id="{{ row.employee.employee_id }}"{% endif %}
+                                {% if row.employee.name %}data-emp-name="{{ row.employee.name }}"{% endif %}
+                                {% if row.salary_date %}data-salary-date="{{ row.salary_date|date:'Y-m-d' }}"{% endif %}
                                 {% if row.work.work_name %}data-work-name="{{ row.work.work_name }}"{% endif %}
                                 {% if row.type_work %}data-type-work="{{ row.type_work }}"{% endif %}
                                 {% if row.work_date %}data-work-date="{{ row.work_date|date:'Y-m-d' }}"{% endif %}>
-                                {% include row_detail_template with daily_work=row %}
+                                {% include row_detail_template with daily_salary=row daily_work=row %}
                             </tr>
                         {% endif %}
                     {% endfor %}
