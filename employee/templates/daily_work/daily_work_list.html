@@ -21,8 +21,8 @@
             {% endif %}
             <!-- Filters -->
             {% include "includes/table/list_table_filters.html" with toggle_id="daily-work-filters-toggle" panel_id="daily-work-filters-panel" fields_template="daily_work/daily_work_filters_fields.html" %}
+            <!-- Export Excel Mobile -->
             <div class="md:hidden">
-                <!-- Export Excel Mobile -->
                 {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
             </div>
         </div>
