@@ -6,91 +6,24 @@
     {% include "includes/components/list_header.html" with header_id="wagon-list-title" title=selected_department %}
     <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
         <div class="flex flex-row items-center justify-between gap-2 md:gap-4">
-            <!-- Mode Segmented Control -->
+            <!-- Segmented -->
             {% include "includes/components/wagon_mode_segmented.html" %}
+            <!-- Export Excel -->
             <div class="hidden md:block">
                 {% include "includes/export/export_excel_button.html" with url_name='wagon_export_excel' params=request.GET aria_label="Download filtered wagons as Excel" %}
             </div>
         </div>
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
-            <!-- Filter Form -->
-            {% include "wagon/wagon_filters.html" %}
+            <!-- Filters -->
+            {% include "includes/table/list_table_filters.html" with toggle_id="wagon-filters-toggle" panel_id="wagon-filters-panel" fields_template="wagon/wagon_filters_fields.html" %}
+            <!-- Export Excel Mobile -->
             <div class="md:hidden">
                 {% include "includes/export/export_excel_button.html" with url_name='wagon_export_excel' params=request.GET aria_label="Download filtered wagons as Excel" %}
             </div>
         </div>
     </div>
-    <!-- Wagon Table -->
-    <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
-        <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-               aria-describedby="wagon-list-title">
-            <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    {% with col_class="px-6 py-3" %}
-                        <th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Wagon Number" %}</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Wagon Type" %}</th>
-                        {% if month_group %}
-                            <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
-                            <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
-                            <th scope="col" class="{{ col_class }}">
-                                {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
-                            </th>
-                            <th scope="col" class="{{ col_class }}">
-                                {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
-                            </th>
-                        {% else %}
-                            <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
-                            <th scope="col" class="{{ col_class }}">{% trans "Work Type" %}</th>
-                            <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
-                            <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
-                            <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
-                            <th scope="col" class="{{ col_class }}">
-                                {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
-                            </th>
-                        {% endif %}
-                    {% endwith %}
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-                {% if rows %}
-                    {% for row in rows %}
-                        <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-                            {% with col_class="px-6 py-3" %}
-                                <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                                <td class="{{ col_class }}">{{ row.wagon_number }}</td>
-                                <td class="{{ col_class }}">{{ row.type_wagon }}</td>
-                                {% if month_group %}
-                                    <td class="{{ col_class }}">{{ row.total_time|floatformat:2 }}</td>
-                                    <td class="{{ col_class }}">{{ row.total_price|floatformat:2 }}</td>
-                                    <td class="{{ col_class }}">{{ row.month }}</td>
-                                    <td class="{{ col_class }}">{{ row.year }}</td>
-                                {% else %}
-                                    <td class="{{ col_class }}">{{ row.work__work_name }}</td>
-                                    <td class="{{ col_class }}">{{ row.type_work }}</td>
-                                    <td class="{{ col_class }}">{{ row.amount|floatformat:2 }}</td>
-                                    <td class="{{ col_class }}">{{ row.total_time|floatformat:2 }}</td>
-                                    <td class="{{ col_class }}">{{ row.total_price|floatformat:2 }}</td>
-                                    <td class="{{ col_class }}">{{ row.work_date|date:"Y-m-d" }}</td>
-                                {% endif %}
-                            {% endwith %}
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="9" class="px-3 py-4 text-center text-gray-500">{% trans "No records found" %}</td>
-                    </tr>
-                {% endif %}
-            </tbody>
-            {% if rows %}
-                <tfoot class="hidden md:table-footer-group">
-                    {% include "wagon/wagon_total_row.html" %}
-                </tfoot>
-            {% endif %}
-        </table>
-    </div>
+    <!-- Table -->
+    {% include "wagon/wagon_table/wagon_table.html" %}
     <!-- Pagination -->
-    <nav aria-label="Wagon list pagination">
-        {% include "includes/table/pagination.html" %}
-    </nav>
+    {% include "includes/table/pagination.html" %}
 {% endblock %}
