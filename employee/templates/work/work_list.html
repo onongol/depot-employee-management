@@ -10,75 +10,13 @@
         {% include "includes/components/list_header.html" with header_id="work-list-title" title=selected_department only %}
     {% endif %}
     <div class="mb-2 flex flex-row items-center justify-end gap-2 md:mb-4 md:justify-start md:gap-4">
-        <!-- Filter Form -->
-        {% include "work/work_filters.html" %}
+        <!-- Filters -->
+        {% include "includes/table/list_table_filters.html" with toggle_id="work-filters-toggle" panel_id="work-filters-panel" fields_template="work/work_filters_fields.html" %}
     </div>
-    <!-- Messages -->
+    <!-- Alerts -->
     {% include "includes/alerts/alerts.html" %}
-    <!-- Work Table -->
-    <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
-        <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-               aria-describedby="work-list-title">
-            <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    {% with col_class="px-6 py-3" %}
-                        <th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
-                        <th scope="col" class="{{ col_class }}">
-                            {% include "includes/table/sort_column.html" with label=_("Work") field="work_name" col_class=col_class selected_department=selected_department %}
-                        </th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Position" %}</th>
-                        {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                            <th scope="col" class="{{ col_class }}">{% trans "Wagon Type" %}</th>
-                        {% endif %}
-                        {% if selected_department == MECHANIC %}
-                            <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
-                            <th scope="col" class="{{ col_class }}">{% trans "Quantity" %}</th>
-                        {% endif %}
-                        <th scope="col" class="{{ col_class }}">{% trans "Time" %}</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Price" %}</th>
-                        {% if not is_master %}
-                            <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
-                        {% endif %}
-                    {% endwith %}
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-                {% if works %}
-                    {% for work in works %}
-                        <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-                            {% with col_class="px-6 py-3" %}
-                                <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                                <td class="{{ col_class }}">{{ work.work_name }}</td>
-                                <td class="{{ col_class }}">{{ work.job_title }}</td>
-                                {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-                                    <td class="{{ col_class }}">{{ work.type_wagon_display }}</td>
-                                {% endif %}
-                                {% if selected_department == MECHANIC %}
-                                    <td class="{{ col_class }}">{{ work.type_material_display }}</td>
-                                    <td class="{{ col_class }}">{{ work.usage_material|floatformat:2 }}</td>
-                                {% endif %}
-                                <td class="{{ col_class }}">{{ work.standard_time|floatformat:2 }}</td>
-                                <td class="{{ col_class }}">{{ work.price|floatformat:2 }}</td>
-                                {% if not is_master %}
-                                    <td class="{{ col_class }}">
-                                        {% url 'work_update' work.pk as edit_url %}
-                                        {% url 'work_delete' work.pk as delete_url %}
-                                        {% include "includes/table_action_buttons/action_buttons.html" with id=work.work_id name=work edit_url=edit_url delete_url=delete_url show_delete=True %}
-                                    </td>
-                                {% endif %}
-                            {% endwith %}
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="9" class="px-3 py-4 text-center text-gray-500">{% trans "No records found" %}</td>
-                    </tr>
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
+    <!-- Table -->
+    {% include "work/work_table/work_table.html" %}
     <!-- Pagination -->
-    <nav aria-label="Work list pagination">
-        {% include "includes/table/pagination.html" %}
-    </nav>
+    {% include "includes/table/pagination.html" %}
 {% endblock %}
