@@ -22,7 +22,7 @@
                                 {% if row.work.work_name %}data-work-name="{{ row.work.work_name }}"{% endif %}
                                 {% if row.type_work %}data-type-work="{{ row.type_work }}"{% endif %}
                                 {% if row.work_date %}data-work-date="{{ row.work_date|date:'Y-m-d' }}"{% endif %}>
-                                {% include row_detail_template with employee=row work=row daily_salary=row daily_work=row piecework=row %}
+                                {% include row_detail_template with employee=row work=row daily_salary=row daily_work=row piecework=row employee_salary=row %}
                             </tr>
                         {% endif %}
                     {% endfor %}
