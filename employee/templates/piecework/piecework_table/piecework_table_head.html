@@ -1,0 +1,35 @@
+{% load i18n %}
+<th scope="col" class="{{ col_class_hidden } hidden md:table-cell">#</th>
+<th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
+<th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Position" %}</th>
+<th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Work Type" %}</th>
+{% if show_wagon %}
+    <th scope="col" class="{{ col_class_hidden }}">{% trans "Wagon Type" %}</th>
+    <th scope="col" class="{{ col_class_hidden }}">{% trans "Wagon Number" %}</th>
+{% endif %}
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Amount" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Time" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Price" %}</th>
+{% if month_group %}
+    <th scope="col" class="{{ col_class }}">
+        {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
+    </th>
+    <th scope="col" class="{{ col_class }}">
+        {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
+    </th>
+{% elif year_group %}
+    <th scope="col" class="{{ col_class }}">
+        {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
+    </th>
+{% else %}
+    <th scope="col" class="{{ col_class }}">
+        {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
+    </th>
+    {% if not is_employee %}
+        <th scope="col" class="{{ col_class }}">
+            {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department %}
+        </th>
+    {% endif %}
+{% endif %}
