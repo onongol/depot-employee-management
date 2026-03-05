@@ -1,0 +1,12 @@
+{% load i18n %}
+<div>{{ daily_salary.employee.job_title }}</div>
+<div>
+    <span>{% trans "hours:" %}</span>
+    {{ daily_salary.hours_per_day }}
+</div>
+{% if not is_employee and not is_master %}
+    <div>
+        <span>{% trans "salary:" %}</span>
+        {{ daily_salary.salary_day|floatformat:2 }}
+    </div>
+{% endif %}
