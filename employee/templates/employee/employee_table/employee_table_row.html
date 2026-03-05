@@ -1,0 +1,21 @@
+{% load i18n %}
+<td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+<td class="{{ col_class }}">{{ employee.employee_id }}</td>
+<td class="{{ col_class }}">
+    {% include "includes/table/mobile_summary.html" with col_name=employee.name details_template="employee/employee_table/employee_table_mobile_details.html" %}
+</td>
+<td class="{{ col_class_hidden }}">{{ employee.job_title }}</td>
+<td class="{{ col_class_hidden }}">{{ employee.rank }}</td>
+<td class="{{ col_class_hidden }}">{{ employee.money_per_hour|floatformat:2 }}</td>
+{% if not is_employee and not is_master %}
+    <td class="{{ col_class }}">
+        {% url 'employee_update' employee.pk as edit_url %}
+        {% url 'employee_delete' employee.pk as delete_url %}
+        {% if employee.is_active %}
+            {% url 'employee_deactivate' employee.pk as deactivate_url %}
+        {% else %}
+            {% url 'employee_activate' employee.pk as activate_url %}
+        {% endif %}
+        {% include "includes/table_action_buttons/action_buttons.html" with id=employee.employee_id name=employee edit_url=edit_url delete_url=delete_url show_delete=True deactivate_url=deactivate_url activate_url=activate_url show_activation=True is_active=employee.is_active %}
+    </td>
+{% endif %}
