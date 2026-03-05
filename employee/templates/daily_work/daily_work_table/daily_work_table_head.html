@@ -1,20 +1,20 @@
 {% load i18n %}
 {% if not is_employee and not is_master and detail_group %}
-    <th scope="col" class="{{ col_class }} text-center">
+    <th scope="col" class="{{ col_class_checkbox }}">
         {% include "includes/table/list_select_all_checkbox.html" with select_all_id="select-all-daily-works" checkbox_name="daily_work_ids" %}
     </th>
 {% endif %}
-<th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
+<th scope="col" class="{{ col_class_hidden }}">#</th>
 <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
-<th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Position" %}</th>
-<th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Work Type" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Position" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Work Type" %}</th>
 {% if show_wagon %}
-    <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Wagon Type" %}</th>
-    <th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Wagon Number" %}</th>
+    <th scope="col" class="{{ col_class_hidden }}">{% trans "Wagon Type" %}</th>
+    <th scope="col" class="{{ col_class_hidden }}">{% trans "Wagon Number" %}</th>
 {% endif %}
-<th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Amount" %}</th>
-<th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Time" %}</th>
-<th scope="col" class="{{ col_class }} hidden md:table-cell">{% trans "Price" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Amount" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Time" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Price" %}</th>
 {% if month_group %}
     <th scope="col" class="{{ col_class }}">
         {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
