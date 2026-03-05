@@ -1,0 +1,29 @@
+{% if not is_employee and not is_master %}
+    <td class="{{ col_class_checkbox }}">
+        {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="daily_salary_ids" row_value=daily_salary.pk row_label=daily_salary.employee.employee_id %}
+    </td>
+{% endif %}
+<td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
+<td class="{{ col_class }}">{{ daily_salary.employee.employee_id }}</td>
+<td class="{{ col_class }}">
+    {% if not is_employee and not is_master %}
+        {% include "includes/table/mobile_meta.html" with col_name=daily_salary.employee.name details_template="daily_salary/daily_salary_table/daily_salary_mobile_details.html" %}
+    {% else %}             
+        {% include "includes/table/mobile_summary.html" with col_name=daily_salary.employee.name details_template="daily_salary/daily_salary_table/daily_salary_mobile_details.html" %}
+    {% endif %}
+</td>
+<td class="{{ col_class_hidden }}">{{ daily_salary.employee.job_title }}</td>
+<td class="{{ col_class_hidden }}">{{ daily_salary.hours_per_day }}</td>
+{% if not is_employee and not is_master %}
+    <td class="{{ col_class_hidden }}">{{ daily_salary.salary_day|floatformat:2 }}</td>
+{% endif %}
+<td class="{{ col_class }}">{{ daily_salary.salary_date|date:"Y-m-d" }}</td>
+{% if not is_employee %}<td class="{{ col_class }}">{{ daily_salary.record_date|date:"Y-m-d H:i" }}</td>{% endif %}
+{% if not is_employee and not is_master %}
+    <td class="{{ col_class }}">
+        {% url 'daily_salary_update' daily_salary.pk as update_url %}
+        {% with salary_date=daily_salary.salary_date|date:"Y-m-d" %}
+            {% include "includes/table_action_buttons/action_buttons.html" with id=daily_salary.employee.employee_id name=daily_salary edit_url=update_url %}
+        {% endwith %}
+    </td>
+{% endif %}
