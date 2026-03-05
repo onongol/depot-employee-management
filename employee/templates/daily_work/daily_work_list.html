@@ -7,28 +7,29 @@
     {% include "includes/components/list_header.html" with header_id="daily-work-list-title" title=selected_department create_url=create_url %}
     <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
         <div class="flex flex-row items-center justify-between gap-2 md:gap-4">
-            <!-- View Mode Segmented Control -->
+            <!-- Segmented  -->
             {% include "includes/components/view_mode_segmented.html" %}
-            <!-- Export Excel Button -->
+            <!-- Export Excel -->
             <div class="hidden md:block">
                 {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
             </div>
         </div>
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
-            <!-- Delete Button -->
+            <!-- Delete -->
             {% if not is_employee and not is_master and detail_group %}
                 {% include "includes/table_action_buttons/bulk_delete_button.html" %}
             {% endif %}
             <!-- Filters -->
             {% include "daily_work/daily_work_filters.html" %}
             <div class="md:hidden">
+                <!-- Export Excel Mobile -->
                 {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
             </div>
         </div>
     </div>
     <!-- Alerts -->
     {% include "includes/alerts/alerts.html" %}
-    <!-- Selected summary section -->
+    <!-- Summary -->
     {% if not is_employee and not is_master and detail_group %}
         {% include "includes/summaries/selected_summary.html" with summary_id="selected-daily-work-summary" details_id="selected-daily-work-details" list_id="selected-daily-work-list" count_id="selected-daily-work-count" label_id="selected-daily-work-label" %}
     {% endif %}
@@ -36,10 +37,13 @@
           id="bulkDeleteForm"
           action="{% url 'daily_work_delete_bulk' %}">
         {% csrf_token %}
-        <!-- Daily Work Table -->
+        <!-- Table -->
         {% include "daily_work/daily_work_table/daily_work_table.html" %}
     </form>
+    <!-- Pagination -->
     {% include "includes/table/pagination.html" %}
+    <!-- Modals -->
     {% include "includes/modals/modal_delete_bulk.html" %}
+    <!-- Scripts -->
     {% include "daily_work/scripts.html" %}
 {% endblock %}
