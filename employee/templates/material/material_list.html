@@ -7,63 +7,22 @@
     {% include "includes/components/list_header.html" with header_id="material-list-title" title=_("Material") %}
     <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
         <div class="flex flex-row items-center justify-end gap-2 md:gap-4">
+            <!-- Export Excel -->
             <div class="hidden md:block">
                 {% include "includes/export/export_excel_button.html" with url_name='material_export_excel' params=request.GET aria_label="Download filtered materials as Excel" %}
             </div>
         </div>
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
-            <!-- Filter Form -->
-            {% include "material/material_filters.html" %}
+            <!-- Filters -->
+            {% include "includes/table/list_table_filters.html" with toggle_id="material-filters-toggle" panel_id="material-filters-panel" fields_template="material/material_filters_fields.html" %}
+            <!-- Export Excel Mobile -->
             <div class="md:hidden">
                 {% include "includes/export/export_excel_button.html" with url_name='material_export_excel' params=request.GET aria_label="Download filtered materials as Excel" %}
             </div>
         </div>
     </div>
-    <!-- Material Table -->
-    <div class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
-        <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-               aria-describedby="material-list-title">
-            <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    {% with col_class="px-6 py-3" %}
-                        <th scope="col" class="{{ col_class }} hidden md:table-cell">#</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Material" %}</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
-                        <th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
-                        <th scope="col" class="{{ col_class }}">
-                            {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
-                        </th>
-                    {% endwith %}
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-                {% if materials %}
-                    {% for material in materials %}
-                        <tr class="odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600">
-                            {% with col_class="px-6 py-3" %}
-                                <td class="{{ col_class }} hidden md:table-cell">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                                <td class="{{ col_class }}">{{ material.work__type_material }}</td>
-                                <td class="{{ col_class }}">{{ material.work__work_name }}</td>
-                                <td class="{{ col_class }}">{{ material.amount_material|floatformat:2 }}</td>
-                                <td class="{{ col_class }}">{{ material.work_date|date:"Y-m-d" }}</td>
-                            {% endwith %}
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="5" class="px-3 py-4 text-center text-gray-500">{% trans "No records found" %}</td>
-                    </tr>
-                {% endif %}
-                {% if materials %}
-                    <tfoot class="hidden md:table-footer-group">
-                        {% include "material/material_total_row.html" %}
-                    </tfoot>
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
+    <!-- Table -->
+    {% include "material/material_table/material_table.html" %}
     <!-- Pagination -->
-    <nav aria-label="Materials pagination">
-        {% include "includes/table/pagination.html" %}
-    </nav>
+    {% include "includes/table/pagination.html" %}
 {% endblock %}
