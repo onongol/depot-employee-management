@@ -43,7 +43,7 @@ def wagon_list(request):
         {
             **asdict(context),
             "wagon_data": wagon_data,
-            "rows": page_obj,
+            "wagons": page_obj,
             "page_obj": page_obj,
             "total_amount": totals["total_amount"],
             "total_time": totals["total_time"],
