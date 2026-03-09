@@ -1,24 +1,30 @@
 {% load i18n %}
 {% load static %}
-<div class="relative">
+<div class="relative" data-dropdown>
     <!-- User avatar button -->
     {% include "includes/user/avatar_button.html" %}
     <!-- Main Dropdown Menu -->
     <div class="absolute right-0 z-10 mt-2 hidden w-48 rounded-md border border-gray-200 bg-gray-50 py-2 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-500"
-         id="user-dropdown-menu"
+         data-dropdown-menu
          tabindex="0"
          role="menu">
-        <!-- Username -->
-        {% include "includes/user/menu_header.html" %}
-        <!-- Password Change Link -->
-        {% include "includes/user/menu_password_link.html" %}
-        <!-- Language Switcher Parent -->
+        <!-- Main panel -->
+        <div data-panel="main">
+            <!-- Username -->
+            {% include "includes/user/menu_header.html" %}
+            <!-- Password Change Link -->
+            {% include "includes/user/menu_password_link.html" %}
+            <!-- Language Button -->
+            {% include "includes/user/language_button.html" %}
+            <!-- Theme Button -->
+            {% include "includes/user/theme_button.html" %}
+            {% include "includes/user/menu_divider.html" %}
+            <!-- Sign Out Form -->
+            {% include "includes/user/menu_logout.html" %}
+        </div>
+        <!-- Language panel -->
         {% include "includes/user/language_switcher.html" %}
-        <!-- Theme Switcher -->
+        <!-- Theme panel -->
         {% include "includes/user/theme_switcher.html" %}
-        <!-- Divider -->
-        <hr class="my-2 border-gray-200 dark:border-gray-700" />
-        <!-- Sign Out Form -->
-        {% include "includes/user/menu_logout.html" %}
     </div>
 </div>
