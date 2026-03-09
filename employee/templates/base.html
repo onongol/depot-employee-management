@@ -43,7 +43,7 @@ load this before any scripts that call gettext() or use translated strings. -->
         <!-- Flatpickr -->
         <script src="{% static 'js/flatpickr-bundle.js' %}"></script>
         {% if request.user.is_authenticated %}
-            <script src="{% static 'js/department_dropdown-bundle.js' %}"></script>
+            <script type="module" src="{% static 'js/department_dropdown-bundle.js' %}"></script>
             <script src="{% static 'js/user_dropdown-bundle.js' %}"></script>
             <script src="{% static 'js/theme_switcher-bundle.js' %}"></script>
         {% endif %}
