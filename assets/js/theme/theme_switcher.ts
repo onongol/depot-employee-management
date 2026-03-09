@@ -1,91 +1,156 @@
-type Theme = 'light' | 'dark' | 'auto';
+const THEME_SELECTORS = {
+	themePanel: '[data-panel="theme"]',
+	themeButtons: "button[data-theme-value]",
+	themeButtonByValue: (theme: Theme) => `button[data-theme-value="${theme}"]`,
+	svgUse: "use",
+} as const;
 
-document.addEventListener('DOMContentLoaded', () => {
-  const themeMenu = document.getElementById('theme-dropdown-menu') as HTMLElement | null;
+const THEME_ATTRS = {
+	href: "href",
+} as const;
 
-  const prefersDark = () =>
-    typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-color-scheme: dark)')?.matches;
+const THEME_IDS = {
+	themeIcon: "theme-icon",
+	themeLabel: "theme-label",
+	flatpickrDarkCss: "flatpickr-dark-css",
+} as const;
 
-  function setFlatpickrTheme(theme: Theme): void {
-    const flatpickrCss = document.getElementById('flatpickr-dark-css') as HTMLLinkElement | null;
-    if (!flatpickrCss) return;
-    flatpickrCss.disabled = !(
-      theme === 'dark' || (theme === 'auto' && prefersDark())
-    );
-  }
+const THEME_STORAGE = {
+	themeKey: "theme",
+} as const;
 
-  function getThemeLabel(menu: HTMLElement, theme: Theme): string {
-    const btn = menu.querySelector<HTMLButtonElement>(`button[data-theme-value="${theme}"]`);
-    return btn?.dataset.label ?? btn?.textContent?.trim() ?? theme;
-  }
+const THEME_MEDIA = {
+	prefersDark: "(prefers-color-scheme: dark)",
+} as const;
 
-  function updateIconAndLabel(iconId: string, labelId: string, iconHref: string, labelText: string): void {
-    const iconEl = document.getElementById(iconId);
-    if (iconEl) {
-      const useEl = iconEl.querySelector('use');
-      if (useEl) useEl.setAttribute('href', iconHref);
-    }
-    const labelEl = document.getElementById(labelId);
-    if (labelEl) labelEl.textContent = labelText;
-  }
+const THEME_ICONS = {
+	dark: "#moon-stars-fill",
+	light: "#sun-fill",
+} as const;
 
-  function setTheme(theme: Theme): void {
-    const menu = themeMenu;
-    const labelText = menu ? getThemeLabel(menu, theme) : theme;
+const THEME_CLASSES = {
+	dark: "dark",
+	activeFont: "font-bold",
+	activeText: "text-gray-600",
+	activeTextDark: "dark:text-gray-400",
+} as const;
 
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-      updateIconAndLabel('theme-icon', 'theme-label', '#moon-stars-fill', labelText);
-    } else if (theme === 'light') {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-      updateIconAndLabel('theme-icon', 'theme-label', '#sun-fill', labelText);
-    } else {
-      localStorage.setItem('theme', 'auto');
-      if (prefersDark()) {
-        document.documentElement.classList.add('dark');
-        updateIconAndLabel('theme-icon', 'theme-label', '#moon-stars-fill', labelText);
-      } else {
-        document.documentElement.classList.remove('dark');
-        updateIconAndLabel('theme-icon', 'theme-label', '#sun-fill', labelText);
-      }
-    }
+const THEMES = {
+	light: "light",
+	dark: "dark",
+	auto: "auto",
+} as const;
 
-    setFlatpickrTheme(theme);
+// Define Theme type based on THEMES object
+type Theme = (typeof THEMES)[keyof typeof THEMES];
 
-    if (menu) {
-      menu.querySelectorAll<HTMLButtonElement>('button[data-theme-value]').forEach(btn => {
-        const isSelected = btn.getAttribute('data-theme-value') === theme;
-        btn.classList.toggle('font-bold', isSelected);
-        btn.classList.toggle('text-gray-600', isSelected);
-        btn.classList.toggle('dark:text-gray-400', isSelected);
-      });
-    }
-  }
+/**
+ * Type guard to ensure the string is a valid Theme type.
+ */
+function isTheme(value: string | null): value is Theme {
+	return (
+		value === THEMES.light || value === THEMES.dark || value === THEMES.auto
+	);
+}
 
-  // initialise
-  const saved = (localStorage.getItem('theme') as Theme | null) ?? 'auto';
-  setTheme(saved);
+document.addEventListener("DOMContentLoaded", () => {
+	const themeMenu = document.querySelector<HTMLElement>(
+		THEME_SELECTORS.themePanel,
+	);
 
-  // attach handlers
-  if (themeMenu) {
-    themeMenu.querySelectorAll<HTMLButtonElement>('button[data-theme-value]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const val = btn.getAttribute('data-theme-value') as Theme | null;
-        if (val) setTheme(val);
-        themeMenu.classList.add('hidden');
-      });
-    });
-  }
+	// Cache theme light/dark/auto
+	const themeButtons = new Map<Theme, HTMLButtonElement>();
 
-  // respond to system changes when in auto mode
-  const mql = window.matchMedia?.('(prefers-color-scheme: dark)');
-  if (mql) {
-    const handler = (ev: MediaQueryListEvent) => {
-      if (localStorage.getItem('theme') === 'auto') setTheme('auto');
-    };
-    if ('addEventListener' in mql) mql.addEventListener('change', handler);
-    else mql.addListener(handler);
-  }
+	// Populate themeButtons map for easy access later
+	if (themeMenu) {
+		themeMenu
+			.querySelectorAll<HTMLButtonElement>(THEME_SELECTORS.themeButtons)
+			.forEach((btn) => {
+				const value = btn.dataset.themeValue ?? null;
+				if (isTheme(value)) {
+					themeButtons.set(value, btn);
+				}
+			});
+	}
+
+	const prefersDark = (): boolean =>
+		window.matchMedia(THEME_MEDIA.prefersDark).matches;
+
+	/**
+	 * Enables or disables the dark theme CSS for Flatpickr.
+	 */
+	function setFlatpickrTheme(isDark: boolean): void {
+		const flatpickrCss = document.getElementById(
+			THEME_IDS.flatpickrDarkCss,
+		) as HTMLLinkElement | null;
+		if (!flatpickrCss) return;
+		flatpickrCss.disabled = !isDark;
+	}
+
+	function getThemeLabel(theme: Theme): string {
+		const btn = themeMenu?.querySelector<HTMLButtonElement>(
+			THEME_SELECTORS.themeButtonByValue(theme),
+		);
+		return btn?.dataset.label ?? btn?.textContent?.trim() ?? theme;
+	}
+
+	function updateUI(iconHref: string, labelText: string): void {
+		const iconEl = document.getElementById(THEME_IDS.themeIcon);
+		iconEl
+			?.querySelector<SVGUseElement>(THEME_SELECTORS.svgUse)
+			?.setAttribute(THEME_ATTRS.href, iconHref);
+
+		const labelEl = document.getElementById(THEME_IDS.themeLabel);
+		if (labelEl) labelEl.textContent = labelText;
+	}
+
+	/**
+	 * Main function to apply theme logic.
+	 */
+	function setTheme(theme: Theme): void {
+		const isDark =
+			theme === THEMES.dark || (theme === THEMES.auto && prefersDark());
+		const labelText = getThemeLabel(theme);
+
+		// Apply theme to document
+		document.documentElement.classList.toggle(THEME_CLASSES.dark, isDark);
+
+		// Update visual indicators (Icon & Label)
+		const iconHref = isDark ? THEME_ICONS.dark : THEME_ICONS.light;
+		updateUI(iconHref, labelText);
+
+		// Persistence
+		localStorage.setItem(THEME_STORAGE.themeKey, theme);
+		setFlatpickrTheme(isDark);
+
+		// Update active state in the menu buttons
+		themeButtons.forEach((btn, key) => {
+			const isSelected = key === theme;
+			btn.classList.toggle(THEME_CLASSES.activeFont, isSelected);
+			btn.classList.toggle(THEME_CLASSES.activeText, isSelected);
+			btn.classList.toggle(THEME_CLASSES.activeTextDark, isSelected);
+		});
+	}
+
+	// --- Initialization ---
+	const savedRaw = localStorage.getItem(THEME_STORAGE.themeKey);
+	const savedTheme: Theme = isTheme(savedRaw) ? savedRaw : THEMES.auto;
+	setTheme(savedTheme);
+
+	// --- Event Listeners ---
+	// Слушатели тоже из кэша
+	themeButtons.forEach((btn, key) => {
+		btn.addEventListener("click", () => setTheme(key));
+	});
+
+	// Listen for system theme changes (only react if current theme is "auto")
+	const mql = window.matchMedia(THEME_MEDIA.prefersDark);
+	if (mql) {
+		const handler = () => {
+			if (localStorage.getItem(THEME_STORAGE.themeKey) === THEMES.auto) {
+				setTheme(THEMES.auto);
+			}
+		};
+		mql.addEventListener("change", handler);
+	}
 });
