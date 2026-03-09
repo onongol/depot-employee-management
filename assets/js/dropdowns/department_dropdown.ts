@@ -1,60 +1,93 @@
-type Nullable<T> = T | null;
-
+/**
+ * Interface representing the core elements of a dropdown component.
+ */
 interface DropdownElements {
-	button: HTMLElement;
+	button: HTMLButtonElement;
 	menu: HTMLElement;
 }
 
+// Configuration constants for DOM selectors, CSS classes, and key codes.
+const SELECTORS = {
+	dropdownRoot: "[data-dropdown]",
+	dropdownButton: "[data-dropdown-button]",
+	dropdownMenu: "[data-dropdown-menu]",
+	dropdownItems: "a,button",
+} as const;
+
+const CLASSES = {
+	hidden: "hidden",
+} as const;
+
+const KEYS = {
+	escape: "Escape",
+} as const;
+
 document.addEventListener("DOMContentLoaded", () => {
+	// Keep track of currently active (visible) menus.
 	const openMenus = new Set<HTMLElement>();
 
-	function setupDropdown(btnId: string, menuId: string): void {
-		const btn: Nullable<HTMLElement> = document.getElementById(btnId);
-		const menu: Nullable<HTMLElement> = document.getElementById(menuId);
+	// Shows a specific dropdown menu and tracks it.
+	const openMenu = (menu: HTMLElement): void => {
+		menu.classList.remove(CLASSES.hidden);
+		openMenus.add(menu);
+	};
 
-		if (!btn) console.warn(`Button with id "${btnId}" not found`);
-		if (!menu) console.warn(`Menu with id "${menuId}" not found`);
-		if (!btn || !menu) return;
+	// Hides a specific dropdown menu and updates tracking.
+	const closeMenu = (menu: HTMLElement): void => {
+		menu.classList.add(CLASSES.hidden);
+		openMenus.delete(menu);
+	};
 
-		btn.addEventListener("click", (e: MouseEvent) => {
+	// Closes all currently open dropdown menus.
+	const closeAllMenus = (): void => {
+		[...openMenus].forEach(closeMenu);
+	};
+
+	/**
+	 * Finds and validates required dropdown elements within a root container.
+	 */
+	function getDropdownElements(root: HTMLElement): DropdownElements | null {
+		const button = root.querySelector<HTMLButtonElement>(
+			SELECTORS.dropdownButton,
+		);
+		const menu = root.querySelector<HTMLElement>(SELECTORS.dropdownMenu);
+		if (!button || !menu) return null;
+		return { button, menu };
+	}
+
+	/**
+	 * Initializes logic and event listeners for a single dropdown instance.
+	 */
+	function setupDropdown(root: HTMLElement): void {
+		const elements = getDropdownElements(root);
+		if (!elements) return;
+
+		const { button, menu } = elements;
+
+		// Toggle menu visibility on button click.
+		button.addEventListener("click", (e: MouseEvent) => {
 			e.stopPropagation();
-			if (menu.classList.contains("hidden")) openMenu(menu);
+			if (menu.classList.contains(CLASSES.hidden)) openMenu(menu);
 			else closeMenu(menu);
 		});
 
-		// prevent clicks inside menu from closing it
 		menu.addEventListener("click", (e: MouseEvent) => e.stopPropagation());
 
-		// close when a button inside menu is clicked
-		menu.querySelectorAll<HTMLButtonElement>("button").forEach((item) => {
-			item.addEventListener("click", () => closeMenu(menu));
-		});
+		menu
+			.querySelectorAll<HTMLElement>(SELECTORS.dropdownItems)
+			.forEach((item) => {
+				item.addEventListener("click", () => closeMenu(menu));
+			});
 	}
 
-	// Close all on outside click
-	document.addEventListener("click", () => {
-		openMenus.forEach((m) => closeMenu(m));
-	});
+	// Initialize all dropdowns found on the page.
+	document
+		.querySelectorAll<HTMLElement>(SELECTORS.dropdownRoot)
+		.forEach(setupDropdown);
 
-	// Close all on Escape
+	// Global handlers to close menus on outside click or Escape key press.
+	document.addEventListener("click", closeAllMenus);
 	document.addEventListener("keydown", (e: KeyboardEvent) => {
-		if (e.key === "Escape") openMenus.forEach((m) => closeMenu(m));
+		if (e.key === KEYS.escape) closeAllMenus();
 	});
-
-	// Initialize known dropdowns
-	setupDropdown("department-dropdown-btn", "department-dropdown-menu");
-	setupDropdown("department-sidebar-btn", "department-sidebar-menu");
-
-	// Helpers
-	function openMenu(menu: HTMLElement): void {
-		if (!(menu instanceof HTMLElement)) return;
-		menu.classList.remove("hidden");
-		openMenus.add(menu);
-	}
-
-	function closeMenu(menu: HTMLElement): void {
-		if (!(menu instanceof HTMLElement)) return;
-		menu.classList.add("hidden");
-		openMenus.delete(menu);
-	}
 });
