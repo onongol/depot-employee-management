@@ -47,16 +47,10 @@
     "src": "assets/js/checkbox/select_all.ts",
     "isEntry": true
   },
-  "assets/js/dropdowns/department_dropdown.ts": {
-    "file": "js/department_dropdown-bundle.js",
-    "name": "department_dropdown",
-    "src": "assets/js/dropdowns/department_dropdown.ts",
-    "isEntry": true
-  },
-  "assets/js/dropdowns/user_dropdown.ts": {
-    "file": "js/user_dropdown-bundle.js",
-    "name": "user_dropdown",
-    "src": "assets/js/dropdowns/user_dropdown.ts",
+  "assets/js/dropdowns/dropdown.ts": {
+    "file": "js/dropdown-bundle.js",
+    "name": "dropdown",
+    "src": "assets/js/dropdowns/dropdown.ts",
     "isEntry": true
   },
   "assets/js/filters/filter_toggle.ts": {
@@ -153,7 +147,7 @@
     ]
   },
   "assets/src/styles.css": {
-    "file": "assets/styles-DsGNbG0t.css",
+    "file": "assets/styles-Cn1bK5Ej.css",
     "src": "assets/src/styles.css",
     "isEntry": true,
     "name": "styles",
