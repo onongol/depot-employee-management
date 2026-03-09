@@ -1,48 +1,21 @@
 {% load i18n %}
-{% load static %}
-<!-- Language Switcher -->
-<div class="group relative">
-    <button type="button"
-            class="flex w-full cursor-pointer items-center gap-3 px-4 py-2 text-sm transition hover:bg-gray-200 focus:outline-none dark:hover:bg-gray-700"
-            id="language-dropdown-btn"
-            aria-haspopup="true"
-            aria-expanded="false">
-        <svg class="h-5 w-5 shrink-0">
-            <use href="#language-switcher"></use>
-        </svg>
-        <!-- Current Language -->
-        {% get_current_language as LANGUAGE_CODE %}
-        {% if LANGUAGE_CODE == 'en' %}
-            English
-        {% elif LANGUAGE_CODE == 'mn' %}
-            Монгол
-        {% else %}
-            {{ LANGUAGE_CODE|upper }}
-        {% endif %}
-        <svg class="ml-auto h-4 w-4">
-            <use href="#chevron-down"></use>
-        </svg>
-    </button>
-    <!-- Dropdown language menu -->
-    <div class="absolute top-0 right-full z-20 hidden w-32 rounded-md border border-gray-200 bg-gray-50 py-2 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-500"
-         id="language-dropdown-menu"
-         role="menu"
-         tabindex="0">
-        <form method="post" action="{% url 'set_language' %}" class="w-full">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.get_full_path }}" />
-            <button type="submit"
-                    name="language"
-                    value="en"
-                    class="{% if LANGUAGE_CODE == 'en' %}font-bold text-gray-600 dark:text-gray-400{% endif %} block w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
-                {% trans 'English' %}
-            </button>
-            <button type="submit"
-                    name="language"
-                    value="mn"
-                    class="{% if LANGUAGE_CODE == 'mn' %}font-bold text-gray-600 dark:text-gray-400{% endif %} block w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
-                {% trans 'Mongolian' %}
-            </button>
-        </form>
-    </div>
+<div data-panel="language" class="hidden">
+    {% include "includes/user/back_menu_button.html" %}
+    {% include "includes/user/menu_divider.html" %}
+    <form method="post" action="{% url 'set_language' %}" class="w-full">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+        <button type="submit"
+                name="language"
+                value="en"
+                class="{% if LANGUAGE_CODE == 'en' %}font-bold text-gray-600 dark:text-gray-400{% endif %} block w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
+            {% trans 'English' %}
+        </button>
+        <button type="submit"
+                name="language"
+                value="mn"
+                class="{% if LANGUAGE_CODE == 'mn' %}font-bold text-gray-600 dark:text-gray-400{% endif %} block w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
+            {% trans 'Mongolian' %}
+        </button>
+    </form>
 </div>
