@@ -33,6 +33,8 @@ const THEME_CLASSES = {
 	activeFont: "font-bold",
 	activeText: "text-gray-600",
 	activeTextDark: "dark:text-gray-400",
+	activeBg: "bg-gray-300",
+	activeBgDark: "dark:bg-gray-900",
 } as const;
 
 const THEMES = {
@@ -129,6 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			btn.classList.toggle(THEME_CLASSES.activeFont, isSelected);
 			btn.classList.toggle(THEME_CLASSES.activeText, isSelected);
 			btn.classList.toggle(THEME_CLASSES.activeTextDark, isSelected);
+			btn.classList.toggle(THEME_CLASSES.activeBg, isSelected);
+			btn.classList.toggle(THEME_CLASSES.activeBgDark, isSelected);
 		});
 	}
 
