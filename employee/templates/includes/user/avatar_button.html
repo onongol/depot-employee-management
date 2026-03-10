@@ -1,5 +1,5 @@
 <button type="button"
-        class="mr-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-100 text-sm font-medium text-gray-700 shadow transition hover:bg-gray-200 focus:ring-0 focus:outline-none dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+        class="mr-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-emerald-600 text-sm font-medium text-white shadow ring-transparent transition hover:ring-4 hover:ring-gray-300 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:hover:ring-gray-700 dark:focus:ring-gray-700"
         data-dropdown-button
         aria-haspopup="true"
         aria-expanded="false">{{ request.user.get_full_name|default:request.user.username|slice:":1"|upper }}</button>
