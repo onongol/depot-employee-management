@@ -138,7 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	setTheme(savedTheme);
 
 	// --- Event Listeners ---
-	// Слушатели тоже из кэша
 	themeButtons.forEach((btn, key) => {
 		btn.addEventListener("click", () => setTheme(key));
 	});
