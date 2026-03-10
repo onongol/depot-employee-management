@@ -20,7 +20,7 @@ const THEME_INIT_THEMES = {
 type ThemeInit = (typeof THEME_INIT_THEMES)[keyof typeof THEME_INIT_THEMES];
 
 /**
- * Type guard to ensure the string is a valid Theme type.
+ * Type guard to ensure the string is a valid ThemeInit type.
  */
 function isThemeInit(value: string | null): value is ThemeInit {
 	return (
@@ -40,9 +40,8 @@ try {
 		: THEME_INIT_THEMES.auto;
 
 	const prefersDark = window.matchMedia(THEME_INIT_MEDIA.prefersDark).matches;
-	const isDark =
-		theme === THEME_INIT_THEMES.dark ||
-		(theme === THEME_INIT_THEMES.auto && prefersDark);
+	const isAuto = theme === THEME_INIT_THEMES.auto;
+	const isDark = theme === THEME_INIT_THEMES.dark || (isAuto && prefersDark);
 
 	document.documentElement.classList.toggle(THEME_INIT_CLASSES.dark, isDark);
 } catch {
