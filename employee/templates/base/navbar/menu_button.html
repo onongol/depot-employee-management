@@ -1,7 +1,7 @@
 {% load i18n %}
 {% if request.user.is_authenticated %}
     <button type="button"
-            id="{{ id_btn|default:'navbar-toggle' }}"
+            data-sidebar-toggle
             class="inline-flex cursor-pointer items-center justify-center rounded-full p-4 text-sm font-medium text-gray-700 transition hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:outline-none lg:hidden dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
             aria-controls="app-sidebar"
             aria-expanded="false">
