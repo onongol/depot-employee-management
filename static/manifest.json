@@ -113,6 +113,12 @@
     "src": "assets/js/modals/save_confirmation.ts",
     "isEntry": true
   },
+  "assets/js/sidebar/department_sheet.ts": {
+    "file": "js/department_sheet-bundle.js",
+    "name": "department_sheet",
+    "src": "assets/js/sidebar/department_sheet.ts",
+    "isEntry": true
+  },
   "assets/js/sidebar/sidebar_toggle.ts": {
     "file": "js/sidebar_toggle-bundle.js",
     "name": "sidebar_toggle",
@@ -147,7 +153,7 @@
     ]
   },
   "assets/src/styles.css": {
-    "file": "assets/styles-Cn1bK5Ej.css",
+    "file": "assets/styles-BJROo7pq.css",
     "src": "assets/src/styles.css",
     "isEntry": true,
     "name": "styles",
