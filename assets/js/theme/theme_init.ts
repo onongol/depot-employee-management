@@ -1,21 +1,50 @@
-// Prevents theme flash on page load by applying saved or system-preferred dark mode immediately; sets or removes the dark class on the root element using localStorage and prefers-color-scheme.
+// Prevents theme flash on page load by applying saved or system-preferred dark mode immediately.
+const THEME_INIT_STORAGE = {
+	themeKey: "theme",
+} as const;
 
-(function () {
-  try {
-    const theme: string | null = localStorage.getItem('theme');
-    const prefersDark: boolean =
-      typeof window !== 'undefined' &&
-      !!window.matchMedia?.('(prefers-color-scheme: dark)')?.matches;
+const THEME_INIT_MEDIA = {
+	prefersDark: "(prefers-color-scheme: dark)",
+} as const;
 
-    if (
-      theme === 'dark' ||
-      ((!theme || theme === 'auto') && prefersDark)
-    ) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  } catch (e) {
-    // silently ignore errors (e.g. localStorage access denied)
-  }
-})();
+const THEME_INIT_CLASSES = {
+	dark: "dark",
+} as const;
+
+const THEME_INIT_THEMES = {
+	light: "light",
+	dark: "dark",
+	auto: "auto",
+} as const;
+
+type ThemeInit = (typeof THEME_INIT_THEMES)[keyof typeof THEME_INIT_THEMES];
+
+/**
+ * Type guard to ensure the string is a valid Theme type.
+ */
+function isThemeInit(value: string | null): value is ThemeInit {
+	return (
+		value === THEME_INIT_THEMES.light ||
+		value === THEME_INIT_THEMES.dark ||
+		value === THEME_INIT_THEMES.auto
+	);
+}
+
+/**
+ * Immediately apply the saved theme or system preference to prevent flash of incorrect theme on page load.
+ */
+try {
+	const savedRaw = localStorage.getItem(THEME_INIT_STORAGE.themeKey);
+	const theme: ThemeInit = isThemeInit(savedRaw)
+		? savedRaw
+		: THEME_INIT_THEMES.auto;
+
+	const prefersDark = window.matchMedia(THEME_INIT_MEDIA.prefersDark).matches;
+	const isDark =
+		theme === THEME_INIT_THEMES.dark ||
+		(theme === THEME_INIT_THEMES.auto && prefersDark);
+
+	document.documentElement.classList.toggle(THEME_INIT_CLASSES.dark, isDark);
+} catch {
+	// Ignore storage/media access errors silently.
+}
