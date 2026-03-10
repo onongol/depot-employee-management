@@ -1,50 +1,168 @@
-// Provides keyboard form navigation: Enter focuses the next input (Shift+Enter goes back), skips textareas/hidden/disabled elements, and submits when Enter is pressed on the last field for forms with IDs "createForm" and "updateForm".
+/**
+ * Provides keyboard form navigation:
+ * - Enter focuses the next input.
+ * - Shift + Enter goes back.
+ * - Skips textareas, buttons, checkboxes, and radio buttons to preserve default behavior.
+ * - Submits the form when Enter is pressed on the last field.
+ * - Uses MutationObserver to cache focusable elements efficiently.
+ */
+const FORM_NAV_IDS = {
+	create: "createForm",
+	update: "updateForm",
+} as const;
 
-document.addEventListener('DOMContentLoaded', () => {
-  const formIds: readonly string[] = ['createForm', 'updateForm'];
+const FORM_NAV_KEYS = {
+	enter: "Enter",
+} as const;
 
-  const isVisibleAndFocusable = (el: HTMLElement): boolean =>
-    el.offsetParent !== null && el.tabIndex !== -1;
+const FORM_NAV_ATTRS = {
+	disabled: "disabled",
+	type: "type",
+	class: "class",
+	style: "style",
+	hidden: "hidden",
+	tabindex: "tabindex",
+} as const;
 
-  function getFocusableInputs(form: HTMLFormElement): HTMLElement[] {
-    const nodeList = form.querySelectorAll(
-      'input:not([type="hidden"]):not([disabled]), select:not([disabled]), textarea:not([disabled])'
-    ) as NodeListOf<HTMLElement>;
-    return Array.from(nodeList).filter(isVisibleAndFocusable);
-  }
+// Defines which elements are considered part of the flow
+const FORM_NAV_SELECTORS = {
+	focusable:
+		'input:not([type="hidden"]):not([disabled]), select:not([disabled]), textarea:not([disabled])',
+} as const;
 
-  formIds.forEach((formId) => {
-    const form = document.getElementById(formId) as HTMLFormElement | null;
-    if (!form) return;
+const FORM_NAV_TAGS = {
+	textarea: "textarea",
+	button: "button",
+	input: "input",
+} as const;
 
-    form.addEventListener('keydown', (event: KeyboardEvent) => {
-      if (event.key !== 'Enter') return;
+const FORM_NAV_INPUT_TYPES = {
+	checkbox: "checkbox",
+	radio: "radio",
+} as const;
 
-      const active = document.activeElement as Element | null;
-      if (active && active.tagName.toLowerCase() === 'textarea') return;
+const FORM_IDS = [FORM_NAV_IDS.create, FORM_NAV_IDS.update] as const;
 
-      event.preventDefault();
+// Attributes to watch for changes to trigger a cache refresh
+const FORM_NAV_OBSERVER_ATTRS = [
+	FORM_NAV_ATTRS.disabled,
+	FORM_NAV_ATTRS.type,
+	FORM_NAV_ATTRS.class,
+	FORM_NAV_ATTRS.style,
+	FORM_NAV_ATTRS.hidden,
+	FORM_NAV_ATTRS.tabindex,
+] as const;
 
-      const inputs = getFocusableInputs(form);
-      const currentIndex = active ? inputs.indexOf(active as HTMLElement) : -1;
+document.addEventListener("DOMContentLoaded", () => {
+	/**
+	 * Checks if an element is actually visible to the user and not explicitly unfocusable.
+	 */
+	const isVisibleAndFocusable = (el: HTMLElement): boolean =>
+		el.getClientRects().length > 0 &&
+		!el.hasAttribute(FORM_NAV_ATTRS.disabled) &&
+		el.tabIndex !== -1;
 
-      if (event.shiftKey) {
-        if (currentIndex > 0) {
-          inputs[currentIndex - 1].focus();
-        }
-        return;
-      }
+	/**
+	 * Queries the DOM for all relevant focusable elements within a specific form.
+	 */
+	function getFocusableInputs(form: HTMLFormElement): HTMLElement[] {
+		const nodeList = form.querySelectorAll<HTMLElement>(
+			FORM_NAV_SELECTORS.focusable,
+		);
+		return [...nodeList].filter(isVisibleAndFocusable);
+	}
 
-      // Forward navigation or submit if last
-      if (currentIndex > -1 && currentIndex < inputs.length - 1) {
-        inputs[currentIndex + 1].focus();
-      } else if (currentIndex === inputs.length - 1) {
-        // submit form: use requestSubmit when available for modern behavior
-        (form.requestSubmit ? form.requestSubmit() : form.submit());
-      } else if (inputs.length > 0) {
-        // fallback: focus first focusable input
-        inputs[0].focus();
-      }
-    });
-  });
+	/**
+	 * Implements a lazy-loading cache using MutationObserver.
+	 * Prevents expensive DOM queries on every keystroke unless the form structure changes.
+	 */
+	function createFocusableCache(form: HTMLFormElement) {
+		let cache: HTMLElement[] = [];
+		let dirty = true; // Flag indicating the cache needs a refresh
+
+		const refresh = (): void => {
+			cache = getFocusableInputs(form);
+			dirty = false;
+		};
+
+		const get = (): HTMLElement[] => {
+			if (dirty) refresh();
+			return cache;
+		};
+
+		const markDirty = (): void => {
+			dirty = true;
+		};
+
+		// Observe changes to the form (added/removed elements or attribute changes)
+		const observer = new MutationObserver(markDirty);
+		observer.observe(form, {
+			subtree: true,
+			childList: true,
+			attributes: true,
+			attributeFilter: [...FORM_NAV_OBSERVER_ATTRS],
+		});
+
+		return { get, markDirty };
+	}
+
+	// Initialize logic for each registered form ID
+	FORM_IDS.forEach((formId) => {
+		const formEl = document.getElementById(formId);
+		if (!(formEl instanceof HTMLFormElement)) return;
+		const form = formEl;
+
+		const focusableCache = createFocusableCache(form);
+
+		form.addEventListener("keydown", (event: KeyboardEvent) => {
+			// Only intercept the Enter key
+			if (event.key !== FORM_NAV_KEYS.enter) return;
+
+			const active = document.activeElement as HTMLElement | null;
+			if (!active || !form.contains(active)) return;
+
+			// Preserve default Enter behavior for multiline inputs and buttons
+			const tag = active.tagName.toLowerCase();
+			if (tag === FORM_NAV_TAGS.textarea || tag === FORM_NAV_TAGS.button)
+				return;
+
+			// Preserve standard Enter behavior for selection-based inputs
+			if (tag === FORM_NAV_TAGS.input && active instanceof HTMLInputElement) {
+				const type = active.type.toLowerCase();
+				if (
+					type === FORM_NAV_INPUT_TYPES.checkbox ||
+					type === FORM_NAV_INPUT_TYPES.radio
+				) {
+					return;
+				}
+			}
+
+			const inputs = focusableCache.get();
+			const currentIndex = inputs.indexOf(active);
+			if (currentIndex === -1) return;
+
+			// Stop the default form submission triggered by the Enter key
+			event.preventDefault();
+
+			// Handle Backward Navigation (Shift + Enter)
+			if (event.shiftKey) {
+				if (currentIndex > 0) {
+					const prev = inputs[currentIndex - 1];
+					if (prev) prev.focus();
+				}
+				return;
+			}
+
+			if (currentIndex < inputs.length - 1) {
+				const next = inputs[currentIndex + 1];
+				if (next) {
+					next.focus();
+				}
+			} else {
+				// If on the last field, trigger a standard form submission
+				// requestSubmit() is used to trigger HTML5 validation (required, pattern, etc.)
+				form.requestSubmit ? form.requestSubmit() : form.submit();
+			}
+		});
+	});
 });
