@@ -26,7 +26,6 @@ export default defineConfig({
         'dropdown': path.resolve(__dirname, 'assets/js/dropdowns/dropdown.ts'),
         'filter_toggle': path.resolve(__dirname, 'assets/js/filters/filter_toggle.ts'),
         'table_search': path.resolve(__dirname, 'assets/js/filters/table_search.ts'),
-        'ensure_type_work': path.resolve(__dirname, 'assets/js/forms/ensure_type_work.ts'),
         'form_error_clear': path.resolve(__dirname, 'assets/js/forms/form_error_clear.ts'),
         'form_navigation': path.resolve(__dirname, 'assets/js/forms/form_navigation.ts'),
         'step_navigation': path.resolve(__dirname, 'assets/js/forms/step_navigation.ts'),
