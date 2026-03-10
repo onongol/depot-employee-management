@@ -10,7 +10,7 @@
         </div>
         <ul class="mt-2 flex flex-col space-y-4 lg:mt-0 lg:flex-col lg:items-start lg:space-y-2 lg:p-4">
             {% if not is_employee and not is_master %}
-                {% include "includes/department/department_dropdown.html" %}
+                {% include "includes/department/department_sheet.html" %}
             {% endif %}
             {% include "includes/navbar/menu_link.html" with url_name='employee_list' label=_('Employees') %}
             {% if not is_employee %}
