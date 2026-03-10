@@ -65,12 +65,6 @@
     "src": "assets/js/filters/table_search.ts",
     "isEntry": true
   },
-  "assets/js/forms/ensure_type_work.ts": {
-    "file": "js/ensure_type_work-bundle.js",
-    "name": "ensure_type_work",
-    "src": "assets/js/forms/ensure_type_work.ts",
-    "isEntry": true
-  },
   "assets/js/forms/form_error_clear.ts": {
     "file": "js/form_error_clear-bundle.js",
     "name": "form_error_clear",
