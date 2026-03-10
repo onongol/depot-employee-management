@@ -2,10 +2,10 @@
 <div id="sidebar-overlay"
      class="fixed inset-0 z-50 hidden bg-black/50 transition-opacity lg:hidden"></div>
 <aside id="app-sidebar"
-       class="fixed inset-y-0 left-0 z-50 hidden w-64 -translate-x-full transform bg-gray-50 shadow transition-transform duration-200 lg:translate-x-0 dark:bg-gray-800">
+       class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full transform bg-gray-50 shadow transition-transform duration-200 lg:hidden dark:bg-gray-800">
     <div class="h-full overflow-y-auto px-4 py-2">
         <div class="mb-6 flex items-center gap-2">
-            {% include "base/navbar/menu_button.html" with id_btn="sidebar-toggle" %}
+            {% include "base/navbar/menu_button.html" %}
             {% include "base/navbar/logo.html" %}
         </div>
         <ul class="mt-2 flex flex-col space-y-4 lg:mt-0 lg:flex-col lg:items-start lg:space-y-2 lg:p-4">
