@@ -32,7 +32,7 @@ export default defineConfig({
         'work_date_change': path.resolve(__dirname, 'assets/js/forms/work_date_change.ts'),
         'duplicate_check': path.resolve(__dirname, 'assets/js/modals/duplicate_check.ts'),
         'modals': path.resolve(__dirname, 'assets/js/modals/modals.ts'),
-        'save_confirmation': path.resolve(__dirname, 'assets/js/modals/save_confirmation.ts'),
+        'confirm_save': path.resolve(__dirname, 'assets/js/modals/confirm_save.ts'),
         'sidebar_toggle': path.resolve(__dirname, 'assets/js/sidebar/sidebar_toggle.ts'),
         'department_sheet': path.resolve(__dirname, 'assets/js/sidebar/department_sheet.ts'),
         'summary_selected': path.resolve(__dirname, 'assets/js/summary/summary_selected.ts'),
