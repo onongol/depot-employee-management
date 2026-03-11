@@ -2,9 +2,12 @@
 <button type="button"
         data-step-action="back"
         data-step-from="2"
-        class="absolute top-2 left-4 flex cursor-pointer items-center gap-1 rounded-md px-3 py-1 text-sm text-blue-700 transition md:hidden">
-    <svg class="h-5 w-5" aria-hidden="true">
-        <use href="#back"></use>
-    </svg>
-    <span>{% trans "Back" %}</span>
+        data-mobile-step-action="back"
+        class="absolute top-2 left-4 hidden cursor-pointer items-center rounded-md px-3 py-1 text-sm text-blue-700 transition">
+    <span class="flex items-center gap-1">
+        <svg class="h-5 w-5" aria-hidden="true">
+            <use href="#back"></use>
+        </svg>
+        <span>{% trans "Back" %}</span>
+    </span>
 </button>
