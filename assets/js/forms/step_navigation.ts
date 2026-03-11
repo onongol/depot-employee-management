@@ -69,6 +69,14 @@ document.addEventListener("DOMContentLoaded", () => {
 		const isStep1 = step === 1;
 		step1.classList.toggle(STEP_NAV_CLASSES.hidden, !isStep1);
 		step2.classList.toggle(STEP_NAV_CLASSES.hidden, isStep1);
+
+		// Toggle mobile back button visibility based on the current step
+		const backButtons = document.querySelectorAll<HTMLButtonElement>(
+			STEP_NAV_SELECTORS.backBtns,
+		);
+		backButtons.forEach((btn) => {
+			btn.classList.toggle(STEP_NAV_CLASSES.hidden, isStep1);
+		});
 	};
 
 	// Extract dynamic validation configuration from the DOM
