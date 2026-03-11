@@ -13,6 +13,7 @@ const STEP_NAV_SELECTORS = {
 	step2: '[data-step="2"]',
 	nextBtn: '[data-step-action="next"]',
 	backBtns: '[data-step-action="back"]',
+	stepFrom2: '[data-step-from="2"]',
 	validationEl:
 		'[data-checkbox-validation="true"][data-checkbox-name="employee_ids"]',
 	defaultTable: ".employee-table-container",
@@ -71,12 +72,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		step2.classList.toggle(STEP_NAV_CLASSES.hidden, isStep1);
 
 		// Toggle mobile back button visibility based on the current step
-		const backButtons = document.querySelectorAll<HTMLButtonElement>(
-			STEP_NAV_SELECTORS.backBtns,
-		);
-		backButtons.forEach((btn) => {
-			btn.classList.toggle(STEP_NAV_CLASSES.hidden, isStep1);
-		});
+		const backButtons = document.querySelectorAll<HTMLButtonElement>(STEP_NAV_SELECTORS.stepFrom2);
+		backButtons.forEach(btn => {
+        	btn.classList.toggle(STEP_NAV_CLASSES.hidden, isStep1);
+    });
 	};
 
 	// Extract dynamic validation configuration from the DOM
