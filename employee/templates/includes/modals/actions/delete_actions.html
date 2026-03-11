@@ -1,0 +1,7 @@
+<form method="post" id="deleteForm">
+    {% csrf_token %}
+    <div class="flex justify-end gap-2">
+        {% include "includes/buttons/modals/modal_cancel_button.html" %}
+        {% include "includes/buttons/modals/modal_delete_button.html" %}
+    </div>
+</form>
