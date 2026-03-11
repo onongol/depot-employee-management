@@ -89,6 +89,12 @@
     "src": "assets/js/forms/work_date_change.ts",
     "isEntry": true
   },
+  "assets/js/modals/confirm_save.ts": {
+    "file": "js/confirm_save-bundle.js",
+    "name": "confirm_save",
+    "src": "assets/js/modals/confirm_save.ts",
+    "isEntry": true
+  },
   "assets/js/modals/duplicate_check.ts": {
     "file": "js/duplicate_check-bundle.js",
     "name": "duplicate_check",
@@ -99,12 +105,6 @@
     "file": "js/modals-bundle.js",
     "name": "modals",
     "src": "assets/js/modals/modals.ts",
-    "isEntry": true
-  },
-  "assets/js/modals/save_confirmation.ts": {
-    "file": "js/save_confirmation-bundle.js",
-    "name": "save_confirmation",
-    "src": "assets/js/modals/save_confirmation.ts",
     "isEntry": true
   },
   "assets/js/sidebar/department_sheet.ts": {
