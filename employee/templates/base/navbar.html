@@ -6,9 +6,9 @@
         {% if 'create' in page_name or 'update' in page_name %}
             <div class="relative flex min-h-10 items-center px-4 py-2 md:hidden">
                 {% if page_name == 'daily_work_create' and employees %}
-                    {% include "includes/buttons/mobile_back_button.html" %}
+                    {% include "includes/buttons/mobile/mobile_back_button.html" %}
                 {% endif %}
-                {% include "includes/buttons/mobile_cancel_button.html" %}
+                {% include "includes/buttons/mobile/mobile_cancel_button.html" %}
             </div>
         {% else %}
             <div class="flex w-full flex-wrap items-center gap-2 px-4 py-2">
