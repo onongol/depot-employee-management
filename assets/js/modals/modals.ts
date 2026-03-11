@@ -1,158 +1,223 @@
-// Manages modal dialogs for edit/delete/activate/deactivate actions: opens/closes modals, populates modal content and targets (links/forms), traps page scrolling, and binds keyboard/overlay close handlers.
+/**
+ * Modal Management System:
+ * Handles CRUD-related modal dialogs (edit, delete, activate, etc.) using Event Delegation.
+ * It manages content population, URL/Form action updates, and body scroll locking.
+ */
+type ModalType = "edit" | "delete" | "deactivate" | "activate" | "bulkDelete" | "confirmSave";
 
-type ModalType = "edit" | "delete" | "deactivate" | "activate";
+/**
+ * Interface for modal triggers to ensure type safety when accessing dataset.
+ */
+interface ModalTrigger extends HTMLElement {
+	dataset: DOMStringMap & {
+		modalOpen?: ModalType;
+		id?: string;
+		name?: string;
+		url?: string;
+	};
+}
 
-const getEl = <T extends HTMLElement = HTMLElement>(id: string): T | null =>
-	document.getElementById(id) as T | null;
+/**
+ * Type Guard to validate if a string matches the ModalType union.
+ */
+function isModalType(value: string | undefined): value is ModalType {
+	return (
+		value === "edit" ||
+		value === "delete" ||
+		value === "deactivate" ||
+		value === "activate" ||
+		value === "bulkDelete" ||
+		value === "confirmSave"
+	);
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-	// Show modal and trap scroll
-	function openModal(modalId: string): void {
-		const modal = getEl<HTMLElement>(modalId);
-		if (!modal) return;
-		modal.classList.remove("hidden");
-		document.body.classList.add("overflow-hidden");
-	}
+// Attribute used to prevent double initialization
+const MODAL_INIT = {
+	attr: "data-modals-init",
+} as const;
 
-	// Hide all modals and restore scroll
-	function closeAllModals(): void {
-		document
-			.querySelectorAll<HTMLElement>('[role="dialog"]')
-			.forEach((modal) => {
-				modal.classList.add("hidden");
-			});
-		document.body.classList.remove("overflow-hidden");
-	}
+// Prevents background scrolling when modal is open
+const MODAL_SELECTORS = {
+	dialogs: '[role="dialog"]',
+	openTrigger: "[data-modal-open]",
+	cancel: "[data-modal-cancel]",
+} as const;
 
-	// Attach generic click handler for element lists
-	function forEachButton(
-		selector: string,
-		cb: (el: HTMLElement) => void,
-	): void {
-		document.querySelectorAll<HTMLElement>(selector).forEach(cb);
-	}
+const MODAL_CLASSES = {
+	hidden: "hidden",
+	lockScroll: "overflow-hidden",
+} as const;
 
-	// Edit buttons
-	forEachButton('button[aria-label^="Edit"]', (button) => {
-		button.addEventListener("click", () => {
-			const itemId = button.getAttribute("data-id") ?? "";
-			const itemName = button.getAttribute("data-name") ?? "";
-			const updateUrl = button.getAttribute("data-url") ?? "";
-			fillModalDetails("edit", itemId, itemName, updateUrl);
-			openModal("updateModal");
-		});
-	});
+const MODAL_KEYS = {
+	escape: "Escape",
+} as const;
 
-	// Delete buttons
-	forEachButton('button[aria-label^="Delete"]', (button) => {
-		button.addEventListener("click", () => {
-			const itemId = button.getAttribute("data-id") ?? "";
-			const itemName = button.getAttribute("data-name") ?? "";
-			const itemUrl = button.getAttribute("data-url") ?? "";
-			fillModalDetails("delete", itemId, itemName, itemUrl);
-			openModal("deleteModal");
-		});
-	});
+/**
+ * Mapping of Modal IDs and their internal child elements (links/forms/text).
+ */
+const MODAL_IDS = {
+	updateModal: "updateModal",
+	deleteModal: "deleteModal",
+	deactivateModal: "deactivateModal",
+	activateModal: "activateModal",
+	bulkDeleteModal: "bulkDeleteModal",
+	updateLink: "updateLink",
+	updateDetails: "updateDetails",
+	deleteForm: "deleteForm",
+	deleteDetails: "deleteDetails",
+	deactivateLink: "deactivateLink",
+	deactivateDetails: "deactivateDetails",
+	activateLink: "activateLink",
+	activateDetails: "activateDetails",
+	confirmSaveModal: "confirmSaveModal",
+    confirmSaveObjectDetails: "confirmSaveObjectDetails",
+} as const;
 
-	// Deactivate links (anchors)
-	forEachButton('a[aria-label^="Deactivate"]', (anchor) => {
-		anchor.addEventListener("click", (e) => {
-			e.preventDefault();
-			const itemId = anchor.getAttribute("data-id") ?? "";
-			const itemName = anchor.getAttribute("data-name") ?? "";
-			const deactivateUrl = (anchor as HTMLAnchorElement).href ?? "";
-			fillModalDetails("deactivate", itemId, itemName, deactivateUrl);
-			openModal("deactivateModal");
-		});
-	});
+const MODAL_TYPE_TO_ID: Record<ModalType, string> = {
+	edit: MODAL_IDS.updateModal,
+	delete: MODAL_IDS.deleteModal,
+	deactivate: MODAL_IDS.deactivateModal,
+	activate: MODAL_IDS.activateModal,
+	bulkDelete: MODAL_IDS.bulkDeleteModal,
+	confirmSave: MODAL_IDS.confirmSaveModal,
+};
 
-	// Activate links (anchors)
-	forEachButton('a[aria-label^="Activate"]', (anchor) => {
-		anchor.addEventListener("click", (e) => {
-			e.preventDefault();
-			const itemId = anchor.getAttribute("data-id") ?? "";
-			const itemName = anchor.getAttribute("data-name") ?? "";
-			const activateUrl = (anchor as HTMLAnchorElement).href ?? "";
-			fillModalDetails("activate", itemId, itemName, activateUrl);
-			openModal("activateModal");
-		});
-	});
+/**
+ * DOM Utility: safely get element by ID.
+ */
+const getById = (id: string): HTMLElement | null => document.getElementById(id);
 
-	// Bulk Delete buttons
-	forEachButton('button[aria-label^="Bulk Delete"]', (button) => {
-		button.addEventListener("click", () => {
-			openModal("bulkDeleteModal");
-		});
-	});
+/**
+ * Opens a specific modal and locks the page scroll.
+ */
+function openModal(modalId: string): void {
+	const modal = getById(modalId);
+	if (!modal) return;
+	modal.classList.remove(MODAL_CLASSES.hidden);
+	document.body.classList.add(MODAL_CLASSES.lockScroll);
+}
 
-	// Close with Escape
-	document.addEventListener("keydown", (e: KeyboardEvent) => {
-		if (e.key === "Escape") closeAllModals();
-	});
-
-	// Close when clicking elements marked as cancel
-	forEachButton("[data-modal-cancel]", () => {
-		// attach below: iterate again to bind handler
-	});
+/**
+ * Closes all elements with role="dialog" and restores page scroll.
+ */
+function closeAllModals(): void {
 	document
-		.querySelectorAll<HTMLElement>("[data-modal-cancel]")
-		.forEach((btn) => {
-			btn.addEventListener("click", () => closeAllModals());
+		.querySelectorAll<HTMLElement>(MODAL_SELECTORS.dialogs)
+		.forEach((modal) => {
+			modal.classList.add(MODAL_CLASSES.hidden);
 		});
-});
+	document.body.classList.remove(MODAL_CLASSES.lockScroll);
+}
 
-// Safe setters with strict typing
-function safeSetText(id: string, value: string): void {
-	const el = getEl<HTMLElement>(id);
-	if (!el) {
-		console.warn(`Element with id "${id}" not found`);
-		return;
-	}
+/**
+ * Updates text content of a target element.
+ */
+function setText(id: string, value: string): void {
+	const el = getById(id);
+	if (!el) return;
 	el.textContent = value;
 }
 
-function safeSetHref(id: string, value: string): void {
-	const el = getEl<HTMLAnchorElement>(id);
-	if (!el) {
-		console.warn(`Element with id "${id}" not found`);
-		return;
-	}
+/**
+ * Safely updates href for anchor elements.
+ */
+function setHref(id: string, value: string): void {
+	const el = getById(id);
+	if (!(el instanceof HTMLAnchorElement)) return;
 	el.href = value;
 }
 
-function safeSetAction(id: string, value: string): void {
-	const el = getEl<HTMLFormElement>(id);
-	if (!el) {
-		console.warn(`Element with id "${id}" not found`);
-		return;
-	}
+/**
+ * Safely updates action attribute for form elements.
+ */
+function setAction(id: string, value: string): void {
+	const el = getById(id);
+	if (!(el instanceof HTMLFormElement)) return;
 	el.action = value;
 }
 
-// Fill modal details based on type
+/**
+ * Populates modal content (links, forms, text) based on the triggered action type.
+ */
 function fillModalDetails(
 	type: ModalType,
 	id: string,
 	name: string,
 	url: string,
 ): void {
-	const details = name || id;
+	const details = name || id; // Fallback to ID if name is missing
 	switch (type) {
 		case "edit":
-			safeSetHref("updateLink", url);
-			safeSetText("updateDetails", details);
+			setHref(MODAL_IDS.updateLink, url);
+			setText(MODAL_IDS.updateDetails, details);
 			break;
 		case "delete":
-			safeSetAction("deleteForm", url);
-			safeSetText("deleteDetails", details);
+			setAction(MODAL_IDS.deleteForm, url);
+			setText(MODAL_IDS.deleteDetails, details);
 			break;
 		case "deactivate":
-			safeSetHref("deactivateLink", url);
-			safeSetText("deactivateDetails", details);
+			setHref(MODAL_IDS.deactivateLink, url);
+			setText(MODAL_IDS.deactivateDetails, details);
 			break;
 		case "activate":
-			safeSetHref("activateLink", url);
-			safeSetText("activateDetails", details);
+			setHref(MODAL_IDS.activateLink, url);
+			setText(MODAL_IDS.activateDetails, details);
+			break;
+		case "bulkDelete":
+			break;
+		case "confirmSave":
+			setText(MODAL_IDS.confirmSaveObjectDetails, details);
 			break;
 	}
+}
+
+/**
+ * Global Event Delegation:
+ * Ensures the script runs only once and handles clicks for all modal triggers.
+ */
+if (!document.documentElement.hasAttribute(MODAL_INIT.attr)) {
+	document.documentElement.setAttribute(MODAL_INIT.attr, "true");
+
+	document.addEventListener("click", (event: Event) => {
+		const target = event.target;
+		if (!(target instanceof Element)) return;
+
+		// Handle Close/Cancel buttons
+		const cancelBtn = target.closest<HTMLElement>(MODAL_SELECTORS.cancel);
+		if (cancelBtn) {
+			event.preventDefault();
+			closeAllModals();
+			return;
+		}
+
+		// Handle Modal Open triggers
+		const triggerEl = target.closest<HTMLElement>(MODAL_SELECTORS.openTrigger);
+		if (!triggerEl) return;
+
+		const type = triggerEl.dataset.modalOpen;
+		if (!isModalType(type)) return;
+		event.preventDefault();
+
+		const modalId = MODAL_TYPE_TO_ID[type];
+		if (!modalId) return;
+
+		// Extract data attributes for population
+		const itemId = triggerEl.dataset.id ?? "";
+		const itemName = triggerEl.dataset.name ?? "";
+
+		// Use data-url attribute or fallback to anchor's href
+		const targetUrl =
+			triggerEl.dataset.url ??
+			(triggerEl instanceof HTMLAnchorElement ? triggerEl.href : "");
+
+		fillModalDetails(type, itemId, itemName, targetUrl);
+		openModal(modalId);
+	});
+
+	/**
+	 * Accessibility: Close modals on Escape key press.
+	 */
+	document.addEventListener("keydown", (e: KeyboardEvent) => {
+		if (e.key === MODAL_KEYS.escape) closeAllModals();
+	});
 }
