@@ -1,0 +1,1 @@
+const o={confirmSaveButton:"[data-confirm-save]"},r={updateForm:"updateForm"};document.addEventListener("click",e=>{const n=e.target;if(!(n instanceof Element)||!n.closest(o.confirmSaveButton))return;e.preventDefault();const t=document.getElementById(r.updateForm);t&&(typeof t.requestSubmit=="function"?t.requestSubmit():t.submit())});
