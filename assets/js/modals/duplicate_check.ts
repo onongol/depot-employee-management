@@ -13,91 +13,183 @@ type ExistingPiecework = {
 	wagon_number?: string | null;
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-	const existingPieceworksEl = document.getElementById(
-		"existing-pieceworks",
-	) as HTMLScriptElement | null;
-	const existingPieceworks: ExistingPiecework[] = (() => {
-		if (!existingPieceworksEl || !existingPieceworksEl.textContent) return [];
-		try {
-			return JSON.parse(
-				existingPieceworksEl.textContent,
-			) as ExistingPiecework[];
-		} catch {
-			return [];
-		}
-	})();
+const DUPLICATE_ATTRS = {
+	workName: "data-work-name",
+	empId: "data-emp-id",
+	empName: "data-emp-name",
+} as const;
 
-	const form = document.getElementById("createForm") as HTMLFormElement | null;
+const DUPLICATE_SELECTORS = {
+	existingScript: "existing-pieceworks",
+	form: "createForm",
+	modal: "saveDuplicateModal",
+	modalCancel: "[data-modal-cancel]",
+	employeeCheckbox: 'input[name="employee_ids"]:checked',
+	workCheckbox: 'input[name="work_ids"]:checked',
+	typeWorkByName: '[name="type_work"]',
+	workDate: "work_date",
+	wagonNumber: "wagon_number",
+} as const;
+
+const DUPLICATE_TAGS = {
+	tableRow: "tr",
+} as const;
+
+const DUPLICATE_CLASSES = {
+	hidden: "hidden",
+	lockScroll: "overflow-hidden",
+} as const;
+
+const DUPLICATE_ELEMENTS = {
+	amountError: "amount-error",
+	typeWork: "type-work",
+	idTypeWork: "id_type_work",
+	detailEmployee: "duplicateDetailEmployee",
+	detailWork: "duplicateDetailWork",
+	detailTypeWork: "duplicateDetailTypeWork",
+	detailWagonNumber: "duplicateDetailWagonNumber",
+	detailWorkDate: "duplicateDetailWorkDate",
+} as const;
+
+const DUPLICATE_KEYS = {
+	esc: "Escape",
+} as const;
+
+const DUPLICATE_TEXT = {
+	emptyWagonNumber: "-",
+} as const;
+
+/* Helper Functions */
+const getDuplicateById = (id: string): HTMLElement | null => document.getElementById(id);
+
+/**
+ * Ensures wagon numbers are compared as null if they are empty strings or whitespace.
+ */
+function normalizeWagon(val: unknown): string | null {
+	if (val === null || val === undefined) return null;
+	const s = String(val).trim();
+	return s === "" ? null : s;
+}
+
+/**
+ * Formats employee display as "(ID: 123) John Doe" if name is available, otherwise just "123".
+ */
+function formatEmployeeDisplay(id: string, name: string | null): string {
+	return name ? `(ID: ${id}) ${name}` : id;
+}
+
+/**
+ * Extracts and parses the JSON data injected by Django into a script tag.
+ */
+function parseExistingPieceworks(): ExistingPiecework[] {
+	const el = getDuplicateById(
+		DUPLICATE_SELECTORS.existingScript,
+	) as HTMLScriptElement | null;
+	if (!el || !el.textContent) return [];
+	try {
+		return JSON.parse(el.textContent) as ExistingPiecework[];
+	} catch {
+		return [];
+	}
+}
+
+/**
+ * Displays the modal and prevents background scrolling.
+ */
+function openDuplicateModal(modal: HTMLElement) {
+	modal.classList.remove(DUPLICATE_CLASSES.hidden);
+	document.body.classList.add(DUPLICATE_CLASSES.lockScroll);
+}
+
+/**
+ * Hides the modal and restores background scrolling.
+ */
+function closeDuplicateModal(modal: HTMLElement) {
+	modal.classList.add(DUPLICATE_CLASSES.hidden);
+	document.body.classList.remove(DUPLICATE_CLASSES.lockScroll);
+}
+
+function setDuplicateText(id: string, text: string) {
+	const el = getDuplicateById(id);
+	if (el) el.textContent = text;
+}
+
+/* Initialization */
+document.addEventListener("DOMContentLoaded", () => {
+	const existingPieceworks = parseExistingPieceworks();
+	const form = getDuplicateById(DUPLICATE_SELECTORS.form) as HTMLFormElement | null;
+	const modalDiv = getDuplicateById(DUPLICATE_SELECTORS.modal);
+
 	if (!form) return;
 
-	const modalDiv = document.getElementById(
-		"saveDuplicateModal",
-	) as HTMLElement | null;
-	const confirmBtn = document.getElementById(
-		"confirmSaveBtn",
-	) as HTMLButtonElement | null;
-	const cancelBtn = document.querySelector(
-		"#saveDuplicateModal [data-modal-cancel]",
-	) as HTMLElement | null;
-	let allowSubmit = false;
+	/* Set up cancel buttons inside the modal */
+	const cancelBtns: HTMLElement[] = modalDiv
+		? Array.from(
+				modalDiv.querySelectorAll<HTMLElement>(DUPLICATE_SELECTORS.modalCancel),
+			)
+		: [];
 
-	const openModal = (modal: HTMLElement) => {
-		modal.classList.remove("hidden");
-		document.body.classList.add("overflow-hidden");
-	};
+	/**
+	 * Close modal on cancel button click
+	 */
+	cancelBtns.forEach((btn) => {
+		btn.addEventListener("click", (evt) => {
+			evt.preventDefault();
+			if (modalDiv) closeDuplicateModal(modalDiv);
+		});
+	});
 
-	const closeModal = (modal: HTMLElement) => {
-		modal.classList.add("hidden");
-		document.body.classList.remove("overflow-hidden");
-	};
+	/**
+	 * Close modal on Escape
+	 */
+	document.addEventListener("keydown", (evt: KeyboardEvent) => {
+		if (evt.key !== DUPLICATE_KEYS.esc || !modalDiv) return;
+		if (!modalDiv.classList.contains(DUPLICATE_CLASSES.hidden))
+			closeDuplicateModal(modalDiv);
+	});
 
-	const normalizeWagon = (val: unknown): string | null => {
-		if (val === null || val === undefined) return null;
-		const s = String(val).trim();
-		return s === "" ? null : s;
-	};
-
+	/**
+	 * Core validation logic triggered on form submission.
+	 */
 	form.addEventListener("submit", (e) => {
-		if (allowSubmit) {
-			allowSubmit = false;
-			return;
-		}
+		// Stop check if UI already shows an 'Amount' validation error (prevents multiple error types at once)
+		if (document.getElementById(DUPLICATE_ELEMENTS.amountError)) return;
 
-		// Skip duplicate check when amount validation already shows error
-		if (document.getElementById("amount-error")) return;
-
-		// Collect selections
+		// Gather currently selected employee and work IDs from checkboxes
 		const selectedEmployeeIds = Array.from(
 			document.querySelectorAll<HTMLInputElement>(
-				'input[name="employee_ids"]:checked',
+				DUPLICATE_SELECTORS.employeeCheckbox,
 			),
 		).map((cb) => cb.value);
 		const selectedWorkIds = Array.from(
 			document.querySelectorAll<HTMLInputElement>(
-				'input[name="work_ids"]:checked',
+				DUPLICATE_SELECTORS.workCheckbox,
 			),
 		).map((cb) => cb.value);
 
-		const typeWorkEl = document.getElementById("type_work") as
-			| HTMLSelectElement
-			| HTMLInputElement
-			| null;
-		const workDateEl = document.getElementById(
-			"work_date",
+		// Find the work type field using multiple possible ID/Name variations generated by Django
+		const typeWorkEl = (document.getElementById(DUPLICATE_ELEMENTS.typeWork) ||
+			document.getElementById(DUPLICATE_ELEMENTS.idTypeWork) ||
+			document.querySelector<HTMLInputElement | HTMLSelectElement>(
+				DUPLICATE_SELECTORS.typeWorkByName,
+			)) as HTMLInputElement | HTMLSelectElement | null;
+
+		const workDateEl = getDuplicateById(
+			DUPLICATE_SELECTORS.workDate,
 		) as HTMLInputElement | null;
-		const wagonNumberInput = document.getElementById(
-			"wagon_number",
+		const wagonNumberInput = getDuplicateById(
+			DUPLICATE_SELECTORS.wagonNumber,
 		) as HTMLInputElement | null;
 
 		const typeWork = typeWorkEl?.value ?? "";
 		const workDate = workDateEl?.value ?? "";
 		const wagonNumber = normalizeWagon(wagonNumberInput?.value);
 
+		// Basic exit if selections are missing
 		if (selectedEmployeeIds.length === 0 || selectedWorkIds.length === 0)
 			return;
 
-		// Check duplicates + collect matched pairs
+		// Compare every selected Employee + Work combination against existing records
 		const duplicatePairs: Array<{ empId: string; workId: string }> = [];
 
 		selectedEmployeeIds.forEach((empId) => {
@@ -115,41 +207,49 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 		});
 
+		// Proceed with standard submission if no duplicates were found
 		if (duplicatePairs.length === 0) return;
 
-		// Prevent submit and show modal
+		// Duplicates found: Prevent submission and prepare modal data
 		e.preventDefault();
 		if (!modalDiv) return;
 
+		// Unique sets for faster filtering of names
 		const duplicateEmpIds = new Set(duplicatePairs.map((p) => p.empId));
 		const duplicateWorkIds = new Set(duplicatePairs.map((p) => p.workId));
 
+		// Resolve employee names/IDs from table attributes for the error summary
 		const selectedEmployees = Array.from(
 			document.querySelectorAll<HTMLInputElement>(
-				'input[name="employee_ids"]:checked',
+				DUPLICATE_SELECTORS.employeeCheckbox,
 			),
 		)
 			.filter((cb) => duplicateEmpIds.has(String(cb.value)))
 			.map((cb) => {
-				const tr = cb.closest("tr");
-				const id = (tr?.getAttribute("data-emp-id") ?? cb.value ?? "").trim();
-				const name = (tr?.getAttribute("data-emp-name") ?? "").trim();
-				return name ? `(ID: ${id}) ${name}` : id;
+				const tr = cb.closest(DUPLICATE_TAGS.tableRow);
+				const id = (
+					tr?.getAttribute(DUPLICATE_ATTRS.empId) ??
+					cb.value ??
+					""
+				).trim();
+				const name = (tr?.getAttribute(DUPLICATE_ATTRS.empName) ?? "").trim();
+				return formatEmployeeDisplay(id, name);
 			});
 
+		// Resolve work names from data-attributes for the error summary
 		const selectedWorks = Array.from(
 			new Set(
 				Array.from(
 					document.querySelectorAll<HTMLInputElement>(
-						'input[name="work_ids"]:checked',
+						DUPLICATE_SELECTORS.workCheckbox,
 					),
 				)
 					.filter((cb) => duplicateWorkIds.has(String(cb.value)))
 					.map((cb) => {
-						const tr = cb.closest("tr");
+						const tr = cb.closest(DUPLICATE_TAGS.tableRow);
 						return (
-							cb.dataset.workName?.trim() ||
-							tr?.getAttribute("data-work-name")?.trim() ||
+							cb.getAttribute(DUPLICATE_ATTRS.workName)?.trim() ||
+							tr?.getAttribute(DUPLICATE_ATTRS.workName)?.trim() ||
 							""
 						);
 					})
@@ -157,39 +257,16 @@ document.addEventListener("DOMContentLoaded", () => {
 			),
 		);
 
-		const setText = (id: string, text: string) => {
-			const el = document.getElementById(id);
-			if (el) el.textContent = text;
-		};
+		// Populate the modal with details about why the submission was blocked
+		setDuplicateText(DUPLICATE_ELEMENTS.detailEmployee, selectedEmployees.join(", "));
+		setDuplicateText(DUPLICATE_ELEMENTS.detailWork, selectedWorks.join(", "));
+		setDuplicateText(DUPLICATE_ELEMENTS.detailTypeWork, typeWork);
+		setDuplicateText(
+			DUPLICATE_ELEMENTS.detailWagonNumber,
+			wagonNumber ?? DUPLICATE_TEXT.emptyWagonNumber,
+		);
+		setDuplicateText(DUPLICATE_ELEMENTS.detailWorkDate, workDate);
 
-		setText("modal-employee", selectedEmployees.join(", "));
-		setText("modal-work", selectedWorks.join(", "));
-		setText("modal-type-work", typeWork);
-		setText("modal-wagon-number", wagonNumber ?? "-");
-		setText("modal-work-date", workDate);
-
-		openModal(modalDiv);
-	});
-
-	if (confirmBtn && form && modalDiv) {
-		confirmBtn.addEventListener("click", (evt) => {
-			evt.preventDefault();
-			allowSubmit = true;
-			closeModal(modalDiv);
-			form.requestSubmit();
-		});
-	}
-
-	if (cancelBtn && modalDiv) {
-		cancelBtn.addEventListener("click", (evt) => {
-			evt.preventDefault();
-			closeModal(modalDiv);
-		});
-	}
-
-	// Close modal on Escape
-	document.addEventListener("keydown", (evt: KeyboardEvent) => {
-		if (evt.key !== "Escape" || !modalDiv) return;
-		if (!modalDiv.classList.contains("hidden")) closeModal(modalDiv);
+		openDuplicateModal(modalDiv);
 	});
 });
