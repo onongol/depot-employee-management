@@ -29,6 +29,10 @@ const DEPT_SHEET_TOUCH = {
 	minSwipeY: 60,
 } as const;
 
+const DEPT_SHEET_VALUES = {
+    ariaFalse: "false",
+} as const;
+
 document.addEventListener("DOMContentLoaded", () => {
 	// Convert NodeList to Array to utilize array methods like .some()
 	const roots = Array.from(
@@ -75,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			panel.classList.add(DEPT_SHEET_CLASSES.hidden);
 			backdrop.classList.add(DEPT_SHEET_CLASSES.hidden);
-			openBtn.setAttribute(DEPT_SHEET_ATTRS.ariaExpanded, "false");
+			openBtn.setAttribute(DEPT_SHEET_ATTRS.ariaExpanded, DEPT_SHEET_VALUES.ariaFalse);
 		});
 
 		syncBodyLock();
