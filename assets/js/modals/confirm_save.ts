@@ -25,8 +25,8 @@ document.addEventListener("click", (event: Event) => {
 	) as HTMLFormElement | null;
 
 	if (mainForm) {
-        // requestSubmit() triggers validation and 'submit' event listeners, 
-        // while submit() bypasses them.
+		// requestSubmit() triggers validation and 'submit' event listeners,
+		// while submit() bypasses them.
 		if (typeof mainForm.requestSubmit === "function") {
 			mainForm.requestSubmit();
 		} else {
