@@ -27,7 +27,7 @@ def validate_duplicate(
         type_work=type_work,
         work_date=work_date,
     )
-    
+
     if wagon_number is None:
         pieceworks = pieceworks.filter(wagon_number__isnull=True)
     else:
@@ -38,17 +38,13 @@ def validate_duplicate(
 
     # Prepare error message with existing entries
     pairs = {
-        str(piecework)
-        for piecework in pieceworks.select_related("employee", "work")
+        str(piecework) for piecework in pieceworks.select_related("employee", "work")
     }
 
     errors.append(
-        _(
-            "Record already exists for: %(pairs)s on %(date)s."
-        )
+        _("Record already exists for: %(pairs)s")
         % {
             "pairs": ", ".join(sorted(pairs)),
-            "date": work_date,
         }
     )
     return errors
