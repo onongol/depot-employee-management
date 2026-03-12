@@ -3,6 +3,8 @@
  * Automatically removes error styles (red borders) and error messages
  * when the user interacts with a form field.
  */
+type FormElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+
 const FORM_ERROR_CLEAR_SELECTORS = {
 	fields: "input, select, textarea",
 } as const;
@@ -22,8 +24,6 @@ const RED_BORDER_CLASSES = [
 	"dark:focus:border-red-600",
 	"dark:focus:text-red-600",
 ] as const;
-
-type FormElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
 /**
  * Type Guard to ensure the event target is a valid focusable form element.
