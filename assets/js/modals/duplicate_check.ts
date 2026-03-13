@@ -55,6 +55,12 @@ const DUPLICATE_KEYS = {
 
 const DUPLICATE_TEXT = {
 	emptyWagonNumber: "-",
+	unknownEmployee: "Unknown",
+} as const;
+
+const DUPLICATE_SCROLL = {
+	behavior: "smooth" as ScrollBehavior,
+	block: "center" as ScrollLogicalPosition,
 } as const;
 
 /* Helper Functions */
@@ -74,7 +80,7 @@ function normalizeWagon(val: unknown): string | null {
  * Formats employee display as "(ID: 123) John Doe" if name is available, otherwise just "123".
  */
 function formatEmployeeDisplay(id: string, name: string | null): string {
-	if (!id) return name ?? "Unknown";
+	if (!id) return name ?? DUPLICATE_TEXT.unknownEmployee;
 	return name ? `(ID: ${id}) ${name}` : id;
 }
 
@@ -192,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		);
 		if (amountErrorEl) {
 			event.preventDefault();
-			amountErrorEl.scrollIntoView({ behavior: "smooth", block: "center" });
+			amountErrorEl.scrollIntoView(DUPLICATE_SCROLL);
 			return;
 		}
 
