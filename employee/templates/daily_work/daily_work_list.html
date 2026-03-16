@@ -31,7 +31,7 @@
     {% include "includes/alerts/alerts.html" %}
     <!-- Summary -->
     {% if not is_employee and not is_master and detail_group %}
-        {% include "includes/summaries/selected_summary.html" with summary_id="selected-daily-work-summary" details_id="selected-daily-work-details" list_id="selected-daily-work-list" count_id="selected-daily-work-count" label_id="selected-daily-work-label" %}
+        {% include "includes/summaries/selected_summary.html" with summary_id="daily-work-summary" checkbox_name="daily_work_ids" %}
     {% endif %}
     <form method="post"
           id="bulkDeleteForm"
