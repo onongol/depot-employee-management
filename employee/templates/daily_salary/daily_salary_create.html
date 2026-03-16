@@ -11,7 +11,7 @@
                 {% include "includes/create_table/create_table_filters.html" with toggle_id="employee-search-filters-toggle" panel_id="employee-search-filters-panel" fields_template="includes/create_table/employees/employees_filter_fields.html" %}
             </div>
             {% include "includes/create_table/employees/employees_create_table.html" %}
-            {% include "includes/summaries/selected_summary.html" with summary_id="selected-employees-summary" details_id="selected-employees-details" list_id="selected-employees-list" count_id="selected-employees-count" label_id="selected-employees-label" %}
+            {% include "includes/summaries/selected_summary.html" with summary_id="employees-create-summary" checkbox_name="employee_ids" %}
         {% else %}
             {% include "includes/alerts/info_notice.html" with info_text_template="includes/alerts/info_text_daily_salary.html" %}
         {% endif %}
