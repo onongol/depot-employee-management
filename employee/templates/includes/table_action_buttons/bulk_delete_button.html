@@ -6,8 +6,10 @@
         aria-label="Bulk Delete"
         aria-haspopup="dialog"
         aria-controls="bulkDeleteModal">
-    <svg class="h-5 w-5" aria-hidden="true">
-        <use href="#delete"></use>
-    </svg>
-    <span class="hidden md:inline">{% trans "Delete" %}</span>
+    <span class="flex items-center gap-1">
+        <svg class="h-5 w-5" aria-hidden="true">
+            <use href="#delete"></use>
+        </svg>
+        <span class="hidden md:inline">{% trans "Delete" %}</span>
+    </span>
 </button>
