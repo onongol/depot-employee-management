@@ -1,181 +1,250 @@
+/**
+ * Summary selection logic (TypeScript, strict, modular).
+ * Dynamically links summary blocks to checkbox groups via data-attributes.
+ */
+
 type SummaryConfig = {
-  checkboxName: string;
-  summarySpanId: string;
-  summaryBoxId?: string;
-  emptyText: string;
-  allText?: string;
-  selectAllId?: string;
-  countId?: string;
-  labelId?: string;
-  getLabel: (cb: HTMLInputElement) => string;
+	allText?: string;
+	getLabel: (cb: HTMLInputElement) => string;
 };
 
-export function updateGenericSummary(config: SummaryConfig): void {
-  const checkboxes = Array.from(document.querySelectorAll<HTMLInputElement>(`input[name="${config.checkboxName}"]`));
-  const checked = checkboxes.filter(cb => cb.checked);
-  const summaryEl = document.getElementById(config.summarySpanId);
-  const summaryBox = config.summaryBoxId ? document.getElementById(config.summaryBoxId) : null;
-  const countEl = config.countId ? document.getElementById(config.countId) : null;
+const SUMMARY_SELECTORS = {
+	summaryId: "[data-summary-id]",
+	summaryList: "[data-summary-list]",
+	summaryCount: "[data-summary-count]",
+	summaryLabel: "[data-summary-label]",
+	summaryDetails: "[data-summary-details]",
+} as const;
 
-  const selectAll = config.selectAllId ? document.getElementById(config.selectAllId) as HTMLInputElement | null : null;
-  const emptyText = summaryBox?.dataset.emptyText ?? config.emptyText;
-  const allText = summaryBox?.dataset.allText ?? config.allText ?? emptyText;
-  const selectedText = summaryBox?.dataset.selectedText ?? 'selected';
+const SUMMARY_CLASSES = {
+	hidden: "hidden",
+} as const;
 
-  const allSelected = Boolean(selectAll && checkboxes.length > 0 && selectAll.checked && checked.length === checkboxes.length);
+const SUMMARY_ATTRS = {
+	origLabel: "origLabel",
+	toggleGuardAdded: "toggleGuardAdded",
+	preventOpen: "preventOpen",
+} as const;
 
-  let text = emptyText;
+const SUMMARY_TAGS = {
+	summaryTag: "summary",
+	svgTag: "svg",
+	tableRow: "tr",
+} as const;
 
-  if (allSelected) {
-    text = `${allText} ${checked.length} ${selectedText}`.trim();
-  } else if (checked.length > 0) {
-    text = checked.map(cb => config.getLabel(cb)).filter(Boolean).join(', ');
-  }
+const SUMMARY_DISPLAY = {
+	displayNone: "none",
+	pointerNone: "none",
+} as const;
 
-  if (summaryEl) summaryEl.textContent = text;
+const SUMMARY_TEXT = {
+	textSelected: "selected",
+} as const;
 
-  if (countEl) {
-    if (allSelected) {
-      countEl.style.display = 'none';
-    } else {
-      countEl.style.display = '';
-      countEl.textContent = String(checked.length);
-    }
-  }
+const SUMMARY_FLAGS = {
+	toggleGuardAdded: "true",
+	preventOpenTrue: "true",
+	preventOpenFalse: "false",
+} as const;
 
-  if (summaryBox) {
-    const detailsEl = summaryBox.querySelector<HTMLDetailsElement>('details');
-    if (detailsEl) {
-      const summaryToggle = detailsEl.querySelector<HTMLElement>('summary');
-      const labelSpan = config.labelId ? document.getElementById(config.labelId) : summaryToggle ? summaryToggle.querySelectorAll('span')[1] as HTMLElement | undefined : undefined;
-      const chevron = summaryToggle ? summaryToggle.querySelector<HTMLElement>('svg') : null;
-
-      if (labelSpan && labelSpan.dataset.origLabel === undefined) {
-        labelSpan.dataset.origLabel = labelSpan.textContent ?? '';
-      }
-
-      if (!detailsEl.dataset.toggleGuardAdded) {
-        detailsEl.addEventListener('toggle', () => {
-          if (detailsEl.dataset.preventOpen === 'true') {
-            detailsEl.open = false;
-          }
-        });
-        detailsEl.dataset.toggleGuardAdded = '1';
-      }
-
-      if (allSelected) {
-        detailsEl.open = false;
-        detailsEl.dataset.preventOpen = 'true';
-        if (summaryToggle) summaryToggle.style.pointerEvents = 'none';
-        if (labelSpan) labelSpan.textContent = `${allText} ${checked.length} ${selectedText}`.trim();
-        if (chevron) chevron.classList.add('hidden');
-      } else {
-        detailsEl.dataset.preventOpen = 'false';
-        if (summaryToggle) summaryToggle.style.pointerEvents = '';
-        if (labelSpan) labelSpan.textContent = labelSpan.dataset.origLabel ?? selectedText;
-        if (chevron) chevron.classList.remove('hidden');
-      }
-    }
-
-    if (checked.length > 0) {
-      summaryBox.classList.remove('hidden');
-      summaryBox.style.display = '';
-    } else {
-      summaryBox.classList.add('hidden');
-      summaryBox.style.display = 'none';
-    }
-  }
+function getRowCheckboxSelector(checkboxName: string): string {
+	return `[data-row-checkbox-name="${checkboxName}"]`;
 }
 
-const employeesSummaryConfig: SummaryConfig = {
-  checkboxName: 'employee_ids',
-  summarySpanId: 'selected-employees-list',
-  summaryBoxId: 'selected-employees-summary',
-  selectAllId: 'select-all-employees',
-  countId: 'selected-employees-count',
-  labelId: 'selected-employees-label',
-  emptyText: '',
-  getLabel: (cb: HTMLInputElement) => {
-    const row = cb.closest('tr');
-    if (!row) return '';
-    const id = (row.dataset.empId ?? '').trim();
-    const name = (row.dataset.empName ?? '').trim();
-    return id && name ? `(ID: ${id}) ${name}` : id || name;
-  }
+function getAllCheckboxSelector(checkboxName: string): string {
+	return `[data-checkbox-name="${checkboxName}"]`;
+}
+
+/**
+ * Updates a specific summary block.
+ * Encapsulates UI logic for labels, counts, and the 'All Selected' state.
+ */
+const labelFactories: Record<string, (cb: HTMLInputElement) => string> = {
+	employee_ids: (cb) => {
+		const row = cb.closest(SUMMARY_TAGS.tableRow);
+		if (!row) return "";
+		const id = (row.dataset.empId ?? "").trim();
+		const name = (row.dataset.empName ?? "").trim();
+		return id && name ? `(ID: ${id}) ${name}` : id || name;
+	},
+	work_ids: (cb) => {
+		const row = cb.closest(SUMMARY_TAGS.tableRow);
+		if (!row) return "";
+		const workName = (row.dataset.workName ?? "").trim();
+		return workName;
+	},
+	daily_salary_ids: (cb) => {
+		const row = cb.closest(SUMMARY_TAGS.tableRow);
+		if (!row) return "";
+		const id = (row.dataset.empId ?? "").trim();
+		const name = (row.dataset.empName ?? "").trim();
+		const date = (row.dataset.salaryDate ?? "").trim();
+		return `(ID: ${id}) ${name} - ${date}`;
+	},
+	daily_work_ids: (cb) => {
+		const row = cb.closest(SUMMARY_TAGS.tableRow);
+		if (!row) return "";
+		const work = (row.dataset.workName ?? "").trim();
+		const type = (row.dataset.typeWork ?? "").trim();
+		const date = (row.dataset.workDate ?? "").trim();
+		return `${work} (${type}) - ${date}`;
+	},
 };
 
-const worksSummaryConfig: SummaryConfig = {
-  checkboxName: 'work_ids',
-  summarySpanId: 'selected-works-list',
-  summaryBoxId: 'selected-works-summary',
-  selectAllId: 'select-all-works',
-  countId: 'selected-works-count',
-  labelId: 'selected-works-label',
-  emptyText: '',
-  getLabel: (cb: HTMLInputElement) => {
-    const row = cb.closest('tr');
-    if (!row) return '';
-    const workName = (row.dataset.workName ?? '').trim();
-    return workName;
-  },
-};
+/**
+ * Updates a specific summary block.
+ * Encapsulates UI logic for labels, counts, and the 'All Selected' state.
+ */
+export function updateGenericSummary(
+	config: SummaryConfig,
+	summaryBox: HTMLElement,
+): void {
+	const checkboxName = summaryBox.dataset.summaryCheckboxName ?? "";
 
-const dailySalariesSummaryConfig: SummaryConfig = {
-  checkboxName: 'daily_salary_ids',
-  summarySpanId: 'selected-daily-salary-list',
-  summaryBoxId: 'selected-daily-salary-summary',
-  selectAllId: 'select-all-daily-salary',
-  countId: 'selected-daily-salary-count',
-  labelId: 'selected-daily-salary-label',
-  emptyText: '',
-  getLabel: (cb: HTMLInputElement) => {
-    const row = cb.closest('tr');
-    if (!row) return '';
-    const id = (row.dataset.empId ?? '').trim();
-    const name = (row.dataset.empName ?? '').trim();
-    const date = (row.dataset.salaryDate ?? '').trim();
-    return `(ID: ${id}) ${name} - ${date}`;
-  }
-};
+	// Find all related row checkboxes
+	const checkboxes = Array.from(
+		document.querySelectorAll<HTMLInputElement>(
+			getRowCheckboxSelector(checkboxName),
+		),
+	);
+	const checked = checkboxes.filter((cb) => cb.checked);
 
-const dailyWorksSummaryConfig: SummaryConfig = {
-  checkboxName: 'daily_work_ids',
-  summarySpanId: 'selected-daily-work-list',
-  summaryBoxId: 'selected-daily-work-summary',
-  selectAllId: 'select-all-daily-work',
-  countId: 'selected-daily-work-count',
-  labelId: 'selected-daily-work-label',
-  emptyText: '',
-  getLabel: (cb: HTMLInputElement) => {
-    const row = cb.closest('tr');
-    if (!row) return '';
-    const work = (row.dataset.workName ?? '').trim();
-    const type = (row.dataset.typeWork ?? '').trim();
-    const date = (row.dataset.workDate ?? '').trim();
-    return `${work} (${type}) - ${date}`;
-  }
-};
+	// Contextual search within the specific summaryBox
+	const summaryList = summaryBox.querySelector<HTMLElement>(
+		SUMMARY_SELECTORS.summaryList,
+	);
+	const countEl = summaryBox.querySelector<HTMLElement>(
+		SUMMARY_SELECTORS.summaryCount,
+	);
+	const labelSpan = summaryBox.querySelector<HTMLElement>(
+		SUMMARY_SELECTORS.summaryLabel,
+	);
+	const detailsEl = summaryBox.querySelector<HTMLDetailsElement>(
+		SUMMARY_SELECTORS.summaryDetails,
+	);
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Employees
-  document.querySelectorAll<HTMLInputElement>('input[name="employee_ids"]').forEach(cb => {
-    cb.addEventListener('change', () => updateGenericSummary(employeesSummaryConfig));
-  });
-  // Works
-  document.querySelectorAll<HTMLInputElement>('input[name="work_ids"]').forEach(cb => {
-    cb.addEventListener('change', () => updateGenericSummary(worksSummaryConfig));
-  });
-  // Daily Salaries
-  document.querySelectorAll<HTMLInputElement>('input[name="daily_salary_ids"]').forEach(cb => {
-    cb.addEventListener('change', () => updateGenericSummary(dailySalariesSummaryConfig));
-  });
-  // Daily Works
-  document.querySelectorAll<HTMLInputElement>('input[name="daily_work_ids"]').forEach(cb => {
-    cb.addEventListener('change', () => updateGenericSummary(dailyWorksSummaryConfig));
-  });
+	const summaryToggle = detailsEl?.querySelector(SUMMARY_TAGS.summaryTag);
+	const chevron = summaryToggle?.querySelector(SUMMARY_TAGS.svgTag);
 
-  updateGenericSummary(employeesSummaryConfig);
-  updateGenericSummary(worksSummaryConfig);
-  updateGenericSummary(dailySalariesSummaryConfig);
-  updateGenericSummary(dailyWorksSummaryConfig);
+	// Global check for the "Select All" master checkbox
+	const selectAll = document.querySelector<HTMLInputElement>(
+		getAllCheckboxSelector(checkboxName),
+	);
+
+	const allText = summaryBox.dataset.allText ?? config.allText ?? "";
+	const selectedText =
+		summaryBox.dataset.selectedText ?? SUMMARY_TEXT.textSelected;
+
+	const allSelected =
+		!!selectAll &&
+		checkboxes.length > 0 &&
+		selectAll.checked &&
+		checked.length === checkboxes.length;
+
+	// Determine the summary text display
+	let text = "";
+	if (allSelected) {
+		text = `${allText} ${checked.length} ${selectedText}`.trim();
+	} else if (checked.length > 0) {
+		text = checked
+			.map((cb) => config.getLabel(cb))
+			.filter(Boolean)
+			.join(", ");
+	}
+
+	// Sync UI elements
+	if (summaryList) summaryList.textContent = text;
+	if (countEl) {
+		countEl.style.display = allSelected ? SUMMARY_DISPLAY.displayNone : "";
+		countEl.textContent = allSelected ? "" : String(checked.length);
+	}
+
+	// Handle Label and Original Label persistence
+	if (labelSpan) {
+		if (labelSpan.dataset[SUMMARY_ATTRS.origLabel] === undefined) {
+			labelSpan.dataset[SUMMARY_ATTRS.origLabel] = labelSpan.textContent ?? "";
+		}
+		labelSpan.textContent = allSelected
+			? `${allText} ${checked.length} ${selectedText}`.trim()
+			: (labelSpan.dataset[SUMMARY_ATTRS.origLabel] ?? selectedText);
+	}
+
+	// Update Details disclosure element and prevent interaction when 'All Selected'
+	if (detailsEl) {
+		if (!detailsEl.dataset[SUMMARY_ATTRS.toggleGuardAdded]) {
+			detailsEl.addEventListener("toggle", () => {
+				if (
+					detailsEl.dataset[SUMMARY_ATTRS.preventOpen] ===
+					SUMMARY_FLAGS.preventOpenTrue
+				) {
+					detailsEl.open = false;
+				}
+			});
+			detailsEl.dataset[SUMMARY_ATTRS.toggleGuardAdded] =
+				SUMMARY_FLAGS.toggleGuardAdded;
+		}
+		if (allSelected) {
+			detailsEl.open = false;
+			detailsEl.dataset[SUMMARY_ATTRS.preventOpen] =
+				SUMMARY_FLAGS.preventOpenTrue;
+			if (summaryToggle)
+				summaryToggle.style.pointerEvents = SUMMARY_DISPLAY.pointerNone;
+			if (chevron) chevron.classList.add(SUMMARY_CLASSES.hidden);
+		} else {
+			detailsEl.dataset[SUMMARY_ATTRS.preventOpen] =
+				SUMMARY_FLAGS.preventOpenFalse;
+			if (summaryToggle) summaryToggle.style.pointerEvents = "";
+			if (chevron) chevron.classList.remove(SUMMARY_CLASSES.hidden);
+		}
+	}
+
+	// Show/Hide the entire summary box
+	if (checked.length > 0) {
+		summaryBox.classList.remove(SUMMARY_CLASSES.hidden);
+		summaryBox.style.display = "";
+	} else {
+		summaryBox.classList.add(SUMMARY_CLASSES.hidden);
+		summaryBox.style.display = SUMMARY_DISPLAY.displayNone;
+	}
+}
+
+/** Initializes event handlers for all summary boxes */
+function initSummaryHandlers(
+	labelFactories: Record<string, (cb: HTMLInputElement) => string>,
+): void {
+	document.addEventListener("change", (e) => {
+		const target = e.target;
+		if (!(target instanceof HTMLInputElement)) return;
+
+		document
+			.querySelectorAll<HTMLElement>(SUMMARY_SELECTORS.summaryId)
+			.forEach((box) => {
+				const checkboxName = box.dataset.summaryCheckboxName ?? "";
+				if (
+					target.name !== checkboxName &&
+					target.dataset.rowCheckboxName !== checkboxName
+				)
+					return;
+				const getLabel = labelFactories[checkboxName] ?? (() => "");
+				const config: SummaryConfig = { getLabel };
+				updateGenericSummary(config, box);
+			});
+	});
+}
+
+/** Initializes summaries on DOMContentLoaded */
+document.addEventListener("DOMContentLoaded", () => {
+	document
+		.querySelectorAll<HTMLElement>(SUMMARY_SELECTORS.summaryId)
+		.forEach((box) => {
+			const checkboxName = box.dataset.summaryCheckboxName ?? "";
+			if (!checkboxName) return;
+
+			const getLabel = labelFactories[checkboxName] ?? (() => "");
+			const config: SummaryConfig = { getLabel };
+
+			updateGenericSummary(config, box);
+		});
+
+	initSummaryHandlers(labelFactories);
 });
