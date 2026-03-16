@@ -10,7 +10,7 @@
             {% include "includes/create_table/create_table_filters.html" with toggle_id="work-search-filters-toggle" panel_id="work-search-filters-panel" fields_template="includes/create_table/works/works_filter_fields.html" %}
         </div>
         {% include "includes/create_table/works/works_create_table.html" %}
-        {% include "includes/summaries/selected_summary.html" with summary_id="selected-works-summary" details_id="selected-works-details" list_id="selected-works-list" count_id="selected-works-count" label_id="selected-works-label" %}
+        {% include "includes/summaries/selected_summary.html" with summary_id="works-create-summary" checkbox_name="work_ids" %}
     </fieldset>
     <div class="flex flex-col gap-2 sm:flex-row">
         {% include "includes/buttons/back_button.html" %}
