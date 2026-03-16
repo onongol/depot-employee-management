@@ -5,7 +5,7 @@
 
 type SummaryConfig = {
 	allText?: string;
-	getLabel: (cb: HTMLInputElement) => string;
+	getLabel: (checkbox: HTMLInputElement) => string;
 };
 
 const SUMMARY_SELECTORS = {
@@ -59,30 +59,30 @@ function getAllCheckboxSelector(checkboxName: string): string {
  * Updates a specific summary block.
  * Encapsulates UI logic for labels, counts, and the 'All Selected' state.
  */
-const labelFactories: Record<string, (cb: HTMLInputElement) => string> = {
-	employee_ids: (cb) => {
-		const row = cb.closest(SUMMARY_TAGS.tableRow);
+const labelFactories: Record<string, (checkbox: HTMLInputElement) => string> = {
+	employee_ids: (checkbox) => {
+		const row = checkbox.closest(SUMMARY_TAGS.tableRow);
 		if (!row) return "";
 		const id = (row.dataset.empId ?? "").trim();
 		const name = (row.dataset.empName ?? "").trim();
 		return id && name ? `(ID: ${id}) ${name}` : id || name;
 	},
-	work_ids: (cb) => {
-		const row = cb.closest(SUMMARY_TAGS.tableRow);
+	work_ids: (checkbox) => {
+		const row = checkbox.closest(SUMMARY_TAGS.tableRow);
 		if (!row) return "";
 		const workName = (row.dataset.workName ?? "").trim();
 		return workName;
 	},
-	daily_salary_ids: (cb) => {
-		const row = cb.closest(SUMMARY_TAGS.tableRow);
+	daily_salary_ids: (checkbox) => {
+		const row = checkbox.closest(SUMMARY_TAGS.tableRow);
 		if (!row) return "";
 		const id = (row.dataset.empId ?? "").trim();
 		const name = (row.dataset.empName ?? "").trim();
 		const date = (row.dataset.salaryDate ?? "").trim();
 		return `(ID: ${id}) ${name} - ${date}`;
 	},
-	daily_work_ids: (cb) => {
-		const row = cb.closest(SUMMARY_TAGS.tableRow);
+	daily_work_ids: (checkbox) => {
+		const row = checkbox.closest(SUMMARY_TAGS.tableRow);
 		if (!row) return "";
 		const work = (row.dataset.workName ?? "").trim();
 		const type = (row.dataset.typeWork ?? "").trim();
@@ -107,7 +107,7 @@ export function updateGenericSummary(
 			getRowCheckboxSelector(checkboxName),
 		),
 	);
-	const checked = checkboxes.filter((cb) => cb.checked);
+	const checked = checkboxes.filter((checkbox) => checkbox.checked);
 
 	// Contextual search within the specific summaryBox
 	const summaryList = summaryBox.querySelector<HTMLElement>(
@@ -147,7 +147,7 @@ export function updateGenericSummary(
 		text = `${allText} ${checked.length} ${selectedText}`.trim();
 	} else if (checked.length > 0) {
 		text = checked
-			.map((cb) => config.getLabel(cb))
+			.map((checkbox) => config.getLabel(checkbox))
 			.filter(Boolean)
 			.join(", ");
 	}
@@ -210,10 +210,10 @@ export function updateGenericSummary(
 
 /** Initializes event handlers for all summary boxes */
 function initSummaryHandlers(
-	labelFactories: Record<string, (cb: HTMLInputElement) => string>,
+	labelFactories: Record<string, (checkbox: HTMLInputElement) => string>,
 ): void {
-	document.addEventListener("change", (e) => {
-		const target = e.target;
+	document.addEventListener("change", (event: Event) => {
+		const target = event.target;
 		if (!(target instanceof HTMLInputElement)) return;
 
 		document
