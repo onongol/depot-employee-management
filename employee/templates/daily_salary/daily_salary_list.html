@@ -18,7 +18,7 @@
     {% include "includes/alerts/alerts.html" %}
     <!-- Summary -->
     {% if not is_employee and not is_master %}
-        {% include "includes/summaries/selected_summary.html" with summary_id="selected-daily-salary-summary" details_id="selected-daily-salary-details" list_id="selected-daily-salary-list" count_id="selected-daily-salary-count" label_id="selected-daily-salary-label" %}
+        {% include "includes/summaries/selected_summary.html" with summary_id="daily-salary-summary" checkbox_name="daily_salary_ids" %}
     {% endif %}
     <!-- Bulk action form: wraps the table checkboxes so selected DailySalary IDs are submitted via POST -->
     <!-- The Delete button in the modal uses form="bulkDeleteForm" to submit this form without moving the button here. -->
