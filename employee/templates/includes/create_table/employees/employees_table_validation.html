@@ -1,5 +1,6 @@
-<div data-checkbox-validation="true"
+{{ _("Select at least one employee.") |json_script:"employee-error-msg" }}
+<div data-checkbox-validation
      data-form-id="createForm"
      data-checkbox-name="employee_ids"
      data-table-selector=".employee-table-container"
-     data-error-message="{{ _('Select at least one employee.') |escapejs }}"></div>
+     data-error-message-id="employee-error-msg"></div>
