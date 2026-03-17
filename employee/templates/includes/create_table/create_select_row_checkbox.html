@@ -1,8 +1,8 @@
 <input type="checkbox"
-       class="form-checkbox {{ extra_class|default:'' }} h-4 w-4 cursor-pointer"
        id="{{ row_id }}"
        name="{{ checkbox_name }}"
-       data-row-checkbox-name="{{ checkbox_name }}"
        value="{{ row_value }}"
+       data-row-checkbox-name="{{ checkbox_name }}"
+       class="form-checkbox {{ extra_class|default:'' }} h-4 w-4 cursor-pointer"
        aria-labelledby="{{ aria_labelledby }}"
        {% if work_name %}data-work-name="{{ work_name }}"{% endif %} />
