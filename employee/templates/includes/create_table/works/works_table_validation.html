@@ -1,7 +1,8 @@
-<div data-checkbox-validation="true"
+{{ _("Select at least one work.") |json_script:"work-error-msg" }}
+<div data-checkbox-validation
      data-form-id="createForm"
      data-checkbox-name="work_ids"
      data-table-selector=".works-table-container"
-     data-error-message="{{ _('Select at least one work.') |escapejs }}"
+     data-error-message-id="work-error-msg"
      data-amount-validation="true"
-     data-amount-error-message="{{ _('Enter an amount for each selected work entry.') |escapejs }}"></div>
+     data-amount-error-message="{{ _("Enter an amount for each selected work entry.") |escapejs }}"></div>
