@@ -1,4 +1,8 @@
 {
+  "_read_json-BMEKBfmt.js": {
+    "file": "assets/read_json-BMEKBfmt.js",
+    "name": "read_json"
+  },
   "assets/js/alert/auto_hide_alert.ts": {
     "file": "js/auto_hide_alert-bundle.js",
     "name": "auto_hide_alert",
@@ -15,7 +19,10 @@
     "file": "js/amount_validation-bundle.js",
     "name": "amount_validation",
     "src": "assets/js/amount/amount_validation.ts",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "_read_json-BMEKBfmt.js"
+    ]
   },
   "assets/js/auth/password_toggle.ts": {
     "file": "js/password_toggle-bundle.js",
@@ -33,7 +40,10 @@
     "file": "js/checkbox_validation-bundle.js",
     "name": "checkbox_validation",
     "src": "assets/js/checkbox/checkbox_validation.ts",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "_read_json-BMEKBfmt.js"
+    ]
   },
   "assets/js/checkbox/mobile_select_details.ts": {
     "file": "js/mobile_select_details-bundle.js",
