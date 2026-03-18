@@ -3,6 +3,12 @@
     "file": "assets/read_json-BMEKBfmt.js",
     "name": "read_json"
   },
+  "assets/js/alert/alert_close.ts": {
+    "file": "js/alert_close-bundle.js",
+    "name": "alert_close",
+    "src": "assets/js/alert/alert_close.ts",
+    "isEntry": true
+  },
   "assets/js/alert/auto_hide_alert.ts": {
     "file": "js/auto_hide_alert-bundle.js",
     "name": "auto_hide_alert",
