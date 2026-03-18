@@ -7,7 +7,7 @@
         class="mb-6 hidden text-xl font-semibold text-gray-700 md:block dark:text-gray-400">
         {% trans "New" %} {{ object_type }} ({{ selected_department }})
     </h2>
-    {% include "includes/form/form_errors.html" %}
+    {% include "includes/alerts/alerts_error.html" %}
     <!-- Dynamic Message Attention Duplicate-->
     {% block form_alert %}{% endblock %}
     <form method="post"
