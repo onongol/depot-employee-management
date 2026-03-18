@@ -1,5 +1,6 @@
 {% load i18n %}
-<div class="{{ container_class }} mb-4 overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+<div class="{{ container_class }} mb-4 overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"
+     {% if sync_group_name %}data-amount-sync-group="{{ sync_group_name }}"{% endif %}>
     <div class="{{ max_height|default:'max-h-126' }} w-full overflow-x-auto overflow-y-auto">
         {% with col_class="px-2 py-3 md:px-6" col_class_hidden="px-2 py-3 md:px-6 hidden md:table-cell" col_class_checkbox="px-6 py-3 text-center align-middle" %}
             <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
