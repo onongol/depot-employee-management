@@ -1,156 +1,14 @@
 {
-  "_read_json-BMEKBfmt.js": {
-    "file": "assets/read_json-BMEKBfmt.js",
-    "name": "read_json"
-  },
-  "assets/js/alert/alert_close.ts": {
-    "file": "js/alert_close-bundle.js",
-    "name": "alert_close",
-    "src": "assets/js/alert/alert_close.ts",
-    "isEntry": true
-  },
-  "assets/js/alert/auto_hide_alert.ts": {
-    "file": "js/auto_hide_alert-bundle.js",
-    "name": "auto_hide_alert",
-    "src": "assets/js/alert/auto_hide_alert.ts",
-    "isEntry": true
-  },
-  "assets/js/amount/amount_inputs.ts": {
-    "file": "js/amount_inputs-bundle.js",
-    "name": "amount_inputs",
-    "src": "assets/js/amount/amount_inputs.ts",
-    "isEntry": true
-  },
-  "assets/js/amount/amount_validation.ts": {
-    "file": "js/amount_validation-bundle.js",
-    "name": "amount_validation",
-    "src": "assets/js/amount/amount_validation.ts",
-    "isEntry": true,
-    "imports": [
-      "_read_json-BMEKBfmt.js"
-    ]
-  },
-  "assets/js/auth/password_toggle.ts": {
-    "file": "js/password_toggle-bundle.js",
-    "name": "password_toggle",
-    "src": "assets/js/auth/password_toggle.ts",
-    "isEntry": true
-  },
-  "assets/js/buttons/bulk_delete_toggle.ts": {
-    "file": "js/bulk_delete_toggle-bundle.js",
-    "name": "bulk_delete_toggle",
-    "src": "assets/js/buttons/bulk_delete_toggle.ts",
-    "isEntry": true
-  },
-  "assets/js/checkbox/checkbox_validation.ts": {
-    "file": "js/checkbox_validation-bundle.js",
-    "name": "checkbox_validation",
-    "src": "assets/js/checkbox/checkbox_validation.ts",
-    "isEntry": true,
-    "imports": [
-      "_read_json-BMEKBfmt.js"
-    ]
-  },
-  "assets/js/checkbox/mobile_select_details.ts": {
-    "file": "js/mobile_select_details-bundle.js",
-    "name": "mobile_select_details",
-    "src": "assets/js/checkbox/mobile_select_details.ts",
-    "isEntry": true
-  },
-  "assets/js/checkbox/select_all.ts": {
-    "file": "js/select_all-bundle.js",
-    "name": "select_all",
-    "src": "assets/js/checkbox/select_all.ts",
-    "isEntry": true
-  },
-  "assets/js/dropdowns/dropdown.ts": {
-    "file": "js/dropdown-bundle.js",
-    "name": "dropdown",
-    "src": "assets/js/dropdowns/dropdown.ts",
-    "isEntry": true
-  },
-  "assets/js/filters/filter_toggle.ts": {
-    "file": "js/filter_toggle-bundle.js",
-    "name": "filter_toggle",
-    "src": "assets/js/filters/filter_toggle.ts",
-    "isEntry": true
-  },
-  "assets/js/filters/table_search.ts": {
-    "file": "js/table_search-bundle.js",
-    "name": "table_search",
-    "src": "assets/js/filters/table_search.ts",
-    "isEntry": true
-  },
-  "assets/js/forms/form_error_clear.ts": {
-    "file": "js/form_error_clear-bundle.js",
-    "name": "form_error_clear",
-    "src": "assets/js/forms/form_error_clear.ts",
-    "isEntry": true
-  },
-  "assets/js/forms/form_navigation.ts": {
-    "file": "js/form_navigation-bundle.js",
-    "name": "form_navigation",
-    "src": "assets/js/forms/form_navigation.ts",
-    "isEntry": true
-  },
-  "assets/js/forms/step_navigation.ts": {
-    "file": "js/step_navigation-bundle.js",
-    "name": "step_navigation",
-    "src": "assets/js/forms/step_navigation.ts",
-    "isEntry": true
-  },
-  "assets/js/forms/work_date_change.ts": {
-    "file": "js/work_date_change-bundle.js",
-    "name": "work_date_change",
-    "src": "assets/js/forms/work_date_change.ts",
-    "isEntry": true
-  },
-  "assets/js/modals/confirm_save.ts": {
-    "file": "js/confirm_save-bundle.js",
-    "name": "confirm_save",
-    "src": "assets/js/modals/confirm_save.ts",
-    "isEntry": true
-  },
-  "assets/js/modals/duplicate_check.ts": {
-    "file": "js/duplicate_check-bundle.js",
-    "name": "duplicate_check",
-    "src": "assets/js/modals/duplicate_check.ts",
-    "isEntry": true
-  },
-  "assets/js/modals/modals.ts": {
-    "file": "js/modals-bundle.js",
-    "name": "modals",
-    "src": "assets/js/modals/modals.ts",
-    "isEntry": true
-  },
-  "assets/js/sidebar/department_sheet.ts": {
-    "file": "js/department_sheet-bundle.js",
-    "name": "department_sheet",
-    "src": "assets/js/sidebar/department_sheet.ts",
-    "isEntry": true
-  },
-  "assets/js/sidebar/sidebar_toggle.ts": {
-    "file": "js/sidebar_toggle-bundle.js",
-    "name": "sidebar_toggle",
-    "src": "assets/js/sidebar/sidebar_toggle.ts",
-    "isEntry": true
-  },
-  "assets/js/summary/summary_selected.ts": {
-    "file": "js/summary_selected-bundle.js",
-    "name": "summary_selected",
-    "src": "assets/js/summary/summary_selected.ts",
+  "assets/js/main.ts": {
+    "file": "js/main-bundle.js",
+    "name": "main",
+    "src": "assets/js/main.ts",
     "isEntry": true
   },
   "assets/js/theme/theme_init.ts": {
     "file": "js/theme_init-bundle.js",
     "name": "theme_init",
     "src": "assets/js/theme/theme_init.ts",
-    "isEntry": true
-  },
-  "assets/js/theme/theme_switcher.ts": {
-    "file": "js/theme_switcher-bundle.js",
-    "name": "theme_switcher",
-    "src": "assets/js/theme/theme_switcher.ts",
     "isEntry": true
   },
   "assets/src/flatpickr_init.ts": {
@@ -163,7 +21,7 @@
     ]
   },
   "assets/src/styles.css": {
-    "file": "assets/styles-CnITiBp5.css",
+    "file": "assets/styles-6oWIy8s3.css",
     "src": "assets/src/styles.css",
     "isEntry": true,
     "name": "styles",
