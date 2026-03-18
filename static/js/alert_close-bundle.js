@@ -1,0 +1,1 @@
+const c={alert:"[data-alert-close]"},l='[role="alert"]';document.addEventListener("click",t=>{const e=t.target;if(!(e instanceof Element))return;const r=e.closest(c.alert);if(!r)return;t.preventDefault();const n=r.closest(l);n&&n.remove()});
