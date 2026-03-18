@@ -13,7 +13,7 @@
               type="image/x-icon"
               href="{% static 'images/favicon.svg' %}" />
         <!-- Main styles -->
-        <link rel="stylesheet" href="{% static 'assets/styles-CnITiBp5.css' %}" />
+        <link rel="stylesheet" href="{% static 'assets/styles-6oWIy8s3.css' %}" />
         <!-- Flatpickr styles -->
         <link rel="stylesheet" href="{% static 'assets/flatpickr-DRf1F60d.css' %}" />
         <title>
@@ -40,24 +40,11 @@
                 {% block content %}{% endblock %}
             {% endif %}
         </main>
-        <!-- Provides Django's JavaScript translation catalog (gettext) for client-side i18n;
-load this before any scripts that call gettext() or use translated strings. -->
+        <!-- Translation catalog -->
         <script src="{% url 'javascript-catalog' %}"></script>
         <!-- Flatpickr -->
         <script src="{% static 'js/flatpickr-bundle.js' %}"></script>
-        {% if request.user.is_authenticated %}
-            <script type="module" src="{% static 'js/dropdown-bundle.js' %}"></script>
-            <script type="module" src="{% static 'js/theme_switcher-bundle.js' %}"></script>
-        {% endif %}
-        <script type="module" src="{% static 'js/form_navigation-bundle.js' %}"></script>
-        <script type="module" src="{% static 'js/form_error_clear-bundle.js' %}"></script>
-        <script type="module" src="{% static 'js/modals-bundle.js' %}"></script>
-        <script type="module" src="{% static 'js/confirm_save-bundle.js' %}"></script>
-        <script type="module" src="{% static 'js/password_toggle-bundle.js' %}"></script>
-        <script type="module" src="{% static 'js/sidebar_toggle-bundle.js' %}"></script>
-        <script type="module" src="{% static 'js/department_sheet-bundle.js' %}"></script>
-        <script type="module" src="{% static 'js/filter_toggle-bundle.js' %}"></script>
-        <script type="module" src="{% static 'js/auto_hide_alert-bundle.js' %}"></script>
-        <script type="module" src="{% static 'js/alert_close-bundle.js' %}"></script>
+        <!-- Main JS Bundle -->
+        <script type="module" src="{% static 'js/main-bundle.js' %}"></script>
     </body>
 </html>
