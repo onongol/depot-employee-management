@@ -1,20 +1,21 @@
 <!-- Reusable warning alert shown when creating Daily Work and Piecework for the same Employee, Work, Type, and Date. -->
 {% load i18n %}
-<div class="relative z-40 mb-2 items-start rounded-md bg-blue-50 p-4 text-blue-800 shadow-sm transition-opacity duration-300 md:relative md:mb-4 dark:bg-blue-500/20 dark:text-blue-400 dark:backdrop-blur-xl"
+<div id="alert_duplicate_warning"
+     class="relative z-40 mb-2 items-start rounded-md bg-blue-50 p-4 text-blue-800 shadow-sm transition-opacity duration-300 md:relative md:mb-4 dark:bg-blue-500/20 dark:text-blue-400 dark:backdrop-blur-xl"
      role="alert"
      aria-live="polite">
-    <div class="pr-4">
-        <h4 class="mb-1 text-sm font-semibold md:text-base">{% trans "Attention" %}!</h4>
-        <span class="text-xs leading-5 md:text-sm">
+    <div class="pr-2">
+        <strong class="font-semibold">{% trans "Attention" %}!</strong>
+        <p class="text-sm">
             {% blocktrans trimmed %}
                 Duplicate entries are not allowed for this selection.
             {% endblocktrans %}
-        </span>
+        </p>
     </div>
     <button type="button"
+            data-alert-close
             class="absolute top-2 right-2 cursor-pointer rounded p-1 transition hover:bg-blue-100 focus:ring-2 focus:ring-blue-400 focus:outline-none dark:hover:bg-blue-200/10"
-            onclick="this.parentElement.style.display='none'"
-            aria-label="{% trans 'Close' %}">
+            aria-label="Close">
         <svg class="h-5 w-5" aria-hidden="true">
             <use href="#close"></use>
         </svg>
