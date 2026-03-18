@@ -53,7 +53,7 @@ function getCheckedCheckboxSelector(name: string): string {
 
 /** Helper: Returns selector for an amount input linked to a specific row value */
 function getAmountSelector(value: string): string {
-	return `input[data-amount-input][data-amount-for="${value}"]`;
+	return `${AMOUNT_VALIDATION_SELECTORS.amountInput}[data-amount-for="${value}"]`;
 }
 
 /** Helper: Returns selector for a checkbox that is currently checked for a specific value */
