@@ -1,18 +1,20 @@
 {% load i18n %}
 {% if errors %}
-    <div class="relative mb-4 rounded-md bg-red-50 p-4 text-red-600 shadow-sm transition-opacity duration-300 dark:bg-red-500/20 dark:text-red-400 dark:backdrop-blur-xl"
-            role="alert"
-            aria-live="assertive"
-            id="form_error"
-            aria-label="form_error">
-        <div class="pr-2">
-            <span class="font-semibold">{% trans "Error" %}!</span>
-            <ul class="ml-4 list-inside list-disc text-sm">
-                {% for error in errors %}<li>{{ error }}</li>{% endfor %}
-            </ul>
+    <div class="fixed inset-x-0 bottom-20 z-40 flex flex-col items-center p-4 lg:bottom-4">
+        <div id="alert_error"
+             class="relative mb-4 rounded-md bg-red-50 p-4 text-red-600 shadow-sm transition-opacity duration-300 dark:bg-red-500/20 dark:text-red-400 dark:backdrop-blur-xl"
+             role="alert"
+             aria-live="assertive"
+             aria-label="form_error">
+            <div class="pr-2">
+                <strong class="font-semibold">{% trans "Error" %}!</strong>
+                <ul class="ml-4 list-inside list-disc text-sm">
+                    {% for error in errors %}<li>{{ error }}</li>{% endfor %}
+                </ul>
+            </div>
             <button type="button"
+                    data-alert-close
                     class="absolute top-2 right-2 cursor-pointer rounded p-1 transition hover:bg-red-100 focus:ring-2 focus:ring-red-400 focus:outline-none dark:hover:bg-red-200/10"
-                    onclick="this.closest('[role=alert]').classList.add('hidden')"
                     aria-label="Close">
                 <svg class="h-5 w-5" aria-hidden="true">
                     <use href="#close"></use>
