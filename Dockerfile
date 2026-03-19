@@ -17,7 +17,7 @@ RUN npm run build
 
 
 # Stage 2: Python dependencies build stage
-FROM python:3.14 AS builder
+FROM python:3.14-slim AS builder
 
 # Set the working directory
 WORKDIR /app
@@ -44,7 +44,7 @@ RUN python -m venv $VIRTUAL_ENV && \
 
 
 # Stage 3: Production stage
-FROM python:3.14 AS production
+FROM python:3.14-slim AS production
 
 # Set environment variables
 ENV VIRTUAL_ENV=/app/.venv \
