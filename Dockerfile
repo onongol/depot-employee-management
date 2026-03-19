@@ -17,11 +17,16 @@ RUN npm run build
 
 
 # Stage 2: Python dependencies build stage
-FROM python:3.14 AS builder
+FROM python:3.14-slim AS builder
 
 # Set the working directory
 WORKDIR /app
 
+RUN apt-get update && \
+    apt-get install -y gcc libmysqlclient-dev pkg-config && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set environment variables to optimize Python
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     VIRTUAL_ENV=/app/.venv \
@@ -29,29 +34,32 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 COPY requirements.txt .
 
-# Создаём venv и устанавливаем зависимости
+# Create virtual environment and install dependencies
 RUN python -m venv $VIRTUAL_ENV && \
     $VIRTUAL_ENV/bin/pip install --upgrade pip && \
     $VIRTUAL_ENV/bin/pip install --no-cache-dir -r requirements.txt
 
 
 # Stage 3: Production stage
-FROM python:3.14 AS production
+FROM python:3.14-slim AS production
 
+# Set environment variables
 ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH" \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
+# Create a non-root user "depouser"    
 RUN useradd -m -r depouser && \
     mkdir /app && \
     chown -R depouser /app
 
 WORKDIR /app
 
-# Копируем только venv — не зависит от версии Python
+# Copy only the virtual environment — independent of Python version
 COPY --from=builder --chown=depouser:depouser /app/.venv /app/.venv
 
+# Copy application code
 COPY --chown=depouser:depouser . .
 
 # Copy the built CSS from the Tailwind stage
