@@ -2,7 +2,7 @@
 {% if request.user.is_authenticated %}
     <div class="hidden w-full items-center justify-between px-4 lg:order-1 lg:flex lg:w-auto"
          id="navbar-menu">
-        <ul class="mt-2 flex flex-col space-y-4 p-4 lg:mt-0 lg:flex-row lg:items-center lg:space-y-0 lg:space-x-4 lg:p-0">
+        <ul class="mt-2 flex flex-wrap space-y-4 p-4 lg:mt-0 lg:items-center lg:space-y-0 lg:space-x-4 lg:p-0">
             <!-- Dropdown for Departments -->
             {% if not is_employee and not is_master %}
                 {% include "includes/department/department_dropdown.html" %}
