@@ -23,7 +23,7 @@ RUN npm run build
 
 
 # Stage 2: Python dependencies build stage
-FROM python:3.13 AS builder
+FROM python:3.14 AS builder
 
 # Create the app directory
 RUN mkdir /app
@@ -46,7 +46,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 
 # Stage 3: Production stage
-FROM python:3.13 AS production
+FROM python:3.14 AS production
 
 # Create a non-root user "depouser"
 RUN useradd -m -r depouser && \
