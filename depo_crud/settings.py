@@ -27,7 +27,6 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.railway.app",
     "https://example.com",
 ]
 
@@ -62,15 +61,14 @@ if DEBUG:
     ]
 
 # Path to the Node.js package manager (npm)
-# NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 # Use env override or detect by platform (avoid hard-coded Windows path on Mac/CI)
-NPM_BIN_PATH = os.getenv("NPM_BIN_PATH")
-if not NPM_BIN_PATH:
-    if platform.system() == "Windows":
-        NPM_BIN_PATH = r"C:/Program Files/nodejs/npm.cmd"
-    else:
-        # common locations on macOS / Linux; prefer system npm in PATH
-        NPM_BIN_PATH = "/usr/local/bin/npm"  # override with env if different
+if DEBUG:
+    NPM_BIN_PATH = os.getenv("NPM_BIN_PATH")
+    if not NPM_BIN_PATH:
+        if platform.system() == "Windows":
+            NPM_BIN_PATH = r"C:/Program Files/nodejs/npm.cmd"
+        else:
+            NPM_BIN_PATH = "/usr/local/bin/npm"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
