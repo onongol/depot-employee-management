@@ -4,20 +4,21 @@ set -e
 echo "Waiting for database to be ready..."
 
 # MySQL client check
-until python3 -c "
-import os, sys, MySQLdb
-try:
-    conn = MySQLdb.connect(
-        host=os.getenv('MYSQL_HOST', 'db'),
-        user=os.getenv('MYSQL_USER'),
-        passwd=os.getenv('MYSQL_PASSWORD'),
-        db=os.getenv('MYSQL_DATABASE'),
-        port=int(os.getenv('MYSQL_PORT', 3306))
-    )
-    conn.close()
-except Exception as e:
-    sys.exit(1)
-" ; do
+until python - <<'PY'
+    import os, sys
+    import django
+
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE','depo_crud.settings')
+    django.setup()
+
+    from django.db import connections
+    
+    try:
+        connections['default'].cursor().execute('SELECT 1')
+    except Exception:
+        sys.exit(1)
+PY 
+do
   echo "Database (MySQL) is unavailable - sleeping"
   sleep 2
 done
