@@ -1,9 +1,7 @@
 #!/bin/sh
 set -e
 
-echo "Waiting for database to be ready..."
-
-# MySQL client check
+# Wait for the database to be ready (Python-level check; no mysql client required)
 until python - <<'PY'
 import os, sys
 import django
@@ -14,36 +12,36 @@ try:
     connections['default'].cursor().execute('SELECT 1')
 except Exception:
     sys.exit(1)
-PY 
+PY
 do
-  echo "Database (MySQL) is unavailable - sleeping"
+  echo "Waiting for database..."
   sleep 2
 done
 
 echo "Database is ready!"
 
-echo "Applying database migrations..."
+#echo "Running migrations..."
 python manage.py migrate --noinput
 
-echo "Ensuring admin user exists..."
+echo "Creating/ensuring admin user..."
 python manage.py auto_admin --force
 
-echo "Collecting static files..."
-if [ ! -f "static/manifest.json" ]; then
-    echo "WARNING: static/manifest.json not found!"
-fi
+# Check built assets before collectstatic:
+echo "Check built assets before collectstatic:"
+ls -la static || true
+# ls -la static/dist || true
+# test -f static/dist/styles.css || echo "WARN: static/dist/styles.css not found"
+ls -la static/assets || true
+ls -la static/js || true
+test -f static/manifest.json || echo "WARN: static/manifest.json not found (check static/assets or static/js)"
 
+echo "Collecting static files..."
 python manage.py collectstatic --noinput
 
-echo "Check collected static in /app/staticfiles:"
-ls -la /app/staticfiles | head -n 10
+# Check collected static files STATIC_ROOT (settings.py - /app/staticfiles)
+echo "Check collected static:"
+ls -la /app/staticfiles || true
+# ls -la /app/staticfiles/dist || true
 
 echo "Starting Gunicorn server..."
-WORKERS=${GUNICORN_WORKERS:-3}
-exec gunicorn depo_crud.wsgi:application \
-    --bind 0.0.0.0:8000 \
-    --workers "$WORKERS" \
-    --access-logfile - \
-    --error-logfile - \
-    --timeout 120 \
-    --graceful-timeout 30
+exec gunicorn depo_crud.wsgi:application --bind 0.0.0.0:8000 --workers 3
