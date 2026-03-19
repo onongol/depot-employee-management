@@ -68,4 +68,9 @@ RUN sed -i 's/\r$//' /app/entrypoint.prod.sh && chmod +x /app/entrypoint.prod.sh
 
 USER depouser
 EXPOSE 8000
+
+# Healthcheck: checks /health/ endpoint
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+    CMD python3 -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/')" || exit 1
+
 ENTRYPOINT ["/app/entrypoint.prod.sh"]
