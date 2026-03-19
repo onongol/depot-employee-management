@@ -5,18 +5,15 @@ echo "Waiting for database to be ready..."
 
 # MySQL client check
 until python - <<'PY'
-    import os, sys
-    import django
-
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE','depo_crud.settings')
-    django.setup()
-
-    from django.db import connections
-    
-    try:
-        connections['default'].cursor().execute('SELECT 1')
-    except Exception:
-        sys.exit(1)
+import os, sys
+import django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE','depo_crud.settings')
+django.setup()
+from django.db import connections
+try:
+    connections['default'].cursor().execute('SELECT 1')
+except Exception:
+    sys.exit(1)
 PY 
 do
   echo "Database (MySQL) is unavailable - sleeping"
