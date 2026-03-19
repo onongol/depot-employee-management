@@ -13,12 +13,6 @@ RUN npm install
 # Copy application files (your HTML templates, etc.)
 COPY . .
 
-# Run the Tailwind CSS build command
-#RUN npm run build:css
-
-# Build JavaScript assets
-#RUN npm run build:js
-
 RUN npm run build
 
 
@@ -64,7 +58,6 @@ WORKDIR /app
 COPY --chown=depouser:depouser . .
 
 # Copy the built CSS from the Tailwind stage
-# COPY --from=frontend-builder --chown=depouser:depouser /app/static/dist/ /app/static/dist/
 COPY --from=frontend-builder --chown=depouser:depouser /app/static/ /app/static/
 
 # Switch to root user
@@ -85,4 +78,3 @@ EXPOSE 8000
 
 # Set the entrypoint script
 ENTRYPOINT ["/app/entrypoint.prod.sh"]
-#CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "depo_crud.wsgi:application"]
