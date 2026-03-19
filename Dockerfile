@@ -19,75 +19,55 @@ RUN npm run build
 # Stage 2: Python dependencies build stage
 FROM python:3.14-slim AS builder
 
-# Set the working directory
-WORKDIR /app
-
-# Устанавливаем системные зависимости для mysqlclient
-RUN apt-get update && apt-get install -y \
+# Устанавливаем ВСЕ зависимости для сборки (включая python3-dev)
+RUN apt-get update && apt-get install -y --no-install-recommends \
     default-libmysqlclient-dev \
     pkg-config \
     gcc \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Set environment variables to optimize Python
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    VIRTUAL_ENV=/app/.venv \
-    PATH="/app/.venv/bin:$PATH"
-
+WORKDIR /app
 COPY requirements.txt .
 
-# Create virtual environment and install dependencies
-RUN python -m venv $VIRTUAL_ENV && \
-    $VIRTUAL_ENV/bin/pip install --upgrade pip && \
-    $VIRTUAL_ENV/bin/pip install --no-cache-dir -r requirements.txt
+# Устанавливаем зависимости в локальную папку, чтобы легко скопировать
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 
 # Stage 3: Production stage
 FROM python:3.14-slim AS production
 
-# Set environment variables
-ENV VIRTUAL_ENV=/app/.venv \
-    PATH="/app/.venv/bin:$PATH" \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
-
-# Только runtime зависимость — не dev инструменты
-RUN apt-get update && apt-get install -y \
+# Важно: устанавливаем runtime-библиотеку mysql
+RUN apt-get update && apt-get install -y --no-install-recommends \
     default-libmysqlclient-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user "depouser"    
-RUN useradd -m -r depouser && \
-    mkdir /app && \
-    chown -R depouser /app
-
+# Создаем пользователя
+RUN useradd -m -r depouser
 WORKDIR /app
 
-# Copy only the virtual environment — independent of Python version
-COPY --from=builder --chown=depouser:depouser /app/.venv /app/.venv
+# Копируем установленные библиотеки из builder
+# Это надежнее, чем копировать .venv с жесткими путями
+COPY --from=builder /install /usr/local
 
-# Copy application code
+# Копируем код приложения
 COPY --chown=depouser:depouser . .
 
-# Copy the built CSS from the Tailwind stage
+# Копируем статику из Tailwind этапа
 COPY --from=frontend-builder --chown=depouser:depouser /app/static/ /app/static/
 
-# Switch to root user
-USER root
-
-# Create static files directory
+# Подготовка папок и прав
 RUN mkdir -p /app/staticfiles && chown -R depouser:depouser /app/staticfiles
 
-# Copy entrypoint script
-COPY entrypoint.prod.sh /app/entrypoint.prod.sh
+# Обработка entrypoint
+COPY --chown=depouser:depouser entrypoint.prod.sh /app/entrypoint.prod.sh
 RUN sed -i 's/\r$//' /app/entrypoint.prod.sh && chmod +x /app/entrypoint.prod.sh
 
-# Switch to non-root user
 USER depouser
 
-# Expose the application port
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
 EXPOSE 8000
 
-# Set the entrypoint script
 ENTRYPOINT ["/app/entrypoint.prod.sh"]
