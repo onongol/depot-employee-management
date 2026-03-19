@@ -17,44 +17,41 @@ RUN npm run build
 
 
 # Stage 2: Python dependencies build stage
-FROM python:3.14 AS builder
-
-# Create the app directory
-RUN mkdir /app
+FROM python:3.14-slim AS builder
 
 # Set the working directory
 WORKDIR /app
 
-# Set environment variables to optimize Python
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    VIRTUAL_ENV=/app/.venv \
+    PATH="/app/.venv/bin:$PATH"
 
-# Upgrade pip and install dependencies
-RUN pip install --upgrade pip
+COPY requirements.txt .
 
-# Copy the requirements file first (better caching)
-COPY requirements.txt /app/
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Создаём venv и устанавливаем зависимости
+RUN python -m venv $VIRTUAL_ENV && \
+    $VIRTUAL_ENV/bin/pip install --upgrade pip && \
+    $VIRTUAL_ENV/bin/pip install --no-cache-dir -r requirements.txt
 
 
 # Stage 3: Production stage
-FROM python:3.14 AS production
+FROM python:3.14-slim AS production
 
-# Create a non-root user "depouser"
+ENV VIRTUAL_ENV=/app/.venv \
+    PATH="/app/.venv/bin:$PATH" \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
 RUN useradd -m -r depouser && \
     mkdir /app && \
     chown -R depouser /app
 
-# Copy the Python dependencies from the builder stage
-COPY --from=builder /usr/local/lib/python3.14/site-packages/ /usr/local/lib/python3.14/site-packages/
-COPY --from=builder /usr/local/bin/ /usr/local/bin/
-
-# Set the working directory
 WORKDIR /app
 
-# Copy application code
+# Копируем только venv — не зависит от версии Python
+COPY --from=builder --chown=depouser:depouser /app/.venv /app/.venv
+
 COPY --chown=depouser:depouser . .
 
 # Copy the built CSS from the Tailwind stage
