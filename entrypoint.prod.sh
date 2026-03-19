@@ -38,4 +38,5 @@ echo "Check collected static in /app/staticfiles:"
 ls -la /app/staticfiles | head -n 10
 
 echo "Starting Gunicorn server..."
-exec gunicorn depo_crud.wsgi:application --bind 0.0.0.0:8000 --workers 3 --access-logfile - --error-logfile - --timeout 120 --graceful-timeout 30
+WORKERS=${GUNICORN_WORKERS:-3}
+exec gunicorn depo_crud.wsgi:application --bind 0.0.0.0:8000 --workers $WORKERS --access-logfile - --error-logfile - --timeout 120 --graceful-timeout 30
