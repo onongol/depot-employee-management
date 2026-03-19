@@ -17,7 +17,7 @@ RUN npm run build
 
 
 # Stage 2: Python dependencies build stage
-FROM python:3.14-slim AS builder
+FROM python:3.13-slim AS builder
 
 # Устанавливаем ВСЕ зависимости для сборки (включая python3-dev)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -35,7 +35,7 @@ RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 
 # Stage 3: Production stage
-FROM python:3.14-slim AS production
+FROM python:3.13-slim AS production
 
 # Важно: устанавливаем runtime-библиотеку mysql
 RUN apt-get update && apt-get install -y --no-install-recommends \
