@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-# Wait for the database to be ready (Python-level check; no mysql client required)
+echo "Waiting for database to be ready..."
+
 until python - <<'PY'
 import os, sys
 import django
@@ -20,28 +21,21 @@ done
 
 echo "Database is ready!"
 
-#echo "Running migrations..."
+echo "Applying database migrations..."
 python manage.py migrate --noinput
 
-echo "Creating/ensuring admin user..."
+echo "Ensuring admin user exists..."
 python manage.py auto_admin --force
 
-# Check built assets before collectstatic:
-echo "Check built assets before collectstatic:"
-ls -la static || true
-# ls -la static/dist || true
-# test -f static/dist/styles.css || echo "WARN: static/dist/styles.css not found"
-ls -la static/assets || true
-ls -la static/js || true
-test -f static/manifest.json || echo "WARN: static/manifest.json not found (check static/assets or static/js)"
-
 echo "Collecting static files..."
+if [ ! -f "static/manifest.json" ]; then
+    echo "WARNING: static/manifest.json not found!"
+fi
+
 python manage.py collectstatic --noinput
 
-# Check collected static files STATIC_ROOT (settings.py - /app/staticfiles)
-echo "Check collected static:"
-ls -la /app/staticfiles || true
-# ls -la /app/staticfiles/dist || true
+echo "Check collected static in /app/staticfiles:"
+ls -la /app/staticfiles | head -n 10
 
 echo "Starting Gunicorn server..."
 exec gunicorn depo_crud.wsgi:application --bind 0.0.0.0:8000 --workers 3
