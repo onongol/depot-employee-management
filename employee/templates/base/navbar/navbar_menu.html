@@ -1,0 +1,24 @@
+{% load i18n %}
+{% if request.user.is_authenticated %}
+    <div id="navbar-menu"
+         class="hidden w-full items-center justify-between px-4 lg:order-1 lg:flex lg:w-auto">
+        <ul class="mt-2 flex flex-wrap space-y-4 p-4 lg:mt-0 lg:items-center lg:space-y-0 lg:space-x-4 lg:p-0">
+            {% include "includes/navbar/menu_link.html" with url_name='employee_list' label=_('Employees') %}
+            {% if not is_employee %}
+                {% include "includes/navbar/menu_link.html" with url_name='work_list' label=_('Works') %}
+            {% endif %}
+            {% include "includes/navbar/menu_link.html" with url_name='daily_salary_list' label=_('Daily Attendance') %}
+            {% if not is_employee %}
+                {% include "includes/navbar/menu_link.html" with url_name='daily_work_list' label=_('Daily Work') %}
+            {% endif %}
+            {% include "includes/navbar/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
+            {% include "includes/navbar/menu_link.html" with url_name='employee_salary_list' label=_('Salaries') %}
+            {% if not is_employee %}
+                {% include "includes/navbar/menu_link.html" with url_name='wagon_list' label=_('Wagons') %}
+            {% endif %}
+            {% if not is_employee and not is_master %}
+                {% include "includes/navbar/menu_link.html" with url_name='material_list' label=_('Materials') %}
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
