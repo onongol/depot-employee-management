@@ -1,6 +1,5 @@
 def needs_department_warning(request):
     """Provide a flag when selected_department is empty and current page needs a department."""
-
     pages_requiring_department = {
         "employee_list",
         "work_list",
