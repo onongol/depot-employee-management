@@ -21,8 +21,8 @@
             {% block title %}Depot Management{% endblock %}
         </title>
     </head>
-    <body class="bg-white dark:bg-gray-900"
-          id="app"
+    <body id="app"
+          class="bg-white dark:bg-gray-900"
           data-searches="{{ table_searches_json|safe }}"
           data-select-filters="{{ table_select_filters_json|safe }}">
         {% include "includes/svg_symbols.html" %}
