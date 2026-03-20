@@ -1,8 +1,8 @@
 {% load i18n %}
 {% if request.user.is_authenticated %}
     <div id="navbar-menu"
-         class="hidden w-full items-center justify-between lg:order-1 lg:flex lg:w-auto">
-        <ul class="mt-2 flex flex-wrap space-y-4 p-4 lg:mt-0 lg:items-center lg:space-y-0 lg:space-x-4 lg:p-0">
+         class="hidden w-full min-w-0 flex-1 overflow-hidden lg:flex">
+        <ul class="flex flex-wrap items-center gap-x-2 gap-y-3 py-2">
             {% include "includes/navbar/menu_link.html" with url_name='employee_list' label=_('Employees') %}
             {% if not is_employee %}
                 {% include "includes/navbar/menu_link.html" with url_name='work_list' label=_('Works') %}
