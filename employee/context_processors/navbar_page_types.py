@@ -9,9 +9,14 @@ def navbar_page_types(request):
         "daily_salary_update",
     }
 
+    back_pages = {
+        "daily_work_create",
+    }
+
     url_name = getattr(getattr(request, "resolver_match", None), "url_name", None)
 
     return {
         "navbar_page_types": special_pages,
         "is_special_navbar": url_name in special_pages,
+        "is_back_pages": url_name in back_pages,
     }
