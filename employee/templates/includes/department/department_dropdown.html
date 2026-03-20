@@ -1,12 +1,11 @@
 <!-- Dropdown to select the active department. Expects context: departments (list) and selected_department (string); updates selection via 'set_department' URL. -->
 {% load i18n %}
-<li class="relative list-none" data-dropdown>
+<li class="relative mx-4 hidden list-none lg:block" data-dropdown>
     <button type="button"
             class="flex w-64 cursor-pointer items-center justify-between gap-2 rounded-2xl bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow transition hover:bg-gray-200 focus:ring-0 focus:outline-none dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-700"
             data-dropdown-button
             aria-haspopup="true"
-            aria-expanded="false"
-            >
+            aria-expanded="false">
         {% if selected_department %}
             {{ selected_department }}
         {% else %}
