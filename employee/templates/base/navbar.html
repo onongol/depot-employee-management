@@ -1,23 +1,21 @@
 {# filepath: /Users/halkhin/Projects/depot-employee-management/employee/templates/base/navbar.html #}
-{% with page_name=request.resolver_match.url_name|default:'' %}
-    <nav class="sticky top-0 z-50 bg-gray-50 shadow dark:bg-gray-800"
-         role="navigation"
-         aria-label="Main navigation">
-        {% if 'create' in page_name or 'update' in page_name %}
-            <div class="relative flex min-h-10 items-center px-4 py-2 md:hidden">
-                {% if page_name == 'daily_work_create' and employees %}
-                    {% include "includes/buttons/mobile/mobile_back_button.html" %}
-                {% endif %}
-                {% include "includes/buttons/mobile/mobile_cancel_button.html" %}
-            </div>
-        {% else %}
-            <div class="flex w-full flex-wrap items-center gap-2 px-4 py-2">
-                {% include "base/navbar/menu_button.html" %}
-                {% include "base/navbar/logo.html" %}
-                {% include "base/navbar/mobile_department_title.html" %}
-                {% include "base/navbar/user_menu.html" %}
-                {% include "base/navbar/menu.html" %}
-            </div>
-        {% endif %}
-    </nav>
-{% endwith %}
+<nav class="sticky top-0 z-50 bg-gray-50 shadow dark:bg-gray-800"
+     role="navigation"
+     aria-label="Main navigation">
+    {% if is_special_navbar %}
+        <div class="relative flex min-h-10 items-center px-4 py-2 md:hidden">
+            {% if page_name == 'daily_work_create' and employees %}
+                {% include "includes/buttons/mobile/mobile_back_button.html" %}
+            {% endif %}
+            {% include "includes/buttons/mobile/mobile_cancel_button.html" %}
+        </div>
+    {% else %}
+        <div class="flex w-full flex-wrap items-center gap-2 px-4 py-2">
+            {% include "base/navbar/menu_button.html" %}
+            {% include "base/navbar/logo.html" %}
+            {% include "base/navbar/mobile_department_title.html" %}
+            {% include "base/navbar/user_menu.html" %}
+            {% include "base/navbar/menu.html" %}
+        </div>
+    {% endif %}
+</nav>
