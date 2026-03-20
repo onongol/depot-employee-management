@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-24 15:33+0800\n"
+"POT-Creation-Date: 2026-03-20 11:43+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: depo_crud/settings.py:169
-#: employee/templates/includes/user/language_switcher.html:38
+#: depo_crud/settings.py:168
+#: employee/templates/includes/user/language_switcher.html:13
 msgid "English"
 msgstr "Англи"
 
-#: depo_crud/settings.py:170
-#: employee/templates/includes/user/language_switcher.html:44
+#: depo_crud/settings.py:169
+#: employee/templates/includes/user/language_switcher.html:19
 msgid "Mongolian"
 msgstr "Монгол"
 
@@ -59,12 +59,12 @@ msgid "Confirm new password"
 msgstr "Шинэ нууц үг баталгаажуулах"
 
 #: employee/forms/register_forms.py:11
-#: employee/templates/daily_salary/daily_salary_filters.html:8
+#: employee/templates/daily_salary/daily_salary_filters_fields.html:3
 #: employee/templates/employee/employee_create.html:8
-#: employee/templates/employee/employee_filters.html:10
-#: employee/templates/employee_salary/employee_salary_filters.html:9
-#: employee/templates/includes/select_table/employee_search_filters.html:7
-#: employee/templates/piecework/piecework_filters.html:9
+#: employee/templates/employee/employee_filters_fields.html:2
+#: employee/templates/employee_salary/employee_salary_filters_fields.html:3
+#: employee/templates/includes/create_table/employees/employees_filter_fields.html:2
+#: employee/templates/piecework/piecework_filters_fields.html:3
 msgid "Employee ID"
 msgstr "Ажилтны ID"
 
@@ -101,13 +101,6 @@ msgstr "Нууц үг нь дан тооноос бүрдэж болохгүй."
 msgid "The two password fields didn’t match."
 msgstr "Нууц үг зөрүүтэй байна."
 
-#: employee/locale_strings.py:20
-#, python-format
-"This password is too short. It must contain at least %(min_length)d "
-"characters."
-msgstr "Нууц үг хэтэрхий богино байна. Хамгийн багадаа %(min_length)d "
-"тэмдэгт байх ёстой."
-
 #: employee/messages/delete_success_message.py:10
 #, python-format
 msgid "Deleted %(object_name)s"
@@ -119,20 +112,20 @@ msgid "Cannot delete %(object_name)s. Linked to existing entries."
 msgstr "%(object_name)s-ийг устгах боломжгүй. Өөр бүртгэлтэй холбогдсон байна."
 
 #: employee/mixins/context_mixins.py:10
-#: employee/templates/includes/modals/save_duplicate.html:29
+#: employee/templates/includes/modals/bodies/duplicate_body.html:5
 msgid "Employee"
 msgstr "Ажилтан"
 
 #: employee/mixins/context_mixins.py:17
-#: employee/templates/daily_work/daily_work_list.html:47
-#: employee/templates/includes/modals/save_duplicate.html:31
-#: employee/templates/includes/select_table/work_search_filters.html:7
-#: employee/templates/includes/select_table/works_select_table.html:17
-#: employee/templates/material/material_list.html:21
-#: employee/templates/piecework/piecework_list.html:26
-#: employee/templates/wagon/wagon_filters.html:13
-#: employee/templates/wagon/wagon_list.html:33
-#: employee/templates/work/work_list.html:27
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:8
+#: employee/templates/includes/create_table/works/works_filter_fields.html:2
+#: employee/templates/includes/create_table/works/works_head_columns.html:5
+#: employee/templates/includes/modals/bodies/duplicate_body.html:7
+#: employee/templates/material/material_table/material_table_head.html:4
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:6
+#: employee/templates/wagon/wagon_filters_fields.html:7
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:15
+#: employee/templates/work/work_table/work_table_head.html:4
 #: employee/views/daily_work/daily_work_export/build_headers.py:12
 #: employee/views/piecework/piecework_export/build_headers.py:15
 msgid "Work"
@@ -145,20 +138,22 @@ msgid "Daily Salary"
 msgstr "Өдрийн цалин"
 
 #: employee/mixins/context_mixins.py:31
-#: employee/templates/base/navbar/menu.html:20
-#: employee/templates/base/sidebar.html:21 employee/templates/home/home.html:20
+#: employee/templates/base/navbar/navbar_menu.html:12
+#: employee/templates/base/sidebar/sidebar_menu.html:9
+#: employee/templates/home/home.html:20
 #: employee/views/daily_work/daily_work_create/daily_work_create_prepare.py:64
 #: employee/views/employee/employee_views.py:58
-#: employee/views/work/work_views.py:64
+#: employee/views/work/work_views.py:67
 msgid "Daily Work"
 msgstr "Өдөр Тутмын Ажил"
 
 #: employee/mixins/context_mixins.py:38
-#: employee/templates/base/navbar/menu.html:23
-#: employee/templates/base/sidebar.html:23 employee/templates/home/home.html:23
+#: employee/templates/base/navbar/navbar_menu.html:14
+#: employee/templates/base/sidebar/sidebar_menu.html:11
+#: employee/templates/home/home.html:23
 #: employee/views/daily_salary/daily_salary_views.py:37
 #: employee/views/employee/employee_views.py:58
-#: employee/views/work/work_views.py:64
+#: employee/views/work/work_views.py:67
 msgid "Piecework"
 msgstr "Хийснээрх Ажил"
 
@@ -202,64 +197,64 @@ msgstr "Бүртгэлтэй юу?"
 msgid "Sign in"
 msgstr "Нэвтрэх"
 
-#: employee/templates/base.html:33
+#: employee/templates/base.html:36
 msgid "Choose a department to start"
 msgstr "Эхлэхийн тулд хэлтсээ сонгоно уу"
 
-#: employee/templates/base.html:34
+#: employee/templates/base.html:37
 msgid "Data will be displayed once a department is selected."
 msgstr "Хэлтсээ сонгож өгөгдлийг харна уу."
 
-#: employee/templates/base/navbar/menu.html:11
-#: employee/templates/base/sidebar.html:15 employee/templates/home/home.html:11
+#: employee/templates/base/navbar/navbar_menu.html:6
+#: employee/templates/base/sidebar/sidebar_menu.html:3
+#: employee/templates/home/home.html:11
 msgid "Employees"
 msgstr "Ажилтнууд"
 
-#: employee/templates/base/navbar/menu.html:14
-#: employee/templates/base/sidebar.html:17 employee/templates/home/home.html:14
+#: employee/templates/base/navbar/navbar_menu.html:8
+#: employee/templates/base/sidebar/sidebar_menu.html:5
+#: employee/templates/home/home.html:14
 msgid "Works"
 msgstr "Ажлууд"
 
-#: employee/templates/base/navbar/menu.html:17
-#: employee/templates/base/sidebar.html:19 employee/templates/home/home.html:17
+#: employee/templates/base/navbar/navbar_menu.html:10
+#: employee/templates/base/sidebar/sidebar_menu.html:7
+#: employee/templates/home/home.html:17
 msgid "Daily Attendance"
 msgstr "Өдрийн Бүртгэл"
 
-#: employee/templates/base/navbar/menu.html:25
-#: employee/templates/base/sidebar.html:24 employee/templates/home/home.html:25
+#: employee/templates/base/navbar/navbar_menu.html:15
+#: employee/templates/base/sidebar/sidebar_menu.html:12
+#: employee/templates/home/home.html:25
 #: employee/views/employee_salary/employee_salary_export/employee_salary_excel.py:30
 #: employee/views/employee_salary/employee_salary_export/employee_salary_pdf.py:60
 msgid "Salaries"
 msgstr "Цалин"
 
-#: employee/templates/base/navbar/menu.html:28
-#: employee/templates/base/sidebar.html:26 employee/templates/home/home.html:28
+#: employee/templates/base/navbar/navbar_menu.html:17
+#: employee/templates/base/sidebar/sidebar_menu.html:14
+#: employee/templates/home/home.html:28
 #: employee/views/wagon/wagon_export/wagon_excel.py:30
 msgid "Wagons"
 msgstr "Вагон"
 
-#: employee/templates/base/navbar/menu.html:32
-#: employee/templates/base/sidebar.html:29 employee/templates/home/home.html:32
+#: employee/templates/base/navbar/navbar_menu.html:20
+#: employee/templates/base/sidebar/sidebar_menu.html:17
+#: employee/templates/home/home.html:32
 msgid "Materials"
 msgstr "Материал"
 
-#: employee/templates/daily_salary/daily_salary_create.html:7
-#: employee/templates/daily_work/daily_work_piecework_create.html:11
-#: employee/templates/forms/create_form.html:8
-msgid "New"
-msgstr "Шинэ"
-
-#: employee/templates/daily_salary/daily_salary_create.html:19
-#: employee/templates/daily_salary/daily_salary_filters.html:12
-#: employee/templates/daily_salary/daily_salary_list.html:54
+#: employee/templates/daily_salary/daily_salary_create.html:9
+#: employee/templates/daily_salary/daily_salary_filters_fields.html:7
+#: employee/templates/daily_salary/daily_salary_table/daily_salary_table_head.html:16
 #: employee/templates/daily_salary/daily_salary_update.html:7
-#: employee/templates/daily_work/daily_work_list.html:70
-#: employee/templates/daily_work/daily_work_piecework_create.html:33
+#: employee/templates/daily_work/daily_work_piecework_create_step_1.html:6
 #: employee/templates/daily_work/daily_work_piecework_update.html:14
-#: employee/templates/includes/modals/save_duplicate.html:38
-#: employee/templates/material/material_list.html:24
-#: employee/templates/piecework/piecework_list.html:48
-#: employee/templates/wagon/wagon_list.html:39
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:31
+#: employee/templates/includes/modals/bodies/duplicate_body.html:16
+#: employee/templates/material/material_table/material_table_head.html:7
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:28
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:21
 #: employee/views/daily_work/daily_work_export/build_headers.py:31
 #: employee/views/material/material_export/build_headers.py:10
 #: employee/views/piecework/piecework_export/build_headers.py:32
@@ -267,99 +262,92 @@ msgstr "Шинэ"
 msgid "Date"
 msgstr "Огноо"
 
-#: employee/templates/daily_salary/daily_salary_create.html:20
-#: employee/templates/daily_salary/daily_salary_list.html:49
+#: employee/templates/daily_salary/daily_salary_create.html:10
+#: employee/templates/daily_salary/daily_salary_table/daily_salary_table_head.html:11
 #: employee/templates/daily_salary/daily_salary_update.html:6
 msgid "Hours"
 msgstr "Цаг"
 
-#: employee/templates/daily_salary/daily_salary_create.html:30
-msgid ""
-"<strong>No employee profiles found.</strong> <br /> Please <strong>create "
-"profiles</strong> to get started."
-msgstr ""
-"<strong>Ажилтны бүртгэл олдсонгүйю</strong> <br> Эхлүүлэхийн тулд "
-"<strong>бүртгэл үүсгэнэ үү</strong>."
-
-#: employee/templates/daily_salary/daily_salary_filters.html:9
+#: employee/templates/daily_salary/daily_salary_filters_fields.html:4
 #: employee/templates/employee/employee_create.html:9
-#: employee/templates/employee/employee_filters.html:11
+#: employee/templates/employee/employee_filters_fields.html:3
 #: employee/templates/employee/employee_update.html:6
-#: employee/templates/employee_salary/employee_salary_filters.html:10
-#: employee/templates/includes/select_table/employee_search_filters.html:8
-#: employee/templates/piecework/piecework_filters.html:10
+#: employee/templates/employee_salary/employee_salary_filters_fields.html:4
+#: employee/templates/includes/create_table/employees/employees_filter_fields.html:3
+#: employee/templates/piecework/piecework_filters_fields.html:4
 msgid "Employee Name"
 msgstr "Ажилтаны Нэр"
 
-#: employee/templates/daily_salary/daily_salary_filters.html:10
-#: employee/templates/daily_work/daily_work_filters.html:9
-#: employee/templates/employee/employee_filters.html:12
-#: employee/templates/employee_salary/employee_salary_filters.html:11
-#: employee/templates/piecework/piecework_filters.html:11
-#: employee/templates/work/work_filters.html:8
+#: employee/templates/daily_salary/daily_salary_filters_fields.html:5
+#: employee/templates/daily_work/daily_work_filters_fields.html:3
+#: employee/templates/employee/employee_filters_fields.html:4
+#: employee/templates/employee_salary/employee_salary_filters_fields.html:5
+#: employee/templates/piecework/piecework_filters_fields.html:5
+#: employee/templates/work/work_filters_fields.html:3
 msgid "Job Title"
 msgstr "Албан Тушаал"
 
-#: employee/templates/daily_salary/daily_salary_filters.html:10
-#: employee/templates/daily_work/daily_work_filters.html:9
-#: employee/templates/employee/employee_filters.html:12
-#: employee/templates/employee_salary/employee_salary_filters.html:11
-#: employee/templates/includes/select_table/employee_search_filters.html:9
-#: employee/templates/includes/select_table/work_search_filters.html:8
-#: employee/templates/piecework/piecework_filters.html:11
-#: employee/templates/work/work_filters.html:8
+#: employee/templates/daily_salary/daily_salary_filters_fields.html:5
+#: employee/templates/daily_work/daily_work_filters_fields.html:3
+#: employee/templates/employee/employee_filters_fields.html:4
+#: employee/templates/employee_salary/employee_salary_filters_fields.html:5
+#: employee/templates/includes/create_table/employees/employees_filter_fields.html:4
+#: employee/templates/includes/create_table/works/works_filter_fields.html:3
+#: employee/templates/piecework/piecework_filters_fields.html:5
+#: employee/templates/work/work_filters_fields.html:3
 msgid "Positions"
 msgstr "Албан Тушаал"
 
-#: employee/templates/daily_salary/daily_salary_filters.html:14
-#: employee/templates/daily_salary/daily_salary_list.html:58
-#: employee/templates/daily_work/daily_work_filters.html:22
-#: employee/templates/daily_work/daily_work_list.html:74
-#: employee/templates/piecework/piecework_filters.html:26
-#: employee/templates/piecework/piecework_list.html:52
+#: employee/templates/daily_salary/daily_salary_filters_fields.html:9
+#: employee/templates/daily_salary/daily_salary_table/daily_salary_table_head.html:20
+#: employee/templates/daily_work/daily_work_filters_fields.html:16
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:35
+#: employee/templates/piecework/piecework_filters_fields.html:20
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:32
 msgid "Record Date"
 msgstr "Бүртгэсэн Огноо"
 
-#: employee/templates/daily_salary/daily_salary_list.html:42
-#: employee/templates/daily_work/daily_work_list.html:43
-#: employee/templates/includes/select_table/employees_select_table.html:15
-#: employee/templates/includes/select_table/works_select_table.html:15
-msgid "Select all"
-msgstr "Бүгдийг сонгох"
+#: employee/templates/daily_salary/daily_salary_table/daily_salary_mobile_details.html:4
+msgid "hours:"
+msgstr "цаг:"
 
-#: employee/templates/daily_salary/daily_salary_list.html:46
-#: employee/templates/employee/employee_list.html:27
-#: employee/templates/employee_salary/employee_salary_list.html:24
-#: employee/templates/includes/select_table/employees_select_table.html:17
-#: employee/templates/piecework/piecework_list.html:23
+#: employee/templates/daily_salary/daily_salary_table/daily_salary_mobile_details.html:9
+msgid "salary:"
+msgstr "цалин:"
+
+#: employee/templates/daily_salary/daily_salary_table/daily_salary_table_head.html:8
+#: employee/templates/employee/employee_table/employee_table_head.html:4
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_head.html:4
+#: employee/templates/includes/create_table/employees/employees_head_columns.html:6
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:3
 #: employee/views/employee_salary/employee_salary_export/build_headers.py:9
 #: employee/views/piecework/piecework_export/build_headers.py:11
 msgid "ID"
 msgstr "ID"
 
-#: employee/templates/daily_salary/daily_salary_list.html:47
-#: employee/templates/employee/employee_list.html:29
-#: employee/templates/employee_salary/employee_salary_list.html:26
-#: employee/templates/includes/select_table/employees_select_table.html:18
-#: employee/templates/piecework/piecework_list.html:24
+#: employee/templates/daily_salary/daily_salary_table/daily_salary_table_head.html:9
+#: employee/templates/employee/employee_table/employee_table_head.html:6
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_head.html:6
+#: employee/templates/includes/create_table/employees/employees_head_columns.html:7
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:4
 #: employee/views/employee_salary/employee_salary_export/build_headers.py:10
 #: employee/views/piecework/piecework_export/build_headers.py:12
 msgid "Name"
 msgstr "Нэр"
 
-#: employee/templates/daily_salary/daily_salary_list.html:48
-#: employee/templates/daily_work/daily_work_list.html:48
+#: employee/templates/daily_salary/daily_salary_table/daily_salary_table_head.html:10
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:9
 #: employee/templates/employee/employee_create.html:10
-#: employee/templates/employee/employee_list.html:30
+#: employee/templates/employee/employee_table/employee_table_head.html:7
 #: employee/templates/employee/employee_update.html:7
-#: employee/templates/employee_salary/employee_salary_list.html:27
-#: employee/templates/includes/select_table/employee_search_filters.html:9
-#: employee/templates/includes/select_table/employees_select_table.html:19
-#: employee/templates/includes/select_table/work_search_filters.html:8
-#: employee/templates/includes/select_table/works_select_table.html:18
-#: employee/templates/piecework/piecework_list.html:25
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_head.html:7
+#: employee/templates/includes/create_table/employees/employees_filter_fields.html:4
+#: employee/templates/includes/create_table/employees/employees_head_columns.html:8
+#: employee/templates/includes/create_table/works/works_filter_fields.html:3
+#: employee/templates/includes/create_table/works/works_head_columns.html:6
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:5
 #: employee/templates/work/work_create.html:9
-#: employee/templates/work/work_list.html:29
+#: employee/templates/work/work_table/work_table_head.html:6
 #: employee/templates/work/work_update.html:7
 #: employee/views/daily_work/daily_work_export/build_headers.py:13
 #: employee/views/employee_salary/employee_salary_export/build_headers.py:12
@@ -367,81 +355,63 @@ msgstr "Нэр"
 msgid "Position"
 msgstr "Албан Тушаал"
 
-#: employee/templates/daily_salary/daily_salary_list.html:51
-#: employee/templates/employee_salary/employee_salary_list.html:33
+#: employee/templates/daily_salary/daily_salary_table/daily_salary_table_head.html:13
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_head.html:13
 #: employee/views/employee_salary/employee_salary_export/build_headers.py:23
 msgid "Salary"
 msgstr "Цалин"
 
-#: employee/templates/daily_salary/daily_salary_list.html:62
-#: employee/templates/daily_work/daily_work_list.html:78
-#: employee/templates/employee/employee_list.html:34
-#: employee/templates/includes/table_action_buttons/actions_dropdown.html:3
-#: employee/templates/includes/table_action_buttons/actions_dropdown.html:5
-#: employee/templates/work/work_list.html:38
+#: employee/templates/daily_salary/daily_salary_table/daily_salary_table_head.html:24
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:39
+#: employee/templates/employee/employee_table/employee_table_head.html:11
+#: employee/templates/work/work_table/work_table_head.html:17
 msgid "Actions"
 msgstr "Үйлдэл"
 
-#: employee/templates/daily_salary/daily_salary_list.html:81
-#: employee/templates/daily_work/daily_work_list.html:98
-msgid "Select"
-msgstr "Сонгох"
-
-#: employee/templates/daily_salary/daily_salary_list.html:107
-#: employee/templates/daily_work/daily_work_list.html:147
-#: employee/templates/employee/employee_list.html:67
-#: employee/templates/employee_salary/employee_salary_list.html:66
-#: employee/templates/material/material_list.html:44
-#: employee/templates/piecework/piecework_list.html:105
-#: employee/templates/wagon/wagon_list.html:71
-#: employee/templates/work/work_list.html:70
-msgid "No records found"
-msgstr "Бүртгэл олдсонгүй"
-
-#: employee/templates/daily_work/daily_work_filters.html:8
-#: employee/templates/includes/select_table/work_search_filters.html:7
-#: employee/templates/material/material_filters.html:8
-#: employee/templates/piecework/piecework_filters.html:13
-#: employee/templates/wagon/wagon_filters.html:13
+#: employee/templates/daily_work/daily_work_filters_fields.html:2
+#: employee/templates/includes/create_table/works/works_filter_fields.html:2
+#: employee/templates/material/material_filters_fields.html:3
+#: employee/templates/piecework/piecework_filters_fields.html:7
+#: employee/templates/wagon/wagon_filters_fields.html:7
 #: employee/templates/work/work_create.html:8
-#: employee/templates/work/work_filters.html:7
+#: employee/templates/work/work_filters_fields.html:2
 #: employee/views/material/material_export/build_headers.py:8
 #: employee/views/wagon/wagon_export/build_headers.py:22
 msgid "Work Name"
 msgstr "Ажлын Нэр"
 
-#: employee/templates/daily_work/daily_work_filters.html:10
-#: employee/templates/daily_work/daily_work_list.html:49
-#: employee/templates/daily_work/daily_work_piecework_create.html:60
+#: employee/templates/daily_work/daily_work_filters_fields.html:4
+#: employee/templates/daily_work/daily_work_piecework_create_step_2.html:6
 #: employee/templates/daily_work/daily_work_piecework_update.html:9
-#: employee/templates/includes/modals/save_duplicate.html:33
-#: employee/templates/piecework/piecework_filters.html:14
-#: employee/templates/piecework/piecework_list.html:27
-#: employee/templates/wagon/wagon_filters.html:14
-#: employee/templates/wagon/wagon_list.html:34
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:10
+#: employee/templates/includes/modals/bodies/duplicate_body.html:9
+#: employee/templates/piecework/piecework_filters_fields.html:8
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:7
+#: employee/templates/wagon/wagon_filters_fields.html:8
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:16
 #: employee/views/daily_work/daily_work_export/build_headers.py:14
 #: employee/views/piecework/piecework_export/build_headers.py:16
 #: employee/views/wagon/wagon_export/build_headers.py:23
 msgid "Work Type"
 msgstr "Ажлын Төрөл"
 
-#: employee/templates/daily_work/daily_work_filters.html:10
-#: employee/templates/piecework/piecework_filters.html:14
-#: employee/templates/wagon/wagon_filters.html:14
+#: employee/templates/daily_work/daily_work_filters_fields.html:4
+#: employee/templates/piecework/piecework_filters_fields.html:8
+#: employee/templates/wagon/wagon_filters_fields.html:8
 msgid "Work Types"
 msgstr "Ажлын Төрөл"
 
-#: employee/templates/daily_work/daily_work_filters.html:12
-#: employee/templates/daily_work/daily_work_list.html:51
-#: employee/templates/includes/select_table/work_search_filters.html:10
-#: employee/templates/includes/select_table/works_select_table.html:20
-#: employee/templates/piecework/piecework_filters.html:16
-#: employee/templates/piecework/piecework_list.html:29
-#: employee/templates/wagon/wagon_filters.html:9
-#: employee/templates/wagon/wagon_list.html:22
+#: employee/templates/daily_work/daily_work_filters_fields.html:6
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:12
+#: employee/templates/includes/create_table/works/works_filter_fields.html:5
+#: employee/templates/includes/create_table/works/works_head_columns.html:8
+#: employee/templates/piecework/piecework_filters_fields.html:10
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:9
+#: employee/templates/wagon/wagon_filters_fields.html:3
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:4
 #: employee/templates/work/work_create.html:11
-#: employee/templates/work/work_filters.html:10
-#: employee/templates/work/work_list.html:31
+#: employee/templates/work/work_filters_fields.html:5
+#: employee/templates/work/work_table/work_table_head.html:8
 #: employee/templates/work/work_update.html:9
 #: employee/views/daily_work/daily_work_export/build_headers.py:18
 #: employee/views/piecework/piecework_export/build_headers.py:20
@@ -450,25 +420,25 @@ msgstr "Ажлын Төрөл"
 msgid "Wagon Type"
 msgstr "Вагоны Төрөл"
 
-#: employee/templates/daily_work/daily_work_filters.html:12
-#: employee/templates/includes/select_table/work_search_filters.html:10
-#: employee/templates/piecework/piecework_filters.html:16
-#: employee/templates/wagon/wagon_filters.html:9
-#: employee/templates/work/work_filters.html:10
+#: employee/templates/daily_work/daily_work_filters_fields.html:6
+#: employee/templates/includes/create_table/works/works_filter_fields.html:5
+#: employee/templates/piecework/piecework_filters_fields.html:10
+#: employee/templates/wagon/wagon_filters_fields.html:3
+#: employee/templates/work/work_filters_fields.html:5
 msgid "Wagon Types"
 msgstr "Вагоны Төрөл"
 
-#: employee/templates/daily_work/daily_work_filters.html:13
-#: employee/templates/daily_work/daily_work_list.html:52
-#: employee/templates/daily_work/daily_work_piecework_create.html:62
+#: employee/templates/daily_work/daily_work_filters_fields.html:7
+#: employee/templates/daily_work/daily_work_piecework_create_step_2.html:8
 #: employee/templates/daily_work/daily_work_piecework_update.html:11
-#: employee/templates/employee_salary/employee_salary_filters.html:14
-#: employee/templates/employee_salary/employee_salary_list.html:30
-#: employee/templates/includes/modals/save_duplicate.html:35
-#: employee/templates/piecework/piecework_filters.html:17
-#: employee/templates/piecework/piecework_list.html:30
-#: employee/templates/wagon/wagon_filters.html:8
-#: employee/templates/wagon/wagon_list.html:21
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:13
+#: employee/templates/employee_salary/employee_salary_filters_fields.html:8
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_head.html:10
+#: employee/templates/includes/modals/bodies/duplicate_body.html:12
+#: employee/templates/piecework/piecework_filters_fields.html:11
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:10
+#: employee/templates/wagon/wagon_filters_fields.html:2
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:3
 #: employee/views/daily_work/daily_work_export/build_headers.py:18
 #: employee/views/employee_salary/employee_salary_export/build_headers.py:18
 #: employee/views/piecework/piecework_export/build_headers.py:20
@@ -477,21 +447,21 @@ msgstr "Вагоны Төрөл"
 msgid "Wagon Number"
 msgstr "Вагоны Дугаар"
 
-#: employee/templates/daily_work/daily_work_filters.html:16
-#: employee/templates/employee_salary/employee_salary_filters.html:16
-#: employee/templates/piecework/piecework_filters.html:20
-#: employee/templates/wagon/wagon_filters.html:11
+#: employee/templates/daily_work/daily_work_filters_fields.html:10
+#: employee/templates/employee_salary/employee_salary_filters_fields.html:10
+#: employee/templates/piecework/piecework_filters_fields.html:14
+#: employee/templates/wagon/wagon_filters_fields.html:5
 msgid "Month/Year"
 msgstr "Сар/Жил"
 
-#: employee/templates/daily_work/daily_work_filters.html:18
-#: employee/templates/daily_work/daily_work_list.html:62
-#: employee/templates/daily_work/daily_work_list.html:66
-#: employee/templates/employee_salary/employee_salary_list.html:38
-#: employee/templates/piecework/piecework_filters.html:22
-#: employee/templates/piecework/piecework_list.html:40
-#: employee/templates/piecework/piecework_list.html:44
-#: employee/templates/wagon/wagon_list.html:30
+#: employee/templates/daily_work/daily_work_filters_fields.html:12
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:23
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:27
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_head.html:18
+#: employee/templates/piecework/piecework_filters_fields.html:16
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:20
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:24
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:12
 #: employee/views/daily_work/daily_work_export/build_headers.py:27
 #: employee/views/daily_work/daily_work_export/build_headers.py:29
 #: employee/views/employee_salary/employee_salary_export/build_headers.py:25
@@ -501,24 +471,34 @@ msgstr "Сар/Жил"
 msgid "Year"
 msgstr "Он"
 
-#: employee/templates/daily_work/daily_work_filters.html:18
-#: employee/templates/piecework/piecework_filters.html:22
+#: employee/templates/daily_work/daily_work_filters_fields.html:12
+#: employee/templates/piecework/piecework_filters_fields.html:16
 msgid "Years"
 msgstr "Он"
 
-#: employee/templates/daily_work/daily_work_filters.html:20
-#: employee/templates/material/material_filters.html:9
-#: employee/templates/piecework/piecework_filters.html:24
-#: employee/templates/wagon/wagon_filters.html:15
+#: employee/templates/daily_work/daily_work_filters_fields.html:14
+#: employee/templates/material/material_filters_fields.html:4
+#: employee/templates/piecework/piecework_filters_fields.html:18
+#: employee/templates/wagon/wagon_filters_fields.html:9
 msgid "Date Range"
 msgstr "Огноо"
 
-#: employee/templates/daily_work/daily_work_list.html:54
+#: employee/templates/daily_work/daily_work_piecework_create_step_2.html:8
+msgid "Wagon Number (optional)"
+msgstr "Вагоны Дугаар (заавал биш)"
+
+#: employee/templates/daily_work/daily_work_piecework_update.html:11
+#: employee/templates/work/work_create.html:14
+#: employee/templates/work/work_update.html:12
+msgid "Optional"
+msgstr "Заавал биш"
+
 #: employee/templates/daily_work/daily_work_piecework_update.html:13
-#: employee/templates/includes/select_table/works_select_table.html:22
-#: employee/templates/material/material_list.html:22
-#: employee/templates/piecework/piecework_list.html:32
-#: employee/templates/wagon/wagon_list.html:35
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:15
+#: employee/templates/includes/create_table/works/works_head_columns.html:10
+#: employee/templates/material/material_table/material_table_head.html:5
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:12
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:17
 #: employee/views/daily_work/daily_work_export/build_headers.py:21
 #: employee/views/material/material_export/build_headers.py:9
 #: employee/views/piecework/piecework_export/build_headers.py:22
@@ -526,34 +506,64 @@ msgstr "Огноо"
 msgid "Amount"
 msgstr "Тоо"
 
-#: employee/templates/daily_work/daily_work_list.html:55
-#: employee/templates/employee_salary/employee_salary_list.html:32
-#: employee/templates/piecework/piecework_list.html:33
-#: employee/templates/wagon/wagon_list.html:24
-#: employee/templates/wagon/wagon_list.html:36
-#: employee/templates/work/work_list.html:35
+#: employee/templates/daily_work/daily_work_table/daily_work_mobile_details.html:9
+#: employee/templates/daily_work/daily_work_table/daily_work_mobile_details_grouped.html:9
+#: employee/templates/material/material_table/material_table_mobile_details.html:4
+#: employee/templates/piecework/piecework_table/piecework_mobile_details.html:9
+#: employee/templates/piecework/piecework_table/piecework_mobile_details_grouped.html:9
+#: employee/templates/wagon/wagon_table/wagon_mobile_details.html:5
+msgid "amount:"
+msgstr "тоо:"
+
+#: employee/templates/daily_work/daily_work_table/daily_work_mobile_details.html:12
+#: employee/templates/daily_work/daily_work_table/daily_work_mobile_details_grouped.html:12
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_mobile_details.html:8
+#: employee/templates/piecework/piecework_table/piecework_mobile_details.html:12
+#: employee/templates/piecework/piecework_table/piecework_mobile_details_grouped.html:12
+#: employee/templates/wagon/wagon_table/wagon_mobile_details.html:8
+#: employee/templates/wagon/wagon_table/wagon_mobile_details_grouped.html:4
+#: employee/templates/work/work_table/work_table_mobile_details.html:12
+msgid "time:"
+msgstr "цаг:"
+
+#: employee/templates/daily_work/daily_work_table/daily_work_mobile_details.html:16
+#: employee/templates/daily_work/daily_work_table/daily_work_mobile_details_grouped.html:16
+#: employee/templates/piecework/piecework_table/piecework_mobile_details.html:16
+#: employee/templates/piecework/piecework_table/piecework_mobile_details_grouped.html:16
+#: employee/templates/wagon/wagon_table/wagon_mobile_details.html:12
+#: employee/templates/wagon/wagon_table/wagon_mobile_details_grouped.html:8
+#: employee/templates/work/work_table/work_table_mobile_details.html:16
+msgid "price:"
+msgstr "үнэ:"
+
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:16
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_head.html:12
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:13
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:6
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:18
+#: employee/templates/work/work_table/work_table_head.html:14
 #: employee/views/daily_work/daily_work_export/build_headers.py:22
 #: employee/views/employee_salary/employee_salary_export/build_headers.py:22
 #: employee/views/piecework/piecework_export/build_headers.py:23
 msgid "Time"
 msgstr "Цаг"
 
-#: employee/templates/daily_work/daily_work_list.html:56
-#: employee/templates/piecework/piecework_list.html:34
-#: employee/templates/wagon/wagon_list.html:25
-#: employee/templates/wagon/wagon_list.html:37
-#: employee/templates/work/work_create.html:16
-#: employee/templates/work/work_list.html:36
-#: employee/templates/work/work_update.html:14
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:17
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:14
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:7
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:19
+#: employee/templates/work/work_create.html:18
+#: employee/templates/work/work_table/work_table_head.html:15
+#: employee/templates/work/work_update.html:16
 #: employee/views/daily_work/daily_work_export/build_headers.py:23
 #: employee/views/piecework/piecework_export/build_headers.py:24
 msgid "Price"
 msgstr "Үнэ"
 
-#: employee/templates/daily_work/daily_work_list.html:59
-#: employee/templates/employee_salary/employee_salary_list.html:35
-#: employee/templates/piecework/piecework_list.html:37
-#: employee/templates/wagon/wagon_list.html:27
+#: employee/templates/daily_work/daily_work_table/daily_work_table_head.html:20
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_head.html:15
+#: employee/templates/piecework/piecework_table/piecework_table_head.html:17
+#: employee/templates/wagon/wagon_table/wagon_table_head.html:9
 #: employee/views/daily_work/daily_work_export/build_headers.py:27
 #: employee/views/employee_salary/employee_salary_export/build_headers.py:24
 #: employee/views/piecework/piecework_export/build_headers.py:28
@@ -561,29 +571,11 @@ msgstr "Үнэ"
 msgid "Month"
 msgstr "Сар"
 
-#: employee/templates/daily_work/daily_work_piecework_create.html:43
-msgid ""
-"<strong>No available employees for this date.</strong> <br /> Please "
-"<strong>create daily attendance</strong> first or choose another date."
-msgstr ""
-"<strong>Энэ өдөр ажиллах ажилтан олдсонгүй.</strong> <br> Үргэлжлүүлэхийн "
-"эхлээд <strong>өдрийн бүртгэл</strong> эсвэл өөр огноо сонгоно уу."
-
-#: employee/templates/daily_work/daily_work_piecework_create.html:62
-msgid "Wagon Number (optional)"
-msgstr "Вагоны Дугаар (заавал биш)"
-
-#: employee/templates/daily_work/daily_work_piecework_update.html:11
-#: employee/templates/work/work_create.html:13
-#: employee/templates/work/work_update.html:11
-msgid "Optional"
-msgstr "Заавал биш"
-
-#: employee/templates/daily_work/daily_work_total_row.html:5
+#: employee/templates/daily_work/daily_work_table/daily_work_total_row.html:3
 #: employee/templates/includes/components/salary_mode_segmented.html:9
-#: employee/templates/material/material_total_row.html:4
-#: employee/templates/piecework/piecework_total_row.html:4
-#: employee/templates/wagon/wagon_total_row.html:4
+#: employee/templates/material/material_table/material_total_row.html:2
+#: employee/templates/piecework/piecework_table/piecework_total_row.html:2
+#: employee/templates/wagon/wagon_table/wagon_total_row.html:2
 #: employee/views/daily_work/daily_work_export/build_totals_row.py:13
 #: employee/views/material/material_export/build_totals_row.py:7
 #: employee/views/piecework/piecework_export/build_totals_row.py:12
@@ -606,20 +598,33 @@ msgid "Employee Rank"
 msgstr "Ажилтаны Зэрэг"
 
 #: employee/templates/employee/employee_create.html:12
-#: employee/templates/employee/employee_list.html:32
+#: employee/templates/employee/employee_table/employee_table_head.html:9
 #: employee/templates/employee/employee_update.html:9
 msgid "Hourly Wage"
 msgstr "Цагийн Үнэлгээ"
 
-#: employee/templates/employee/employee_list.html:31
-#: employee/templates/employee_salary/employee_salary_list.html:28
+#: employee/templates/employee/employee_table/employee_table_head.html:8
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_head.html:8
 #: employee/views/employee_salary/employee_salary_export/build_headers.py:13
 msgid "Rank"
 msgstr "Зэрэг"
 
+#: employee/templates/employee/employee_table/employee_table_mobile_details.html:4
+#: employee/templates/employee_salary/employee_salary_table/employee_salary_table_mobile_details.html:4
+msgid "rank:"
+msgstr "зэрэг:"
+
+#: employee/templates/employee/employee_table/employee_table_mobile_details.html:8
+msgid "hourly wage:"
+msgstr "цагийн үнэлгээ:"
+
+#: employee/templates/forms/create_form.html:8
+msgid "New"
+msgstr "Шинэ"
+
 #: employee/templates/forms/update_form.html:8
-#: employee/templates/includes/modals/modal_update.html:13
-#: employee/templates/includes/modals/modal_update.html:26
+#: employee/templates/includes/buttons/modals/modal_update_button.html:4
+#: employee/templates/includes/modals/modal_update.html:2
 #: employee/templates/includes/table_action_buttons/edit_button.html:5
 msgid "Update"
 msgstr "Шинэчлэх"
@@ -669,31 +674,25 @@ msgstr ""
 "цалингийн автомат тооцооллын тусламжтайгаар депогийн үйл ажиллагааг "
 "хялбарчлаарай."
 
-#: employee/templates/includes/alerts/alerts_info.html:7
-#: employee/templates/includes/alerts/duplicate_warning.html:7
+#: employee/templates/includes/alerts/alerts_error.html:10
+msgid "Error"
+msgstr "Алдаа"
+
+#: employee/templates/includes/alerts/alerts_info.html:8
+#: employee/templates/includes/alerts/duplicate_warning.html:8
 msgid "Attention"
 msgstr "Анхаар"
 
-#: employee/templates/includes/alerts/alerts_success.html:7
+#: employee/templates/includes/alerts/alerts_success.html:9
 msgid "Success"
 msgstr "Амжилттай"
 
 #: employee/templates/includes/alerts/alerts_warning.html:7
-#: employee/templates/includes/alerts/alerts_warning_update.html:7
-#: employee/templates/includes/alerts/alerts_warning_update_daily_work.html:7
+#: employee/templates/includes/alerts/alerts_warning_update.html:8
 msgid "Warning"
 msgstr "Анхааруулга"
 
-#: employee/templates/includes/alerts/alerts_warning_update.html:9
-#, python-format
-msgid ""
-"All future records will reflect the changes made to <strong>%(object_name)s</"
-"strong>."
-msgstr ""
-"Цаашид бүртгэгдэх бүх мэдээлэлд <strong>%(object_name)s</strong>-д оруулсан "
-"өөрчлөлтүүд тусгагдах болно."
-
-#: employee/templates/includes/alerts/alerts_warning_update_daily_work.html:9
+#: employee/templates/includes/alerts/alerts_warning_update.html:11
 #, python-format
 msgid ""
 "All related records for <strong>%(object_name)s</strong> will also be "
@@ -702,51 +701,90 @@ msgstr ""
 "<strong>%(object_name)s</strong>-тай холбоотой бүх бүртгэлүүд мөн "
 "шинэчлэгдэх болно."
 
-#: employee/templates/includes/alerts/duplicate_warning.html:9
+#: employee/templates/includes/alerts/alerts_warning_update.html:16
+#, python-format
+msgid ""
+"All future records will reflect the changes made to <strong>%(object_name)s</"
+"strong>."
+msgstr ""
+"Цаашид бүртгэгдэх бүх мэдээлэлд <strong>%(object_name)s</strong>-д оруулсан "
+"өөрчлөлтүүд тусгагдах болно."
+
+#: employee/templates/includes/alerts/duplicate_warning.html:10
 msgid "Duplicate entries are not allowed for this selection."
 msgstr "Энэ сонголтод давхардсан бүртгэл оруулах боломжгүй."
 
-#: employee/templates/includes/alerts/duplicate_warning.html:17
-#: employee/templates/includes/modals/save_duplicate.html:22
-msgid "Close"
-msgstr "Хаах"
+#: employee/templates/includes/alerts/info_text_daily_salary.html:2
+msgid ""
+"<strong>No employee profiles found.</strong> <br /> Please <strong>create "
+"profiles</strong> to get started."
+msgstr ""
+"<strong>Ажилтны бүртгэл олдсонгүйю</strong> <br> Эхлүүлэхийн тулд "
+"<strong>бүртгэл үүсгэнэ үү</strong>."
 
-#: employee/templates/includes/auth/password_toggle.html:9
+#: employee/templates/includes/alerts/info_text_daily_work.html:2
+msgid ""
+"<strong>No available employees for this date.</strong> <br /> Please "
+"<strong>create daily attendance</strong> first or choose another date."
+msgstr ""
+"<strong>Энэ өдөр ажиллах ажилтан олдсонгүй.</strong> <br> Үргэлжлүүлэхийн "
+"эхлээд <strong>өдрийн бүртгэл</strong> эсвэл өөр огноо сонгоно уу."
+
+#: employee/templates/includes/auth/password_toggle.html:8
 msgid "Show or hide password"
 msgstr "Нууц үг харуулах/нуух"
 
-#: employee/templates/includes/buttons/back_button.html:5
-#: employee/templates/includes/buttons/mobile_back_button.html:8
+#: employee/templates/includes/buttons/back_button.html:6
+#: employee/templates/includes/buttons/mobile/mobile_back_button.html:11
 msgid "Back"
 msgstr "Буцах"
 
 #: employee/templates/includes/buttons/cancel_button.html:4
-#: employee/templates/includes/buttons/mobile_cancel_button.html:4
-#: employee/templates/includes/buttons/modal_cancel_button.html:5
+#: employee/templates/includes/buttons/mobile/mobile_cancel_button.html:4
+#: employee/templates/includes/buttons/modals/modal_cancel_button.html:5
 #: employee/templates/includes/form/form_actions.html:10
 msgid "Cancel"
 msgstr "Цуцлах"
 
-#: employee/templates/includes/buttons/continue_button.html:5
+#: employee/templates/includes/buttons/close_button.html:9
+msgid "Close"
+msgstr "Хаах"
+
+#: employee/templates/includes/buttons/continue_button.html:6
 msgid "Continue"
 msgstr "Үргэлжлүүлэх"
 
-#: employee/templates/includes/buttons/modal_delete_button.html:4
-#: employee/templates/includes/modals/modal_delete.html:13
-#: employee/templates/includes/modals/modal_delete_bulk.html:13
-#: employee/templates/includes/table_action_buttons/actions_dropdown.html:14
+#: employee/templates/includes/buttons/modals/modal_activate_button.html:4
+#: employee/templates/includes/modals/modal_activate.html:2
+#: employee/templates/includes/table_action_buttons/activation_button.html:23
+msgid "Activate"
+msgstr "Идэвхжүүлэх"
+
+#: employee/templates/includes/buttons/modals/modal_confirm_save_button.html:5
+#: employee/templates/includes/buttons/save_button.html:5
+#: employee/templates/includes/buttons/save_update_button.html:8
+#: employee/templates/includes/form/form_actions.html:6
+#: employee/templates/includes/modals/modal_confirm_save.html:2
+msgid "Save"
+msgstr "Хадгалах"
+
+#: employee/templates/includes/buttons/modals/modal_deactivate_button.html:4
+#: employee/templates/includes/modals/modal_deactivate.html:2
+#: employee/templates/includes/table_action_buttons/activation_button.html:8
+msgid "Deactivate"
+msgstr "Идэвхгүй болгох"
+
+#: employee/templates/includes/buttons/modals/modal_delete_button.html:4
+#: employee/templates/includes/modals/modal_delete.html:2
+#: employee/templates/includes/modals/modal_delete_bulk.html:2
+#: employee/templates/includes/table_action_buttons/bulk_delete_button.html:13
 #: employee/templates/includes/table_action_buttons/delete_button.html:6
 msgid "Delete"
 msgstr "Устгах"
 
-#: employee/templates/includes/buttons/save_button.html:5
-#: employee/templates/includes/buttons/save_update_button.html:6
-#: employee/templates/includes/form/form_actions.html:6
-msgid "Save"
-msgstr "Хадгалах"
-
 #: employee/templates/includes/components/list_header.html:6
-msgid "Select a department"
+#: employee/templates/includes/department/department_sheet.html:25
+msgid "Select department"
 msgstr "Хэлтэс сонгох"
 
 #: employee/templates/includes/components/list_header.html:14
@@ -779,7 +817,40 @@ msgstr "Сараар"
 msgid "Yearly"
 msgstr "Жилээр"
 
+#: employee/templates/includes/create_table/create_select_all_checkbox.html:6
+#: employee/templates/includes/create_table/create_select_all_checkbox.html:7
+#: employee/templates/includes/create_table/employees/employees_head_columns.html:4
+#: employee/templates/includes/create_table/works/works_head_columns.html:3
+#: employee/templates/includes/table/list_select_all_checkbox.html:6
+msgid "Select all"
+msgstr "Бүгдийг сонгох"
+
+#: employee/templates/includes/create_table/employees/employees_head_columns.html:4
+msgid "Select all employees"
+msgstr "Бүх ажилчдыг сонго"
+
+#: employee/templates/includes/create_table/employees/employees_table_validation.html:1
+#: employee/views/daily_salary/validators/validate_required.py:10
+#: employee/views/daily_work/validators/validate_required.py:12
+msgid "Select at least one employee."
+msgstr "Ядаж нэг ажилтан сонгоно уу."
+
+#: employee/templates/includes/create_table/works/works_head_columns.html:3
+msgid "Select all works"
+msgstr "Бүх ажлыг сонгох"
+
+#: employee/templates/includes/create_table/works/works_table_validation.html:1
+#: employee/views/daily_work/validators/validate_required.py:14
+msgid "Select at least one work."
+msgstr "Ядаж нэг ажил сонгоно уу."
+
+#: employee/templates/includes/create_table/works/works_table_validation.html:2
+#: employee/views/daily_work/validators/validate_required.py:23
+msgid "Enter an amount for each selected work entry."
+msgstr "Сонгосон ажил бүрт тоо хэмжээг оруулна уу."
+
 #: employee/templates/includes/department/department_dropdown.html:13
+#: employee/templates/includes/department/department_sheet.html:12
 #: employee/views/employee_salary/employee_salary_export/build_headers.py:11
 #: employee/views/piecework/piecework_export/build_headers.py:13
 msgid "Department"
@@ -793,17 +864,7 @@ msgstr "Шүүлтүүр"
 msgid "Filters"
 msgstr "Шүүлтүүр"
 
-#: employee/templates/includes/form/form_errors.html:8
-msgid "Error"
-msgstr "Алдаа"
-
-#: employee/templates/includes/modals/modal_activate.html:13
-#: employee/templates/includes/modals/modal_activate.html:27
-#: employee/templates/includes/table_action_buttons/activation_button.html:20
-msgid "Activate"
-msgstr "Идэвхжүүлэх"
-
-#: employee/templates/includes/modals/modal_activate.html:15
+#: employee/templates/includes/modals/bodies/activate_body.html:2
 msgid ""
 "Are you sure you want to activate <strong id=\"activateDetails\"></strong>? "
 "<br /> All related records will be restored, and the employee will reappear "
@@ -813,13 +874,15 @@ msgstr ""
 "итгэлтэй байна уу? <br> Холбоотой бүх бүртгэлүүд сэргээгдэх бөгөөд ажилтан "
 "сонголтын жагсаалтад дахин харагдах болно."
 
-#: employee/templates/includes/modals/modal_deactivate.html:13
-#: employee/templates/includes/modals/modal_deactivate.html:27
-#: employee/templates/includes/table_action_buttons/activation_button.html:8
-msgid "Deactivate"
-msgstr "Идэвхгүй болгох"
+#: employee/templates/includes/modals/bodies/confirm_save_body.html:2
+msgid ""
+"Are you sure you want to save these changes <strong "
+"id=\"confirmSaveObjectDetails\"></strong>?"
+msgstr ""
+"Та <strong id=\"confirmSaveObjectDetails\"></strong> өөрчлөлтийг хадгалахдаа "
+"итгэлтэй байна уу?"
 
-#: employee/templates/includes/modals/modal_deactivate.html:15
+#: employee/templates/includes/modals/bodies/deactivate_body.html:2
 msgid ""
 "Are you sure you want to deactivate <strong id=\"deactivateDetails\"></"
 "strong>? <br /> All associated records will be hidden, and the employee will "
@@ -829,7 +892,7 @@ msgstr ""
 "болгохдоо итгэлтэй байна уу? <br> Холбоотой бүх бүртгэлүүд далдлагдах бөгөөд "
 "ажилтан сонголтын жагсаалтад дахин харагдахгүй болно."
 
-#: employee/templates/includes/modals/modal_delete.html:15
+#: employee/templates/includes/modals/bodies/delete_body.html:2
 msgid ""
 "Are you sure you want to delete <strong id=\"deleteDetails\"></strong>? <br /"
 "> All associated records must be deleted first."
@@ -837,11 +900,15 @@ msgstr ""
 "Та <strong><span id=\"deleteDetails\"></span></strong>-г устгахдаа итгэлтэй "
 "байна уу? <br> Үүнтэй холбоотой бүх бүртгэлийг эхлээд устгах шаардлагатай."
 
-#: employee/templates/includes/modals/modal_delete_bulk.html:15
+#: employee/templates/includes/modals/bodies/delete_bulk_body.html:2
 msgid "Are you sure you want to delete selected records?"
 msgstr "Та сонгосон бүртгэлүүдийг устгахдаа итгэлтэй байна уу?"
 
-#: employee/templates/includes/modals/modal_update.html:15
+#: employee/templates/includes/modals/bodies/duplicate_body.html:2
+msgid "Contact Payroll to update or delete."
+msgstr "Шинэчлэх эсвэл устгахын тулд Цалингийн хэлтэстэй холбогдоно уу."
+
+#: employee/templates/includes/modals/bodies/update_body.html:2
 msgid ""
 "Are you sure you want to update <strong id=\"updateDetails\"></strong>? <br /"
 "> All future records will reflect these changes."
@@ -850,88 +917,63 @@ msgstr ""
 "итгэлтэй байна уу? <br> Цаашдын бүх бүртгэлд эдгээр өөрчлөлтүүд тусгагдах "
 "болно."
 
-#: employee/templates/includes/modals/save_duplicate.html:14
+#: employee/templates/includes/modals/modal_duplicate.html:2
 msgid "Duplicate"
 msgstr "Давхардсан"
 
-#: employee/templates/includes/modals/save_duplicate.html:26
-msgid "Contact Payroll to update or delete."
-msgstr "Шинэчлэх эсвэл устгахын тулд Цалингийн хэлтэстэй холбогдоно уу."
+#: employee/templates/includes/summaries/selected_summary.html:6
+msgid "All"
+msgstr "Бүгд"
 
-#: employee/templates/includes/select_table/employees_select_table.html:57
-#: employee/views/daily_salary/validators/validate_required.py:10
-#: employee/views/daily_work/validators/validate_required.py:12
-msgid "Select at least one employee."
-msgstr "Ядаж нэг ажилтан сонгоно уу."
+#: employee/templates/includes/summaries/selected_summary.html:7
+#: employee/templates/includes/summaries/selected_summary.html:12
+msgid "selected"
+msgstr "сонгосон"
 
-#: employee/templates/includes/select_table/works_select_table.html:71
-#: employee/views/daily_work/validators/validate_required.py:14
-msgid "Select at least one work."
-msgstr "Ядаж нэг ажил сонгоно уу."
+#: employee/templates/includes/table/empty_row.html:3
+msgid "No records found"
+msgstr "Бүртгэл олдсонгүй"
 
-#: employee/templates/includes/select_table/works_select_table.html:73
-#: employee/views/daily_work/validators/validate_required.py:23
-msgid "Enter an amount for each selected work entry."
-msgstr "Сонгосон ажил бүрт тоо хэмжээг оруулна уу."
+#: employee/templates/includes/table/list_select_row_checkbox.html:7
+msgid "Select"
+msgstr "Сонгох"
 
-#: employee/templates/includes/summaries/delete_selected_daily_salary_summary.html:4
-#: employee/templates/includes/summaries/delete_selected_daily_work_summary.html:4
-msgid "Selected:"
-msgstr "Сонгосон:"
-
-#: employee/templates/includes/summaries/employees_selected_summary.html:4
-msgid "No employees selected"
-msgstr "Ажилтан сонгоогүй байна"
-
-#: employee/templates/includes/summaries/employees_selected_summary.html:5
-#: employee/templates/includes/summaries/works_selected_summary.html:5
-msgid "Selected all"
-msgstr "Бүгдийг сонгох"
-
-#: employee/templates/includes/summaries/employees_selected_summary.html:6
-msgid "Selected Employees:"
-msgstr "Сонгогдсон Ажилчид:"
-
-#: employee/templates/includes/summaries/works_selected_summary.html:4
-msgid "No work selected"
-msgstr "Ажил сонгоогүй байна"
-
-#: employee/templates/includes/summaries/works_selected_summary.html:6
-msgid "Selected Works:"
-msgstr "Сонгосон Ажлууд:"
+#: employee/templates/includes/user/back_menu_button.html:9
+msgid "Menu"
+msgstr "Цэс"
 
 #: employee/templates/includes/user/menu_logout.html:9
 msgid "Sign Out"
 msgstr "Гарах"
 
-#: employee/templates/includes/user/theme_switcher.html:13
+#: employee/templates/includes/user/theme_button.html:11
 msgid "Theme"
 msgstr "Харагдац"
 
-#: employee/templates/includes/user/theme_switcher.html:27
-#: employee/templates/includes/user/theme_switcher.html:31
+#: employee/templates/includes/user/theme_switcher.html:9
+#: employee/templates/includes/user/theme_switcher.html:13
 msgid "Light"
 msgstr "Гэрэлтэй"
 
-#: employee/templates/includes/user/theme_switcher.html:38
-#: employee/templates/includes/user/theme_switcher.html:42
+#: employee/templates/includes/user/theme_switcher.html:20
+#: employee/templates/includes/user/theme_switcher.html:24
 msgid "Dark"
 msgstr "Харанхуй"
 
-#: employee/templates/includes/user/theme_switcher.html:49
-#: employee/templates/includes/user/theme_switcher.html:53
+#: employee/templates/includes/user/theme_switcher.html:31
+#: employee/templates/includes/user/theme_switcher.html:35
 msgid "Device"
 msgstr "Төхөөрөмж"
 
-#: employee/templates/material/material_filters.html:7
-#: employee/templates/work/work_create.html:13
-#: employee/templates/work/work_update.html:11
+#: employee/templates/material/material_filters_fields.html:2
+#: employee/templates/work/work_create.html:14
+#: employee/templates/work/work_update.html:12
 msgid "Material Type"
 msgstr "Материалын Төрөл"
 
 #: employee/templates/material/material_list.html:7
-#: employee/templates/material/material_list.html:20
-#: employee/templates/work/work_list.html:33
+#: employee/templates/material/material_table/material_table_head.html:3
+#: employee/templates/work/work_table/work_table_head.html:11
 #: employee/views/material/material_export/build_headers.py:7
 #: employee/views/material/material_export/material_excel.py:29
 msgid "Material"
@@ -941,24 +983,28 @@ msgstr "Материал"
 msgid "Unique"
 msgstr "Давхардаагүй"
 
-#: employee/templates/work/work_create.html:14
-#: employee/templates/work/work_update.html:12
+#: employee/templates/work/work_create.html:15
+#: employee/templates/work/work_update.html:13
 msgid "Material Quantity"
 msgstr "Материалын Тоо Хэмжээ"
 
-#: employee/templates/work/work_create.html:14
-#: employee/templates/work/work_update.html:12
+#: employee/templates/work/work_create.html:15
+#: employee/templates/work/work_update.html:13
 msgid "0.00 (optional)"
 msgstr "0.00 (заавал биш)"
 
-#: employee/templates/work/work_create.html:15
-#: employee/templates/work/work_update.html:13
+#: employee/templates/work/work_create.html:17
+#: employee/templates/work/work_update.html:15
 msgid "Standard Time"
 msgstr "Стандарт Цаг"
 
-#: employee/templates/work/work_list.html:34
+#: employee/templates/work/work_table/work_table_head.html:12
 msgid "Quantity"
 msgstr "Тоо хэмжээ"
+
+#: employee/templates/work/work_table/work_table_mobile_details.html:7
+msgid "quantity:"
+msgstr "тоо хэмжээ:"
 
 #: employee/views/auth/password_views.py:23
 msgid "Password changed successfully. Please sign in."
@@ -1017,7 +1063,7 @@ msgstr "%(count)s бүртгэл устгагдлаа: %(items)s%(tail)s"
 #: employee/views/daily_salary/daily_salary_views.py:24
 #: employee/views/daily_work/daily_work_views.py:32
 #: employee/views/employee/employee_views.py:45
-#: employee/views/work/work_views.py:51
+#: employee/views/work/work_views.py:54
 msgid "Updated"
 msgstr "Шинэчлэгдсэн"
 
@@ -1070,10 +1116,10 @@ msgstr ""
 "Үргэлжлүүлэхийн өмнө %(date)s-ны %(employees)s-н өдрийн бүртгэлийг үүсгэнэ "
 "үү."
 
-#: employee/views/daily_work/validators/validate_duplicate.py:47
+#: employee/views/daily_work/validators/validate_duplicate.py:45
 #, python-format
-msgid "Record already exists for: %(pairs)s on %(date)s."
-msgstr "%(date)s-ны өдөр %(pairs)s-н бүртгэл хэдийн үүссэн байна."
+msgid "Record already exists for: %(pairs)s"
+msgstr "Дараах өгөгдөл аль хэдийн бүртгэгдсэн байна: %(pairs)s"
 
 #: employee/views/daily_work/validators/validate_parse_amount.py:16
 #, python-format
@@ -1090,7 +1136,7 @@ msgid "Select work date and type."
 msgstr "Ажлын огноо болон төрлийг сонгоно уу."
 
 #: employee/views/employee/employee_views.py:26
-#: employee/views/work/work_views.py:30
+#: employee/views/work/work_views.py:32
 #, python-format
 msgid "Created %(object_name)s"
 msgstr "%(object_name)s үүсгэгдлээ"
@@ -1129,6 +1175,21 @@ msgstr "Вагоны Сарын Тайлан"
 #: employee/views/wagon/wagon_export/wagon_excel.py:37
 msgid "Wagon Daily Report"
 msgstr "Вагоны Өдрийн Тайлан"
+
+#~ msgid "No employees selected"
+#~ msgstr "Ажилтан сонгоогүй байна"
+
+#~ msgid "Selected all"
+#~ msgstr "Бүгдийг сонгох"
+
+#~ msgid "Selected Employees:"
+#~ msgstr "Сонгогдсон Ажилчид:"
+
+#~ msgid "No work selected"
+#~ msgstr "Ажил сонгоогүй байна"
+
+#~ msgid "Selected Works:"
+#~ msgstr "Сонгосон Ажлууд:"
 
 #~ msgid "Conflict details:"
 #~ msgstr "Зөрчлийн дэлгэрэнгүй:"
@@ -1232,9 +1293,6 @@ msgstr "Вагоны Өдрийн Тайлан"
 #~ msgstr ""
 #~ "Эхлээд эдгээр ажилчдын өдөр тутмын цалинг үүсгэнэ үү: %(employees)s "
 #~ "сонгосон огнооны %(date)s."
-
-#~ msgid " Select all employees"
-#~ msgstr "Бүх ажилчдыг сонго"
 
 #~ msgid "Confirm save duplicate"
 #~ msgstr "Давхардсан хуулбарыг хадгалахыг баталгаажуулна уу"
