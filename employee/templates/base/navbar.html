@@ -12,7 +12,7 @@
         <div class="flex w-full flex-wrap items-center gap-2 px-4 py-2">
             {% include "base/navbar/menu_button.html" %}
             {% include "base/navbar/logo.html" %}
-            {% if not is_employee and not is_master %}
+            {% if request.user.is_authenticated and not is_employee and not is_master %}
                 <div class="hidden px-4 lg:block">{% include "includes/department/department_dropdown.html" %}</div>
             {% endif %}
             {% include "base/navbar/mobile_department_title.html" %}
