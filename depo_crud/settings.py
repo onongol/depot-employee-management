@@ -106,6 +106,7 @@ TEMPLATES = [
                 "employee.context_processors.is_master",  # Check if user is a master
                 "employee.context_processors.is_payroll",  # Check if user is a payroll specialist
                 "employee.context_processors.needs_department_warning",  # Department warning
+                "employee.context_processors.navbar_page_types",  # Navbar page types
             ],
         },
     },
