@@ -3,7 +3,7 @@
      aria-label="Main navigation">
     {% if is_special_navbar %}
         <div class="relative flex min-h-10 items-center px-4 py-2 md:hidden">
-            {% if page_name == 'daily_work_create' and employees %}
+            {% if is_back_pages and employees %}
                 {% include "includes/buttons/mobile/mobile_back_button.html" %}
             {% endif %}
             {% include "includes/buttons/mobile/mobile_cancel_button.html" %}
