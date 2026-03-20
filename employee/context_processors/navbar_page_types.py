@@ -3,6 +3,8 @@ def navbar_page_types(request):
     special_pages = {
         "employee_create",
         "employee_update",
+        "work_create",
+        "work_update",
         "daily_work_create",
         "daily_work_update",
         "daily_salary_create",
