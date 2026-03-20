@@ -6,7 +6,7 @@
         {% include "includes/components/list_header.html" with header_id="employee-list-title" title=selected_department only %}
         <!-- Quick navigation -->
         <div class="mt-8">
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(16rem,1fr))]">
                 <!-- Employees -->
                 {% include "includes/cards/card.html" with url_name='employee_list' title=_("Employees") desc=_("Manage employee profiles, positions, and hourly wage rates.") %}
                 <!-- Works (not employee) -->

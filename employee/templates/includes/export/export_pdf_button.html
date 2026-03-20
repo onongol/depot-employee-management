@@ -6,7 +6,7 @@
    aria-label="{{ aria_label|default:'Download as PDF' }}"
    title="PDF"
    {% if target %}target="{{ target }}"{% endif %}>
-    <svg class="h-5 w-5" aria-hidden="true">
+    <svg class="size-5" aria-hidden="true">
         <use href="#download" />
     </svg>
     <span class="hidden md:block">{{ label|default:'PDF' }}</span>

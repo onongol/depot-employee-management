@@ -8,7 +8,7 @@
     {% if create_url %}
         <a href="{{ create_url }}"
            class="hidden items-center gap-2 rounded-3xl bg-blue-700 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 md:inline-flex">
-            <svg class="h-5 w-5" aria-hidden="true">
+            <svg class="size-6" aria-hidden="true">
                 <use href="#plus"></use>
             </svg>
             {% trans "Create" as create_default %}
@@ -20,7 +20,7 @@
     <a href="{{ create_url }}"
        class="fixed right-6 bottom-6 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-blue-700 text-white shadow-lg transition hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 focus:outline-none md:hidden"
        aria-label="{% trans 'Create' %}">
-        <svg class="h-6 w-6" aria-hidden="true">
+        <svg class="size-8" aria-hidden="true">
             <use href="#plus"></use>
         </svg>
         <span class="sr-only">{% trans "Create" %}</span>
