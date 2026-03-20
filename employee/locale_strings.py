@@ -17,4 +17,3 @@ gettext_noop("Your password can’t be too similar to your other personal inform
 gettext_noop("Your password can’t be a commonly used password.")
 gettext_noop("Your password can’t be entirely numeric.")
 gettext_noop("The two password fields didn’t match.")
-gettext_noop("This password is too short. It must contain at least %(min_length)d characters.")
