@@ -17,6 +17,7 @@
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
             <!-- Delete -->
             {% if not is_employee and not is_master and detail_group %}
+                {% include "includes/table_action_buttons/edit_selected_button.html" %}
                 {% include "includes/table_action_buttons/bulk_delete_button.html" %}
             {% endif %}
             <!-- Filters -->
@@ -43,5 +44,6 @@
     <!-- Pagination -->
     {% include "includes/table/pagination.html" %}
     <!-- Modals -->
+    {% include "includes/modals/modal_delete_bulk.html" %} 
     {% include "includes/modals/modal_delete_bulk.html" %}
 {% endblock %}
