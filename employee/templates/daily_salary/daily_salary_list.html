@@ -7,7 +7,7 @@
     <!-- Header -->
     {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url %}
     <div class="mb-2 flex flex-row items-center justify-end gap-2 md:mb-4 md:justify-start md:gap-4">
-        <!-- Delete -->
+        <!-- Actions -->
         {% if not is_employee and not is_master %}
             {% include "includes/table_action_buttons/edit_selected_button.html" %}
             {% include "includes/table_action_buttons/bulk_delete_button.html" %}
