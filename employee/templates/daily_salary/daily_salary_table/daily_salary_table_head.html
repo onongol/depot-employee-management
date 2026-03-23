@@ -20,6 +20,3 @@
         {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department %}
     </th>
 {% endif %}
-{% if not is_employee and not is_master %}
-    <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
-{% endif %}
