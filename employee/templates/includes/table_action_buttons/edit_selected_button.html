@@ -1,0 +1,18 @@
+{% load i18n %}
+<button type="button"
+        id="bulk-edit-button"
+        class="hidden cursor-pointer items-center justify-between gap-2 rounded-full p-2 text-sm font-medium text-blue-500 select-none hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:outline-none md:rounded-xl md:border md:border-gray-300 md:bg-gray-100 md:px-4 md:py-2 dark:text-blue-400 dark:hover:bg-gray-700 md:dark:border-gray-600 md:dark:bg-gray-800"
+        data-modal-open="edit"
+        data-id=""
+        data-name=""
+        data-url=""
+        aria-label="Edit selected"
+        aria-haspopup="dialog"
+        aria-controls="updateModal">
+    <span class="flex items-center gap-1">
+        <svg class="size-5" aria-hidden="true">
+            <use href="#edit"></use>
+        </svg>
+        <span class="hidden md:inline">{% trans "Edit" %}</span>
+    </span>
+</button>
