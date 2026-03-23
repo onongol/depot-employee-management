@@ -1,1 +1,0 @@
-const t={alert:"[data-auto-hide-alert]"},d={hidden:"hidden"},n=5e3;document.addEventListener("DOMContentLoaded",()=>{for(const e of document.querySelectorAll(t.alert))setTimeout(()=>{e.classList.add(d.hidden)},n)});
