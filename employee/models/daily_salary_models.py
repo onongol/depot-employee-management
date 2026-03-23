@@ -3,6 +3,7 @@ from decimal import Decimal
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from employee.models.employee_models import Employee
@@ -51,6 +52,9 @@ class DailySalary(models.Model):
 
     def __str__(self):
         return f"(ID: {self.employee.employee_id}) {self.employee.name} - {self.salary_date}"
+    
+    def get_update_url(self):
+        return reverse("daily_salary_update", args=[self.pk])
 
     def save(self, *args, **kwargs):
         """
