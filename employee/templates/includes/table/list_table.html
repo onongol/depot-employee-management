@@ -15,7 +15,7 @@
                                 {% include row_grouped_template with daily_work=row piecework=row wagon=row %}
                             </tr>
                         {% else %}
-                            <tr class="{% if row.is_active == False %}bg-gray-200 text-gray-400 dark:bg-gray-600 dark:text-gray-500{% else %}transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-red-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-red-500/20{% endif %}"
+                            <tr class="{% if row.is_active == False %}bg-gray-200 text-gray-400 dark:bg-gray-600 dark:text-gray-500{% else %}transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20{% endif %}"
                                 {% if row.employee.employee_id %}data-emp-id="{{ row.employee.employee_id }}"{% endif %}
                                 {% if row.employee.name %}data-emp-name="{{ row.employee.name }}"{% endif %}
                                 {% if row.salary_date %}data-salary-date="{{ row.salary_date|date:'Y-m-d' }}"{% endif %}
