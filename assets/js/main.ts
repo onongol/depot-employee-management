@@ -3,7 +3,7 @@ import "./alert/auto_hide_alert.ts";
 import "./amount/amount_inputs.ts";
 import "./amount/amount_validation.ts";
 import "./auth/password_toggle.ts";
-import "./buttons/bulk_delete_toggle.ts";
+import "./buttons/table_action_toggle.js";
 import "./checkbox/checkbox_validation.ts";
 import "./checkbox/mobile_select_details.ts";
 import "./checkbox/select_all.ts";
