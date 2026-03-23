@@ -52,7 +52,7 @@ class DailySalary(models.Model):
 
     def __str__(self):
         return f"(ID: {self.employee.employee_id}) {self.employee.name} - {self.salary_date}"
-    
+
     def get_update_url(self):
         return reverse("daily_salary_update", args=[self.pk])
 
