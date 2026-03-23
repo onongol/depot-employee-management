@@ -19,5 +19,4 @@
 {% else %}
     <td class="{{ col_class }}">{{ range_date|default:"" }}</td>
     {% if not is_employee %}<td class="{{ col_class }}">{{ record_date|default:"" }}</td>{% endif %}
-    {% if not is_employee and not is_master %}<td class="{{ col_class }}"></td>{% endif %}
 {% endif %}
