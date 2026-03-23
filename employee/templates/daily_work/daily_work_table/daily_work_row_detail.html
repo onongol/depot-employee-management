@@ -23,9 +23,3 @@
 <td class="{{ col_class_hidden }}">{{ daily_work.amount_price|floatformat:2 }}</td>
 <td class="{{ col_class }}">{{ daily_work.work_date|date:"Y-m-d" }}</td>
 {% if not is_employee %}<td class="{{ col_class }}">{{ daily_work.record_date|date:"Y-m-d H:i" }}</td>{% endif %}
-{% if not is_employee and not is_master %}
-    <td class="{{ col_class }}">
-        {% url 'daily_work_update' daily_work.pk as update_url %}
-        {% include "includes/table_action_buttons/action_buttons.html" with id=daily_work.pk name=daily_work edit_url=update_url %}
-    </td>
-{% endif %}
