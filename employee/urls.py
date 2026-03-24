@@ -27,6 +27,7 @@ from employee.views.employee import (
     employee_activate,
     employee_deactivate,
     employee_list,
+    employee_delete_bulk,
 )
 from employee.views.employee_salary import (
     employee_salary_export_excel,
@@ -86,6 +87,7 @@ urlpatterns = [
         EmployeeDeleteView.as_view(),
         name="employee_delete",
     ),
+    path("employee_delete_bulk/", employee_delete_bulk, name="employee_delete_bulk"),
 
     # Employee activation/deactivation
     path(
