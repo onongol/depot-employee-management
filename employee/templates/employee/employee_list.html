@@ -10,6 +10,11 @@
         {% include "includes/components/list_header.html" with header_id="employee-list-title" title=selected_department only %}
     {% endif %}
     <div class="mb-2 flex flex-row items-center justify-end gap-2 md:mb-4 md:justify-start md:gap-4">
+        <!-- Actions -->
+        {% if not is_employee and not is_master %}
+            {% include "includes/table_action_buttons/edit_selected_button.html" %}
+            {% include "includes/table_action_buttons/bulk_delete_button.html" %}
+        {% endif %}
         <!-- Filters -->
         {% if not is_employee %}
             {% include "includes/table/list_table_filters.html" with toggle_id="employee-filters-toggle" panel_id="employee-filters-panel" fields_template="employee/employee_filters_fields.html" %}
@@ -17,8 +22,19 @@
     </div>
     <!-- Alerts -->
     {% include "includes/alerts/alerts.html" %}
-    <!-- Table -->
-    {% include "employee/employee_table/employee_table.html" %}
+    <!-- Bulk action form: wraps the table checkboxes so selected Work IDs are submitted via POST -->
+    <form method="post"
+          id="bulkDeleteForm"
+          action="{% url 'employee_delete_bulk' %}">
+        {% csrf_token %}
+        <!-- Table -->
+        {% include "employee/employee_table/employee_table.html" %}
+    </form>
     <!-- Pagination -->
     {% include "includes/table/pagination.html" %}
+    <!-- Modals -->
+    {% include "includes/modals/modal_update.html" %}
+    {% include "includes/modals/modal_delete_bulk.html" %}
+    {% include "includes/modals/modal_deactivate.html" %}
+    {% include "includes/modals/modal_activate.html" %}
 {% endblock %}
