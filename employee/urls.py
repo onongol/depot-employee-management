@@ -48,6 +48,7 @@ from employee.views.work import (
     WorkDeleteView,
     WorkUpdateView,
     work_list,
+    work_delete_bulk,
 )
 
 urlpatterns = [
@@ -97,6 +98,7 @@ urlpatterns = [
     path("work_create/", WorkCreateView.as_view(), name="work_create"),
     path("work_update/<str:pk>/", WorkUpdateView.as_view(), name="work_update"),
     path("work_delete/<str:pk>/", WorkDeleteView.as_view(), name="work_delete"),
+    path("work_delete_bulk/", work_delete_bulk, name="work_delete_bulk"),
 
     # DailySalary URLs
     path("daily_salary/", daily_salary_list, name="daily_salary_list"),
