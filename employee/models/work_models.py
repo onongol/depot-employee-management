@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Q
+from django.urls import reverse
 
 from employee.constants.constants import (
     ALLOWED_WAGON_DEPARTMENTS,
@@ -76,6 +77,9 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
 
     def __str__(self):
         return self.work_name
+    
+    def get_update_url(self):
+        return reverse("work_update", args=[self.pk])
 
     def clean(self):
         """
