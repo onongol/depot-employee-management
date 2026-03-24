@@ -1,4 +1,9 @@
 {% load i18n %}
+{% if not is_employee and not is_master %}
+    <th scope="col" class="{{ col_class_checkbox }}">
+        {% include "includes/table/list_select_all_checkbox.html" with select_all_id="select-all-table-works" checkbox_name="work_table_ids" %}
+    </th>
+{% endif %}
 <th scope="col" class="{{ col_class_hidden }}">#</th>
 <th scope="col" class="{{ col_class }}">
     {% include "includes/table/sort_column.html" with label=_("Work") field="work_name" col_class=col_class selected_department=selected_department %}
@@ -13,6 +18,3 @@
 {% endif %}
 <th scope="col" class="{{ col_class_hidden }}">{% trans "Time" %}</th>
 <th scope="col" class="{{ col_class_hidden }}">{% trans "Price" %}</th>
-{% if not is_master %}
-    <th scope="col" class="{{ col_class }}">{% trans "Actions" %}</th>
-{% endif %}
