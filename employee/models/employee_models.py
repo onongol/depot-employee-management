@@ -58,6 +58,12 @@ class Employee(models.Model):
     def get_update_url(self):
         return reverse("employee_update", args=[self.pk])
 
+    def get_activate_url(self):
+        return reverse("employee_activate", args=[self.pk])
+
+    def get_deactivate_url(self):
+        return reverse("employee_deactivate", args=[self.pk])
+
     # Domain/business helpers
     def get_total_salary_day(self, month, year):
         return get_employee_total_salary_day(self, month, year)
