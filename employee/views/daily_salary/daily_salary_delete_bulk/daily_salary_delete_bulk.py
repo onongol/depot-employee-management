@@ -5,20 +5,20 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
+from employee.messages.bulk_delete_messages.blocked_bulk_message import (
+    blocked_bulk_message,
+)
+from employee.messages.bulk_delete_messages.bulk_preview_helpers import (
+    get_bulk_preview_items,
+)
+from employee.messages.bulk_delete_messages.delete_bulk_message import (
+    delete_bulk_message,
+)
 from employee.utils.access import is_admin
 from employee.utils.parse_ids import parse_ids
 from employee.utils.select_department import get_selected_department
 from employee.views.daily_salary.daily_salary_delete_bulk.daily_salary_selectors import (
     get_deletable_and_blocked_daily_salaries,
-)
-from employee.views.daily_salary.daily_salary_delete_bulk.messages.blocked_bulk_message import (
-    blocked_bulk_message,
-)
-from employee.views.daily_salary.daily_salary_delete_bulk.messages.bulk_preview_helpers import (
-    get_bulk_preview_items,
-)
-from employee.views.daily_salary.daily_salary_delete_bulk.messages.delete_bulk_messange import (
-    delete_bulk_message,
 )
 
 
@@ -42,7 +42,9 @@ def daily_salary_delete_bulk(request):
     blocked_qs, deletable_qs = get_deletable_and_blocked_daily_salaries(ids, department)
 
     deletable_count = deletable_qs.count()
-    deletable_items, deletable_tail = get_bulk_preview_items(deletable_qs, deletable_count)
+    deletable_items, deletable_tail = get_bulk_preview_items(
+        deletable_qs, deletable_count
+    )
 
     blocked_count = blocked_qs.count()
     blocked_items, blocked_tail = get_bulk_preview_items(blocked_qs, blocked_count)
