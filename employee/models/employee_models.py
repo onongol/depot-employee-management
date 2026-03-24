@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import (
@@ -53,6 +54,9 @@ class Employee(models.Model):
 
     def __str__(self):
         return f"(ID: {self.employee_id}) {self.name}"
+
+    def get_update_url(self):
+        return reverse("employee_update", args=[self.pk])
 
     # Domain/business helpers
     def get_total_salary_day(self, month, year):
