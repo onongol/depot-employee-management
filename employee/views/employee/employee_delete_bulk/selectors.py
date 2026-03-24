@@ -1,6 +1,5 @@
 from django.db.models import Exists, OuterRef
 
-from employee.models.daily_work_models import DailyWork
 from employee.models.employee_models import Employee
 from employee.models.piecework_models import Piecework
 
