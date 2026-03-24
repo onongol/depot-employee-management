@@ -6,7 +6,11 @@
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">
-    {% include "includes/table/mobile_summary.html" with col_name=work.work_name details_template="work/work_table/work_table_mobile_details.html" %}
+    {% if not is_employee and not is_master %}
+        {% include "includes/table/mobile_meta.html" with col_name=work.work_name details_template="work/work_table/work_table_mobile_details.html" %}
+    {% else %}
+        {% include "includes/table/mobile_summary.html" with col_name=work.work_name details_template="work/work_table/work_table_mobile_details.html" %}
+    {% endif %}
 </td>
 <td class="{{ col_class_hidden }}">{{ work.job_title }}</td>
 {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
