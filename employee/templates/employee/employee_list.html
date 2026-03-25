@@ -23,7 +23,11 @@
     </div>
     <!-- Alerts -->
     {% include "includes/alerts/alerts.html" %}
-    <!-- Bulk action form: wraps the table checkboxes so selected Work IDs are submitted via POST -->
+    <!-- Summary -->
+    {% if not is_employee and not is_master %}
+        {% include "includes/summaries/selected_summary.html" with summary_id="employee-table-summary" checkbox_name="employee_table_ids" %}
+    {% endif %}
+    <!-- Bulk action form: wraps the table checkboxes so selected employees are submitted via POST -->
     <form method="post"
           id="bulkDeleteForm"
           action="{% url 'employee_delete_bulk' %}">
