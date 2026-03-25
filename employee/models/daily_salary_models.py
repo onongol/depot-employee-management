@@ -56,6 +56,16 @@ class DailySalary(models.Model):
     def get_update_url(self):
         return reverse("daily_salary_update", args=[self.pk])
 
+    def get_dom_attrs(self):
+        return {
+            "data-emp-id": self.employee.employee_id,
+            "data-emp-name": self.employee.name,
+            "data-salary-date": self.salary_date.isoformat(),
+            "data-row-id": self.pk,
+            "data-row-name": str(self),
+            "data-edit-url": self.get_update_url(),
+        }
+
     def save(self, *args, **kwargs):
         """
         Override save to:
