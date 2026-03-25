@@ -1,18 +1,18 @@
 {% load i18n %}
-<div>{{ daily_work.job_title }}</div>
-<div>{{ daily_work.type_work }}</div>
+<div>{{ row.job_title }}</div>
+<div>{{ row.type_work }}</div>
 {% if show_wagon %}
-    <div>{{ daily_work.type_wagon_display }}</div>
-    <div>{{ daily_work.wagon_number_display|default:"-" }}</div>
+    <div>{{ row.type_wagon_display }}</div>
+    <div>{{ row.wagon_number_display|default:"-" }}</div>
 {% endif %}
 <div>
-    <span>{% trans "amount:" %}</span> {{ daily_work.amount }}
+    <span>{% trans "amount:" %}</span> {{ row.amount }}
 </div>
 <div>
     <span>{% trans "time:" %}</span>
-    {{ daily_work.amount_time|floatformat:2 }}
+    {{ row.amount_time|floatformat:2 }}
 </div>
 <div>
     <span>{% trans "price:" %}</span>
-    {{ daily_work.amount_price|floatformat:2 }}
+    {{ row.amount_price|floatformat:2 }}
 </div>
