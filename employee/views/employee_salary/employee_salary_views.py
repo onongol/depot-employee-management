@@ -42,7 +42,7 @@ def employee_salary_list(request):
         "employee_salary/employee_salary_list.html",
         {
             **asdict(context),
-            "employee_salaries": page_obj,
+            "rows": page_obj,
             "page_obj": page_obj,
             "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
             "GROUP_WAGON": GROUP_WAGON,
