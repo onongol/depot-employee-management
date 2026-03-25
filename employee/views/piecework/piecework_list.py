@@ -39,7 +39,7 @@ def piecework_list(request):
         "piecework/piecework_list.html",
         {
             **asdict(context),
-            "pieceworks": page_obj,
+            "rows": page_obj,
             "page_obj": page_obj,
             "totals": totals,
             "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
