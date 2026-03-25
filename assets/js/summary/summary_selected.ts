@@ -60,14 +60,14 @@ function getAllCheckboxSelector(checkboxName: string): string {
  * Encapsulates UI logic for labels, counts, and the 'All Selected' state.
  */
 const labelFactories: Record<string, (checkbox: HTMLInputElement) => string> = {
-	employee_ids: (checkbox) => {
+	employee_table_ids: (checkbox) => {
 		const row = checkbox.closest(SUMMARY_TAGS.tableRow);
 		if (!row) return "";
 		const id = (row.dataset.empId ?? "").trim();
 		const name = (row.dataset.empName ?? "").trim();
 		return id && name ? `(ID: ${id}) ${name}` : id || name;
 	},
-	work_ids: (checkbox) => {
+	work_table_ids: (checkbox) => {
 		const row = checkbox.closest(SUMMARY_TAGS.tableRow);
 		if (!row) return "";
 		const workName = (row.dataset.workName ?? "").trim();
@@ -88,6 +88,19 @@ const labelFactories: Record<string, (checkbox: HTMLInputElement) => string> = {
 		const type = (row.dataset.typeWork ?? "").trim();
 		const date = (row.dataset.workDate ?? "").trim();
 		return `${work} (${type}) - ${date}`;
+	},
+	employee_ids: (checkbox) => {
+		const row = checkbox.closest(SUMMARY_TAGS.tableRow);
+		if (!row) return "";
+		const id = (row.dataset.empId ?? "").trim();
+		const name = (row.dataset.empName ?? "").trim();
+		return id && name ? `(ID: ${id}) ${name}` : id || name;
+	},
+	work_ids: (checkbox) => {
+		const row = checkbox.closest(SUMMARY_TAGS.tableRow);
+		if (!row) return "";
+		const workName = (row.dataset.workName ?? "").trim();
+		return workName;
 	},
 };
 
