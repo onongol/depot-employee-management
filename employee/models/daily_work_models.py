@@ -99,6 +99,16 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     def get_update_url(self):
         return reverse("daily_work_update", args=[self.pk])
 
+    def get_dom_attrs(self):
+        return {
+            "data-work-name": self.work_name,
+            "data-type-work": self.type_work,
+            "data-work-date": self.work_date.isoformat(),
+            "data-row-id": self.pk,
+            "data-row-name": str(self),
+            "data-edit-url": self.get_update_url(),
+        }
+
     def save(self, *args, **kwargs):
         """
         Override save to:
