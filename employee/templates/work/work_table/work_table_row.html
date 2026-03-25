@@ -1,24 +1,24 @@
 {% load i18n %}
 {% if not is_employee and not is_master %}
     <td class="{{ col_class_checkbox }}">
-        {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="work_table_ids" row_value=work.pk %}
+        {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="work_table_ids" row_value=row.pk %}
     </td>
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">
     {% if not is_employee and not is_master %}
-        {% include "includes/table/mobile_meta.html" with col_name=work.work_name details_template="work/work_table/work_table_mobile_details.html" %}
+        {% include "includes/table/mobile_meta.html" with col_name=row.work_name details_template="work/work_table/work_table_mobile_details.html" %}
     {% else %}
-        {% include "includes/table/mobile_summary.html" with col_name=work.work_name details_template="work/work_table/work_table_mobile_details.html" %}
+        {% include "includes/table/mobile_summary.html" with col_name=row.work_name details_template="work/work_table/work_table_mobile_details.html" %}
     {% endif %}
 </td>
-<td class="{{ col_class_hidden }}">{{ work.job_title }}</td>
+<td class="{{ col_class_hidden }}">{{ row.job_title }}</td>
 {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-    <td class="{{ col_class_hidden }}">{{ work.type_wagon_display }}</td>
+    <td class="{{ col_class_hidden }}">{{ row.type_wagon_display }}</td>
 {% endif %}
 {% if selected_department == MECHANIC %}
-    <td class="{{ col_class_hidden }}">{{ work.type_material_display }}</td>
-    <td class="{{ col_class_hidden }}">{{ work.usage_material|floatformat:2 }}</td>
+    <td class="{{ col_class_hidden }}">{{ row.type_material_display }}</td>
+    <td class="{{ col_class_hidden }}">{{ row.usage_material|floatformat:2 }}</td>
 {% endif %}
-<td class="{{ col_class_hidden }}">{{ work.standard_time|floatformat:2 }}</td>
-<td class="{{ col_class_hidden }}">{{ work.price|floatformat:2 }}</td>
+<td class="{{ col_class_hidden }}">{{ row.standard_time|floatformat:2 }}</td>
+<td class="{{ col_class_hidden }}">{{ row.price|floatformat:2 }}</td>
