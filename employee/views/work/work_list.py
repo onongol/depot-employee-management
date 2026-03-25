@@ -33,7 +33,7 @@ def work_list(request):
         "work/work_list.html",
         {
             **asdict(context),
-            "works": page_obj,
+            "rows": page_obj,
             "page_obj": page_obj,
             "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
             "MECHANIC": MECHANIC,
