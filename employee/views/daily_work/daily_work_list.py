@@ -38,7 +38,7 @@ def daily_work_list(request):
         "daily_work/daily_work_list.html",
         {
             **asdict(context),
-            "daily_works": page_obj,
+            "rows": page_obj,
             "page_obj": page_obj,
             "totals": totals,
             "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
