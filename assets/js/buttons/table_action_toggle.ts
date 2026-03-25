@@ -1,6 +1,6 @@
 /**
  * Bulk Action Management (TypeScript, strict, modular).
- * Automatically toggles visibility for Delete (1+ items), Edit (exactly 1 item) A.
+ * Automatically toggles visibility for Delete (1+ items), Edit (exactly 1 item) and Activation/Deactivation (exactly 1 item).
  * Syncs row metadata (ID, URL, Name) to the action buttons via dataset attributes.
  */
 
@@ -58,7 +58,7 @@ function getCheckedCount(names: string[]): number {
 
 	const checked = getAllCheckedCheckboxes();
 
-	// Performance optimization for the common case (single group)
+	// Fast path for single-group tables
 	if (names.length === 1) {
 		return checked.length;
 	}
@@ -103,6 +103,7 @@ function getSelectedRowData(names: string[]): {
 		if (checked.length === 1) {
 			const checkbox = checked[0];
 			if (!checkbox) return null;
+
 			const row = checkbox.closest(BULK_ACTION_TAGS.tableRow);
 			const activateAnchor = row?.querySelector<HTMLAnchorElement>(
 				BULK_ACTION_ANCHORS.activateRow,
@@ -110,6 +111,8 @@ function getSelectedRowData(names: string[]): {
 			const deactivateAnchor = row?.querySelector<HTMLAnchorElement>(
 				BULK_ACTION_ANCHORS.deactivateRow,
 			);
+
+			// Resolve boolean status from dataset string
 			const isActiveAttr = row?.dataset.isActive;
 			const isActive =
 				isActiveAttr === "True" || isActiveAttr === "true"
@@ -117,12 +120,13 @@ function getSelectedRowData(names: string[]): {
 					: isActiveAttr === "False" || isActiveAttr === "false"
 						? false
 						: null;
+
 			return {
 				id: row?.dataset.rowId ?? checkbox.value,
 				url: row?.dataset.editUrl ?? "",
 				name: row?.dataset.rowName ?? "",
 				is_active: isActive,
-				// Prefer explicit anchor href, then tr dataset, then checkbox dataset as fallback
+				// Fallback sequence: 1. Anchor href, 2. Row dataset, 3. Checkbox dataset
 				activate_url:
 					activateAnchor?.getAttribute(BULK_ACTION_ATTRS.hrefAttr) ??
 					row?.dataset.activateUrl ??
@@ -139,13 +143,11 @@ function getSelectedRowData(names: string[]): {
 	return null;
 }
 
-/** Main UI Sync Function: Updates button visibility and datasets based on current selection. */
-function syncButtons(): void {
-	const names = getCheckboxNames();
-	const count = getCheckedCount(names);
-	const isSingle = count === 1;
-	const data = getSelectedRowData(names);
-
+/**
+ * Initializes the bulk action logic once the DOM is ready.
+ */
+document.addEventListener("DOMContentLoaded", () => {
+	// Cache action buttons once to improve performance during frequent checkbox changes
 	const deleteBtn = document.querySelector<HTMLButtonElement>(
 		BULK_ACTION_SELECTORS.deleteButton,
 	);
@@ -159,71 +161,96 @@ function syncButtons(): void {
 		BULK_ACTION_SELECTORS.deactivationButton,
 	);
 
-	// Exit early if no action buttons are present on the current page
+	// Stop initialization if no action buttons are found on the current page
 	if (!deleteBtn && !editBtn && !activationBtn && !deactivationBtn) return;
 
-	// "Delete" logic: Visible when 1 or more items are selected
-	deleteBtn?.classList.toggle(BULK_ACTION_CLASSES.hidden, count === 0);
+	const names = getCheckboxNames();
 
-	// "Edit" logic: Visible strictly when exactly 1 item is selected
-	if (editBtn) {
-		editBtn.classList.toggle(BULK_ACTION_CLASSES.hidden, !isSingle);
+	/**
+	 * Orchestrates UI updates: toggles visibility and updates button attributes.
+	 */
+	function syncButtons(): void {
+		const count = getCheckedCount(names);
+		const isSingle: boolean = count === 1;
+		const data = isSingle ? getSelectedRowData(names) : null;
 
-		if (isSingle) {
-			if (data) {
-				// Inject metadata into button datasets for use in modals or navigation
-				editBtn.dataset.id = data.id;
-				editBtn.dataset.url = data.url;
-				editBtn.dataset.name = data.name;
-				// Activation buttons: toggle based on selected row active state
-				if (activationBtn && deactivationBtn) {
-					if (data.is_active === true) {
-						activationBtn.classList.add(BULK_ACTION_CLASSES.hidden);
-						deactivationBtn.classList.remove(BULK_ACTION_CLASSES.hidden);
-						deactivationBtn.dataset.id = data.id;
-						deactivationBtn.dataset.name = data.name;
-						deactivationBtn.href =
-							data.deactivate_url || BULK_ACTION_FALLBACKS.defaultHref;
-					} else if (data.is_active === false) {
-						deactivationBtn.classList.add(BULK_ACTION_CLASSES.hidden);
-						activationBtn.classList.remove(BULK_ACTION_CLASSES.hidden);
-						activationBtn.dataset.id = data.id;
-						activationBtn.dataset.name = data.name;
-						activationBtn.href =
-							data.activate_url || BULK_ACTION_FALLBACKS.defaultHref;
-					} else {
-						// Unknown state: hide both
-						activationBtn.classList.add(BULK_ACTION_CLASSES.hidden);
-						deactivationBtn.classList.add(BULK_ACTION_CLASSES.hidden);
-					}
+		// "Delete" Action: Requires at least one selection
+		deleteBtn?.classList.toggle(BULK_ACTION_CLASSES.hidden, count === 0);
+
+		// "Edit" Action: Strictly requires exactly one selection
+		if (editBtn) {
+			editBtn.classList.toggle(BULK_ACTION_CLASSES.hidden, !isSingle);
+
+			if (isSingle && data) {
+				if (editBtn.dataset) {
+					editBtn.dataset.id = data.id;
+					editBtn.dataset.url = data.url;
+					editBtn.dataset.name = data.name;
+				}
+			} else if (editBtn.dataset) {
+				// Clear metadata when no longer in a valid state
+				editBtn.dataset.id = "";
+				editBtn.dataset.url = "";
+				editBtn.dataset.name = "";
+			}
+		}
+
+		// "Activation/Deactivation" Logic: Independent state-based visibility
+		const shouldShowActivate = !!(isSingle && data && data.is_active === false);
+		const shouldShowDeactivate = !!(
+			isSingle &&
+			data &&
+			data.is_active === true
+		);
+
+		// Handle Activation Button state
+		if (activationBtn) {
+			activationBtn.classList.toggle(
+				BULK_ACTION_CLASSES.hidden,
+				!shouldShowActivate,
+			);
+			if (shouldShowActivate && data) {
+				activationBtn.href =
+					data.activate_url || BULK_ACTION_FALLBACKS.defaultHref;
+				if (activationBtn.dataset) {
+					activationBtn.dataset.id = data.id;
+					activationBtn.dataset.name = data.name;
+				}
+			} else {
+				activationBtn.href = "";
+				if (activationBtn.dataset) {
+					activationBtn.dataset.id = "";
+					activationBtn.dataset.name = "";
 				}
 			}
-		} else {
-			// Clear datasets when edit mode is inactive
-			editBtn.dataset.id = "";
-			editBtn.dataset.url = "";
-			editBtn.dataset.name = "";
-			if (activationBtn) {
-				activationBtn.classList.add(BULK_ACTION_CLASSES.hidden);
-				activationBtn.href = "";
-				activationBtn.dataset.id = "";
-				activationBtn.dataset.name = "";
-			}
-			if (deactivationBtn) {
-				deactivationBtn.classList.add(BULK_ACTION_CLASSES.hidden);
+		}
+
+		// Handle Deactivation Button state
+		if (deactivationBtn) {
+			deactivationBtn.classList.toggle(
+				BULK_ACTION_CLASSES.hidden,
+				!shouldShowDeactivate,
+			);
+			if (shouldShowDeactivate && data) {
+				deactivationBtn.href =
+					data.deactivate_url || BULK_ACTION_FALLBACKS.defaultHref;
+				if (deactivationBtn.dataset) {
+					deactivationBtn.dataset.id = data.id;
+					deactivationBtn.dataset.name = data.name;
+				}
+			} else {
 				deactivationBtn.href = "";
-				deactivationBtn.dataset.id = "";
-				deactivationBtn.dataset.name = "";
+				if (deactivationBtn.dataset) {
+					deactivationBtn.dataset.id = "";
+					deactivationBtn.dataset.name = "";
+				}
 			}
 		}
 	}
-}
 
-/**
- * Main Orchestrator: Initializes button synchronization on DOM load.
- */
-document.addEventListener("DOMContentLoaded", () => {
-	// Global listener using event delegation for any checkbox changes
+	/**
+	 * Global event listener using delegation to track checkbox state changes.
+	 */
 	document.addEventListener("change", (e) => {
 		const target = e.target;
 		if (!(target instanceof HTMLInputElement)) return;
@@ -232,6 +259,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 
-	// Run initial sync to handle browser-refreshed checkbox states
+	// Initial sync to account for browser autofill or page refreshes
 	syncButtons();
 });
