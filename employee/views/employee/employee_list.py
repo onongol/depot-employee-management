@@ -33,7 +33,7 @@ def employee_list(request):
         "employee/employee_list.html",
         {
             **asdict(context),
-            "employees": page_obj,
+            "rows": page_obj,
             "page_obj": page_obj,
         },
     )
