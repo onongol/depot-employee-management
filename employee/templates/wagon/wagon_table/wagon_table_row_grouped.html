@@ -1,10 +1,10 @@
 {% load i18n %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">
-    {% include "includes/table/mobile_summary.html" with col_name=wagon.wagon_number details_template="wagon/wagon_table/wagon_mobile_details_grouped.html" %}
+    {% include "includes/table/mobile_summary.html" with col_name=row.wagon_number details_template="wagon/wagon_table/wagon_mobile_details_grouped.html" %}
 </td>
-<td class="{{ col_class_hidden }}">{{ wagon.type_wagon }}</td>
-<td class="{{ col_class_hidden }}">{{ wagon.total_time|floatformat:2 }}</td>
-<td class="{{ col_class_hidden }}">{{ wagon.total_price|floatformat:2 }}</td>
+<td class="{{ col_class_hidden }}">{{ row.type_wagon }}</td>
+<td class="{{ col_class_hidden }}">{{ row.total_time|floatformat:2 }}</td>
+<td class="{{ col_class_hidden }}">{{ row.total_price|floatformat:2 }}</td>
 <td class="{{ col_class }}">{{ row.month }}</td>
 <td class="{{ col_class }}">{{ row.year }}</td>
