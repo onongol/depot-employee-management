@@ -43,13 +43,13 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
     standard_time = models.DecimalField(
         max_digits=20,
         decimal_places=6,
-        #default=Decimal("0.000001"),
+        # default=Decimal("0.000001"),
         validators=[MinValueValidator(0.000001)],
     )
     price = models.DecimalField(
         max_digits=20,
         decimal_places=2,
-        #default=Decimal("0.01"),
+        # default=Decimal("0.01"),
         validators=[MinValueValidator(0.01)],
     )
 
@@ -77,9 +77,17 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
 
     def __str__(self):
         return self.work_name
-    
+
     def get_update_url(self):
         return reverse("work_update", args=[self.pk])
+
+    def get_dom_attrs(self):
+        return {
+            "data-work-name": self.work_name,
+            "data-row-id": self.pk,
+            "data-row-name": str(self),
+            "data-edit-url": self.get_update_url(),
+        }
 
     def clean(self):
         """
