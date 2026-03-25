@@ -32,7 +32,7 @@ def daily_salary_list(request):
         "daily_salary/daily_salary_list.html",
         {
             **asdict(context),
-            "daily_salaries": page_obj,
+            "rows": page_obj,
             "page_obj": page_obj,
         },
     )
