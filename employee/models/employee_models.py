@@ -64,6 +64,22 @@ class Employee(models.Model):
     def get_deactivate_url(self):
         return reverse("employee_deactivate", args=[self.pk])
 
+    def get_dom_attrs(self):
+        return {
+            "data-emp-id": self.employee_id,
+            "data-emp-name": self.name,
+            "data-row-id": self.pk,
+            "data-row-name": str(self),
+            "data-edit-url": self.get_update_url(),
+            "data-is-active": "True" if self.is_active else "False",
+            "data-activate-url": self.get_activate_url()
+            if hasattr(self, "get_activate_url")
+            else "",
+            "data-deactivate-url": self.get_deactivate_url()
+            if hasattr(self, "get_deactivate_url")
+            else "",
+        }
+
     # Domain/business helpers
     def get_total_salary_day(self, month, year):
         return get_employee_total_salary_day(self, month, year)
