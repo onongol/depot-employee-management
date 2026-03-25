@@ -2,20 +2,20 @@
 {% if not is_employee and not is_master and detail_group %}<td class="{{ col_class }}"></td>{% endif %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">          
-    {% include "includes/table/mobile_summary.html" with col_name=daily_work.work_name details_template="daily_work/daily_work_table/daily_work_mobile_details_grouped.html" %}
+    {% include "includes/table/mobile_summary.html" with col_name=row.work_name details_template="daily_work/daily_work_table/daily_work_mobile_details_grouped.html" %}
 </td>
-<td class="{{ col_class_hidden }}">{{ daily_work.job_title }}</td>
-<td class="{{ col_class_hidden }}">{{ daily_work.type_work }}</td>
+<td class="{{ col_class_hidden }}">{{ row.job_title }}</td>
+<td class="{{ col_class_hidden }}">{{ row.type_work }}</td>
 {% if show_wagon %}
-    <td class="{{ col_class_hidden }}">{{ daily_work.type_wagon }}</td>
-    <td class="{{ col_class_hidden }}">{{ daily_work.wagon_number|default:"-" }}</td>
+    <td class="{{ col_class_hidden }}">{{ row.type_wagon }}</td>
+    <td class="{{ col_class_hidden }}">{{ row.wagon_number|default:"-" }}</td>
 {% endif %}
-<td class="{{ col_class_hidden }}">{{ daily_work.total_amount }}</td>
-<td class="{{ col_class_hidden }}">{{ daily_work.total_time|floatformat:2 }}</td>
-<td class="{{ col_class_hidden }}">{{ daily_work.total_price|floatformat:2 }}</td>
+<td class="{{ col_class_hidden }}">{{ row.total_amount }}</td>
+<td class="{{ col_class_hidden }}">{{ row.total_time|floatformat:2 }}</td>
+<td class="{{ col_class_hidden }}">{{ row.total_price|floatformat:2 }}</td>
 {% if month_group %}
-    <td class="{{ col_class }}">{{ daily_work.month }}</td>
-    <td class="{{ col_class }}">{{ daily_work.year }}</td>
+    <td class="{{ col_class }}">{{ row.month }}</td>
+    <td class="{{ col_class }}">{{ row.year }}</td>
 {% else %}
-    <td class="{{ col_class }}">{{ daily_work.year }}</td>
+    <td class="{{ col_class }}">{{ row.year }}</td>
 {% endif %}
