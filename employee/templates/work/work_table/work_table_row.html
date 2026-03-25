@@ -1,7 +1,7 @@
 {% load i18n %}
 {% if not is_employee and not is_master %}
     <td class="{{ col_class_checkbox }}">
-        {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="work_table_ids" row_value=work.pk row_label=work.work_name %}
+        {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="work_table_ids" row_value=work.pk %}
     </td>
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
