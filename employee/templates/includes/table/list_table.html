@@ -10,27 +10,12 @@
                     {% for row in rows %}
                         {% if month_group or year_group %}
                             <tr class="transition-colors odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600"
-                                {% if row.work_name %}data-work-name="{{ row.work_name }}"{% endif %}
-                                {% if row.type_work %}data-type-work="{{ row.type_work }}"{% endif %}>
+                                {% for attr, value in row.get_dom_attrs.items %}{{ attr }}="{{ value }}"{% endfor %}>
                                 {% include row_grouped_template with daily_work=row piecework=row wagon=row %}
                             </tr>
                         {% else %}
                             <tr class="{% if row.is_active == False %}bg-gray-200 text-gray-400 dark:bg-gray-600 dark:text-gray-500{% else %}transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20{% endif %}"
-                                {% if row.employee_id %}data-emp-id="{{ row.employee_id }}"{% endif %}
-                                {% if row.name %}data-emp-name="{{ row.name }}"{% endif %}
-                                {% if row.work_name %}data-work-name="{{ row.work_name }}"{% endif %}
-                                {% if row.employee.employee_id %}data-emp-id="{{ row.employee.employee_id }}"{% endif %}
-                                {% if row.employee.name %}data-emp-name="{{ row.employee.name }}"{% endif %}
-                                {% if row.salary_date %}data-salary-date="{{ row.salary_date|date:'Y-m-d' }}"{% endif %}
-                                {% if row.work.work_name %}data-work-name="{{ row.work.work_name }}"{% endif %}
-                                {% if row.type_work %}data-type-work="{{ row.type_work }}"{% endif %}
-                                {% if row.work_date %}data-work-date="{{ row.work_date|date:'Y-m-d' }}"{% endif %}
-                                {% if row.pk %}data-row-id="{{ row.pk }}"{% endif %}
-                                {% if row.pk %}data-edit-url="{{ row.get_update_url }}"{% endif %}
-                                {% if row.is_active %}data-is-active="True"{% elif row.is_active == False %}data-is-active="False"{% endif %}
-                                {% if row.get_activate_url %}data-activate-url="{{ row.get_activate_url }}"{% elif activate_url %}data-activate-url="{{ activate_url }}"{% endif %}
-                                {% if row.get_deactivate_url %}data-deactivate-url="{{ row.get_deactivate_url }}"{% elif deactivate_url %}data-deactivate-url="{{ deactivate_url }}"{% endif %}
-                                {% if row %}data-row-name="{{ row }}"{% endif %}>
+                                {% for attr, value in row.get_dom_attrs.items %}{{ attr }}="{{ value }}"{% endfor %}>
                                 {% include row_detail_template with employee=row work=row daily_salary=row daily_work=row piecework=row employee_salary=row wagon=row material=row %}
                             </tr>
                         {% endif %}
