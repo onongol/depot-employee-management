@@ -1,10 +1,10 @@
 {% load i18n %}
-<div>{{ employee.job_title }}</div>
+<div>{{ row.job_title }}</div>
 <div>
     <span>{% trans "rank:" %}</span>
-    {{ employee.rank }}
+    {{ row.rank }}
 </div>
 <div>
     <span>{% trans "hourly wage:" %}</span>
-    {{ employee.money_per_hour|floatformat:2 }}
+    {{ row.money_per_hour|floatformat:2 }}
 </div>
