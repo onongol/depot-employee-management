@@ -1,10 +1,10 @@
 {% load i18n %}
-<div>{{ wagon.type_wagon }}</div>
+<div>{{ row.type_wagon }}</div>
 <div>
     <span>{% trans "time:" %}</span>
-    {{ wagon.total_time|floatformat:2 }}
+    {{ row.total_time|floatformat:2 }}
 </div>
 <div>
     <span>{% trans "price:" %}</span>
-    {{ wagon.total_price|floatformat:2 }}
+    {{ row.total_price|floatformat:2 }}
 </div>
