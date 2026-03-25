@@ -1,18 +1,18 @@
 {% load i18n %}
 {% if not is_employee and not is_master %}
     <td class="{{ col_class_checkbox }}">
-        {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="employee_table_ids" row_value=employee.pk activate_url=employee.get_activate_url deactivate_url=employee.get_deactivate_url %}
+        {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="employee_table_ids" row_value=row.pk activate_url=row.get_activate_url deactivate_url=row.get_deactivate_url %}
     </td>
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-<td class="{{ col_class }}">{{ employee.employee_id }}</td>
+<td class="{{ col_class }}">{{ row.employee_id }}</td>
 <td class="{{ col_class }}">
     {% if not is_employee and not is_master %}
-        {% include "includes/table/mobile_meta.html" with col_name=employee.name details_template="employee/employee_table/employee_table_mobile_details.html" %}
+        {% include "includes/table/mobile_meta.html" with col_name=row.name details_template="employee/employee_table/employee_table_mobile_details.html" %}
     {% else %}
-        {% include "includes/table/mobile_summary.html" with col_name=employee.name details_template="employee/employee_table/employee_table_mobile_details.html" %}
+        {% include "includes/table/mobile_summary.html" with col_name=row.name details_template="employee/employee_table/employee_table_mobile_details.html" %}
     {% endif %}
 </td>
-<td class="{{ col_class_hidden }}">{{ employee.job_title }}</td>
-<td class="{{ col_class_hidden }}">{{ employee.rank }}</td>
-<td class="{{ col_class_hidden }}">{{ employee.money_per_hour|floatformat:2 }}</td>
+<td class="{{ col_class_hidden }}">{{ row.job_title }}</td>
+<td class="{{ col_class_hidden }}">{{ row.rank }}</td>
+<td class="{{ col_class_hidden }}">{{ row.money_per_hour|floatformat:2 }}</td>
