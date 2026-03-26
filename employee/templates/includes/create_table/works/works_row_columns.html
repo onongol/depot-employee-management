@@ -8,7 +8,7 @@
            class="sr-only">{{ work.work_name }}</label>
     {% include "includes/table/mobile_meta.html" with col_name=work.work_name details_template="includes/create_table/works/works_details.html" %}
 </td>
-<td class="{{ col_class_hidden }}">{{ work.job_title }}</td>
+<td class="{{ col_class_hidden }}" data-job-title="{{ work.job_title }}">{{ work.job_title }}</td>
 {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
     <td class="{{ col_class_hidden }}">{{ work.type_wagon_display }}</td>
 {% endif %}
