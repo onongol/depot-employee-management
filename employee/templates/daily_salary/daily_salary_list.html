@@ -5,7 +5,11 @@
 {% block content %}
     {% url 'daily_salary_create' as create_url %}
     <!-- Header -->
-    {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url %}
+    {% if not is_employee %}
+        {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url %}
+    {% else %}
+        {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department only %}
+    {% endif %}
     <div class="mb-2 flex flex-row items-center justify-end gap-2 md:mb-4 md:justify-start md:gap-4">
         <!-- Actions -->
         {% if not is_employee and not is_master %}
@@ -33,6 +37,6 @@
     <!-- Pagination -->
     {% include "includes/table/pagination.html" %}
     <!-- Modal -->
-    {% include "includes/modals/modal_update.html" %} 
+    {% include "includes/modals/modal_update.html" %}
     {% include "includes/modals/modal_delete_bulk.html" %}
 {% endblock %}
