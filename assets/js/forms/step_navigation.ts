@@ -6,6 +6,7 @@
 const STEP_NAV_IDS = {
 	form: "createForm",
 	errorId: "employee_ids-selection-error",
+	tableId: "works-table-body",
 } as const;
 
 const STEP_NAV_SELECTORS = {
@@ -24,6 +25,7 @@ const STEP_NAV_SELECTORS = {
 const STEP_NAV_ATTRS = {
 	tableSelector: "data-table-selector",
 	errorMessage: "data-error-message",
+	jobTitle: "data-job-title",
 } as const;
 
 const STEP_NAV_MESSAGES = {
@@ -101,10 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	/**
 	 * Injects validation error UI when the user fails to select at least one item.
 	 */
-	const showSelectionError = (tableDiv: Element | null): void => {
-		if (!tableDiv) return;
+	const showSelectionError = (container: Element | null): void => {
+		if (!container) return;
 
-		tableDiv.classList.add(...STEP_NAV_CLASSES.tableError);
+		container.classList.add(...STEP_NAV_CLASSES.tableError);
 
 		let errorDiv = document.getElementById(STEP_NAV_IDS.errorId);
 		if (!errorDiv) {
@@ -114,18 +116,24 @@ document.addEventListener("DOMContentLoaded", () => {
 			errorDiv.textContent = errorMessage;
 
 			// Inserts the error message directly after the table container
-			const parent = tableDiv.parentNode;
-			if (parent) parent.insertBefore(errorDiv, tableDiv.nextSibling);
+			const parent = container.parentNode;
+			if (parent) {
+				if (container.nextSibling) {
+					parent.insertBefore(errorDiv, container.nextSibling);
+				} else {
+					parent.appendChild(errorDiv);
+				}
+			}
 		}
 	};
 
 	/**
 	 * Clears validation UI highlights and removes error messages.
 	 */
-	const hideSelectionError = (tableDiv: Element | null): void => {
-		if (!tableDiv) return;
+	const hideSelectionError = (container: Element | null): void => {
+		if (!container) return;
 
-		tableDiv.classList.remove(...STEP_NAV_CLASSES.tableError);
+		container.classList.remove(...STEP_NAV_CLASSES.tableError);
 		const errorDiv = document.getElementById(STEP_NAV_IDS.errorId);
 		if (errorDiv) errorDiv.remove();
 	};
@@ -142,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	/**
 	 * Handles progression to Step 2.
 	 * Validates employee selection before allowing the transition.
+	 * Filters works table by job titles of selected employees.
 	 */
 	const goStep2 = (): void => {
 		if (!step1 || !step2) return;
@@ -153,6 +162,28 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (checked.length === 0) {
 			showSelectionError(tableDiv);
 			return;
+		}
+
+		// 1. Collect Job Titles from selected employees for filtering
+		const selectedJobTitles = new Set(
+			Array.from(checked)
+				.map((el) => el.getAttribute(STEP_NAV_ATTRS.jobTitle))
+				.filter((jt): jt is string => Boolean(jt)),
+		);
+
+		// 2. Filter the "Works" table rows based on collected job titles
+		const worksTableBody = document.getElementById(STEP_NAV_IDS.tableId);
+		if (worksTableBody instanceof HTMLTableSectionElement) {
+			for (const row of Array.from(worksTableBody.rows)) {
+				// Find cell with data-job-title to determine visibility
+				const jobTitleCell = row.querySelector(`[${STEP_NAV_ATTRS.jobTitle}]`);
+				const workJobTitle =
+					jobTitleCell?.getAttribute(STEP_NAV_ATTRS.jobTitle) || "";
+
+				const isVisible =
+					selectedJobTitles.size === 0 || selectedJobTitles.has(workJobTitle);
+				row.classList.toggle(STEP_NAV_CLASSES.hidden, !isVisible);
+			}
 		}
 
 		hideSelectionError(tableDiv);
