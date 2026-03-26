@@ -6,7 +6,6 @@
 const STEP_NAV_IDS = {
 	form: "createForm",
 	errorId: "employee_ids-selection-error",
-	tableId: "works-table-body",
 } as const;
 
 const STEP_NAV_SELECTORS = {
@@ -20,6 +19,7 @@ const STEP_NAV_SELECTORS = {
 		'[data-checkbox-validation="true"][data-checkbox-name="employee_ids"]',
 	defaultTable: ".employee-table-container",
 	checkedEmployees: 'input[name="employee_ids"]:checked',
+	filterJobTitle: 'tbody[data-table-role="filter-job-title"]',
 } as const;
 
 const STEP_NAV_ATTRS = {
@@ -172,7 +172,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		);
 
 		// 2. Filter the "Works" table rows based on collected job titles
-		const worksTableBody = document.getElementById(STEP_NAV_IDS.tableId);
+		const worksTableBody = document.querySelector(
+			STEP_NAV_SELECTORS.filterJobTitle,
+		);
 		if (worksTableBody instanceof HTMLTableSectionElement) {
 			for (const row of Array.from(worksTableBody.rows)) {
 				// Find cell with data-job-title to determine visibility
