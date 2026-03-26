@@ -1,8 +1,8 @@
 <input type="number"
-       id="amount_{{ work.pk }}"
-       name="amount_{{ work.pk }}"
+       id="amount_{{ row.pk }}"
+       name="amount_{{ row.pk }}"
        min="0"
        data-amount-input
-       data-amount-for="{{ work.pk }}"
+       data-amount-for="{{ row.pk }}"
        class="dark:disabled:bg-gray-900{% if form_errors.errors %}border-red-600 focus:ring-red-600 focus:border-red-600 focus:text-red-600 dark:border-red-600 dark:focus:ring-red-600 dark:focus:border-red-600 dark:focus:text-red-600{% endif %} block w-20 rounded-xl border border-gray-300 bg-gray-100 px-2 py-2 text-gray-700 placeholder-gray-400 transition focus:border-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none disabled:bg-gray-200 sm:max-w-20 sm:px-4 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:placeholder-gray-500 dark:focus:border-gray-500 dark:focus:ring-gray-500"
        disabled />
