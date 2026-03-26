@@ -1,7 +1,7 @@
 {% load i18n %}
 {% with col_class="px-2 py-3 md:px-6" %}
     <td class="px-6 py-3 text-center align-middle">
-        {% include "includes/create_table/create_select_row_checkbox.html" with row_id="employee_{{ employee.pk }}" checkbox_name="employee_ids" row_value=employee.pk aria_labelledby="label_employee_{{ employee.pk }}" %}
+        {% include "includes/create_table/create_select_row_checkbox.html" with row_id="employee_{{ employee.pk }}" checkbox_name="employee_ids" row_value=employee.pk aria_labelledby="label_employee_{{ employee.pk }}" job_title=employee.job_title %}
     </td>
     <td class="{{ col_class }}">
         <label id="label_employee_{{ employee.pk }}"
