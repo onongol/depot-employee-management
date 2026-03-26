@@ -9,11 +9,12 @@
                     <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">{% include columns_template %}</tr>
                 </thead>
                 <tbody id="{{ tbody_id }}"
-                       class="divide-y divide-gray-100 dark:divide-gray-700">
+                       class="divide-y divide-gray-100 dark:divide-gray-700"
+                       {% if table_role %}data-table-role="{{ table_role }}"{% endif %}>
                     {% for row in rows %}
                         <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20"
                             {% for attr, value in row.get_dom_attrs.items %}{{ attr }}="{{ value }}"{% endfor %}>
-                            {% include row_template with employee=row work=row %}
+                            {% include row_template with row=row %}
                         </tr>
                     {% endfor %}
                 </tbody>
