@@ -1,18 +1,18 @@
 {% load i18n %}
 <td class="{{ col_class_checkbox }}">
-    {% include "includes/create_table/create_select_row_checkbox.html" with row_id="work_{{ work.pk }}" checkbox_name="work_ids" row_value=work.pk aria_labelledby="label_work_{{ work.pk }}" work_name=work.work_name %}
+    {% include "includes/create_table/create_select_row_checkbox.html" with row_id="work_{{ row.pk }}" checkbox_name="work_ids" row_value=row.pk aria_labelledby="label_work_{{ row.pk }}" work_name=row.work_name %}
 </td>
 <td class="{{ col_class }}">
-    <label id="label_work_{{ work.pk }}"
-           for="work_{{ work.pk }}"
-           class="sr-only">{{ work.work_name }}</label>
-    {% include "includes/table/mobile_meta.html" with col_name=work.work_name details_template="includes/create_table/works/works_details.html" %}
+    <label id="label_work_{{ row.pk }}"
+           for="work_{{ row.pk }}"
+           class="sr-only">{{ row.work_name }}</label>
+    {% include "includes/table/mobile_meta.html" with col_name=row.work_name details_template="includes/create_table/works/works_details.html" %}
 </td>
-<td class="{{ col_class_hidden }}" data-job-title="{{ work.job_title }}">{{ work.job_title }}</td>
+<td class="{{ col_class_hidden }}" data-job-title="{{ row.job_title }}">{{ row.job_title }}</td>
 {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-    <td class="{{ col_class_hidden }}">{{ work.type_wagon_display }}</td>
+    <td class="{{ col_class_hidden }}">{{ row.type_wagon_display }}</td>
 {% endif %}
 <td class="{{ col_class }}">
-    <label for="amount_{{ work.pk }}" class="sr-only">Amount for {{ work.work_name }}</label>
+    <label for="amount_{{ row.pk }}" class="sr-only">Amount for {{ row.work_name }}</label>
     {% include "includes/create_table/amount_input.html" %}
 </td>
