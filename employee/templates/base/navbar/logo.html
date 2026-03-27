@@ -2,5 +2,8 @@
 <a href="{% url 'home' %}">
     <img src="{% static 'images/logo_light.svg' %}"
          alt="Depot Management logo"
-         class="size-12 shrink-0" />
+         class="block size-12 shrink-0 dark:hidden" />
+    <img src="{% static 'images/logo_dark.svg' %}"
+         alt="Depot Management logo"
+         class="hidden size-12 shrink-0 dark:block" />
 </a>
