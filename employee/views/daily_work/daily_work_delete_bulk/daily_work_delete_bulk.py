@@ -1,11 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db import transaction
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
+from employee.services.admin_log_entries import log_object_deletions
 from employee.utils.access import is_admin
 from employee.utils.parse_ids import parse_ids
 from employee.utils.select_department import get_selected_department
@@ -38,7 +40,12 @@ def daily_work_delete_bulk(request):
 
     parts = preview_daily_work_items(base_qs=base_qs)
 
-    deleted_count, _deleted_details = base_qs.delete()
+    daily_works = list(base_qs)
+
+    with transaction.atomic():
+        log_object_deletions(request.user, daily_works)
+        deleted_count, _deleted_details = base_qs.delete()
+
     if deleted_count:
         final_message = mark_safe("<br>".join(parts))
         messages.success(request, final_message)
