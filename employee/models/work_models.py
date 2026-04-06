@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Q
 from django.urls import reverse
+from simple_history.models import HistoricalRecords
 
 from employee.constants.constants import (
     ALLOWED_WAGON_DEPARTMENTS,
@@ -52,6 +53,7 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
         # default=Decimal("0.01"),
         validators=[MinValueValidator(0.01)],
     )
+    history = HistoricalRecords()
 
     class Meta:
         """
