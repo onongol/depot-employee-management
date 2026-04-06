@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 from employee.constants.constants import DEPARTMENT_CHOICES
 
@@ -25,6 +26,7 @@ class Master(models.Model):
         blank=True,
         related_name="master_profile",
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"(ID: {self.master_id}) {self.name}"
