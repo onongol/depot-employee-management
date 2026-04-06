@@ -7,6 +7,7 @@ from import_export.admin import (
     ExportMixin,
     ImportExportModelAdmin,
 )
+from simple_history.admin import SimpleHistoryAdmin
 from unfold.admin import ModelAdmin
 from unfold.contrib.filters.admin import (
     ChoicesDropdownFilter,
@@ -16,8 +17,6 @@ from unfold.contrib.filters.admin import (
 from unfold.contrib.import_export.forms import ExportForm, ImportForm
 from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
 from unfold.paginator import InfinitePaginator
-from simple_history.admin import SimpleHistoryAdmin
-
 
 from employee.models import (
     DailySalary,
@@ -62,7 +61,9 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin, ImportExportModelAdmin):
 
 
 @admin.register(Master)
-class MasterAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
+class MasterAdmin(
+    ModelAdmin, SimpleHistoryAdmin, ImportExportModelAdmin, ImportExportMixin
+):
     list_display = (
         "master_id",
         "name",
@@ -84,7 +85,9 @@ class MasterAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
 
 
 @admin.register(Payroll)
-class PayrollAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
+class PayrollAdmin(
+    ModelAdmin, SimpleHistoryAdmin, ImportExportModelAdmin, ImportExportMixin
+):
     list_display = (
         "payroll_id",
         "name",
