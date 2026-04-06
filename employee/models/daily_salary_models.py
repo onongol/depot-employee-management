@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from simple_history.models import HistoricalRecords
 
 from employee.models.employee_models import Employee
 
@@ -36,6 +37,7 @@ class DailySalary(models.Model):
     )
     salary_date = models.DateField(default=date.today)
     record_date = models.DateTimeField(auto_now_add=True)
+    history = HistoricalRecords()
 
     class Meta:
         """ "
