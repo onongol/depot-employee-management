@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from simple_history.models import HistoricalRecords
 
 from employee.constants.constants import (
     DEPARTMENT_CHOICES,
@@ -51,6 +52,7 @@ class Employee(models.Model):
         blank=True,
         related_name="employee_profile",
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"(ID: {self.employee_id}) {self.name}"
