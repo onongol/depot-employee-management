@@ -30,7 +30,10 @@ def daily_work_piecework_create(request):
     # Process form submission: extract data, create records, handle errors, show success message, and redirect to the daily work list
     if request.method == "POST":
         post_data = extract_post_data(request)
-        results, works_dict, errors = create_daily_work_piecework_records(request_data=post_data)
+        results, works_dict, errors = create_daily_work_piecework_records(
+            request_data=post_data,
+            user=request.user,
+        )
 
         if errors:
             context.errors = errors
