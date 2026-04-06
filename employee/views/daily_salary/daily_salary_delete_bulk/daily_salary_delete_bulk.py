@@ -14,6 +14,7 @@ from employee.messages.bulk_delete_messages.bulk_preview_helpers import (
 from employee.messages.bulk_delete_messages.delete_bulk_message import (
     delete_bulk_message,
 )
+from employee.services.admin_log_delete import delete_queryset_with_admin_log
 from employee.utils.access import is_admin
 from employee.utils.parse_ids import parse_ids
 from employee.utils.select_department import get_selected_department
@@ -51,7 +52,9 @@ def daily_salary_delete_bulk(request):
 
     deleted_count = 0
     if deletable_qs.exists():
-        deleted_count, _deleted_details = deletable_qs.delete()
+        deleted_count, _deleted_details = delete_queryset_with_admin_log(
+            request.user, deletable_qs
+        )
 
     delete_bulk_message(request, deleted_count, deletable_items, deletable_tail)
 
