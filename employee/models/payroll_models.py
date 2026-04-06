@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 class Payroll(models.Model):
@@ -22,6 +23,7 @@ class Payroll(models.Model):
         blank=True,
         related_name="payroll_profile",
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"(ID: {self.payroll_id}) {self.name}"
