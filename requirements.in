@@ -15,6 +15,7 @@ django-crispy-forms
 django-debug-toolbar
 django-import-export
 django-select2
+django-simple-history
 django-unfold
 et_xmlfile
 gunicorn
