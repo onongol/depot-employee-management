@@ -159,7 +159,9 @@ class WorkAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
 
 
 @admin.register(DailySalary)
-class DailySalaryAdmin(ModelAdmin, ExportActionModelAdmin, ExportMixin, ExportForm):
+class DailySalaryAdmin(
+    ModelAdmin, SimpleHistoryAdmin, ExportActionModelAdmin, ExportMixin, ExportForm
+):
     list_display = (
         "salary_id",
         "employee_id",
