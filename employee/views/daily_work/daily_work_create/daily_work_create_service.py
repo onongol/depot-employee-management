@@ -1,3 +1,8 @@
+import logging
+
+from django.db import transaction
+from django.utils.translation import gettext_lazy as _
+
 from employee.services.admin_log_entries import log_object_additions
 from employee.views.daily_work.daily_work_create.calculation.calculate_piecework_records import (
     calculate_piecework_records,
@@ -28,37 +33,55 @@ def create_daily_work_piecework_records(request_data, user=None):
     if errors:
         return None, None, errors
 
-    # Create Daily_Work
-    daily_works, works_dict = daily_work_create_entries(
-        selected_work_ids, amounts, job_title, type_work, wagon_number, work_date
-    )
+    # Use a transaction to ensure atomicity of the entire operation, including creating DailyWork and Piecework records, and logging admin actions
+    try:
+        with transaction.atomic():
+            # Create Daily_Work
+            daily_works, works_dict = daily_work_create_entries(
+                selected_work_ids,
+                amounts,
+                job_title,
+                type_work,
+                wagon_number,
+                work_date,
+            )
 
-    # Calculate Piecework records
-    pieceworks, errors = calculate_piecework_records(
-        employees_salary=employees_salary,
-        selected_work_ids=selected_work_ids,
-        amounts=amounts,
-        works_dict=works_dict,
-        work_date=work_date,
-        type_work=type_work,
-        wagon_number=wagon_number,
-    )
-    errors.extend(errors)
+            # Calculate Piecework records
+            pieceworks, errors = calculate_piecework_records(
+                employees_salary=employees_salary,
+                selected_work_ids=selected_work_ids,
+                amounts=amounts,
+                works_dict=works_dict,
+                work_date=work_date,
+                type_work=type_work,
+                wagon_number=wagon_number,
+            )
 
-    # After calculating piecework and additional checks
-    if errors:
-        return None, None, errors
+            if errors:
+                transaction.set_rollback(True)
+                return None, None, errors
 
-    # Create mapping of employees from validated salary list to avoid per-row queries
-    employees_map = {
-        str(daily_salary.employee.employee_id): daily_salary.employee
-        for daily_salary in employees_salary
-    }
+            # Create mapping of employees from validated salary list to avoid per-row queries
+            employees_map = {
+                str(daily_salary.employee.employee_id): daily_salary.employee
+                for daily_salary in employees_salary
+            }
 
-    # Create Piecework
-    piecework_create_bulk(pieceworks, daily_works, works_dict, employees_map, errors)
+            # Create Piecework
+            piecework_create_bulk(pieceworks, daily_works, works_dict, employees_map)
 
-    if user is not None:
-        log_object_additions(user, daily_works.values())
+            # Log the creation of DailyWork records in the admin log if a user is provided
+            if user is not None:
+                created_daily_works = list(daily_works.values())
+                transaction.on_commit(
+                    lambda: log_object_additions(user, created_daily_works)
+                )
 
-    return pieceworks, works_dict, errors
+            return pieceworks, works_dict, []
+    except Exception as exc:
+        logging.exception("Error creating daily work and piecework records")
+        return (
+            None,
+            None,
+            [_("Error creating piecework records: %(error)s.") % {"error": str(exc)}],
+        )
