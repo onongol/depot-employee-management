@@ -1,3 +1,7 @@
+from django.db import transaction
+
+from employee.models.daily_salary_models import DailySalary
+from employee.services.admin_log_entries import log_object_additions
 from employee.views.daily_salary.daily_salary_create.daily_salary_build_instances import (
     build_daily_salary_instances,
 )
@@ -11,7 +15,7 @@ from employee.views.daily_salary.daily_salary_create.selectors import (
 from employee.views.daily_salary.validators import validate_daily_salary_required
 
 
-def create_daily_salary_records(selected_ids, salary_date, hours_per_day):
+def create_daily_salary_records(selected_ids, salary_date, hours_per_day, user=None):
     """
     Create daily salary records for multiple employees.
     Returns:
@@ -45,7 +49,17 @@ def create_daily_salary_records(selected_ids, salary_date, hours_per_day):
     if errors:
         return None, errors
 
-    if not bulk_daily_salary_create(new_records, errors):
+    if not bulk_daily_salary_create(new_records, errors, user=user):
         return None, errors
+
+    if user is not None and new_records:
+        created_employee_ids = [record.employee_id for record in new_records]
+        created_records = list(
+            DailySalary.objects.filter(
+                employee_id__in=created_employee_ids,
+                salary_date=salary_date,
+            )
+        )
+        transaction.on_commit(lambda: log_object_additions(user, created_records))
 
     return employees_dict, []
