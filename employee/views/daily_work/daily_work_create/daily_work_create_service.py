@@ -1,3 +1,4 @@
+from employee.services.admin_log_entries import log_object_additions
 from employee.views.daily_work.daily_work_create.calculation.calculate_piecework_records import (
     calculate_piecework_records,
 )
@@ -10,7 +11,7 @@ from employee.views.daily_work.daily_work_create.piecework_create_bulk import (
 from employee.views.daily_work.validators.validate_create import CreateValidator
 
 
-def create_daily_work_piecework_records(request_data):
+def create_daily_work_piecework_records(request_data, user=None):
     """Process piecework creation based on the request data."""
     work_date = request_data.work_date
     type_work = request_data.type_work
@@ -56,5 +57,8 @@ def create_daily_work_piecework_records(request_data):
 
     # Create Piecework
     piecework_create_bulk(pieceworks, daily_works, works_dict, employees_map, errors)
+
+    if user is not None:
+        log_object_additions(user, daily_works.values())
 
     return pieceworks, works_dict, errors
