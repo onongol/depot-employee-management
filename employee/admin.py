@@ -98,7 +98,9 @@ class PayrollAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
 
 
 @admin.register(Employee)
-class EmployeeAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
+class EmployeeAdmin(
+    ModelAdmin, SimpleHistoryAdmin, ImportExportModelAdmin, ImportExportMixin
+):
     list_display = (
         "employee_id",
         "name",
