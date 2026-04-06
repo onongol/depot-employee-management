@@ -7,6 +7,7 @@ on:
       - "upgrade/django-5.2.9"
       - "vite-javascript"
       - "transition-to-typescript"
+      - "feature/custom-admin-history"
   pull_request:
     branches:
       - "feature/replace-bootstrap-with-tailwind"
