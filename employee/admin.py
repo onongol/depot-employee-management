@@ -217,12 +217,12 @@ class DailyWorkAdmin(
     ]
     date_hierarchy = "work_date"
     ordering = ("-work_date", "-record_date")
-    list_display_links = (
-        "id",
-        "work_name",
-    )
+    list_display_links = None
 
     def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
         return False
 
     def has_delete_permission(self, request, obj=None):
@@ -264,8 +264,12 @@ class PieceworkAdmin(ModelAdmin, ExportActionModelAdmin, ExportMixin, ExportForm
     ]
     date_hierarchy = "work_date"
     ordering = ("-work_date", "-record_date")
+    list_display_links = None
 
     def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
         return False
 
     def has_delete_permission(self, request, obj=None):
