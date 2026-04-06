@@ -4,6 +4,7 @@ from decimal import Decimal
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
+from simple_history.models import HistoricalRecords
 
 from employee.constants.constants import (
     JOB_TITLE_CHOICES,
@@ -92,6 +93,7 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     )
     work_date = models.DateField(default=date.today)
     record_date = models.DateTimeField(auto_now_add=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"{self.work.work_name} ({self.type_work}) - {self.work_date}"
