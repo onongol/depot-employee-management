@@ -126,7 +126,9 @@ class EmployeeAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
 
 
 @admin.register(Work)
-class WorkAdmin(ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
+class WorkAdmin(
+    ModelAdmin, SimpleHistoryAdmin, ImportExportModelAdmin, ImportExportMixin
+):
     list_display = (
         "work_id",
         "department",
