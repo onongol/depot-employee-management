@@ -64,6 +64,8 @@ django-import-export==4.4.0
     # via -r requirements.in
 django-select2==8.4.8
     # via -r requirements.in
+django-simple-history==3.11.0
+    # via -r requirements.in
 django-unfold==0.85.0
     # via -r requirements.in
 et-xmlfile==2.0.0
