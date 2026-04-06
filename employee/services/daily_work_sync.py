@@ -1,7 +1,6 @@
 import logging
-from decimal import Decimal
 
-from employee.services import sync_single_piecework
+from employee.services.sync_single_piecework import sync_single_piecework
 
 
 def sync_piecework_with_dailywork(dailywork):
