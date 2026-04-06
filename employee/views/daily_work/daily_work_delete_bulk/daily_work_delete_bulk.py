@@ -19,8 +19,8 @@ from employee.views.daily_work.daily_work_delete_bulk.messages_bulk_preview impo
 
 
 @require_POST
-@login_required(login_url="login")
-@user_passes_test(is_admin, login_url="login")
+@login_required()
+@user_passes_test(is_admin)
 def daily_work_delete_bulk(request):
     """
     This code implements a secure and user-friendly bulk delete operation for DailyWork records.

@@ -24,8 +24,8 @@ from employee.views.work.work_delete_bulk.selectors import (
 
 
 @require_POST
-@login_required(login_url="login")
-@user_passes_test(is_admin, login_url="login")
+@login_required()
+@user_passes_test(is_admin)
 def work_delete_bulk(request):
     department = get_selected_department(request)
     fallback_url = reverse("work_list")

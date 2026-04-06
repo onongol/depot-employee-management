@@ -10,7 +10,7 @@ from employee.utils.sorting import apply_ordering
 from employee.views.work.work_prepare import work_prepare
 
 
-@login_required(login_url="login")
+@login_required()
 def work_list(request):
     """View to list all works with filtering and pagination."""
     context = work_prepare(request)

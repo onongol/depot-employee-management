@@ -15,16 +15,11 @@ class PieceworkDeleteView(
     DeleteWarningMixin,
     DeleteView,
 ):
-    login_url = "login"
     template_name = "piecework/piecework_delete.html"
 
-    # Handle the deletion and send a warning.
-    def get_redirect_url(self):
-        return self.success_url
 
-
-@login_required(login_url="login")
-@user_passes_test(is_creater, login_url="login")
+@login_required()
+@user_passes_test(is_creater)
 def piecework_create(request):
     """View to create new piecework records."""
     # Circular import avoidance

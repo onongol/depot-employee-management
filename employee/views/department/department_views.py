@@ -29,7 +29,7 @@ def set_department_on_login(sender, user, request, **kwargs):
     request.session["department"] = get_user_department(user)
 
 
-@login_required(login_url="login")
+@login_required()
 def set_department(request):
     """Set the department in the user's session."""
     department = get_selected_department(request)
