@@ -18,7 +18,7 @@ class PieceworkDeleteView(
     template_name = "piecework/piecework_delete.html"
 
 
-@login_required()
+@login_required
 @user_passes_test(is_creater)
 def piecework_create(request):
     """View to create new piecework records."""

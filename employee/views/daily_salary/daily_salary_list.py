@@ -9,7 +9,7 @@ from employee.utils.sorting import apply_ordering
 from employee.views.daily_salary.daily_salary_prepare import daily_salary_prepare
 
 
-@login_required()
+@login_required
 def daily_salary_list(request):
     """View to list all daily salaries with filtering and pagination."""
     context = daily_salary_prepare(request)

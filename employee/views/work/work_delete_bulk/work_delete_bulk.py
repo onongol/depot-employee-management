@@ -24,7 +24,7 @@ from employee.views.work.work_delete_bulk.selectors import (
 
 
 @require_POST
-@login_required()
+@login_required
 @user_passes_test(is_admin)
 def work_delete_bulk(request):
     department = get_selected_department(request)

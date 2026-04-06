@@ -15,7 +15,7 @@ from employee.views.daily_work.daily_work_prepare import daily_work_prepare
 from employee.views.daily_work.group.group_and_sort import group_and_sort_daily_works
 
 
-@login_required()
+@login_required
 def daily_work_list(request):
     """List daily work entries with filtering and pagination."""
     context = daily_work_prepare(request)

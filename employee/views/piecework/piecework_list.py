@@ -15,7 +15,7 @@ from employee.views.piecework.group.group_and_sort import group_and_sort_piecewo
 from employee.views.piecework.piecework_prepare import piecework_prepare
 
 
-@login_required()
+@login_required
 def piecework_list(request):
     """View to list all piecework records with filtering and pagination."""
     context = piecework_prepare(request)

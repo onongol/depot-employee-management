@@ -11,7 +11,7 @@ from employee.views.wagon.group.group_and_sort import group_and_sort_wagons
 from employee.views.wagon.wagon_prepare import wagon_prepare
 
 
-@login_required()
+@login_required
 def wagon_list(request):
     """
     Lists wagon-related DailyWork rows. The view:

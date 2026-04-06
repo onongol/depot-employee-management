@@ -16,7 +16,7 @@ from employee.views.daily_salary.daily_salary_create.daily_salary_messages impor
 )
 
 
-@login_required()
+@login_required
 @user_passes_test(is_creater)
 def daily_salary_create(request):
     """View to create daily salary records for multiple employees, filtered by department."""

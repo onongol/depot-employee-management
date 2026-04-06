@@ -15,7 +15,7 @@ from employee.views.employee_salary.employee_salary_prepare import (
 from employee.views.employee_salary.employee_salary_sort import apply_ordering
 
 
-@login_required()
+@login_required
 def employee_salary_list(request):
     """View to list all employee salaries with filters and pagination."""
     context = employee_salaries_prepare(request)

@@ -24,7 +24,7 @@ from employee.views.daily_salary.daily_salary_delete_bulk.daily_salary_selectors
 
 
 @require_POST
-@login_required()
+@login_required
 @user_passes_test(is_admin)
 def daily_salary_delete_bulk(request):
     """

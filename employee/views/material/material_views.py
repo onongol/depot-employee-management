@@ -12,7 +12,7 @@ from employee.views.material.material_grouping import group_and_sum_materials
 from employee.views.material.material_prepare import material_prepare
 
 
-@login_required()
+@login_required
 @user_passes_test(is_admin)
 def material_list(request):
     """View for calculating and listing material usage in piecework records,

@@ -17,13 +17,13 @@ def _set_employee_active_status(request, pk, is_active):
     return redirect(reverse("employee_list"))
 
 
-@login_required()
+@login_required
 @user_passes_test(is_admin)
 def employee_activate(request, pk):
     return _set_employee_active_status(request, pk, True)
 
 
-@login_required()
+@login_required
 @user_passes_test(is_admin)
 def employee_deactivate(request, pk):
     return _set_employee_active_status(request, pk, False)
