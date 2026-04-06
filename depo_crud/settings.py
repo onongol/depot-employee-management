@@ -40,7 +40,9 @@ if DEBUG:
 # Application definition
 INSTALLED_APPS = [
     "unfold",
+    "unfold.contrib.filters",
     "unfold.contrib.import_export",
+    "unfold.contrib.simple_history",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
     "employee",
     "import_export",
     "commando",
+    "simple_history",
 ]
 
 # Application definition DEBUG
@@ -80,6 +83,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "simple_history.middleware.HistoryRequestMiddleware",
 ]
 
 if DEBUG:
@@ -215,9 +219,12 @@ LOGOUT_REDIRECT_URL = "home"
 
 # Unfold settings
 UNFOLD = {
-    "SITE_TITLE": "Depot Management Admin",
-    "SITE_HEADER": "Depot Management Admin",
-    "SITE_ICON": lambda request: static("images/logo_light.svg"),
+    "SITE_TITLE": "Admin",
+    "SITE_HEADER": "Admin",
+    "SITE_ICON": {
+        "light": lambda request: static("images/logo_light.svg"),
+        "dark": lambda request: static("images/logo_dark.svg"),
+    },
     "SITE_FAVICONS": [
         {
             "rel": "icon",
@@ -226,4 +233,5 @@ UNFOLD = {
             "href": lambda request: static("images/favicon.svg"),
         },
     ],
+    "SHOW_LANGUAGES": True,
 }
