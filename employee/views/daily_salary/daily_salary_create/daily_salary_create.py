@@ -36,7 +36,7 @@ def daily_salary_create(request):
         hours_per_day = request.POST.get("hours_per_day")
 
         employees_dict, errors = create_daily_salary_records(
-            selected_ids, salary_date, hours_per_day
+            selected_ids, salary_date, hours_per_day, user=request.user
         )
 
         if errors:
