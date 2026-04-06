@@ -6,8 +6,10 @@ from django.views.generic import DeleteView, UpdateView
 from employee.forms import UpdateDailySalaryForm
 from employee.mixins.block_delete_mixins import BlockDeleteMixin
 from employee.mixins.context_mixins import DailySalaryContextMixin
+from employee.mixins.delete_mixin import AdminLoggedDeleteMixin
 from employee.mixins.delete_protection_mixins import DeleteProtectionMixin
 from employee.mixins.permissions_mixins import OnlyAdminMixin
+from employee.mixins.update_mixin import AdminLoggedUpdateMixin
 from employee.models import Piecework
 
 
@@ -16,9 +18,9 @@ class DailySalaryUpdateView(
     OnlyAdminMixin,
     DailySalaryContextMixin,
     SuccessMessageMixin,
+    AdminLoggedUpdateMixin,
     UpdateView,
 ):
-    login_url = "login"
     form_class = UpdateDailySalaryForm
     template_name = "daily_salary/daily_salary_update.html"
     success_message = _("Updated")
@@ -30,9 +32,9 @@ class DailySalaryDeleteView(
     DailySalaryContextMixin,
     BlockDeleteMixin,
     DeleteProtectionMixin,
+    AdminLoggedDeleteMixin,
     DeleteView,
 ):
-    login_url = "login"
     template_name = "daily_salary/daily_salary_confirm_delete.html"
     block_related_models = [_("Daily Salary"), _("Piecework")]
 
@@ -41,7 +43,3 @@ class DailySalaryDeleteView(
         return Piecework.objects.filter(
             employee=self.object.employee, work_date=self.object.salary_date
         )
-
-    # Handle the deletion and send a warning.
-    def get_redirect_url(self):
-        return self.success_url
