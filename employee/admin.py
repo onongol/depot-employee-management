@@ -76,11 +76,7 @@ class MasterAdmin(
     )
     search_help_text = "Search by master ID or name"
     list_filter = ["department", "is_active"]
-    list_editable = (
-        "name",
-        "department",
-        "is_active",
-    )
+    list_editable = ("is_active",)
     ordering = ("-master_id",)
 
 
@@ -93,10 +89,13 @@ class PayrollAdmin(
         "name",
         "is_active",
     )
-    search_fields = ("payroll_id", "name")
+    search_fields = (
+        "payroll_id",
+        "name",
+    )
     search_help_text = "Search by payroll ID or name"
     list_filter = ["is_active"]
-    list_editable = ("name", "is_active")
+    list_editable = ("is_active",)
     ordering = ("-payroll_id",)
 
 
@@ -120,13 +119,7 @@ class EmployeeAdmin(
     search_help_text = "Search by employee ID or name"
     list_filter_submit = True
     list_filter = ["department", ("job_title", ChoicesDropdownFilter), "is_active"]
-    list_editable = (
-        "name",
-        "job_title",
-        "rank",
-        "money_per_hour",
-        "is_active",
-    )
+    list_editable = ("is_active",)
     ordering = ("-employee_id",)
 
 
@@ -153,14 +146,6 @@ class WorkAdmin(
         ("job_title", ChoicesDropdownFilter),
         ("type_wagon", MultipleChoicesDropdownFilter),
     ]
-    list_editable = (
-        "job_title",
-        "type_wagon",
-        "type_material",
-        "usage_material",
-        "standard_time",
-        "price",
-    )
     readonly_fields = ("work_id",)
     ordering = ("-work_id",)
 
