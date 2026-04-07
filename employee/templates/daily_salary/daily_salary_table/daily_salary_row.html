@@ -1,3 +1,4 @@
+{% load humanize %}
 {% if not is_employee and not is_master %}
     <td class="{{ col_class_checkbox }}">
         {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="daily_salary_ids" row_value=row.pk row_label=row.employee.employee_id %}
@@ -15,7 +16,7 @@
 <td class="{{ col_class_hidden }}">{{ row.employee.job_title }}</td>
 <td class="{{ col_class_hidden }}">{{ row.hours_per_day }}</td>
 {% if not is_employee and not is_master %}
-    <td class="{{ col_class_hidden }}">{{ row.salary_day|floatformat:2 }}</td>
+    <td class="{{ col_class_hidden }}">{{ row.salary_day|floatformat:2|intcomma }}</td>
 {% endif %}
 <td class="{{ col_class }}">{{ row.salary_date|date:"Y-m-d" }}</td>
 {% if not is_employee %}<td class="{{ col_class }}">{{ row.record_date|date:"Y-m-d H:i" }}</td>{% endif %}

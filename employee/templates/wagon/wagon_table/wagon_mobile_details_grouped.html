@@ -1,10 +1,11 @@
 {% load i18n %}
+{% load humanize %}
 <div>{{ row.type_wagon }}</div>
 <div>
     <span>{% trans "time:" %}</span>
-    {{ row.total_time|floatformat:2 }}
+    {{ row.total_time|floatformat:2|intcomma }}
 </div>
 <div>
     <span>{% trans "price:" %}</span>
-    {{ row.total_price|floatformat:2 }}
+    {{ row.total_price|floatformat:2|intcomma }}
 </div>

@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load humanize %}
 {% if not is_employee and not is_master %}
     <td class="{{ col_class_checkbox }}">
         {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="work_table_ids" row_value=row.pk %}
@@ -21,4 +22,4 @@
     <td class="{{ col_class_hidden }}">{{ row.usage_material|floatformat:2 }}</td>
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ row.standard_time|floatformat:2 }}</td>
-<td class="{{ col_class_hidden }}">{{ row.price|floatformat:2 }}</td>
+<td class="{{ col_class_hidden }}">{{ row.price|floatformat:2|intcomma }}</td>
