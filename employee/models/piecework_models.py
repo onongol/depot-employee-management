@@ -4,6 +4,7 @@ from uuid import uuid4
 
 from django.core.validators import MinValueValidator
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 from employee.constants.constants import (
     JOB_TITLE_CHOICES,
@@ -114,6 +115,7 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     work_date = models.DateField(default=date.today)
     record_date = models.DateTimeField(auto_now_add=True)
     group_id = models.CharField(max_length=36, blank=True, null=True, db_index=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"(ID: {self.employee.employee_id}) {self.employee.name}, {self.work.work_name} ({self.type_work}) - {self.work_date}"
