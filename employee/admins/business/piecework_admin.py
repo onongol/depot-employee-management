@@ -15,7 +15,12 @@ from employee.models import Piecework
 
 @admin.register(Piecework)
 class PieceworkAdmin(
-    ReadOnlyAdminMixin, ModelAdmin, ExportActionModelAdmin, ExportMixin, ExportForm
+    ReadOnlyAdminMixin,
+    ModelAdmin,
+    SimpleHistoryAdmin,
+    ExportActionModelAdmin,
+    ExportMixin,
+    ExportForm,
 ):
     list_display = (
         "record_id",
@@ -51,4 +56,4 @@ class PieceworkAdmin(
     list_select_related = ("employee", "work", "daily_work")
     date_hierarchy = "work_date"
     ordering = ("-work_date", "-record_date")
-    list_display_links = None
+    list_display_links = ("employee_id", "employee_name", "work_name")
