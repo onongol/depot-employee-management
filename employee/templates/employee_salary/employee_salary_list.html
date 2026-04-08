@@ -20,7 +20,7 @@
         </div>
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
             <!-- Filters -->
-            {% include "includes/table/list_table_filters.html" with toggle_id="employee-salary-filters-toggle" panel_id="employee-salary-filters-panel" fields_template="employee_salary/employee_salary_filters_fields.html" %}
+            {% include "includes/table/list_table_filters.html" with toggle_id="employee-salary-filters-toggle" panel_id="employee-salary-filters-panel" fields_template="employee_salary/employee_salary_filters_fields.html" htmx_target="#employee-salary-list-results" %}
             <!-- Export Excel PDF Mobile -->
             <div class="md:hidden">
                 {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
@@ -30,8 +30,10 @@
             </div>
         </div>
     </div>
-    <!-- Table -->
-    {% include "employee_salary/employee_salary_table/employee_salary_table.html" %}
-    <!-- Pagination -->
-    {% include "includes/table/pagination.html" %}
+    <div id="employee-salary-list-results">
+        <!-- Table -->
+        {% include "employee_salary/employee_salary_table/employee_salary_table.html" %}
+        <!-- Pagination -->
+        {% include "includes/table/pagination.html" %}
+    </div>
 {% endblock %}
