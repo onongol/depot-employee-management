@@ -6,10 +6,10 @@
     <th scope="col" class="{{ col_class_hidden }}">{% trans "Time" %}</th>
     <th scope="col" class="{{ col_class_hidden }}">{% trans "Price" %}</th>
     <th scope="col" class="{{ col_class }}">
-        {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
+        {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department htmx_target="#wagon-list-results" %}
     </th>
     <th scope="col" class="{{ col_class }}">
-        {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
+        {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department htmx_target="#wagon-list-results" %}
     </th>
 {% else %}
     <th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
@@ -18,6 +18,6 @@
     <th scope="col" class="{{ col_class_hidden }}">{% trans "Time" %}</th>
     <th scope="col" class="{{ col_class_hidden }}">{% trans "Price" %}</th>
     <th scope="col" class="{{ col_class }}">
-        {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
+        {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department htmx_target="#wagon-list-results" %}
     </th>
 {% endif %}
