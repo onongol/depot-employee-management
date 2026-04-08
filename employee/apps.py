@@ -6,3 +6,4 @@ class EmployeeConfig(AppConfig):
 
     default_auto_field = "django.db.models.BigAutoField"
     name = "employee"
+    verbose_name = "Operations"
