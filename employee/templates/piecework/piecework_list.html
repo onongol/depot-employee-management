@@ -15,7 +15,7 @@
         </div>
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
             <!-- Filters -->
-            {% include "includes/table/list_table_filters.html" with toggle_id="piecework-filters-toggle" panel_id="piecework-filters-panel" fields_template="piecework/piecework_filters_fields.html" %}
+            {% include "includes/table/list_table_filters.html" with toggle_id="piecework-filters-toggle" panel_id="piecework-filters-panel" fields_template="piecework/piecework_filters_fields.html" htmx_target="#piecework-list-results" %}
             <!-- Export Excel Mobile -->
             <div class="md:hidden">
                 {% include "includes/export/export_excel_button.html" with url_name='piecework_export_excel' params=request.GET aria_label="Download filtered pieceworks as Excel" %}
@@ -24,8 +24,10 @@
     </div>
     <!-- Alerts -->
     {% include "includes/alerts/alerts.html" %}
-    <!-- Table -->
-    {% include "piecework/piecework_table/piecework_table.html" %}
-    <!-- Pagination -->
-    {% include "includes/table/pagination.html" %}
+    <div id="piecework-list-results">
+        <!-- Table -->
+        {% include "piecework/piecework_table/piecework_table.html" %}
+        <!-- Pagination -->
+        {% include "includes/table/pagination.html" %}
+    </div>
 {% endblock %}
