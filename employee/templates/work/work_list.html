@@ -16,24 +16,26 @@
             {% include "includes/table_action_buttons/bulk_delete_button.html" %}
         {% endif %}
         <!-- Filters -->
-        {% include "includes/table/list_table_filters.html" with toggle_id="work-filters-toggle" panel_id="work-filters-panel" fields_template="work/work_filters_fields.html" %}
+        {% include "includes/table/list_table_filters.html" with toggle_id="work-filters-toggle" panel_id="work-filters-panel" fields_template="work/work_filters_fields.html" htmx_target="#work-list-results" %}
     </div>
     <!-- Alerts -->
     {% include "includes/alerts/alerts.html" %}
-    <!-- Summary -->
-    {% if not is_employee and not is_master %}
-        {% include "includes/summaries/selected_summary.html" with summary_id="work-table-summary" checkbox_name="work_table_ids" %}
-    {% endif %}
-    <!-- Bulk action form: wraps the table checkboxes so selected Work IDs are submitted via POST -->
-    <form method="post"
-          id="bulkDeleteForm"
-          action="{% url 'work_delete_bulk' %}">
-        {% csrf_token %}
-        <!-- Table -->
-        {% include "work/work_table/work_table.html" %}
-    </form>
-    <!-- Pagination -->
-    {% include "includes/table/pagination.html" %}
+    <div id="work-list-results">
+        <!-- Summary -->
+        {% if not is_employee and not is_master %}
+            {% include "includes/summaries/selected_summary.html" with summary_id="work-table-summary" checkbox_name="work_table_ids" %}
+        {% endif %}
+        <!-- Bulk action form: wraps the table checkboxes so selected Work IDs are submitted via POST -->
+        <form method="post"
+            id="bulkDeleteForm"
+            action="{% url 'work_delete_bulk' %}">
+            {% csrf_token %}
+            <!-- Table -->
+            {% include "work/work_table/work_table.html" %}
+        </form>
+        <!-- Pagination -->
+        {% include "includes/table/pagination.html" %}
+    </div>
     <!-- Modals -->
     {% include "includes/modals/modal_update.html" %}
     {% include "includes/modals/modal_delete_bulk.html" %}
