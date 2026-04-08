@@ -36,7 +36,7 @@
             {% include "daily_salary/daily_salary_table/daily_salary_table.html" %}
         </form>
         <!-- Pagination -->
-        {% include "includes/table/pagination.html" %}
+        {% include "includes/table/pagination.html" with htmx_target="#daily-salary-list-results" %}
     </div>
     <!-- Modal -->
     {% include "includes/modals/modal_update.html" %}
