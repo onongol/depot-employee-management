@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class LogEntryActionFilter(admin.SimpleListFilter):
+    """Custom admin filter for LogEntry action types (Addition, Change, Deletion)."""
     title = _("Action")
     parameter_name = "action_flag"
 
