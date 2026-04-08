@@ -25,6 +25,6 @@
         <!-- Table -->
         {% include "material/material_table/material_table.html" %}
         <!-- Pagination -->
-        {% include "includes/table/pagination.html" %}
+        {% include "includes/table/pagination.html" with htmx_target="#material-list-results" %}
     </div>
 {% endblock %}
