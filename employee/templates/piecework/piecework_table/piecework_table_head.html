@@ -14,22 +14,22 @@
 <th scope="col" class="{{ col_class_hidden }}">{% trans "Price" %}</th>
 {% if month_group %}
     <th scope="col" class="{{ col_class }}">
-        {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department %}
+        {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department htmx_target="#piecework-list-results" %}
     </th>
     <th scope="col" class="{{ col_class }}">
-        {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
+        {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department htmx_target="#piecework-list-results" %}
     </th>
 {% elif year_group %}
     <th scope="col" class="{{ col_class }}">
-        {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department %}
+        {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department htmx_target="#piecework-list-results" %}
     </th>
 {% else %}
     <th scope="col" class="{{ col_class }}">
-        {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
+        {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department htmx_target="#piecework-list-results" %}
     </th>
     {% if not is_employee %}
         <th scope="col" class="{{ col_class }}">
-            {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department %}
+            {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department htmx_target="#piecework-list-results" %}
         </th>
     {% endif %}
 {% endif %}
