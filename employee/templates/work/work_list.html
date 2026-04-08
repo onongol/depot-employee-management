@@ -34,7 +34,7 @@
             {% include "work/work_table/work_table.html" %}
         </form>
         <!-- Pagination -->
-        {% include "includes/table/pagination.html" %}
+        {% include "includes/table/pagination.html" with htmx_target="#work-list-results" %}
     </div>
     <!-- Modals -->
     {% include "includes/modals/modal_update.html" %}
