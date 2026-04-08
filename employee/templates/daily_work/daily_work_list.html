@@ -21,7 +21,7 @@
                 {% include "includes/table_action_buttons/bulk_delete_button.html" %}
             {% endif %}
             <!-- Filters -->
-            {% include "includes/table/list_table_filters.html" with toggle_id="daily-work-filters-toggle" panel_id="daily-work-filters-panel" fields_template="daily_work/daily_work_filters_fields.html" %}
+            {% include "includes/table/list_table_filters.html" with toggle_id="daily-work-filters-toggle" panel_id="daily-work-filters-panel" fields_template="daily_work/daily_work_filters_fields.html" htmx_target="#daily-work-list-results" %}
             <!-- Export Excel Mobile -->
             <div class="md:hidden">
                 {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
@@ -30,17 +30,19 @@
     </div>
     <!-- Alerts -->
     {% include "includes/alerts/alerts.html" %}
-    <!-- Summary -->
-    {% if not is_employee and not is_master and detail_group %}
-        {% include "includes/summaries/selected_summary.html" with summary_id="daily-work-summary" checkbox_name="daily_work_ids" %}
-    {% endif %}
-    <form method="post"
-          id="bulkDeleteForm"
-          action="{% url 'daily_work_delete_bulk' %}">
-        {% csrf_token %}
-        <!-- Table -->
-        {% include "daily_work/daily_work_table/daily_work_table.html" %}
-    </form>
+    <div id="daily-work-list-results">
+        <!-- Summary -->
+        {% if not is_employee and not is_master and detail_group %}
+            {% include "includes/summaries/selected_summary.html" with summary_id="daily-work-summary" checkbox_name="daily_work_ids" %}
+        {% endif %}
+        <form method="post"
+            id="bulkDeleteForm"
+            action="{% url 'daily_work_delete_bulk' %}">
+            {% csrf_token %}
+            <!-- Table -->
+            {% include "daily_work/daily_work_table/daily_work_table.html" %}
+        </form>
+    </div>
     <!-- Pagination -->
     {% include "includes/table/pagination.html" %}
     <!-- Modals -->
