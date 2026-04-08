@@ -6,6 +6,7 @@ from employee.admins.log_entry.type_label import get_content_type_label
 
 
 class LogEntryModelFilter(admin.SimpleListFilter):
+    """Custom admin filter for LogEntry content types (models)."""
     title = _("Model")
     parameter_name = "content_type"
 
