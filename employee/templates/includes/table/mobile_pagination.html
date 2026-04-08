@@ -6,13 +6,28 @@
     </p>
     <div class="flex items-center justify-center gap-2">
         {% if page_obj.has_previous %}
-            <a class="inline-flex size-12 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-               href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-               aria-label="Previous page">
-                <svg class="size-6" aria-hidden="true">
-                    <use href="#chevron-left"></use>
-                </svg>
-            </a>
+            {% if htmx_target %}
+                <a class="inline-flex size-12 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+                   href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
+                   hx-get="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
+                   hx-target="{{ htmx_target }}"
+                   hx-select="{{ htmx_target }}"
+                   hx-swap="outerHTML"
+                   hx-push-url="true"
+                   aria-label="Previous page">
+                    <svg class="size-6" aria-hidden="true">
+                        <use href="#chevron-left"></use>
+                    </svg>
+                </a>
+            {% else %}
+                <a class="inline-flex size-12 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+                   href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
+                   aria-label="Previous page">
+                    <svg class="size-6" aria-hidden="true">
+                        <use href="#chevron-left"></use>
+                    </svg>
+                </a>
+            {% endif %}
         {% else %}
             <span class="inline-flex size-12 cursor-not-allowed items-center justify-center rounded-md border border-gray-200 bg-gray-100 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-500">
                 <svg class="size-6" aria-hidden="true">
@@ -23,13 +38,28 @@
         <span class="inline-flex size-12 items-center justify-center rounded-md border border-gray-500 bg-gray-200 px-3 text-sm font-semibold text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-500"
               aria-current="page">{{ page_obj.number }}</span>
         {% if page_obj.has_next %}
-            <a class="inline-flex size-12 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-               href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-               aria-label="Next page">
-                <svg class="size-6" aria-hidden="true">
-                    <use href="#chevron-right"></use>
-                </svg>
-            </a>
+            {% if htmx_target %}
+                <a class="inline-flex size-12 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+                   href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
+                   hx-get="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
+                   hx-target="{{ htmx_target }}"
+                   hx-select="{{ htmx_target }}"
+                   hx-swap="outerHTML"
+                   hx-push-url="true"
+                   aria-label="Next page">
+                    <svg class="size-6" aria-hidden="true">
+                        <use href="#chevron-right"></use>
+                    </svg>
+                </a>
+            {% else %}
+                <a class="inline-flex size-12 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+                   href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
+                   aria-label="Next page">
+                    <svg class="size-6" aria-hidden="true">
+                        <use href="#chevron-right"></use>
+                    </svg>
+                </a>
+            {% endif %}
         {% else %}
             <span class="inline-flex size-12 cursor-not-allowed items-center justify-center rounded-md border border-gray-200 bg-gray-100 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-500">
                 <svg class="size-6" aria-hidden="true">
