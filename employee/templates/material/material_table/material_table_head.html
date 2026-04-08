@@ -4,5 +4,5 @@
 <th scope="col" class="{{ col_class_hidden }}">{% trans "Work" %}</th>
 <th scope="col" class="{{ col_class_hidden }}">{% trans "Amount" %}</th>
 <th scope="col" class="{{ col_class }}">
-    {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department %}
+    {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department htmx_target="#material-list-results" %}
 </th>
