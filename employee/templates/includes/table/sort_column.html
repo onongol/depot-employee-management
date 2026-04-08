@@ -1,10 +1,26 @@
 <div class="flex items-center">
-    <a href="?{% for key, value in request.GET.items %}{% if value %}{{ key }}={{ value|urlencode }}&{% endif %}{% endfor %}order_by={{ field }}&direction={% if request.GET.order_by == field and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}"
-       class="group flex items-center gap-1">
-        <span>{{ label }}</span>
-        <svg class="{% if request.GET.order_by == field %}text-gray-600{% else %}text-gray-400 group-hover:text-gray-600{% endif %} h-4 w-4 flex-none"
-             aria-hidden="true">
-            <use xlink:href="#order-by"></use>
-        </svg>
-    </a>
+    {% if htmx_target %}
+        <a href="?{% for key, value in request.GET.items %}{% if value %}{{ key }}={{ value|urlencode }}&{% endif %}{% endfor %}order_by={{ field }}&direction={% if request.GET.order_by == field and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}"
+           hx-get="?{% for key, value in request.GET.items %}{% if value %}{{ key }}={{ value|urlencode }}&{% endif %}{% endfor %}order_by={{ field }}&direction={% if request.GET.order_by == field and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}"
+           hx-target="{{ htmx_target }}"
+           hx-select="{{ htmx_target }}"
+           hx-swap="outerHTML"
+           hx-push-url="true"
+           class="group flex items-center gap-1">
+            <span>{{ label }}</span>
+            <svg class="{% if request.GET.order_by == field %}text-gray-600{% else %}text-gray-400 group-hover:text-gray-600{% endif %} h-4 w-4 flex-none"
+                 aria-hidden="true">
+                <use xlink:href="#order-by"></use>
+            </svg>
+        </a>
+    {% else %}
+        <a href="?{% for key, value in request.GET.items %}{% if value %}{{ key }}={{ value|urlencode }}&{% endif %}{% endfor %}order_by={{ field }}&direction={% if request.GET.order_by == field and request.GET.direction == 'asc' %}desc{% else %}asc{% endif %}"
+           class="group flex items-center gap-1">
+            <span>{{ label }}</span>
+            <svg class="{% if request.GET.order_by == field %}text-gray-600{% else %}text-gray-400 group-hover:text-gray-600{% endif %} h-4 w-4 flex-none"
+                 aria-hidden="true">
+                <use xlink:href="#order-by"></use>
+            </svg>
+        </a>
+    {% endif %}
 </div>
