@@ -13,10 +13,10 @@
     <th scope="col" class="{{ col_class_hidden }}">{% trans "Salary" %}</th>
 {% endif %}
 <th scope="col" class="{{ col_class }}">
-    {% include "includes/table/sort_column.html" with label=_("Date") field="salary_date" col_class=col_class selected_department=selected_department %}
+    {% include "includes/table/sort_column.html" with label=_("Date") field="salary_date" col_class=col_class selected_department=selected_department htmx_target="#daily-salary-list-results" %}
 </th>
 {% if not is_employee %}
     <th scope="col" class="{{ col_class }}">
-        {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department %}
+        {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department htmx_target="#daily-salary-list-results" %}
     </th>
 {% endif %}
