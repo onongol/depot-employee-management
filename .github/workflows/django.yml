@@ -39,6 +39,9 @@ jobs:
       - name: Run Tests
         env:
           DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          DJANGO_DEBUG: "False"
+          ALLOWED_HOSTS: .railway.app,.example.com
+          CSRF_TRUSTED_ORIGINS: https://example.com
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
           MYSQL_USER: ${{ secrets.MYSQL_USER }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
