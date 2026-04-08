@@ -1,3 +1,5 @@
+import "htmx.org";
+
 import "./alert/alert_close.ts";
 import "./alert/auto_hide_alert.ts";
 import "./amount/amount_inputs.ts";
