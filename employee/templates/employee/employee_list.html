@@ -18,25 +18,27 @@
         {% endif %}
         <!-- Filters -->
         {% if not is_employee %}
-            {% include "includes/table/list_table_filters.html" with toggle_id="employee-filters-toggle" panel_id="employee-filters-panel" fields_template="employee/employee_filters_fields.html" %}
+            {% include "includes/table/list_table_filters.html" with toggle_id="employee-filters-toggle" panel_id="employee-filters-panel" fields_template="employee/employee_filters_fields.html" htmx_target="#employee-list-results" %}
         {% endif %}
     </div>
     <!-- Alerts -->
     {% include "includes/alerts/alerts.html" %}
-    <!-- Summary -->
-    {% if not is_employee and not is_master %}
-        {% include "includes/summaries/selected_summary.html" with summary_id="employee-table-summary" checkbox_name="employee_table_ids" %}
-    {% endif %}
-    <!-- Bulk action form: wraps the table checkboxes so selected employees are submitted via POST -->
-    <form method="post"
-          id="bulkDeleteForm"
-          action="{% url 'employee_delete_bulk' %}">
-        {% csrf_token %}
-        <!-- Table -->
-        {% include "employee/employee_table/employee_table.html" %}
-    </form>
-    <!-- Pagination -->
-    {% include "includes/table/pagination.html" %}
+    <div id="employee-list-results">
+        <!-- Summary -->
+        {% if not is_employee and not is_master %}
+            {% include "includes/summaries/selected_summary.html" with summary_id="employee-table-summary" checkbox_name="employee_table_ids" %}
+        {% endif %}
+        <!-- Bulk action form: wraps the table checkboxes so selected employees are submitted via POST -->
+        <form method="post"
+              id="bulkDeleteForm"
+              action="{% url 'employee_delete_bulk' %}">
+            {% csrf_token %}
+            <!-- Table -->
+            {% include "employee/employee_table/employee_table.html" %}
+        </form>
+        <!-- Pagination -->
+        {% include "includes/table/pagination.html" %}
+    </div>
     <!-- Modals -->
     {% include "includes/modals/modal_update.html" %}
     {% include "includes/modals/modal_delete_bulk.html" %}
