@@ -8,12 +8,15 @@ on:
       - "vite-javascript"
       - "transition-to-typescript"
       - "feature/custom-admin-history"
+      - "feature/htmx-integration"
   pull_request:
     branches:
       - "feature/replace-bootstrap-with-tailwind"
       - "upgrade/django-5.2.9"
       - "vite-javascript"
       - "transition-to-typescript"
+      - "feature/custom-admin-history"
+      - "feature/htmx-integration"
 
 jobs:
   build:
