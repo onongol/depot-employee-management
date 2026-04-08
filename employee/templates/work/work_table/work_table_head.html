@@ -6,7 +6,7 @@
 {% endif %}
 <th scope="col" class="{{ col_class_hidden }}">#</th>
 <th scope="col" class="{{ col_class }}">
-    {% include "includes/table/sort_column.html" with label=_("Work") field="work_name" col_class=col_class selected_department=selected_department %}
+    {% include "includes/table/sort_column.html" with label=_("Work") field="work_name" col_class=col_class selected_department=selected_department htmx_target="#work-list-results" %}
 </th>
 <th scope="col" class="{{ col_class_hidden }}">{% trans "Position" %}</th>
 {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
