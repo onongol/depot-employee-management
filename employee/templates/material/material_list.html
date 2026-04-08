@@ -14,15 +14,17 @@
         </div>
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
             <!-- Filters -->
-            {% include "includes/table/list_table_filters.html" with toggle_id="material-filters-toggle" panel_id="material-filters-panel" fields_template="material/material_filters_fields.html" %}
+            {% include "includes/table/list_table_filters.html" with toggle_id="material-filters-toggle" panel_id="material-filters-panel" fields_template="material/material_filters_fields.html" htmx_target="#material-list-results" %}
             <!-- Export Excel Mobile -->
             <div class="md:hidden">
                 {% include "includes/export/export_excel_button.html" with url_name='material_export_excel' params=request.GET aria_label="Download filtered materials as Excel" %}
             </div>
         </div>
     </div>
-    <!-- Table -->
-    {% include "material/material_table/material_table.html" %}
-    <!-- Pagination -->
-    {% include "includes/table/pagination.html" %}
+    <div id="material-list-results">
+        <!-- Table -->
+        {% include "material/material_table/material_table.html" %}
+        <!-- Pagination -->
+        {% include "includes/table/pagination.html" %}
+    </div>
 {% endblock %}
