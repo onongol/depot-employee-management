@@ -37,7 +37,7 @@
             {% include "employee/employee_table/employee_table.html" %}
         </form>
         <!-- Pagination -->
-        {% include "includes/table/pagination.html" %}
+            {% include "includes/table/pagination.html" with htmx_target="#employee-list-results" %}
     </div>
     <!-- Modals -->
     {% include "includes/modals/modal_update.html" %}
