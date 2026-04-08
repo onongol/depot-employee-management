@@ -15,15 +15,17 @@
         </div>
         <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
             <!-- Filters -->
-            {% include "includes/table/list_table_filters.html" with toggle_id="wagon-filters-toggle" panel_id="wagon-filters-panel" fields_template="wagon/wagon_filters_fields.html" %}
+            {% include "includes/table/list_table_filters.html" with toggle_id="wagon-filters-toggle" panel_id="wagon-filters-panel" fields_template="wagon/wagon_filters_fields.html" htmx_target="#wagon-list-results" %}
             <!-- Export Excel Mobile -->
             <div class="md:hidden">
                 {% include "includes/export/export_excel_button.html" with url_name='wagon_export_excel' params=request.GET aria_label="Download filtered wagons as Excel" %}
             </div>
         </div>
     </div>
-    <!-- Table -->
-    {% include "wagon/wagon_table/wagon_table.html" %}
-    <!-- Pagination -->
-    {% include "includes/table/pagination.html" %}
+    <div id="wagon-list-results">
+        <!-- Table -->
+        {% include "wagon/wagon_table/wagon_table.html" %}
+        <!-- Pagination -->
+        {% include "includes/table/pagination.html" %}
+    </div>
 {% endblock %}
