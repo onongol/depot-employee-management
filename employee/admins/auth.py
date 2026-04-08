@@ -2,20 +2,47 @@ from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group, User
-from import_export.admin import ImportExportModelAdmin
 from unfold.admin import ModelAdmin
+from unfold.contrib.filters.admin import FieldTextFilter
 from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
-from unfold.paginator import InfinitePaginator
-
-from employee.admins.common import ImportExportMixin
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
 
 
 @admin.register(User)
-class UserAdmin(BaseUserAdmin, ModelAdmin, ImportExportModelAdmin, ImportExportMixin):
-    """Custom User Admin for the Employee Management System."""
+class UserAdmin(BaseUserAdmin, ModelAdmin):
+    list_display = (
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_active",
+        "is_staff",
+        "is_superuser",
+        "last_login",
+        "date_joined",
+    )
+
+    search_fields = ("username",)
+    search_help_text = "Search by username"
+    list_filter_submit = True
+
+    list_filter = (
+        ("email", FieldTextFilter),
+        ("first_name", FieldTextFilter),
+        ("last_name", FieldTextFilter),
+        "is_active",
+        "is_staff",
+        "is_superuser",
+        "groups",
+    )
+
+    ordering = (
+        "-last_login",
+        "-date_joined",
+    )
+    readonly_fields = ("last_login", "date_joined")
 
     form = UserChangeForm
     add_form = UserCreationForm
@@ -24,12 +51,12 @@ class UserAdmin(BaseUserAdmin, ModelAdmin, ImportExportModelAdmin, ImportExportM
     fieldsets = BaseUserAdmin.fieldsets
     add_fieldsets = BaseUserAdmin.add_fieldsets
 
-    paginator = InfinitePaginator
-    show_full_result_count = True
-
 
 @admin.register(Group)
-class GroupAdmin(BaseGroupAdmin, ModelAdmin, ImportExportModelAdmin):
-    """Custom Group Admin for the Employee Management System."""
+class GroupAdmin(BaseGroupAdmin, ModelAdmin):
+    """Manage auth groups and their assigned permissions."""
 
-    pass
+    list_display = ("name",)
+    search_fields = ("name",)
+    search_help_text = "Search by group name"
+    ordering = ("name",)
