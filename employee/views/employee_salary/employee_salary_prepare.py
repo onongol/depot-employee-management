@@ -1,5 +1,5 @@
 from employee.models import Employee
-from employee.utils.group_modes import is_wagon_group
+from employee.utils.group_modes import is_wagon_group, is_detail_group
 from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
@@ -29,6 +29,7 @@ def employee_salaries_prepare(request) -> EmployeeSalaryContext:
     direction = (request.GET.get("direction") or "").strip()
 
     show_wagon = is_wagon_department(department)
+    total_group = is_detail_group(group)
     wagon_group = is_wagon_group(group)
     wagon_mode = wagon_group and show_wagon
 
@@ -55,6 +56,7 @@ def employee_salaries_prepare(request) -> EmployeeSalaryContext:
         order_by=order_by,
         direction=direction,
         show_wagon=show_wagon,
+        total_group=total_group,
         wagon_group=wagon_group,
         wagon_mode=wagon_mode,
         job_titles=job_titles,
