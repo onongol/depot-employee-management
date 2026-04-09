@@ -1,0 +1,17 @@
+{% if htmx_target %}
+    <nav aria-label="Pagination navigation"
+         class="mt-2 mb-4"
+         hx-boost="true"
+         hx-target="{{ htmx_target }}"
+         hx-select="{{ htmx_target }}"
+         hx-swap="outerHTML"
+         hx-push-url="true">
+        {% include "includes/pagination/mobile_pagination.html" %}
+        {% include "includes/pagination/desktop_pagination.html" %}
+    </nav>
+{% else %}
+    <nav aria-label="Pagination navigation" class="mt-2 mb-4">
+        {% include "includes/pagination/mobile_pagination.html" %}
+        {% include "includes/pagination/desktop_pagination.html" %}
+    </nav>
+{% endif %}
