@@ -1,0 +1,11 @@
+{% load i18n %}
+{% load querystring %}
+{% trans "Daily" as daily_label %}
+{% trans "Monthly" as monthly_label %}
+{% trans "Yearly" as yearly_label %}
+{% querystring group='' page=None month_period=None year=None range_date=None record_date=None as daily_href %}
+{% querystring group=GROUP_MONTH page=None range_date=None record_date=None year=None as monthly_href %}
+{% querystring group=GROUP_YEAR page=None range_date=None record_date=None month_period=None as yearly_href %}
+{% include "includes/components/segmented_option.html" with href=daily_href label=daily_label active=detail_group %}
+{% include "includes/components/segmented_option.html" with href=monthly_href label=monthly_label active=month_group %}
+{% include "includes/components/segmented_option.html" with href=yearly_href label=yearly_label active=year_group %}
