@@ -7,9 +7,9 @@
             {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
                 {% include "includes/form/form_input.html" with id="wagon_number" label=_("Wagon Number") name="wagon_number" type="number" value=request.POST.wagon_number hide_label_mobile=True placeholder=_("Wagon Number (optional)") %}
             {% endif %}
-            {% include "includes/create_table/create_table_filters.html" with toggle_id="work-search-filters-toggle" panel_id="work-search-filters-panel" fields_template="includes/create_table/works/works_filter_fields.html" %}
+            {% include "includes/create_table/create_table_filters.html" with toggle_id="work-search-filters-toggle" panel_id="work-search-filters-panel" fields_template="create_table/works/works_filter_fields.html" %}
         </div>
-        {% include "includes/create_table/works/works_create_table.html" %}
+        {% include "create_table/works/works_create_table.html" %}
         {% include "includes/summaries/selected_summary.html" with summary_id="works-create-summary" checkbox_name="work_ids" %}
     </fieldset>
     <div class="flex flex-col gap-2 sm:flex-row">
