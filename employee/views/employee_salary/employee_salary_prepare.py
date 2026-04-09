@@ -1,5 +1,5 @@
 from employee.models import Employee
-from employee.utils.group_modes import is_wagon_group, is_detail_group
+from employee.utils.group_modes import is_detail_group, is_wagon_group
 from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
