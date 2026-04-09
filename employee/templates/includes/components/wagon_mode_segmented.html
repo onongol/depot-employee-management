@@ -1,15 +1,1 @@
-{% load i18n %}
-{% load querystring %}
-<div class="flex flex-col gap-4 md:flex-row">
-    <div class="flex flex-col gap-1">
-        <span class="sr-only">{% trans "View" %}</span>
-        <div class="inline-flex w-fit gap-1 rounded-xl border border-gray-300 bg-gray-100 p-1 dark:border-gray-600 dark:bg-gray-800">
-            <a href="{% querystring group='' page=None month_period=None %}"
-               class="{% if detail_group %}bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400{% else %}text-gray-500 hover:bg-gray-200 dark:text-gray-500 dark:hover:bg-gray-700{% endif %} rounded-lg px-4 py-2 text-sm font-medium transition"
-               {% if detail_group %}aria-current="page"{% endif %}>{% trans "Daily" %}</a>
-            <a href="{% querystring group=GROUP_MONTH page=None work=None range_date=None %}"
-               class="{% if month_group %}bg-white text-gray-700 shadow-sm dark:bg-gray-900 dark:text-gray-400{% else %}text-gray-500 hover:bg-gray-200 dark:text-gray-500 dark:hover:bg-gray-700{% endif %} rounded-lg px-4 py-2 text-sm font-medium transition"
-               {% if month_group %}aria-current="page"{% endif %}>{% trans "Monthly" %}</a>
-        </div>
-    </div>
-</div>
+{% include "includes/components/segmented_control.html" with options_template="includes/components/wagon_mode_segmented_options.html" %}
