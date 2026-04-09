@@ -7,32 +7,17 @@
         <!-- First page button -->
         {% if page_obj.number > 1 %}
             <li>
-                {% if htmx_target %}
-                    <a class="inline-flex size-8 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-                       href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-                       hx-get="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-                       hx-target="{{ htmx_target }}"
-                       hx-select="{{ htmx_target }}"
-                       hx-swap="outerHTML"
-                       hx-push-url="true"
-                       aria-label="First page">
-                        <svg class="size-4" aria-hidden="true">
-                            <use href="#chevron-double-left"></use>
-                        </svg>
-                    </a>
-                {% else %}
-                    <a class="inline-flex size-8 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-                       href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-                       aria-label="First page">
-                        <svg class="size-4" aria-hidden="true">
-                            <use href="#chevron-double-left"></use>
-                        </svg>
-                    </a>
-                {% endif %}
+                <a class="inline-flex size-8 items-center justify-center rounded-md border border-gray-300 bg-white text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+                   href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
+                   aria-label="First page">
+                    <svg class="size-4" aria-hidden="true">
+                        <use href="#chevron-double-left"></use>
+                    </svg>
+                </a>
             </li>
         {% else %}
             <li>
-                <span class="inline-flex size-8 cursor-not-allowed items-center justify-center rounded-md border border-gray-200 bg-gray-100 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-500">
+                <span class="inline-flex size-8 cursor-not-allowed items-center justify-center rounded-md border border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-500">
                     <svg class="size-4" aria-hidden="true">
                         <use href="#chevron-double-left"></use>
                     </svg>
@@ -48,48 +33,22 @@
                 </li>
             {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                 <li>
-                    {% if htmx_target %}
-                        <a class="inline-flex size-8 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-                           href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-                           hx-get="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-                           hx-target="{{ htmx_target }}"
-                           hx-select="{{ htmx_target }}"
-                           hx-swap="outerHTML"
-                           hx-push-url="true"
-                           aria-label="Go to page {{ num }}">{{ num }}</a>
-                    {% else %}
-                        <a class="inline-flex size-8 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-                           href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-                           aria-label="Go to page {{ num }}">{{ num }}</a>
-                    {% endif %}
+                    <a class="inline-flex size-8 items-center justify-center rounded-md border border-gray-300 bg-white text-sm text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+                       href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
+                       aria-label="Go to page {{ num }}">{{ num }}</a>
                 </li>
             {% endif %}
         {% endfor %}
         <!-- Last page button -->
         {% if page_obj.number < page_obj.paginator.num_pages %}
             <li>
-                {% if htmx_target %}
-                    <a class="inline-flex size-8 items-center justify-center rounded-md border border-gray-300 bg-white text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-                       href="?page={{ page_obj.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-                       hx-get="?page={{ page_obj.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-                       hx-target="{{ htmx_target }}"
-                       hx-select="{{ htmx_target }}"
-                       hx-swap="outerHTML"
-                       hx-push-url="true"
-                       aria-label="Last page">
-                        <svg class="size-4" aria-hidden="true">
-                            <use href="#chevron-double-right"></use>
-                        </svg>
-                    </a>
-                {% else %}
-                    <a class="inline-flex size-8 items-center justify-center rounded-md border border-gray-300 bg-white text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-                       href="?page={{ page_obj.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
-                       aria-label="Last page">
-                        <svg class="size-4" aria-hidden="true">
-                            <use href="#chevron-double-right"></use>
-                        </svg>
-                    </a>
-                {% endif %}
+                <a class="inline-flex size-8 items-center justify-center rounded-md border border-gray-300 bg-white text-gray-500 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+                   href="?page={{ page_obj.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&amp;{{ key }}={{ value }}{% endif %}{% endfor %}"
+                   aria-label="Last page">
+                    <svg class="size-4" aria-hidden="true">
+                        <use href="#chevron-double-right"></use>
+                    </svg>
+                </a>
             </li>
         {% else %}
             <li>
