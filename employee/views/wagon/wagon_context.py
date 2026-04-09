@@ -17,6 +17,7 @@ class WagonContext:
     month_period: Optional[str]
     order_by: Optional[str]
     direction: Optional[str]
+    detail_group: bool = False
     month_group: bool = False
     year_group: bool = False
     show_wagon: bool = False
