@@ -17,6 +17,7 @@ class EmployeeSalaryContext:
     order_by: Optional[str]
     direction: Optional[str]
     show_wagon: bool = False
+    total_group: bool = False
     wagon_group: bool = False
     wagon_mode: bool = False
     job_titles: Optional[List[str]] = field(default_factory=list)
