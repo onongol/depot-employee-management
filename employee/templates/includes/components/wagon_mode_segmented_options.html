@@ -1,8 +1,0 @@
-{% load i18n %}
-{% load querystring %}
-{% trans "Daily" as daily_label %}
-{% trans "Monthly" as monthly_label %}
-{% querystring group='' page=None month_period=None as daily_href %}
-{% querystring group=GROUP_MONTH page=None work=None range_date=None as monthly_href %}
-{% include "includes/components/segmented_option.html" with href=daily_href label=daily_label active=detail_group %}
-{% include "includes/components/segmented_option.html" with href=monthly_href label=monthly_label active=month_group %}
