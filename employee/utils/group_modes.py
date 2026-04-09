@@ -1,21 +1,30 @@
-from employee.constants.constants import GROUP_MONTH, GROUP_YEAR, GROUP_WAGON
+from employee.constants.constants import (
+    GROUP_DEFAULT,
+    GROUP_MONTH,
+    GROUP_WAGON,
+    GROUP_YEAR,
+)
+
+
+def normalize_group(group: str | None) -> str:
+    return (group or "").strip()
 
 
 def is_detail_group(group):
-    return group not in (GROUP_MONTH, GROUP_YEAR)
+    return normalize_group(group) == GROUP_DEFAULT
 
 
 def is_grouped(group):
-    return group in (GROUP_MONTH, GROUP_YEAR)
+    return normalize_group(group) in (GROUP_MONTH, GROUP_YEAR)
 
 
 def is_month_group(group):
-    return group == GROUP_MONTH
+    return normalize_group(group) == GROUP_MONTH
 
 
 def is_year_group(group):
-    return group == GROUP_YEAR
+    return normalize_group(group) == GROUP_YEAR
 
 
 def is_wagon_group(group):
-    return group == GROUP_WAGON
+    return normalize_group(group) == GROUP_WAGON
