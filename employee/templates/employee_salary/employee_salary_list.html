@@ -9,7 +9,7 @@
             <div class="{% if show_wagon %}justify-between{% else %}justify-end{% endif %} flex flex-row items-center gap-2 md:gap-4">
                 <!-- Segmented  -->
                 {% if show_wagon %}
-                    {% include "includes/components/salary_mode_segmented.html" with htmx_target="#employee-salary-list-section" %}
+                    {% include "includes/segmenteds/salary_mode_segmented.html" with htmx_target="#employee-salary-list-section" %}
                 {% endif %}
                 <!-- Export Excel PDF -->
                 <div class="hidden md:block">

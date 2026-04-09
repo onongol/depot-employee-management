@@ -8,7 +8,7 @@
         <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
             <div class="flex flex-row items-center justify-between gap-2 md:gap-4">
                 <!-- Segmented -->
-                {% include "includes/components/wagon_mode_segmented.html" with htmx_target="#wagon-list-section" %}
+                {% include "includes/segmenteds/wagon_mode_segmented.html" with htmx_target="#wagon-list-section" %}
                 <!-- Export Excel -->
                 <div class="hidden md:block">
                     {% include "includes/export/export_excel_button.html" with url_name='wagon_export_excel' params=request.GET aria_label="Download filtered wagons as Excel" %}
