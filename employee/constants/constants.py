@@ -202,6 +202,7 @@ DEFAULT_WAGON_TYPE = "-"
 EMPTY_SELECT = [("", "---------")]
 
 # Grouping constants
+GROUP_DEFAULT = ""
 GROUP_MONTH = "month"
 GROUP_YEAR = "year"
 GROUP_WAGON = "wagon"
