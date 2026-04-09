@@ -19,7 +19,7 @@ def wagon_prepare(request) -> WagonContext:
         .exclude(wagon_number__isnull=True)
         .exclude(wagon_number=DEFAULT_WAGON_NUMBER)
     )
-    
+
     # Filter by selected department (was missing)
     if department:
         daily_works = daily_works.filter(work__department=department)
