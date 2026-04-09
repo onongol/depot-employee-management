@@ -1,6 +1,6 @@
 from employee.constants.constants import DEFAULT_WAGON_NUMBER
 from employee.models import DailyWork
-from employee.utils.group_modes import is_month_group
+from employee.utils.group_modes import is_detail_group, is_month_group
 from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
 from employee.views.wagon.wagon_context import WagonContext
@@ -36,6 +36,7 @@ def wagon_prepare(request) -> WagonContext:
     order_by = request.GET.get("order_by")
     direction = request.GET.get("direction")
 
+    detail_group = is_detail_group(group)
     month_group = is_month_group(group)
 
     # Get distinct type_wagon and type_work for filter options
@@ -56,6 +57,7 @@ def wagon_prepare(request) -> WagonContext:
         month_period=month_period,
         order_by=order_by,
         direction=direction,
+        detail_group=detail_group,
         month_group=month_group,
         type_wagons=list(type_wagons),
         type_works=list(type_works),
