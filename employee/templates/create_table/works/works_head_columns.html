@@ -1,0 +1,10 @@
+{% load i18n %}
+<th scope="col" class="{{ col_class_checkbox }}">
+    {% include "includes/create_table/create_select_all_checkbox.html" with select_all_id="select-all-works" checkbox_name="work_ids" aria_label=_("Select all works") label=_("Select all") %}
+</th>
+<th scope="col" class="{{ col_class }}">{% trans "Work" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Position" %}</th>
+{% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+    <th scope="col" class="{{ col_class_hidden }}">{% trans "Wagon Type" %}</th>
+{% endif %}
+<th scope="col" class="{{ col_class }}">{% trans "Amount" %}</th>
