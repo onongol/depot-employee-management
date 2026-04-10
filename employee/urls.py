@@ -5,14 +5,12 @@ from django.urls import include, path
 from employee.views.auth.password_views import CustomPasswordChangeView
 from employee.views.auth.register_views import register_view
 from employee.views.daily_salary import (
-    DailySalaryDeleteView,
     DailySalaryUpdateView,
     daily_salary_create,
     daily_salary_delete_bulk,
     daily_salary_list,
 )
 from employee.views.daily_work import (
-    DailyWorkDeleteView,
     DailyWorkUpdateView,
     daily_work_create,
     daily_work_delete_bulk,
@@ -22,7 +20,6 @@ from employee.views.daily_work import (
 from employee.views.department import set_department
 from employee.views.employee import (
     EmployeeCreateView,
-    EmployeeDeleteView,
     EmployeeUpdateView,
     employee_activate,
     employee_deactivate,
@@ -75,11 +72,6 @@ urlpatterns = [
         EmployeeUpdateView.as_view(),
         name="employee_update",
     ),
-    path(
-        "employee_delete/<int:pk>/",
-        EmployeeDeleteView.as_view(),
-        name="employee_delete",
-    ),
     path("employee_delete_bulk/", employee_delete_bulk, name="employee_delete_bulk"),
     # Employee activation/deactivation
     path(
@@ -100,11 +92,6 @@ urlpatterns = [
         name="daily_salary_update",
     ),
     path(
-        "daily_salary_delete/<int:pk>/",
-        DailySalaryDeleteView.as_view(),
-        name="daily_salary_delete",
-    ),
-    path(
         "daily_salary_delete_bulk/",
         daily_salary_delete_bulk,
         name="daily_salary_delete_bulk",
@@ -116,11 +103,6 @@ urlpatterns = [
         "daily_work_update/<int:pk>/",
         DailyWorkUpdateView.as_view(),
         name="daily_work_update",
-    ),
-    path(
-        "daily_work_delete/<int:pk>/",
-        DailyWorkDeleteView.as_view(),
-        name="daily_work_delete",
     ),
     path(
         "daily_work_export_excel/",
