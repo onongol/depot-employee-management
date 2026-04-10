@@ -1,6 +1,10 @@
 import os
 from urllib.parse import urlparse
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 MYSQL_PUBLIC_URL = os.getenv("MYSQL_PUBLIC_URL")
 
 if MYSQL_PUBLIC_URL:
