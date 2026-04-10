@@ -7,13 +7,17 @@ from unfold.contrib.filters.admin import (
     MultipleChoicesDropdownFilter,
 )
 
-from employee.admins.common import ImportExportMixin
+from employee.admins.common import ImportExportMixin, SoftDeleteAdminMixin
 from employee.models import Work
 
 
 @admin.register(Work)
 class WorkAdmin(
-    ModelAdmin, SimpleHistoryAdmin, ImportExportModelAdmin, ImportExportMixin
+    ModelAdmin,
+    SoftDeleteAdminMixin,
+    SimpleHistoryAdmin,
+    ImportExportModelAdmin,
+    ImportExportMixin,
 ):
     list_display = (
         "work_id",
@@ -25,6 +29,7 @@ class WorkAdmin(
         "usage_material",
         "standard_time",
         "price",
+        "is_deleted",
     )
     search_fields = ("work_name",)
     search_help_text = "Search by work name"
@@ -33,6 +38,7 @@ class WorkAdmin(
         "department",
         ("job_title", ChoicesDropdownFilter),
         ("type_wagon", MultipleChoicesDropdownFilter),
+        "is_deleted",
     ]
     readonly_fields = ("work_id",)
     ordering = ("-work_id",)
