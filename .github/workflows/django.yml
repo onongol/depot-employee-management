@@ -9,6 +9,7 @@ on:
       - "transition-to-typescript"
       - "feature/custom-admin-history"
       - "feature/htmx-integration"
+      - "feature/add-soft-delete"
   pull_request:
     branches:
       - "feature/replace-bootstrap-with-tailwind"
@@ -17,6 +18,7 @@ on:
       - "transition-to-typescript"
       - "feature/custom-admin-history"
       - "feature/htmx-integration"
+      - "feature/add-soft-delete"
 
 jobs:
   build:
