@@ -13,11 +13,11 @@ from employee.models import Work
 
 @admin.register(Work)
 class WorkAdmin(
-    ModelAdmin,
     SoftDeleteAdminMixin,
     SimpleHistoryAdmin,
     ImportExportModelAdmin,
     ImportExportMixin,
+    ModelAdmin,
 ):
     list_display = (
         "work_id",
