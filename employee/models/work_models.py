@@ -15,9 +15,13 @@ from employee.models.models_mixins.display_mixins import (
     TypeMaterialDisplayMixin,
     TypeWagonDisplayMixin,
 )
+from employee.models.models_mixins.soft_delete_mixin import SoftDeleteMixin
+from employee.services.soft_delete_manager import SoftDeleteManager
 
 
-class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
+class Work(
+    SoftDeleteMixin, TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model
+):
     """This model represents a work item in the system."""
 
     work_id = models.AutoField(primary_key=True, editable=False)
@@ -53,7 +57,16 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
         # default=Decimal("0.01"),
         validators=[MinValueValidator(0.01)],
     )
+
+    # Soft delete flag: True if the record is considered deleted, False otherwise.
+    is_deleted = models.BooleanField(default=False, db_index=True)
+
+    # Historical records for auditing changes to instances over time.
     history = HistoricalRecords()
+
+    # Custom managers to handle soft deletion logic.
+    objects = SoftDeleteManager()
+    all_objects = SoftDeleteManager(only_alive=False)
 
     class Meta:
         """
@@ -70,9 +83,10 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
                 check=Q(department__in=ALLOWED_WAGON_DEPARTMENTS)
                 | Q(type_wagon__isnull=True),
             ),
-            # Ensure work_name is unique within the same department
+            # Ensure work_name is unique within the same department, only for
             models.UniqueConstraint(
                 fields=["department", "work_name"],
+                condition=Q(is_deleted=False),
                 name="unique_work_name_per_department",
             ),
         ]
@@ -80,16 +94,14 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
     def __str__(self):
         return self.work_name
 
-    def get_update_url(self):
-        return reverse("work_update", args=[self.pk])
-
-    def get_dom_attrs(self):
-        return {
-            "data-work-name": self.work_name,
-            "data-row-id": self.pk,
-            "data-row-name": str(self),
-            "data-edit-url": self.get_update_url(),
-        }
+    def save(self, *args, **kwargs):
+        """
+        Ensure the instance is valid and normalized before persisting:
+        - Call full_clean() to run model/field validators and clean().
+        - Then save to the database.
+        """
+        self.full_clean()
+        return super().save(*args, **kwargs)
 
     def clean(self):
         """
@@ -107,11 +119,15 @@ class Work(TypeMaterialDisplayMixin, TypeWagonDisplayMixin, models.Model):
         elif not self.type_wagon:
             self.type_wagon = None
 
-    def save(self, *args, **kwargs):
-        """
-        Ensure the instance is valid and normalized before persisting:
-        - Call full_clean() to run model/field validators and clean().
-        - Then save to the database.
-        """
-        self.full_clean()
-        return super().save(*args, **kwargs)
+    def get_update_url(self):
+        """Get the URL for updating this work instance."""
+        return reverse("work_update", args=[self.pk])
+
+    def get_dom_attrs(self):
+        """Get the DOM attributes for this work instance."""
+        return {
+            "data-work-name": self.work_name,
+            "data-row-id": self.pk,
+            "data-row-name": str(self),
+            "data-edit-url": self.get_update_url(),
+        }
