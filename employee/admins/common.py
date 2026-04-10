@@ -37,3 +37,20 @@ class ReadOnlyImportExportAdminMixin(
     ImportExportMixin,
 ):
     pass
+
+
+class SoftDeleteAdminMixin:
+    """Mixin to handle soft deletion in the admin interface. It overrides the default queryset and delete behavior."""
+
+    def get_queryset(self, request):
+        """Override to use the custom manager that includes soft-deleted records."""
+        return self.model.all_objects.all()
+
+    def delete_queryset(self, request, queryset):
+        """Override to perform soft delete instead of hard delete."""
+        for obj in queryset:
+            obj.delete()
+
+    def delete_model(self, request, obj):
+        """Override to perform soft delete instead of hard delete."""
+        obj.delete()
