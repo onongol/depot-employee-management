@@ -4,13 +4,17 @@ from simple_history.admin import SimpleHistoryAdmin
 from unfold.admin import ModelAdmin
 from unfold.contrib.filters.admin import ChoicesDropdownFilter
 
-from employee.admins.common import ImportExportMixin
+from employee.admins.common import ImportExportMixin, SoftDeleteAdminMixin
 from employee.models import Employee
 
 
 @admin.register(Employee)
 class EmployeeAdmin(
-    ModelAdmin, SimpleHistoryAdmin, ImportExportModelAdmin, ImportExportMixin
+    SoftDeleteAdminMixin,
+    ModelAdmin,
+    SimpleHistoryAdmin,
+    ImportExportModelAdmin,
+    ImportExportMixin,
 ):
     list_display = (
         "employee_id",
@@ -20,6 +24,7 @@ class EmployeeAdmin(
         "rank",
         "money_per_hour",
         "is_active",
+        "is_deleted",
     )
     search_fields = (
         "employee_id",
@@ -27,7 +32,12 @@ class EmployeeAdmin(
     )
     search_help_text = "Search by employee ID or name"
     list_filter_submit = True
-    list_filter = ["department", ("job_title", ChoicesDropdownFilter), "is_active"]
+    list_filter = [
+        "department",
+        ("job_title", ChoicesDropdownFilter),
+        "is_active",
+        "is_deleted",
+    ]
     list_editable = ("is_active",)
     ordering = ("-employee_id",)
     list_display_links = (
