@@ -10,14 +10,16 @@ from employee.constants.constants import (
     JOB_TITLE_CHOICES,
     RANK_CHOICES,
 )
+from employee.models.models_mixins.soft_delete_mixin import SoftDeleteMixin
 from employee.services.employee_salary_single import (
     get_employee_total_piecework_amount,
     get_employee_total_salary,
     get_employee_total_salary_day,
 )
+from employee.services.soft_delete_manager import SoftDeleteManager
 
 
-class Employee(models.Model):
+class Employee(SoftDeleteMixin, models.Model):
     """This model represents an employee in the system."""
 
     employee_id = models.IntegerField(
@@ -44,6 +46,9 @@ class Employee(models.Model):
     # Active status of the employee
     is_active = models.BooleanField(default=True)
 
+    # Soft delete flag: True if the record is considered deleted, False otherwise.
+    is_deleted = models.BooleanField(default=False, db_index=True)
+
     # Connection to the User model
     user = models.OneToOneField(
         User,
@@ -52,7 +57,13 @@ class Employee(models.Model):
         blank=True,
         related_name="employee_profile",
     )
+
+    # Historical records for tracking changes.
     history = HistoricalRecords()
+
+    # Custom managers to handle soft deletion logic.
+    objects = SoftDeleteManager()
+    all_objects = SoftDeleteManager(only_alive=False)
 
     def __str__(self):
         return f"(ID: {self.employee_id}) {self.name}"
