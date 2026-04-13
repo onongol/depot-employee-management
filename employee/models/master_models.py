@@ -4,9 +4,11 @@ from django.db import models
 from simple_history.models import HistoricalRecords
 
 from employee.constants.constants import DEPARTMENT_CHOICES
+from employee.models.models_mixins.soft_delete_mixin import SoftDeleteMixin
+from employee.services.soft_delete_manager import SoftDeleteManager
 
 
-class Master(models.Model):
+class Master(SoftDeleteMixin, models.Model):
     """This model represents a master in the system."""
 
     master_id = models.IntegerField(
@@ -18,6 +20,9 @@ class Master(models.Model):
     # Active status of the employee
     is_active = models.BooleanField(default=True)
 
+    # Soft delete flag: True if the record is considered deleted, False otherwise.
+    is_deleted = models.BooleanField(default=False, db_index=True)
+
     # Connection to the User model
     user = models.OneToOneField(
         User,
@@ -26,7 +31,12 @@ class Master(models.Model):
         blank=True,
         related_name="master_profile",
     )
+
     history = HistoricalRecords()
+
+    # Custom managers to handle soft deletion logic.
+    objects = SoftDeleteManager()
+    all_objects = SoftDeleteManager(only_alive=False)
 
     def __str__(self):
         return f"(ID: {self.master_id}) {self.name}"
