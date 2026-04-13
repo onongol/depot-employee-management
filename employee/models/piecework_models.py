@@ -37,6 +37,8 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
 
     TYPE_WORK_CHOICES = TYPE_WORK_CHOICES
 
+    record_id = models.AutoField(primary_key=True)
+
     # Link to DailyWork for aggregation
     daily_work = models.ForeignKey(
         DailyWork,
@@ -45,7 +47,6 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         null=True,
         blank=True,
     )
-    record_id = models.AutoField(primary_key=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     employee_name = models.CharField(
         max_length=255,
