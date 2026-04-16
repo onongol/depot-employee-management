@@ -1,9 +1,11 @@
 from decimal import Decimal
 
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Q
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
 from employee.constants.constants import (
@@ -118,6 +120,18 @@ class Work(
             self.type_wagon = None
         elif not self.type_wagon:
             self.type_wagon = None
+
+        # Soft-delete aware uniqueness check for MySQL
+        if not self.is_deleted:
+            qs = Work.objects.filter(
+                department=self.department,
+                work_name=self.work_name,
+                is_deleted=False,
+            )
+            if self.pk:
+                qs = qs.exclude(pk=self.pk)
+            if qs.exists():
+                raise ValidationError({"work_name": _("Must be unique.")})
 
     def get_update_url(self):
         """Get the URL for updating this work instance."""
