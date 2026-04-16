@@ -3,12 +3,11 @@ from django.utils.translation import gettext_lazy as _
 
 from employee.forms.forms_mixins.type_wagon_mixins import TypeWagonChoicesMixin
 from employee.forms.forms_mixins.work_job_titel_mixins import JobTitleChoicesMixin
-from employee.forms.forms_mixins.work_mixins import WorkNameUniqueMixin
 from employee.models import Work
 
 
 class WorkForm(
-    TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin, forms.ModelForm
+    TypeWagonChoicesMixin, JobTitleChoicesMixin, forms.ModelForm
 ):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -48,7 +47,7 @@ class WorkForm(
 
 
 class UpdateWorkForm(
-    TypeWagonChoicesMixin, JobTitleChoicesMixin, WorkNameUniqueMixin, forms.ModelForm
+    TypeWagonChoicesMixin, JobTitleChoicesMixin, forms.ModelForm
 ):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
