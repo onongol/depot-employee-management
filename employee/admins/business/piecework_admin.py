@@ -23,8 +23,7 @@ class PieceworkAdmin(
     ExportForm,
 ):
     list_display = (
-        "record_id",
-        "employee_id",
+        "employee_code",
         "employee_name",
         "department",
         "job_title",
@@ -40,7 +39,7 @@ class PieceworkAdmin(
         "record_date",
     )
     search_fields = (
-        "employee__employee_id",
+        "employee_code",
         "employee_name",
     )
     search_help_text = "Search by employee ID or name"
@@ -56,4 +55,4 @@ class PieceworkAdmin(
     list_select_related = ("employee", "work", "daily_work")
     date_hierarchy = "work_date"
     ordering = ("-work_date", "-record_date")
-    list_display_links = ("employee_id", "employee_name", "work_name")
+    list_display_links = ("employee_code", "employee_name", "work_name")
