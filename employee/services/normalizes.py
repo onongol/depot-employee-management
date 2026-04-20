@@ -13,18 +13,13 @@ and simplify downstream reporting and validation.
 from typing import Optional
 
 
-def normalize_wagon_number(wagon_number: Optional[str]) -> Optional[str]:
-    """Normalize wagon_number: return None if empty or only whitespace."""
-    if not wagon_number:
+def normalize_field(current: Optional[str], obj, attr_name: str) -> Optional[str]:
+    """Return current if provided, else take attr_name from obj."""
+    return current or getattr(obj, attr_name, None)
+
+
+def normalize_str_field(value: Optional[str]) -> Optional[str]:
+    """Normalize string field: return None if empty or only whitespace, else stripped value."""
+    if not value:
         return None
-    return wagon_number.strip() or None
-
-
-def normalize_job_title(current: Optional[str], obj) -> Optional[str]:
-    """Return current job_title if provided, else take from Work."""
-    return current or getattr(obj, "job_title", None)
-
-
-def normalize_type_wagon(obj) -> Optional[str]:
-    """Keep work.type_wagon if present, else None."""
-    return getattr(obj, "type_wagon", None) or None
+    return value.strip() or None
