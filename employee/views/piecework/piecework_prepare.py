@@ -27,6 +27,7 @@ def piecework_prepare(request) -> PieceworkContext:
 
     # Filter parameters
     employee_id = request.GET.get("employee_id")
+    employee_code = request.GET.get("employee_code")
     employee_name = request.GET.get("employee_name")
     job_title = request.GET.get("job_title")
     work_name = request.GET.get("work_name")
@@ -76,6 +77,7 @@ def piecework_prepare(request) -> PieceworkContext:
         pieceworks=pieceworks,
         selected_department=department,
         employee_id=employee_id,
+        employee_code=employee_code,
         employee_name=employee_name,
         job_title=job_title,
         work_name=work_name,
