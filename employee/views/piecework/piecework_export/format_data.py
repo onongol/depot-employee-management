@@ -10,6 +10,7 @@ def iter_rows(qs, context):
     for i, pw in enumerate(qs, start=1):
         # Snapshot/values keys used by grouped queries
         employee_id = get_value(pw, "employee_id", "") or ""
+        employee_code = get_value(pw, "employee_code", "") or ""
         employee_name = get_value(pw, "employee_name", "") or ""
         department_val = get_value(pw, "department", "") or ""
         job_title = get_value(pw, "job_title", "") or ""
@@ -20,12 +21,17 @@ def iter_rows(qs, context):
         if not grouped:
             employee_id = (
                 employee_id
+                or getattr(getattr(pw, "employee", None), "id", "")
+                or ""
+            )
+            employee_code = (
+                employee_code
                 or getattr(getattr(pw, "employee", None), "employee_id", "")
                 or ""
             )
             employee_name = (
                 employee_name
-                or getattr(getattr(pw, "employee", None), "name", "")
+                or getattr(getattr(pw, "employee", None), "employee_name", "")
                 or ""
             )
             department_val = department_val or getattr(pw, "department", "") or ""
@@ -35,7 +41,7 @@ def iter_rows(qs, context):
 
         row = [
             i,
-            employee_id,
+            employee_code,
             employee_name,
             department_val,
             job_title,
