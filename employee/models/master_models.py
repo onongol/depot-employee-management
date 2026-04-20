@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
 from employee.constants.constants import DEPARTMENT_CHOICES
@@ -11,11 +13,13 @@ from employee.services.soft_delete_manager import SoftDeleteManager
 class Master(SoftDeleteMixin, models.Model):
     """This model represents a master in the system."""
 
-    master_id = models.IntegerField(
-        primary_key=True, null=False, validators=[MinValueValidator(1)], unique=True
+    id = models.AutoField(primary_key=True)
+
+    master_id = models.IntegerField(null=False, validators=[MinValueValidator(1)])
+    master_name = models.CharField(max_length=255, db_index=True)
+    department = models.CharField(
+        max_length=255, choices=DEPARTMENT_CHOICES, db_index=True
     )
-    name = models.CharField(max_length=255)
-    department = models.CharField(max_length=255, choices=DEPARTMENT_CHOICES)
 
     # Active status of the employee
     is_active = models.BooleanField(default=True)
@@ -39,4 +43,22 @@ class Master(SoftDeleteMixin, models.Model):
     all_objects = SoftDeleteManager(only_alive=False)
 
     def __str__(self):
-        return f"(ID: {self.master_id}) {self.name}"
+        return f"(ID: {self.master_id}) {self.master_name}"
+
+    def clean(self):
+        """
+        Ensure master_id is unique among non-deleted records (soft delete aware, for MySQL).
+        """
+        if not self.is_deleted:
+            qs = Master.objects.filter(
+                master_id=self.master_id,
+                is_deleted=False,
+            )
+            if self.pk:
+                qs = qs.exclude(pk=self.pk)
+            if qs.exists():
+                raise ValidationError(
+                    {
+                        "master_id": _("Must be unique."),
+                    }
+                )
