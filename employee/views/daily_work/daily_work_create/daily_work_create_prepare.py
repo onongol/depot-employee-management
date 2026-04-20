@@ -55,7 +55,7 @@ def daily_work_piecework_create_prepare(request) -> DailyWorkPieceworkCreateCont
     # Fetch existing Piecework records for the department to prevent duplicates
     existing_pieceworks = list(
         Piecework.objects.filter(employee__department=department).values(
-            "employee_id", "work_id", "type_work", "work_date", "wagon_number"
+            "employee_code", "work_id", "type_work", "work_date", "wagon_number"
         )
     )
 
