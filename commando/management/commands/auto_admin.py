@@ -30,7 +30,7 @@ class Command(BaseCommand):
         admin_email = config("DJANGO_ADMIN_EMAIL", default="admin@admin.com")
 
         if admin_password is None:
-            admin_password = "admin"
+            admin_password = "***REMOVED***"
 
         admin_qs = User.objects.filter(username=admin_username)
         if admin_qs.exists() and force:
