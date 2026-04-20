@@ -6,7 +6,7 @@
  */
 
 type ExistingPiecework = {
-	employee_id: number | string;
+	employee_code: number | string;
 	work_id: number | string;
 	type_work: string;
 	work_date: string;
@@ -139,7 +139,7 @@ function makeDuplicateKey(
 function makeDuplicateKeyFrom(pw: ExistingPiecework): string {
 	const wagon = normalizeWagon(pw.wagon_number);
 	return makeDuplicateKey(
-		String(pw.employee_id),
+		String(pw.employee_code),
 		String(pw.work_id),
 		pw.type_work,
 		pw.work_date,
