@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 
 from employee.models import Piecework
-from employee.services.normalizes import normalize_wagon_number
+from employee.services.normalizes import normalize_str_field
 
 
 def validate_duplicate(
@@ -18,11 +18,11 @@ def validate_duplicate(
     ):
         return errors
 
-    wagon_number = normalize_wagon_number(wagon_number)
+    wagon_number = normalize_str_field(wagon_number)
 
     # Check for existing Piecework entries that would duplicate the new ones
     pieceworks = Piecework.objects.filter(
-        employee__employee_id__in=selected_employee_ids,
+        employee_code__in=selected_employee_ids,
         work_id__in=selected_work_ids,
         type_work=type_work,
         work_date=work_date,
