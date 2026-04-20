@@ -23,23 +23,17 @@ from employee.services.daily_work_calculations import (
 )
 from employee.services.daily_work_sync import sync_piecework_with_dailywork
 from employee.services.normalizes import (
-    normalize_job_title,
-    normalize_type_wagon,
-    normalize_wagon_number,
+    normalize_field,
+    normalize_str_field,
 )
-from employee.services.snapshots import snapshot_department, snapshot_work_name
+from employee.services.snapshots import snapshot_attr
 
 
 class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     """Aggregated daily work record (not per employee)."""
 
-    job_title = models.CharField(
-        max_length=255,
-        choices=JOB_TITLE_CHOICES,
-        blank=False,
-        null=False,
-        db_index=True,
-    )
+    id = models.AutoField(primary_key=True)
+
     work = models.ForeignKey(Work, on_delete=models.RESTRICT)
     work_name = models.CharField(
         max_length=255,
@@ -53,6 +47,13 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         blank=True,
         null=False,
         editable=False,
+        db_index=True,
+    )
+    job_title = models.CharField(
+        max_length=255,
+        choices=JOB_TITLE_CHOICES,
+        blank=False,
+        null=False,
         db_index=True,
     )
     type_work = models.CharField(max_length=50, choices=TYPE_WORK_CHOICES)
@@ -93,6 +94,7 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     )
     work_date = models.DateField(default=date.today)
     record_date = models.DateTimeField(auto_now_add=True)
+
     history = HistoricalRecords()
 
     def __str__(self):
@@ -121,13 +123,11 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
 
         This ensures consistent domain data and keeps downstream exports/reports robust.
         """
-        self.wagon_number = normalize_wagon_number(self.wagon_number)
-
-        if self.work:
-            self.job_title = normalize_job_title(self.job_title, self.work)
-            self.type_wagon = normalize_type_wagon(self.work)
-            self.work_name = snapshot_work_name(self.work)
-            self.department = snapshot_department(self.work)
+        self.work_name = snapshot_attr(self.work, "work_name")
+        self.department = snapshot_attr(self.work, "department")
+        self.job_title = normalize_field(self.job_title, self.work, "job_title")
+        self.type_wagon = normalize_field(None, self.work, "type_wagon")
+        self.wagon_number = normalize_str_field(self.wagon_number)
 
         self.amount_time = calculate_time_amount(self.work, self.amount or Decimal("0"))
         self.amount_material = calculate_material_amount(
