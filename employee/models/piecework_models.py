@@ -21,15 +21,10 @@ from employee.services.daily_work_calculations import (
     calculate_time_amount,
 )
 from employee.services.normalizes import (
-    normalize_job_title,
-    normalize_type_wagon,
-    normalize_wagon_number,
+    normalize_field,
+    normalize_str_field,
 )
-from employee.services.snapshots import (
-    snapshot_department,
-    snapshot_employee_name,
-    snapshot_work_name,
-)
+from employee.services.snapshots import snapshot_attr
 
 
 class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
@@ -37,17 +32,18 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
 
     TYPE_WORK_CHOICES = TYPE_WORK_CHOICES
 
-    record_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
 
-    # Link to DailyWork for aggregation
     daily_work = models.ForeignKey(
         DailyWork,
-        on_delete=models.CASCADE,  # Cascade delete to remove associated piecework records
-        related_name="pieceworks",  # For reverse access: daily_work.pieceworks.all()
+        on_delete=models.CASCADE,
+        related_name="pieceworks",
         null=True,
         blank=True,
     )
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+
+    employee = models.ForeignKey(Employee, on_delete=models.RESTRICT)
+    employee_code = models.IntegerField(null=False, db_index=True, editable=False)
     employee_name = models.CharField(
         max_length=255,
         blank=True,
@@ -69,6 +65,7 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         null=False,
         db_index=True,
     )
+
     work = models.ForeignKey(Work, on_delete=models.RESTRICT)
     work_name = models.CharField(
         max_length=255,
@@ -116,10 +113,11 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     work_date = models.DateField(default=date.today)
     record_date = models.DateTimeField(auto_now_add=True)
     group_id = models.CharField(max_length=36, blank=True, null=True, db_index=True)
+
     history = HistoricalRecords()
 
     def __str__(self):
-        return f"(ID: {self.employee.employee_id}) {self.employee.name}, {self.work.work_name} ({self.type_work}) - {self.work_date}"
+        return f"(ID: {self.employee.employee_id}) {self.employee.employee_name}, {self.work.work_name} ({self.type_work}) - {self.work_date}"
 
     def save(self, *args, **kwargs):
         """
@@ -132,22 +130,19 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
 
         This ensures consistent domain data and keeps downstream exports/reports robust.
         """
+        # Generate group_id if missing
         if not self.group_id:
             self.group_id = str(uuid4())
 
-        self.wagon_number = normalize_wagon_number(self.wagon_number)
+        self.employee_code = snapshot_attr(self.employee, "employee_id")
+        self.employee_name = snapshot_attr(self.employee, "employee_name")
+        self.department = snapshot_attr(self.employee, "department")
+        self.job_title = normalize_field(self.job_title, self.work, "job_title")
+        self.work_name = snapshot_attr(self.work, "work_name")
+        self.type_wagon = normalize_field(None, self.work, "type_wagon")
+        self.wagon_number = normalize_str_field(self.wagon_number)
 
-        if self.work:
-            self.job_title = normalize_job_title(self.job_title, self.work)
-            self.type_wagon = normalize_type_wagon(self.work)
-
-        if self.employee:
-            self.employee_name = snapshot_employee_name(self.employee)
-            self.department = snapshot_department(self.employee)
-
-        if self.work:
-            self.work_name = snapshot_work_name(self.work)
-
+        # Calculate derived amounts
         self.amount_time = calculate_time_amount(self.work, self.amount or Decimal("0"))
         self.amount_material = calculate_material_amount(
             self.work, self.amount or Decimal("0")
