@@ -7,6 +7,7 @@ class PieceworkContext:
     pieceworks: Any
     selected_department: Optional[str]
     employee_id: Optional[str]
+    employee_code: Optional[str]
     employee_name: Optional[str]
     job_title: Optional[str]
     work_name: Optional[str]
