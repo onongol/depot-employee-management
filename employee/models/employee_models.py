@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
@@ -22,17 +23,22 @@ from employee.services.soft_delete_manager import SoftDeleteManager
 class Employee(SoftDeleteMixin, models.Model):
     """This model represents an employee in the system."""
 
+    id = models.AutoField(primary_key=True)
+
     employee_id = models.IntegerField(
-        primary_key=True,
         null=False,
         validators=[MinValueValidator(1)],
-        unique=True,
-        error_messages={"unique": _("Must be unique.")},
     )
-    name = models.CharField(max_length=255)
-    department = models.CharField(max_length=255, choices=DEPARTMENT_CHOICES)
+    employee_name = models.CharField(max_length=255, db_index=True)
+    department = models.CharField(
+        max_length=255, choices=DEPARTMENT_CHOICES, db_index=True
+    )
     job_title = models.CharField(
-        max_length=255, blank=False, null=False, choices=JOB_TITLE_CHOICES
+        max_length=255,
+        blank=False,
+        null=False,
+        choices=JOB_TITLE_CHOICES,
+        db_index=True,
     )
     rank = models.IntegerField(default=3, null=False, choices=RANK_CHOICES)
     money_per_hour = models.DecimalField(
@@ -66,7 +72,25 @@ class Employee(SoftDeleteMixin, models.Model):
     all_objects = SoftDeleteManager(only_alive=False)
 
     def __str__(self):
-        return f"(ID: {self.employee_id}) {self.name}"
+        return f"(ID: {self.employee_id}) {self.employee_name}"
+
+    def clean(self):
+        """
+        Ensure employee_id is unique among non-deleted records (soft delete aware, for MySQL).
+        """
+        if not self.is_deleted:
+            qs = Employee.objects.filter(
+                employee_id=self.employee_id,
+                is_deleted=False,
+            )
+            if self.pk:
+                qs = qs.exclude(pk=self.pk)
+            if qs.exists():
+                raise ValidationError(
+                    {
+                        "employee_id": _("Must be unique."),
+                    }
+                )
 
     def get_update_url(self):
         return reverse("employee_update", args=[self.pk])
@@ -80,7 +104,7 @@ class Employee(SoftDeleteMixin, models.Model):
     def get_dom_attrs(self):
         return {
             "data-emp-id": self.employee_id,
-            "data-emp-name": self.name,
+            "data-emp-name": self.employee_name,
             "data-row-id": self.pk,
             "data-row-name": str(self),
             "data-edit-url": self.get_update_url(),
