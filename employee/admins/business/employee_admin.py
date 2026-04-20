@@ -18,7 +18,7 @@ class EmployeeAdmin(
 ):
     list_display = (
         "employee_id",
-        "name",
+        "employee_name",
         "department",
         "job_title",
         "rank",
@@ -28,7 +28,7 @@ class EmployeeAdmin(
     )
     search_fields = (
         "employee_id",
-        "name",
+        "employee_name",
     )
     search_help_text = "Search by employee ID or name"
     list_filter_submit = True
@@ -42,5 +42,5 @@ class EmployeeAdmin(
     ordering = ("-employee_id",)
     list_display_links = (
         "employee_id",
-        "name",
+        "employee_name",
     )
