@@ -15,6 +15,6 @@ def select_existing_employee_ids(employee_ids, salary_date):
     """
     return set(
         DailySalary.objects.filter(
-            employee_id__in=employee_ids, salary_date=salary_date
-        ).values_list("employee_id", flat=True)
+            employee_code__in=employee_ids, salary_date=salary_date
+        ).values_list("employee__employee_id", flat=True)
     )
