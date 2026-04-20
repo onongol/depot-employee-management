@@ -11,17 +11,18 @@ def daily_salary_prepare(request) -> DailySalaryContext:
     if request.user.groups.filter(name="Employees").exists():
         daily_salaries = DailySalary.objects.filter(
             employee__user=request.user,
-            employee__department=department,
+            department=department,
             employee__is_active=True,
         )
     else:
         daily_salaries = DailySalary.objects.filter(
-            employee__department=department, employee__is_active=True
+            department=department, employee__is_active=True
         )
 
     daily_salaries = daily_salaries.select_related("employee")
 
     employee_id = request.GET.get("employee_id")
+    employee_code = request.GET.get("employee_code")
     employee_name = request.GET.get("employee_name")
     job_title = request.GET.get("job_title")
     salary_date = format_date(request.GET.get("salary_date"))
@@ -38,6 +39,7 @@ def daily_salary_prepare(request) -> DailySalaryContext:
         daily_salaries=daily_salaries,
         selected_department=department,
         employee_id=employee_id,
+        employee_code=employee_code,
         employee_name=employee_name,
         job_title=job_title,
         salary_date=salary_date,
