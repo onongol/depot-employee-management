@@ -7,6 +7,7 @@ def get_deletable_and_blocked_daily_salaries(ids, department):
     """Splits DailySalary queryset into blocked and deletable sets based on related Piecework existence for bulk operations."""
     piecework_exists = Piecework.objects.filter(
         employee_id=OuterRef("employee_id"),
+        employee_code=OuterRef("employee_code"),
         work_date=OuterRef("salary_date"),
     )
 
