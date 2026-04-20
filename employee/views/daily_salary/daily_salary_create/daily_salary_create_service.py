@@ -56,7 +56,7 @@ def create_daily_salary_records(selected_ids, salary_date, hours_per_day, user=N
         created_employee_ids = [record.employee_id for record in new_records]
         created_records = list(
             DailySalary.objects.filter(
-                employee_id__in=created_employee_ids,
+                employee_code__in=created_employee_ids,
                 salary_date=salary_date,
             )
         )
