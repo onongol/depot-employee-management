@@ -11,7 +11,7 @@ def group_pieceworks_by_year(qs, *, show_wagon: bool):
     )
 
     group_fields = [
-        "employee_id",
+        "employee_code",
         "employee_name",
         "job_title",
         "work_name",
