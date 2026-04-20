@@ -8,7 +8,7 @@ def iter_rows(qs, context):
         row = [
             i,
             item["employee"].employee_id or "",
-            item["employee"].name or "",
+            item["employee"].employee_name or "",
             item["employee"].department or "",
             item["employee"].job_title or "",
             item["employee"].rank or "",
