@@ -17,14 +17,14 @@ class MasterAdmin(
 ):
     list_display = (
         "master_id",
-        "name",
+        "master_name",
         "department",
         "is_active",
         "is_deleted",
     )
     search_fields = (
         "master_id",
-        "name",
+        "master_name",
     )
     search_help_text = "Search by master ID or name"
     list_filter = ["department", "is_active", "is_deleted"]
@@ -32,5 +32,5 @@ class MasterAdmin(
     ordering = ("-master_id",)
     list_display_links = (
         "master_id",
-        "name",
+        "master_name",
     )
