@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load humanize %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-<td class="{{ col_class }}">{{ row.employee_id }}</td>
+<td class="{{ col_class }}">{{ row.employee_code }}</td>
 <td class="{{ col_class }}">
     {% include "includes/table/mobile_summary.html" with col_name=row.employee_name details_template="piecework/piecework_table/piecework_mobile_details_grouped.html" %}
 </td>
