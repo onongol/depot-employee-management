@@ -20,7 +20,6 @@ class WorkAdmin(
     ModelAdmin,
 ):
     list_display = (
-        "work_id",
         "work_name",
         "department",
         "job_title",
@@ -40,6 +39,4 @@ class WorkAdmin(
         ("type_wagon", MultipleChoicesDropdownFilter),
         "is_deleted",
     ]
-    readonly_fields = ("work_id",)
-    ordering = ("-work_id",)
     list_display_links = ("work_name",)
