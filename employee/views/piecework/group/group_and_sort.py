@@ -21,7 +21,7 @@ def group_and_sort_pieceworks(qs, context):
         qs = group_pieceworks_by_month(qs, show_wagon=show_wagon)
 
         allowed_fields = [
-            "employee_id",
+            "employee_code",
             "employee_name",
             "job_title",
             "work_name",
@@ -37,7 +37,7 @@ def group_and_sort_pieceworks(qs, context):
             order_by,
             direction,
             allowed_fields=allowed_fields,
-            default=["-year", "-month", "employee_id"],
+            default=["-year", "-month", "employee_code"],
         )
 
     elif year_group:
@@ -47,7 +47,7 @@ def group_and_sort_pieceworks(qs, context):
         qs = group_pieceworks_by_year(qs, show_wagon=show_wagon)
 
         allowed_fields = [
-            "employee_id",
+            "employee_code",
             "employee_name",
             "job_title",
             "work_name",
@@ -63,7 +63,7 @@ def group_and_sort_pieceworks(qs, context):
             order_by,
             direction,
             allowed_fields=allowed_fields,
-            default=["-year", "employee_id"],
+            default=["-year", "employee_code"],
         )
 
     else:
