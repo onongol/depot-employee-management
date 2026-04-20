@@ -63,8 +63,7 @@ def create_daily_work_piecework_records(request_data, user=None):
 
             # Create mapping of employees from validated salary list to avoid per-row queries
             employees_map = {
-                str(daily_salary.employee.employee_id): daily_salary.employee
-                for daily_salary in employees_salary
+                str(emp.employee.id): emp.employee for emp in employees_salary
             }
 
             # Create Piecework
