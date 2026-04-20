@@ -9,9 +9,9 @@
 <td class="{{ col_class }}">{{ row.employee_id }}</td>
 <td class="{{ col_class }}">
     {% if not is_employee and not is_master %}
-        {% include "includes/table/mobile_meta.html" with col_name=row.name details_template="employee/employee_table/employee_table_mobile_details.html" %}
+        {% include "includes/table/mobile_meta.html" with col_name=row.employee_name details_template="employee/employee_table/employee_table_mobile_details.html" %}
     {% else %}
-        {% include "includes/table/mobile_summary.html" with col_name=row.name details_template="employee/employee_table/employee_table_mobile_details.html" %}
+        {% include "includes/table/mobile_summary.html" with col_name=row.employee_name details_template="employee/employee_table/employee_table_mobile_details.html" %}
     {% endif %}
 </td>
 <td class="{{ col_class_hidden }}">{{ row.job_title }}</td>
