@@ -31,8 +31,9 @@ def calculate_piecework_records(
 
     # For each employee and each selected work, validate the amount and calculate the piecework price; collect errors for missing or invalid amounts.
     for emp in employees_salary:
-        emp_id = emp.employee.employee_id
-        percent = employee_percentages[emp_id]
+        emp_pk = emp.employee.id
+        emp_code = emp.employee.employee_id
+        percent = employee_percentages[emp_code]
 
         for work_id in selected_work_ids:
             work = works_dict.get(work_id)
@@ -48,7 +49,8 @@ def calculate_piecework_records(
 
             results.append(
                 {
-                    "employee_id": emp_id,
+                    "employee_id": emp_pk,
+                    "employee_code": emp_code,
                     "work_id": work_id,
                     "amount": amount_decimal,
                     "amount_price": amount_price,
