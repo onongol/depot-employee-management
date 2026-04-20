@@ -14,7 +14,7 @@ class EmployeeForm(JobTitleChoicesMixin, NameValidationMixin, forms.ModelForm):
         model = Employee
         fields = [
             "employee_id",
-            "name",
+            "employee_name",
             "department",
             "job_title",
             "rank",
@@ -24,7 +24,7 @@ class EmployeeForm(JobTitleChoicesMixin, NameValidationMixin, forms.ModelForm):
             "employee_id": forms.NumberInput(
                 attrs={"class": "form-control", "type": "number", "min": "1"}
             ),
-            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "employee_name": forms.TextInput(attrs={"class": "form-control"}),
             "department": forms.Select(attrs={"class": "form-control"}),
             "job_title": forms.Select(attrs={"class": "form-control"}),
             "rank": forms.Select(attrs={"class": "form-control"}),
@@ -45,9 +45,9 @@ class UpdateEmployeeForm(NameValidationMixin, JobTitleChoicesMixin, forms.ModelF
 
     class Meta:
         model = Employee
-        fields = ["name", "job_title", "rank", "money_per_hour"]
+        fields = ["employee_name", "job_title", "rank", "money_per_hour"]
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "employee_name": forms.TextInput(attrs={"class": "form-control"}),
             "job_title": forms.Select(attrs={"class": "form-control"}),
             "rank": forms.Select(attrs={"class": "form-control"}),
             "money_per_hour": forms.NumberInput(
