@@ -23,7 +23,6 @@ class DailyWorkAdmin(
     ExportForm,
 ):
     list_display = (
-        "id",
         "work_name",
         "department",
         "job_title",
