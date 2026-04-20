@@ -7,13 +7,13 @@ def validate_daily_salary(selected_employee_ids, work_date):
     """Validate that all selected employees have a DailySalary record for the given work_date."""
     # Ensure all selected employees have DailySalary for the work_date
     employees_salary = DailySalary.objects.select_related("employee").filter(
-        employee__employee_id__in=selected_employee_ids,
+        employee_code__in=selected_employee_ids,
         salary_date=work_date,
     )
 
     # Identify employees missing DailySalary records
     employees_with_salary_ids = set(
-        str(ds.employee.employee_id) for ds in employees_salary
+        str(ds.employee_code) for ds in employees_salary
     )
 
     # Find employees without DailySalary
