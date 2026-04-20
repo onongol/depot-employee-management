@@ -19,30 +19,29 @@ class DailySalaryAdmin(
     ExportForm,
 ):
     list_display = (
-        "salary_id",
-        "employee_id",
+        "employee_code",
         "employee_name",
         "department",
-        "employee__job_title",
+        "job_title",
         "hours_per_day",
         "salary_day",
         "salary_date",
         "record_date",
     )
     search_fields = (
-        "employee__employee_id",
+        "employee_code",
         "employee_name",
     )
-    search_help_text = "Search by employee ID or name"
+    search_help_text = "Search by employee code or name"
     list_filter_submit = True
     list_filter = [
         "department",
-        ("employee__job_title", ChoicesDropdownFilter),
+        ("job_title", ChoicesDropdownFilter),
     ]
     list_select_related = ("employee",)
     date_hierarchy = "salary_date"
     ordering = ("-salary_date", "-record_date")
     list_display_links = (
-        "employee_id",
+        "employee_code",
         "employee_name",
     )
