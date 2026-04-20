@@ -26,17 +26,25 @@ class Work(
 ):
     """This model represents a work item in the system."""
 
-    work_id = models.AutoField(primary_key=True, editable=False)
-    department = models.CharField(max_length=255, blank=False, null=False)
-    job_title = models.CharField(
-        max_length=255, blank=False, null=False, choices=JOB_TITLE_CHOICES
+    id = models.AutoField(primary_key=True)
+
+    work_name = models.CharField(max_length=255, blank=False, null=False, db_index=True)
+    department = models.CharField(
+        max_length=255, blank=False, null=False, db_index=True
     )
-    work_name = models.CharField(max_length=255)
+    job_title = models.CharField(
+        max_length=255,
+        blank=False,
+        null=False,
+        choices=JOB_TITLE_CHOICES,
+        db_index=True,
+    )
     type_wagon = models.CharField(
         max_length=100,
         choices=TYPE_WAGON_CHOICES,
         blank=True,
         null=True,
+        db_index=True,
     )
     type_material = models.CharField(max_length=255, blank=True, null=True)
     usage_material = models.DecimalField(
@@ -50,13 +58,11 @@ class Work(
     standard_time = models.DecimalField(
         max_digits=20,
         decimal_places=6,
-        # default=Decimal("0.000001"),
         validators=[MinValueValidator(0.000001)],
     )
     price = models.DecimalField(
         max_digits=20,
         decimal_places=2,
-        # default=Decimal("0.01"),
         validators=[MinValueValidator(0.01)],
     )
 
