@@ -17,13 +17,13 @@ class PayrollAdmin(
 ):
     list_display = (
         "payroll_id",
-        "name",
+        "payroll_name",
         "is_active",
         "is_deleted",
     )
     search_fields = (
         "payroll_id",
-        "name",
+        "payroll_name",
     )
     search_help_text = "Search by payroll ID or name"
     list_filter = ["is_active", "is_deleted"]
@@ -31,5 +31,5 @@ class PayrollAdmin(
     ordering = ("-payroll_id",)
     list_display_links = (
         "payroll_id",
-        "name",
+        "payroll_name",
     )
