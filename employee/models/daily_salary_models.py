@@ -13,8 +13,11 @@ from employee.models.employee_models import Employee
 class DailySalary(models.Model):
     """Model to record daily salary for employees."""
 
-    salary_id = models.AutoField(primary_key=True, editable=False)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True, editable=False)
+
+    employee = models.ForeignKey(Employee, models.RESTRICT)
+
+    employee_code = models.IntegerField(null=False, db_index=True, editable=False)
     employee_name = models.CharField(
         max_length=255,
         blank=True,
@@ -29,6 +32,13 @@ class DailySalary(models.Model):
         editable=False,
         db_index=True,
     )
+    job_title = models.CharField(
+        max_length=255,
+        blank=True,
+        null=False,
+        editable=False,
+        db_index=True,
+    )
     hours_per_day = models.IntegerField(
         default=11, validators=[MinValueValidator(1), MaxValueValidator(24)]
     )
@@ -37,6 +47,7 @@ class DailySalary(models.Model):
     )
     salary_date = models.DateField(default=date.today)
     record_date = models.DateTimeField(auto_now_add=True)
+
     history = HistoricalRecords()
 
     class Meta:
@@ -53,7 +64,7 @@ class DailySalary(models.Model):
         ]
 
     def __str__(self):
-        return f"(ID: {self.employee.employee_id}) {self.employee.name} - {self.salary_date}"
+        return f"(ID: {self.employee.employee_id}) {self.employee.employee_name} - {self.salary_date}"
 
     def get_update_url(self):
         return reverse("daily_salary_update", args=[self.pk])
@@ -61,7 +72,7 @@ class DailySalary(models.Model):
     def get_dom_attrs(self):
         return {
             "data-emp-id": self.employee.employee_id,
-            "data-emp-name": self.employee.name,
+            "data-emp-name": self.employee.employee_name,
             "data-salary-date": self.salary_date.isoformat(),
             "data-row-id": self.pk,
             "data-row-name": str(self),
@@ -78,8 +89,10 @@ class DailySalary(models.Model):
         This keeps denormalized fields consistent and ensures salary calculations
         are stored with each record for simpler exports and historical accuracy.
         """
-        if self.employee:
-            self.employee_name = self.employee.name
+        self.employee_code = self.employee.employee_id
+        self.employee_name = self.employee.employee_name
+        self.department = self.employee.department
+        self.job_title = self.employee.job_title
 
         if self.employee.money_per_hour is None:
             raise ValueError(
