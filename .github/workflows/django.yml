@@ -10,6 +10,7 @@ on:
       - "feature/custom-admin-history"
       - "feature/htmx-integration"
       - "feature/add-soft-delete"
+      - "feature/database-rebuild"
   pull_request:
     branches:
       - "feature/replace-bootstrap-with-tailwind"
@@ -19,7 +20,7 @@ on:
       - "feature/custom-admin-history"
       - "feature/htmx-integration"
       - "feature/add-soft-delete"
-
+      - "feature/database-rebuild"
 jobs:
   build:
     runs-on: ubuntu-latest
