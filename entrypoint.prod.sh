@@ -1,8 +1,14 @@
 #!/bin/sh
 set -e
 
-echo "Waiting for database to be ready..."
+MAX_RETRIES=${DB_MAX_RETRIES:-30}
+RETRY_INTERVAL=${DB_RETRY_INTERVAL:-2}
+RETRY_COUNT=0
 
+echo "==> [START] Entrypoint script is running..."
+echo "==> [WAIT] Waiting for database to be ready..."
+
+# Check database connectivity in a loop until it's ready or we hit the max retries
 until python - <<'PY'
 import os, sys
 import django
@@ -10,13 +16,13 @@ from django.db import connections
 from django.db.utils import OperationalError
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','depo_crud.settings')
+
 try:
     django.setup()
     connections['default'].cursor().execute('SELECT 1')
     print("Connection successful!")
     sys.exit(0)
 except OperationalError as e:
-    # Выводим реальную ошибку в логи Railway
     print(f"Database connection failed: {e}")
     sys.exit(1)
 except Exception as e:
@@ -24,28 +30,34 @@ except Exception as e:
     sys.exit(1)
 PY
 do
-  echo "Retrying in 2 seconds..."
-  sleep 2
+  RETRY_COUNT=$((RETRY_COUNT + 1))
+  if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+    echo "==> [ERROR] Maximum retries ($MAX_RETRIES) reached. Database is still not ready. Exiting."
+    exit 1
+  fi
+  
+  echo "==> [WAIT] Database not ready. Retrying in $RETRY_INTERVAL seconds... (Attempt $RETRY_COUNT/$MAX_RETRIES)"
+  sleep $RETRY_INTERVAL
 done
 
-echo "Database is ready!"
+echo "==> [SUCCESS] Database is ready!"
 
-echo "Applying database migrations..."
+echo "==> [MIGRATE] Running migrations..."
 python manage.py migrate --noinput
 
-echo "Ensuring admin user exists..."
+echo "==> [SETUP] Creating admin user..."
 python manage.py auto_admin --force
 
-echo "Collecting static files..."
+echo "==> [STATIC] Collecting static files..."
 if [ ! -f "static/manifest.json" ]; then
-    echo "WARNING: static/manifest.json not found!"
+    echo "==> [WARNING] static/manifest.json not found!"
 fi
-
 python manage.py collectstatic --noinput
 
-echo "Check collected static in /app/staticfiles:"
+echo "==> [STATIC] Check collected static in /app/staticfiles:"
 ls -la /app/staticfiles | head -n 10
 
-echo "Starting Gunicorn server..."
+echo "==> [SERVER] Starting Gunicorn..."
 WORKERS=${GUNICORN_WORKERS:-3}
+
 exec gunicorn depo_crud.wsgi:application --bind 0.0.0.0:8000 --workers $WORKERS --access-logfile - --error-logfile - --timeout 120 --graceful-timeout 30
