@@ -8,36 +8,27 @@ RETRY_COUNT=0
 echo "==> [START] Entrypoint script is running..."
 echo "==> [WAIT] Waiting for database to be ready..."
 
-# Check database connectivity in a loop until it's ready or we hit the max retries
-until python - <<'PY'
+until python3 -c '
 import os, sys
 import django
 from django.db import connections
 from django.db.utils import OperationalError
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','depo_crud.settings')
-
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "depo_crud.settings")
 try:
     django.setup()
-    connections['default'].cursor().execute('SELECT 1')
-    print("Connection successful!")
+    connections["default"].cursor().execute("SELECT 1")
     sys.exit(0)
-except OperationalError as e:
-    print(f"Database connection failed: {e}")
+except Exception:
     sys.exit(1)
-except Exception as e:
-    print(f"Unexpected error: {e}")
-    sys.exit(1)
-PY
-do
-  RETRY_COUNT=$((RETRY_COUNT + 1))
-  if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
-    echo "==> [ERROR] Maximum retries ($MAX_RETRIES) reached. Database is still not ready. Exiting."
-    exit 1
-  fi
-  
-  echo "==> [WAIT] Database not ready. Retrying in $RETRY_INTERVAL seconds... (Attempt $RETRY_COUNT/$MAX_RETRIES)"
-  sleep $RETRY_INTERVAL
+'; do
+    RETRY_COUNT=$((RETRY_COUNT + 1))
+    if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
+        echo "==> [ERROR] Maximum retries ($MAX_RETRIES) reached. Database is still not ready. Exiting."
+        exit 1
+    fi
+    
+    echo "==> [WAIT] Database not ready. Retrying in $RETRY_INTERVAL seconds... (Attempt $RETRY_COUNT/$MAX_RETRIES)"
+    sleep "$RETRY_INTERVAL"
 done
 
 echo "==> [SUCCESS] Database is ready!"
@@ -54,10 +45,7 @@ if [ ! -f "static/manifest.json" ]; then
 fi
 python manage.py collectstatic --noinput
 
-echo "==> [STATIC] Check collected static in /app/staticfiles:"
-ls -la /app/staticfiles | head -n 10
-
 echo "==> [SERVER] Starting Gunicorn..."
 WORKERS=${GUNICORN_WORKERS:-3}
 
-exec gunicorn depo_crud.wsgi:application --bind 0.0.0.0:8000 --workers $WORKERS --worker-tmp-dir /dev/shm --access-logfile - --error-logfile - --timeout 120 --graceful-timeout 30
+exec gunicorn depo_crud.wsgi:application --bind 0.0.0.0:8000 --workers "$WORKERS" --access-logfile - --error-logfile - --timeout 120 --graceful-timeout 30
