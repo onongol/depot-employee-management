@@ -1,8 +1,5 @@
 {% load i18n %}
-{% load querystring %}
 {% trans "Total" as total_label %}
 {% trans "By Wagon" as wagon_label %}
-{% querystring group='' page=None wagon_number=None as total_href %}
-{% querystring group=GROUP_WAGON page=None as wagon_href %}
-{% include "includes/segmenteds/segmented_option.html" with href=total_href label=total_label active=total_group %}
-{% include "includes/segmenteds/segmented_option.html" with href=wagon_href label=wagon_label active=wagon_group %}
+{% include "includes/segmenteds/segmented_option.html" with href=request.path label=total_label active=total_group %}
+{% include "includes/segmenteds/segmented_option.html" with href=request.path|add:'?group='|add:GROUP_WAGON label=wagon_label active=wagon_group %}
