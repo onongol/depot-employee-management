@@ -144,10 +144,10 @@ function getSelectedRowData(names: string[]): {
 }
 
 /**
- * Initializes the bulk action logic once the DOM is ready.
+ * Synchronizes the state of bulk action buttons based on the current selection.
+ * Handles visibility and dataset updates for delete, edit, activation, and deactivation buttons.
  */
-document.addEventListener("DOMContentLoaded", () => {
-	// Cache action buttons once to improve performance during frequent checkbox changes
+function syncBulkActionButtons(): void {
 	const deleteBtn = document.querySelector<HTMLButtonElement>(
 		BULK_ACTION_SELECTORS.deleteButton,
 	);
@@ -160,105 +160,106 @@ document.addEventListener("DOMContentLoaded", () => {
 	const deactivationBtn = document.querySelector<HTMLAnchorElement>(
 		BULK_ACTION_SELECTORS.deactivationButton,
 	);
-
-	// Stop initialization if no action buttons are found on the current page
 	if (!deleteBtn && !editBtn && !activationBtn && !deactivationBtn) return;
-
 	const names = getCheckboxNames();
+	const count = getCheckedCount(names);
+	const isSingle: boolean = count === 1;
+	const data = isSingle ? getSelectedRowData(names) : null;
 
-	/**
-	 * Orchestrates UI updates: toggles visibility and updates button attributes.
-	 */
-	function syncButtons(): void {
-		const count = getCheckedCount(names);
-		const isSingle: boolean = count === 1;
-		const data = isSingle ? getSelectedRowData(names) : null;
+	// "Delete" Action: Requires at least one selection
+	deleteBtn?.classList.toggle(BULK_ACTION_CLASSES.hidden, count === 0);
 
-		// "Delete" Action: Requires at least one selection
-		deleteBtn?.classList.toggle(BULK_ACTION_CLASSES.hidden, count === 0);
-
-		// "Edit" Action: Strictly requires exactly one selection
-		if (editBtn) {
-			editBtn.classList.toggle(BULK_ACTION_CLASSES.hidden, !isSingle);
-
-			if (isSingle && data) {
-				if (editBtn.dataset) {
-					editBtn.dataset.id = data.id;
-					editBtn.dataset.url = data.url;
-					editBtn.dataset.name = data.name;
-				}
-			} else if (editBtn.dataset) {
-				// Clear metadata when no longer in a valid state
-				editBtn.dataset.id = "";
-				editBtn.dataset.url = "";
-				editBtn.dataset.name = "";
+	// "Edit" Action: Strictly requires exactly one selection
+	if (editBtn) {
+		editBtn.classList.toggle(BULK_ACTION_CLASSES.hidden, !isSingle);
+		if (isSingle && data) {
+			if (editBtn.dataset) {
+				editBtn.dataset.id = data.id;
+				editBtn.dataset.url = data.url;
+				editBtn.dataset.name = data.name;
 			}
+		} else if (editBtn.dataset) {
+			editBtn.dataset.id = "";
+			editBtn.dataset.url = "";
+			editBtn.dataset.name = "";
 		}
+	}
 
-		// "Activation/Deactivation" Logic: Independent state-based visibility
-		const shouldShowActivate = !!(isSingle && data && data.is_active === false);
-		const shouldShowDeactivate = !!(
-			isSingle &&
-			data &&
-			data.is_active === true
+	// "Activation/Deactivation" Logic: Independent state-based visibility
+	const shouldShowActivate = !!(isSingle && data && data.is_active === false);
+	const shouldShowDeactivate = !!(isSingle && data && data.is_active === true);
+
+	// Handle Activation Button state
+	if (activationBtn) {
+		activationBtn.classList.toggle(
+			BULK_ACTION_CLASSES.hidden,
+			!shouldShowActivate,
 		);
-
-		// Handle Activation Button state
-		if (activationBtn) {
-			activationBtn.classList.toggle(
-				BULK_ACTION_CLASSES.hidden,
-				!shouldShowActivate,
-			);
-			if (shouldShowActivate && data) {
-				activationBtn.href =
-					data.activate_url || BULK_ACTION_FALLBACKS.defaultHref;
-				if (activationBtn.dataset) {
-					activationBtn.dataset.id = data.id;
-					activationBtn.dataset.name = data.name;
-				}
-			} else {
-				activationBtn.href = "";
-				if (activationBtn.dataset) {
-					activationBtn.dataset.id = "";
-					activationBtn.dataset.name = "";
-				}
+		if (shouldShowActivate && data) {
+			activationBtn.href =
+				data.activate_url || BULK_ACTION_FALLBACKS.defaultHref;
+			if (activationBtn.dataset) {
+				activationBtn.dataset.id = data.id;
+				activationBtn.dataset.name = data.name;
 			}
-		}
-
-		// Handle Deactivation Button state
-		if (deactivationBtn) {
-			deactivationBtn.classList.toggle(
-				BULK_ACTION_CLASSES.hidden,
-				!shouldShowDeactivate,
-			);
-			if (shouldShowDeactivate && data) {
-				deactivationBtn.href =
-					data.deactivate_url || BULK_ACTION_FALLBACKS.defaultHref;
-				if (deactivationBtn.dataset) {
-					deactivationBtn.dataset.id = data.id;
-					deactivationBtn.dataset.name = data.name;
-				}
-			} else {
-				deactivationBtn.href = "";
-				if (deactivationBtn.dataset) {
-					deactivationBtn.dataset.id = "";
-					deactivationBtn.dataset.name = "";
-				}
+		} else {
+			activationBtn.href = "";
+			if (activationBtn.dataset) {
+				activationBtn.dataset.id = "";
+				activationBtn.dataset.name = "";
 			}
 		}
 	}
 
-	/**
-	 * Global event listener using delegation to track checkbox state changes.
-	 */
-	document.addEventListener("change", (e) => {
-		const target = e.target;
-		if (!(target instanceof HTMLInputElement)) return;
-		if (target.dataset.checkboxName || target.dataset.rowCheckboxName) {
-			syncButtons();
+	// Handle Deactivation Button state
+	if (deactivationBtn) {
+		deactivationBtn.classList.toggle(
+			BULK_ACTION_CLASSES.hidden,
+			!shouldShowDeactivate,
+		);
+		if (shouldShowDeactivate && data) {
+			deactivationBtn.href =
+				data.deactivate_url || BULK_ACTION_FALLBACKS.defaultHref;
+			if (deactivationBtn.dataset) {
+				deactivationBtn.dataset.id = data.id;
+				deactivationBtn.dataset.name = data.name;
+			}
+		} else {
+			deactivationBtn.href = "";
+			if (deactivationBtn.dataset) {
+				deactivationBtn.dataset.id = "";
+				deactivationBtn.dataset.name = "";
+			}
 		}
-	});
+	}
+}
 
-	// Initial sync to account for browser autofill or page refreshes
-	syncButtons();
+/**
+ * Initial synchronization of bulk action buttons after the DOM is fully loaded.
+ */
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", () => {
+		syncBulkActionButtons();
+	});
+} else {
+	syncBulkActionButtons();
+}
+
+/**
+ * Event delegation for checkbox changes and HTMX swaps to keep bulk action buttons in sync with the current selection state.
+ * Listens for changes on any checkbox with the appropriate data attributes and triggers a sync of the bulk action buttons.
+ */
+document.addEventListener("change", (e) => {
+	const target = e.target;
+	if (!(target instanceof HTMLInputElement)) return;
+	if (target.dataset.checkboxName || target.dataset.rowCheckboxName) {
+		syncBulkActionButtons();
+	}
+});
+
+/**
+ * Event listener for HTMX swaps to keep bulk action buttons in sync with the current selection state.
+ */
+document.addEventListener("htmx:afterSwap", () => {
+	syncBulkActionButtons();
 });
