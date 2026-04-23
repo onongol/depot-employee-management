@@ -1,42 +1,87 @@
 import "flatpickr/dist/flatpickr.min.css";
 import "flatpickr/dist/plugins/monthSelect/style.css";
 
-import flatpickr, { Instance, Options } from "flatpickr";
+import flatpickr, { type Instance, type Options } from "flatpickr";
 import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect/index.js";
 
+/**
+ * Options configuration for the Flatpickr Month Select plugin.
+ */
 type MonthPluginOptions = {
-  shorthand?: boolean;
-  dateFormat?: string;
-  altFormat?: string;
+	shorthand?: boolean;
+	dateFormat?: string;
+	altFormat?: string;
 };
 
-const createMonthPlugin = ((): ((opts: MonthPluginOptions) => unknown) => {
-  // plugin may lack TS types; keep as unknown factory with strict input typing
-  return monthSelectPlugin as unknown as (opts: MonthPluginOptions) => unknown;
-})();
+/**
+ * Type cast for the monthSelectPlugin to handle missing or incompatible type definitions.
+ */
+const createMonthPlugin = monthSelectPlugin as unknown as (
+	opts: MonthPluginOptions,
+) => unknown;
 
-function initPicker(selector: string, options: Options): Instance[] {
-  // flatpickr accepts selector string; return created instances for possible testing
-  return flatpickr(selector, options) as Instance[];
+/**
+ * Extended HTMLInputElement to store the Flatpickr instance for cleanup purposes.
+ */
+interface FlatpickrInput extends HTMLInputElement {
+	_flatpickr?: Instance;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Single Date Picker
-  initPicker(".js-flatpickr", {
-    dateFormat: "Y-m-d",
-    allowInput: true,
-    disableMobile: true,
-  });
+/**
+ * Initializes Flatpickr instances for a given selector while ensuring
+ * previous instances are destroyed to prevent memory leaks.
+ * @param selector - CSS selector for the target input elements.
+ * @param options - Flatpickr configuration options.
+ * @returns An array of initialized Flatpickr instances.
+ */
+function initPicker(selector: string, options: Options): Instance[] {
+	const elements = document.querySelectorAll<FlatpickrInput>(selector);
+	for (const el of elements) {
+		// Уничтожить существующий инстанс если есть
+		if (el._flatpickr) {
+			el._flatpickr.destroy();
+		}
+	}
+	return flatpickr(selector, options) as Instance[];
+}
 
-  // Range Date Picker
-  initPicker(".js-flatpickr-range", {
-    mode: "range",
-    dateFormat: "Y-m-d",
-    allowInput: true,
-  });
+/**
+ * Main orchestrator to initialize all types of Flatpickr instances used in the application.
+ * Handles single dates, ranges, and month-only selection.
+ */
+function initAllFlatpickr() {
+	// Single Date Picker: Standard configuration for individual dates
+	initPicker(".js-flatpickr", {
+		dateFormat: "Y-m-d",
+		allowInput: true,
+		disableMobile: true,
+	});
 
-  // Month Picker using monthSelect plugin
-  initPicker(".js-flatpickr-month", {
-    plugins: [createMonthPlugin({ shorthand: true, dateFormat: "Y-m", altFormat: "F Y" })] as unknown as Options["plugins"],
-  });
-});
+	// Range Date Picker: Configuration for date intervals
+	initPicker(".js-flatpickr-range", {
+		mode: "range",
+		dateFormat: "Y-m-d",
+		allowInput: true,
+	});
+
+	// Month Picker: Specialized picker using the Month Select plugin
+	initPicker(".js-flatpickr-month", {
+		plugins: [
+			createMonthPlugin({
+				shorthand: true,
+				dateFormat: "Y-m",
+				altFormat: "F Y",
+			}),
+		] as unknown as Options["plugins"],
+	});
+}
+
+/**
+ * Initial load binding.
+ */
+document.addEventListener("DOMContentLoaded", initAllFlatpickr);
+
+/**
+ * HTMX Integration: Re-initialize pickers after the DOM has been modified by HTMX.
+ */
+document.addEventListener("htmx:afterSwap", initAllFlatpickr);
