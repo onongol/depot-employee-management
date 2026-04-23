@@ -20,6 +20,13 @@ const FILTER_TOGGLE_ATTRS = {
 
 /** Breakpoint for desktop view - synchronization with Tailwind 'lg' recommended */
 const FILTER_TOGGLE_MEDIA_QUERY = "(min-width: 1024px)";
+const mql = window.matchMedia(FILTER_TOGGLE_MEDIA_QUERY);
+
+/**
+ * WeakSet used to track initialized elements.
+ * Prevents duplicate event listener binding during HTMX swaps.
+ */
+const initialized = new WeakSet<HTMLElement>();
 
 /** Generates a unique key for session storage to persist panel state per target */
 function getFilterStorageKey(targetId: string): string {
@@ -29,6 +36,11 @@ function getFilterStorageKey(targetId: string): string {
 /**
  * Synchronizes the visual state of the panel, overlay, and trigger button.
  * Respects the current device mode (Desktop/Mobile) provided by MediaQueryList.
+ * @param panel - The HTML element of the filter panel.
+ * @param btn - The button element that triggers the toggle.
+ * @param open - Boolean flag representing the target visibility state.
+ * @param overlays - Map containing overlay elements associated with their target IDs.
+ * @param mql - The MediaQueryList instance for responsive checks.
  */
 function applyState(
 	panel: HTMLElement,
@@ -43,6 +55,7 @@ function applyState(
 	// Handle Overlay visibility and Body scroll locking (Mobile only)
 	if (overlay)
 		overlay.classList.toggle(FILTER_TOGGLE_CLASSES.hidden, isDesktop || !open);
+
 	document.body.classList.toggle(
 		FILTER_TOGGLE_CLASSES.lockScroll,
 		!isDesktop && open && !!overlay,
@@ -65,61 +78,64 @@ function applyState(
 /**
  * Re-evaluates the state of all tracked filter toggles.
  * Forces panels to 'open' on Desktop while restoring saved state on Mobile.
+ * @param toggles - Array of filter toggle button elements.
+ * @param overlays - Map of overlay elements.
+ * @param mql - The MediaQueryList instance.
  */
 function applyResponsive(
 	toggles: HTMLButtonElement[],
 	overlays: Map<string, HTMLElement>,
 	mql: MediaQueryList,
 ) {
-	toggles.forEach((btn) => {
+	for (const btn of toggles) {
 		const targetId = btn.dataset.target;
-		if (!targetId) return;
+		if (!targetId) continue;
 
 		const panel = document.getElementById(targetId);
-		if (!panel) return;
+		if (!panel) continue;
 
 		const storageKey = getFilterStorageKey(targetId);
 
 		// Always show panels on desktop
 		if (mql.matches) {
 			applyState(panel, btn, true, overlays, mql);
-			return;
+			continue;
 		}
 
 		// Restore user's last session state when switching to mobile
 		const saved = sessionStorage.getItem(storageKey);
 		applyState(panel, btn, saved === "true", overlays, mql);
-	});
+	}
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-	const mql = window.matchMedia(FILTER_TOGGLE_MEDIA_QUERY);
-
-	/** Collection of all filter trigger buttons */
-	const toggles: HTMLButtonElement[] = Array.from(
+/**
+ * Orchestrates the initialization of filter toggles and overlays.
+ * Uses idempotency patterns to safely run after HTMX content swaps.
+ */
+function initFilterToggles() {
+	const toggles = Array.from(
 		document.querySelectorAll<HTMLButtonElement>(
 			FILTER_TOGGLE_SELECTORS.toggleBtn,
 		),
 	);
-
-	/** Mapping of TargetID -> OverlayElement for O(1) lookup performance */
 	const overlays = new Map<string, HTMLElement>();
-	document
-		.querySelectorAll<HTMLElement>(FILTER_TOGGLE_SELECTORS.overlay)
-		.forEach((overlay) => {
-			const key = overlay.dataset.filterOverlay;
-			if (key) overlays.set(key, overlay);
-		});
 
-	// Initialize Click Listeners for Toggle Buttons
-	toggles.forEach((btn) => {
+	// Map overlays to their respective target IDs
+	for (const overlay of document.querySelectorAll<HTMLElement>(
+		FILTER_TOGGLE_SELECTORS.overlay,
+	)) {
+		const key = overlay.dataset.filterOverlay;
+		if (key) overlays.set(key, overlay);
+	}
+
+	// Initialize toggle buttons with click listeners
+	for (const btn of toggles) {
+		if (initialized.has(btn)) continue;
+
 		btn.addEventListener("click", () => {
-			// Toggles are disabled on Desktop as filters are permanently visible
 			if (mql.matches) return;
-
 			const targetId = btn.dataset.target;
 			if (!targetId) return;
-
 			const panel = document.getElementById(targetId);
 			if (!panel) return;
 
@@ -130,26 +146,62 @@ document.addEventListener("DOMContentLoaded", () => {
 			applyState(panel, btn, next, overlays, mql);
 			sessionStorage.setItem(getFilterStorageKey(targetId), next.toString());
 		});
-	});
 
-	// Close Panel logic when clicking on the background overlay
-	overlays.forEach((overlay, targetId) => {
+		initialized.add(btn);
+	}
+
+	// Initialize overlays to allow closing the panel by clicking outside
+	for (const [targetId, overlay] of overlays.entries()) {
+		if (initialized.has(overlay)) continue;
+
 		overlay.addEventListener("click", () => {
 			if (!targetId) return;
-
 			const panel = document.getElementById(targetId);
 			const btn = toggles.find((b) => b.dataset.target === targetId);
-
 			if (!panel || !btn) return;
 
 			applyState(panel, btn, false, overlays, mql);
 			sessionStorage.setItem(getFilterStorageKey(targetId), "false");
 		});
-	});
 
-	// Listen for window resize / orientation changes via MediaQueryList
-	mql.addEventListener("change", () => applyResponsive(toggles, overlays, mql));
+		initialized.add(overlay);
+	}
 
-	// Initial state application on page load
+	// Perform initial synchronization
+	applyResponsive(toggles, overlays, mql);
+}
+
+/**
+ * Global Resize Listener.
+ * Re-syncs all filters when the viewport crosses the mobile/desktop threshold.
+ */
+mql.addEventListener("change", () => {
+	const toggles = Array.from(
+		document.querySelectorAll<HTMLButtonElement>(
+			FILTER_TOGGLE_SELECTORS.toggleBtn,
+		),
+	);
+	const overlays = new Map<string, HTMLElement>();
+	for (const el of document.querySelectorAll<HTMLElement>(
+		FILTER_TOGGLE_SELECTORS.overlay,
+	)) {
+		if (el.dataset.filterOverlay) overlays.set(el.dataset.filterOverlay, el);
+	}
 	applyResponsive(toggles, overlays, mql);
 });
+
+/**
+ * Initial execution logic.
+ * Ensures the script runs only after the DOM is fully interactive.
+ */
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initFilterToggles);
+} else {
+	initFilterToggles();
+}
+
+/**
+ * HTMX Integration.
+ * Re-runs initialization whenever HTMX swaps new content into the DOM.
+ */
+document.addEventListener("htmx:afterSwap", initFilterToggles);
