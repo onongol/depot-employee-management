@@ -10,33 +10,35 @@
     {% else %}
         {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department only %}
     {% endif %}
-    <div class="mb-2 flex flex-row items-center justify-end gap-2 md:mb-4 md:justify-start md:gap-4">
-        <!-- Actions -->
-        {% if not is_employee and not is_master %}
-            {% include "includes/table_action_buttons/edit_selected_button.html" %}
-            {% include "includes/table_action_buttons/bulk_delete_button.html" %}
-        {% endif %}
-        <!-- Filters -->
-        {% include "includes/table/list_table_filters.html" with toggle_id="daily-salary-filters-toggle" panel_id="daily-salary-filters-panel" fields_template="daily_salary/daily_salary_filters_fields.html" htmx_target="#daily-salary-list-results" %}
-    </div>
-    <!-- Alerts -->
-    {% include "includes/alerts/alerts.html" %}
-    <div id="daily-salary-list-results">
-        <!-- Summary -->
-        {% if not is_employee and not is_master %}
-            {% include "includes/summaries/selected_summary.html" with summary_id="daily-salary-summary" checkbox_name="daily_salary_ids" %}
-        {% endif %}
-        <!-- Bulk action form: wraps the table checkboxes so selected DailySalary IDs are submitted via POST -->
-        <!-- The Delete button in the modal uses form="bulkDeleteForm" to submit this form without moving the button here. -->
-        <form method="post"
-            id="bulkDeleteForm"
-            action="{% url 'daily_salary_delete_bulk' %}">
-            {% csrf_token %}
-            <!-- Table -->
-            {% include "daily_salary/daily_salary_table/daily_salary_table.html" %}
-        </form>
-        <!-- Pagination -->
-        {% include "includes/pagination/pagination.html" with htmx_target="#daily-salary-list-results" %}
+    <div id="daily-salary-list-control">
+        <div class="mb-2 flex flex-row items-center justify-end gap-2 md:mb-4 md:justify-start md:gap-4">
+            <!-- Actions -->
+            {% if not is_employee and not is_master %}
+                {% include "includes/table_action_buttons/edit_selected_button.html" %}
+                {% include "includes/table_action_buttons/bulk_delete_button.html" %}
+            {% endif %}
+            <!-- Filters -->
+            {% include "includes/table/list_table_filters.html" with toggle_id="daily-salary-filters-toggle" panel_id="daily-salary-filters-panel" fields_template="daily_salary/daily_salary_filters_fields.html" htmx_target="#daily-salary-list-control" %}
+        </div>
+        <!-- Alerts -->
+        {% include "includes/alerts/alerts.html" %}
+        <div id="daily-salary-list-results">
+            <!-- Summary -->
+            {% if not is_employee and not is_master %}
+                {% include "includes/summaries/selected_summary.html" with summary_id="daily-salary-summary" checkbox_name="daily_salary_ids" %}
+            {% endif %}
+            <!-- Bulk action form: wraps the table checkboxes so selected DailySalary IDs are submitted via POST -->
+            <!-- The Delete button in the modal uses form="bulkDeleteForm" to submit this form without moving the button here. -->
+            <form method="post"
+                  id="bulkDeleteForm"
+                  action="{% url 'daily_salary_delete_bulk' %}">
+                {% csrf_token %}
+                <!-- Table -->
+                {% include "daily_salary/daily_salary_table/daily_salary_table.html" %}
+            </form>
+            <!-- Pagination -->
+            {% include "includes/pagination/pagination.html" with htmx_target="#daily-salary-list-control" %}
+        </div>
     </div>
     <!-- Modal -->
     {% include "includes/modals/modal_update.html" %}
