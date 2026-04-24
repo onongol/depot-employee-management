@@ -10,7 +10,7 @@
 <td class="{{ col_class_hidden }}">{{ row.type_work }}</td>
 {% if show_wagon %}
     <td class="{{ col_class_hidden }}">{{ row.type_wagon_display }}</td>
-    <td class="{{ col_class_hidden }}">{{ row.wagon_number_display|default:"-" }}</td>
+    <td class="{{ col_class_hidden }}">{{ row.wagon_number_display }}</td>
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ row.amount }}</td>
 <td class="{{ col_class_hidden }}">{{ row.amount_time|floatformat:2 }}</td>
