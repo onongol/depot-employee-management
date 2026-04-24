@@ -4,7 +4,7 @@
 <div>{{ row.type_work }}</div>
 {% if show_wagon %}
     <div>{{ row.type_wagon_display }}</div>
-    <div>{{ row.wagon_number_display|default:"-" }}</div>
+    <div>{{ row.wagon_number_display }}</div>
 {% endif %}
 <div>
     <span>{% trans "amount:" %}</span> {{ row.amount }}
