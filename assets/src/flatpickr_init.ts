@@ -37,9 +37,13 @@ interface FlatpickrInput extends HTMLInputElement {
 function initPicker(selector: string, options: Options): Instance[] {
 	const elements = document.querySelectorAll<FlatpickrInput>(selector);
 	for (const el of elements) {
-		// Уничтожить существующий инстанс если есть
-		if (el._flatpickr) {
-			el._flatpickr.destroy();
+		try {
+			// Clean up existing Flatpickr instance if it exists
+			if (el._flatpickr) {
+				el._flatpickr.destroy();
+			}
+		} catch {
+			// Ignore errors if element is already gone
 		}
 	}
 	return flatpickr(selector, options) as Instance[];
@@ -73,6 +77,7 @@ function initAllFlatpickr() {
 				altFormat: "F Y",
 			}),
 		] as unknown as Options["plugins"],
+		disableMobile: true, // Force desktop version for better UX with the month plugin
 	});
 }
 
