@@ -8,7 +8,7 @@
 <td class="{{ col_class_hidden }}">{{ row.job_title }}</td>
 <td class="{{ col_class_hidden }}">{{ row.type_work }}</td>
 {% if show_wagon %}
-    <td class="{{ col_class_hidden }}">{{ row.type_wagon }}</td>
+    <td class="{{ col_class_hidden }}">{{ row.type_wagon|default:"-" }}</td>
     <td class="{{ col_class_hidden }}">{{ row.wagon_number|default:"-" }}</td>
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ row.total_amount }}</td>
