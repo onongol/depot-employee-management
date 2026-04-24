@@ -3,8 +3,8 @@
 <div>{{ row.job_title }}</div>
 <div>{{ row.type_work }}</div>
 {% if show_wagon %}
-    <div>{{ row.type_wagon_display }}</div>
-    <div>{{ row.wagon_number_display|default:"-" }}</div>
+    <div>{{ row.type_wagon|default:"-" }}</div>
+    <div>{{ row.wagon_number|default:"-" }}</div>
 {% endif %}
 <div>
     <span>{% trans "amount:" %}</span> {{ row.total_amount }}
