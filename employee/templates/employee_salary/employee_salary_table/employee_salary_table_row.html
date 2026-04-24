@@ -8,7 +8,7 @@
 <td class="{{ col_class_hidden }}">{{ row.employee.job_title }}</td>
 <td class="{{ col_class_hidden }}">{{ row.employee.rank }}</td>
 {% if wagon_mode %}
-    <td scope="col" class="{{ col_class }}">{{ row.wagon_number|default_if_none:"-" }}</td>
+    <td scope="col" class="{{ col_class }}">{{ row.wagon_number|default:"-" }}</td>
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ row.total_piecework_time|floatformat:2|intcomma }}</td>
 <td class="{{ col_class }}">{{ row.total_piecework_amount|floatformat:2|intcomma }}</td>
