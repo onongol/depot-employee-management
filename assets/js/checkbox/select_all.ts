@@ -104,7 +104,7 @@ function initSelectAll(): void {
 	 */
 	document.addEventListener("pointerdown", (event) => {
 		const target = event.target as MasterCheckbox;
-		if (target && target.dataset.checkboxName) {
+		if (target?.dataset?.checkboxName) {
 			target._preClickIndeterminate = target.indeterminate;
 		}
 	});
