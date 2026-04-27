@@ -1,0 +1,3 @@
+{% load i18n %}
+{% trans "Duplicate" as modal_title %}
+{% include "includes/modals/base_info_modal.html" with modal_id="saveDuplicateModal" modal_label_id="saveDuplicateModalLabel" modal_title=modal_title body_template="includes/modals/bodies/duplicate_body_daily_salary.html" actions_template="includes/buttons/close_button.html" %}
