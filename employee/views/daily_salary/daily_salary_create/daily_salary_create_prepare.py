@@ -2,7 +2,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from employee.forms import DailySalaryForm
-from employee.models import Employee
+from employee.models import DailySalary, Employee
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
 from employee.views.daily_salary.daily_salary_create.daily_salary_create_context import (
@@ -28,6 +28,13 @@ def prepare_daily_salary_create(request) -> DailySalaryCreateContext:
         Employee, "job_title", department, department_field="department"
     )
 
+    # Fetch existing DailySalary records for the department to prevent duplicates
+    existing_daily_salaries = list(
+        DailySalary.objects.filter(employee__department=department).values(
+            "employee_code", "salary_date"
+        )
+    )
+
     return DailySalaryCreateContext(
         form=DailySalaryForm(),
         object_type="Daily Salary",
@@ -36,4 +43,5 @@ def prepare_daily_salary_create(request) -> DailySalaryCreateContext:
         selected_department=department,
         cancel_url=reverse("daily_salary_list"),
         job_titles=job_titles,
+        existing_daily_salaries=existing_daily_salaries,
     )
