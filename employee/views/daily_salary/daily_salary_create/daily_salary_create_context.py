@@ -12,3 +12,4 @@ class DailySalaryCreateContext:
     selected_department: Optional[str] = None
     cancel_url: Optional[str] = None
     job_titles: List[str] = field(default_factory=list)
+    existing_daily_salaries: List[dict] = field(default_factory=list)
