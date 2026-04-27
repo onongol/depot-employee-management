@@ -1,10 +1,15 @@
 {% extends "forms/create_form.html" %}
 {% load i18n %}
 {% block title %}Create Daily Salary{% endblock %}
+{% block form_alert %}
+    {% include "includes/alerts/duplicate_warning.html" %}
+{% endblock %}
 {% block form_fields %}
     <fieldset class="space-y-2 md:space-y-4">
         <legend class="sr-only">Create Daily Salary Details</legend>
         {% if employees %}
+            <!-- Inject existing daily salaries for duplicate check -->
+            {{ existing_daily_salaries|json_script:"existing-daily-salaries" }}
             <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
                 {% include "includes/form/form_date.html" with id="salary_date" label=_("Date") name="salary_date" type="text" value=salary_date|default:today|date:'Y-m-d' form_errors=form.salary_date required=True hide_label_mobile=True placeholder=_("Date") %}
                 {% include "includes/form/form_input.html" with id="hours_per_day" label=_("Hours") name="hours_per_day" type="number" value=hours_per_day|default:11 form_errors=form.hours_per_day  min=form.hours_per_day.field.widget.attrs.min max=form.hours_per_day.field.widget.attrs.max required=True hide_label_mobile=True placeholder=_("Hours") %}
@@ -20,4 +25,5 @@
         {% include "includes/buttons/cancel_button.html" %}
         {% include "includes/buttons/save_button.html" with disable_if_no_employees=1 %}
     </div>
+    {% include "includes/modals/modal_duplicate_daily_salary.html" %}
 {% endblock %}
