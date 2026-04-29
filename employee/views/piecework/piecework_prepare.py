@@ -1,11 +1,10 @@
-from employee.constants.constants import EMPLOYEE_GROUP
 from employee.models import Piecework
 from employee.utils.group_modes import is_detail_group, is_month_group, is_year_group
 from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
-from employee.utils.user_roles import get_user_groups
+from employee.utils.user_roles import is_employee
 from employee.utils.wagon_department import is_wagon_department
 from employee.views.piecework.piecework_context import PieceworkContext
 
@@ -14,10 +13,8 @@ def piecework_prepare(request) -> PieceworkContext:
     """Prepare base queryset and filter params for Piecework."""
     department = get_selected_department(request)
 
-    groups = get_user_groups(request)
-
     # Base queryset (same visibility rules as list view)
-    if EMPLOYEE_GROUP in groups:
+    if is_employee(request):
         pieceworks = Piecework.objects.select_related("employee", "work").filter(
             employee__user=request.user,
             employee__department=department,
