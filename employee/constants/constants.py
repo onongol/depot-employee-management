@@ -8,6 +8,16 @@ class GroupNames(str, Enum):
     EMPLOYEES = "Employees"
 
 
+EMPLOYEE_GROUP = GroupNames.EMPLOYEES.value
+MASTER_GROUP = GroupNames.MASTERS.value
+PAYROLL_GROUP = GroupNames.PAYROLLS.value
+
+# Context keys for user roles
+IS_EMPLOYEE_KEY = "is_employee"
+IS_MASTER_KEY = "is_master"
+IS_PAYROLL_KEY = "is_payroll"
+
+
 # Department list
 class Department(str, Enum):
     AUTO_UGSRAA = "Авто угсраа"
