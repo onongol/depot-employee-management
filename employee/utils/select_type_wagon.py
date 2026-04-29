@@ -27,14 +27,14 @@ def get_type_wagon_filter_values(
     deps = [department]
 
     # Dynamically choose the source model and the department lookup path.
+    # Snapshot (historical) source: use Piecework entries and follow employee -> department.
+    # Default / live source: use Work reference data, department lives directly on Work.
     if source_model == "piecework":
-        # Snapshot (historical) source: use Piecework entries and follow employee -> department.
         from employee.models import Piecework as Model
 
         dep_lookup = "employee__department__in"
         field = "type_wagon"
     else:
-        # Default / live source: use Work reference data, department lives directly on Work.
         from employee.models import Work as Model
 
         dep_lookup = "department__in"
@@ -43,16 +43,12 @@ def get_type_wagon_filter_values(
     # Base queryset filtered by department(s).
     qs = Model.objects.filter(**{dep_lookup: deps})
 
-    # Detect if there are any NULL values; those map to DEFAULT_WAGON_TYPE in the filter UI.
-    has_null = qs.filter(**{f"{field}__isnull": True}).exists()
-
     # Collect non-NULL distinct values only; NULL is represented separately (placeholder).
-    values = list(
-        qs.exclude(**{f"{field}__isnull": True})
-        .values_list(field, flat=True)
-        .distinct()
-        .order_by()
-    )
+    raw_values = list(qs.values_list(field, flat=True).distinct().order_by())
+
+    has_null = None in raw_values
+
+    values = sorted([v for v in raw_values if v is not None])
 
     # Prepend placeholder if forced or if NULL values actually exist.
     if always_include_default or has_null:
