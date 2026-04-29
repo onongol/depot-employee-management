@@ -1,27 +1,27 @@
-EMPLOYEE_GROUP = "Employees"
-MASTER_GROUP = "Masters"
-PAYROLL_GROUP = "Payrolls"
-
-IS_EMPLOYEE_KEY = "is_employee"
-IS_MASTER_KEY = "is_master"
-IS_PAYROLL_KEY = "is_payroll"
+from employee.constants.constants import (
+    EMPLOYEE_GROUP,
+    IS_EMPLOYEE_KEY,
+    IS_MASTER_KEY,
+    IS_PAYROLL_KEY,
+    MASTER_GROUP,
+    PAYROLL_GROUP,
+)
+from employee.utils.user_roles import get_user_groups
 
 
 def user_roles(request):
-    """Context processor to check all user roles at once with a single SQL query."""
-    user = request.user
-
-    if not user.is_authenticated:
+    """Context processor to check all user roles at once with a single SQL query (cached)."""
+    if not request.user.is_authenticated:
         return {
             IS_EMPLOYEE_KEY: False,
             IS_MASTER_KEY: False,
             IS_PAYROLL_KEY: False,
         }
 
-    user_group_names = set(user.groups.values_list("name", flat=True))
+    groups = get_user_groups(request)
 
     return {
-        IS_EMPLOYEE_KEY: EMPLOYEE_GROUP in user_group_names,
-        IS_MASTER_KEY: MASTER_GROUP in user_group_names,
-        IS_PAYROLL_KEY: PAYROLL_GROUP in user_group_names,
+        IS_EMPLOYEE_KEY: EMPLOYEE_GROUP in groups,
+        IS_MASTER_KEY: MASTER_GROUP in groups,
+        IS_PAYROLL_KEY: PAYROLL_GROUP in groups,
     }
