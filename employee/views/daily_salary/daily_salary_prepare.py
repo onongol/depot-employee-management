@@ -1,18 +1,15 @@
-from employee.constants.constants import EMPLOYEE_GROUP
 from employee.models import DailySalary, Employee
 from employee.utils.converting_date import format_date
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
-from employee.utils.user_roles import get_user_groups
+from employee.utils.user_roles import is_employee
 from employee.views.daily_salary.daily_salary_context import DailySalaryContext
 
 
 def daily_salary_prepare(request) -> DailySalaryContext:
     department = get_selected_department(request)
 
-    groups = get_user_groups(request)
-
-    if EMPLOYEE_GROUP in groups:
+    if is_employee(request):
         daily_salaries = DailySalary.objects.filter(
             employee__user=request.user,
             department=department,
