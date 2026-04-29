@@ -1,17 +1,14 @@
-from employee.constants.constants import EMPLOYEE_GROUP
 from employee.models import Employee
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
-from employee.utils.user_roles import get_user_groups
+from employee.utils.user_roles import is_employee
 from employee.views.employee.employee_context import EmployeeContext
 
 
 def employee_prepare(request) -> EmployeeContext:
     department = get_selected_department(request)
 
-    groups = get_user_groups(request)
-
-    if EMPLOYEE_GROUP in groups:
+    if is_employee(request):
         employees = Employee.objects.filter(user=request.user)
     else:
         employees = Employee.objects.all()
