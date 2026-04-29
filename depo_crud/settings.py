@@ -91,6 +91,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "simple_history.middleware.HistoryRequestMiddleware",
+    "employee.middleware.user_context_cache.UserContextCacheMiddleware",  # Cache user settings for the request
 ]
 
 # Middleware plus if DEBUG
