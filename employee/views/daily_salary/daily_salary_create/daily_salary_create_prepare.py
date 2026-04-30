@@ -17,11 +17,13 @@ def prepare_daily_salary_create(request) -> DailySalaryCreateContext:
     today = timezone.now().date()
 
     # Filter employees by selected department, or show none if not selected
-    employees = Employee.objects.none()
+    employees = []
     if department:
-        employees = Employee.objects.filter(
-            department=department, is_active=True
-        ).order_by("employee_id")
+        employees = list(
+            Employee.objects.filter(
+                department=department, is_active=True, is_deleted=False
+            ).order_by("employee_id")
+        )
 
     # Get distinct job titles for filtering dropdown
     job_titles = get_distinct_values(
@@ -30,7 +32,7 @@ def prepare_daily_salary_create(request) -> DailySalaryCreateContext:
 
     # Fetch existing DailySalary records for the department to prevent duplicates
     existing_daily_salaries = list(
-        DailySalary.objects.filter(employee__department=department).values(
+        DailySalary.objects.filter(department=department).values(
             "employee_code", "salary_date"
         )
     )

@@ -26,17 +26,26 @@ def daily_work_piecework_create_prepare(request) -> DailyWorkPieceworkCreateCont
     raw_work_date = request.GET.get("work_date") or request.POST.get("work_date")
     work_date = format_date(raw_work_date) if raw_work_date else today
 
+    employees = []
+    works = []
+
     # Fetch employees and works based on the selected department and work_date
     if department:
-        employees = Employee.objects.filter(
-            department=department, is_active=True
+        employees_qs = Employee.objects.filter(
+            department=department, is_active=True, is_deleted=False
         ).order_by("employee_id")
-        works = Work.objects.filter(department=department).order_by("work_name")
+
         if work_date:
-            employees = employees.filter(dailysalary__salary_date=work_date).distinct()
-    else:
-        employees = Employee.objects.none()
-        works = Work.objects.none()
+            employees_qs = employees_qs.filter(
+                dailysalary__salary_date=work_date
+            ).distinct()
+
+        employees = list(employees_qs)
+        works = list(
+            Work.objects.filter(department=department, is_deleted=False).order_by(
+                "work_name"
+            )
+        )
 
     # Get distinct job titles for filtering dropdown
     emp_job_titles = get_distinct_values(
