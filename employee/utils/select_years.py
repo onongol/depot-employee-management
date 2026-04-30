@@ -1,3 +1,5 @@
+import hashlib
+
 from django.core.cache import cache
 
 
@@ -13,15 +15,16 @@ def get_years_filter_values(
     :param timeout: cache lifetime in seconds
     :return: list of years (strings)
     """
-    key = f"{cache_prefix}_years"
-
+    raw_key = f"{cache_prefix}_years"
     if department:
-        key += f"_{department}"
+        raw_key += f"_{department}"
 
-    years = cache.get(key)
+    cache_key = f"{cache_prefix}_{hashlib.md5(raw_key.encode()).hexdigest()}"
+
+    years = cache.get(cache_key)
 
     if years is None:
         years = [str(d.year) for d in queryset.dates(date_field, "year", order="DESC")]
-        cache.set(key, years, timeout)
+        cache.set(cache_key, years, timeout)
 
     return years
