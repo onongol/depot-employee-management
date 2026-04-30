@@ -53,7 +53,7 @@ class Employee(SoftDeleteMixin, models.Model):
     is_active = models.BooleanField(default=True)
 
     # Soft delete flag: True if the record is considered deleted, False otherwise.
-    is_deleted = models.BooleanField(default=False, db_index=True)
+    is_deleted = models.BooleanField(default=False)
 
     # Connection to the User model
     user = models.OneToOneField(
@@ -70,6 +70,15 @@ class Employee(SoftDeleteMixin, models.Model):
     # Custom managers to handle soft deletion logic.
     objects = SoftDeleteManager()
     all_objects = SoftDeleteManager(only_alive=False)
+
+    # Meta options for database indexing and string representation.
+    class Meta:
+        indexes = [
+            models.Index(
+                fields=["is_deleted", "department", "job_title", "employee_id"]
+            ),
+            models.Index(fields=["employee_id", "is_deleted"]),
+        ]
 
     def __str__(self):
         return f"(ID: {self.employee_id}) {self.employee_name}"
