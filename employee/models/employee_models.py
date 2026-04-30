@@ -75,7 +75,7 @@ class Employee(SoftDeleteMixin, models.Model):
     class Meta:
         indexes = [
             models.Index(
-                fields=["is_deleted", "department", "job_title", "employee_id"]
+                fields=["is_deleted", "is_active", "department", "job_title", "employee_id"]
             ),
             models.Index(fields=["employee_id", "is_deleted"]),
         ]
