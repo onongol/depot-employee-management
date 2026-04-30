@@ -1,6 +1,7 @@
 import hashlib
-import json
+
 from django.core.cache import cache
+
 
 def get_distinct_values(
     model,
@@ -29,7 +30,7 @@ def get_distinct_values(
     result = cache.get(cache_key)
     if result is not None:
         return result
-    
+
     # If not cached, query the database
     qs = model.objects.all()
 
@@ -42,7 +43,7 @@ def get_distinct_values(
 
     # Get distinct values and cache the result
     result = list(qs.order_by(field).values_list(field, flat=True).distinct())
-    
+
     # Remove empty values from the result
     result = [v for v in result if v]
 
