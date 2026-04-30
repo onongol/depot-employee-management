@@ -47,7 +47,6 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         blank=True,
         null=False,
         editable=False,
-        db_index=True,
     )
     job_title = models.CharField(
         max_length=255,
@@ -56,7 +55,11 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         null=False,
         db_index=True,
     )
-    type_work = models.CharField(max_length=50, choices=TYPE_WORK_CHOICES)
+    type_work = models.CharField(
+        max_length=50,
+        choices=TYPE_WORK_CHOICES,
+        db_index=True,
+    )
     wagon_number = models.CharField(max_length=50, blank=True, null=True)
     type_wagon = models.CharField(
         max_length=100,
@@ -96,6 +99,13 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     record_date = models.DateTimeField(auto_now_add=True)
 
     history = HistoricalRecords()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["department", "work_date"]),
+            models.Index(fields=["work_date"]),
+            models.Index(fields=["-record_date"]),
+        ]
 
     def __str__(self):
         return f"{self.work.work_name} ({self.type_work}) - {self.work_date}"
