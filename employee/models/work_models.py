@@ -30,7 +30,9 @@ class Work(
 
     work_name = models.CharField(max_length=255, blank=False, null=False, db_index=True)
     department = models.CharField(
-        max_length=255, blank=False, null=False, db_index=True
+        max_length=255,
+        blank=False,
+        null=False,
     )
     job_title = models.CharField(
         max_length=255,
@@ -46,7 +48,9 @@ class Work(
         null=True,
         db_index=True,
     )
-    type_material = models.CharField(max_length=255, blank=True, null=True)
+    type_material = models.CharField(
+        max_length=255, blank=True, null=True, db_index=True
+    )
     usage_material = models.DecimalField(
         max_digits=20,
         decimal_places=4,
@@ -67,7 +71,7 @@ class Work(
     )
 
     # Soft delete flag: True if the record is considered deleted, False otherwise.
-    is_deleted = models.BooleanField(default=False, db_index=True)
+    is_deleted = models.BooleanField(default=False)
 
     # Historical records for auditing changes to instances over time.
     history = HistoricalRecords()
@@ -83,6 +87,11 @@ class Work(
         * type_wagon can only be set for allowed departments; otherwise it must be NULL.
         * work_name must be unique within the same department.
         """
+
+        indexes = [
+            models.Index(fields=["is_deleted", "department", "job_title", "work_name"]),
+            models.Index(fields=["department", "work_name", "is_deleted"]),
+        ]
 
         constraints = [
             # Ensure type_wagon is only set for allowed departments
