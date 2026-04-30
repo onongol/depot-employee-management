@@ -30,7 +30,6 @@ class DailySalary(models.Model):
         blank=True,
         null=False,
         editable=False,
-        db_index=True,
     )
     job_title = models.CharField(
         max_length=255,
@@ -45,7 +44,10 @@ class DailySalary(models.Model):
     salary_day = models.DecimalField(
         max_digits=20, decimal_places=2, default=Decimal("0.00"), editable=False
     )
-    salary_date = models.DateField(default=date.today)
+    salary_date = models.DateField(
+        default=date.today,
+        db_index=True,
+    )
     record_date = models.DateTimeField(auto_now_add=True)
 
     history = HistoricalRecords()
@@ -56,6 +58,11 @@ class DailySalary(models.Model):
         - Enforces a unique constraint on (employee, salary_date) to prevent
         multiple DailySalary records for the same employee on the same date.
         """
+
+        indexes = [
+            models.Index(fields=["department", "salary_date"]),
+            models.Index(fields=["-record_date"]),
+        ]
 
         constraints = [
             models.UniqueConstraint(
