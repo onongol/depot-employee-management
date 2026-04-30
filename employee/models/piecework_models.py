@@ -56,7 +56,6 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         blank=True,
         null=False,
         editable=False,
-        db_index=True,
     )
     job_title = models.CharField(
         max_length=255,
@@ -74,7 +73,9 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         editable=False,
         db_index=True,
     )
-    type_work = models.CharField(max_length=50, choices=TYPE_WORK_CHOICES)
+    type_work = models.CharField(
+        max_length=50, choices=TYPE_WORK_CHOICES, db_index=True
+    )
     wagon_number = models.CharField(max_length=50, blank=True, null=True)
     type_wagon = models.CharField(
         max_length=100,
@@ -115,6 +116,15 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     group_id = models.CharField(max_length=36, blank=True, null=True, db_index=True)
 
     history = HistoricalRecords()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["department", "work_date"]),
+            models.Index(fields=["employee", "work_date"]),
+            models.Index(fields=["work", "work_date"]),
+            models.Index(fields=["work_date", "wagon_number"]),
+            models.Index(fields=["-record_date"]),
+        ]
 
     def __str__(self):
         return f"(ID: {self.employee.employee_id}) {self.employee.employee_name}, {self.work.work_name} ({self.type_work}) - {self.work_date}"
