@@ -1,9 +1,13 @@
+import hashlib
+
+from django.core.cache import cache
+
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, DEFAULT_WAGON_TYPE
 
 
 def get_type_wagon_filter_values(
     department,
-    source_model: str = "work",  # 'work' | 'piecework'
+    source_model: str = "work",
     always_include_default: bool = False,
 ):
     """
@@ -23,6 +27,15 @@ def get_type_wagon_filter_values(
     if not department or department not in ALLOWED_WAGON_DEPARTMENTS:
         return []
 
+    # Create a unique cache key based on the function parameters
+    raw_key = f"wagon_filter_{department}_{source_model}_{always_include_default}"
+    cache_key = f"{raw_key}_{hashlib.md5(raw_key.encode()).hexdigest()}"
+
+    # Try to get the result from cache
+    result = cache.get(cache_key)
+    if result is not None:
+        return result
+
     # Dynamically choose the source model and the department lookup path.
     deps = [department]
 
@@ -33,6 +46,11 @@ def get_type_wagon_filter_values(
         from employee.models import Piecework as Model
 
         dep_lookup = "employee__department__in"
+        field = "type_wagon"
+    elif source_model == "daily_work":
+        from employee.models import DailyWork as Model
+
+        dep_lookup = "work__department__in"
         field = "type_wagon"
     else:
         from employee.models import Work as Model
@@ -52,6 +70,10 @@ def get_type_wagon_filter_values(
 
     # Prepend placeholder if forced or if NULL values actually exist.
     if always_include_default or has_null:
-        return [DEFAULT_WAGON_TYPE] + values
+        result = [DEFAULT_WAGON_TYPE] + values
+    else:
+        result = values
 
-    return values
+    cache.set(cache_key, result, timeout=10 * 60)  # Cache for 10 minutes
+
+    return result
