@@ -23,6 +23,9 @@ def material_list(request):
 
     daily_works = filter_material(daily_works, context=context)
 
+    # Total material usage does not depend on presentation grouping.
+    sum_amount = daily_works.aggregate(total=Sum("amount_material"))["total"] or 0
+
     # Group and sum duplicate materials
     daily_works = group_and_sum_materials(daily_works)
 
@@ -33,9 +36,6 @@ def material_list(request):
         allowed_fields=["work_date", "work__work_name", "work__type_material"],
         default="-work_date",
     )
-
-    # Business logic: calculate the total amount of material used in the filtered queryset
-    sum_amount = daily_works.aggregate(total=Sum("amount_material"))["total"] or 0
 
     page_obj = paginate_queryset(request, daily_works)
 
