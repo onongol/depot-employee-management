@@ -28,6 +28,9 @@ def calculate_employee_salaries(
     year = context.year
     group_by_wagon = context.wagon_mode
 
+    # Evaluate queryset once so that piecework/daily_salary filters use IN (id, ...) instead of a subquery.
+    employees = list(employees)
+
     piecework = build_piecework(
         employees=employees,
         month=month,
