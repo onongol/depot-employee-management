@@ -9,6 +9,7 @@ from employee.mixins.context_mixins import DailyWorkContextMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
 from employee.mixins.permissions_mixins import OnlyAdminMixin
 from employee.mixins.update_mixin import AdminLoggedUpdateMixin
+from employee.models.daily_work_models import DailyWork
 from employee.utils.access import is_creater
 from employee.views.daily_work.daily_work_create.daily_work_piecework_create import (
     daily_work_piecework_create,
@@ -24,6 +25,7 @@ class DailyWorkUpdateView(
     AdminLoggedUpdateMixin,
     UpdateView,
 ):
+    queryset = DailyWork.objects.select_related("work")
     form_class = UpdateDailyWorkForm
     template_name = "daily_work/daily_work_piecework_update.html"
     success_message = _("Updated")
