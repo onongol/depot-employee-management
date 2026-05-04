@@ -45,12 +45,12 @@ def get_type_wagon_filter_values(
     if source_model == "piecework":
         from employee.models import Piecework as Model
 
-        dep_lookup = "employee__department__in"
+        dep_lookup = "department__in"
         field = "type_wagon"
     elif source_model == "daily_work":
         from employee.models import DailyWork as Model
 
-        dep_lookup = "work__department__in"
+        dep_lookup = "department__in"
         field = "type_wagon"
     else:
         from employee.models import Work as Model
