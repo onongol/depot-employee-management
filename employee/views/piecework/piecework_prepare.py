@@ -17,13 +17,13 @@ def piecework_prepare(request) -> PieceworkContext:
     # Base queryset (same visibility rules as list view)
     if is_employee(request):
         pieceworks = Piecework.objects.select_related("employee", "work").filter(
+            department=department,
             employee__user=request.user,
-            employee__department=department,
             employee__is_active=True,
         )
     else:
         pieceworks = Piecework.objects.select_related("employee", "work").filter(
-            employee__department=department,
+            department=department,
             employee__is_active=True,
         )
 
@@ -57,16 +57,16 @@ def piecework_prepare(request) -> PieceworkContext:
 
     # Get distinct values for dropdown filters
     job_titles = get_distinct_values(
-        Piecework, "job_title", department, department_field="employee__department"
+        Piecework, "job_title", department, department_field="department"
     )
     type_works = get_distinct_values(
-        Piecework, "type_work", department, department_field="work__department"
+        Piecework, "type_work", department, department_field="department"
     )
     type_materials = get_distinct_values(
         Piecework,
         "work__type_material",
         department,
-        department_field="work__department",
+        department_field="department",
     )
 
     # Get available wagon types for filter dropdown
