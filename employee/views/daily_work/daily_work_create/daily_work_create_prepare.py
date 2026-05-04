@@ -5,9 +5,9 @@ from django.utils.translation import gettext_lazy as _
 from employee.forms import PieceworkForm
 from employee.models import Employee, Piecework, Work
 from employee.utils.converting_date import format_date
+from employee.utils.job_title_choices import build_job_title_choices
 from employee.utils.select_department import get_selected_department
-from employee.utils.select_type_wagon import get_type_wagon_filter_values
-from employee.utils.selects import get_distinct_values
+from employee.utils.type_wagon_choices import build_type_wagon_choices
 from employee.utils.wagon_department import is_wagon_department
 from employee.views.daily_work.daily_work_create.daily_work_create_context import (
     DailyWorkPieceworkCreateContext,
@@ -32,7 +32,7 @@ def daily_work_piecework_create_prepare(request) -> DailyWorkPieceworkCreateCont
     # Fetch employees and works based on the selected department and work_date
     if department:
         employees_qs = Employee.objects.filter(
-            department=department, is_active=True, is_deleted=False
+            department=department, is_active=True
         ).order_by("employee_id")
 
         if work_date:
@@ -41,31 +41,18 @@ def daily_work_piecework_create_prepare(request) -> DailyWorkPieceworkCreateCont
             ).distinct()
 
         employees = list(employees_qs)
-        works = list(
-            Work.objects.filter(department=department, is_deleted=False).order_by(
-                "work_name"
-            )
-        )
+        works = list(Work.objects.filter(department=department).order_by("work_name"))
 
-    # Get distinct job titles for filtering dropdown
-    emp_job_titles = get_distinct_values(
-        Employee, "job_title", department, department_field="department"
-    )
-    work_job_titles = get_distinct_values(
-        Work,
-        "job_title",
-        extra_filters={"department": department} if department else None,
-    )
-    job_titles = sorted(set(list(emp_job_titles) + list(work_job_titles)))
+    # Build filter choices from the already loaded records to avoid extra lookup queries.
+    job_titles = build_job_title_choices(employees, works)
+    type_wagons = build_type_wagon_choices(works, show_wagon=show_wagon)
 
-    # Get distinct type_wagon for filtering dropdown if department allows wagons
-    type_wagons = get_type_wagon_filter_values(department)
-
-    # Fetch existing Piecework records for the department to prevent duplicates
+    # Fetch existing Piecework records for the department and work date to prevent duplicates
     existing_pieceworks = list(
-        Piecework.objects.filter(employee__department=department).values(
-            "employee_code", "work_id", "type_work", "work_date", "wagon_number"
-        )
+        Piecework.objects.filter(
+            employee__department=department,
+            work_date=work_date,
+        ).values("employee_code", "work_id", "type_work", "work_date", "wagon_number")
     )
 
     return DailyWorkPieceworkCreateContext(
