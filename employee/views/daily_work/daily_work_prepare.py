@@ -14,9 +14,7 @@ def daily_work_prepare(request) -> DailyWorkContext:
     department = get_selected_department(request)
 
     # Build base queryset filtered by department
-    daily_works = DailyWork.objects.filter(work__department=department).select_related(
-        "work"
-    )
+    daily_works = DailyWork.objects.filter(department=department).select_related("work")
 
     # Filter parameters
     job_title = request.GET.get("job_title")
@@ -45,16 +43,16 @@ def daily_work_prepare(request) -> DailyWorkContext:
 
     # Get distinct values for dropdown filters
     job_titles = get_distinct_values(
-        DailyWork, "job_title", department, department_field="work__department"
+        DailyWork, "job_title", department, department_field="department"
     )
     type_works = get_distinct_values(
-        DailyWork, "type_work", department, department_field="work__department"
+        DailyWork, "type_work", department, department_field="department"
     )
     type_materials = get_distinct_values(
         DailyWork,
         "work__type_material",
         department,
-        department_field="work__department",
+        department_field="department",
     )
 
     # Get available wagon types for filter dropdown
