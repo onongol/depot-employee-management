@@ -20,9 +20,9 @@ def prepare_daily_salary_create(request) -> DailySalaryCreateContext:
     employees = []
     if department:
         employees = list(
-            Employee.objects.filter(
-                department=department, is_active=True, is_deleted=False
-            ).order_by("employee_id")
+            Employee.objects.filter(department=department, is_active=True).order_by(
+                "employee_id"
+            )
         )
 
     # Get distinct job titles for filtering dropdown
