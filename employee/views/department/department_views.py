@@ -1,3 +1,5 @@
+from urllib.parse import urlsplit
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
@@ -37,4 +39,7 @@ def set_department(request):
         request.session["department"] = department
     else:
         request.session["department"] = None
-    return redirect(request.META.get("HTTP_REFERER", "/"))
+
+    referer = request.META.get("HTTP_REFERER", "/")
+    redirect_path = urlsplit(referer).path or "/"
+    return redirect(redirect_path)
