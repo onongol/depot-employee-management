@@ -48,6 +48,8 @@ class DailySalary(models.Model):
         default=date.today,
         db_index=True,
     )
+    salary_year = models.SmallIntegerField(null=True, editable=False)
+    salary_month = models.SmallIntegerField(null=True, editable=False)
     record_date = models.DateTimeField(auto_now_add=True)
 
     history = HistoricalRecords()
@@ -61,6 +63,7 @@ class DailySalary(models.Model):
 
         indexes = [
             models.Index(fields=["department", "salary_date"]),
+            models.Index(fields=["employee", "salary_year", "salary_month"]),
             models.Index(fields=["-record_date"]),
         ]
 
@@ -105,6 +108,10 @@ class DailySalary(models.Model):
             raise ValueError(
                 _("Cannot save: hourly rate is not set for this employee.")
             )
+
+        if self.salary_date:
+            self.salary_year = self.salary_date.year
+            self.salary_month = self.salary_date.month
 
         self.salary_day = Decimal(self.hours_per_day) * self.employee.money_per_hour
 
