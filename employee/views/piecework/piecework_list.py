@@ -28,6 +28,8 @@ def piecework_list(request):
         pieceworks,
         context=context,
         date_field="work_date",
+        month_field="work_month",
+        year_field="work_year",
     )
 
     pieceworks = group_and_sort_pieceworks(pieceworks, context=context)
