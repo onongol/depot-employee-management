@@ -1,5 +1,4 @@
-from django.db.models import Sum
-from django.db.models.functions import ExtractMonth, ExtractYear
+from django.db.models import F, Sum
 
 
 def group_daily_works_by_month(qs, *, show_wagon: bool):
@@ -12,7 +11,7 @@ def group_daily_works_by_month(qs, *, show_wagon: bool):
         group_fields.insert(4, "wagon_number")
 
     return (
-        qs.annotate(year=ExtractYear("work_date"), month=ExtractMonth("work_date"))
+        qs.annotate(year=F("work_year"), month=F("work_month"))
         .values(*group_fields)
         .annotate(
             total_amount=Sum("amount"),
