@@ -1,7 +1,6 @@
 from django.db.models import Sum
 
 from employee.models import DailySalary
-from employee.utils.filters import filter_month_year
 
 
 def aggregate_daily_salary(*, salary_data, employees, month, year) -> None:
@@ -14,19 +13,21 @@ def aggregate_daily_salary(*, salary_data, employees, month, year) -> None:
     """
 
     salary_qs = DailySalary.objects.filter(employee__in=employees)
-    salary_qs = filter_month_year(
-        salary_qs, month=month, year=year, date_field="salary_date"
-    )
+
+    if month:
+        salary_qs = salary_qs.filter(salary_month=month)
+    if year:
+        salary_qs = salary_qs.filter(salary_year=year)
 
     salary_groups = salary_qs.values(
-        "employee", "salary_date__year", "salary_date__month"
+        "employee", "salary_year", "salary_month"
     ).annotate(total_salary_day=Sum("salary_day"))
 
     for group in salary_groups:
         key = (
             group["employee"],
-            group["salary_date__year"],
-            group["salary_date__month"],
+            group["salary_year"],
+            group["salary_month"],
             None,
         )
         salary_data[key]["total_salary_day"] = group["total_salary_day"] or 0
