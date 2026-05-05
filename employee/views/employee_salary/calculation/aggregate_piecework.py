@@ -3,7 +3,7 @@ from django.db.models import QuerySet, Sum
 
 def aggregate_piecework(qs: QuerySet, *, group_by_wagon: bool):
     """Aggregate Piecework in the database (SUM) by employee and month; optionally split totals by wagon_number."""
-    values_fields = ["employee", "work_date__year", "work_date__month"]
+    values_fields = ["employee", "work_year", "work_month"]
 
     if group_by_wagon:
         values_fields.append("wagon_number")
