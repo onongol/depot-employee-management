@@ -21,7 +21,7 @@ def get_employee_total_piecework_amount(self, month, year):
 
     total_piecework_amount = (
         Piecework.objects.filter(
-            employee=self, work_date__month=month, work_date__year=year
+            employee=self, work_month=month, work_year=year
         ).aggregate(total=Sum("amount_price"))["total"]
         or 0
     )
