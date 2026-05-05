@@ -31,6 +31,8 @@ def wagon_list(request):
         daily_works,
         context=context,
         date_field="work_date",
+        month_field="work_month",
+        year_field="work_year",
     )
 
     wagon_data = group_and_sort_wagons(daily_works, context=context)
