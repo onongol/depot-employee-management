@@ -36,7 +36,6 @@ def piecework_prepare(request) -> PieceworkContext:
     type_work = request.GET.get("type_work")
     wagon_number = request.GET.get("wagon_number")
     type_wagon = request.GET.get("type_wagon")
-    type_material = request.GET.get("type_material")
     range_date = request.GET.get("range_date")
     record_date = request.GET.get("record_date")
 
@@ -62,22 +61,13 @@ def piecework_prepare(request) -> PieceworkContext:
     type_works = get_distinct_values(
         Piecework, "type_work", department, department_field="department"
     )
-    type_materials = get_distinct_values(
-        Piecework,
-        "work__type_material",
-        department,
-        department_field="department",
-    )
 
     # Get available wagon types for filter dropdown
     type_wagons = get_type_wagon_filter_values(department, source_model="piecework")
 
     # Get available years for year filter dropdown
-    years = get_years_filter_values(
-        pieceworks,
-        date_field="record_date",
-        cache_prefix="piecework",
-        department=department,
+    years = get_distinct_values(
+        Piecework, "work_year", department, department_field="department"
     )
 
     return PieceworkContext(
@@ -91,7 +81,6 @@ def piecework_prepare(request) -> PieceworkContext:
         type_work=type_work,
         wagon_number=wagon_number,
         type_wagon=type_wagon,
-        type_material=type_material,
         range_date=range_date,
         record_date=record_date,
         group=group,
@@ -107,7 +96,6 @@ def piecework_prepare(request) -> PieceworkContext:
         year_group=year_group,
         job_titles=job_titles,
         type_works=type_works,
-        type_materials=type_materials,
         type_wagons=type_wagons,
         years=years,
     )
