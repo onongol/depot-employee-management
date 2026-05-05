@@ -1,4 +1,3 @@
-from employee.utils.filters import filter_month_year
 from employee.utils.sorting import apply_ordering
 from employee.views.daily_work.group.group_by_month import group_daily_works_by_month
 from employee.views.daily_work.group.group_by_year import group_daily_works_by_year
@@ -22,7 +21,7 @@ def group_and_sort_daily_works(qs, context):
 
     if month_group:
         if month and year:
-            qs = filter_month_year(qs, month=month, year=year, date_field="work_date")
+            qs = qs.filter(work_month=month, work_year=year)
 
         qs = group_daily_works_by_month(qs, show_wagon=show_wagon)
 
@@ -39,7 +38,7 @@ def group_and_sort_daily_works(qs, context):
         )
     elif year_group:
         if selected_year:
-            qs = filter_month_year(qs, year=selected_year, date_field="work_date")
+            qs = qs.filter(work_year=selected_year)
 
         qs = group_daily_works_by_year(qs, show_wagon=show_wagon)
 
