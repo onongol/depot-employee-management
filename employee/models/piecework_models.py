@@ -112,6 +112,8 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         editable=False,
     )
     work_date = models.DateField(default=date.today)
+    work_year = models.SmallIntegerField(null=True, editable=False)
+    work_month = models.SmallIntegerField(null=True, editable=False)
     record_date = models.DateTimeField(auto_now_add=True)
     group_id = models.CharField(max_length=36, blank=True, null=True, db_index=True)
 
@@ -121,6 +123,7 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         indexes = [
             models.Index(fields=["department", "work_date"]),
             models.Index(fields=["employee", "work_date"]),
+            models.Index(fields=["employee", "work_year", "work_month"]),
             models.Index(fields=["work", "work_date"]),
             models.Index(fields=["work_date", "wagon_number"]),
             models.Index(fields=["-record_date"]),
@@ -151,6 +154,11 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         self.work_name = snapshot_attr(self.work, "work_name")
         self.type_wagon = normalize_field(None, self.work, "type_wagon")
         self.wagon_number = normalize_str_field(self.wagon_number)
+
+        # Denormalize year/month for indexed GROUP BY without EXTRACT
+        if self.work_date:
+            self.work_year = self.work_date.year
+            self.work_month = self.work_date.month
 
         # Calculate derived amounts
         self.amount_time = calculate_time_amount(self.work, self.amount or Decimal("0"))
