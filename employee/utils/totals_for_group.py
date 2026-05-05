@@ -6,6 +6,8 @@ def calc_totals_for_group(
     qs,
     context,
     date_field: str = "work_date",
+    month_field: str | None = None,
+    year_field: str | None = None,
 ):
     """Totals matching the same month/year constraints as grouping."""
     month_group = getattr(context, "month_group", False)
@@ -15,8 +17,14 @@ def calc_totals_for_group(
     selected_year = getattr(context, "selected_year", None)
 
     if month_group and month and year:
-        qs = filter_month_year(qs, month=month, year=year, date_field=date_field)
+        if month_field and year_field:
+            qs = qs.filter(**{month_field: month, year_field: year})
+        else:
+            qs = filter_month_year(qs, month=month, year=year, date_field=date_field)
     elif year_group and selected_year:
-        qs = filter_month_year(qs, year=selected_year, date_field=date_field)
+        if year_field:
+            qs = qs.filter(**{year_field: selected_year})
+        else:
+            qs = filter_month_year(qs, year=selected_year, date_field=date_field)
 
     return calc_totals(qs)
