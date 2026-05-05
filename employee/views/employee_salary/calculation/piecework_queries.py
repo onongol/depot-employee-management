@@ -8,13 +8,13 @@ def build_piecework(
     *, employees, month, year, group_by_wagon: bool, wagon_number: str | None
 ) -> QuerySet:
     """Build the base Piecework queryset with all filters applied before aggregation (date + optional wagon filter)."""
-    
+
     qs = Piecework.objects.filter(employee__in=employees)
 
     if month:
-        qs = qs.filter(work_date__month=month)
+        qs = qs.filter(work_month=month)
     if year:
-        qs = qs.filter(work_date__year=year)
+        qs = qs.filter(work_year=year)
 
     if group_by_wagon and wagon_number:
         if wagon_number == DEFAULT_WAGON_NUMBER:
