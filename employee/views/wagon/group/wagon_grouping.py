@@ -1,7 +1,4 @@
-from django.db.models import Sum
-from django.db.models.functions import ExtractMonth, ExtractYear
-
-from employee.utils.filters import filter_month_year
+from django.db.models import F, Sum
 
 
 def get_grouped_wagons(
@@ -18,11 +15,11 @@ def get_grouped_wagons(
     """
     if month_group:
         if month and year:
-            qs = filter_month_year(qs, month=month, year=year, date_field="work_date")
+            qs = qs.filter(work_month=month, work_year=year)
 
         qs = qs.annotate(
-            year=ExtractYear("work_date"),
-            month=ExtractMonth("work_date"),
+            year=F("work_year"),
+            month=F("work_month"),
         )
 
         return (
