@@ -1,5 +1,4 @@
-from django.db.models import Sum
-from django.db.models.functions import ExtractMonth, ExtractYear
+from django.db.models import F, Sum
 
 
 def group_pieceworks_by_month(qs, *, show_wagon: bool):
@@ -7,8 +6,8 @@ def group_pieceworks_by_month(qs, *, show_wagon: bool):
     Group pieceworks by month with totals (values()-queryset).
     """
     qs = qs.annotate(
-        year=ExtractYear("work_date"),
-        month=ExtractMonth("work_date"),
+        year=F("work_year"),
+        month=F("work_month"),
     )
 
     group_fields = [
