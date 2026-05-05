@@ -14,7 +14,6 @@ class PieceworkContext:
     type_work: Optional[str]
     wagon_number: Optional[str]
     type_wagon: Optional[str]
-    type_material: Optional[str]
     range_date: Optional[str]
     record_date: Optional[str]
     group: Optional[str]
@@ -30,6 +29,5 @@ class PieceworkContext:
     year_group: bool = False
     job_titles: Optional[List[str]] = field(default_factory=list)
     type_works: Optional[List[str]] = field(default_factory=list)
-    type_materials: Optional[List[str]] = field(default_factory=list)
     type_wagons: Optional[List[str]] = field(default_factory=list)
     years: Optional[List[str]] = field(default_factory=list)
