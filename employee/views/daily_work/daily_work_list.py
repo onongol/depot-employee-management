@@ -27,6 +27,8 @@ def daily_work_list(request):
         daily_works,
         context=context,
         date_field="work_date",
+        month_field="work_month",
+        year_field="work_year",
     )
 
     daily_works = group_and_sort_daily_works(daily_works, context=context)
