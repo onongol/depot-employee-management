@@ -1,11 +1,12 @@
 from employee.constants.constants import DEFAULT_WAGON_NUMBER
+from employee.utils.converting_date import format_date
 from employee.views.daily_work.daily_work_create.post_data.post_data_context import (
     PostData,
 )
 
 
 def extract_post_data(request) -> PostData:
-    work_date = request.POST.get("work_date")
+    work_date = format_date(request.POST.get("work_date"))
     type_work = request.POST.get("type_work")
     job_title = request.POST.get("job_title")
 
