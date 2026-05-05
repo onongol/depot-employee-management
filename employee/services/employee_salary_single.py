@@ -4,9 +4,9 @@ from django.db.models import Sum
 def get_employee_total_salary_day(self, month, year):
     """Calculate total salary for the employee for a given month and year."""
     total_salary_day = (
-        self.dailysalary_set.filter(
-            salary_date__month=month, salary_date__year=year
-        ).aggregate(total=Sum("salary_day"))["total"]
+        self.dailysalary_set.filter(salary_month=month, salary_year=year).aggregate(
+            total=Sum("salary_day")
+        )["total"]
         or 0
     )
     return total_salary_day
