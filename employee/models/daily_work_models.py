@@ -96,6 +96,8 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         editable=False,
     )
     work_date = models.DateField(default=date.today)
+    work_year = models.SmallIntegerField(null=True, editable=False)
+    work_month = models.SmallIntegerField(null=True, editable=False)
     record_date = models.DateTimeField(auto_now_add=True)
 
     history = HistoricalRecords()
@@ -103,6 +105,7 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     class Meta:
         indexes = [
             models.Index(fields=["department", "work_date"]),
+            models.Index(fields=["work_name", "work_year", "work_month"]),
             models.Index(fields=["work_date"]),
             models.Index(fields=["-record_date"]),
         ]
@@ -138,6 +141,11 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         self.job_title = normalize_field(self.job_title, self.work, "job_title")
         self.type_wagon = normalize_field(None, self.work, "type_wagon")
         self.wagon_number = normalize_str_field(self.wagon_number)
+
+        # Denormalize year/month for indexed GROUP BY without EXTRACT
+        if self.work_date:
+            self.work_year = self.work_date.year
+            self.work_month = self.work_date.month
 
         self.amount_time = calculate_time_amount(self.work, self.amount or Decimal("0"))
         self.amount_material = calculate_material_amount(
