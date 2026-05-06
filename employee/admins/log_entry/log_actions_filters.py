@@ -9,14 +9,18 @@ class LogEntryActionFilter(admin.SimpleListFilter):
     title = _("Action")
     parameter_name = "action_flag"
 
-    def lookups(self, request, model_admin):
+    def lookups(self, _request, _model_admin):
         return (
             (str(ADDITION), _("Added")),
             (str(CHANGE), _("Changed")),
             (str(DELETION), _("Deleted")),
         )
 
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(action_flag=self.value())
-        return queryset
+    def queryset(self, _request, queryset):
+        value = self.value()
+        if value is None:
+            return queryset
+        try:
+            return queryset.filter(action_flag=int(value))
+        except (TypeError, ValueError):
+            return queryset.none()
