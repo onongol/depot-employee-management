@@ -27,7 +27,7 @@ class EmployeeAdmin(
         "is_deleted",
     )
     search_fields = (
-        "employee_id",
+        "employee_id__exact",
         "employee_name",
     )
     search_help_text = "Search by employee ID or name"
