@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Exists, OuterRef
 from django.utils.translation import gettext_lazy as _
 
 from employee.admins.log_entry.type_label import get_content_type_label
@@ -11,21 +12,27 @@ class LogEntryModelFilter(admin.SimpleListFilter):
     title = _("Model")
     parameter_name = "content_type"
 
-    def lookups(self, request, model_admin):
-        content_type_ids = (
-            model_admin.model.objects.exclude(content_type__isnull=True)
-            .values_list("content_type_id", flat=True)
-            .distinct()
+    def lookups(self, _request, model_admin):
+        has_logentry = model_admin.model.objects.filter(
+            content_type_id=OuterRef("pk"),
         )
-        content_types = ContentType.objects.filter(id__in=content_type_ids).order_by(
-            "app_label", "model"
+
+        content_types = (
+            ContentType.objects.annotate(has_logentry=Exists(has_logentry))
+            .filter(has_logentry=True)
+            .order_by("app_label", "model")
         )
+
         return [
             (str(content_type.pk), get_content_type_label(content_type))
             for content_type in content_types
         ]
 
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(content_type_id=self.value())
-        return queryset
+    def queryset(self, _request, queryset):
+        value = self.value()
+        if value is None:
+            return queryset
+        try:
+            return queryset.filter(content_type_id=int(value))
+        except (TypeError, ValueError):
+            return queryset.none()
