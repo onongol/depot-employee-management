@@ -22,7 +22,7 @@ class PayrollAdmin(
         "is_deleted",
     )
     search_fields = (
-        "payroll_id",
+        "payroll_id__exact",
         "payroll_name",
     )
     search_help_text = "Search by payroll ID or name"
