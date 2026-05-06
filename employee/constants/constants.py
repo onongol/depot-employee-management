@@ -1,4 +1,5 @@
 from enum import Enum, IntEnum
+from types import MappingProxyType
 
 
 # Group names
@@ -48,7 +49,7 @@ RANK_CHOICES = [(rank.value, rank.value) for rank in Rank]
 
 
 # Type work list
-class TypeWork(Enum):
+class TypeWork(str, Enum):
     TYPE_84 = "84"
     TYPE_29 = "29"
     TYPE_79 = "79"
@@ -59,7 +60,7 @@ class TypeWork(Enum):
 
 
 # Type work choices
-TYPE_WORK_CHOICES = [(work_type.value, work_type.value) for work_type in TypeWork]
+TYPE_WORK_CHOICES = tuple((work_type.value, work_type.value) for work_type in TypeWork)
 
 # Grouped type works by department
 TYPE_WORKS_MECHANIC = [TypeWork.DEPO.value]
@@ -95,9 +96,13 @@ _DEPT_TYPE_WORKS_GROUPS = {
     (Department.HOS_DUGUI.value,): TYPE_WORKS_HOS_DUGUI,
 }
 
-DEPARTMENT_TYPE_WORKS = {
-    dept: lst for group, lst in _DEPT_TYPE_WORKS_GROUPS.items() for dept in group
-}
+DEPARTMENT_TYPE_WORKS = MappingProxyType(
+    {
+        dept: values
+        for group, values in _DEPT_TYPE_WORKS_GROUPS.items()
+        for dept in group
+    }
+)
 
 
 def get_type_work_choices(department: str | None):
@@ -107,7 +112,7 @@ def get_type_work_choices(department: str | None):
     values = DEPARTMENT_TYPE_WORKS.get(department)
     if not values:
         return TYPE_WORK_CHOICES
-    return [(v, v) for v in values]
+    return tuple((v, v) for v in values)
 
 
 # Default wagon number, only UI display value
@@ -130,7 +135,7 @@ class JobTitle(str, Enum):
 
 JOB_TITLES = [title.value for title in JobTitle]
 
-JOB_TITLE_CHOICES = [(title.value, title.value) for title in JobTitle]
+JOB_TITLE_CHOICES = tuple((title.value, title.value) for title in JobTitle)
 
 # Grouped job titles by department
 # Механик
@@ -172,15 +177,15 @@ _DEPT_JOB_TITLE_GROUPS = {
     ): JOB_TITLES_ZASV_GAGNUUR,
 }
 
-DEPARTMENT_JOB_TITLES = {
-    dept: lst for group, lst in _DEPT_JOB_TITLE_GROUPS.items() for dept in group
-}
+DEPARTMENT_JOB_TITLES = MappingProxyType(
+    {dept: values for group, values in _DEPT_JOB_TITLE_GROUPS.items() for dept in group}
+)
 
 
 def get_job_title_choices(department: str | None):
     """Return choices list for JobTitle limited by department; fallback to all."""
     values = DEPARTMENT_JOB_TITLES.get(department, JOB_TITLES)
-    return [(v, v) for v in values]
+    return tuple((v, v) for v in values)
 
 
 # Type wagon
