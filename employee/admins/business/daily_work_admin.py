@@ -1,5 +1,4 @@
 from django.contrib import admin
-from import_export.admin import ExportActionModelAdmin, ExportMixin
 from simple_history.admin import SimpleHistoryAdmin
 from unfold.admin import ModelAdmin
 from unfold.contrib.filters.admin import (
@@ -7,20 +6,16 @@ from unfold.contrib.filters.admin import (
     FieldTextFilter,
     MultipleChoicesDropdownFilter,
 )
-from unfold.contrib.import_export.forms import ExportForm
 
-from employee.admins.common import ReadOnlyAdminMixin
+from employee.admins.common import ReadOnlyExportAdminMixin
 from employee.models import DailyWork
 
 
 @admin.register(DailyWork)
 class DailyWorkAdmin(
-    ReadOnlyAdminMixin,
+    ReadOnlyExportAdminMixin,
     ModelAdmin,
     SimpleHistoryAdmin,
-    ExportActionModelAdmin,
-    ExportMixin,
-    ExportForm,
 ):
     list_display = (
         "work_name",
@@ -46,7 +41,6 @@ class DailyWorkAdmin(
         ("type_work", MultipleChoicesDropdownFilter),
         ("type_wagon", MultipleChoicesDropdownFilter),
     ]
-    list_select_related = ("work",)
     date_hierarchy = "work_date"
     ordering = ("-work_date", "-record_date")
     list_display_links = ("work_name",)
