@@ -1,7 +1,6 @@
 from django import forms
-from django.utils.translation import gettext_lazy as _
 
-from employee.forms.forms_mixins.employee_job_titel_mixins import JobTitleChoicesMixin
+from employee.forms.forms_mixins.job_title_mixins import JobTitleChoicesMixin
 from employee.forms.forms_mixins.name_mixins import NameValidationMixin
 from employee.models import Employee
 
