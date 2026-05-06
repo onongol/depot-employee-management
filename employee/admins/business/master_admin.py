@@ -23,7 +23,7 @@ class MasterAdmin(
         "is_deleted",
     )
     search_fields = (
-        "master_id",
+        "master_id__exact",
         "master_name",
     )
     search_help_text = "Search by master ID or name"
