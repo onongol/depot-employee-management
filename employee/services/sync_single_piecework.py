@@ -47,5 +47,7 @@ def sync_single_piecework(piecework, dailywork, employees_salary):
             "amount_time",
             "amount_price",
             "work_date",
+            "work_year",
+            "work_month",
         ]
     )
