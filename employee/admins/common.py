@@ -26,17 +26,16 @@ class ReadOnlyExportAdminMixin(
     ReadOnlyAdminMixin,
     ExportActionModelAdmin,
     ExportMixin,
-    ExportForm,
 ):
-    pass
+    export_form_class = ExportForm
 
 
 class ReadOnlyImportExportAdminMixin(
     ReadOnlyAdminMixin,
     ImportExportModelAdmin,
-    ImportExportMixin,
 ):
-    pass
+    import_form_class = ImportForm
+    export_form_class = ExportForm
 
 
 class SoftDeleteAdminMixin:
