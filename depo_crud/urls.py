@@ -20,8 +20,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.i18n import JavaScriptCatalog
 
-from .views import health_check
-
+from depo_crud.views import health_check
 
 urlpatterns = [
     path("health/", health_check),
