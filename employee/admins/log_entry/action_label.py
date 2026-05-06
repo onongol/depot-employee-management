@@ -1,11 +1,12 @@
 from django.contrib import admin
+from django.contrib.admin.models import ADDITION, CHANGE, DELETION
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 ACTION_META = {
-    "add": (_("Added"), "background:#dcfce7;color:#166534;"),
-    "delete": (_("Deleted"), "background:#fee2e2;color:#991b1b;"),
-    "change": (_("Changed"), "background:#dbeafe;color:#1d4ed8;"),
+    ADDITION: (_("Added"), "background:#dcfce7;color:#166534;"),
+    DELETION: (_("Deleted"), "background:#fee2e2;color:#991b1b;"),
+    CHANGE: (_("Changed"), "background:#dbeafe;color:#1d4ed8;"),
 }
 DEFAULT_ACTION_STYLE = "background:#e5e7eb;color:#374151;"
 
@@ -15,18 +16,13 @@ ACTION_BADGE_TEMPLATE = (
 )
 
 
-@admin.display(description="Action")
-def action_label(self, obj):
+@admin.display(description=_("Action"))
+def action_label(_self, obj):
     """Admin display callback used by LogEntryAdmin to show the action as a colored badge."""
-    if obj.is_addition():
-        label, styles = ACTION_META["add"]
-    elif obj.is_deletion():
-        label, styles = ACTION_META["delete"]
-    elif obj.is_change():
-        label, styles = ACTION_META["change"]
-    else:
-        label = obj.get_action_flag_display()
-        styles = DEFAULT_ACTION_STYLE
+    label, styles = ACTION_META.get(
+        obj.action_flag,
+        (obj.get_action_flag_display(), DEFAULT_ACTION_STYLE),
+    )
 
     return format_html(
         ACTION_BADGE_TEMPLATE,
