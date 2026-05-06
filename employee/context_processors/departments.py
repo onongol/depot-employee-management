@@ -2,17 +2,19 @@ from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, DEPARTMENTS
 
+SORTED_DEPARTMENTS = tuple(sorted(DEPARTMENTS))
+
 
 def global_departments(request):
     """Context processor to provide a list of distinct departments."""
 
-    departments_list = sorted(DEPARTMENTS)
+    departments = SORTED_DEPARTMENTS
 
-    if not departments_list:
-        departments_list = [_("No departments available.")]
+    departments_empty_message = None if departments else _("No departments available.")
 
     return {
-        "departments": departments_list,
+        "departments": departments,
+        "departments_empty_message": departments_empty_message,
         "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
         "request": request,
     }
