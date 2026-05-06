@@ -1,6 +1,5 @@
-def navbar_page_types(request):
-    """Provide a list of url_names requiring special navbar layout."""
-    special_pages = {
+SPECIAL_PAGES = frozenset(
+    {
         "employee_create",
         "employee_update",
         "work_create",
@@ -10,15 +9,24 @@ def navbar_page_types(request):
         "daily_salary_create",
         "daily_salary_update",
     }
+)
 
-    back_pages = {
+BACK_PAGES = frozenset(
+    {
         "daily_work_create",
     }
+)
+
+
+def navbar_page_types(request):
+    """Provide a list of url_names requiring special navbar layout."""
+    special_pages = SPECIAL_PAGES
+
+    back_pages = BACK_PAGES
 
     url_name = getattr(getattr(request, "resolver_match", None), "url_name", None)
 
     return {
-        "navbar_page_types": special_pages,
         "is_special_navbar": url_name in special_pages,
         "is_back_pages": url_name in back_pages,
     }
