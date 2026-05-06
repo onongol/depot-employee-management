@@ -14,10 +14,10 @@ from employee.models import Work
 @admin.register(Work)
 class WorkAdmin(
     SoftDeleteAdminMixin,
+    ModelAdmin,
     SimpleHistoryAdmin,
     ImportExportModelAdmin,
     ImportExportMixin,
-    ModelAdmin,
 ):
     list_display = (
         "work_name",
