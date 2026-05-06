@@ -22,6 +22,4 @@ def user_roles(request):
 
     groups = get_user_groups(request)
 
-    return {
-        key: group_name in groups for key, group_name in ROLE_GROUP_MAP.items()
-    }
+    return {key: group_name in groups for key, group_name in ROLE_GROUP_MAP.items()}
