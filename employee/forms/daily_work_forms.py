@@ -1,10 +1,10 @@
 from django import forms
 
-from employee.forms.forms_mixins.type_work_mixins import TypeWorkChoiceMixin
+from employee.forms.forms_mixins.type_work_mixins import TypeWorkChoicesMixin
 from employee.models import DailyWork
 
 
-class DailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
+class DailyWorkForm(TypeWorkChoicesMixin, forms.ModelForm):
     class Meta:
         model = DailyWork
         fields = "__all__"
@@ -26,7 +26,7 @@ class DailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
         }
 
 
-class UpdateDailyWorkForm(TypeWorkChoiceMixin, forms.ModelForm):
+class UpdateDailyWorkForm(TypeWorkChoicesMixin, forms.ModelForm):
     class Meta:
         model = DailyWork
         fields = ["type_work", "wagon_number", "amount", "work_date"]
