@@ -1,22 +1,17 @@
 from django.contrib import admin
-from import_export.admin import ExportActionModelAdmin, ExportMixin
 from simple_history.admin import SimpleHistoryAdmin
 from unfold.admin import ModelAdmin
 from unfold.contrib.filters.admin import ChoicesDropdownFilter
-from unfold.contrib.import_export.forms import ExportForm
 
-from employee.admins.common import ReadOnlyAdminMixin
+from employee.admins.common import ReadOnlyExportAdminMixin
 from employee.models import DailySalary
 
 
 @admin.register(DailySalary)
 class DailySalaryAdmin(
-    ReadOnlyAdminMixin,
+    ReadOnlyExportAdminMixin,
     ModelAdmin,
     SimpleHistoryAdmin,
-    ExportActionModelAdmin,
-    ExportMixin,
-    ExportForm,
 ):
     list_display = (
         "employee_code",
@@ -29,7 +24,7 @@ class DailySalaryAdmin(
         "record_date",
     )
     search_fields = (
-        "employee_code",
+        "employee_code__exact",
         "employee_name",
     )
     search_help_text = "Search by employee code or name"
@@ -38,7 +33,6 @@ class DailySalaryAdmin(
         "department",
         ("job_title", ChoicesDropdownFilter),
     ]
-    list_select_related = ("employee",)
     date_hierarchy = "salary_date"
     ordering = ("-salary_date", "-record_date")
     list_display_links = (
