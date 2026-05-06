@@ -1,10 +1,10 @@
 from django import forms
 
-from employee.forms.forms_mixins.type_work_mixins import TypeWorkChoiceMixin
+from employee.forms.forms_mixins.type_work_mixins import TypeWorkChoicesMixin
 from employee.models import Piecework
 
 
-class PieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
+class PieceworkForm(TypeWorkChoicesMixin, forms.ModelForm):
     class Meta:
         model = Piecework
         fields = "__all__"
@@ -21,7 +21,7 @@ class PieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
         }
 
 
-class UpdatePieceworkForm(TypeWorkChoiceMixin, forms.ModelForm):
+class UpdatePieceworkForm(TypeWorkChoicesMixin, forms.ModelForm):
     class Meta:
         model = Piecework
         fields = ["type_work", "wagon_number", "amount", "work_date"]
