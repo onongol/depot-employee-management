@@ -3,7 +3,6 @@ from employee.utils.group_modes import is_detail_group, is_month_group, is_year_
 from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
-from employee.utils.select_years import get_years_filter_values
 from employee.utils.selects import get_distinct_values
 from employee.utils.user_roles import is_employee
 from employee.utils.wagon_department import is_wagon_department
