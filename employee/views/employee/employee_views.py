@@ -7,13 +7,13 @@ from employee.forms import EmployeeForm, UpdateEmployeeForm
 from employee.mixins.context_mixins import EmployeeContextMixin
 from employee.mixins.create_mixin import AdminLoggedCreateMixin
 from employee.mixins.department_mixins import InitialDepartmentMixin
-from employee.mixins.permissions_mixins import OnlyAdminMixin
+from employee.mixins.permissions_mixins import OnlyPayrollsMixin
 from employee.mixins.update_mixin import AdminLoggedUpdateMixin
 
 
 class EmployeeCreateView(
     LoginRequiredMixin,
-    OnlyAdminMixin,
+    OnlyPayrollsMixin,
     EmployeeContextMixin,
     InitialDepartmentMixin,
     SuccessMessageMixin,
@@ -32,7 +32,7 @@ class EmployeeCreateView(
 
 class EmployeeUpdateView(
     LoginRequiredMixin,
-    OnlyAdminMixin,
+    OnlyPayrollsMixin,
     EmployeeContextMixin,
     InitialDepartmentMixin,
     SuccessMessageMixin,
