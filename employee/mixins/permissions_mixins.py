@@ -15,7 +15,7 @@ class OnlyGroupMixin(UserPassesTestMixin):
         )
 
 
-class OnlyAdminMixin(OnlyGroupMixin):
+class OnlyPayrollsMixin(OnlyGroupMixin):
     """Mixin to restrict access to users in Payrolls group or superusers."""
 
     group_names = [GroupNames.PAYROLLS.value]
