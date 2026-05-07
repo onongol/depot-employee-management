@@ -5,36 +5,45 @@ from employee.mixins.generic_mixins import GenericContextMixin
 from employee.models import DailySalary, DailyWork, Employee, Piecework, Work
 
 
-class EmployeeContextMixin(GenericContextMixin):
+class ListUrlContextMixin(GenericContextMixin):
+    """Base mixin to derive both success/cancel URLs from one route name."""
+
+    list_url_name = None
+
+    @property
+    def success_url(self):
+        return reverse_lazy(self.list_url_name)
+
+    @property
+    def cancel_url(self):
+        return reverse_lazy(self.list_url_name)
+
+
+class EmployeeContextMixin(ListUrlContextMixin):
     model = Employee
     object_type = _("Employee")
-    success_url = reverse_lazy("employee_list")
-    cancel_url = reverse_lazy("employee_list")
+    list_url_name = "employee_list"
 
 
-class WorkContextMixin(GenericContextMixin):
+class WorkContextMixin(ListUrlContextMixin):
     model = Work
     object_type = _("Work")
-    success_url = reverse_lazy("work_list")
-    cancel_url = reverse_lazy("work_list")
+    list_url_name = "work_list"
 
 
-class DailySalaryContextMixin(GenericContextMixin):
+class DailySalaryContextMixin(ListUrlContextMixin):
     model = DailySalary
     object_type = _("Daily Salary")
-    success_url = reverse_lazy("daily_salary_list")
-    cancel_url = reverse_lazy("daily_salary_list")
+    list_url_name = "daily_salary_list"
 
 
-class DailyWorkContextMixin(GenericContextMixin):
+class DailyWorkContextMixin(ListUrlContextMixin):
     model = DailyWork
     object_type = _("Daily Work")
-    success_url = reverse_lazy("daily_work_list")
-    cancel_url = reverse_lazy("daily_work_list")
+    list_url_name = "daily_work_list"
 
 
-class PieceworkContextMixin(GenericContextMixin):
+class PieceworkContextMixin(ListUrlContextMixin):
     model = Piecework
     object_type = _("Piecework")
-    success_url = reverse_lazy("piecework_list")
-    cancel_url = reverse_lazy("piecework_list")
+    list_url_name = "piecework_list"
