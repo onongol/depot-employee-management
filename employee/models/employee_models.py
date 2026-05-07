@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -57,7 +57,7 @@ class Employee(SoftDeleteMixin, models.Model):
 
     # Connection to the User model
     user = models.OneToOneField(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -75,7 +75,13 @@ class Employee(SoftDeleteMixin, models.Model):
     class Meta:
         indexes = [
             models.Index(
-                fields=["is_deleted", "is_active", "department", "job_title", "employee_id"]
+                fields=[
+                    "is_deleted",
+                    "is_active",
+                    "department",
+                    "job_title",
+                    "employee_id",
+                ]
             ),
             models.Index(fields=["employee_id", "is_deleted"]),
         ]
