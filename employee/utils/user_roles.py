@@ -1,12 +1,15 @@
 from employee.constants.constants import (
-    IS_EMPLOYEE_KEY,
-    IS_MASTER_KEY,
-    IS_PAYROLL_KEY,
+    EMPLOYEE_GROUP,
+    MASTER_GROUP,
+    PAYROLL_GROUP,
 )
 
 
 def get_user_groups(request) -> set[str]:
     """Returns cached user groups for the current request."""
+    if not request.user.is_authenticated:
+        return set()
+
     if not hasattr(request, "_cached_user_groups"):
         request._cached_user_groups = set(
             request.user.groups.values_list("name", flat=True)
@@ -15,12 +18,12 @@ def get_user_groups(request) -> set[str]:
 
 
 def is_employee(request) -> bool:
-    return getattr(request, "user_roles", {}).get(IS_EMPLOYEE_KEY, False)
+    return EMPLOYEE_GROUP in get_user_groups(request)
 
 
 def is_master(request) -> bool:
-    return getattr(request, "user_roles", {}).get(IS_MASTER_KEY, False)
+    return MASTER_GROUP in get_user_groups(request)
 
 
 def is_payroll(request) -> bool:
-    return getattr(request, "user_roles", {}).get(IS_PAYROLL_KEY, False)
+    return PAYROLL_GROUP in get_user_groups(request)
