@@ -17,7 +17,7 @@
 {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
     <td class="{{ col_class_hidden }}">{{ row.type_wagon_display }}</td>
 {% endif %}
-{% if selected_department == MECHANIC %}
+{% if selected_department == is_mechanic %}
     <td class="{{ col_class_hidden }}">{{ row.type_material_display }}</td>
     <td class="{{ col_class_hidden }}">{{ row.usage_material|floatformat:2 }}</td>
 {% endif %}
