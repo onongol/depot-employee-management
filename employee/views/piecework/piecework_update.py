@@ -1,15 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import UpdateView
 
 from employee.forms import UpdatePieceworkForm
 from employee.mixins.context_mixins import PieceworkContextMixin
 from employee.mixins.permissions_mixins import OnlyPayrollsMixin
 from employee.models import DailySalary
+from employee.services.calculate_piecework_update import calculate_piecework_update
 from employee.utils.select_department import get_selected_department
-from employee.views.piecework.calculation.calculate_piecework_update import (
-    calculate_piecework_update,
-)
 
 
 class PieceworkUpdateView(
@@ -22,8 +21,7 @@ class PieceworkUpdateView(
     def get_form_kwargs(self):
         """Add department to form kwargs for filtering."""
         kwargs = super().get_form_kwargs()
-        department = get_selected_department(self.request)
-        kwargs["department"] = department
+        kwargs["department"] = get_selected_department(self.request)
         return kwargs
 
     def form_valid(self, form):
@@ -33,7 +31,6 @@ class PieceworkUpdateView(
         work = piecework.work
         work_date = piecework.work_date
         employee = piecework.employee
-        department = get_selected_department(self.request)
 
         wagon_number = form.cleaned_data.get("wagon_number")
         if not wagon_number:
@@ -44,9 +41,19 @@ class PieceworkUpdateView(
             employee=employee, salary_date=work_date
         ).first()
 
-        # Get all daily salaries for the department on the work date
+        if not piecework.daily_work_id:
+            form.add_error(None, _("Piecework must be linked to DailyWork."))
+            return self.form_invalid(form)
+
+        # Use the same salary pool as piecework creation/sync: only employees linked
+        # to the same DailyWork should affect price distribution.
+        employee_ids = piecework.daily_work.pieceworks.values_list(
+            "employee_id", flat=True
+        )
         employees_salary = DailySalary.objects.filter(
-            employee__department=department, salary_date=work_date
+            employee__department=piecework.daily_work.department,
+            employee_id__in=employee_ids,
+            salary_date=work_date,
         )
 
         # Calculate amount_price using business logic function
