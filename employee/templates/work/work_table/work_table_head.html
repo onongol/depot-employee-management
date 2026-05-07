@@ -12,7 +12,7 @@
 {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
     <th scope="col" class="{{ col_class_hidden }}">{% trans "Wagon Type" %}</th>
 {% endif %}
-{% if selected_department == MECHANIC %}
+{% if selected_department == is_mechanic %}
     <th scope="col" class="{{ col_class_hidden }}">{% trans "Material" %}</th>
     <th scope="col" class="{{ col_class_hidden }}">{% trans "Quantity" %}</th>
 {% endif %}
