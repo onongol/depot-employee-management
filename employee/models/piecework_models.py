@@ -30,8 +30,6 @@ from employee.services.snapshots import snapshot_attr
 class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     """Model to record the piecework done by employees."""
 
-    TYPE_WORK_CHOICES = TYPE_WORK_CHOICES
-
     id = models.AutoField(primary_key=True)
 
     daily_work = models.ForeignKey(
@@ -130,7 +128,7 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         ]
 
     def __str__(self):
-        return f"(ID: {self.employee.employee_id}) {self.employee.employee_name}, {self.work.work_name} ({self.type_work}) - {self.work_date}"
+        return f"(ID: {self.employee_code}) {self.employee_name}, {self.work_name} ({self.type_work}) - {self.work_date}"
 
     def save(self, *args, **kwargs):
         """
