@@ -9,14 +9,14 @@ from employee.mixins.create_mixin import AdminLoggedCreateMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
 from employee.mixins.department_mixins import InitialDepartmentMixin
 from employee.mixins.mechanic_context_mixins import MechanicContextMixin
-from employee.mixins.permissions_mixins import OnlyAdminMixin
+from employee.mixins.permissions_mixins import OnlyPayrollsMixin
 from employee.mixins.update_mixin import AdminLoggedUpdateMixin
 from employee.mixins.wagon_context_mixins import WagonContextMixin
 
 
 class WorkCreateView(
     LoginRequiredMixin,
-    OnlyAdminMixin,
+    OnlyPayrollsMixin,
     WorkContextMixin,
     WagonContextMixin,
     MechanicContextMixin,
@@ -38,7 +38,7 @@ class WorkCreateView(
 
 class WorkUpdateView(
     LoginRequiredMixin,
-    OnlyAdminMixin,
+    OnlyPayrollsMixin,
     WorkContextMixin,
     WagonContextMixin,
     MechanicContextMixin,
