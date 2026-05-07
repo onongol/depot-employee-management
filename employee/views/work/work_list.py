@@ -36,6 +36,6 @@ def work_list(request):
             "rows": page_obj,
             "page_obj": page_obj,
             "ALLOWED_WAGON_DEPARTMENTS": ALLOWED_WAGON_DEPARTMENTS,
-            "MECHANIC": MECHANIC,
+            "is_mechanic": MECHANIC,
         },
     )
