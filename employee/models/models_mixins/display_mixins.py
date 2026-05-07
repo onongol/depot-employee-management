@@ -14,7 +14,7 @@ class TypeMaterialDisplayMixin:
 class WagonNumberDisplayMixin:
     @property
     def wagon_number_display(self):
-        return DEFAULT_WAGON_NUMBER if not self.wagon_number else self.wagon_number
+        return self.wagon_number or DEFAULT_WAGON_NUMBER
 
 
 class TypeWagonDisplayMixin:
