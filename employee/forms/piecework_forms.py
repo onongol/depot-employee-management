@@ -5,6 +5,7 @@ from employee.models import Piecework
 
 COMMON_PIECEWORK_WIDGETS = {
     "type_work": forms.Select(attrs={"class": "form-control"}),
+    "wagon_number": forms.TextInput(attrs={"class": "form-control"}),
     "work_date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
     "amount": forms.NumberInput(
         attrs={"class": "form-control", "type": "number", "min": "0.01"}
