@@ -5,6 +5,7 @@ from employee.forms.forms_mixins.type_wagon_mixins import TypeWagonChoicesMixin
 from employee.models import Work
 
 COMMON_WORK_WIDGETS = {
+    "department": forms.Select(attrs={"class": "form-control"}),
     "job_title": forms.Select(attrs={"class": "form-control"}),
     "type_wagon": forms.Select(attrs={"class": "form-control"}),
     "type_material": forms.TextInput(attrs={"class": "form-control"}),
@@ -39,6 +40,7 @@ class WorkForm(TypeWagonChoicesMixin, JobTitleChoicesMixin, forms.ModelForm):
         model = Work
         fields = [
             "work_name",
+            "department",
             "job_title",
             "type_wagon",
             "type_material",
