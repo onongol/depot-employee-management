@@ -4,7 +4,7 @@ from django.views.generic import UpdateView
 
 from employee.forms import UpdatePieceworkForm
 from employee.mixins.context_mixins import PieceworkContextMixin
-from employee.mixins.permissions_mixins import OnlyAdminMixin
+from employee.mixins.permissions_mixins import OnlyPayrollsMixin
 from employee.models import DailySalary
 from employee.utils.select_department import get_selected_department
 from employee.views.piecework.calculation.calculate_piecework_update import (
@@ -13,7 +13,7 @@ from employee.views.piecework.calculation.calculate_piecework_update import (
 
 
 class PieceworkUpdateView(
-    LoginRequiredMixin, OnlyAdminMixin, PieceworkContextMixin, UpdateView
+    LoginRequiredMixin, OnlyPayrollsMixin, PieceworkContextMixin, UpdateView
 ):
     login_url = "login"
     form_class = UpdatePieceworkForm
