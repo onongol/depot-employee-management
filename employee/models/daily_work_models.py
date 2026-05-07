@@ -111,7 +111,7 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         ]
 
     def __str__(self):
-        return f"{self.work.work_name} ({self.type_work}) - {self.work_date}"
+        return f"{self.work_name} ({self.type_work}) - {self.work_date}"
 
     def get_update_url(self):
         return reverse("daily_work_update", args=[self.pk])
