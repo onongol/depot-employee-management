@@ -7,7 +7,7 @@ from django.views.generic import UpdateView
 from employee.forms.daily_work_forms import UpdateDailyWorkForm
 from employee.mixins.context_mixins import DailyWorkContextMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
-from employee.mixins.permissions_mixins import OnlyAdminMixin
+from employee.mixins.permissions_mixins import OnlyPayrollsMixin
 from employee.mixins.update_mixin import AdminLoggedUpdateMixin
 from employee.models.daily_work_models import DailyWork
 from employee.utils.access import is_creater
@@ -18,7 +18,7 @@ from employee.views.daily_work.daily_work_create.daily_work_piecework_create imp
 
 class DailyWorkUpdateView(
     LoginRequiredMixin,
-    OnlyAdminMixin,
+    OnlyPayrollsMixin,
     DailyWorkContextMixin,
     SuccessMessageMixin,
     FormDepartmentMixin,
