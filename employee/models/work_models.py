@@ -100,7 +100,7 @@ class Work(
                 check=Q(department__in=ALLOWED_WAGON_DEPARTMENTS)
                 | Q(type_wagon__isnull=True),
             ),
-            # Ensure work_name is unique within the same department, only for
+            # Ensure work_name is unique within the same department, only for non-deleted records (soft delete aware, for MySQL)
             models.UniqueConstraint(
                 fields=["department", "work_name"],
                 condition=Q(is_deleted=False),
@@ -132,8 +132,6 @@ class Work(
             self.usage_material = Decimal("0.0000")
 
         if self.department not in ALLOWED_WAGON_DEPARTMENTS:
-            self.type_wagon = None
-        elif not self.type_wagon:
             self.type_wagon = None
 
         # Soft-delete aware uniqueness check for MySQL
