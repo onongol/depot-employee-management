@@ -31,17 +31,7 @@ else:
 
 
 def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
-    """
-    Export data to a PDF file with a table and custom formatting.
-
-    :param data: Iterable of rows (each row is a list or tuple)
-    :param headers: List of column headers
-    :param col_widths: List of column widths for the table
-    :param col_alignments: List of alignment tuples for TableStyle
-    :param title: Title of the PDF document
-    :param filename: Name of the PDF file to be downloaded
-    :return: HttpResponse with PDF file
-    """
+    """Export data to a PDF file with a table and custom formatting."""
     buffer = BytesIO()
     # Create a landscape A4 PDF document
     doc = SimpleDocTemplate(
@@ -70,8 +60,13 @@ def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
     elements = []
 
     # Add the title to the PDF, centered
-    title_style = styles["h1"]
-    title_style.alignment = TA_CENTER
+    title_style = ParagraphStyle(
+        "TitleStyle",
+        parent=styles["h1"],
+        fontName=FONT_NAME,
+        alignment=TA_CENTER,
+    )
+
     elements.append(Paragraph(title, title_style))
     elements.append(Spacer(1, 0.2 * inch))  # Add space after title
 
