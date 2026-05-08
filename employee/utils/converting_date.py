@@ -3,6 +3,8 @@ from datetime import datetime
 
 from django.utils.dateparse import parse_date
 
+logger = logging.getLogger(__name__)
+
 
 def format_date(date_str):
     """Helper function to format datetime.date objects into strings."""
@@ -17,14 +19,7 @@ def format_date(date_str):
 
 
 def parse_date_range(range_date):
-    """
-    Parse date range and return (start_date, end_date).
-    Supports:
-      - 'YYYY-MM-DD to YYYY-MM-DD'
-      - 'YYYY-MM-DD - YYYY-MM-DD'
-      - single 'YYYY-MM-DD' (treated as start=end)
-    Returns (None, None) if parsing fails.
-    """
+    """Parse a date range string into start and end date objects."""
     try:
         range_str = (range_date or "").strip()
         if not range_str:
@@ -48,5 +43,5 @@ def parse_date_range(range_date):
         return None, None
 
     except Exception as e:
-        logging.warning(f"Invalid date range: {range_date} ({e})")
+        logger.warning("Invalid date range: %s (%s)", range_date, e)
         return None, None
