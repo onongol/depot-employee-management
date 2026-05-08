@@ -2,6 +2,8 @@ from django.db import models
 
 
 class SoftDeleteQuerySet(models.QuerySet):
+    """QuerySet that supports soft deletion."""
+
     def delete(self):
         return super().update(is_deleted=True)
 
