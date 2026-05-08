@@ -2,6 +2,7 @@ from employee.constants.constants import DEFAULT_WAGON_TYPE
 
 
 def build_type_wagon_choices(works, *, show_wagon: bool) -> list[str]:
+    """Build a list of type_wagon choices based on the given works and show_wagon flag."""
     if not show_wagon:
         return []
 
