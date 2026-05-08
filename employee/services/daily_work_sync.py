@@ -6,25 +6,10 @@ logger = logging.getLogger(__name__)
 
 
 def sync_piecework_with_dailywork(dailywork):
-    """
-    Synchronize related Piecework records after a DailyWork is saved.
-
-    Purpose:
-    - Propagate normalized fields from DailyWork (type_work, wagon_number, type_wagon,
-      job_title, amount, work_date) to linked Piecework entries.
-    - Recompute derived values (amount_time, amount_price) based on the updated work settings
-      and current DailySalary context for employees linked to this DailyWork/date.
-    - Keep Piecework data consistent with its source DailyWork for accurate reporting/exports.
-
-    Notes:
-    - Runs post-save; uses local imports to avoid circular dependencies.
-    - Fails safe: logs exceptions without interrupting the primary DailyWork save.
-    """
+    """Sync linked Piecework records after DailyWork is saved. Fails safe."""
     try:
-        # Local imports to avoid circular import issues
         from employee.models import DailySalary, Piecework
 
-        # Find all Piecework entries linked to this DailyWork
         related_pieceworks = list(Piecework.objects.filter(daily_work=dailywork))
 
         employee_ids = [piecework.employee_id for piecework in related_pieceworks]
@@ -36,8 +21,11 @@ def sync_piecework_with_dailywork(dailywork):
             )
         )
 
+        # Create a mapping of employee_id to DailySalary for quick lookup in sync_single_piecework
+        salary_map = {dailysalary.employee_id: dailysalary for dailysalary in employees_salary}
+
         for piecework in related_pieceworks:
-            sync_single_piecework(piecework, dailywork, employees_salary)
+            sync_single_piecework(piecework, dailywork, salary_map)
 
     except Exception as e:
         logger.exception(
