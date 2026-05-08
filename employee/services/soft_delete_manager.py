@@ -4,6 +4,8 @@ from employee.services.soft_delete_queryset import SoftDeleteQuerySet
 
 
 class SoftDeleteManager(models.Manager):
+    """Manager that filters out soft-deleted records by default."""
+
     def __init__(self, *args, only_alive=True, **kwargs):
         super().__init__(*args, **kwargs)
         self.only_alive = only_alive
