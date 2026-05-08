@@ -1,5 +1,5 @@
-def parse_ids(raw_ids):
-    """Handles bulk deletion of DailySalary via checkboxes, blocking deletions linked to Piecework, and displays user feedback messages."""
+def parse_ids(raw_ids) -> list[int]:
+    """Parse a list of raw values into a list of integers, skipping invalid entries."""
     ids = []
     for x in raw_ids:
         try:
