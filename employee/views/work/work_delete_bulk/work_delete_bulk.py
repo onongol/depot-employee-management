@@ -13,14 +13,14 @@ from employee.messages.bulk_delete_messages.delete_bulk_message import (
 )
 from employee.models.work_models import Work
 from employee.services.admin_log_delete import delete_queryset_with_admin_log
-from employee.utils.access import is_admin
+from employee.utils.access import is_payroll
 from employee.utils.parse_ids import parse_ids
 from employee.utils.select_department import get_selected_department
 
 
 @require_POST
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(is_payroll)
 def work_delete_bulk(request):
     department = get_selected_department(request)
     fallback_url = reverse("work_list")
