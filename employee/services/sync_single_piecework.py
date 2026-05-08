@@ -1,47 +1,31 @@
-from decimal import Decimal
-
-
-def sync_single_piecework(piecework, dailywork, employees_salary):
-    """Synchronize a single Piecework record with its related DailyWork and recalculate amount_price."""
-    # Local imports to avoid circular import issues
-    from employee.models import DailySalary
+def sync_single_piecework(piecework, dailywork, salary_map):
+    """Sync a single Piecework with its DailyWork and recalculate amount_price."""
     from employee.services.calculate_piecework_update import calculate_piecework_update
+    from employee.services.daily_work_calculations import calculate_time_amount
 
-    # Synchronize fields from DailyWork to Piecework
-    piecework.type_work = dailywork.type_work
-    piecework.wagon_number = dailywork.wagon_number
-    piecework.type_wagon = dailywork.type_wagon
     piecework.job_title = dailywork.job_title
+    piecework.type_work = dailywork.type_work
+    piecework.type_wagon = dailywork.type_wagon
+    piecework.wagon_number = dailywork.wagon_number
     piecework.amount = dailywork.amount
     piecework.work_date = dailywork.work_date
+    piecework.work_year = dailywork.work_year
+    piecework.work_month = dailywork.work_month
 
-    # Calculate amount_time for Piecework
-    std_time = dailywork.work.standard_time
-    std_time_dec = Decimal(str(std_time or 0))
-    amt = piecework.amount or Decimal("0.000000")
-    piecework.amount_time = (std_time_dec * amt).quantize(Decimal("0.000000"))
+    piecework.amount_time = calculate_time_amount(dailywork.work, piecework.amount)
 
-    # Get the DailySalary for the Piecework's employee on the work_date
-    daily_salary = DailySalary.objects.filter(
-        employee=piecework.employee, salary_date=dailywork.work_date
-    ).first()
+    daily_salary = salary_map.get(piecework.employee_id)
 
-    # Recalculate amount_price
-    new_price = calculate_piecework_update(
-        dailywork.work, piecework.amount, daily_salary, employees_salary
+    piecework.amount_price = calculate_piecework_update(
+        dailywork.work, piecework.amount, daily_salary, salary_map.values()
     )
 
-    # Update amount_price if changed
-    if piecework.amount_price != new_price:
-        piecework.amount_price = new_price
-
-    # Save the updated Piecework
     piecework.save(
         update_fields=[
-            "type_work",
-            "wagon_number",
-            "type_wagon",
             "job_title",
+            "type_work",
+            "type_wagon",
+            "wagon_number",
             "amount",
             "amount_time",
             "amount_price",
