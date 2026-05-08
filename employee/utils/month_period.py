@@ -5,27 +5,21 @@ def parse_month_period(
     legacy_month: str = "legacy_month",
     legacy_year: str = "legacy_year",
 ):
-    """
-    Parse month-period from request.GET.
-
-    Primary: ?month_period=YYYY-MM
-    Legacy:  ?month=<MM>&year=<YYYY>
-
-    Returns: (month, year, month_period)
-      - month, year: int or ''
-      - month_period: 'YYYY-MM' or ''
-    """
+    """Parse month-period from request.GET."""
     raw_month_period = (request.GET.get(param_name, "") or "").strip()
 
-    month = year = ""
+    month = year = None
     month_period = ""
 
     if raw_month_period:
         try:
-            y, m = raw_month_period.split("-")
-            year = int(y)
-            month = int(m)
-            month_period = f"{year:04d}-{month:02d}"
+            raw_month, raw_year = raw_month_period.split("-")
+            year_int, month_int = int(raw_year), int(raw_month)
+
+            if 1 <= month_int <= 12 and 1900 <= year_int <= 9999:
+                year, month = year_int, month_int
+                month_period = f"{year:04d}-{month:02d}"
+
         except ValueError:
             pass
     else:
@@ -33,8 +27,10 @@ def parse_month_period(
         raw_year = request.GET.get(legacy_year, "").strip()
 
         if raw_month.isdigit() and raw_year.isdigit():
-            year = int(raw_year)
-            month = int(raw_month)
-            month_period = f"{year:04d}-{month:02d}"
+            year_int, month_int = int(raw_year), int(raw_month)
+
+            if 1 <= month_int <= 12 and 1900 <= year_int <= 9999:
+                year, month = year_int, month_int
+                month_period = f"{year:04d}-{month:02d}"
 
     return month, year, month_period
