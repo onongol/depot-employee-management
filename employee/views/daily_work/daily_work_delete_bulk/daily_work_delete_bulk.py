@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 
 from employee.services.admin_log_delete import delete_queryset_with_admin_log
-from employee.utils.access import is_admin
+from employee.utils.access import is_payroll
 from employee.utils.parse_ids import parse_ids
 from employee.utils.select_department import get_selected_department
 from employee.views.daily_work.daily_work_delete_bulk.bulk_queryset import (
@@ -20,7 +20,7 @@ from employee.views.daily_work.daily_work_delete_bulk.messages_bulk_preview impo
 
 @require_POST
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(is_payroll)
 def daily_work_delete_bulk(request):
     """
     This code implements a secure and user-friendly bulk delete operation for DailyWork records.
