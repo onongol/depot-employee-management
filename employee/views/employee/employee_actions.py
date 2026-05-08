@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from employee.models import Employee
 from employee.services.admin_log_entries import log_object_change
-from employee.utils.access import is_admin
+from employee.utils.access import is_payroll
 
 
 def _set_employee_active_status(request, pk, is_active):
@@ -18,12 +18,12 @@ def _set_employee_active_status(request, pk, is_active):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(is_payroll)
 def employee_activate(request, pk):
     return _set_employee_active_status(request, pk, True)
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(is_payroll)
 def employee_deactivate(request, pk):
     return _set_employee_active_status(request, pk, False)
