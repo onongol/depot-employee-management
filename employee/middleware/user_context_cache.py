@@ -1,4 +1,4 @@
-from employee.utils.middleware_selected_department import (
+from employee.utils.request_department import (
     get_selected_department_from_request,
 )
 from employee.utils.user_roles import get_user_groups
