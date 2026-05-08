@@ -10,6 +10,7 @@ def calc_totals_for_group(
     year_field: str | None = None,
 ):
     """Totals matching the same month/year constraints as grouping."""
+
     month_group = getattr(context, "month_group", False)
     year_group = getattr(context, "year_group", False)
     month = getattr(context, "month", None)
