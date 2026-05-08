@@ -1,28 +1,23 @@
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
+
+_PRECISION_TIME = Decimal("0.000000")
+_PRECISION_MATERIAL = Decimal("0.0000")
+_PRECISION_PRICE = Decimal("0.00")
 
 
-def calculate_time_amount(work, amount: Decimal):
+def _work_field_multiply(field_value, amount: Decimal, precision: Decimal) -> Decimal:
     quantity = amount or Decimal("0")
-    std_time = Decimal(str(getattr(work, "standard_time", 0) or 0))
-
-    amount_time = (std_time * quantity).quantize(Decimal("0.000000"))
-
-    return amount_time
+    value = Decimal(str(field_value or 0))
+    return (value * quantity).quantize(precision, rounding=ROUND_HALF_UP)
 
 
-def calculate_material_amount(work, amount: Decimal):
-    quantity = amount or Decimal("0")
-    usage_material = Decimal(str(getattr(work, "usage_material", 0) or 0))
-
-    amount_material = (usage_material * quantity).quantize(Decimal("0.0000"))
-
-    return amount_material
+def calculate_time_amount(work, amount: Decimal) -> Decimal:
+    return _work_field_multiply(work.standard_time, amount, _PRECISION_TIME)
 
 
-def calculate_price_amount(work, amount: Decimal):
-    quantity = amount or Decimal("0")
-    price = Decimal(str(getattr(work, "price", 0) or 0))
+def calculate_material_amount(work, amount: Decimal) -> Decimal:
+    return _work_field_multiply(work.usage_material, amount, _PRECISION_MATERIAL)
 
-    amount_price = (price * quantity).quantize(Decimal("0.00"))
 
-    return amount_price
+def calculate_price_amount(work, amount: Decimal) -> Decimal:
+    return _work_field_multiply(work.price, amount, _PRECISION_PRICE)
