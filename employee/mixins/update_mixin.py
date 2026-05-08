@@ -4,7 +4,7 @@ from employee.services.admin_log_entries import log_object_change
 
 
 class AdminLoggedUpdateMixin:
-    """Mixin that logs object changes to admin log within an atomic transaction."""
+    """Logs object changes to admin log within an atomic transaction."""
 
     def form_valid(self, form):
         with transaction.atomic():

@@ -4,7 +4,7 @@ from employee.services.admin_log_entries import log_object_addition
 
 
 class AdminLoggedCreateMixin:
-    """Mixin to log object creation in the admin interface."""
+    """Logs object creation in the admin interface."""
 
     def form_valid(self, form):
         with transaction.atomic():
