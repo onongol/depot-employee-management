@@ -10,7 +10,7 @@ from employee.mixins.department_form_mixins import FormDepartmentMixin
 from employee.mixins.permissions_mixins import OnlyPayrollsMixin
 from employee.mixins.update_mixin import AdminLoggedUpdateMixin
 from employee.models.daily_work_models import DailyWork
-from employee.utils.access import is_creater
+from employee.utils.access import is_creator
 from employee.views.daily_work.daily_work_create.daily_work_piecework_create import (
     daily_work_piecework_create,
 )
@@ -32,7 +32,7 @@ class DailyWorkUpdateView(
 
 
 @login_required
-@user_passes_test(is_creater)
+@user_passes_test(is_creator)
 def daily_work_create(request):
     """Create daily work entry view. Redirect to piecework creation if department allows wagon work."""
     return daily_work_piecework_create(request)
