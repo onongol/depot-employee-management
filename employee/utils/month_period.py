@@ -13,7 +13,7 @@ def parse_month_period(
 
     if raw_month_period:
         try:
-            raw_month, raw_year = raw_month_period.split("-")
+            raw_year, raw_month = raw_month_period.split("-")
             year_int, month_int = int(raw_year), int(raw_month)
 
             if 1 <= month_int <= 12 and 1900 <= year_int <= 9999:
