@@ -28,7 +28,8 @@ def daily_work_prepare(request) -> DailyWorkContext:
 
     # Grouping params
     group = request.GET.get("group")
-    selected_year = (request.GET.get("year") or "").strip()
+    raw_year = (request.GET.get("year") or "").strip()
+    selected_year = raw_year if raw_year.isdigit() else ""
     month, year, month_period = parse_month_period(request)
 
     # Sorting params
