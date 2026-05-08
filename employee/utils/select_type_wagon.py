@@ -2,7 +2,8 @@ import hashlib
 
 from django.core.cache import cache
 
-from employee.constants.constants import ALLOWED_WAGON_DEPARTMENTS, DEFAULT_WAGON_TYPE
+from employee.constants.constants import DEFAULT_WAGON_TYPE
+from employee.utils.wagon_department import is_wagon_department
 
 
 def get_type_wagon_filter_values(
@@ -10,21 +11,8 @@ def get_type_wagon_filter_values(
     source_model: str = "work",
     always_include_default: bool = False,
 ):
-    """
-    Build a distinct list of type_wagon values for a filter widget.
-
-    Parameters:
-        department (str):
-            The base department code selected by the user (must be in ALLOWED_WAGON_DEPARTMENTS).
-        source_model (str):
-            'work'      -> pull current type_wagon values from Work (live reference data).
-            'piecework' -> pull snapshot values from Piecework.type_wagon (historical state).
-        always_include_default (bool):
-            If True, always prepend DEFAULT_WAGON_TYPE (placeholder for NULL).
-            If False, prepend it only when there are NULL entries in the underlying data.
-    """
-    # Fast exit if department is not provided or not allowed to have wagon filtering.
-    if not department or department not in ALLOWED_WAGON_DEPARTMENTS:
+    """Build a distinct list of type_wagon values for a filter widget."""
+    if not is_wagon_department(department):
         return []
 
     # Create a unique cache key based on the function parameters
@@ -36,33 +24,19 @@ def get_type_wagon_filter_values(
     if result is not None:
         return result
 
-    # Dynamically choose the source model and the department lookup path.
-    deps = [department]
-
-    # Dynamically choose the source model and the department lookup path.
-    # Snapshot (historical) source: use Piecework entries and follow employee -> department.
-    # Default / live source: use Work reference data, department lives directly on Work.
+    # Dynamically choose the source model based on the requested data source.
     if source_model == "piecework":
         from employee.models import Piecework as Model
-
-        dep_lookup = "department__in"
-        field = "type_wagon"
     elif source_model == "daily_work":
         from employee.models import DailyWork as Model
-
-        dep_lookup = "department__in"
-        field = "type_wagon"
     else:
         from employee.models import Work as Model
 
-        dep_lookup = "department__in"
-        field = "type_wagon"
-
-    # Base queryset filtered by department(s).
-    qs = Model.objects.filter(**{dep_lookup: deps})
+    # Base queryset filtered by department.
+    qs = Model.objects.filter(department=department)
 
     # Collect non-NULL distinct values only; NULL is represented separately (placeholder).
-    raw_values = list(qs.values_list(field, flat=True).distinct().order_by())
+    raw_values = list(qs.values_list("type_wagon", flat=True).distinct().order_by())
 
     has_null = None in raw_values
 
@@ -74,6 +48,6 @@ def get_type_wagon_filter_values(
     else:
         result = values
 
-    cache.set(cache_key, result, timeout=10 * 60)  # Cache for 10 minutes
+    cache.set(cache_key, result, timeout=10 * 60)
 
     return result
