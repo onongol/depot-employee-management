@@ -11,19 +11,14 @@ def get_distinct_values(
     only_with_salary=False,
     extra_filters=None,
 ):
-    """
-    Returns a queryset of distinct values for the specified field and department.
-    :param model: Django model (Employee or Piecework)
-    :param field: field name (str), e.g. 'job_title', 'type_work', 'work__type_material'
-    :param department: department to filter by (optional)
-    :param department_field: field name for department filter (str), e.g. 'department', 'work__department'
-    :param only_with_salary: for Employee, filter only those with DailySalary (optional)
-    :param extra_filters: dict of additional filters
-    :return: QuerySet of distinct values or cached result
-    """
+    """Returns a queryset of distinct values for the specified field and department."""
+    if extra_filters:
+        extra_filters = tuple(sorted(extra_filters.items()))
+    else:
+        extra_filters = None
 
     # Create a unique cache key based on the function parameters
-    raw_key = f"{model._meta.model_name}_{field}_{department}_{only_with_salary}_{extra_filters}"
+    raw_key = f"{model._meta.model_name}:{field}:{department}:{only_with_salary}:{extra_filters}"
     cache_key = f"distinct_{hashlib.md5(raw_key.encode()).hexdigest()}"
 
     # Try to get the result from cache
@@ -47,6 +42,6 @@ def get_distinct_values(
     # Remove empty values from the result
     result = [v for v in result if v]
 
-    cache.set(cache_key, result, timeout=10 * 60)  # Cache for 10 minutes
+    cache.set(cache_key, result, timeout=10 * 60)
 
     return result
