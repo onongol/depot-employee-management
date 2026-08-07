@@ -2,6 +2,10 @@ from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
+from employee.views.auth.confirm_views import (
+    register_confirm_view,
+    register_resend_view,
+)
 from employee.views.auth.password_views import CustomPasswordChangeView
 from employee.views.auth.register_views import register_view
 from employee.views.daily_salary import (
@@ -57,6 +61,12 @@ urlpatterns = [
         name="login",
     ),
     path("register/", register_view, name="register"),
+    path(
+        "register/confirm/<uidb64>/<token>/",
+        register_confirm_view,
+        name="register_confirm",
+    ),
+    path("register/resend/", register_resend_view, name="register_resend"),
     path("logout/", auth_views.LogoutView.as_view(next_page="home"), name="logout"),
     # Password change URLs
     path(

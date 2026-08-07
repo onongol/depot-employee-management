@@ -3,31 +3,61 @@ from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
 from employee.forms.register_forms import CustomUserCreationForm
-from employee.views.auth.services import find_instance_by_id, link_user_to_instance
+from employee.models import RegistrationRequest
+from employee.views.auth.services import (
+    find_instance_by_id,
+    send_registration_confirmation_email,
+)
 
 
 def register_view(request):
-    """User registration view."""
+    """User registration view.
+
+    Creates an inactive user and emails a confirmation link; the user is only
+    linked to their Employee/Master/Payroll record once that link is clicked
+    (see register_confirm_view), so an unconfirmed signup never occupies the
+    target record.
+    """
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             register_id = form.cleaned_data.get("employee_id")
+            email = form.cleaned_data.get("email")
 
             # Try to find the corresponding instance (Employee, Master, or Payroll) by ID
             instance, group_name = find_instance_by_id(register_id)
             if instance:
-                # Check if this instance is already linked to a user
                 if instance.user:
                     form.add_error(
                         "employee_id", _("An account with this ID already exists.")
                     )
+                elif not instance.email:
+                    form.add_error(
+                        "employee_id",
+                        _(
+                            "This ID has no email on file. Please contact your administrator."
+                        ),
+                    )
+                elif instance.email.lower() != email.lower():
+                    form.add_error(
+                        "email",
+                        _("This email does not match our records for this profile."),
+                    )
                 else:
-                    user = form.save()
-                    link_user_to_instance(user, instance, group_name)
+                    user = form.save(commit=False)
+                    user.email = email
+                    user.is_active = False
+                    user.save()
+                    RegistrationRequest.objects.create(
+                        user=user,
+                        register_id=register_id,
+                        group_name=group_name,
+                    )
+                    send_registration_confirmation_email(request, user)
                     messages.success(
                         request,
                         _(
-                            "Registration successful. Please sign in."
+                            "Registration received. Please check your email to confirm your account."
                         ),
                     )
                     return redirect("login")

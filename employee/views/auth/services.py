@@ -1,7 +1,34 @@
+from django.conf import settings
 from django.contrib.auth.models import Group
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import GroupNames
 from employee.models import Employee, Master, Payroll
+
+
+def send_registration_confirmation_email(request, user):
+    """Email a signed confirmation link for the user's pending registration."""
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    token = default_token_generator.make_token(user)
+    confirm_url = request.build_absolute_uri(
+        reverse("register_confirm", kwargs={"uidb64": uid, "token": token})
+    )
+    message = render_to_string(
+        "auth/email/registration_confirm.txt",
+        {"user": user, "confirm_url": confirm_url},
+    )
+    send_mail(
+        _("Confirm your registration"),
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        [user.email],
+    )
 
 
 def link_user_to_instance(user, instance, group_name):
