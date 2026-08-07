@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
+from employee.forms.login_forms import CustomAuthenticationForm
 from employee.views.auth.confirm_views import (
     register_confirm_view,
     register_resend_view,
@@ -57,7 +58,10 @@ urlpatterns = [
     # Authentication URLs
     path(
         "login/",
-        auth_views.LoginView.as_view(template_name="auth/login.html"),
+        auth_views.LoginView.as_view(
+            template_name="auth/login.html",
+            authentication_form=CustomAuthenticationForm,
+        ),
         name="login",
     ),
     path("register/", register_view, name="register"),
