@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from employee.forms.register_forms import CustomUserCreationForm
 from employee.models import RegistrationRequest
 from employee.views.auth.services import (
-    find_instance_by_id,
+    find_instance_by_email,
     send_registration_confirmation_email,
 )
 
@@ -22,27 +22,14 @@ def register_view(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            register_id = form.cleaned_data.get("employee_id")
             email = form.cleaned_data.get("email")
 
-            # Try to find the corresponding instance (Employee, Master, or Payroll) by ID
-            instance, group_name = find_instance_by_id(register_id)
+            # Find the corresponding instance (Employee, Master, or Payroll) by email
+            instance, group_name, register_id = find_instance_by_email(email)
             if instance:
                 if instance.user:
                     form.add_error(
-                        "employee_id", _("An account with this ID already exists.")
-                    )
-                elif not instance.email:
-                    form.add_error(
-                        "employee_id",
-                        _(
-                            "This ID has no email on file. Please contact your administrator."
-                        ),
-                    )
-                elif instance.email.lower() != email.lower():
-                    form.add_error(
-                        "email",
-                        _("This email does not match our records for this profile."),
+                        "email", _("An account with this email already exists.")
                     )
                 else:
                     user = form.save(commit=False)
@@ -74,9 +61,9 @@ def register_view(request):
                         return redirect("login")
             else:
                 form.add_error(
-                    "employee_id",
+                    "email",
                     _(
-                        "This ID is not registered. Please check for typos or contact your administrator for assistance."
+                        "No profile found with this email. Please contact your administrator for assistance."
                     ),
                 )
 

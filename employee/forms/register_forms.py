@@ -5,25 +5,12 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserCreationForm(UserCreationForm):
-    """User registration form with additional employee_id field."""
-
-    employee_id = forms.IntegerField(
-        label=_("Employee ID"),
-        required=True,
-        min_value=1,
-        widget=forms.NumberInput(
-            attrs={
-                "class": "form-control",
-                "min": "1",
-            }
-        ),
-        help_text=_("Enter your ID to sync your profile."),
-    )
+    """User registration form that finds the matching profile by email."""
 
     email = forms.EmailField(
         label=_("Email"),
         required=True,
-        help_text=_("Must match profile email."),
+        help_text=_("Must match the email on your profile."),
         widget=forms.EmailInput(attrs={"class": "form-control"}),
     )
 
@@ -42,7 +29,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = get_user_model()
-        fields = ("employee_id", "email", "password1", "password2")
+        fields = ("email", "password1", "password2")
 
     def clean_email(self):
         email = self.cleaned_data["email"]

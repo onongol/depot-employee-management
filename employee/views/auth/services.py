@@ -39,15 +39,28 @@ def link_user_to_instance(user, instance, group_name):
     instance.save()
 
 
+# (model, id_field, group_name) for each registerable profile type, checked
+# in this priority order.
+REGISTERABLE_MODELS = [
+    (Employee, "employee_id", GroupNames.EMPLOYEES.value),
+    (Master, "master_id", GroupNames.MASTERS.value),
+    (Payroll, "payroll_id", GroupNames.PAYROLLS.value),
+]
+
+
 def find_instance_by_id(register_id):
     """Find the instance and corresponding group by the given register ID."""
-    for model, id_field, group_name in [
-        (Employee, "employee_id", GroupNames.EMPLOYEES.value),
-        (Master, "master_id", GroupNames.MASTERS.value),
-        (Payroll, "payroll_id", GroupNames.PAYROLLS.value),
-    ]:
-        # Find the instance by ID
+    for model, id_field, group_name in REGISTERABLE_MODELS:
         instance = model.objects.filter(**{id_field: register_id}).first()
         if instance:
             return instance, group_name
     return None, None
+
+
+def find_instance_by_email(email):
+    """Find the instance, group, and register ID by the given email."""
+    for model, id_field, group_name in REGISTERABLE_MODELS:
+        instance = model.objects.filter(email__iexact=email).first()
+        if instance:
+            return instance, group_name, getattr(instance, id_field)
+    return None, None, None
