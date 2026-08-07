@@ -25,6 +25,13 @@ class CustomUserCreationForm(UserCreationForm):
         max_length=150,
     )
 
+    email = forms.EmailField(
+        label=_("Email"),
+        required=True,
+        help_text=_("Must match profile email."),
+        widget=forms.EmailInput(attrs={"class": "form-control"}),
+    )
+
     password1 = forms.CharField(
         label=_("Password"),
         strip=False,
@@ -40,4 +47,20 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = get_user_model()
-        fields = ("employee_id", "username", "password1", "password2")
+        fields = ("employee_id", "username", "email", "password1", "password2")
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        if get_user_model().objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError(_("An account with this email already exists."))
+        return email
+
+
+class ResendConfirmationForm(forms.Form):
+    """Requests a new confirmation email for a pending registration."""
+
+    email = forms.EmailField(
+        label=_("Email"),
+        required=True,
+        widget=forms.EmailInput(attrs={"class": "form-control"}),
+    )
