@@ -45,6 +45,7 @@ def register_view(request):
                     )
                 else:
                     user = form.save(commit=False)
+                    user.username = email
                     user.email = email
                     user.is_active = False
                     user.save()

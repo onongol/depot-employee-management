@@ -20,11 +20,6 @@ class CustomUserCreationForm(UserCreationForm):
         help_text=_("Enter your ID to sync your profile."),
     )
 
-    username = forms.CharField(
-        label=_("Username"),
-        max_length=150,
-    )
-
     email = forms.EmailField(
         label=_("Email"),
         required=True,
@@ -47,11 +42,21 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = get_user_model()
-        fields = ("employee_id", "username", "email", "password1", "password2")
+        fields = ("employee_id", "email", "password1", "password2")
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        if get_user_model().objects.filter(email__iexact=email).exists():
+        User = get_user_model()
+
+        # email doubles as the username (see register_view), which caps at username's max_length.
+        username_max_length = User._meta.get_field("username").max_length
+        if len(email) > username_max_length:
+            raise forms.ValidationError(
+                _("Email must be %(max)d characters or fewer.")
+                % {"max": username_max_length}
+            )
+
+        if User.objects.filter(email__iexact=email).exists():
             raise forms.ValidationError(_("An account with this email already exists."))
         return email
 
