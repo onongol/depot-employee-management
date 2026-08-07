@@ -18,12 +18,14 @@ class PayrollAdmin(
     list_display = (
         "payroll_id",
         "payroll_name",
+        "email",
         "is_active",
         "is_deleted",
     )
     search_fields = (
         "payroll_id__exact",
         "payroll_name",
+        "email",
     )
     search_help_text = "Search by payroll ID or name"
     list_filter = ["is_active", "is_deleted"]

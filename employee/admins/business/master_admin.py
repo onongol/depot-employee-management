@@ -19,12 +19,14 @@ class MasterAdmin(
         "master_id",
         "master_name",
         "department",
+        "email",
         "is_active",
         "is_deleted",
     )
     search_fields = (
         "master_id__exact",
         "master_name",
+        "email",
     )
     search_help_text = "Search by master ID or name"
     list_filter = ["department", "is_active", "is_deleted"]

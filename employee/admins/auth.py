@@ -7,6 +7,8 @@ from unfold.admin import ModelAdmin
 from unfold.contrib.filters.admin import FieldTextFilter
 from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
 
+from employee.models import RegistrationRequest
+
 User = get_user_model()
 
 try:
@@ -70,3 +72,25 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin):
     search_fields = ("name",)
     search_help_text = "Search by group name"
     ordering = ("name",)
+
+
+@admin.register(RegistrationRequest)
+class RegistrationRequestAdmin(ModelAdmin):
+    """Read-only view of pending and confirmed self-registrations."""
+
+    list_display = (
+        "user",
+        "register_id",
+        "group_name",
+        "created_at",
+        "confirmed_at",
+    )
+    search_fields = ("user__username", "user__email", "register_id__exact")
+    list_filter = ("group_name",)
+    ordering = ("-created_at",)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False

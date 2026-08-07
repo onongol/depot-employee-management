@@ -23,12 +23,14 @@ class EmployeeAdmin(
         "job_title",
         "rank",
         "money_per_hour",
+        "email",
         "is_active",
         "is_deleted",
     )
     search_fields = (
         "employee_id__exact",
         "employee_name",
+        "email",
     )
     search_help_text = "Search by employee ID or name"
     list_filter_submit = True
