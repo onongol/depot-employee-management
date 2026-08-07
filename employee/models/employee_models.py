@@ -49,6 +49,13 @@ class Employee(SoftDeleteMixin, models.Model):
         editable=True,
     )
 
+    # Email on file for this employee, used to verify self-registration.
+    email = models.EmailField(
+        null=True,
+        blank=True,
+        unique=True,
+    )
+
     # Active status of the employee
     is_active = models.BooleanField(default=True)
 

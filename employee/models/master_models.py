@@ -21,6 +21,13 @@ class Master(SoftDeleteMixin, models.Model):
         max_length=255, choices=DEPARTMENT_CHOICES, db_index=True
     )
 
+    # Email on file for this master, used to verify self-registration.
+    email = models.EmailField(
+        null=True,
+        blank=True,
+        unique=True,
+    )
+
     # Active status of the employee
     is_active = models.BooleanField(default=True)
 

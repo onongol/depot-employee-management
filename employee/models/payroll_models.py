@@ -20,6 +20,13 @@ class Payroll(SoftDeleteMixin, models.Model):
     )
     payroll_name = models.CharField(max_length=255, db_index=True)
 
+    # Email on file for this payroll specialist, used to verify self-registration.
+    email = models.EmailField(
+        null=True,
+        blank=True,
+        unique=True,
+    )
+
     # Active status of the employee
     is_active = models.BooleanField(default=True)
 
