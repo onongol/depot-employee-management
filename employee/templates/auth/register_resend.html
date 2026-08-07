@@ -3,20 +3,10 @@
 {% load i18n %}
 {% block content %}
     <div class="mx-auto mt-10 max-w-md">
-        {% if messages %}
-            <div class="mb-4">
-                {% for message in messages %}
-                    <div class="{% if message.tags %}{{ message.tags }}{% endif %} mb-4 rounded-lg bg-green-50 p-4 text-sm text-green-700 dark:bg-green-500/20 dark:text-green-400">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-        <h2 class="mb-6 text-lg font-semibold text-gray-700 dark:text-gray-400">{% trans 'Sign In' %}</h2>
+        <h2 class="mb-6 text-lg font-semibold text-gray-700 dark:text-gray-400">{% trans 'Resend confirmation email' %}</h2>
         <form method="post"
               class="rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
             {% csrf_token %}
-            {% if form.non_field_errors %}<div class="mb-4 text-sm text-red-600">{{ form.non_field_errors }}</div>{% endif %}
             {% for field in form %}
                 <div class="relative mb-4">
                     <label for="{{ field.id_for_label }}"
@@ -27,13 +17,10 @@
                            name="{{ field.name }}"
                            id="{{ field.id_for_label }}"
                            class="{% if field.errors %}border-red-600 focus:ring-red-600 focus:border-red-600 focus:text-red-600 dark:border-red-600 dark:focus:ring-red-600 dark:focus:border-red-600{% endif %} block w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 placeholder-gray-400 transition focus:border-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-500 dark:focus:border-gray-500 dark:focus:ring-gray-500"
-                           {% if field.field.widget.input_type != "password" %}value="{{ field.value|default:'' }}"{% endif %}
+                           value="{{ field.value|default:'' }}"
                            {% if field.errors %}aria-invalid="true"{% endif %}
                            aria-describedby="{% if field.errors %}{{ field.id_for_label }}_error{% endif %}"
                            {% if field.field.required %}required{% endif %} />
-                    {% if field.name == "password" %}
-                        {% include 'includes/auth/password_toggle.html' with input_id=field.id_for_label reveal_ms=3000 %}
-                    {% endif %}
                     {% if field.errors %}
                         <div id="{{ field.id_for_label }}_error" class="mt-1 text-sm text-red-600">{{ field.errors }}</div>
                     {% endif %}
@@ -42,15 +29,10 @@
             <div class="mt-6">
                 <button type="submit"
                         class="w-full cursor-pointer rounded-md bg-blue-700 px-6 py-2 font-semibold text-white shadow transition hover:bg-blue-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                        aria-label="Sign In">{% trans 'Sign In' %}</button>
+                        aria-label="Resend confirmation email">{% trans 'Resend email' %}</button>
                 <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                    {% trans "Don't have an account?" %}
-                    <a href="{% url 'register' %}"
-                       class="text-blue-700 hover:underline dark:text-blue-400">{% trans "Create one" %}</a>
-                </p>
-                <p class="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
-                    <a href="{% url 'register_resend' %}"
-                       class="text-blue-700 hover:underline dark:text-blue-400">{% trans "Resend confirmation email" %}</a>
+                    <a href="{% url 'login' %}"
+                       class="text-blue-700 hover:underline dark:text-blue-400">{% trans "Back to sign in" %}</a>
                 </p>
             </div>
         </form>
