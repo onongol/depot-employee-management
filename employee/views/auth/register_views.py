@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
@@ -48,20 +49,29 @@ def register_view(request):
                     user.username = email
                     user.email = email
                     user.is_active = False
-                    user.save()
-                    RegistrationRequest.objects.create(
-                        user=user,
-                        register_id=register_id,
-                        group_name=group_name,
-                    )
-                    send_registration_confirmation_email(request, user)
-                    messages.success(
-                        request,
-                        _(
-                            "Registration received. Please check your email to confirm your account."
-                        ),
-                    )
-                    return redirect("login")
+                    try:
+                        user.save()
+                    except IntegrityError:
+                        # username == email, so a concurrent registration
+                        # with the same email hits the DB's unique
+                        # constraint on username here.
+                        form.add_error(
+                            "email", _("An account with this email already exists.")
+                        )
+                    else:
+                        RegistrationRequest.objects.create(
+                            user=user,
+                            register_id=register_id,
+                            group_name=group_name,
+                        )
+                        send_registration_confirmation_email(request, user)
+                        messages.success(
+                            request,
+                            _(
+                                "Registration received. Please check your email to confirm your account."
+                            ),
+                        )
+                        return redirect("login")
             else:
                 form.add_error(
                     "employee_id",
