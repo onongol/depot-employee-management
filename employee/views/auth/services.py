@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes
@@ -19,16 +19,18 @@ def send_registration_confirmation_email(request, user):
     confirm_url = request.build_absolute_uri(
         reverse("register_confirm", kwargs={"uidb64": uid, "token": token})
     )
-    message = render_to_string(
-        "auth/email/registration_confirm.txt",
-        {"user": user, "confirm_url": confirm_url},
-    )
-    send_mail(
+    context = {"user": user, "confirm_url": confirm_url}
+    text_body = render_to_string("auth/email/registration_confirm.txt", context)
+    html_body = render_to_string("auth/email/registration_confirm.html", context)
+
+    email = EmailMultiAlternatives(
         _("Confirm your registration"),
-        message,
+        text_body,
         settings.DEFAULT_FROM_EMAIL,
         [user.email],
     )
+    email.attach_alternative(html_body, "text/html")
+    email.send()
 
 
 def link_user_to_instance(user, instance, group_name):
