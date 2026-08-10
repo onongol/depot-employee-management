@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.urls import include, path, reverse_lazy
+from django_smart_ratelimit import rate_limit
 
 from employee.forms.login_forms import CustomAuthenticationForm
 from employee.forms.password_reset_forms import (
@@ -12,6 +13,7 @@ from employee.views.auth.confirm_views import (
     register_resend_view,
 )
 from employee.views.auth.password_views import CustomPasswordChangeView
+from employee.views.auth.ratelimit import ratelimit_key
 from employee.views.auth.register_views import register_done_view, register_view
 from employee.views.daily_salary import (
     DailySalaryUpdateView,
@@ -84,12 +86,14 @@ urlpatterns = [
     # Password reset URLs
     path(
         "password_reset/",
-        auth_views.PasswordResetView.as_view(
-            template_name="auth/password_reset_form.html",
-            email_template_name="auth/email/password_reset_email.txt",
-            subject_template_name="auth/email/password_reset_subject.txt",
-            form_class=CustomPasswordResetForm,
-            success_url=reverse_lazy("password_reset_done"),
+        rate_limit(key=ratelimit_key("password_reset"), rate="5/h")(
+            auth_views.PasswordResetView.as_view(
+                template_name="auth/password_reset_form.html",
+                email_template_name="auth/email/password_reset_email.txt",
+                subject_template_name="auth/email/password_reset_subject.txt",
+                form_class=CustomPasswordResetForm,
+                success_url=reverse_lazy("password_reset_done"),
+            )
         ),
         name="password_reset",
     ),

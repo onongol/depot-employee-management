@@ -1,15 +1,18 @@
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
+from django_smart_ratelimit import rate_limit
 
 from employee.forms.register_forms import CustomUserCreationForm
 from employee.models import RegistrationRequest
+from employee.views.auth.ratelimit import ratelimit_key
 from employee.views.auth.services import (
     find_instance_by_email,
     send_registration_confirmation_email,
 )
 
 
+@rate_limit(key=ratelimit_key("register"), rate="5/h")
 def register_view(request):
     """User registration view.
 

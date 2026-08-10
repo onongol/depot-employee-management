@@ -6,9 +6,11 @@ from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.utils.translation import gettext_lazy as _
+from django_smart_ratelimit import rate_limit
 
 from employee.forms.register_forms import ResendConfirmationForm
 from employee.models import RegistrationRequest
+from employee.views.auth.ratelimit import ratelimit_key
 from employee.views.auth.services import (
     find_instance_by_id,
     link_user_to_instance,
@@ -54,6 +56,7 @@ def register_confirm_view(request, uidb64, token):
     return redirect("login")
 
 
+@rate_limit(key=ratelimit_key("register_resend"), rate="3/h")
 def register_resend_view(request):
     """Resend the confirmation email for a pending registration."""
     if request.method == "POST":
