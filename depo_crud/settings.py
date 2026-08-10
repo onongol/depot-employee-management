@@ -158,6 +158,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Argon2id first: OWASP's current recommendation, memory-hard against
+# GPU/ASIC cracking (unlike PBKDF2). Existing PBKDF2 hashes still verify
+# fine and get transparently upgraded to Argon2id on next successful login.
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+    "django.contrib.auth.hashers.ScryptPasswordHasher",
+]
+
 
 # 16. Authentication: Redirect URLs for login/logout and default primary key field type
 LOGIN_URL = "login"
