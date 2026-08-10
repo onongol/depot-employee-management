@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
@@ -52,13 +51,7 @@ def register_view(request):
                             group_name=group_name,
                         )
                         send_registration_confirmation_email(request, user)
-                        messages.success(
-                            request,
-                            _(
-                                "Registration received. Please check your email to confirm your account."
-                            ),
-                        )
-                        return redirect("login")
+                        return redirect("register_done")
             else:
                 form.add_error(
                     "email",
@@ -71,3 +64,8 @@ def register_view(request):
     else:
         form = CustomUserCreationForm()
     return render(request, "auth/register.html", {"form": form})
+
+
+def register_done_view(request):
+    """Tells the user to check their email; shown right after registering."""
+    return render(request, "auth/register_done.html")

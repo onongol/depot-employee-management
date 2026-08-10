@@ -3,7 +3,7 @@
 {% load i18n %}
 {% block content %}
     <div class="mx-auto mt-10 max-w-md">
-        <h2 class="mb-6 text-lg font-semibold text-gray-700 dark:text-gray-400">{% trans 'Register' %}</h2>
+        <h2 class="mb-6 text-lg font-semibold text-gray-700 dark:text-gray-400">{% trans 'Sign Up' %}</h2>
         <form method="post"
               class="rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
             {% csrf_token %}
@@ -35,7 +35,7 @@
                         class="w-full cursor-pointer rounded-md bg-blue-700 px-6 py-2 font-semibold text-white shadow transition hover:bg-blue-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         aria-label="Sign up">{% trans 'Sign Up' %}</button>
                 <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                    {% trans "Have an account?" %}
+                    {% trans "Already have an account?" %}
                     <a href="{% url 'login' %}"
                        class="text-blue-700 hover:underline dark:text-blue-400">{% trans "Sign in" %}</a>
                 </p>

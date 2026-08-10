@@ -8,7 +8,7 @@ from employee.views.auth.confirm_views import (
     register_resend_view,
 )
 from employee.views.auth.password_views import CustomPasswordChangeView
-from employee.views.auth.register_views import register_view
+from employee.views.auth.register_views import register_done_view, register_view
 from employee.views.daily_salary import (
     DailySalaryUpdateView,
     daily_salary_create,
@@ -65,6 +65,7 @@ urlpatterns = [
         name="login",
     ),
     path("register/", register_view, name="register"),
+    path("register/done/", register_done_view, name="register_done"),
     path(
         "register/confirm/<uidb64>/<token>/",
         register_confirm_view,
