@@ -1,4 +1,5 @@
-{% load i18n %}{% blocktrans %}Hi {{ user }},{% endblocktrans %}
+{% load i18n %}
+{% blocktrans %}Hi {{ user }},{% endblocktrans %}
 
 {% trans "Please confirm your registration by clicking the link below:" %}
 {{ confirm_url }}
