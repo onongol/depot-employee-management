@@ -68,6 +68,8 @@ INSTALLED_APPS = [
     "import_export",
     "commando",
     "simple_history",
+    "axes",
+    "django_smart_ratelimit",
 ]
 
 # Application Definition plus if DEBUG
@@ -100,6 +102,11 @@ if DEBUG:
         "debug_toolbar.middleware.DebugToolbarMiddleware",
         "django_browser_reload.middleware.BrowserReloadMiddleware",
     ]
+
+# AxesMiddleware must be the last middleware in the list (django-axes requirement)
+MIDDLEWARE += [
+    "axes.middleware.AxesMiddleware",
+]
 
 # 11. URL Configuration: The root URL configuration for the project
 ROOT_URLCONF = "depo_crud.urls"
@@ -156,6 +163,12 @@ AUTH_PASSWORD_VALIDATORS = [
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+# AxesStandaloneBackend must be first (django-axes requirement)
+AUTHENTICATION_BACKENDS = [
+    "axes.backends.AxesStandaloneBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
 
 
 # 17. Internationalization(i18n) and Timezone
@@ -214,3 +227,15 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "true").strip().lower() in ("1", "true")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@example.com")
+
+
+# 22. django-axes: locks out login attempts by username+IP after repeated failures
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 1  # hours
+AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
+AXES_RESET_ON_SUCCESS = True
+
+
+# 23. django-smart-ratelimit: throttles register/resend/password-reset submissions.
+# Uses the database backend since there's no Redis/Memcached in this deployment.
+RATELIMIT_BACKEND = "database"
