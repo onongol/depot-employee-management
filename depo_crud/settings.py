@@ -169,6 +169,12 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.ScryptPasswordHasher",
 ]
 
+# How long a registration-confirmation link stays valid, in seconds. Kept as
+# its own setting (not PASSWORD_RESET_TIMEOUT) so the two flows' expiry can
+# be tuned independently; matches Django's PASSWORD_RESET_TIMEOUT default
+# (3 days) for now. See employee/views/auth/tokens.py.
+REGISTRATION_CONFIRM_TIMEOUT = 60 * 60 * 24 * 3
+
 
 # 16. Authentication: Redirect URLs for login/logout and default primary key field type
 LOGIN_URL = "login"

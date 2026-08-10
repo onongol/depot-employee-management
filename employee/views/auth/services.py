@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib.auth.models import Group
-from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -10,12 +9,13 @@ from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import GroupNames
 from employee.models import Employee, Master, Payroll
+from employee.views.auth.tokens import registration_confirm_token_generator
 
 
 def send_registration_confirmation_email(request, user):
     """Email a signed confirmation link for the user's pending registration."""
     uid = urlsafe_base64_encode(force_bytes(user.pk))
-    token = default_token_generator.make_token(user)
+    token = registration_confirm_token_generator.make_token(user)
     confirm_url = request.build_absolute_uri(
         reverse("register_confirm", kwargs={"uidb64": uid, "token": token})
     )

@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.encoding import force_str
@@ -16,6 +15,7 @@ from employee.views.auth.services import (
     link_user_to_instance,
     send_registration_confirmation_email,
 )
+from employee.views.auth.tokens import registration_confirm_token_generator
 
 User = get_user_model()
 
@@ -28,7 +28,9 @@ def register_confirm_view(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
-    if user is None or not default_token_generator.check_token(user, token):
+    if user is None or not registration_confirm_token_generator.check_token(
+        user, token
+    ):
         messages.error(request, _("This confirmation link is invalid or has expired."))
         return redirect("register")
 
