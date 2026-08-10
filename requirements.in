@@ -10,12 +10,14 @@ cookiecutter
 diff-match-patch
 Django~=5.2
 django-appconf
+django-axes
 django-browser-reload
 django-crispy-forms
 django-debug-toolbar
 django-import-export
 django-select2
 django-simple-history
+django-smart-ratelimit
 django-unfold
 et_xmlfile
 gunicorn
