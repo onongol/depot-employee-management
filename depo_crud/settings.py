@@ -64,12 +64,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    "django.contrib.sites",  # required by allauth
     "employee",
     "import_export",
     "commando",
     "simple_history",
     "axes",
-    "django_smart_ratelimit",
+    "allauth",
+    "allauth.account",
 ]
 
 # Application Definition plus if DEBUG
@@ -90,6 +92,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "simple_history.middleware.HistoryRequestMiddleware",
@@ -110,6 +113,9 @@ MIDDLEWARE += [
 
 # 11. URL Configuration: The root URL configuration for the project
 ROOT_URLCONF = "depo_crud.urls"
+
+# Required by django.contrib.sites (allauth dependency); single-site deployment.
+SITE_ID = 1
 
 
 # 12. Templates: Configuration for Django's template engine
@@ -158,9 +164,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Argon2id first: OWASP's current recommendation, memory-hard against
-# GPU/ASIC cracking (unlike PBKDF2). Existing PBKDF2 hashes still verify
-# fine and get transparently upgraded to Argon2id on next successful login.
+# Argon2id first (OWASP recommendation); old PBKDF2 hashes auto-upgrade on login.
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",
@@ -169,26 +173,20 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.ScryptPasswordHasher",
 ]
 
-# How long a password-reset link stays valid, in seconds. Shortened from
-# Django's 3-day default: resetting a password is a security-sensitive
-# action on an existing account, so the window should be narrow.
+# Password-reset link expiry, in seconds; also used by allauth's reset token generator.
 PASSWORD_RESET_TIMEOUT = 60 * 60
-
-# How long a registration-confirmation link stays valid, in seconds. Kept as
-# its own setting (not PASSWORD_RESET_TIMEOUT) so the two flows' expiry can
-# be tuned independently. See employee/views/auth/tokens.py.
-REGISTRATION_CONFIRM_TIMEOUT = 60 * 60 * 24
 
 
 # 16. Authentication: Redirect URLs for login/logout and default primary key field type
-LOGIN_URL = "login"
+LOGIN_URL = "account_login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
-# AxesStandaloneBackend must be first (django-axes requirement)
+# AxesStandaloneBackend must be first (django-axes requirement).
 AUTHENTICATION_BACKENDS = [
     "axes.backends.AxesStandaloneBackend",
     "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 
@@ -257,6 +255,22 @@ AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
 AXES_RESET_ON_SUCCESS = True
 
 
-# 23. django-smart-ratelimit: throttles register/resend/password-reset submissions.
-# Uses the database backend since there's no Redis/Memcached in this deployment.
-RATELIMIT_BACKEND = "database"
+# 23. django-allauth: email-only signup/login; HR-record matching lives in
+# employee/forms/allauth_forms.py, linking in employee/apps.py.
+ACCOUNT_FORMS = {
+    "signup": "employee.forms.allauth_forms.CustomSignupForm",
+    "login": "employee.forms.allauth_forms.CustomLoginForm",
+    "reset_password_from_key": "employee.forms.allauth_forms.CustomResetPasswordKeyForm",
+    "change_password": "employee.forms.allauth_forms.CustomChangePasswordForm",
+}
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
+ACCOUNT_RATE_LIMITS = {
+    "signup": "5/h",
+    "reset_password": "5/h",
+}

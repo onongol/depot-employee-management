@@ -20,8 +20,6 @@
             <!-- Filters -->
             {% include "includes/table/list_table_filters.html" with toggle_id="daily-salary-filters-toggle" panel_id="daily-salary-filters-panel" fields_template="daily_salary/daily_salary_filters_fields.html" htmx_target="#daily-salary-list-control" %}
         </div>
-        <!-- Alerts -->
-        {% include "includes/alerts/alerts.html" %}
         <div id="daily-salary-list-results">
             <!-- Summary -->
             {% if not is_employee and not is_master %}

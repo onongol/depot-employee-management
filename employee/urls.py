@@ -1,20 +1,6 @@
 from django.conf import settings
-from django.contrib.auth import views as auth_views
-from django.urls import include, path, reverse_lazy
-from django_smart_ratelimit import rate_limit
+from django.urls import include, path
 
-from employee.forms.login_forms import CustomAuthenticationForm
-from employee.forms.password_reset_forms import (
-    CustomPasswordResetForm,
-    CustomSetPasswordForm,
-)
-from employee.views.auth.confirm_views import (
-    register_confirm_view,
-    register_resend_view,
-)
-from employee.views.auth.password_views import CustomPasswordChangeView
-from employee.views.auth.ratelimit import ratelimit_key
-from employee.views.auth.register_views import register_done_view, register_view
 from employee.views.daily_salary import (
     DailySalaryUpdateView,
     daily_salary_create,
@@ -61,66 +47,8 @@ from employee.views.work import (
 urlpatterns = [
     # Home URL
     path("", home, name="home"),
-    # Authentication URLs
-    path(
-        "login/",
-        auth_views.LoginView.as_view(
-            template_name="auth/login.html",
-            authentication_form=CustomAuthenticationForm,
-        ),
-        name="login",
-    ),
-    path("register/", register_view, name="register"),
-    path("register/done/", register_done_view, name="register_done"),
-    path(
-        "register/confirm/<uidb64>/<token>/",
-        register_confirm_view,
-        name="register_confirm",
-    ),
-    path("register/resend/", register_resend_view, name="register_resend"),
-    path("logout/", auth_views.LogoutView.as_view(next_page="home"), name="logout"),
-    # Password change URLs
-    path(
-        "password_change/", CustomPasswordChangeView.as_view(), name="password_change"
-    ),
-    # Password reset URLs
-    path(
-        "password_reset/",
-        rate_limit(key=ratelimit_key("password_reset"), rate="5/h")(
-            auth_views.PasswordResetView.as_view(
-                template_name="auth/password_reset_form.html",
-                email_template_name="auth/email/password_reset_email.txt",
-                html_email_template_name="auth/email/password_reset_email.html",
-                subject_template_name="auth/email/password_reset_subject.txt",
-                form_class=CustomPasswordResetForm,
-                success_url=reverse_lazy("password_reset_done"),
-            )
-        ),
-        name="password_reset",
-    ),
-    path(
-        "password_reset/done/",
-        auth_views.PasswordResetDoneView.as_view(
-            template_name="auth/password_reset_done.html"
-        ),
-        name="password_reset_done",
-    ),
-    path(
-        "reset/<uidb64>/<token>/",
-        auth_views.PasswordResetConfirmView.as_view(
-            template_name="auth/password_reset_confirm.html",
-            form_class=CustomSetPasswordForm,
-            success_url=reverse_lazy("password_reset_complete"),
-        ),
-        name="password_reset_confirm",
-    ),
-    path(
-        "reset/done/",
-        auth_views.PasswordResetCompleteView.as_view(
-            template_name="auth/password_reset_complete.html"
-        ),
-        name="password_reset_complete",
-    ),
+    # Authentication URLs (django-allauth)
+    path("accounts/", include("allauth.urls")),
     # Department URLs
     path("set_department/", set_department, name="set_department"),
     # Employee URLs

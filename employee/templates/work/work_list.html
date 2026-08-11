@@ -19,8 +19,6 @@
             <!-- Filters -->
             {% include "includes/table/list_table_filters.html" with toggle_id="work-filters-toggle" panel_id="work-filters-panel" fields_template="work/work_filters_fields.html" htmx_target="#work-list-control" %}
         </div>
-        <!-- Alerts -->
-        {% include "includes/alerts/alerts.html" %}
         <div id="work-list-results">
             <!-- Summary -->
             {% if not is_employee and not is_master %}

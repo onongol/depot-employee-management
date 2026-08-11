@@ -15,7 +15,6 @@ from employee.utils.select_department import get_selected_department
 class PieceworkUpdateView(
     LoginRequiredMixin, OnlyPayrollsMixin, PieceworkContextMixin, UpdateView
 ):
-    login_url = "login"
     form_class = UpdatePieceworkForm
     template_name = "piecework/piecework_update.html"
     success_url = reverse_lazy("piecework_list")

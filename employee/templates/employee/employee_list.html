@@ -22,8 +22,6 @@
                 {% include "includes/table/list_table_filters.html" with toggle_id="employee-filters-toggle" panel_id="employee-filters-panel" fields_template="employee/employee_filters_fields.html" htmx_target="#employee-list-control" %}
             {% endif %}
         </div>
-        <!-- Alerts -->
-        {% include "includes/alerts/alerts.html" %}
         <div id="employee-list-results">
             <!-- Summary -->
             {% if not is_employee and not is_master %}
