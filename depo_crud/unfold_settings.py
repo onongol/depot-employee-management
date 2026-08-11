@@ -44,10 +44,8 @@ UNFOLD = {
                         "link": reverse_lazy("admin:auth_user_changelist"),
                     },
                     {
-                        "title": _("Registration"),
-                        "link": reverse_lazy(
-                            "admin:employee_registrationrequest_changelist"
-                        ),
+                        "title": _("Email"),
+                        "link": reverse_lazy("admin:account_emailaddress_changelist"),
                     },
                 ],
             },
