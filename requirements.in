@@ -19,7 +19,6 @@ django-debug-toolbar
 django-import-export
 django-select2
 django-simple-history
-django-smart-ratelimit
 django-unfold
 et_xmlfile
 gunicorn
