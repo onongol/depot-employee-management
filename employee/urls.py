@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.urls import include, path
 
+from employee.views.auth import end_user_session
 from employee.views.daily_salary import (
     DailySalaryUpdateView,
     daily_salary_create,
@@ -49,6 +50,11 @@ urlpatterns = [
     path("", home, name="home"),
     # Authentication URLs (django-allauth)
     path("accounts/", include("allauth.urls")),
+    path(
+        "accounts/sessions/<int:session_id>/end/",
+        end_user_session,
+        name="end_user_session",
+    ),
     # Department URLs
     path("set_department/", set_department, name="set_department"),
     # Employee URLs
