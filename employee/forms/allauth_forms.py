@@ -28,7 +28,7 @@ class ShortPasswordHelpMixin:
 
 
 class CustomSignupForm(ShortPasswordHelpMixin, SignupForm):
-    """Only allows signup if the email matches an unclaimed Employee/Master/Payroll record."""
+    """Only allows signup for known HR emails; skips the "already claimed" check so allauth's enumeration-safe flow handles duplicates instead of leaking it via a form error."""
 
     def clean_email(self):
         email = super().clean_email()
@@ -40,8 +40,6 @@ class CustomSignupForm(ShortPasswordHelpMixin, SignupForm):
                     "administrator for assistance."
                 )
             )
-        if instance.user:
-            raise forms.ValidationError(_("An account with this email already exists."))
         return email
 
 
