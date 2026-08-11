@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "axes",
     "allauth",
     "allauth.account",
+    "allauth.usersessions",
 ]
 
 # Application Definition plus if DEBUG
@@ -93,6 +94,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "allauth.usersessions.middleware.UserSessionsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "simple_history.middleware.HistoryRequestMiddleware",
@@ -275,3 +277,6 @@ ACCOUNT_RATE_LIMITS = {
     "signup": "5/h",
     "reset_password": "5/h",
 }
+
+# django-allauth: lets users see and sign out their other active sessions/devices.
+USERSESSIONS_TRACK_ACTIVITY = True
