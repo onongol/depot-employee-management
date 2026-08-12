@@ -24,12 +24,12 @@
                 </div>
                 {% if authenticators.totp %}
                     <a href="{% url 'mfa_deactivate_totp' %}"
-                       class="shrink-0 cursor-pointer rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700 transition hover:bg-red-200 dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800">
+                       class="shrink-0 cursor-pointer rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700 transition hover:bg-red-200 focus:ring-2 focus:ring-red-400 dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800">
                         {% trans 'Deactivate' %}
                     </a>
                 {% else %}
                     <a href="{% url 'mfa_activate_totp' %}"
-                       class="shrink-0 cursor-pointer rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 transition hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800">
+                       class="shrink-0 cursor-pointer rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 transition hover:bg-blue-200 focus:ring-2 focus:ring-blue-400 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800">
                         {% trans 'Activate' %}
                     </a>
                 {% endif %}
