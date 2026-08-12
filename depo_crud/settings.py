@@ -255,6 +255,7 @@ AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = 1  # hours
 AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
 AXES_RESET_ON_SUCCESS = True
+AXES_USERNAME_FORM_FIELD = "email"
 
 
 # 23. django-allauth: email-only signup/login; HR-record matching lives in
