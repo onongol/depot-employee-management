@@ -26,7 +26,9 @@ certifi==2026.2.25
     #   -r requirements.in
     #   requests
 cffi==2.1.1
-    # via argon2-cffi-bindings
+    # via
+    #   argon2-cffi-bindings
+    #   cryptography
 chardet==7.2.0
     # via -r requirements.in
 charset-normalizer==3.4.6
@@ -42,6 +44,8 @@ colorama==0.4.6
     # via -r requirements.in
 cookiecutter==2.7.1
     # via -r requirements.in
+cryptography==50.0.0
+    # via fido2
 diff-match-patch==20241021
     # via
     #   -r requirements.in
@@ -58,7 +62,7 @@ django==5.2.12
     #   django-import-export
     #   django-select2
     #   django-unfold
-django-allauth==65.19.0
+django-allauth[mfa]==65.19.0
     # via -r requirements.in
 django-appconf==1.2.0
     # via
@@ -84,6 +88,8 @@ et-xmlfile==2.0.0
     # via
     #   -r requirements.in
     #   openpyxl
+fido2==2.2.1
+    # via django-allauth
 gunicorn==25.1.0
     # via -r requirements.in
 idna==3.11
@@ -151,6 +157,8 @@ pyyaml==6.0.3
     # via
     #   -r requirements.in
     #   cookiecutter
+qrcode==8.2
+    # via django-allauth
 rcssmin==1.2.2
     # via -r requirements.in
 reportlab==4.4.10

@@ -10,7 +10,7 @@ colorama
 cookiecutter
 diff-match-patch
 Django~=5.2
-django-allauth
+django-allauth[mfa]
 django-appconf
 django-axes
 django-browser-reload
