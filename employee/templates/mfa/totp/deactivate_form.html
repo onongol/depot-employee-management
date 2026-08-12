@@ -1,0 +1,20 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% block account_content %}
+    <h2 class="mb-6 text-lg font-semibold text-gray-700 dark:text-gray-400">{% trans 'Deactivate authenticator app' %}</h2>
+    <div class="rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+            {% trans "You are about to deactivate authenticator app based two-factor authentication. Are you sure?" %}
+        </p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit"
+                    class="w-full cursor-pointer rounded-md bg-red-600 px-6 py-2 font-semibold text-white shadow transition hover:bg-red-700 focus:ring-2 focus:ring-red-400 focus:outline-none"
+                    aria-label="{% trans 'Deactivate' %}">{% trans 'Deactivate' %}</button>
+        </form>
+        <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+            <a href="{% url 'mfa_index' %}"
+               class="text-blue-700 hover:underline dark:text-blue-400">{% trans "Back" %}</a>
+        </p>
+    </div>
+{% endblock %}
