@@ -17,14 +17,16 @@
                         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                             {{ session.ip }} &middot;
                             <span title="{{ session.created_at }}">
-                                {% blocktrans with started=session.created_at|date:"F j, Y" %}Signed
-                in {{ started }}{% endblocktrans %}
+                                {% blocktrans with started=session.created_at|date:"F j, Y" %}
+                  Signed in {{ started }}
+                {% endblocktrans %}
                             </span>
                             {% if show_last_seen_at and not session.is_current %}
                                 &middot;
                                 <span title="{{ session.last_seen_at }}">
-                                    {% blocktrans with last_seen=session.last_seen_at|date:"F j, Y" %}Last
-                  seen {{ last_seen }}{% endblocktrans %}
+                                    {% blocktrans with last_seen=session.last_seen_at|date:"F j, Y" %}
+                    Last seen {{ last_seen }}
+                  {% endblocktrans %}
                                 </span>
                             {% endif %}
                         </p>
