@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "axes",
     "allauth",
     "allauth.account",
+    "allauth.mfa",
     "allauth.usersessions",
 ]
 
@@ -260,11 +261,13 @@ AXES_USERNAME_FORM_FIELD = "email"
 
 # 23. django-allauth: email-only signup/login; HR-record matching lives in
 # employee/forms/allauth_forms.py, linking in employee/apps.py.
+ACCOUNT_ADAPTER = "employee.adapters.CustomAccountAdapter"
 ACCOUNT_FORMS = {
     "signup": "employee.forms.allauth_forms.CustomSignupForm",
     "login": "employee.forms.allauth_forms.CustomLoginForm",
     "reset_password_from_key": "employee.forms.allauth_forms.CustomResetPasswordKeyForm",
     "change_password": "employee.forms.allauth_forms.CustomChangePasswordForm",
+    "reauthenticate": "employee.forms.allauth_forms.CustomReauthenticateForm",
 }
 ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
@@ -281,3 +284,8 @@ ACCOUNT_RATE_LIMITS = {
 
 # django-allauth: lets users see and sign out their other active sessions/devices.
 USERSESSIONS_TRACK_ACTIVITY = True
+
+# django-allauth: optional two-factor auth. TOTP (authenticator apps) + recovery
+# codes only - no WebAuthn/passkeys for now, no group is required to enable it.
+MFA_SUPPORTED_TYPES = ["totp", "recovery_codes"]
+MFA_TOTP_ISSUER = "Depot Management"

@@ -1,6 +1,7 @@
 from allauth.account.forms import (
     ChangePasswordForm,
     LoginForm,
+    ReauthenticateForm,
     ResetPasswordKeyForm,
     SignupForm,
 )
@@ -11,6 +12,14 @@ from employee.views.auth.services import find_instance_by_email
 
 
 class CustomLoginForm(LoginForm):
+    """Drops the password field's auto-injected "Forgot your password?" help text."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["password"].help_text = ""
+
+
+class CustomReauthenticateForm(ReauthenticateForm):
     """Drops the password field's auto-injected "Forgot your password?" help text."""
 
     def __init__(self, *args, **kwargs):
