@@ -50,5 +50,9 @@
                 </div>
             {% endfor %}
         </div>
+        <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+            <a href="{% url 'account_overview' %}"
+               class="text-blue-700 hover:underline dark:text-blue-400">{% trans "Back to Account" %}</a>
+        </p>
     </div>
 {% endblock %}
