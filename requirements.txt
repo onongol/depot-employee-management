@@ -17,6 +17,7 @@ asgiref==3.11.1
     #   -r requirements.in
     #   django
     #   django-browser-reload
+    #   django-vite
 binaryornot==0.6.0
     # via
     #   -r requirements.in
@@ -83,6 +84,8 @@ django-select2==8.4.8
 django-simple-history==3.11.0
     # via -r requirements.in
 django-unfold==0.88.0
+    # via -r requirements.in
+django-vite==3.1.0
     # via -r requirements.in
 et-xmlfile==2.0.0
     # via
@@ -182,6 +185,7 @@ sqlparse==0.5.5
     #   -r requirements.in
     #   django
     #   django-debug-toolbar
+    #   django-vite
 tablib==3.9.0
     # via
     #   -r requirements.in

@@ -20,6 +20,7 @@ django-import-export
 django-select2
 django-simple-history
 django-unfold
+django-vite
 et_xmlfile
 gunicorn
 idna
