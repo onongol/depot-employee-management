@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.urls import include, path
 
-from employee.views.auth import end_user_session
+from employee.views.auth import account_overview, end_user_session
 from employee.views.daily_salary import (
     DailySalaryUpdateView,
     daily_salary_create,
@@ -55,6 +55,7 @@ urlpatterns = [
         end_user_session,
         name="end_user_session",
     ),
+    path("account/", account_overview, name="account_overview"),
     # Department URLs
     path("set_department/", set_department, name="set_department"),
     # Employee URLs
