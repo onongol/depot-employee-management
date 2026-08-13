@@ -1,4 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 from employee.constants.constants import GroupNames
 from employee.models import Employee, Master, Payroll
@@ -32,3 +35,10 @@ def link_confirmed_email_to_instance(sender, request, email_address, **kwargs):
     instance, group_name = find_instance_by_email(email_address.email)
     if instance and not instance.user:
         link_user_to_instance(email_address.user, instance, group_name)
+
+
+@receiver(pre_save, sender=get_user_model())
+def sync_username_to_email(sender, instance, **kwargs):
+    """Keep username == email so django-axes' failure and success paths agree on who logged in (AXES_RESET_ON_SUCCESS needs this to match)."""
+    if instance.email:
+        instance.username = instance.email
