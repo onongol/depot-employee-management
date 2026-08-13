@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load django_vite %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,16 +8,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description"
               content="Depot Management — employee, salary, and materials management system." />
-        <!-- Prevent theme flash: -->
+        {% vite_hmr_client %}
+        <!-- Prevent theme flash: kept as a classic (non-module) script so it -->
+        <!-- runs synchronously before first paint; vite_asset would defer it. -->
         <script src="{% static 'js/theme_init-bundle.js' %}"></script>
         <!-- Favicon -->
         <link rel="icon"
               type="image/x-icon"
               href="{% static 'images/favicon.svg' %}" />
         <!-- Main styles -->
-        <link rel="stylesheet" href="{% static 'assets/styles-BJvlgWIr.css' %}" />
-        <!-- Flatpickr styles -->
-        <link rel="stylesheet" href="{% static 'assets/flatpickr-DRf1F60d.css' %}" />
+        <link rel="stylesheet" href="{% vite_asset_url 'assets/src/styles.css' %}" />
+        <!-- Flatpickr (script + its CSS) -->
+        {% vite_asset 'assets/src/flatpickr_init.ts' %}
         <title>
             {% block title %}Depot Management{% endblock %}
         </title>
@@ -45,9 +48,7 @@
         </main>
         <!-- Translation catalog -->
         <script src="{% url 'javascript-catalog' %}"></script>
-        <!-- Flatpickr -->
-        <script src="{% static 'js/flatpickr-bundle.js' %}"></script>
         <!-- Main JS Bundle -->
-        <script type="module" src="{% static 'js/main-bundle.js' %}"></script>
+        {% vite_asset 'assets/js/main.ts' %}
     </body>
 </html>
