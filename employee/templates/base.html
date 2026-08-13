@@ -9,9 +9,16 @@
         <meta name="description"
               content="Depot Management — employee, salary, and materials management system." />
         {% vite_hmr_client %}
-        <!-- Prevent theme flash: kept as a classic (non-module) script so it -->
-        <!-- runs synchronously before first paint; vite_asset would defer it. -->
-        <script src="{% static 'js/theme_init-bundle.js' %}"></script>
+        <!-- Prevent theme flash -->
+        <script>
+          try {
+            var theme = localStorage.getItem("theme");
+            if (theme !== "light" && theme !== "dark" && theme !== "auto") theme = "auto";
+            var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            var isDark = theme === "dark" || (theme === "auto" && prefersDark);
+            document.documentElement.classList.toggle("dark", isDark);
+          } catch (e) {}
+        </script>
         <!-- Favicon -->
         <link rel="icon"
               type="image/x-icon"
