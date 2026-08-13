@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_vite",
     "django.contrib.humanize",
     "django.contrib.sites",  # required by allauth
     "employee",
@@ -227,6 +228,14 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
+}
+
+# django-vite: resolve built asset URLs via manifest.json in prod,
+# proxy to the Vite dev server (npm run dev) for HMR when DEBUG is on.
+DJANGO_VITE = {
+    "default": {
+        "dev_mode": DEBUG,
+    }
 }
 
 # 19. Use BigAutoField for primary keys by default for better scalability
