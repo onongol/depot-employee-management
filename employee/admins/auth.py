@@ -54,6 +54,13 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
     )
     readonly_fields = ("last_login", "date_joined")
 
+    def get_readonly_fields(self, request, obj=None):
+        """username is auto-synced from email; read-only once the user exists so editing it here can't look like it worked."""
+        readonly = super().get_readonly_fields(request, obj)
+        if obj is not None:
+            readonly = (*readonly, "username")
+        return readonly
+
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
