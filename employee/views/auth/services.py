@@ -42,3 +42,22 @@ def sync_username_to_email(sender, instance, **kwargs):
     """Keep username == email so django-axes' failure and success paths agree on who logged in (AXES_RESET_ON_SUCCESS needs this to match)."""
     if instance.email:
         instance.username = instance.email
+
+
+def get_display_name(user):
+    """The linked HR record's name (source of truth); one select_related query since this runs on every page load."""
+    profiles = [
+        ("employee_profile", "employee_name"),
+        ("master_profile", "master_name"),
+        ("payroll_profile", "payroll_name"),
+    ]
+    joined = (
+        get_user_model()
+        .objects.select_related(*(related_name for related_name, _ in profiles))
+        .get(pk=user.pk)
+    )
+    for related_name, name_field in profiles:
+        profile = getattr(joined, related_name, None)
+        if profile:
+            return getattr(profile, name_field)
+    return user.get_full_name() or user.username

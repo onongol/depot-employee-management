@@ -2,4 +2,4 @@
         class="mr-2 flex size-10 cursor-pointer items-center justify-center rounded-full bg-emerald-600 text-sm font-medium text-white shadow ring-transparent transition hover:ring-4 hover:ring-gray-300 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:hover:ring-gray-700 dark:focus:ring-gray-700"
         data-dropdown-button
         aria-haspopup="true"
-        aria-expanded="false">{{ request.user.get_full_name|default:request.user.username|slice:":1"|upper }}</button>
+        aria-expanded="false">{{ display_name|slice:":1"|upper }}</button>

@@ -137,6 +137,7 @@ TEMPLATES = [
                 "employee.context_processors.user_roles",  # Check user roles
                 "employee.context_processors.needs_department_warning",  # Department warning
                 "employee.context_processors.navbar_page_types",  # Navbar page types
+                "employee.context_processors.user_display_name",  # HR-record display name for the navbar menu
             ],
         },
     },
