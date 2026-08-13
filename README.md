@@ -82,7 +82,7 @@ Static settings: STATIC_ROOT=staticfiles, STATICFILES_DIRS includes “static”
 
 ```sh
 python manage.py migrate
-npm run watch:css   # run in a separate terminal
+npm run dev   # Vite dev server (HMR), run in a separate terminal
 python manage.py runserver
 # open http://127.0.0.1:8000/
 ```
@@ -109,9 +109,9 @@ Dev-only ports: keep port mappings in docker-compose.override.yml so production 
 
 ## Static files
 
-- Build source assets into `static/dist` with npm scripts (`build`, `watch:css`, `build:flatpickr`).
+- Build source assets into `static/` with npm scripts (`dev` for the Vite dev server, `build` for a production build, `watch` to rebuild on save without a dev server).
 - `collectstatic` writes to `staticfiles/` (runtime output, not committed).
-- Before collectstatic, ensure `static/dist/styles.css` exists.
+- Before collectstatic, ensure `static/manifest.json` exists (produced by `npm run build`).
 
 ## Tests
 
