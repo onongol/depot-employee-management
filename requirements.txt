@@ -77,6 +77,8 @@ django-crispy-forms==2.6
     # via -r requirements.in
 django-debug-toolbar==6.2.0
     # via -r requirements.in
+django-environ==0.14.0
+    # via -r requirements.in
 django-import-export==4.4.0
     # via -r requirements.in
 django-select2==8.4.8
@@ -147,8 +149,6 @@ python-dateutil==2.9.0.post0
     #   arrow
     #   pandas
 python-decouple==3.8
-    # via -r requirements.in
-python-dotenv==1.2.2
     # via -r requirements.in
 python-slugify==8.0.4
     # via

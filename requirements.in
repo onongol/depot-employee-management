@@ -19,6 +19,7 @@ django-debug-toolbar
 django-import-export
 django-select2
 django-simple-history
+django-environ
 django-unfold
 django-vite
 et_xmlfile
@@ -38,7 +39,6 @@ pillow
 Pygments
 python-dateutil
 python-decouple
-python-dotenv
 python-slugify
 pytz
 PyYAML
