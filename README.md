@@ -9,7 +9,11 @@ Django application for managing employees, jobs, piecework payments, and materia
 ```
 .
 ├── depo_crud/
-│   ├── settings.py
+│   ├── settings/
+│   │   ├── base.py
+│   │   ├── local.py        # DJANGO_SETTINGS_MODULE default for manage.py
+│   │   ├── production.py   # DJANGO_SETTINGS_MODULE default for wsgi/asgi/Docker
+│   │   └── test.py         # used in CI
 │   ├── urls.py
 │   └── wsgi.py
 ├── employee/
@@ -51,7 +55,7 @@ pip install -r requirements.txt
 
 # Frontend
 npm ci
-npm run build   # builds CSS/JS into static/dist
+npm run build   # builds CSS/JS into static/
 ```
 
 ## Configuration (.env)
@@ -60,7 +64,6 @@ Create a .env file in the repo root (do not commit it). Provide either a URL or 
 
 ```
 DJANGO_SECRET_KEY=change-me
-DJANGO_DEBUG=True
 
 # Option A: single URL
 MYSQL_PUBLIC_URL=mysql://user:pass@localhost:3306/dbname
@@ -72,11 +75,26 @@ MYSQL_PASSWORD=pass
 MYSQL_HOST=localhost
 MYSQL_PORT=3306
 
+# Only needed in production/CI - local.py hardcodes permissive defaults.
 ALLOWED_HOSTS=127.0.0.1,localhost
+CSRF_TRUSTED_ORIGINS=https://example.com
+
 INTERNAL_IPS=127.0.0.1
+NPM_BIN_PATH=/usr/local/bin/npm   # only if npm isn't on PATH
+
+# Optional - defaults to console/SMTP backend depending on environment.
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.example.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=
+EMAIL_HOST_PASSWORD=
+EMAIL_USE_TLS=true
+DEFAULT_FROM_EMAIL=no-reply@example.com
 ```
 
-Static settings: STATIC_ROOT=staticfiles, STATICFILES_DIRS includes “static” (see depo_crud/settings.py).
+`DJANGO_SETTINGS_MODULE` picks the environment (`depo_crud.settings.local`/`.production`/`.test`) and must **not** be put in `.env` — `.env` is loaded from inside the settings module itself, after Python has already resolved which one to import. `manage.py` defaults to `.local` when unset; `wsgi.py`/`asgi.py`/the Dockerfile default to `.production`.
+
+Static settings: STATIC_ROOT=staticfiles, STATICFILES_DIRS includes “static” (see depo_crud/settings/base.py).
 
 ## Running (development)
 
@@ -99,7 +117,7 @@ Entrypoint (entrypoint.prod.sh) does:
 - database wait
 - `python manage.py migrate`
 - `python manage.py auto_admin --force` (creates/ensures admin user)
-- verifies static/dist assets exist
+- verifies static/manifest.json exists
 - `python manage.py collectstatic --noinput`
 - starts Gunicorn
 
@@ -116,8 +134,10 @@ Dev-only ports: keep port mappings in docker-compose.override.yml so production 
 ## Tests
 
 ```sh
-python manage.py test
+DJANGO_SETTINGS_MODULE=depo_crud.settings.test python manage.py test
 ```
+
+Runs against the same prod-shaped settings (`DEBUG=False`, manifest-backed static assets) as what's actually deployed, plus a fast password hasher and an in-memory email backend. The "Django: Tests" VS Code task already sets this.
 
 ## Troubleshooting
 
