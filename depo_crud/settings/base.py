@@ -4,8 +4,8 @@ import environ
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext_lazy as _
 
-from depo_crud import database_settings as database_config
-from depo_crud import unfold_settings as unfold_config
+from . import database as database_config
+from . import unfold as unfold_config
 
 # 1. Base Directory: The root of your project folder
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
