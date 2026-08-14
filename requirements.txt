@@ -148,8 +148,6 @@ python-dateutil==2.9.0.post0
     #   -r requirements.in
     #   arrow
     #   pandas
-python-decouple==3.8
-    # via -r requirements.in
 python-slugify==8.0.4
     # via
     #   -r requirements.in

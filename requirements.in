@@ -38,7 +38,6 @@ pandas
 pillow
 Pygments
 python-dateutil
-python-decouple
 python-slugify
 pytz
 PyYAML
