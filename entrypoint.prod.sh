@@ -13,7 +13,7 @@ import os, sys
 import django
 from django.db import connections
 from django.db.utils import OperationalError
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "depo_crud.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "depo_crud.settings.production")
 try:
     django.setup()
     connections["default"].cursor().execute("SELECT 1")
