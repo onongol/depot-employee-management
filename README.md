@@ -89,6 +89,9 @@ EMAIL_HOST_USER=
 EMAIL_HOST_PASSWORD=
 EMAIL_USE_TLS=true
 DEFAULT_FROM_EMAIL=no-reply@example.com
+
+# Optional, production only - error monitoring stays off until this is set.
+SENTRY_DSN=
 ```
 
 `DJANGO_SETTINGS_MODULE` picks the environment (`depo_crud.settings.local`/`.production`/`.test`) and must **not** be put in `.env` — `.env` is loaded from inside the settings module itself, after Python has already resolved which one to import. `manage.py` defaults to `.local` when unset; `wsgi.py`/`asgi.py`/the Dockerfile default to `.production`.
