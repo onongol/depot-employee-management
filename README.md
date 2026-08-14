@@ -116,7 +116,9 @@ Entrypoint (entrypoint.prod.sh) does:
 - database wait
 - `python manage.py migrate`
 - ensures an admin user exists (`manage.py createsuperuser --noinput`, skipped if one
-  already exists) - requires `DJANGO_SUPERUSER_PASSWORD` in the environment
+  already exists) - requires `DJANGO_SUPERUSER_PASSWORD` in the environment. Log in
+  with `admin@admin.com` (not `admin`) - a save-time signal syncs username to email,
+  so that's the username that actually gets persisted
 - verifies static/manifest.json exists
 - `python manage.py collectstatic --noinput`
 - starts Gunicorn
