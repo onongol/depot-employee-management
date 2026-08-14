@@ -43,7 +43,7 @@ django.setup()
 from django.contrib.auth import get_user_model
 import sys
 sys.exit(0 if get_user_model().objects.filter(is_superuser=True).exists() else 1)
-' || python manage.py createsuperuser --noinput --username admin --email admin@admin.com
+' || python manage.py createsuperuser --noinput --username admin@admin.com --email admin@admin.com
 
 echo "==> [STATIC] Collecting static files..."
 if [ ! -f "static/manifest.json" ]; then
