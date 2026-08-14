@@ -8,7 +8,10 @@ from .base import *
 DEBUG = False
 
 # 4. Allowed Hosts: Domains your site can serve
-ALLOWED_HOSTS = get_env_list("ALLOWED_HOSTS", required=True)
+ALLOWED_HOSTS = get_env_list("ALLOWED_HOSTS", required=True) + [
+    "localhost",
+    "127.0.0.1",
+]
 
 # 5. CSRF Trusted Origins: Allowed origins for CSRF protection in production
 CSRF_TRUSTED_ORIGINS = get_env_list("CSRF_TRUSTED_ORIGINS", required=True)
