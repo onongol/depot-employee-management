@@ -1,4 +1,6 @@
+import sentry_sdk
 from django.core.exceptions import ImproperlyConfigured
+from sentry_sdk.integrations.django import DjangoIntegration
 
 from .base import *
 
@@ -36,3 +38,14 @@ EMAIL_BACKEND = env.str(
 # without these - breaks scheme detection in allauth's emails and absolute URLs.
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+
+# 7. Sentry: error monitoring. Inactive until SENTRY_DSN is set - lets the app
+# run without it while the DSN is being provisioned.
+SENTRY_DSN = env.str("SENTRY_DSN", default="")
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        environment=env.str("SENTRY_ENVIRONMENT", default="production"),
+        send_default_pii=False,
+    )
