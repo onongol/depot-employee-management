@@ -46,6 +46,7 @@ reportlab
 requests
 rich
 rjsmin
+sentry-sdk
 six
 sqlparse
 tablib
