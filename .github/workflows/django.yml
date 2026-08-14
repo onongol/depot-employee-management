@@ -31,6 +31,17 @@ jobs:
       matrix:
         python-version: ["3.13"]
 
+    env:
+      DJANGO_SETTINGS_MODULE: depo_crud.settings.test
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+      ALLOWED_HOSTS: .railway.app,.example.com
+      CSRF_TRUSTED_ORIGINS: https://example.com
+      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+      MYSQL_USER: ${{ secrets.MYSQL_USER }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      MYSQL_HOST: localhost
+      MYSQL_PORT: 3306
+
     services:
       mysql:
         image: mysql:8.4
@@ -67,28 +78,8 @@ jobs:
           npm ci
           npm run build
       - name: Collect Static Files
-        env:
-          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          DJANGO_DEBUG: "False"
-          ALLOWED_HOSTS: .railway.app,.example.com
-          CSRF_TRUSTED_ORIGINS: https://example.com
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-          MYSQL_USER: ${{ secrets.MYSQL_USER }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-          MYSQL_HOST: localhost
-          MYSQL_PORT: 3306
         run: |
           python manage.py collectstatic --noinput
       - name: Run Tests
-        env:
-          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          DJANGO_DEBUG: "False"
-          ALLOWED_HOSTS: .railway.app,.example.com
-          CSRF_TRUSTED_ORIGINS: https://example.com
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-          MYSQL_USER: ${{ secrets.MYSQL_USER }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-          MYSQL_HOST: localhost
-          MYSQL_PORT: 3306
         run: |
           python manage.py test
