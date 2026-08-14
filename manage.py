@@ -5,6 +5,7 @@ import sys
 def main():
     """Run administrative tasks."""
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "depo_crud.settings.local")
+    os.environ.setdefault("DJANGO_READ_DOT_ENV_FILE", "true")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

@@ -1,22 +1,27 @@
-import os
 from pathlib import Path
 
+import environ
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext_lazy as _
-from dotenv import load_dotenv
 
 from depo_crud import database_settings as database_config
 from depo_crud import unfold_settings as unfold_config
 
-load_dotenv()
-
 # 1. Base Directory: The root of your project folder
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+env = environ.Env()
+
+# Docker/CI inject real env vars; only bare local commands need .env.
+READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
+if READ_DOT_ENV_FILE:
+    env.read_env(str(BASE_DIR / ".env"))
+
 
 # 2. Security: Keep the secret key private in production
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = env.str("DJANGO_SECRET_KEY", default="")
 if not SECRET_KEY:
-    raise ValueError("DJANGO_SECRET_KEY environment variable not set")
+    raise ImproperlyConfigured("DJANGO_SECRET_KEY environment variable not set")
 
 
 # 3. Application Definition: List of enabled Django apps
@@ -197,13 +202,12 @@ UNFOLD = unfold_config.UNFOLD
 
 
 # 15. Email: SMTP configuration for registration confirmation emails.
-# EMAIL_BACKEND is set per environment file below (default differs).
-EMAIL_HOST = os.getenv("EMAIL_HOST", "")
-EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
-EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "true").strip().lower() in ("1", "true")
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@example.com")
+EMAIL_HOST = env.str("EMAIL_HOST", default="")
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL", default="no-reply@example.com")
 
 
 # 16. django-axes: locks out login attempts by username+IP after repeated failures

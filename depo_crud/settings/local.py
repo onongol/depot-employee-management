@@ -1,7 +1,4 @@
-import os
 from shutil import which
-
-from depo_crud.env_utils import get_env_list
 
 from .base import *
 
@@ -12,22 +9,21 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 # 5. CSRF Trusted Origins: Allowed origins for CSRF protection in production
-CSRF_TRUSTED_ORIGINS = get_env_list("CSRF_TRUSTED_ORIGINS")
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", cast=str.strip, default=[])
 
 # 6. Security Settings: cookies don't need Secure over plain HTTP locally
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
 # 7. NPM Binary Path: Only needed in development for Unfold's asset management
-NPM_BIN_PATH = os.getenv("NPM_BIN_PATH") or which("npm")
+NPM_BIN_PATH = env.str("NPM_BIN_PATH", default=None) or which("npm")
 if not NPM_BIN_PATH:
     raise ValueError(
         "npm was not found. Set NPM_BIN_PATH in the environment or make npm available in PATH."
     )
 
 # 8. Internal IPs: Used for debug toolbar and other development tools
-INTERNAL_IPS = get_env_list("INTERNAL_IPS", "127.0.0.1,::1")
-
+INTERNAL_IPS = env.list("INTERNAL_IPS", cast=str.strip, default=["127.0.0.1", "::1"])
 
 # 9. Application Definition
 INSTALLED_APPS = INSTALLED_APPS + [
@@ -35,7 +31,6 @@ INSTALLED_APPS = INSTALLED_APPS + [
     "debug_toolbar",
     "django_browser_reload",
 ]
-
 
 # 10. Middleware: Hooks into Django's request/response process
 MIDDLEWARE = MIDDLEWARE + [
@@ -53,8 +48,8 @@ DJANGO_VITE = {
     "default": {"dev_mode": True},
 }
 
-# EMAIL_BACKEND stays os.getenv-driven (not hardcoded): .env can still
+# EMAIL_BACKEND stays env-driven (not hardcoded): .env can still
 # override it to real SMTP for testing allauth's email flow locally.
-EMAIL_BACKEND = os.getenv(
-    "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = env.str(
+    "EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
 )

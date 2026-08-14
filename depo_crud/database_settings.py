@@ -1,37 +1,35 @@
-import os
-from urllib.parse import urlparse
+from pathlib import Path
 
-from dotenv import load_dotenv
+import environ
 
-load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-MYSQL_PUBLIC_URL = os.getenv("MYSQL_PUBLIC_URL")
+env = environ.Env()
+
+if env.bool("DJANGO_READ_DOT_ENV_FILE", default=False):
+    env.read_env(str(BASE_DIR / ".env"))
+
+MYSQL_PUBLIC_URL = env.str("MYSQL_PUBLIC_URL", default=None)
 
 if MYSQL_PUBLIC_URL:
-    url = urlparse(MYSQL_PUBLIC_URL)
-    DB_NAME = url.path.lstrip("/")
-    DB_USER = url.username
-    DB_PASSWORD = url.password
-    DB_HOST = url.hostname
-    DB_PORT = url.port or 3306
+    DATABASES = {"default": environ.Env.db_url_config(MYSQL_PUBLIC_URL)}
 else:
-    DB_NAME = os.getenv("MYSQL_DATABASE") or os.getenv("MYSQLDATABASE")
-    DB_USER = os.getenv("MYSQL_USER") or os.getenv("MYSQLUSER")
-    DB_PASSWORD = os.getenv("MYSQL_PASSWORD") or os.getenv("MYSQLPASSWORD")
-    DB_HOST = os.getenv("MYSQL_HOST") or os.getenv("MYSQLHOST", "localhost")
-    DB_PORT = int(os.getenv("MYSQL_PORT") or os.getenv("MYSQLPORT") or 3306)
-
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": DB_NAME,
-        "USER": DB_USER,
-        "PASSWORD": DB_PASSWORD,
-        "HOST": DB_HOST,
-        "PORT": DB_PORT,
-        "OPTIONS": {
-            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": env.str("MYSQL_DATABASE", default=None)
+            or env.str("MYSQLDATABASE", default=None),
+            "USER": env.str("MYSQL_USER", default=None)
+            or env.str("MYSQLUSER", default=None),
+            "PASSWORD": env.str("MYSQL_PASSWORD", default=None)
+            or env.str("MYSQLPASSWORD", default=None),
+            "HOST": env.str("MYSQL_HOST", default=None)
+            or env.str("MYSQLHOST", default="localhost"),
+            "PORT": env.int("MYSQL_PORT", default=None)
+            or env.int("MYSQLPORT", default=3306),
+        }
     }
+
+DATABASES["default"]["OPTIONS"] = {
+    "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
 }

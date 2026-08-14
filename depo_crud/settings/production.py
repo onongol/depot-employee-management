@@ -1,6 +1,4 @@
-import os
-
-from depo_crud.env_utils import get_env_list
+from django.core.exceptions import ImproperlyConfigured
 
 from .base import *
 
@@ -8,13 +6,15 @@ from .base import *
 DEBUG = False
 
 # 4. Allowed Hosts: Domains your site can serve
-ALLOWED_HOSTS = get_env_list("ALLOWED_HOSTS", required=True) + [
-    "localhost",
-    "127.0.0.1",
-]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", cast=str.strip, default=[])
+if not ALLOWED_HOSTS:
+    raise ImproperlyConfigured("ALLOWED_HOSTS environment variable not set")
+ALLOWED_HOSTS = ALLOWED_HOSTS + ["localhost", "127.0.0.1"]
 
 # 5. CSRF Trusted Origins: Allowed origins for CSRF protection in production
-CSRF_TRUSTED_ORIGINS = get_env_list("CSRF_TRUSTED_ORIGINS", required=True)
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", cast=str.strip, default=[])
+if not CSRF_TRUSTED_ORIGINS:
+    raise ImproperlyConfigured("CSRF_TRUSTED_ORIGINS environment variable not set")
 
 # 6. Security Settings: Enforce secure cookies (HTTPS)
 CSRF_COOKIE_SECURE = True
@@ -28,8 +28,8 @@ DJANGO_VITE = {
     "default": {"dev_mode": False},
 }
 
-EMAIL_BACKEND = os.getenv(
-    "EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = env.str(
+    "EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
 )
 
 # Behind a proxy that terminates TLS, request.is_secure() is always False
