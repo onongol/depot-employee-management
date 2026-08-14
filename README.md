@@ -21,7 +21,6 @@ Django application for managing employees, jobs, piecework payments, and materia
 │   ├── views/
 │   ├── static/           # source static assets
 │   └── ...
-├── commando/             # management commands (incl. auto_admin)
 ├── static/               # project-level static sources
 ├── staticfiles/          # collectstatic output (do not commit)
 ├── manage.py
@@ -116,12 +115,13 @@ Entrypoint (entrypoint.prod.sh) does:
 
 - database wait
 - `python manage.py migrate`
-- `python manage.py auto_admin --force` (creates/ensures admin user)
+- ensures an admin user exists (`manage.py createsuperuser --noinput`, skipped if one
+  already exists) - requires `DJANGO_SUPERUSER_PASSWORD` in the environment
 - verifies static/manifest.json exists
 - `python manage.py collectstatic --noinput`
 - starts Gunicorn
 
-Security: change the admin credentials created by auto_admin immediately after first deploy.
+Security: change the admin password immediately after first deploy.
 
 Dev-only ports: keep port mappings in docker-compose.override.yml so production runs without exposed db/web ports by default.
 
