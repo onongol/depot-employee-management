@@ -3,11 +3,16 @@ services:
     image: mysql:8.4
     restart: always
     env_file:
-      - .env 
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DOCKER_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DOCKER_DATABASE}
+      MYSQL_USER: ${MYSQL_DOCKER_USER}
+      MYSQL_PASSWORD: ${MYSQL_DOCKER_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$${MYSQL_HEALTH_USER} -p$${MYSQL_HEALTH_PASSWORD}"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$${MYSQL_USER} -p$${MYSQL_PASSWORD}"]
       interval: 5s
       timeout: 3s
       retries: 20
@@ -33,6 +38,9 @@ services:
     environment:
       MYSQL_HOST: db
       MYSQL_PORT: 3306
+      MYSQL_DATABASE: ${MYSQL_DOCKER_DATABASE}
+      MYSQL_USER: ${MYSQL_DOCKER_USER}
+      MYSQL_PASSWORD: ${MYSQL_DOCKER_PASSWORD}
     volumes:
       - staticfiles:/app/staticfiles
     stop_grace_period: 30s
