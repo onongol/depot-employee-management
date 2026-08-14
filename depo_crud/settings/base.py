@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     "django.contrib.sites",  # required by allauth
     "employee",
     "import_export",
-    "commando",
     "simple_history",
     "axes",
     "allauth",
