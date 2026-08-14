@@ -125,6 +125,12 @@ Entrypoint (entrypoint.prod.sh) does:
 
 Security: change the admin password immediately after first deploy.
 
+Order matters here: `collectstatic` must run before Gunicorn starts. django-vite
+doesn't set an explicit `manifest_path`, so it defaults to reading
+`STATIC_ROOT/manifest.json` - a file `collectstatic` creates, not one that
+exists from image build. Render a template before that step ever runs and
+`{% vite_asset %}` raises `DjangoViteAssetNotFoundError`.
+
 Dev-only ports: keep port mappings in docker-compose.override.yml so production runs without exposed db/web ports by default.
 
 ## Static files
