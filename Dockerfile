@@ -39,7 +39,8 @@ FROM python:3.13-slim AS production
 
 # Environment variables for Python
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    DJANGO_SETTINGS_MODULE=depo_crud.settings.production
 
 # Install runtime dependencies (MySQL client library)
 RUN apt-get update && apt-get install -y --no-install-recommends \
