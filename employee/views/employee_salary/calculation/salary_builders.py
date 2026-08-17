@@ -1,3 +1,8 @@
+from decimal import ROUND_HALF_UP, Decimal
+
+TWO = Decimal("0.01")
+
+
 def build_employee_salary_list(*, salary_data, employees):
     """
     Convert aggregated salary_data into the final list of rows for the UI/report.
@@ -11,11 +16,13 @@ def build_employee_salary_list(*, salary_data, employees):
         if employee is None:
             continue
 
-        total_salary_day = data.get("total_salary_day", 0)
-        total_piecework_amount = data.get("total_piecework_amount", 0)
-        total_piecework_time = data.get("total_piecework_time", 0)
+        total_salary_day = data.get("total_salary_day") or Decimal(0)
+        total_piecework_amount = data.get("total_piecework_amount") or Decimal(0)
+        total_piecework_time = data.get("total_piecework_time") or Decimal(0)
 
-        total_salary = round(total_salary_day + total_piecework_amount, 2)
+        total_salary = (total_salary_day + total_piecework_amount).quantize(
+            TWO, rounding=ROUND_HALF_UP
+        )
 
         rows.append(
             {
@@ -24,9 +31,15 @@ def build_employee_salary_list(*, salary_data, employees):
                 "wagon_number": wagon_number,
                 "month": group_month,
                 "year": group_year,
-                "total_salary_day": round(total_salary_day, 2),
-                "total_piecework_amount": round(total_piecework_amount, 2),
-                "total_piecework_time": round(total_piecework_time, 2),
+                "total_salary_day": total_salary_day.quantize(
+                    TWO, rounding=ROUND_HALF_UP
+                ),
+                "total_piecework_amount": total_piecework_amount.quantize(
+                    TWO, rounding=ROUND_HALF_UP
+                ),
+                "total_piecework_time": total_piecework_time.quantize(
+                    TWO, rounding=ROUND_HALF_UP
+                ),
                 "total_salary": total_salary,
             }
         )
