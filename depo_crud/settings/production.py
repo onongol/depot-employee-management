@@ -48,4 +48,7 @@ if SENTRY_DSN:
         integrations=[DjangoIntegration()],
         environment=env.str("SENTRY_ENVIRONMENT", default="production"),
         send_default_pii=False,
+        # .git isn't in the image, so auto-detection can't work; Railway sets
+        # this automatically per deploy (needed for Sentry's GitHub release view).
+        release=env.str("RAILWAY_GIT_COMMIT_SHA", default=None),
     )
