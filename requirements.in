@@ -23,6 +23,7 @@ django-environ
 django-unfold
 django-vite
 et_xmlfile
+factory-boy
 gunicorn
 idna
 isort
@@ -37,6 +38,8 @@ packaging
 pandas
 pillow
 Pygments
+pytest
+pytest-django
 python-dateutil
 python-slugify
 pytz

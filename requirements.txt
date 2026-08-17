@@ -97,6 +97,10 @@ et-xmlfile==2.0.0
     # via
     #   -r requirements.in
     #   openpyxl
+factory-boy==3.3.3
+    # via -r requirements.in
+faker==40.36.0
+    # via factory-boy
 fido2==2.2.1
     # via django-allauth
 gunicorn==25.1.0
@@ -105,6 +109,8 @@ idna==3.11
     # via
     #   -r requirements.in
     #   requests
+iniconfig==2.3.0
+    # via pytest
 isort==8.0.1
     # via -r requirements.in
 jinja2==3.1.6
@@ -135,18 +141,28 @@ packaging==26.0
     # via
     #   -r requirements.in
     #   gunicorn
+    #   pytest
 pandas==3.0.1
     # via -r requirements.in
 pillow==12.1.1
     # via
     #   -r requirements.in
     #   reportlab
+pluggy==1.6.0
+    # via pytest
 pycparser==3.0
     # via cffi
 pygments==2.19.2
     # via
     #   -r requirements.in
+    #   pytest
     #   rich
+pytest==9.1.1
+    # via
+    #   -r requirements.in
+    #   pytest-django
+pytest-django==4.14.0
+    # via -r requirements.in
 python-dateutil==2.9.0.post0
     # via
     #   -r requirements.in
