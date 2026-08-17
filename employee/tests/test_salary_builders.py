@@ -43,7 +43,9 @@ def test_build_employee_salary_list_skips_rows_for_unknown_employee():
         (999, 2026, 3, None): {"total_salary_day": Decimal("500.00")},
     }
 
-    rows = build_employee_salary_list(salary_data=salary_data, employees=[known_employee])
+    rows = build_employee_salary_list(
+        salary_data=salary_data, employees=[known_employee]
+    )
 
     assert len(rows) == 1
     assert rows[0]["employee"] is known_employee
