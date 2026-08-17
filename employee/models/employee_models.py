@@ -96,6 +96,11 @@ class Employee(SoftDeleteMixin, models.Model):
     def __str__(self):
         return f"(ID: {self.employee_id}) {self.employee_name}"
 
+    def save(self, *args, **kwargs):
+        """Call full_clean() before saving, so employee_id uniqueness is enforced outside forms too."""
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
     def clean(self):
         """
         Ensure employee_id is unique among non-deleted records (soft delete aware, for MySQL).
