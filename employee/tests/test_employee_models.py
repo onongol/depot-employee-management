@@ -27,14 +27,8 @@ def test_employee_clean_allows_duplicate_employee_id_when_existing_is_soft_delet
 
 
 @pytest.mark.django_db
-def test_employee_save_does_not_enforce_uniqueness_without_full_clean():
-    # Unlike Work, Employee has no save() override that calls full_clean(),
-    # and there's no UniqueConstraint on employee_id in Meta either — so
-    # clean()'s duplicate check only ever runs if something explicitly calls
-    # full_clean() (e.g. a ModelForm). Plain ORM usage — bulk scripts, data
-    # imports, any Employee.objects.create() call — can silently create
-    # duplicate active employee_ids.
+def test_employee_save_uniqueness():
     EmployeeFactory(employee_id=42)
-    duplicate = EmployeeFactory(employee_id=42)  # no error, despite the duplicate
 
-    assert duplicate.pk is not None
+    with pytest.raises(ValidationError):
+        EmployeeFactory(employee_id=42)
