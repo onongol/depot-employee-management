@@ -80,6 +80,9 @@ jobs:
       - name: Collect Static Files
         run: |
           python manage.py collectstatic --noinput
+      - name: Grant Test Database Privileges
+        run: |
+          mysql -h 127.0.0.1 -P 3306 -u root -e "GRANT ALL PRIVILEGES ON \`test\_%\`.* TO '$MYSQL_USER'@'%'; FLUSH PRIVILEGES;"
       - name: Run Tests
         run: |
           pytest
