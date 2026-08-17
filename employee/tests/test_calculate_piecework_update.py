@@ -13,7 +13,9 @@ def test_calculate_piecework_update_basic():
     daily_salary = _salary("1")
     employees_salary = [_salary("1"), _salary("31")]
 
-    result = calculate_piecework_update(work, Decimal("3"), daily_salary, employees_salary)
+    result = calculate_piecework_update(
+        work, Decimal("3"), daily_salary, employees_salary
+    )
 
     assert result == Decimal("93.90")
 
@@ -22,7 +24,9 @@ def test_calculate_piecework_update_zero_total_salary_avoids_division_by_zero():
     work = SimpleNamespace(price=Decimal("1000.00"))
     daily_salary = _salary("0")
 
-    result = calculate_piecework_update(work, Decimal("3"), daily_salary, employees_salary=[])
+    result = calculate_piecework_update(
+        work, Decimal("3"), daily_salary, employees_salary=[]
+    )
 
     assert result == Decimal("0.00")
 
