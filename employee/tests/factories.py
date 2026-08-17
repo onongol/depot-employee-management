@@ -5,7 +5,15 @@ import factory
 from factory.django import DjangoModelFactory
 
 from employee.constants.constants import Department, JobTitle, TypeWork
-from employee.models import DailySalary, DailyWork, Employee, Piecework, Work
+from employee.models import (
+    DailySalary,
+    DailyWork,
+    Employee,
+    Master,
+    Payroll,
+    Piecework,
+    Work,
+)
 
 
 class EmployeeFactory(DjangoModelFactory):
@@ -17,6 +25,23 @@ class EmployeeFactory(DjangoModelFactory):
     department = Department.ZASVAR_1.value
     job_title = JobTitle.ZASVARCHIN.value
     money_per_hour = Decimal("2500.00")
+
+
+class MasterFactory(DjangoModelFactory):
+    class Meta:
+        model = Master
+
+    master_id = factory.Sequence(lambda n: n + 1)
+    master_name = factory.Sequence(lambda n: f"Master {n}")
+    department = Department.ZASVAR_1.value
+
+
+class PayrollFactory(DjangoModelFactory):
+    class Meta:
+        model = Payroll
+
+    payroll_id = factory.Sequence(lambda n: n + 1)
+    payroll_name = factory.Sequence(lambda n: f"Payroll {n}")
 
 
 class WorkFactory(DjangoModelFactory):
