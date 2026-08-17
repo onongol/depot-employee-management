@@ -11,5 +11,5 @@ def validate_daily_salary_duplicate(
             )
             % {"employee": str(emp), "date": salary_date}
         )
-        return None
+        return True
     return False
