@@ -13,7 +13,7 @@ class EmployeeFactory(DjangoModelFactory):
         model = Employee
 
     employee_id = factory.Sequence(lambda n: n + 1)
-    employee_name = factory.Sequence(lambda n: f"Ажилтан {n}")
+    employee_name = factory.Sequence(lambda n: f"Employee {n}")
     department = Department.ZASVAR_1.value
     job_title = JobTitle.ZASVARCHIN.value
     money_per_hour = Decimal("2500.00")
@@ -23,7 +23,7 @@ class WorkFactory(DjangoModelFactory):
     class Meta:
         model = Work
 
-    work_name = factory.Sequence(lambda n: f"Ажил {n}")
+    work_name = factory.Sequence(lambda n: f"Work {n}")
     department = Department.ZASVAR_1.value
     job_title = JobTitle.ZASVARCHIN.value
     standard_time = Decimal("1.000000")
