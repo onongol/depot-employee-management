@@ -52,6 +52,11 @@ class Master(SoftDeleteMixin, models.Model):
     def __str__(self):
         return f"(ID: {self.master_id}) {self.master_name}"
 
+    def save(self, *args, **kwargs):
+        """Call full_clean() before saving, like Employee.save(), so master_id uniqueness is enforced outside forms too."""
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
     def clean(self):
         """
         Ensure master_id is unique among non-deleted records (soft delete aware, for MySQL).
