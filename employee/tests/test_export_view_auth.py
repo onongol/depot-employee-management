@@ -3,9 +3,8 @@ import pytest
 from employee.constants.constants import GroupNames
 from employee.tests.factories import UserFactory
 
-# These 6 had no @login_required — is_employee() treats anonymous as "not an
-# employee" and falls into the unscoped "show everything" branch, so anyone
-# with the URL could download full payroll/piecework/material data.
+# These 6 had no @login_required, so anyone with the URL could download full
+# payroll/piecework/material data.
 EXPORT_URLS_WITHOUT_EXTRA_PERMISSION = [
     "/daily_work_export_excel/",
     "/piecework_export_excel/",

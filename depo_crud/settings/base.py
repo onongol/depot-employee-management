@@ -92,7 +92,6 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "employee.context_processors.global_departments",  # Department context processor
-                "employee.context_processors.user_roles",  # Check user roles
                 "employee.context_processors.needs_department_warning",  # Department warning
                 "employee.context_processors.navbar_page_types",  # Navbar page types
                 "employee.context_processors.user_display_name",  # HR-record display name for the navbar menu
