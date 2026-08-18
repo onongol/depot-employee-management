@@ -20,5 +20,5 @@
     <td class="{{ col_class }}">{{ selected_year |default:"" }}</td>
 {% else %}
     <td class="{{ col_class }}">{{ range_date|default:"" }}</td>
-    {% if not is_employee %}<td class="{{ col_class }}">{{ record_date|default:"" }}</td>{% endif %}
+    {% if perms.employee.view_record_audit %}<td class="{{ col_class }}">{{ record_date|default:"" }}</td>{% endif %}
 {% endif %}

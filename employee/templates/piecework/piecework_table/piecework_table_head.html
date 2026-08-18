@@ -27,7 +27,7 @@
     <th scope="col" class="{{ col_class }}">
         {% include "includes/table/sort_column.html" with label=_("Date") field="work_date" col_class=col_class selected_department=selected_department htmx_target="#piecework-list-results" %}
     </th>
-    {% if not is_employee %}
+    {% if perms.employee.view_record_audit %}
         <th scope="col" class="{{ col_class }}">
             {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department htmx_target="#piecework-list-results" %}
         </th>

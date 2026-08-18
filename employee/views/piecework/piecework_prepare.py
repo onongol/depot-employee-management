@@ -4,7 +4,6 @@ from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
 from employee.utils.select_type_wagon import get_type_wagon_filter_values
 from employee.utils.selects import get_distinct_values
-from employee.utils.user_roles import is_employee
 from employee.utils.wagon_department import is_wagon_department
 from employee.views.piecework.piecework_context import PieceworkContext
 
@@ -13,16 +12,16 @@ def piecework_prepare(request) -> PieceworkContext:
     """Prepare base queryset and filter params for Piecework."""
     department = get_selected_department(request)
 
-    # Base queryset (same visibility rules as list view)
-    if is_employee(request):
+    # Base queryset: without view_piecework a user only ever sees their own records.
+    if request.user.has_perm("employee.view_piecework"):
         pieceworks = Piecework.objects.select_related("employee", "work").filter(
             department=department,
-            employee__user=request.user,
             employee__is_active=True,
         )
     else:
         pieceworks = Piecework.objects.select_related("employee", "work").filter(
             department=department,
+            employee__user=request.user,
             employee__is_active=True,
         )
 

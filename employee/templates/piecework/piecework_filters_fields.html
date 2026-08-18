@@ -1,5 +1,5 @@
 {% load i18n %}
-{% if not is_employee %}
+{% if perms.employee.view_piecework %}
     {% include "includes/filters/filter_input.html" with id="id_employee_code" label=_("Employee ID") name="employee_code" type="number" value=request.GET.employee_code min="1" %}
     {% include "includes/filters/filter_input.html" with id="id_employee_name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name %}
     {% include "includes/filters/filter_select.html" with id="id_job_title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
@@ -16,7 +16,7 @@
     {% include "includes/filters/filter_select.html" with id="id_year" label=_("Year") name="year" choices=years selected=request.GET.year empty_label=_("Years") %}
 {% else %}
     {% include "includes/filters/filter_date_range.html" with id="id_range_date" label=_("Date Range") name="range_date" type="text" value=request.GET.range_date %}
-    {% if not is_employee %}
+    {% if perms.employee.view_record_audit %}
         {% include "includes/filters/filter_date.html" with id="id_record_date" label=_("Record Date") name="record_date" type="text" value=request.GET.record_date %}
     {% endif %}
 {% endif %}

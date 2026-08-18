@@ -16,4 +16,6 @@
 <td class="{{ col_class_hidden }}">{{ row.amount_time|floatformat:2 }}</td>
 <td class="{{ col_class_hidden }}">{{ row.amount_price|floatformat:2|intcomma }}</td>
 <td class="{{ col_class }}">{{ row.work_date|date:"Y-m-d" }}</td>
-{% if not is_employee %}<td class="{{ col_class }}">{{ row.record_date|date:"Y-m-d H:i" }}</td>{% endif %}
+{% if perms.employee.view_record_audit %}
+    <td class="{{ col_class }}">{{ row.record_date|date:"Y-m-d H:i" }}</td>
+{% endif %}
