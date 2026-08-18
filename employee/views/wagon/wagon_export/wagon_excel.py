@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import GROUP_MONTH
@@ -11,6 +12,7 @@ from employee.views.wagon.wagon_export.format_data import iter_rows
 from employee.views.wagon.wagon_prepare import wagon_prepare
 
 
+@login_required
 def wagon_export_excel(request):
     context = wagon_prepare(request)
 

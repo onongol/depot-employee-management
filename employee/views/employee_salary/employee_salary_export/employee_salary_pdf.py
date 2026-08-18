@@ -1,4 +1,4 @@
-from tokenize import group
+from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import GROUP_WAGON
@@ -12,6 +12,7 @@ from employee.views.employee_salary.employee_salary_export.employee_salary_servi
 from employee.views.employee_salary.employee_salary_export.format_data import iter_rows
 
 
+@login_required
 def employee_salary_export_pdf(request):
     """Export employee salaries data to PDF."""
     employee_salaries, context = get_employee_salaries(request)
@@ -56,9 +57,7 @@ def employee_salary_export_pdf(request):
         GROUP_WAGON: ("salaries_by_wagon.pdf", _("Salaries by Wagon")),
     }
 
-    file_name, title = meta.get(
-        context.group, ("salaries.pdf", _("Salaries"))
-    )
+    file_name, title = meta.get(context.group, ("salaries.pdf", _("Salaries")))
     file_name = f"{file_name}_{safe_department}.pdf"
     sheet_title = f"{title} ({department})"
 

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.translation import gettext_lazy as _
 
 from employee.utils.exports.export_excel import export_to_excel
@@ -9,6 +10,8 @@ from employee.views.material.material_grouping import group_and_sum_materials
 from employee.views.material.material_prepare import material_prepare
 
 
+@login_required
+@permission_required("employee.view_material_report")
 def material_export_excel(request):
     """Export calculation materials data to Excel."""
     context = material_prepare(request)
@@ -16,7 +19,7 @@ def material_export_excel(request):
     daily_works = context.daily_works
 
     daily_works = filter_material(daily_works, context=context)
-    
+
     daily_works = group_and_sum_materials(daily_works)
 
     headers = build_headers()

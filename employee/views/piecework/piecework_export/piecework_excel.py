@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import GROUP_MONTH, GROUP_YEAR
@@ -10,6 +11,7 @@ from employee.views.piecework.piecework_export.format_data import iter_rows
 from employee.views.piecework.piecework_prepare import piecework_prepare
 
 
+@login_required
 def piecework_export_excel(request):
     """Export filtered Piecework queryset to Excel."""
     context = piecework_prepare(request)
@@ -34,7 +36,9 @@ def piecework_export_excel(request):
         GROUP_YEAR: ("yearly_piecework_records", _("Yearly Piecework Records")),
     }
 
-    file_name, title = meta.get(context.group, ("daily_piecework_records", _("Daily Piecework Records")))
+    file_name, title = meta.get(
+        context.group, ("daily_piecework_records", _("Daily Piecework Records"))
+    )
     file_name = f"{file_name}_{safe_department}.xlsx"
     sheet_title = f"{title} ({department})"
 

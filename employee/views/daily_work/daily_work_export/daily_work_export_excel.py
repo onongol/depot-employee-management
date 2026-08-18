@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import GROUP_MONTH, GROUP_YEAR
@@ -12,6 +13,7 @@ from employee.views.daily_work.daily_work_prepare import daily_work_prepare
 from employee.views.daily_work.group.group_and_sort import group_and_sort_daily_works
 
 
+@login_required
 def daily_work_export_excel(request):
     """Export filtered DailyWork list to Excel."""
     context = daily_work_prepare(request)
@@ -21,7 +23,7 @@ def daily_work_export_excel(request):
 
     safe_department = (department or "all").replace(" ", "_")
 
-    daily_works = filter_daily_works(daily_works, context=context)  
+    daily_works = filter_daily_works(daily_works, context=context)
     daily_works = group_and_sort_daily_works(daily_works, context=context)
 
     headers = build_headers(context=context)
@@ -35,7 +37,9 @@ def daily_work_export_excel(request):
         GROUP_YEAR: ("yearly_work_records", _("Yearly Work Records")),
     }
 
-    file_name, title = meta.get(context.group, ("daily_work_records", _("Daily Work Records")))
+    file_name, title = meta.get(
+        context.group, ("daily_work_records", _("Daily Work Records"))
+    )
     file_name = f"{file_name}_{safe_department}.xlsx"
     sheet_title = f"{title} ({department})"
 
