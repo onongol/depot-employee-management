@@ -1,5 +1,5 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import UpdateView
@@ -7,10 +7,8 @@ from django.views.generic import UpdateView
 from employee.forms.daily_work_forms import UpdateDailyWorkForm
 from employee.mixins.context_mixins import DailyWorkContextMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
-from employee.mixins.permissions_mixins import OnlyPayrollsMixin
 from employee.mixins.update_mixin import AdminLoggedUpdateMixin
 from employee.models.daily_work_models import DailyWork
-from employee.utils.access import is_creator
 from employee.views.daily_work.daily_work_create.daily_work_piecework_create import (
     daily_work_piecework_create,
 )
@@ -18,13 +16,14 @@ from employee.views.daily_work.daily_work_create.daily_work_piecework_create imp
 
 class DailyWorkUpdateView(
     LoginRequiredMixin,
-    OnlyPayrollsMixin,
+    PermissionRequiredMixin,
     DailyWorkContextMixin,
     SuccessMessageMixin,
     FormDepartmentMixin,
     AdminLoggedUpdateMixin,
     UpdateView,
 ):
+    permission_required = "employee.change_dailywork"
     queryset = DailyWork.objects.select_related("work")
     form_class = UpdateDailyWorkForm
     template_name = "daily_work/daily_work_piecework_update.html"
@@ -32,7 +31,7 @@ class DailyWorkUpdateView(
 
 
 @login_required
-@user_passes_test(is_creator)
+@permission_required("employee.add_dailywork")
 def daily_work_create(request):
     """Create daily work entry view. Redirect to piecework creation if department allows wagon work."""
     return daily_work_piecework_create(request)
