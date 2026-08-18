@@ -1,10 +1,9 @@
 from dataclasses import asdict
 
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from employee.utils.access import is_creator
 from employee.views.daily_salary.daily_salary_create.daily_salary_create_prepare import (
     prepare_daily_salary_create,
 )
@@ -17,7 +16,7 @@ from employee.views.daily_salary.daily_salary_create.daily_salary_messages impor
 
 
 @login_required
-@user_passes_test(is_creator)
+@permission_required("employee.add_dailysalary")
 def daily_salary_create(request):
     """View to create daily salary records for multiple employees, filtered by department."""
     # Build context for the template

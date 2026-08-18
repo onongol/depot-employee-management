@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -15,7 +15,6 @@ from employee.messages.bulk_delete_messages.delete_bulk_message import (
     delete_bulk_message,
 )
 from employee.services.admin_log_delete import delete_queryset_with_admin_log
-from employee.utils.access import is_payroll
 from employee.utils.parse_ids import parse_ids
 from employee.utils.select_department import get_selected_department
 from employee.views.daily_salary.daily_salary_delete_bulk.daily_salary_selectors import (
@@ -25,7 +24,7 @@ from employee.views.daily_salary.daily_salary_delete_bulk.daily_salary_selectors
 
 @require_POST
 @login_required
-@user_passes_test(is_payroll)
+@permission_required("employee.delete_dailysalary")
 def daily_salary_delete_bulk(request):
     """
     This function handles bulk deletion of DailySalary records selected via checkboxes.
