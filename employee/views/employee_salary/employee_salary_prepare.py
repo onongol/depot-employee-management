@@ -3,7 +3,6 @@ from employee.utils.group_modes import is_detail_group, is_wagon_group
 from employee.utils.month_period import parse_month_period
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
-from employee.utils.user_roles import is_employee
 from employee.utils.wagon_department import is_wagon_department
 from employee.views.employee_salary.employee_salary_context import EmployeeSalaryContext
 
@@ -12,11 +11,11 @@ def employee_salaries_prepare(request) -> EmployeeSalaryContext:
     """Prepare the base queryset and filter parameters for employee salaries."""
     department = get_selected_department(request)
 
-    # Limit the base queryset by user role: employees see only their own record; admins/managers see all active employees.
-    if is_employee(request):
-        employees = Employee.objects.filter(user=request.user, is_active=True)
-    else:
+    # Without view_employee a user only ever sees their own record.
+    if request.user.has_perm("employee.view_employee"):
         employees = Employee.objects.filter(is_active=True)
+    else:
+        employees = Employee.objects.filter(user=request.user, is_active=True)
 
     employee_id = request.GET.get("employee_id", "")
     employee_name = request.GET.get("employee_name", "")

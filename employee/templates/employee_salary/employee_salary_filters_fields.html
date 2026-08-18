@@ -1,5 +1,5 @@
 {% load i18n %}
-{% if not is_employee %}
+{% if perms.employee.view_employee %}
     {% include "includes/filters/filter_input.html" with id="id_employee_id" label=_("Employee ID") name="employee_id" type="number" value=request.GET.employee_id min="1" %}
     {% include "includes/filters/filter_input.html" with id="id_employee_name" label=_("Employee Name") name="employee_name" value=request.GET.employee_name %}
     {% include "includes/filters/filter_select.html" with id="id_job_title" label=_("Job Title") name="job_title" choices=job_titles selected=request.GET.job_title empty_label=_("Positions") %}
