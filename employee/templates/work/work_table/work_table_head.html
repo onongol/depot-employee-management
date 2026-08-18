@@ -1,5 +1,5 @@
 {% load i18n %}
-{% if not is_employee and not is_master %}
+{% if perms.employee.change_work or perms.employee.delete_work %}
     <th scope="col" class="{{ col_class_checkbox }}">
         {% include "includes/table/list_select_all_checkbox.html" with select_all_id="select-all-table-works" checkbox_name="work_table_ids" %}
     </th>

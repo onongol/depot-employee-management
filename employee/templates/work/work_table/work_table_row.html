@@ -1,13 +1,13 @@
 {% load i18n %}
 {% load humanize %}
-{% if not is_employee and not is_master %}
+{% if perms.employee.change_work or perms.employee.delete_work %}
     <td class="{{ col_class_checkbox }}">
         {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="work_table_ids" row_value=row.pk %}
     </td>
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">
-    {% if not is_employee and not is_master %}
+    {% if perms.employee.change_work or perms.employee.delete_work %}
         {% include "includes/table/mobile_meta.html" with col_name=row.work_name details_template="work/work_table/work_table_mobile_details.html" %}
     {% else %}
         {% include "includes/table/mobile_summary.html" with col_name=row.work_name details_template="work/work_table/work_table_mobile_details.html" %}
