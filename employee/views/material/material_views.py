@@ -1,10 +1,9 @@
 from dataclasses import asdict
 
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Sum
 from django.shortcuts import render
 
-from employee.utils.access import is_payroll
 from employee.utils.filters import filter_material
 from employee.utils.pagination import paginate_queryset
 from employee.utils.sorting import apply_ordering
@@ -13,7 +12,7 @@ from employee.views.material.material_prepare import material_prepare
 
 
 @login_required
-@user_passes_test(is_payroll)
+@permission_required("employee.view_material_report")
 def material_list(request):
     """View for calculating and listing material usage in piecework records,
     with filtering and pagination."""
