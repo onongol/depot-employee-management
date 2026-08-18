@@ -6,29 +6,29 @@
         {% include "includes/components/list_header.html" with header_id="employee-list-title" title=selected_department only %}
         <!-- Quick navigation -->
         <div class="mt-8">
-            <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(16rem,1fr))]">
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
                 <!-- Employees -->
                 {% include "includes/cards/card.html" with url_name='employee_list' title=_("Employees") desc=_("Manage employee profiles, positions, and hourly wage rates.") %}
-                <!-- Works (not employee) -->
-                {% if not is_employee %}
+                <!-- Works -->
+                {% if perms.employee.view_work %}
                     {% include "includes/cards/card.html" with url_name='work_list' title=_("Works") desc=_("Create work types, standard times, and pricing.") %}
                 {% endif %}
                 <!-- Daily Salary -->
                 {% include "includes/cards/card.html" with url_name='daily_salary_list' title=_("Daily Attendance") desc=_("Track attendance, shifts, and working hours.") %}
-                <!-- Daily Work (not employee) -->
-                {% if not is_employee %}
+                <!-- Daily Work -->
+                {% if perms.employee.view_dailywork %}
                     {% include "includes/cards/card.html" with url_name='daily_work_list' title=_("Daily Work") desc=_("Log daily work performed.") %}
                 {% endif %}
                 <!-- Piecework -->
                 {% include "includes/cards/card.html" with url_name='piecework_list' title=_("Piecework") desc=_("Record piecework volumes, rates, and performance history.") %}
                 <!-- Salaries -->
                 {% include "includes/cards/card.html" with url_name='employee_salary_list' title=_("Salaries") desc=_("Calculate payroll, view summaries, and generate earnings reports.") %}
-                <!-- Wagons (not employee) -->
-                {% if not is_employee %}
+                <!-- Wagons: report over piecework records -->
+                {% if perms.employee.view_piecework %}
                     {% include "includes/cards/card.html" with url_name='wagon_list' title=_("Wagons") desc=_("View wagon reports.") %}
                 {% endif %}
-                <!-- Materials (not employee, not master) -->
-                {% if not is_employee and not is_master %}
+                <!-- Materials -->
+                {% if perms.employee.view_material_report %}
                     {% include "includes/cards/card.html" with url_name='material_list' title=_("Materials") desc=_("Track material usage and consumption from work records.") %}
                 {% endif %}
             </div>
