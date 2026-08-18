@@ -2,22 +2,22 @@ from employee.models import DailySalary, Employee
 from employee.utils.converting_date import format_date
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
-from employee.utils.user_roles import is_employee
 from employee.views.daily_salary.daily_salary_context import DailySalaryContext
 
 
 def daily_salary_prepare(request) -> DailySalaryContext:
     department = get_selected_department(request)
 
-    if is_employee(request):
+    # Without view_dailysalary a user only ever sees their own records.
+    if request.user.has_perm("employee.view_dailysalary"):
+        daily_salaries = DailySalary.objects.filter(
+            department=department, employee__is_active=True
+        )
+    else:
         daily_salaries = DailySalary.objects.filter(
             employee__user=request.user,
             department=department,
             employee__is_active=True,
-        )
-    else:
-        daily_salaries = DailySalary.objects.filter(
-            department=department, employee__is_active=True
         )
 
     daily_salaries = daily_salaries.select_related("employee")

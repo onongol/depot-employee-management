@@ -5,7 +5,7 @@
 {% block content %}
     {% url 'daily_salary_create' as create_url %}
     <!-- Header -->
-    {% if not is_employee %}
+    {% if perms.employee.add_dailysalary %}
         {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url %}
     {% else %}
         {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department only %}
@@ -13,8 +13,10 @@
     <div id="daily-salary-list-control">
         <div class="mb-2 flex flex-row items-center justify-end gap-2 md:mb-4 md:justify-start md:gap-4">
             <!-- Actions -->
-            {% if not is_employee and not is_master %}
+            {% if perms.employee.change_dailysalary %}
                 {% include "includes/table_action_buttons/edit_selected_button.html" %}
+            {% endif %}
+            {% if perms.employee.delete_dailysalary %}
                 {% include "includes/table_action_buttons/bulk_delete_button.html" %}
             {% endif %}
             <!-- Filters -->
@@ -22,7 +24,7 @@
         </div>
         <div id="daily-salary-list-results">
             <!-- Summary -->
-            {% if not is_employee and not is_master %}
+            {% if perms.employee.change_dailysalary or perms.employee.delete_dailysalary %}
                 {% include "includes/summaries/selected_summary.html" with summary_id="daily-salary-summary" checkbox_name="daily_salary_ids" %}
             {% endif %}
             <!-- Bulk action form: wraps the table checkboxes so selected DailySalary IDs are submitted via POST -->

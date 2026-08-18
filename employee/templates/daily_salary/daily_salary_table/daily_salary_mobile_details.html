@@ -4,7 +4,7 @@
     <span>{% trans "hours:" %}</span>
     {{ row.hours_per_day }}
 </div>
-{% if not is_employee and not is_master %}
+{% if perms.employee.view_salary_amount %}
     <div>
         <span>{% trans "salary:" %}</span>
         {{ row.salary_day|floatformat:2 }}

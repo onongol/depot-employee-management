@@ -1,5 +1,5 @@
 {% load humanize %}
-{% if not is_employee and not is_master %}
+{% if perms.employee.change_dailysalary or perms.employee.delete_dailysalary %}
     <td class="{{ col_class_checkbox }}">
         {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="daily_salary_ids" row_value=row.pk row_label=row.employee_code %}
     </td>
@@ -7,7 +7,7 @@
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">{{ row.employee_code }}</td>
 <td class="{{ col_class }}">
-    {% if not is_employee and not is_master %}
+    {% if perms.employee.change_dailysalary or perms.employee.delete_dailysalary %}
         {% include "includes/table/mobile_meta.html" with col_name=row.employee_name details_template="daily_salary/daily_salary_table/daily_salary_mobile_details.html" %}
     {% else %}
         {% include "includes/table/mobile_summary.html" with col_name=row.employee_name details_template="daily_salary/daily_salary_table/daily_salary_mobile_details.html" %}
@@ -15,8 +15,10 @@
 </td>
 <td class="{{ col_class_hidden }}">{{ row.job_title }}</td>
 <td class="{{ col_class_hidden }}">{{ row.hours_per_day }}</td>
-{% if not is_employee and not is_master %}
+{% if perms.employee.view_salary_amount %}
     <td class="{{ col_class_hidden }}">{{ row.salary_day|floatformat:2|intcomma }}</td>
 {% endif %}
 <td class="{{ col_class }}">{{ row.salary_date|date:"Y-m-d" }}</td>
-{% if not is_employee %}<td class="{{ col_class }}">{{ row.record_date|date:"Y-m-d H:i" }}</td>{% endif %}
+{% if perms.employee.view_record_audit %}
+    <td class="{{ col_class }}">{{ row.record_date|date:"Y-m-d H:i" }}</td>
+{% endif %}
