@@ -9,6 +9,8 @@ def work_prepare(request) -> WorkContext:
     department = get_selected_department(request)
 
     works = Work.objects.all()
+    if department:
+        works = works.filter(department=department)
 
     job_title = request.GET.get("job_title")
     work_name = request.GET.get("work_name")
