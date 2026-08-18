@@ -17,9 +17,15 @@ PAYROLLS_CODENAMES = {
     "delete_dailywork",
     "delete_employee",
     "delete_work",
+    "view_employee",
     "view_material_report",
 }
-MASTERS_CODENAMES = {"add_dailysalary", "add_dailywork", "add_piecework"}
+MASTERS_CODENAMES = {
+    "add_dailysalary",
+    "add_dailywork",
+    "add_piecework",
+    "view_employee",
+}
 
 
 @pytest.mark.django_db

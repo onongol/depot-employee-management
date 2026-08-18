@@ -1,6 +1,6 @@
 {% load i18n %}
 {% load humanize %}
-{% if not is_employee and not is_master %}
+{% if perms.employee.change_employee or perms.employee.delete_employee %}
     <td class="{{ col_class_checkbox }}">
         {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="employee_table_ids" row_value=row.pk activate_url=row.get_activate_url deactivate_url=row.get_deactivate_url %}
     </td>
@@ -8,7 +8,7 @@
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">{{ row.employee_id }}</td>
 <td class="{{ col_class }}">
-    {% if not is_employee and not is_master %}
+    {% if perms.employee.change_employee or perms.employee.delete_employee %}
         {% include "includes/table/mobile_meta.html" with col_name=row.employee_name details_template="employee/employee_table/employee_table_mobile_details.html" %}
     {% else %}
         {% include "includes/table/mobile_summary.html" with col_name=row.employee_name details_template="employee/employee_table/employee_table_mobile_details.html" %}
