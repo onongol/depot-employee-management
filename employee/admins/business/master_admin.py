@@ -30,7 +30,6 @@ class MasterAdmin(
     )
     search_help_text = "Search by master ID or name"
     list_filter = ["department", "is_active", "is_deleted"]
-    list_editable = ("is_active",)
     ordering = ("-master_id",)
     list_display_links = (
         "master_id",

@@ -40,7 +40,6 @@ class EmployeeAdmin(
         "is_active",
         "is_deleted",
     ]
-    list_editable = ("is_active",)
     ordering = ("-employee_id",)
     list_display_links = (
         "employee_id",

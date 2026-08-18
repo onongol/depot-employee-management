@@ -29,7 +29,6 @@ class PayrollAdmin(
     )
     search_help_text = "Search by payroll ID or name"
     list_filter = ["is_active", "is_deleted"]
-    list_editable = ("is_active",)
     ordering = ("-payroll_id",)
     list_display_links = (
         "payroll_id",
