@@ -6,23 +6,8 @@ from django.dispatch import receiver
 from django.shortcuts import redirect
 
 from employee.constants.constants import DEPARTMENTS
-from employee.models import Employee, Master
+from employee.utils.request_department import get_user_department
 from employee.utils.select_department import get_selected_department
-
-
-def get_user_department(user):
-    """Get the department of the user from Employee or Master models."""
-    for model in (Employee, Master):
-        try:
-            obj = model.objects.get(user=user, is_active=True)
-            if not obj:
-                continue
-            department = getattr(obj, "department", None)
-            if department in DEPARTMENTS:
-                return department
-        except model.DoesNotExist:
-            continue
-    return None
 
 
 @receiver(user_logged_in)
