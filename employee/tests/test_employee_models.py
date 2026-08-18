@@ -1,7 +1,7 @@
 import pytest
 from django.core.exceptions import ValidationError
 
-from employee.tests.factories import EmployeeFactory
+from employee.tests.factories import EmployeeFactory, UserFactory
 
 
 @pytest.mark.django_db
@@ -32,3 +32,26 @@ def test_employee_save_uniqueness():
 
     with pytest.raises(ValidationError):
         EmployeeFactory(employee_id=42)
+
+
+@pytest.mark.django_db
+def test_employee_save_syncs_linked_user_is_active_regardless_of_caller():
+    # Must fire from Employee.save() itself, not just the activate/deactivate
+    # view — otherwise admin list_editable edits (which call .save() directly,
+    # bypassing that view) leave the linked User able to log in.
+    linked_user = UserFactory(is_active=True)
+    employee = EmployeeFactory(user=linked_user)
+
+    employee.is_active = False
+    employee.save()
+
+    linked_user.refresh_from_db()
+    assert linked_user.is_active is False
+
+
+@pytest.mark.django_db
+def test_employee_save_without_linked_user_does_not_crash():
+    employee = EmployeeFactory(user=None)
+
+    employee.is_active = False
+    employee.save()  # must not raise
