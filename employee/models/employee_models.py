@@ -92,6 +92,9 @@ class Employee(SoftDeleteMixin, models.Model):
             ),
             models.Index(fields=["employee_id", "is_deleted"]),
         ]
+        permissions = [
+            ("change_employee_status", "Can activate or deactivate employee status"),
+        ]
 
     def __str__(self):
         return f"(ID: {self.employee_id}) {self.employee_name}"
