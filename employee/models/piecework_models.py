@@ -128,6 +128,7 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
         ]
         permissions = [
             ("view_material_report", "Can view material usage report"),
+            ("view_record_audit", "Can view record creation metadata"),
         ]
 
     def __str__(self):

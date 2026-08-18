@@ -73,6 +73,10 @@ class DailySalary(models.Model):
             )
         ]
 
+        permissions = [
+            ("view_salary_amount", "Can view salary amounts on daily salary records"),
+        ]
+
     def __str__(self):
         return f"(ID: {self.employee_code}) {self.employee_name} - {self.salary_date}"
 
