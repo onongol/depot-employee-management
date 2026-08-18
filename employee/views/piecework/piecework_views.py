@@ -1,10 +1,8 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
-
-from employee.utils.access import is_creator
+from django.contrib.auth.decorators import login_required, permission_required
 
 
 @login_required
-@user_passes_test(is_creator)
+@permission_required("employee.add_piecework")
 def piecework_create(request):
     """View to create new piecework records."""
     # Circular import avoidance

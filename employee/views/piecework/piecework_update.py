@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -6,15 +6,15 @@ from django.views.generic import UpdateView
 
 from employee.forms import UpdatePieceworkForm
 from employee.mixins.context_mixins import PieceworkContextMixin
-from employee.mixins.permissions_mixins import OnlyPayrollsMixin
 from employee.models import DailySalary
 from employee.services.calculate_piecework_update import calculate_piecework_update
 from employee.utils.select_department import get_selected_department
 
 
 class PieceworkUpdateView(
-    LoginRequiredMixin, OnlyPayrollsMixin, PieceworkContextMixin, UpdateView
+    LoginRequiredMixin, PermissionRequiredMixin, PieceworkContextMixin, UpdateView
 ):
+    permission_required = "employee.change_piecework"
     form_class = UpdatePieceworkForm
     template_name = "piecework/piecework_update.html"
     success_url = reverse_lazy("piecework_list")
