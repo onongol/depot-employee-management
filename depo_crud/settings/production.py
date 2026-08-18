@@ -21,6 +21,9 @@ if not CSRF_TRUSTED_ORIGINS:
 # 6. Security Settings: Enforce secure cookies (HTTPS)
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+# __Secure- prefix backstops the *_SECURE flags above at the browser level.
+CSRF_COOKIE_NAME = "__Secure-csrftoken"
+SESSION_COOKIE_NAME = "__Secure-sessionid"
 
 MIDDLEWARE = MIDDLEWARE + [AXES_MIDDLEWARE_PATH]
 assert MIDDLEWARE[-1] == AXES_MIDDLEWARE_PATH, "AxesMiddleware must be last"
