@@ -15,11 +15,3 @@ def get_user_groups(request) -> set[str]:
 
 def is_employee(request) -> bool:
     return EMPLOYEE_GROUP in get_user_groups(request)
-
-
-# def is_master(request) -> bool:
-#    return MASTER_GROUP in get_user_groups(request)
-
-
-# def is_payroll(request) -> bool:
-#    return PAYROLL_GROUP in get_user_groups(request)
