@@ -1,15 +1,17 @@
 {% load i18n %}
 {% load humanize %}
-{% if not is_employee and not is_master and detail_group %}
-    <td class="{{ col_class_checkbox }}">
-        {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="daily_work_ids" row_value=row.pk row_label=row.work.work_name %}
-    </td>    
+{% if detail_group %}
+    {% if perms.employee.change_dailywork or perms.employee.delete_dailywork %}
+        <td class="{{ col_class_checkbox }}">
+            {% include "includes/table/list_select_row_checkbox.html" with checkbox_name="daily_work_ids" row_value=row.pk row_label=row.work.work_name %}
+        </td>
+    {% endif %}
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">
-    {% if not is_employee and not is_master and detail_group %}
+    {% if detail_group and perms.employee.change_dailywork or detail_group and perms.employee.delete_dailywork %}
         {% include "includes/table/mobile_meta.html" with col_name=row.work.work_name details_template="daily_work/daily_work_table/daily_work_mobile_details.html" %}
-    {% else %}             
+    {% else %}
         {% include "includes/table/mobile_summary.html" with col_name=row.work.work_name details_template="daily_work/daily_work_table/daily_work_mobile_details.html" %}
     {% endif %}
 </td>
@@ -23,4 +25,6 @@
 <td class="{{ col_class_hidden }}">{{ row.amount_time|floatformat:2 }}</td>
 <td class="{{ col_class_hidden }}">{{ row.amount_price|floatformat:2|intcomma }}</td>
 <td class="{{ col_class }}">{{ row.work_date|date:"Y-m-d" }}</td>
-{% if not is_employee %}<td class="{{ col_class }}">{{ row.record_date|date:"Y-m-d H:i" }}</td>{% endif %}
+{% if perms.employee.view_record_audit %}
+    <td class="{{ col_class }}">{{ row.record_date|date:"Y-m-d H:i" }}</td>
+{% endif %}
