@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, UpdateView
@@ -9,14 +9,13 @@ from employee.mixins.create_mixin import AdminLoggedCreateMixin
 from employee.mixins.department_form_mixins import FormDepartmentMixin
 from employee.mixins.department_mixins import InitialDepartmentMixin
 from employee.mixins.mechanic_context_mixins import MechanicContextMixin
-from employee.mixins.permissions_mixins import OnlyPayrollsMixin
 from employee.mixins.update_mixin import AdminLoggedUpdateMixin
 from employee.mixins.wagon_context_mixins import WagonContextMixin
 
 
 class WorkCreateView(
     LoginRequiredMixin,
-    OnlyPayrollsMixin,
+    PermissionRequiredMixin,
     WorkContextMixin,
     WagonContextMixin,
     MechanicContextMixin,
@@ -26,6 +25,7 @@ class WorkCreateView(
     AdminLoggedCreateMixin,
     CreateView,
 ):
+    permission_required = "employee.add_work"
     form_class = WorkForm
     template_name = "work/work_create.html"
     success_message = _("Created %(object_name)s")
@@ -38,7 +38,7 @@ class WorkCreateView(
 
 class WorkUpdateView(
     LoginRequiredMixin,
-    OnlyPayrollsMixin,
+    PermissionRequiredMixin,
     WorkContextMixin,
     WagonContextMixin,
     MechanicContextMixin,
@@ -48,6 +48,7 @@ class WorkUpdateView(
     AdminLoggedUpdateMixin,
     UpdateView,
 ):
+    permission_required = "employee.change_work"
     form_class = UpdateWorkForm
     template_name = "work/work_update.html"
     success_message = _("Updated")
