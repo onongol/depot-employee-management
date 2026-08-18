@@ -28,6 +28,7 @@ PAYROLLS_CODENAMES = SHARED_CODENAMES | {
     "delete_dailywork",
     "delete_employee",
     "delete_work",
+    "select_department",
     "view_material_report",
     "view_salary_amount",
 }

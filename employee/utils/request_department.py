@@ -1,6 +1,5 @@
-from employee.constants.constants import DEPARTMENTS, EMPLOYEE_GROUP, MASTER_GROUP
+from employee.constants.constants import DEPARTMENTS
 from employee.models import Employee, Master
-from employee.utils.user_roles import get_user_groups
 
 
 def get_user_department(user):
@@ -19,12 +18,12 @@ def get_user_department(user):
 
 
 def get_selected_department_from_request(request):
-    """Get and cache the selected department on request; Employees/Masters are locked to their own."""
-    if request.user.is_authenticated:
-        groups = get_user_groups(request)
-        if EMPLOYEE_GROUP in groups or MASTER_GROUP in groups:
-            request.selected_department = get_user_department(request.user)
-            return request.selected_department
+    """Get and cache the selected department on request; without select_department a user is locked to their own."""
+    if request.user.is_authenticated and not request.user.has_perm(
+        "employee.select_department"
+    ):
+        request.selected_department = get_user_department(request.user)
+        return request.selected_department
 
     selected_department = request.GET.get("department") or request.session.get(
         "department"

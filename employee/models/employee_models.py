@@ -94,6 +94,7 @@ class Employee(SoftDeleteMixin, models.Model):
         ]
         permissions = [
             ("change_employee_status", "Can activate or deactivate employee status"),
+            ("select_department", "Can browse any department"),
         ]
 
     def __str__(self):
