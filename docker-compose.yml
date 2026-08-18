@@ -27,9 +27,10 @@ services:
 
   web:
     build: .
-    image: depot_management:1.0 
+    image: depot_management:1.0
     container_name: depot_management
     restart: always
+    profiles: ["app"]
     depends_on:
       db:
         condition: service_healthy
