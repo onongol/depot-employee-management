@@ -126,6 +126,9 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
             models.Index(fields=["work_date", "wagon_number"]),
             models.Index(fields=["-record_date"]),
         ]
+        permissions = [
+            ("view_material_report", "Can view material usage report"),
+        ]
 
     def __str__(self):
         return f"(ID: {self.employee_code}) {self.employee_name}, {self.work_name} ({self.type_work}) - {self.work_date}"
