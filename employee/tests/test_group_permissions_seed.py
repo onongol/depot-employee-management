@@ -1,7 +1,18 @@
 import pytest
 from django.contrib.auth.models import Group
 
-PAYROLLS_CODENAMES = {
+# "Sees everyone's records, not just my own" plus the record_date audit
+# columns — held by Payrolls and Masters alike.
+SHARED_CODENAMES = {
+    "view_dailysalary",
+    "view_dailywork",
+    "view_employee",
+    "view_piecework",
+    "view_record_audit",
+    "view_work",
+}
+
+PAYROLLS_CODENAMES = SHARED_CODENAMES | {
     "add_dailysalary",
     "add_dailywork",
     "add_employee",
@@ -17,14 +28,13 @@ PAYROLLS_CODENAMES = {
     "delete_dailywork",
     "delete_employee",
     "delete_work",
-    "view_employee",
     "view_material_report",
+    "view_salary_amount",
 }
-MASTERS_CODENAMES = {
+MASTERS_CODENAMES = SHARED_CODENAMES | {
     "add_dailysalary",
     "add_dailywork",
     "add_piecework",
-    "view_employee",
 }
 
 
