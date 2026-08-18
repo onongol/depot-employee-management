@@ -2,6 +2,8 @@ from datetime import date
 from decimal import Decimal
 
 import factory
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from factory.django import DjangoModelFactory
 
 from employee.constants.constants import Department, JobTitle, TypeWork
@@ -14,6 +16,24 @@ from employee.models import (
     Piecework,
     Work,
 )
+
+
+class UserFactory(DjangoModelFactory):
+    class Meta:
+        model = get_user_model()
+        skip_postgeneration_save = True
+
+    username = factory.Sequence(lambda n: f"user{n}")
+    email = factory.Sequence(lambda n: f"user{n}@example.com")
+    is_superuser = False
+
+    @factory.post_generation
+    def groups(self, create, extracted, **kwargs):
+        if not create or not extracted:
+            return
+        for group_name in extracted:
+            group, _ = Group.objects.get_or_create(name=group_name)
+            self.groups.add(group)
 
 
 class EmployeeFactory(DjangoModelFactory):
