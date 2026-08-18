@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
@@ -52,9 +52,13 @@ class Payroll(SoftDeleteMixin, models.Model):
         return f"(ID: {self.payroll_id}) {self.payroll_name}"
 
     def save(self, *args, **kwargs):
-        """Call full_clean() before saving, like Employee.save(), so payroll_id uniqueness is enforced outside forms too."""
+        """Runs full_clean() and syncs the linked User's is_active, like Employee.save()."""
         self.full_clean()
-        return super().save(*args, **kwargs)
+        with transaction.atomic():
+            if self.user_id:
+                self.user.is_active = self.is_active
+                self.user.save(update_fields=["is_active"])
+            return super().save(*args, **kwargs)
 
     def clean(self):
         """
