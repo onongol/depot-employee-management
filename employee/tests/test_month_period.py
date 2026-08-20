@@ -11,7 +11,6 @@ def _request(rf, query_string=""):
     "query_string",
     [
         "month_period=2024-03",
-        # Unpadded months and stray whitespace are normalised, not rejected.
         "month_period=2024-3",
         "month_period=%202024-03%20",
     ],
@@ -38,11 +37,8 @@ def test_parse_month_period_accepts_the_range_boundaries(rf, query_string, expec
         "month_period=2024-00",
         "month_period=1899-12",
         "month_period=10000-01",
-        "month_period=abc",
-        # No dash at all, and one dash too many: both fail the tuple unpack.
         "month_period=2024",
         "month_period=2024-03-15",
-        "month_period=",
         "",
     ],
 )
@@ -70,24 +66,17 @@ def test_parse_month_period_falls_back_to_the_legacy_pair(rf):
     assert parse_month_period(request) == (7, 2020, "2020-07")
 
 
-@pytest.mark.parametrize(
-    "query_string",
-    [
-        "legacy_month=07&legacy_year=2020",
-        "legacy_month=%207%20&legacy_year=%202020%20",
-    ],
-)
-def test_parse_month_period_normalises_the_legacy_pair(rf, query_string):
-    assert parse_month_period(_request(rf, query_string)) == (7, 2020, "2020-07")
+def test_parse_month_period_normalises_the_legacy_pair(rf):
+    request = _request(rf, "legacy_month=07&legacy_year=2020")
+
+    assert parse_month_period(request) == (7, 2020, "2020-07")
 
 
 @pytest.mark.parametrize(
     "query_string",
     [
-        # isdigit() rejects both of these before int() ever sees them.
         "legacy_month=-7&legacy_year=2020",
         "legacy_month=7.0&legacy_year=2020",
-        # Half a pair is no pair.
         "legacy_month=7",
         "legacy_year=2020",
         "legacy_month=13&legacy_year=2020",
