@@ -61,6 +61,7 @@ django==5.2.12
     #   django-axes
     #   django-browser-reload
     #   django-crispy-forms
+    #   django-csp
     #   django-debug-toolbar
     #   django-import-export
     #   django-select2
@@ -78,6 +79,8 @@ django-axes==8.3.1
 django-browser-reload==1.21.0
     # via -r requirements.in
 django-crispy-forms==2.6
+    # via -r requirements.in
+django-csp==4.0
     # via -r requirements.in
 django-debug-toolbar==6.2.0
     # via -r requirements.in
@@ -140,6 +143,7 @@ openpyxl==3.1.5
 packaging==26.0
     # via
     #   -r requirements.in
+    #   django-csp
     #   gunicorn
     #   pytest
 pandas==3.0.1
