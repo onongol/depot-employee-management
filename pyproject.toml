@@ -1,0 +1,47 @@
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+extend-exclude = ["*/migrations/*.py", "staticfiles/*", "static/*", "venv/*"]
+
+[tool.ruff.lint]
+select = [
+  "A", "ASYNC", "B", "BLE", "C4", "C90", "COM", "DJ", "DTZ", "E", "EM",
+  "ERA", "EXE", "F", "FA", "FBT", "FLY", "G", "I", "ICN", "INP", "INT",
+  "ISC", "N", "PD", "PERF", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "Q",
+  "RET", "RSE", "RUF", "S", "SIM", "SLF", "SLOT", "T10", "T20", "TC",
+  "TID", "TRY", "UP", "W", "YTT",
+]
+ignore = [
+  "RUF012",
+  "S101",
+  "SIM102",
+  # Ruff warns on every run that COM812 conflicts with the formatter.
+  "COM812",
+  # Line length is the formatter's job.
+  "E501",
+  # UI text is Mongolian; Ruff reads Cyrillic as lookalike Latin.
+  "RUF001",
+  "RUF002",
+  "RUF003",
+]
+
+isort.force-single-line = true
+
+[tool.ruff.lint.per-file-ignores]
+# Settings modules and packages are assembled with star imports.
+"depo_crud/settings/*.py" = ["F403", "F405"]
+"**/__init__.py" = ["F403", "F405"]
+
+[tool.djlint]
+profile = "django"
+extension = "html"
+# Must match tabWidth/printWidth in .prettierrc: both format the same templates,
+# and a mismatch makes them rewrite each other forever.
+indent = 2
+max_line_length = 119
+format_css = true
+format_js = true
+css.indent_size = 2
+js.indent_size = 2
+ignore = "H006,H030,H031"
+include = "H017,H035"

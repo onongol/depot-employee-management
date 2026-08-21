@@ -9,6 +9,7 @@ click
 colorama
 cookiecutter
 diff-match-patch
+djlint==1.44.2
 Django~=5.2
 django-allauth[mfa]
 django-appconf
@@ -27,7 +28,6 @@ et_xmlfile
 factory-boy
 gunicorn
 idna
-isort
 Jinja2
 markdown-it-py
 MarkupSafe
@@ -38,6 +38,7 @@ openpyxl
 packaging
 pandas
 pillow
+pre-commit
 Pygments
 pytest
 pytest-django
@@ -50,6 +51,7 @@ reportlab
 requests
 rich
 rjsmin
+ruff==0.16.3
 sentry-sdk
 six
 sqlparse
