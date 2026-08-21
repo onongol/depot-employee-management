@@ -3,8 +3,12 @@ from django.db import models
 from employee.services.soft_delete_queryset import SoftDeleteQuerySet
 
 
-class SoftDeleteManager(models.Manager):
-    """Manager that filters out soft-deleted records by default."""
+class SoftDeleteManager(models.Manager.from_queryset(SoftDeleteQuerySet)):
+    """Manager that filters out soft-deleted records by default.
+
+    from_queryset() wires up SoftDeleteQuerySet; without it queryset .delete()
+    was a plain hard delete.
+    """
 
     def __init__(self, *args, only_alive=True, **kwargs):
         super().__init__(*args, **kwargs)
@@ -20,4 +24,6 @@ class SoftDeleteManager(models.Manager):
         return SoftDeleteQuerySet(self.model, using=self._db)
 
     def dead(self):
+        # Must override: the copied dead() would go through get_queryset()
+        # and always come back empty.
         return self.all_with_deleted().dead()
