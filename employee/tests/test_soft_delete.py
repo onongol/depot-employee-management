@@ -5,6 +5,7 @@ from employee.tests.factories import (
     EmployeeFactory,
     MasterFactory,
     PayrollFactory,
+    UserFactory,
     WorkFactory,
 )
 
@@ -17,6 +18,13 @@ SOFT_DELETE_MODELS = [
     pytest.param(MasterFactory, Master, id="Master"),
     pytest.param(PayrollFactory, Payroll, id="Payroll"),
     pytest.param(WorkFactory, Work, id="Work"),
+]
+
+# The three that carry a linked User. Work has no login attached to it.
+PROFILE_FACTORIES = [
+    pytest.param(EmployeeFactory, id="Employee"),
+    pytest.param(MasterFactory, id="Master"),
+    pytest.param(PayrollFactory, id="Payroll"),
 ]
 
 
@@ -97,6 +105,47 @@ def test_delete_is_not_reachable_from_the_manager(factory, model):
     # would exist and wipe the table in one argument-less call.
     assert not hasattr(model.objects, "delete")
     assert not hasattr(model.objects, "hard_delete")
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("factory", PROFILE_FACTORIES)
+def test_delete_deactivates_the_linked_user(factory):
+    # Otherwise a deleted profile leaves a working login behind: the person
+    # still authenticates, they just land in an app with no data.
+    linked_user = UserFactory(is_active=True)
+    profile = factory(user=linked_user)
+
+    profile.delete()
+
+    linked_user.refresh_from_db()
+    assert linked_user.is_active is False
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("factory", PROFILE_FACTORIES)
+def test_restore_reactivates_the_linked_user(factory):
+    linked_user = UserFactory(is_active=True)
+    profile = factory(user=linked_user)
+    profile.delete()
+
+    profile.restore()
+
+    linked_user.refresh_from_db()
+    assert linked_user.is_active is True
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("factory", PROFILE_FACTORIES)
+def test_delete_does_not_reactivate_an_already_inactive_user(factory):
+    # is_active=False must survive the delete/restore round trip.
+    linked_user = UserFactory(is_active=True)
+    profile = factory(user=linked_user, is_active=False)
+    profile.delete()
+
+    profile.restore()
+
+    linked_user.refresh_from_db()
+    assert linked_user.is_active is False
 
 
 @pytest.mark.django_db
