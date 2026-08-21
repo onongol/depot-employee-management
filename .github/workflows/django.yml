@@ -64,6 +64,12 @@ jobs:
       - name: Collect Static Files
         run: |
           python manage.py collectstatic --noinput
+      - name: Deployment Checks
+        env:
+          DJANGO_SETTINGS_MODULE: depo_crud.settings.production
+        run: |
+          python manage.py check --deploy --fail-level WARNING
+
       - name: Grant Test Database Privileges
         run: |
           mysql -h 127.0.0.1 -P 3306 -u root -e "GRANT ALL PRIVILEGES ON \`test\_%\`.* TO '$MYSQL_USER'@'%'; FLUSH PRIVILEGES;"
