@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 def build_headers(context):
     wagon_mode = context.wagon_mode
-    
+
     headers = [
         ("#"),
         _("ID"),
@@ -26,5 +26,5 @@ def build_headers(context):
     ]
 
     headers = [str(h) for h in headers]
-    
+
     return headers

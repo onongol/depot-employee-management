@@ -18,5 +18,4 @@ def calculate_salary_percentages(employees_salary):
             )
             for emp in employees_salary
         }
-    else:
-        return {emp.employee.employee_id: Decimal("0") for emp in employees_salary}
+    return {emp.employee.employee_id: Decimal("0") for emp in employees_salary}

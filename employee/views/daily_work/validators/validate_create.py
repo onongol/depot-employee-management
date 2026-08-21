@@ -1,4 +1,3 @@
-from typing import List, Optional, Tuple
 
 from employee.views.daily_work.daily_work_create.post_data.post_data_context import (
     PostData,
@@ -16,8 +15,8 @@ class CreateValidator:
     def __init__(self, data: PostData):
         self.data = data
 
-    def validate(self) -> Tuple[Optional[object], List[str]]:
-        errors: List[str] = []
+    def validate(self) -> tuple[object | None, list[str]]:
+        errors: list[str] = []
 
         # 1) required fields & amounts
         errors.extend(

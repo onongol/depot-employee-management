@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any
 
 
 @dataclass
 class MaterialContext:
     daily_works: Any
-    work_name: Optional[str]
-    type_material: Optional[str]
-    range_date: Optional[str]
-    order_by: Optional[str]
-    direction: Optional[str]
+    work_name: str | None
+    type_material: str | None
+    range_date: str | None
+    order_by: str | None
+    direction: str | None

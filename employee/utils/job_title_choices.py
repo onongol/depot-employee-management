@@ -1,5 +1,5 @@
+from collections.abc import Iterable
 from itertools import chain
-from typing import Iterable
 
 
 def build_job_title_choices(employees: Iterable, works: Iterable) -> list[str]:

@@ -1,8 +1,8 @@
-from employee.views.daily_work.daily_work_create.calculation.calculate_work_amount_price import (
-    calculate_work_amount_price,
-)
 from employee.views.daily_work.daily_work_create.calculation.calculate_salary_percentages import (
     calculate_salary_percentages,
+)
+from employee.views.daily_work.daily_work_create.calculation.calculate_work_amount_price import (
+    calculate_work_amount_price,
 )
 from employee.views.daily_work.validators.validate_parse_amount import (
     validate_parse_amount,
