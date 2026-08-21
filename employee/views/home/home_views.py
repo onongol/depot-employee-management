@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 
-def home(request):    
+def home(request):
     department = request.GET.get("department") or request.session.get("department")
 
     if request.user.is_authenticated:
