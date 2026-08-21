@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "import_export",
     "simple_history",
     "axes",
+    "csp",
     "allauth",
     "allauth.account",
     "allauth.mfa",
@@ -58,6 +59,7 @@ AXES_MIDDLEWARE_PATH = "axes.middleware.AxesMiddleware"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "csp.middleware.CSPMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
