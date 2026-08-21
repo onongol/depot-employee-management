@@ -33,3 +33,9 @@ else:
 DATABASES["default"]["OPTIONS"] = {
     "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
 }
+
+# Reuse connections across requests; set CONN_MAX_AGE=60 where the database is remote.
+# Health checks are mandatory with it - the server drops idle
+# connections, and Django would hand a dead one to the next request.
+DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=0)
+DATABASES["default"]["CONN_HEALTH_CHECKS"] = True
