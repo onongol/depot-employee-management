@@ -1,4 +1,5 @@
 import sentry_sdk
+from csp.constants import NONCE, NONE, SELF
 from django.core.exceptions import ImproperlyConfigured
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -46,23 +47,44 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool(
 )
 SECURE_HSTS_PRELOAD = env.bool("SECURE_HSTS_PRELOAD", default=True)
 
-# 9. Email: Django defaults to no timeout at all, so one hung SMTP connection
+# 9. CSP. Report-only for now: violations land in the browser console and
+# nothing breaks, so the policy can be tightened against real traffic before it
+# is enforced. Switch the setting name to CONTENT_SECURITY_POLICY once quiet.
+# The only inline script is the theme block in base.html, which carries a nonce.
+CONTENT_SECURITY_POLICY_REPORT_ONLY = {
+    "DIRECTIVES": {
+        "default-src": [SELF],
+        "script-src": [SELF, NONCE],
+        # Third-party widgets (flatpickr, select2, unfold) inject style tags;
+        # drop 'unsafe-inline' once the report log shows it is unused.
+        "style-src": [SELF, "'unsafe-inline'"],
+        "img-src": [SELF, "data:"],
+        "font-src": [SELF, "data:"],
+        "connect-src": [SELF],
+        "form-action": [SELF],
+        "base-uri": [SELF],
+        "frame-ancestors": [NONE],
+        "object-src": [NONE],
+    },
+}
+
+# 10. Email: Django defaults to no timeout at all, so one hung SMTP connection
 # would pin a gunicorn worker forever
 EMAIL_BACKEND = env.str(
     "EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
 )
 EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", default=5)
 
-# 10. Middleware: django-axes requires its middleware to run last
+# 11. Middleware: django-axes requires its middleware to run last
 MIDDLEWARE = MIDDLEWARE + [AXES_MIDDLEWARE_PATH]
 assert MIDDLEWARE[-1] == AXES_MIDDLEWARE_PATH, "AxesMiddleware must be last"
 
-# 11. django-vite: resolve built asset URLs via static/manifest.json
+# 12. django-vite: resolve built asset URLs via static/manifest.json
 DJANGO_VITE = {
     "default": {"dev_mode": False},
 }
 
-# 12. Sentry: error monitoring. Inactive until SENTRY_DSN is set - lets the app
+# 13. Sentry: error monitoring. Inactive until SENTRY_DSN is set - lets the app
 # run without it while the DSN is being provisioned.
 SENTRY_DSN = env.str("SENTRY_DSN", default="")
 if SENTRY_DSN:
