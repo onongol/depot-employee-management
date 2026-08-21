@@ -56,7 +56,8 @@ class Payroll(SoftDeleteMixin, models.Model):
         self.full_clean()
         with transaction.atomic():
             if self.user_id:
-                self.user.is_active = self.is_active
+                # A soft-deleted profile must not leave a usable login behind.
+                self.user.is_active = self.is_active and not self.is_deleted
                 self.user.save(update_fields=["is_active"])
             return super().save(*args, **kwargs)
 
