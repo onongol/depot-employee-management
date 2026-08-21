@@ -9,8 +9,9 @@
         <meta name="description"
               content="Depot Management — employee, salary, and materials management system." />
         {% vite_hmr_client %}
-        <!-- Prevent theme flash -->
-        <script>
+        <!-- Prevent theme flash. Must stay inline to run before first paint,
+             so it carries a CSP nonce instead of moving to a file. -->
+        <script nonce="{{ request.csp_nonce }}">
           try {
             var theme = localStorage.getItem("theme");
             if (theme !== "light" && theme !== "dark" && theme !== "auto") theme = "auto";
