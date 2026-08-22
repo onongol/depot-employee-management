@@ -41,10 +41,6 @@ ignore = [
   # hurts readability, and there is none here.
   "C901",
   "PLR0912",
-  # TODO: 5 - functions taking 6-7 arguments. All of them are keyword-only now,
-  # so the call sites read fine; collapsing the groups into dataclasses is the
-  # remaining step.
-  "PLR0913",
   "PTH",      # TODO: 4 - os.path instead of pathlib
   "SLF001",   # TODO: 3 - private member access
   "SIM105",   # TODO: 3 - together with SIM108
