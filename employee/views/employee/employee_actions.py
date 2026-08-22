@@ -19,10 +19,10 @@ def _set_employee_active_status(request, pk, is_active):
 @login_required
 @permission_required("employee.change_employee_status")
 def employee_activate(request, pk):
-    return _set_employee_active_status(request, pk, True)
+    return _set_employee_active_status(request, pk, is_active=True)
 
 
 @login_required
 @permission_required("employee.change_employee_status")
 def employee_deactivate(request, pk):
-    return _set_employee_active_status(request, pk, False)
+    return _set_employee_active_status(request, pk, is_active=False)
