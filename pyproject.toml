@@ -26,7 +26,6 @@ ignore = [
 
   # Pre-existing debt, silenced to get the hooks green on the current code.
   # Counts are from the first full run; each line is its own cleanup task.
-  "PLR2004",  # TODO: 26 - magic values in comparisons
   "PLC0415",  # TODO: 11 - imports inside functions
   "DJ001",    # TODO: 7 - null=True on string model fields
   "FBT",      # TODO: 9 - boolean positional arguments
@@ -55,6 +54,8 @@ known-first-party = ["depo_crud", "employee"]
 [tool.ruff.lint.per-file-ignores]
 # Settings modules and packages are assembled with star imports.
 "depo_crud/settings/*.py" = ["F403", "F405"]
+# In an assertion the literal is the documentation; naming it hides what is checked.
+"employee/tests/*.py" = ["PLR2004"]
 "**/__init__.py" = ["F403", "F405"]
 
 # Lint only. Formatting is Prettier's: djlint --reformat and Prettier rewrite
