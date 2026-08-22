@@ -38,12 +38,12 @@ def create_daily_work_piecework_records(request_data, user=None):
         with transaction.atomic():
             # Create Daily_Work
             daily_works, works_dict = daily_work_create_entries(
-                selected_work_ids,
-                amounts,
-                job_title,
-                type_work,
-                wagon_number,
-                work_date,
+                selected_work_ids=selected_work_ids,
+                amounts=amounts,
+                job_title=job_title,
+                type_work=type_work,
+                wagon_number=wagon_number,
+                work_date=work_date,
             )
 
             # Calculate Piecework records

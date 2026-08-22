@@ -62,5 +62,10 @@ def employee_salary_export_pdf(request):
     sheet_title = f"{title} ({department})"
 
     return export_to_pdf(
-        data, headers, col_widths, col_alignments, sheet_title, file_name
+        data,
+        headers,
+        col_widths=col_widths,
+        col_alignments=col_alignments,
+        title=sheet_title,
+        filename=file_name,
     )

@@ -31,7 +31,7 @@ else:
     FONT_NAME = "Helvetica"
 
 
-def export_to_pdf(data, headers, col_widths, col_alignments, title, filename):
+def export_to_pdf(data, headers, *, col_widths, col_alignments, title, filename):
     """Export data to a PDF file with a table and custom formatting."""
     buffer = BytesIO()
     # Create a landscape A4 PDF document

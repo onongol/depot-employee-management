@@ -7,7 +7,13 @@ from employee.views.daily_salary.validators.validate_duplicate import (
 
 
 def build_daily_salary_instances(
-    selected_ids, employees_dict, existing_records, salary_date, hours_per_day, errors
+    *,
+    selected_ids,
+    employees_dict,
+    existing_records,
+    salary_date,
+    hours_per_day,
+    errors,
 ):
     """
     For each selected employee, check for existing daily salary records to prevent duplicates; if none exist, calculate the salary and prepare a new DailySalary instance.

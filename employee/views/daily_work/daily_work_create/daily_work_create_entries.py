@@ -4,7 +4,7 @@ from employee.models import DailyWork, Work
 
 
 def daily_work_create_entries(
-    selected_work_ids, amounts, job_title, type_work, wagon_number, work_date
+    *, selected_work_ids, amounts, job_title, type_work, wagon_number, work_date
 ):
     """Create DailyWork entries for the selected works."""
     # Store created DailyWork records for linking to Piecework

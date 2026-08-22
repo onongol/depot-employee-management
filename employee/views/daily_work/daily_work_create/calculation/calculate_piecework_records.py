@@ -10,6 +10,7 @@ from employee.views.daily_work.validators.validate_parse_amount import (
 
 
 def calculate_piecework_records(
+    *,
     employees_salary,
     selected_work_ids,
     amounts,
