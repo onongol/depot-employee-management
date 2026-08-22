@@ -1,5 +1,6 @@
 import os
 import warnings
+from dataclasses import dataclass, field
 from io import BytesIO
 from urllib.parse import quote
 
@@ -31,7 +32,15 @@ else:
     FONT_NAME = "Helvetica"
 
 
-def export_to_pdf(data, headers, *, col_widths, col_alignments, title, filename):
+@dataclass(frozen=True)
+class TableLayout:
+    """Column widths and extra ReportLab TableStyle commands for the table."""
+
+    col_widths: list[int]
+    col_alignments: list[tuple] = field(default_factory=list)
+
+
+def export_to_pdf(data, headers, *, layout: TableLayout, title, filename):
     """Export data to a PDF file with a table and custom formatting."""
     buffer = BytesIO()
     # Create a landscape A4 PDF document
@@ -86,7 +95,7 @@ def export_to_pdf(data, headers, *, col_widths, col_alignments, title, filename)
         table_data.append([Paragraph(str(cell), cell_style) for cell in row])
 
     # Create the table with specified column widths
-    table = Table(table_data, colWidths=col_widths, repeatRows=1)
+    table = Table(table_data, colWidths=layout.col_widths, repeatRows=1)
 
     # Define the base style for the table
     base_table_style = [
@@ -106,8 +115,8 @@ def export_to_pdf(data, headers, *, col_widths, col_alignments, title, filename)
     ]
 
     # Add custom column alignments if provided
-    if col_alignments:
-        base_table_style.extend(col_alignments)
+    if layout.col_alignments:
+        base_table_style.extend(layout.col_alignments)
 
     # Alternate row background color for better readability
     alternating_row_styles = [

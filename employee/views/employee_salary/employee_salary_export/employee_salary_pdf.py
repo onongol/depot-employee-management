@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
 
 from employee.constants.constants import GROUP_WAGON
-from employee.utils.exports.export_pdf import export_to_pdf
+from employee.utils.exports.export_pdf import TableLayout, export_to_pdf
 from employee.views.employee_salary.employee_salary_export.build_headers import (
     build_headers,
 )
@@ -64,8 +64,7 @@ def employee_salary_export_pdf(request):
     return export_to_pdf(
         data,
         headers,
-        col_widths=col_widths,
-        col_alignments=col_alignments,
+        layout=TableLayout(col_widths=col_widths, col_alignments=col_alignments),
         title=sheet_title,
         filename=file_name,
     )
