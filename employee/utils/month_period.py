@@ -1,3 +1,14 @@
+from datetime import MAXYEAR
+
+MONTHS_IN_YEAR = 12
+# Lower bound is arbitrary - it only exists to reject junk input.
+MIN_YEAR = 1900
+
+
+def _is_valid_month_period(year: int, month: int) -> bool:
+    return 1 <= month <= MONTHS_IN_YEAR and MIN_YEAR <= year <= MAXYEAR
+
+
 def parse_month_period(
     request,
     *,
@@ -16,7 +27,7 @@ def parse_month_period(
             raw_year, raw_month = raw_month_period.split("-")
             year_int, month_int = int(raw_year), int(raw_month)
 
-            if 1 <= month_int <= 12 and 1900 <= year_int <= 9999:
+            if _is_valid_month_period(year_int, month_int):
                 year, month = year_int, month_int
                 month_period = f"{year:04d}-{month:02d}"
 
@@ -29,7 +40,7 @@ def parse_month_period(
         if raw_month.isdigit() and raw_year.isdigit():
             year_int, month_int = int(raw_year), int(raw_month)
 
-            if 1 <= month_int <= 12 and 1900 <= year_int <= 9999:
+            if _is_valid_month_period(year_int, month_int):
                 year, month = year_int, month_int
                 month_period = f"{year:04d}-{month:02d}"
 
