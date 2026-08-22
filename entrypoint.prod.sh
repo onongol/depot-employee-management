@@ -26,7 +26,7 @@ except Exception:
         echo "==> [ERROR] Maximum retries ($MAX_RETRIES) reached. Database is still not ready. Exiting."
         exit 1
     fi
-    
+
     echo "==> [WAIT] Database not ready. Retrying in $RETRY_INTERVAL seconds... (Attempt $RETRY_COUNT/$MAX_RETRIES)"
     sleep "$RETRY_INTERVAL"
 done
