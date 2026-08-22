@@ -28,7 +28,8 @@ Django application for managing employees, jobs, piecework payments, and materia
 ├── docker-compose.yml
 ├── entrypoint.prod.sh
 ├── package.json
-├── requirements.txt
+├── requirements.txt      # production dependencies
+├── requirements-dev.txt  # linters, tests, debug toolbar
 └── README.md
 ```
 
@@ -50,7 +51,9 @@ python -m venv .venv
 # macOS/Linux:
 source .venv/bin/activate
 
-pip install -r requirements.txt
+# requirements.txt is what the production image installs; the dev file adds
+# linters, test tools and the debug toolbar on top.
+pip install -r requirements.txt -r requirements-dev.txt
 
 # Frontend
 npm ci
@@ -164,7 +167,7 @@ Who owns what: Prettier formats templates, djLint only lints them. The two canno
 format — `djlint --reformat` and Prettier rewrite each other's output indefinitely.
 
 Tool versions are pinned in two places that must stay in sync: hook `rev` values in
-`.pre-commit-config.yaml` against `ruff`/`djlint` in `requirements.txt`, and the hook's
+`.pre-commit-config.yaml` against `ruff`/`djlint` in `requirements-dev.txt`, and the hook's
 `additional_dependencies` against `prettier` and its plugins in `package.json`.
 
 ## Tests
