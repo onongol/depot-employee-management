@@ -38,7 +38,7 @@ repos:
       - id: django-upgrade
         args: ["--target-version", "5.2"]
 
-  # rev must match the ruff pin in requirements.txt.
+  # rev must match the ruff pin in requirements-dev.txt.
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.3
     hooks:
@@ -46,7 +46,7 @@ repos:
         args: [--fix]
       - id: ruff-format
 
-  # Lint only - formatting belongs to Prettier. rev must match requirements.txt.
+  # Lint only - formatting belongs to Prettier. rev must match requirements-dev.txt.
   - repo: https://github.com/djlint/djLint
     rev: v1.44.2
     hooks:
