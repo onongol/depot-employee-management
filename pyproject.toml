@@ -31,7 +31,12 @@ ignore = [
   # work_models depends on it, and the UI shows those rows under a placeholder.
   # For NEW string fields still prefer blank=True without null=True.
   "DJ001",
-  "TRY",      # TODO: 7 - exception handling style
+  # Django's own ImproperlyConfigured pattern for settings, plus manage.py's
+  # startproject template - a class per config error would be absurd.
+  "TRY003",
+  # parse_date_range has four returns inside the try; moving only the last one
+  # to an else block would be inconsistent.
+  "TRY300",
   "EM",       # TODO: 5 - string literals passed straight to exceptions
   "UP042",    # TODO: 5 - str+Enum classes should be StrEnum
   # Kept off by decision, not deferred. The two filter_* functions are flat
