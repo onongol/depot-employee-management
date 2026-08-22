@@ -15,15 +15,13 @@ def test_build_daily_salary_instances_skips_duplicate_employee():
         employee_id=2, money_per_hour=Decimal("100.00")
     )
     employees_dict = {1: duplicate_employee, 2: new_employee}
-    errors = []
 
-    new_records = build_daily_salary_instances(
+    new_records, errors = build_daily_salary_instances(
         selected_ids=[1, 2],
         employees_dict=employees_dict,
         existing_records={1},  # employee 1 already has a record for this date
         salary_date=date(2026, 3, 5),
         hours_per_day=8,
-        errors=errors,
     )
 
     assert len(errors) == 1
