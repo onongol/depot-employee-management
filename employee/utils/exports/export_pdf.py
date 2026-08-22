@@ -25,7 +25,8 @@ if os.path.exists(FONT_PATH):
     pdfmetrics.registerFont(TTFont(FONT_NAME, FONT_PATH))
 else:
     warnings.warn(
-        f"Font file not found: {FONT_PATH}. Falling back to built-in 'Helvetica'."
+        f"Font file not found: {FONT_PATH}. Falling back to built-in 'Helvetica'.",
+        stacklevel=2,
     )
     FONT_NAME = "Helvetica"
 
