@@ -37,12 +37,12 @@ def create_daily_salary_records(selected_ids, salary_date, hours_per_day, user=N
     employees_dict = select_employees_by_ids(selected_ids)
 
     new_records = build_daily_salary_instances(
-        selected_ids,
-        employees_dict,
-        existing_records,
-        salary_date,
-        hours_per_day,
-        errors,
+        selected_ids=selected_ids,
+        employees_dict=employees_dict,
+        existing_records=existing_records,
+        salary_date=salary_date,
+        hours_per_day=hours_per_day,
+        errors=errors,
     )
 
     # After duplicate check and instance preparation: if there are errors, stop and return them before saving
