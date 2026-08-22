@@ -4,20 +4,19 @@ from employee.views.daily_work.daily_work_create.calculation.calculate_salary_pe
 from employee.views.daily_work.daily_work_create.calculation.calculate_work_amount_price import (
     calculate_work_amount_price,
 )
+from employee.views.daily_work.daily_work_create.post_data.post_data_context import (
+    PostData,
+)
 from employee.views.daily_work.validators.validate_parse_amount import (
     validate_parse_amount,
 )
 
 
 def calculate_piecework_records(
+    post_data: PostData,
     *,
     employees_salary,
-    selected_work_ids,
-    amounts,
     works_dict,
-    work_date,
-    type_work,
-    wagon_number=None,
 ):
     """
     Calculate and validate piecework data for each employee and work.
@@ -36,9 +35,9 @@ def calculate_piecework_records(
         emp_code = emp.employee.employee_id
         percent = employee_percentages[emp_code]
 
-        for work_id in selected_work_ids:
+        for work_id in post_data.selected_work_ids:
             work = works_dict.get(work_id)
-            amount = amounts.get(work_id)
+            amount = post_data.amounts.get(work_id)
 
             amount_decimal = validate_parse_amount(amount, work, errors)
             if amount_decimal is None:
@@ -55,9 +54,9 @@ def calculate_piecework_records(
                     "work_id": work_id,
                     "amount": amount_decimal,
                     "amount_price": amount_price,
-                    "work_date": work_date,
-                    "type_work": type_work,
-                    "wagon_number": wagon_number,
+                    "work_date": post_data.work_date,
+                    "type_work": post_data.type_work,
+                    "wagon_number": post_data.wagon_number,
                 }
             )
 
