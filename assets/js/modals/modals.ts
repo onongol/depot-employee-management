@@ -4,12 +4,7 @@
  * It manages content population, URL/Form action updates, and body scroll locking.
  */
 type ModalType =
-  | "edit"
-  | "delete"
-  | "deactivate"
-  | "activate"
-  | "bulkDelete"
-  | "confirmSave";
+  "edit" | "delete" | "deactivate" | "activate" | "bulkDelete" | "confirmSave";
 
 /**
  * Interface for modal triggers to ensure type safety when accessing dataset.
