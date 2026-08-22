@@ -3,6 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from employee.forms.filter_forms import WorkDateFilterForm
 from employee.models import DailyWork, Piecework
 from employee.tests.factories import DailyWorkFactory, PieceworkFactory
 from employee.utils.filters.filter_daily_works import filter_daily_works
@@ -25,9 +26,18 @@ LAST = date(2024, 3, 20)
 
 
 def _context(range_date):
-    """Every attribute the four filters read, with only range_date set."""
+    """
+    Every attribute the four filters read, with only the range set.
+
+    The range still starts as the string a user submits, so these stay
+    end-to-end: box contents -> form -> queryset.
+    """
+    date_from, date_to = WorkDateFilterForm.parse({"range_date": range_date}).get(
+        "range_date"
+    ) or (None, None)
     return SimpleNamespace(
-        range_date=range_date,
+        date_from=date_from,
+        date_to=date_to,
         record_date=None,
         work_name=None,
         job_title=None,
@@ -67,10 +77,10 @@ def test_rows_outside_the_range_are_excluded(filter_func, factory, model):
 @pytest.mark.django_db
 @pytest.mark.parametrize(("filter_func", "factory", "model"), RANGE_FILTERS)
 def test_an_unparsable_range_leaves_the_queryset_untouched(filter_func, factory, model):
-    # parse_date_range returns (None, None) here, and both bounds are guarded
-    # by `if start_date` / `if end_date`. That has to mean "no date filter",
-    # never "match nothing" — a typo in the box must not silently empty the
-    # table and read as "no such records".
+    # The form drops the unusable range and both bounds are guarded by
+    # `if date_from` / `if date_to`. That has to mean "no date filter", never
+    # "match nothing" — a typo in the box must not silently empty the table and
+    # read as "no such records".
     for day in (FIRST, MIDDLE, LAST):
         factory(work_date=day)
 
@@ -106,9 +116,9 @@ def test_a_single_date_narrows_to_that_one_day(filter_func, factory, model):
 @pytest.mark.django_db
 @pytest.mark.parametrize(("filter_func", "factory", "model"), RANGE_FILTERS)
 def test_a_reversed_range_matches_nothing(filter_func, factory, model):
-    # parse_date_range hands back start/end unordered, so this becomes
-    # work_date >= 20th AND work_date <= 10th. Nothing is wrong with the
-    # filter; the guard would have to live in the parser or the form.
+    # The form hands back start/end unordered, so this becomes work_date >= 20th
+    # AND work_date <= 10th. Nothing is wrong with the filter; the guard would
+    # have to live in the form.
     for day in (FIRST, MIDDLE, LAST):
         factory(work_date=day)
 
