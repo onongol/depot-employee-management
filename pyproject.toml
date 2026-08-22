@@ -38,13 +38,11 @@ ignore = [
   # docs do. EM102/EM103 stay on - interpolating into an exception message
   # breaks Sentry grouping.
   "EM101",
-  "UP042",    # TODO: 5 - str+Enum classes should be StrEnum
   # Kept off by decision, not deferred. The two filter_* functions are flat
   # chains of optional guards - the metric counts branches, but nesting is what
   # hurts readability, and there is none here.
   "C901",
   "PLR0912",
-  "PTH",      # TODO: 4 - os.path instead of pathlib
   "SLF001",   # TODO: 3 - private member access
   "SIM105",   # TODO: 3 - together with SIM108
   "SIM108",
