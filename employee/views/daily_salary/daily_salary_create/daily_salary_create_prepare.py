@@ -26,9 +26,7 @@ def prepare_daily_salary_create(request) -> DailySalaryCreateContext:
         )
 
     # Get distinct job titles for filtering dropdown
-    job_titles = get_distinct_values(
-        Employee, "job_title", department, department_field="department"
-    )
+    job_titles = get_distinct_values(Employee, "job_title", department)
 
     # Fetch existing DailySalary records for the department to prevent duplicates
     existing_daily_salaries = list(

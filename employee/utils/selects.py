@@ -7,7 +7,6 @@ def get_distinct_values(
     model,
     field,
     department=None,
-    department_field=None,
     *,
     only_with_salary=False,
     extra_filters=None,
@@ -32,8 +31,8 @@ def get_distinct_values(
     # If not cached, query the database
     qs = model.objects.all()
 
-    if department and department_field:
-        qs = qs.filter(**{department_field: department})
+    if department:
+        qs = qs.filter(department=department)
     if only_with_salary:
         qs = qs.filter(dailysalary__isnull=False)
     if extra_filters:

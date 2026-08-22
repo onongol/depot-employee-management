@@ -43,9 +43,7 @@ def wagon_prepare(request) -> WagonContext:
 
     # Get distinct type_wagon and type_work for filter options
     type_wagons = get_type_wagon_filter_values(department, source_model="daily_work")
-    type_works = get_distinct_values(
-        DailyWork, "type_work", department, department_field="department"
-    )
+    type_works = get_distinct_values(DailyWork, "type_work", department)
 
     return WagonContext(
         daily_works=daily_works,

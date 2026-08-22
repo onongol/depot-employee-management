@@ -32,9 +32,7 @@ def daily_salary_prepare(request) -> DailySalaryContext:
     order_by = request.GET.get("order_by")
     direction = request.GET.get("direction")
 
-    job_titles = get_distinct_values(
-        Employee, "job_title", department, department_field="department"
-    )
+    job_titles = get_distinct_values(Employee, "job_title", department)
 
     return DailySalaryContext(
         daily_salaries=daily_salaries,

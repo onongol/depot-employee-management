@@ -43,17 +43,12 @@ def daily_work_prepare(request) -> DailyWorkContext:
     year_group = is_year_group(group)
 
     # Get distinct values for dropdown filters
-    job_titles = get_distinct_values(
-        DailyWork, "job_title", department, department_field="department"
-    )
-    type_works = get_distinct_values(
-        DailyWork, "type_work", department, department_field="department"
-    )
+    job_titles = get_distinct_values(DailyWork, "job_title", department)
+    type_works = get_distinct_values(DailyWork, "type_work", department)
     type_materials = get_distinct_values(
         DailyWork,
         "work__type_material",
         department,
-        department_field="department",
     )
 
     # Get available wagon types for filter dropdown

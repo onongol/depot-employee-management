@@ -54,20 +54,14 @@ def piecework_prepare(request) -> PieceworkContext:
     year_group = is_year_group(group)
 
     # Get distinct values for dropdown filters
-    job_titles = get_distinct_values(
-        Piecework, "job_title", department, department_field="department"
-    )
-    type_works = get_distinct_values(
-        Piecework, "type_work", department, department_field="department"
-    )
+    job_titles = get_distinct_values(Piecework, "job_title", department)
+    type_works = get_distinct_values(Piecework, "type_work", department)
 
     # Get available wagon types for filter dropdown
     type_wagons = get_type_wagon_filter_values(department, source_model="piecework")
 
     # Get available years for year filter dropdown
-    years = get_distinct_values(
-        Piecework, "work_year", department, department_field="department"
-    )
+    years = get_distinct_values(Piecework, "work_year", department)
 
     return PieceworkContext(
         pieceworks=pieceworks,

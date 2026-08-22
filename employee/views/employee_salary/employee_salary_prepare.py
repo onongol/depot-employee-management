@@ -38,7 +38,6 @@ def employee_salaries_prepare(request) -> EmployeeSalaryContext:
         Employee,
         "job_title",
         department,
-        department_field="department",
         only_with_salary=True,
     )
 
