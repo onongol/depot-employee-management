@@ -14,7 +14,7 @@ def prepare_daily_salary_create(request) -> DailySalaryCreateContext:
     """Build context for daily salary creation view."""
     department = get_selected_department(request)
 
-    today = timezone.now().date()
+    today = timezone.localdate()
 
     # Filter employees by selected department, or show none if not selected
     employees = []
