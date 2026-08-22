@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 
 from django.utils.translation import gettext_lazy as _
 
@@ -18,7 +18,7 @@ def validate_parse_amount(amount, work, errors):
         return None
     try:
         return Decimal(amount)
-    except Exception:
+    except (InvalidOperation, TypeError):
         errors.append(
             _("Invalid amount for work %(work_name)s.") % {"work_name": work_name}
         )
