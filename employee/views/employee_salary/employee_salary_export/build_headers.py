@@ -25,6 +25,4 @@ def build_headers(context):
         _("Year"),
     ]
 
-    headers = [str(h) for h in headers]
-
-    return headers
+    return [str(h) for h in headers]

@@ -9,6 +9,4 @@ def build_totals_row(qs):
 
     empty_cols = 2
 
-    totals_row = [total_str] + [empty] * empty_cols + [total_amount] + [empty]
-
-    return totals_row
+    return [total_str] + [empty] * empty_cols + [total_amount] + [empty]

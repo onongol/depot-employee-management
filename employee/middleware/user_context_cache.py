@@ -12,5 +12,4 @@ class UserContextCacheMiddleware:
     def __call__(self, request):
         get_selected_department_from_request(request)
 
-        response = self.get_response(request)
-        return response
+        return self.get_response(request)

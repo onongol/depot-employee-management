@@ -58,8 +58,4 @@ def calculate_employee_salaries(
         group_by_wagon=group_by_wagon,
     )
 
-    employee_salaries = build_employee_salary_list(
-        salary_data=salary_data, employees=employees
-    )
-
-    return employee_salaries
+    return build_employee_salary_list(salary_data=salary_data, employees=employees)

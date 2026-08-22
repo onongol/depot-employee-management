@@ -39,11 +39,9 @@ def build_totals_row(qs, context):
         total_time = sum_field(rows, time_key)
         total_price = sum_field(rows, price_key)
 
-    totals_row = (
+    return (
         [total_str]
         + [empty] * empty_cols
         + [total_amount, total_time, total_price]
         + [empty] * tail_empties
     )
-
-    return totals_row

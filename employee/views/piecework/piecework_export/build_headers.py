@@ -31,6 +31,4 @@ def build_headers(context):
     else:
         headers += [_("Date")]
 
-    headers = [str(h) for h in headers]
-
-    return headers
+    return [str(h) for h in headers]

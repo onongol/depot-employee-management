@@ -20,8 +20,4 @@ def build_totals_row(totals: dict, context):
         tail_empties = 1
         totals_cells = [total_amount, total_time, total_price]
 
-    totals_row = (
-        [total_str] + [empty] * empty_cols + totals_cells + [empty] * tail_empties
-    )
-
-    return totals_row
+    return [total_str] + [empty] * empty_cols + totals_cells + [empty] * tail_empties

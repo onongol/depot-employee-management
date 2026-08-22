@@ -14,9 +14,8 @@ def calculate_piecework_update(work, amount, daily_salary, employees_salary):
         )
 
     value = (work.price * percent / 100).quantize(TWO, rounding=ROUND_HALF_UP)
-    amount_price = (
+    return (
         (value * amount).quantize(TWO, rounding=ROUND_HALF_UP)
         if amount is not None
         else Decimal("0")
     )
-    return amount_price
