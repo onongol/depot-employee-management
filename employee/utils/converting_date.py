@@ -21,11 +21,13 @@ def format_date(date_str):
 
 def parse_date_range(range_date):
     """Parse a date range string into start and end date objects."""
-    try:
-        range_str = (range_date or "").strip()
-        if not range_str:
-            return None, None
+    range_str = (range_date or "").strip()
+    if not range_str:
+        return None, None
 
+    # Only a real but non-existent date raises here; an unparsable string just
+    # comes back as None. Anything else escaping would be our own bug.
+    try:
         # Try known separators
         for sep in (" to ", " - ", "–", "—"):
             if sep in range_str:
@@ -38,11 +40,8 @@ def parse_date_range(range_date):
 
         # Single date -> same start/end
         single = parse_date(range_str)
-        if single:
-            return single, single
-
+    except ValueError:
+        logger.warning("Invalid date range: %s", range_date)
         return None, None
 
-    except Exception as e:
-        logger.warning("Invalid date range: %s (%s)", range_date, e)
-        return None, None
+    return (single, single) if single else (None, None)
