@@ -80,19 +80,6 @@ class DailySalary(models.Model):
     def __str__(self):
         return f"(ID: {self.employee_code}) {self.employee_name} - {self.salary_date}"
 
-    def get_update_url(self):
-        return reverse("daily_salary_update", args=[self.pk])
-
-    def get_dom_attrs(self):
-        return {
-            "data-emp-id": self.employee_code,
-            "data-emp-name": self.employee_name,
-            "data-salary-date": self.salary_date.isoformat(),
-            "data-row-id": self.pk,
-            "data-row-name": str(self),
-            "data-edit-url": self.get_update_url(),
-        }
-
     def save(self, *args, **kwargs):
         """
         Override save to:
@@ -120,3 +107,16 @@ class DailySalary(models.Model):
         self.salary_day = Decimal(self.hours_per_day) * self.employee.money_per_hour
 
         super().save(*args, **kwargs)
+
+    def get_update_url(self):
+        return reverse("daily_salary_update", args=[self.pk])
+
+    def get_dom_attrs(self):
+        return {
+            "data-emp-id": self.employee_code,
+            "data-emp-name": self.employee_name,
+            "data-salary-date": self.salary_date.isoformat(),
+            "data-row-id": self.pk,
+            "data-row-name": str(self),
+            "data-edit-url": self.get_update_url(),
+        }
