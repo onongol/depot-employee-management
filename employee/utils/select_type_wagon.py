@@ -3,7 +3,10 @@ import hashlib
 from django.core.cache import cache
 
 from employee.constants.constants import DEFAULT_WAGON_TYPE
+from employee.models import DailyWork, Piecework, Work
 from employee.utils.wagon_department import is_wagon_department
+
+SOURCE_MODELS = {"piecework": Piecework, "daily_work": DailyWork}
 
 
 def get_type_wagon_filter_values(
@@ -25,15 +28,10 @@ def get_type_wagon_filter_values(
         return result
 
     # Dynamically choose the source model based on the requested data source.
-    if source_model == "piecework":
-        from employee.models import Piecework as Model
-    elif source_model == "daily_work":
-        from employee.models import DailyWork as Model
-    else:
-        from employee.models import Work as Model
+    model = SOURCE_MODELS.get(source_model, Work)
 
     # Base queryset filtered by department.
-    qs = Model.objects.filter(department=department)
+    qs = model.objects.filter(department=department)
 
     # Collect non-NULL distinct values only; NULL is represented separately (placeholder).
     raw_values = list(qs.values_list("type_wagon", flat=True).distinct().order_by())

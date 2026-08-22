@@ -1,8 +1,9 @@
+from employee.services.calculate_piecework_update import calculate_piecework_update
+from employee.services.daily_work_calculations import calculate_time_amount
+
+
 def sync_single_piecework(piecework, dailywork, salary_map):
     """Sync a single Piecework with its DailyWork and recalculate amount_price."""
-    from employee.services.calculate_piecework_update import calculate_piecework_update
-    from employee.services.daily_work_calculations import calculate_time_amount
-
     piecework.job_title = dailywork.job_title
     piecework.type_work = dailywork.type_work
     piecework.type_wagon = dailywork.type_wagon
