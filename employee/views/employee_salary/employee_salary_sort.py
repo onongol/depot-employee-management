@@ -17,7 +17,7 @@ def apply_ordering(rows, context, *, allowed_fields):
         return rows
 
     if order_by == "employee_id":
-        rows.sort(key=lambda x: (x["employee"].employee_id or 0), reverse=reverse)
+        rows.sort(key=lambda x: x["employee"].employee_id or 0, reverse=reverse)
         return rows
 
     rows.sort(key=lambda x: (x.get("year") or 0, x.get("month") or 0), reverse=reverse)
