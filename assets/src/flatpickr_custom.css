@@ -25,7 +25,7 @@
 
 /* Weekday labels */
 .flatpickr-weekday {
-  color: var(--fp-text) !important;  
+  color: var(--fp-text) !important;
   color: var(--fp-muted) !important;
 }
 
@@ -38,7 +38,7 @@
 /* Selected day styles */
 .flatpickr-day.selected,
 .flatpickr-day.startRange,
-.flatpickr-day.endRange{
+.flatpickr-day.endRange {
   color: var(--fp-selected-text) !important;
 }
 
@@ -78,7 +78,7 @@
 .flatpickr-monthSelect-month.selected,
 .flatpickr-monthSelect-month:hover,
 .flatpickr-monthSelect-month.today {
-    border-radius: 1rem !important;
+  border-radius: 1rem !important;
 }
 
 /* Prev/next arrows: fill and hover accent */
@@ -89,7 +89,9 @@
   fill: var(--fp-text) !important;
   color: var(--fp-text) !important;
   opacity: 0.7;
-  transition: fill 0.2s, color 0.2s;
+  transition:
+    fill 0.2s,
+    color 0.2s;
 }
 
 .flatpickr-prev-month:hover svg,
@@ -113,5 +115,7 @@
   border-color: var(--fp-range-bg) !important;
   color: var(--fp-text) !important;
   border-radius: 0 !important;
-  box-shadow: -5px 0 0 var(--fp-range-bg), 5px 0 0 var(--fp-range-bg) !important;
+  box-shadow:
+    -5px 0 0 var(--fp-range-bg),
+    5px 0 0 var(--fp-range-bg) !important;
 }
