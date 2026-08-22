@@ -32,7 +32,7 @@ def employee_delete_bulk(request):
 
     if not ids:
         messages.warning(request, _("Select at least one record."))
-        return redirect(request.META.get("HTTP_REFERER") or fallback_url)
+        return redirect(request.headers.get("referer") or fallback_url)
 
     blocked_qs, deletable_qs = get_deletable_and_blocked_employees(ids, department)
 
@@ -53,4 +53,4 @@ def employee_delete_bulk(request):
     delete_bulk_message(request, deleted_count, deletable_items, deletable_tail)
     blocked_bulk_message(request, blocked_count, blocked_items, blocked_tail)
 
-    return redirect(request.META.get("HTTP_REFERER") or fallback_url)
+    return redirect(request.headers.get("referer") or fallback_url)

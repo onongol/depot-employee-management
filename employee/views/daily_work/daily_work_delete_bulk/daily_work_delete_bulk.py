@@ -33,7 +33,7 @@ def daily_work_delete_bulk(request):
 
     if not ids:
         messages.warning(request, _("Select at least one record."))
-        return redirect(request.META.get("HTTP_REFERER") or fallback_url)
+        return redirect(request.headers.get("referer") or fallback_url)
 
     base_qs = get_bulk_daily_work_qs(ids=ids, department=department)
 
@@ -50,4 +50,4 @@ def daily_work_delete_bulk(request):
         )
         messages.success(request, final_message)
 
-    return redirect(request.META.get("HTTP_REFERER") or fallback_url)
+    return redirect(request.headers.get("referer") or fallback_url)

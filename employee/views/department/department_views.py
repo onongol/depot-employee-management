@@ -25,6 +25,6 @@ def set_department(request):
     else:
         request.session["department"] = None
 
-    referer = request.META.get("HTTP_REFERER", "/")
+    referer = request.headers.get("referer", "/")
     redirect_path = urlsplit(referer).path or "/"
     return redirect(redirect_path)

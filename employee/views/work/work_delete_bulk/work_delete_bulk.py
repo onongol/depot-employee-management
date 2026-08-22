@@ -27,7 +27,7 @@ def work_delete_bulk(request):
 
     if not ids:
         messages.warning(request, _("Select at least one record."))
-        return redirect(request.META.get("HTTP_REFERER") or fallback_url)
+        return redirect(request.headers.get("referer") or fallback_url)
 
     deletable_qs = Work.all_objects.filter(pk__in=ids, department=department)
     deletable_count = deletable_qs.count()
@@ -43,4 +43,4 @@ def work_delete_bulk(request):
 
     delete_bulk_message(request, deleted_count, deletable_items, deletable_tail)
 
-    return redirect(request.META.get("HTTP_REFERER") or fallback_url)
+    return redirect(request.headers.get("referer") or fallback_url)

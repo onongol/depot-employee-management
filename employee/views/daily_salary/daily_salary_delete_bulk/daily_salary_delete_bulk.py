@@ -37,7 +37,7 @@ def daily_salary_delete_bulk(request):
 
     if not ids:
         messages.warning(request, _("Select at least one record."))
-        return redirect(request.META.get("HTTP_REFERER") or fallback_url)
+        return redirect(request.headers.get("referer") or fallback_url)
 
     blocked_qs, deletable_qs = get_deletable_and_blocked_daily_salaries(ids, department)
 
@@ -59,4 +59,4 @@ def daily_salary_delete_bulk(request):
 
     blocked_bulk_message(request, blocked_count, blocked_items, blocked_tail)
 
-    return redirect(request.META.get("HTTP_REFERER") or fallback_url)
+    return redirect(request.headers.get("referer") or fallback_url)
