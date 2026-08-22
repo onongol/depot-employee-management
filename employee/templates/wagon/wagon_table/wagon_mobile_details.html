@@ -2,14 +2,12 @@
 {% load humanize %}
 <div>{{ row.type_wagon }}</div>
 <div>{{ row.type_work }}</div>
+<div><span>{% trans "amount:" %}</span> {{ row.amount|floatformat:2 }}</div>
 <div>
-    <span>{% trans "amount:" %}</span> {{ row.amount|floatformat:2 }}
+  <span>{% trans "time:" %}</span>
+  {{ row.total_time|floatformat:2|intcomma }}
 </div>
 <div>
-    <span>{% trans "time:" %}</span>
-    {{ row.total_time|floatformat:2|intcomma }}
-</div>
-<div>
-    <span>{% trans "price:" %}</span>
-    {{ row.total_price|floatformat:2|intcomma }}
+  <span>{% trans "price:" %}</span>
+  {{ row.total_price|floatformat:2|intcomma }}
 </div>

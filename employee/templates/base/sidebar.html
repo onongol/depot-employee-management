@@ -1,16 +1,20 @@
 {% load i18n %}
-<div id="sidebar-overlay"
-     class="fixed inset-0 z-50 hidden min-w-0 flex-1 overflow-hidden bg-black/50 transition-opacity lg:hidden"></div>
-<aside id="app-sidebar"
-       class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full transform bg-gray-50 shadow transition-transform duration-200 lg:hidden dark:bg-gray-800">
-    <div class="h-full overflow-y-auto px-4 py-2">
-        <div class="mb-6 flex items-center gap-2">
-            {% include "base/navbar/menu_button.html" %}
-            {% include "base/navbar/logo.html" %}
-        </div>
-        {% if perms.employee.select_department %}
-            {% include "includes/department/department_sheet.html" %}
-        {% endif %}
-        {% include "base/sidebar/sidebar_menu.html" %}
+<div
+  id="sidebar-overlay"
+  class="fixed inset-0 z-50 hidden min-w-0 flex-1 overflow-hidden bg-black/50 transition-opacity lg:hidden"
+></div>
+<aside
+  id="app-sidebar"
+  class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full transform bg-gray-50 shadow transition-transform duration-200 lg:hidden dark:bg-gray-800"
+>
+  <div class="h-full overflow-y-auto px-4 py-2">
+    <div class="mb-6 flex items-center gap-2">
+      {% include "base/navbar/menu_button.html" %}
+      {% include "base/navbar/logo.html" %}
     </div>
+    {% if perms.employee.select_department %}
+      {% include "includes/department/department_sheet.html" %}
+    {% endif %}
+    {% include "base/sidebar/sidebar_menu.html" %}
+  </div>
 </aside>

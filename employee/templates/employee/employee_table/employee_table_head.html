@@ -1,12 +1,12 @@
 {% load i18n %}
 {% if perms.employee.change_employee or perms.employee.delete_employee %}
-    <th scope="col" class="{{ col_class_checkbox }}">
-        {% include "includes/table/list_select_all_checkbox.html" with select_all_id="select-all-table-employees" checkbox_name="employee_table_ids" %}
-    </th>
+  <th scope="col" class="{{ col_class_checkbox }}">
+    {% include "includes/table/list_select_all_checkbox.html" with select_all_id="select-all-table-employees" checkbox_name="employee_table_ids" %}
+  </th>
 {% endif %}
 <th scope="col" class="{{ col_class_hidden }}">#</th>
 <th scope="col" class="{{ col_class }}">
-    {% include "includes/table/sort_column.html" with label=_("ID") field="employee_id" col_class=col_class selected_department=selected_department htmx_target="#employee-list-results" %}
+  {% include "includes/table/sort_column.html" with label=_("ID") field="employee_id" col_class=col_class selected_department=selected_department htmx_target="#employee-list-results" %}
 </th>
 <th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
 <th scope="col" class="{{ col_class_hidden }}">{% trans "Position" %}</th>

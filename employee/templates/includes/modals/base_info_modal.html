@@ -1,20 +1,25 @@
 <!-- Modal warning shown when creating duplicate Daily Work/Piecework entries. -->
 {% load i18n %}
-<div id="{{ modal_id }}"
-     class="fixed inset-0 z-50 hidden"
-     aria-labelledby="{{ modal_label_id }}"
-     aria-modal="true"
-     role="dialog">
-    <div class="absolute inset-0 bg-black/50" data-modal-cancel></div>
-    <div class="pointer-events-none absolute inset-0 grid place-items-center p-4">
-        <div class="pointer-events-auto max-h-screen w-full max-w-md overflow-y-auto rounded-lg bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-800"
-             tabindex="{{ panel_tabindex|default:'0' }}">
-            <div class="mb-2 flex items-baseline justify-between">
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-400"
-                    id="{{ modal_label_id }}">{{ modal_title }}</h3>
-                {% include actions_template %}
-            </div>
-            <p class="mb-4 text-sm text-gray-700 dark:text-gray-400">{% include body_template %}</p>
-        </div>
+<div
+  id="{{ modal_id }}"
+  class="fixed inset-0 z-50 hidden"
+  aria-labelledby="{{ modal_label_id }}"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="absolute inset-0 bg-black/50" data-modal-cancel></div>
+  <div class="pointer-events-none absolute inset-0 grid place-items-center p-4">
+    <div
+      class="pointer-events-auto max-h-screen w-full max-w-md overflow-y-auto rounded-lg bg-white p-6 shadow-lg dark:border-gray-700 dark:bg-gray-800"
+      tabindex="{{ panel_tabindex|default:'0' }}"
+    >
+      <div class="mb-2 flex items-baseline justify-between">
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-400" id="{{ modal_label_id }}">
+          {{ modal_title }}
+        </h3>
+        {% include actions_template %}
+      </div>
+      <p class="mb-4 text-sm text-gray-700 dark:text-gray-400">{% include body_template %}</p>
     </div>
+  </div>
 </div>

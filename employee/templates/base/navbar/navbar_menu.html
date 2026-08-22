@@ -1,24 +1,23 @@
 {% load i18n %}
 {% if request.user.is_authenticated %}
-    <div id="navbar-menu"
-         class="hidden w-full min-w-0 flex-1 overflow-hidden lg:flex">
-        <ul class="flex flex-wrap items-center gap-x-2 gap-y-3 py-2">
-            {% include "includes/navbar/menu_link.html" with url_name='employee_list' label=_('Employees') %}
-            {% if perms.employee.view_work %}
-                {% include "includes/navbar/menu_link.html" with url_name='work_list' label=_('Works') %}
-            {% endif %}
-            {% include "includes/navbar/menu_link.html" with url_name='daily_salary_list' label=_('Daily Attendance') %}
-            {% if perms.employee.view_dailywork %}
-                {% include "includes/navbar/menu_link.html" with url_name='daily_work_list' label=_('Daily Work') %}
-            {% endif %}
-            {% include "includes/navbar/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
-            {% include "includes/navbar/menu_link.html" with url_name='employee_salary_list' label=_('Salaries') %}
-            {% if perms.employee.view_piecework %}
-                {% include "includes/navbar/menu_link.html" with url_name='wagon_list' label=_('Wagons') %}
-            {% endif %}
-            {% if perms.employee.view_material_report %}
-                {% include "includes/navbar/menu_link.html" with url_name='material_list' label=_('Materials') %}
-            {% endif %}
-        </ul>
-    </div>
+  <div id="navbar-menu" class="hidden w-full min-w-0 flex-1 overflow-hidden lg:flex">
+    <ul class="flex flex-wrap items-center gap-x-2 gap-y-3 py-2">
+      {% include "includes/navbar/menu_link.html" with url_name='employee_list' label=_('Employees') %}
+      {% if perms.employee.view_work %}
+        {% include "includes/navbar/menu_link.html" with url_name='work_list' label=_('Works') %}
+      {% endif %}
+      {% include "includes/navbar/menu_link.html" with url_name='daily_salary_list' label=_('Daily Attendance') %}
+      {% if perms.employee.view_dailywork %}
+        {% include "includes/navbar/menu_link.html" with url_name='daily_work_list' label=_('Daily Work') %}
+      {% endif %}
+      {% include "includes/navbar/menu_link.html" with url_name='piecework_list' label=_('Piecework') %}
+      {% include "includes/navbar/menu_link.html" with url_name='employee_salary_list' label=_('Salaries') %}
+      {% if perms.employee.view_piecework %}
+        {% include "includes/navbar/menu_link.html" with url_name='wagon_list' label=_('Wagons') %}
+      {% endif %}
+      {% if perms.employee.view_material_report %}
+        {% include "includes/navbar/menu_link.html" with url_name='material_list' label=_('Materials') %}
+      {% endif %}
+    </ul>
+  </div>
 {% endif %}

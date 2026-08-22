@@ -1,6 +1,13 @@
 <!-- Reusable navigation menu item. -->
 <li class="w-full">
-    <a href="{% url url_name %}"
-       class="{% if request.resolver_match.url_name == url_name %}bg-gray-300 text-gray-700 dark:bg-gray-900 dark:text-gray-500{% else %}text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-500{% endif %} block w-full rounded-md px-4 py-2 text-sm font-medium transition-colors"
-       {% if request.resolver_match.url_name == url_name %}aria-current="page"{% endif %}>{{ label }}</a>
+  <a
+    href="{% url url_name %}"
+    class="{% if request.resolver_match.url_name == url_name %}
+      bg-gray-300 text-gray-700 dark:bg-gray-900 dark:text-gray-500
+    {% else %}
+      text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-500
+    {% endif %} block w-full rounded-md px-4 py-2 text-sm font-medium transition-colors"
+    {% if request.resolver_match.url_name == url_name %}aria-current="page"{% endif %}
+    >{{ label }}</a
+  >
 </li>

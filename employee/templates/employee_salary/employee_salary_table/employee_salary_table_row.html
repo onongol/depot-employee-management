@@ -3,12 +3,12 @@
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">{{ row.employee.employee_id }}</td>
 <td class="{{ col_class }}">
-    {% include "includes/table/mobile_summary.html" with col_name=row.employee.employee_name details_template="employee_salary/employee_salary_table/employee_salary_table_mobile_details.html" %}
+  {% include "includes/table/mobile_summary.html" with col_name=row.employee.employee_name details_template="employee_salary/employee_salary_table/employee_salary_table_mobile_details.html" %}
 </td>
 <td class="{{ col_class_hidden }}">{{ row.employee.job_title }}</td>
 <td class="{{ col_class_hidden }}">{{ row.employee.rank }}</td>
 {% if wagon_mode %}
-    <td scope="col" class="{{ col_class }}">{{ row.wagon_number|default:"-" }}</td>
+  <td scope="col" class="{{ col_class }}">{{ row.wagon_number|default:"-" }}</td>
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ row.total_piecework_time|floatformat:2|intcomma }}</td>
 <td class="{{ col_class }}">{{ row.total_piecework_amount|floatformat:2|intcomma }}</td>

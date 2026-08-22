@@ -3,19 +3,19 @@
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">{{ row.employee_code }}</td>
 <td class="{{ col_class }}">
-    {% include "includes/table/mobile_summary.html" with col_name=row.employee_name details_template="piecework/piecework_table/piecework_mobile_details.html" %}
+  {% include "includes/table/mobile_summary.html" with col_name=row.employee_name details_template="piecework/piecework_table/piecework_mobile_details.html" %}
 </td>
 <td class="{{ col_class_hidden }}">{{ row.job_title }}</td>
 <td class="{{ col_class }}">{{ row.work.work_name }}</td>
 <td class="{{ col_class_hidden }}">{{ row.type_work }}</td>
 {% if show_wagon %}
-    <td class="{{ col_class_hidden }}">{{ row.type_wagon_display }}</td>
-    <td class="{{ col_class_hidden }}">{{ row.wagon_number_display }}</td>
+  <td class="{{ col_class_hidden }}">{{ row.type_wagon_display }}</td>
+  <td class="{{ col_class_hidden }}">{{ row.wagon_number_display }}</td>
 {% endif %}
 <td class="{{ col_class_hidden }}">{{ row.amount }}</td>
 <td class="{{ col_class_hidden }}">{{ row.amount_time|floatformat:2 }}</td>
 <td class="{{ col_class_hidden }}">{{ row.amount_price|floatformat:2|intcomma }}</td>
 <td class="{{ col_class }}">{{ row.work_date|date:"Y-m-d" }}</td>
 {% if perms.employee.view_record_audit %}
-    <td class="{{ col_class }}">{{ row.record_date|date:"Y-m-d H:i" }}</td>
+  <td class="{{ col_class }}">{{ row.record_date|date:"Y-m-d H:i" }}</td>
 {% endif %}

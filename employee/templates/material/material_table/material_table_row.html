@@ -2,7 +2,7 @@
 {% load humanize %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">
-    {% include "includes/table/mobile_summary.html" with col_name=row.work__type_material details_template="material/material_table/material_table_mobile_details.html" %}
+  {% include "includes/table/mobile_summary.html" with col_name=row.work__type_material details_template="material/material_table/material_table_mobile_details.html" %}
 </td>
 <td class="{{ col_class_hidden }}">{{ row.work__work_name }}</td>
 <td class="{{ col_class_hidden }}">{{ row.amount_material|floatformat:2|intcomma }}</td>

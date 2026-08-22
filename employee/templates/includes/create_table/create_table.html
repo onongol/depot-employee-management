@@ -1,25 +1,37 @@
 {% load i18n %}
-<div class="{{ container_class }} mb-4 overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"
-     {% if sync_group_name %}data-amount-sync-group="{{ sync_group_name }}"{% endif %}>
-    <div class="{{ max_height|default:'max-h-126' }} w-full overflow-x-auto overflow-y-auto">
-        {% with col_class="px-2 py-3 md:px-6" col_class_hidden="px-2 py-3 md:px-6 hidden md:table-cell" col_class_checkbox="px-6 py-3 text-center align-middle" %}
-            <table class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-                   aria-describedby="{{ aria_desc|default:'' }}">
-                <thead class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
-                    <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">{% include columns_template %}</tr>
-                </thead>
-                <tbody id="{{ tbody_id }}"
-                       class="divide-y divide-gray-100 dark:divide-gray-700"
-                       {% if table_role %}data-table-role="{{ table_role }}"{% endif %}>
-                    {% for row in rows %}
-                        <tr class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20"
-                            {% for attr, value in row.get_dom_attrs.items %}{{ attr }}="{{ value }}"{% endfor %}>
-                            {% include row_template with row=row %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% endwith %}
-    </div>
+<div
+  class="{{ container_class }} mb-4 overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"
+  {% if sync_group_name %}data-amount-sync-group="{{ sync_group_name }}"{% endif %}
+>
+  <div class="{{ max_height|default:'max-h-126' }} w-full overflow-x-auto overflow-y-auto">
+    {% with col_class="px-2 py-3 md:px-6" col_class_hidden="px-2 py-3 md:px-6 hidden md:table-cell" col_class_checkbox="px-6 py-3 text-center align-middle" %}
+      <table
+        class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+        aria-describedby="{{ aria_desc|default:'' }}"
+      >
+        <thead
+          class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-700">
+            {% include columns_template %}
+          </tr>
+        </thead>
+        <tbody
+          id="{{ tbody_id }}"
+          class="divide-y divide-gray-100 dark:divide-gray-700"
+          {% if table_role %}data-table-role="{{ table_role }}"{% endif %}
+        >
+          {% for row in rows %}
+            <tr
+              class="transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900 dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20"
+              {% for attr, value in row.get_dom_attrs.items %}{{ attr }}="{{ value }}"{% endfor %}
+            >
+              {% include row_template with row=row %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endwith %}
+  </div>
 </div>
 {% include validation_template %}

@@ -2,7 +2,7 @@
 {% load humanize %}
 <td class="{{ col_class_hidden }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
 <td class="{{ col_class }}">
-    {% include "includes/table/mobile_summary.html" with col_name=row.wagon_number details_template="wagon/wagon_table/wagon_mobile_details.html" %}
+  {% include "includes/table/mobile_summary.html" with col_name=row.wagon_number details_template="wagon/wagon_table/wagon_mobile_details.html" %}
 </td>
 <td class="{{ col_class_hidden }}">{{ row.type_wagon }}</td>
 <td class="{{ col_class }}">{{ row.work__work_name }}</td>

@@ -3,25 +3,26 @@
 {% load i18n %}
 {% block title %}Update {{ object_type }}{% endblock %}
 {% block content %}
-    <h2 id="update-title"
-        class="mb-6 hidden text-xl font-semibold text-gray-700 md:block dark:text-gray-400">
-        {% trans "Update" %} {{ object_type }} ({{ selected_department }})
-    </h2>
-    <!-- Dynamic Warning Message -->
-    <div>{% include "includes/alerts/alerts_warning_update.html" %}</div>
-    <form method="post"
-          class="relative rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
-          id="updateForm"
-          aria-labelledby="update-title"
-          novalidate>
-        {% csrf_token %}
-        <!-- Form fields will be provided by child templates -->
-        {% block form_fields %}{% endblock %}
-        <div class="mt-6 flex flex-col gap-2 sm:flex-row">
-            {% include "includes/buttons/cancel_button.html" %}
-            {% include "includes/buttons/save_update_button.html" %}
-        </div>
-    </form>
-    <!-- Confirmation Modal -->
-    {% include "includes/modals/modal_confirm_save.html" %}
+  <h2 id="update-title" class="mb-6 hidden text-xl font-semibold text-gray-700 md:block dark:text-gray-400">
+    {% trans "Update" %} {{ object_type }} ({{ selected_department }})
+  </h2>
+  <!-- Dynamic Warning Message -->
+  <div>{% include "includes/alerts/alerts_warning_update.html" %}</div>
+  <form
+    method="post"
+    class="relative rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
+    id="updateForm"
+    aria-labelledby="update-title"
+    novalidate
+  >
+    {% csrf_token %}
+    <!-- Form fields will be provided by child templates -->
+    {% block form_fields %}{% endblock %}
+    <div class="mt-6 flex flex-col gap-2 sm:flex-row">
+      {% include "includes/buttons/cancel_button.html" %}
+      {% include "includes/buttons/save_update_button.html" %}
+    </div>
+  </form>
+  <!-- Confirmation Modal -->
+  {% include "includes/modals/modal_confirm_save.html" %}
 {% endblock %}

@@ -1,17 +1,18 @@
 {% load i18n %}
 <div class="flex items-center gap-2 md:hidden">
-    <button type="button"
-            id="{{ toggle_id }}"
-            data-filter-toggle="true"
-            data-target="{{ panel_id }}"
-            aria-controls="{{ panel_id }}"
-            aria-expanded="false"
-            title="{% trans 'Filters' %}"
-            class="inline-flex cursor-pointer items-center justify-start gap-2 rounded-full p-2 text-left text-sm font-medium text-gray-700 transition hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700">
-        <svg class="size-5" aria-hidden="true">
-            <use href="#filter"></use>
-        </svg>
-    </button>
+  <button
+    type="button"
+    id="{{ toggle_id }}"
+    data-filter-toggle="true"
+    data-target="{{ panel_id }}"
+    aria-controls="{{ panel_id }}"
+    aria-expanded="false"
+    title="{% trans 'Filters' %}"
+    class="inline-flex cursor-pointer items-center justify-start gap-2 rounded-full p-2 text-left text-sm font-medium text-gray-700 transition hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700"
+  >
+    <svg class="size-5" aria-hidden="true">
+      <use href="#filter"></use>
+    </svg>
+  </button>
 </div>
-<div class="fixed inset-0 z-50 hidden bg-black/50 md:hidden"
-     data-filter-overlay="{{ panel_id }}"></div>
+<div class="fixed inset-0 z-50 hidden bg-black/50 md:hidden" data-filter-overlay="{{ panel_id }}"></div>

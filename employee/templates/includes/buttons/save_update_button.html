@@ -1,8 +1,12 @@
 {% load i18n %}
-<button type="button"
-        class="cursor-pointer rounded-md bg-blue-700 px-6 py-2 font-semibold text-white shadow transition hover:bg-blue-800 focus:ring-2 focus:ring-blue-400 focus:outline-none sm:ml-auto"
-        id="saveButton"
-        data-modal-open="confirmSave"
-        data-name="{{ object_name }}"
-        aria-controls="confirmSaveModal"
-        aria-label="Save updates">{% trans "Save" %}</button>
+<button
+  type="button"
+  class="cursor-pointer rounded-md bg-blue-700 px-6 py-2 font-semibold text-white shadow transition hover:bg-blue-800 focus:ring-2 focus:ring-blue-400 focus:outline-none sm:ml-auto"
+  id="saveButton"
+  data-modal-open="confirmSave"
+  data-name="{{ object_name }}"
+  aria-controls="confirmSaveModal"
+  aria-label="Save updates"
+>
+  {% trans "Save" %}
+</button>

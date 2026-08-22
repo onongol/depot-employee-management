@@ -1,17 +1,17 @@
 {% load i18n %}
 {% trans "Contact Payroll to update or delete." %}
 <span>
+  <br />
+  {% trans "Employee" %}: <strong id="duplicateDetailEmployee"></strong>
+  <br />
+  {% trans "Work" %}: <strong id="duplicateDetailWork"></strong>
+  <br />
+  {% trans "Work Type" %}: <strong id="duplicateDetailTypeWork"></strong>
+  {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
     <br />
-    {% trans "Employee" %}: <strong id="duplicateDetailEmployee"></strong>
-    <br />
-    {% trans "Work" %}: <strong id="duplicateDetailWork"></strong>
-    <br />
-    {% trans "Work Type" %}: <strong id="duplicateDetailTypeWork"></strong>
-    {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
-        <br />
-        {% trans "Wagon Number" %}:
-        <strong id="duplicateDetailWagonNumber"></strong>
-    {% endif %}
-    <br />
-    {% trans "Date" %}: <strong id="duplicateDetailWorkDate"></strong>
+    {% trans "Wagon Number" %}:
+    <strong id="duplicateDetailWagonNumber"></strong>
+  {% endif %}
+  <br />
+  {% trans "Date" %}: <strong id="duplicateDetailWorkDate"></strong>
 </span>

@@ -1,19 +1,19 @@
 {% load i18n %}
 <ul class="mt-2 flex flex-col space-y-2 lg:mt-0 lg:flex-col lg:items-start lg:space-y-2 lg:p-4">
-    {% include "includes/navbar/menu_link_sidebar.html" with url_name='employee_list' label=_('Employees') %}
-    {% if perms.employee.view_work %}
-        {% include "includes/navbar/menu_link_sidebar.html" with url_name='work_list' label=_('Works') %}
-    {% endif %}
-    {% include "includes/navbar/menu_link_sidebar.html" with url_name='daily_salary_list' label=_('Daily Attendance') %}
-    {% if perms.employee.view_dailywork %}
-        {% include "includes/navbar/menu_link_sidebar.html" with url_name='daily_work_list' label=_('Daily Work') %}
-    {% endif %}
-    {% include "includes/navbar/menu_link_sidebar.html" with url_name='piecework_list' label=_('Piecework') %}
-    {% include "includes/navbar/menu_link_sidebar.html" with url_name='employee_salary_list' label=_('Salaries') %}
-    {% if perms.employee.view_piecework %}
-        {% include "includes/navbar/menu_link_sidebar.html" with url_name='wagon_list' label=_('Wagons') %}
-    {% endif %}
-    {% if perms.employee.view_material_report %}
-        {% include "includes/navbar/menu_link_sidebar.html" with url_name='material_list' label=_('Materials') %}
-    {% endif %}
+  {% include "includes/navbar/menu_link_sidebar.html" with url_name='employee_list' label=_('Employees') %}
+  {% if perms.employee.view_work %}
+    {% include "includes/navbar/menu_link_sidebar.html" with url_name='work_list' label=_('Works') %}
+  {% endif %}
+  {% include "includes/navbar/menu_link_sidebar.html" with url_name='daily_salary_list' label=_('Daily Attendance') %}
+  {% if perms.employee.view_dailywork %}
+    {% include "includes/navbar/menu_link_sidebar.html" with url_name='daily_work_list' label=_('Daily Work') %}
+  {% endif %}
+  {% include "includes/navbar/menu_link_sidebar.html" with url_name='piecework_list' label=_('Piecework') %}
+  {% include "includes/navbar/menu_link_sidebar.html" with url_name='employee_salary_list' label=_('Salaries') %}
+  {% if perms.employee.view_piecework %}
+    {% include "includes/navbar/menu_link_sidebar.html" with url_name='wagon_list' label=_('Wagons') %}
+  {% endif %}
+  {% if perms.employee.view_material_report %}
+    {% include "includes/navbar/menu_link_sidebar.html" with url_name='material_list' label=_('Materials') %}
+  {% endif %}
 </ul>

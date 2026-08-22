@@ -2,40 +2,42 @@
 {% load i18n %}
 {% block title %}Salary{% endblock %}
 {% block content %}
-    <!-- Header -->
-    {% include "includes/components/list_header.html" with header_id="employee-salary-list-title" title=selected_department %}
-    <div id="employee-salary-list-control">
-        <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
-            <div class="{% if show_wagon %}justify-between{% else %}justify-end{% endif %} flex flex-row items-center gap-2 md:gap-4">
-                <!-- Segmented  -->
-                {% if show_wagon %}
-                    {% include "includes/segmenteds/salary_mode_segmented.html" with htmx_target="#employee-salary-list-control" %}
-                {% endif %}
-                <!-- Export Excel PDF -->
-                <div class="hidden md:block">
-                    <div class="flex gap-2">
-                        {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
-                        {% include "includes/export/export_pdf_button.html" with url_name='employee_salary_export_pdf' params=request.GET aria_label="Download filtered employee salaries as PDF" target="_blank" %}
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
-                <!-- Filters -->
-                {% include "includes/table/list_table_filters.html" with toggle_id="employee-salary-filters-toggle" panel_id="employee-salary-filters-panel" fields_template="employee_salary/employee_salary_filters_fields.html" htmx_target="#employee-salary-list-control" %}
-                <!-- Export Excel PDF Mobile -->
-                <div class="md:hidden">
-                    {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
-                </div>
-                <div class="md:hidden">
-                    {% include "includes/export/export_pdf_button.html" with url_name='employee_salary_export_pdf' params=request.GET aria_label="Download filtered employee salaries as PDF" target="_blank" %}
-                </div>
-            </div>
+  <!-- Header -->
+  {% include "includes/components/list_header.html" with header_id="employee-salary-list-title" title=selected_department %}
+  <div id="employee-salary-list-control">
+    <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
+      <div
+        class="{% if show_wagon %}justify-between{% else %}justify-end{% endif %} flex flex-row items-center gap-2 md:gap-4"
+      >
+        <!-- Segmented  -->
+        {% if show_wagon %}
+          {% include "includes/segmenteds/salary_mode_segmented.html" with htmx_target="#employee-salary-list-control" %}
+        {% endif %}
+        <!-- Export Excel PDF -->
+        <div class="hidden md:block">
+          <div class="flex gap-2">
+            {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
+            {% include "includes/export/export_pdf_button.html" with url_name='employee_salary_export_pdf' params=request.GET aria_label="Download filtered employee salaries as PDF" target="_blank" %}
+          </div>
         </div>
-        <div id="employee-salary-list-results">
-            <!-- Table -->
-            {% include "employee_salary/employee_salary_table/employee_salary_table.html" %}
-            <!-- Pagination -->
-            {% include "includes/pagination/pagination.html" with htmx_target="#employee-salary-list-control" %}
+      </div>
+      <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
+        <!-- Filters -->
+        {% include "includes/table/list_table_filters.html" with toggle_id="employee-salary-filters-toggle" panel_id="employee-salary-filters-panel" fields_template="employee_salary/employee_salary_filters_fields.html" htmx_target="#employee-salary-list-control" %}
+        <!-- Export Excel PDF Mobile -->
+        <div class="md:hidden">
+          {% include "includes/export/export_excel_button.html" with url_name='employee_salary_export_excel' params=request.GET aria_label="Download filtered employee salaries as Excel" %}
         </div>
+        <div class="md:hidden">
+          {% include "includes/export/export_pdf_button.html" with url_name='employee_salary_export_pdf' params=request.GET aria_label="Download filtered employee salaries as PDF" target="_blank" %}
+        </div>
+      </div>
     </div>
+    <div id="employee-salary-list-results">
+      <!-- Table -->
+      {% include "employee_salary/employee_salary_table/employee_salary_table.html" %}
+      <!-- Pagination -->
+      {% include "includes/pagination/pagination.html" with htmx_target="#employee-salary-list-control" %}
+    </div>
+  </div>
 {% endblock %}

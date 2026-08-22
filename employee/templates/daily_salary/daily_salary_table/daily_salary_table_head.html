@@ -1,8 +1,8 @@
 {% load i18n %}
 {% if perms.employee.change_dailysalary or perms.employee.delete_dailysalary %}
-    <th scope="col" class="{{ col_class_checkbox }}">
-        {% include "includes/table/list_select_all_checkbox.html" with select_all_id="select-all-daily-salaries" checkbox_name="daily_salary_ids" %}
-    </th>
+  <th scope="col" class="{{ col_class_checkbox }}">
+    {% include "includes/table/list_select_all_checkbox.html" with select_all_id="select-all-daily-salaries" checkbox_name="daily_salary_ids" %}
+  </th>
 {% endif %}
 <th scope="col" class="{{ col_class_hidden }}">#</th>
 <th scope="col" class="{{ col_class }}">{% trans "ID" %}</th>
@@ -10,13 +10,13 @@
 <th scope="col" class="{{ col_class_hidden }}">{% trans "Position" %}</th>
 <th scope="col" class="{{ col_class_hidden }}">{% trans "Hours" %}</th>
 {% if perms.employee.view_salary_amount %}
-    <th scope="col" class="{{ col_class_hidden }}">{% trans "Salary" %}</th>
+  <th scope="col" class="{{ col_class_hidden }}">{% trans "Salary" %}</th>
 {% endif %}
 <th scope="col" class="{{ col_class }}">
-    {% include "includes/table/sort_column.html" with label=_("Date") field="salary_date" col_class=col_class selected_department=selected_department htmx_target="#daily-salary-list-results" %}
+  {% include "includes/table/sort_column.html" with label=_("Date") field="salary_date" col_class=col_class selected_department=selected_department htmx_target="#daily-salary-list-results" %}
 </th>
 {% if perms.employee.view_record_audit %}
-    <th scope="col" class="{{ col_class }}">
-        {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department htmx_target="#daily-salary-list-results" %}
-    </th>
+  <th scope="col" class="{{ col_class }}">
+    {% include "includes/table/sort_column.html" with label=_("Record Date") field="record_date" col_class=col_class selected_department=selected_department htmx_target="#daily-salary-list-results" %}
+  </th>
 {% endif %}

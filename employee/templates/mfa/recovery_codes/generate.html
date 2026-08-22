@@ -1,26 +1,31 @@
 {% extends "account/base.html" %}
 {% load i18n %}
 {% block account_content %}
-    <h2 class="mb-6 text-lg font-semibold text-gray-700 dark:text-gray-400">{% trans 'Generate recovery codes' %}</h2>
-    <div class="rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
-        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
-            {% trans "You are about to generate a new set of recovery codes." %}
-            {% if unused_code_count %}
-                {% trans "This will invalidate your existing codes." %}
-            {% endif %}
-            {% trans "Are you sure?" %}
-        </p>
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit"
-                    class="w-full cursor-pointer rounded-md {% if unused_code_count %}bg-red-600 hover:bg-red-700 focus:ring-red-400{% else %}bg-blue-700 hover:bg-blue-800 focus:ring-blue-400{% endif %} px-6 py-2 font-semibold text-white shadow transition focus:ring-2 focus:outline-none"
-                    aria-label="{% trans 'Generate' %}">
-                {% trans 'Generate' %}
-            </button>
-        </form>
-        <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-            <a href="{% url 'mfa_index' %}"
-               class="text-blue-700 hover:underline dark:text-blue-400">{% trans "Back" %}</a>
-        </p>
-    </div>
+  <h2 class="mb-6 text-lg font-semibold text-gray-700 dark:text-gray-400">{% trans 'Generate recovery codes' %}</h2>
+  <div class="rounded-md border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+    <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+      {% trans "You are about to generate a new set of recovery codes." %}
+      {% if unused_code_count %}
+        {% trans "This will invalidate your existing codes." %}
+      {% endif %}
+      {% trans "Are you sure?" %}
+    </p>
+    <form method="post">
+      {% csrf_token %}
+      <button
+        type="submit"
+        class="{% if unused_code_count %}
+          bg-red-600 hover:bg-red-700 focus:ring-red-400
+        {% else %}
+          bg-blue-700 hover:bg-blue-800 focus:ring-blue-400
+        {% endif %} w-full cursor-pointer rounded-md px-6 py-2 font-semibold text-white shadow transition focus:ring-2 focus:outline-none"
+        aria-label="{% trans 'Generate' %}"
+      >
+        {% trans 'Generate' %}
+      </button>
+    </form>
+    <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+      <a href="{% url 'mfa_index' %}" class="text-blue-700 hover:underline dark:text-blue-400">{% trans "Back" %}</a>
+    </p>
+  </div>
 {% endblock %}

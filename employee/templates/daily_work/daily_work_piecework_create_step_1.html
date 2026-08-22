@@ -1,22 +1,22 @@
 {% load i18n %}
 <div data-step="1">
-    <fieldset class="space-y-2 md:space-y-4">
-        <legend class="sr-only">Create Daily Salary Details Step 1</legend>
-        <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
-            {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True hide_label_mobile=True placeholder=_("Date") %}
-            {% if employees %}
-                {% include "includes/create_table/create_table_filters.html" with toggle_id="employee-search-filters-toggle" panel_id="employee-search-filters-panel" fields_template="create_table/employees/employees_filter_fields.html" %}
-            {% endif %}
-        </div>
-        {% if employees %}
-            {% include "create_table/employees/employees_create_table.html" %}
-            {% include "includes/summaries/selected_summary.html" with summary_id="employees-create-summary" checkbox_name="employee_ids" %}
-        {% else %}
-            {% include "includes/alerts/info_notice.html" with info_text_template="includes/alerts/info_text_daily_work.html" %}
-        {% endif %}
-    </fieldset>
-    <div class="flex flex-col gap-2 sm:flex-row">
-        {% include "includes/buttons/cancel_button.html" %}
-        {% include "includes/buttons/continue_button.html" %}
+  <fieldset class="space-y-2 md:space-y-4">
+    <legend class="sr-only">Create Daily Salary Details Step 1</legend>
+    <div class="mb-1 space-y-2 md:mb-4 md:space-y-4">
+      {% include "includes/form/form_date.html" with id="work_date" label=_("Date") name="work_date" type="text" value=work_date|default:today|date:'Y-m-d' form_errors=form.work_date required=True hide_label_mobile=True placeholder=_("Date") %}
+      {% if employees %}
+        {% include "includes/create_table/create_table_filters.html" with toggle_id="employee-search-filters-toggle" panel_id="employee-search-filters-panel" fields_template="create_table/employees/employees_filter_fields.html" %}
+      {% endif %}
     </div>
+    {% if employees %}
+      {% include "create_table/employees/employees_create_table.html" %}
+      {% include "includes/summaries/selected_summary.html" with summary_id="employees-create-summary" checkbox_name="employee_ids" %}
+    {% else %}
+      {% include "includes/alerts/info_notice.html" with info_text_template="includes/alerts/info_text_daily_work.html" %}
+    {% endif %}
+  </fieldset>
+  <div class="flex flex-col gap-2 sm:flex-row">
+    {% include "includes/buttons/cancel_button.html" %}
+    {% include "includes/buttons/continue_button.html" %}
+  </div>
 </div>

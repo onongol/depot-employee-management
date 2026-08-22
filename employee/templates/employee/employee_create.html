@@ -2,14 +2,14 @@
 {% load i18n %}
 {% block title %}Create Employee{% endblock %}
 {% block form_fields %}
-    <fieldset class="space-y-2 md:space-y-4">
-        <legend class="sr-only">Create Employee Details</legend>
-        {% include "includes/department/department_input_hidden.html" %}
-        {% include "includes/form/form_input.html" with id=form.employee_id.id_for_label label=_("Employee ID") name="employee_id" type="number" value=form.employee_id.value form_errors=form.employee_id required=True placeholder=_("Unique (e.g. 1001)") %}
-        {% include "includes/form/form_input.html" with id=form.employee_name.id_for_label label=_("Employee Name") name="employee_name" type="text" value=form.employee_name.value form_errors=form.employee_name required=True placeholder=_("Full Name (e.g. R.Choinom)") %}
-        {% include "includes/form/form_select.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
-        {% include "includes/form/form_select.html" with id=form.rank.id_for_label label=_("Employee Rank") name="rank" choices=form.rank.field.choices selected=form.rank.value required=True %}
-        {% include "includes/form/form_input.html" with id=form.money_per_hour.id_for_label label=_("Hourly Wage") name="money_per_hour" type="number" value=form.money_per_hour.value form_errors=form.money_per_hour step="0.01" required=True placeholder="9715.83" %}
-    </fieldset>
-    {% include "forms/create_form_buttons.html" %}
+  <fieldset class="space-y-2 md:space-y-4">
+    <legend class="sr-only">Create Employee Details</legend>
+    {% include "includes/department/department_input_hidden.html" %}
+    {% include "includes/form/form_input.html" with id=form.employee_id.id_for_label label=_("Employee ID") name="employee_id" type="number" value=form.employee_id.value form_errors=form.employee_id required=True placeholder=_("Unique (e.g. 1001)") %}
+    {% include "includes/form/form_input.html" with id=form.employee_name.id_for_label label=_("Employee Name") name="employee_name" type="text" value=form.employee_name.value form_errors=form.employee_name required=True placeholder=_("Full Name (e.g. R.Choinom)") %}
+    {% include "includes/form/form_select.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
+    {% include "includes/form/form_select.html" with id=form.rank.id_for_label label=_("Employee Rank") name="rank" choices=form.rank.field.choices selected=form.rank.value required=True %}
+    {% include "includes/form/form_input.html" with id=form.money_per_hour.id_for_label label=_("Hourly Wage") name="money_per_hour" type="number" value=form.money_per_hour.value form_errors=form.money_per_hour step="0.01" required=True placeholder="9715.83" %}
+  </fieldset>
+  {% include "forms/create_form_buttons.html" %}
 {% endblock %}

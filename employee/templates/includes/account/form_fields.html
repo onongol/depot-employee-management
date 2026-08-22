@@ -1,37 +1,43 @@
 {% if form.non_field_errors %}<div class="mb-4 text-sm text-red-600">{{ form.non_field_errors }}</div>{% endif %}
 {% for field in form %}
-    {% if field.field.widget.input_type == "checkbox" %}
-        <div class="relative mb-4">
-            <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-400">
-                <input type="checkbox"
-                       name="{{ field.name }}"
-                       id="{{ field.id_for_label }}"
-                       class="rounded border-gray-300 text-blue-700 focus:ring-blue-400 dark:border-gray-600"
-                       {% if field.value %}checked{% endif %} />
-                {{ field.label }}
-            </label>
-        </div>
-    {% else %}
-        <div class="relative mb-4">
-            <label for="{{ field.id_for_label }}"
-                   class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                {{ field.label }}
-            </label>
-            <input type="{{ field.field.widget.input_type }}"
-                   name="{{ field.name }}"
-                   id="{{ field.id_for_label }}"
-                   class="{% if field.errors %}border-red-600 focus:ring-red-600 focus:border-red-600 focus:text-red-600 dark:border-red-600 dark:focus:ring-red-600 dark:focus:border-red-600{% endif %} block w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 placeholder-gray-400 transition focus:border-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-500 dark:focus:border-gray-500 dark:focus:ring-gray-500"
-                   {% if field.field.widget.input_type != "password" %}value="{{ field.value|default:'' }}"{% endif %}
-                   {% if field.errors %}aria-invalid="true"{% endif %}
-                   aria-describedby="{% if field.errors %}{{ field.id_for_label }}_error{% endif %}"
-                   {% if field.field.required %}required{% endif %} />
-            {% if field.field.widget.input_type == "password" %}
-                {% include 'includes/auth/password_toggle.html' with input_id=field.id_for_label reveal_ms=3000 %}
-            {% endif %}
-            {% if field.help_text %}<div class="mt-1 text-xs text-gray-500">{{ field.help_text }}</div>{% endif %}
-            {% if field.errors %}
-                <div id="{{ field.id_for_label }}_error" class="mt-1 text-sm text-red-600">{{ field.errors }}</div>
-            {% endif %}
-        </div>
-    {% endif %}
+  {% if field.field.widget.input_type == "checkbox" %}
+    <div class="relative mb-4">
+      <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-400">
+        <input
+          type="checkbox"
+          name="{{ field.name }}"
+          id="{{ field.id_for_label }}"
+          class="rounded border-gray-300 text-blue-700 focus:ring-blue-400 dark:border-gray-600"
+          {% if field.value %}checked{% endif %}
+        />
+        {{ field.label }}
+      </label>
+    </div>
+  {% else %}
+    <div class="relative mb-4">
+      <label for="{{ field.id_for_label }}" class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-400">
+        {{ field.label }}
+      </label>
+      <input
+        type="{{ field.field.widget.input_type }}"
+        name="{{ field.name }}"
+        id="{{ field.id_for_label }}"
+        class="{% if field.errors %}
+          border-red-600 focus:ring-red-600 focus:border-red-600 focus:text-red-600 dark:border-red-600
+          dark:focus:ring-red-600 dark:focus:border-red-600
+        {% endif %} block w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 placeholder-gray-400 transition focus:border-gray-400 focus:ring-2 focus:ring-gray-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-500 dark:focus:border-gray-500 dark:focus:ring-gray-500"
+        {% if field.field.widget.input_type != "password" %}value="{{ field.value|default:'' }}"{% endif %}
+        {% if field.errors %}aria-invalid="true"{% endif %}
+        aria-describedby="{% if field.errors %}{{ field.id_for_label }}_error{% endif %}"
+        {% if field.field.required %}required{% endif %}
+      />
+      {% if field.field.widget.input_type == "password" %}
+        {% include 'includes/auth/password_toggle.html' with input_id=field.id_for_label reveal_ms=3000 %}
+      {% endif %}
+      {% if field.help_text %}<div class="mt-1 text-xs text-gray-500">{{ field.help_text }}</div>{% endif %}
+      {% if field.errors %}
+        <div id="{{ field.id_for_label }}_error" class="mt-1 text-sm text-red-600">{{ field.errors }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
 {% endfor %}
