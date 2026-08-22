@@ -8,6 +8,9 @@ djlint==1.44.2
 pre-commit
 ruff==0.16.3
 
+# Generates requirements.txt / requirements-dev.txt from the .in files.
+pip-tools
+
 # Tests
 factory-boy
 pytest
