@@ -29,9 +29,8 @@ def sync_piecework_with_dailywork(dailywork):
         for piecework in related_pieceworks:
             sync_single_piecework(piecework, dailywork, salary_map)
 
-    except Exception as e:
+    except Exception:
         logger.exception(
-            "Failed updating related Piecework prices for DailyWork %s: %s",
+            "Failed updating related Piecework prices for DailyWork %s",
             getattr(dailywork, "pk", None),
-            str(e),
         )
