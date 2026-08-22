@@ -1,16 +1,16 @@
-from enum import Enum, IntEnum
+from enum import IntEnum, StrEnum
 from types import MappingProxyType
 
 
 # Group names
-class GroupNames(str, Enum):
+class GroupNames(StrEnum):
     PAYROLLS = "Payrolls"
     MASTERS = "Masters"
     EMPLOYEES = "Employees"
 
 
 # Department list
-class Department(str, Enum):
+class Department(StrEnum):
     AUTO_UGSRAA = "Авто угсраа"
     AKP = "Авто хяналтын бүс (АКП)"
     ZASVAR_1 = "Засвар 1"
@@ -39,7 +39,7 @@ RANK_CHOICES = [(rank.value, rank.value) for rank in Rank]
 
 
 # Type work list
-class TypeWork(str, Enum):
+class TypeWork(StrEnum):
     TYPE_84 = "84"
     TYPE_29 = "29"
     TYPE_79 = "79"
@@ -113,7 +113,7 @@ DEFAULT_MATERIAL_TYPE = "-"
 
 
 # Position list
-class JobTitle(str, Enum):
+class JobTitle(StrEnum):
     TOKARCHIN = "Токарьчин"
     BELTGELEL_TOKARCHIN = "Бэлтгэл токарьчин"
     DARHAN_LANTUUCHIN = "Дархан лантуучин"
@@ -179,7 +179,7 @@ def get_job_title_choices(department: str | None):
 
 
 # Type wagon
-class TypeWagon(str, Enum):
+class TypeWagon(StrEnum):
     HAGAS = "Хагас-84"
     CHINGELG = "Чингэлэг"
     TAVTSANT = "Тавцант"
