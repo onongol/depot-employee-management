@@ -1,10 +1,10 @@
 from decimal import ROUND_HALF_UP, Decimal
 
+TWO = Decimal("0.01")
+
 
 def calculate_piecework_update(work, amount, daily_salary, employees_salary):
     """Update calculation of the amount price for a piecework record Returns (amount_price)"""
-    TWO = Decimal("0.01")
-
     employees_money_sum = sum(emp.salary_day for emp in employees_salary)
     percent = Decimal("0")
 
