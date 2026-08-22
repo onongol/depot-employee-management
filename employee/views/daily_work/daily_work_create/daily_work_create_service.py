@@ -18,13 +18,6 @@ from employee.views.daily_work.validators.validate_create import CreateValidator
 
 def create_daily_work_piecework_records(request_data, user=None):
     """Process piecework creation based on the request data."""
-    work_date = request_data.work_date
-    type_work = request_data.type_work
-    wagon_number = request_data.wagon_number
-    selected_work_ids = request_data.selected_work_ids
-    amounts = request_data.amounts
-    job_title = request_data.job_title
-
     validator = CreateValidator(request_data)
 
     employees_salary, errors = validator.validate()
@@ -37,24 +30,13 @@ def create_daily_work_piecework_records(request_data, user=None):
     try:
         with transaction.atomic():
             # Create Daily_Work
-            daily_works, works_dict = daily_work_create_entries(
-                selected_work_ids=selected_work_ids,
-                amounts=amounts,
-                job_title=job_title,
-                type_work=type_work,
-                wagon_number=wagon_number,
-                work_date=work_date,
-            )
+            daily_works, works_dict = daily_work_create_entries(request_data)
 
             # Calculate Piecework records
             pieceworks, errors = calculate_piecework_records(
+                request_data,
                 employees_salary=employees_salary,
-                selected_work_ids=selected_work_ids,
-                amounts=amounts,
                 works_dict=works_dict,
-                work_date=work_date,
-                type_work=type_work,
-                wagon_number=wagon_number,
             )
 
             if errors:
