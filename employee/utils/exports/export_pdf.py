@@ -89,8 +89,9 @@ def export_to_pdf(data, headers, *, layout: TableLayout, title, filename):
 
     # Prepare table data: first row is headers, then data rows
     table_data = [[Paragraph(str(h), header_style) for h in headers]]
-    for row in data:
-        table_data.append([Paragraph(str(cell), cell_style) for cell in row])
+    table_data.extend(
+        [Paragraph(str(cell), cell_style) for cell in row] for row in data
+    )
 
     # Create the table with specified column widths
     table = Table(table_data, colWidths=layout.col_widths, repeatRows=1)
