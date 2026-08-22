@@ -52,7 +52,7 @@ services:
         max-file: "3"
     networks:
       - depot_management_network
-    
+
 volumes:
   db_data:
   staticfiles:
