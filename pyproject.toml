@@ -27,7 +27,6 @@ ignore = [
   # Pre-existing debt, silenced to get the hooks green on the current code.
   # Counts are from the first full run; each line is its own cleanup task.
   "DJ001",    # TODO: 7 - null=True on string model fields
-  "FBT",      # TODO: 9 - boolean positional arguments
   "TRY",      # TODO: 7 - exception handling style
   "EM",       # TODO: 5 - string literals passed straight to exceptions
   "UP042",    # TODO: 5 - str+Enum classes should be StrEnum
@@ -59,6 +58,8 @@ known-first-party = ["depo_crud", "employee"]
 "depo_crud/settings/*.py" = ["F403", "F405"]
 # In an assertion the literal is the documentation; naming it hides what is checked.
 "employee/tests/*.py" = ["PLR2004"]
+# delete()/hard_delete() mirror Django's Model.delete(using, keep_parents) signature.
+"employee/models/models_mixins/soft_delete_mixin.py" = ["FBT002"]
 # Signals must be connected inside ready(): the app registry is not populated yet.
 "employee/apps.py" = ["PLC0415"]
 # Django's own startproject template, kept verbatim for its ImportError message.
