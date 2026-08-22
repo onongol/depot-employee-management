@@ -16,7 +16,9 @@ def validate_required(
         errors.append(_("Select work date and type."))
 
     # Check for missing amounts for any selected work
-    missing_amounts = [work_id for work_id in selected_work_ids if not amounts.get(work_id)]
+    missing_amounts = [
+        work_id for work_id in selected_work_ids if not amounts.get(work_id)
+    ]
 
     # If there are missing amounts, add an error message
     if missing_amounts:

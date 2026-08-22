@@ -13,10 +13,7 @@ def get_employee_salaries(request):
 
     employees = context.employees
 
-    employees = filter_employees_salary(
-        employees,
-        context=context
-    )
+    employees = filter_employees_salary(employees, context=context)
 
     employee_salaries = calculate_employee_salaries(
         employees,

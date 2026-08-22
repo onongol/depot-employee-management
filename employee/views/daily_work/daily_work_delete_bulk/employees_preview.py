@@ -8,9 +8,7 @@ def get_employees_preview(pieceworks, limit=10):
     pieceworks_count = len(pieceworks)
 
     emp_preview = [
-        str(pw.employee)
-        for pw in pieceworks[:limit]
-        if getattr(pw, "employee", None)
+        str(pw.employee) for pw in pieceworks[:limit] if getattr(pw, "employee", None)
     ]
     emp_tail = (
         ""

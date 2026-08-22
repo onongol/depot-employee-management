@@ -22,7 +22,9 @@ def sync_piecework_with_dailywork(dailywork):
         )
 
         # Create a mapping of employee_id to DailySalary for quick lookup in sync_single_piecework
-        salary_map = {dailysalary.employee_id: dailysalary for dailysalary in employees_salary}
+        salary_map = {
+            dailysalary.employee_id: dailysalary for dailysalary in employees_salary
+        }
 
         for piecework in related_pieceworks:
             sync_single_piecework(piecework, dailywork, salary_map)

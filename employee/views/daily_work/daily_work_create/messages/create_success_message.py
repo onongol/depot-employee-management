@@ -27,9 +27,7 @@ def send_success_creation_message(
     - template: optional gettext template with placeholders: employees, works, date
     """
     if template is None:
-        template = _(
-            "Created %(employees)s for %(works)s on %(date)s"
-        )
+        template = _("Created %(employees)s for %(works)s on %(date)s")
 
     employee_entries = get_employee_entries(results)
 

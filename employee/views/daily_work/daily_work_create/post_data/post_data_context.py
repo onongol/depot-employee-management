@@ -11,4 +11,3 @@ class PostData:
     selected_employee_ids: list[str]
     selected_work_ids: list[str]
     amounts: dict[str, str]
-

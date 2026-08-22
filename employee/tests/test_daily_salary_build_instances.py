@@ -11,7 +11,9 @@ def test_build_daily_salary_instances_skips_duplicate_employee():
     duplicate_employee = EmployeeFactory.build(
         employee_id=1, money_per_hour=Decimal("100.00")
     )
-    new_employee = EmployeeFactory.build(employee_id=2, money_per_hour=Decimal("100.00"))
+    new_employee = EmployeeFactory.build(
+        employee_id=2, money_per_hour=Decimal("100.00")
+    )
     employees_dict = {1: duplicate_employee, 2: new_employee}
     errors = []
 

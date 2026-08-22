@@ -1,4 +1,3 @@
-
 from django.utils.translation import gettext_lazy as _
 
 from employee.views.daily_work.daily_work_delete_bulk.employees_preview import (

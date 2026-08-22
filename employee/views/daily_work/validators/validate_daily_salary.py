@@ -12,9 +12,7 @@ def validate_daily_salary(selected_employee_ids, work_date):
     )
 
     # Identify employees missing DailySalary records
-    employees_with_salary_ids = set(
-        str(ds.employee_code) for ds in employees_salary
-    )
+    employees_with_salary_ids = set(str(ds.employee_code) for ds in employees_salary)
 
     # Find employees without DailySalary
     missing_salary_employees = [
@@ -28,9 +26,7 @@ def validate_daily_salary(selected_employee_ids, work_date):
 
     # If any employees are missing DailySalary, add an error message
     if missing_salary_employees:
-        missing_names = [
-            str(emp) for emp in missing_salary_employees
-        ]
+        missing_names = [str(emp) for emp in missing_salary_employees]
         errors.append(
             _(
                 "Please create daily attendance for %(employees)s on %(date)s before proceeding."

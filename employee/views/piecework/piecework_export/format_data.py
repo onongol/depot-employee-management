@@ -20,9 +20,7 @@ def iter_rows(qs, context):
         # For non-grouped (model instances), fall back to related objects if needed
         if not grouped:
             employee_id = (
-                employee_id
-                or getattr(getattr(pw, "employee", None), "id", "")
-                or ""
+                employee_id or getattr(getattr(pw, "employee", None), "id", "") or ""
             )
             employee_code = (
                 employee_code

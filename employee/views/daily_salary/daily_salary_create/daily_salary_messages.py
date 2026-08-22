@@ -12,14 +12,10 @@ def send_daily_salary_creation_message(
     - salary_date: date string
     """
     if template is None:
-        template = _(
-            "Created records for %(employees)s - %(date)s"
-        )
+        template = _("Created records for %(employees)s - %(date)s")
 
     employee_list = [
-        str(emp)
-        for emp_id, emp in employees_dict.items()
-        if emp_id in selected_ids
+        str(emp) for emp_id, emp in employees_dict.items() if emp_id in selected_ids
     ]
 
     employees_str = ", ".join(sorted(employee_list)) if employee_list else ""
