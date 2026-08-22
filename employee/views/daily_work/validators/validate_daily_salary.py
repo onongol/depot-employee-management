@@ -12,7 +12,7 @@ def validate_daily_salary(selected_employee_ids, work_date):
     )
 
     # Identify employees missing DailySalary records
-    employees_with_salary_ids = set(str(ds.employee_code) for ds in employees_salary)
+    employees_with_salary_ids = {str(ds.employee_code) for ds in employees_salary}
 
     # Find employees without DailySalary
     missing_salary_employees = [
