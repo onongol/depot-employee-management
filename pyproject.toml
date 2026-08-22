@@ -29,7 +29,6 @@ ignore = [
   "PLR2004",  # TODO: 26 - magic values in comparisons
   "PLC0415",  # TODO: 11 - imports inside functions
   "DJ001",    # TODO: 7 - null=True on string model fields
-  "RUF005",   # TODO: 7 - concatenation instead of iterable unpacking
   "FBT",      # TODO: 9 - boolean positional arguments
   "TRY",      # TODO: 7 - exception handling style
   "EM",       # TODO: 5 - string literals passed straight to exceptions
