@@ -1,3 +1,5 @@
+import contextlib
+
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
@@ -9,15 +11,11 @@ from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationFo
 
 User = get_user_model()
 
-try:
+with contextlib.suppress(admin.sites.NotRegistered):
     admin.site.unregister(User)
-except admin.sites.NotRegistered:
-    pass
 
-try:
+with contextlib.suppress(admin.sites.NotRegistered):
     admin.site.unregister(Group)
-except admin.sites.NotRegistered:
-    pass
 
 
 @admin.register(User)
