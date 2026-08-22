@@ -1,7 +1,7 @@
-import os
 import warnings
 from dataclasses import dataclass, field
 from io import BytesIO
+from pathlib import Path
 from urllib.parse import quote
 
 from django.http import HttpResponse
@@ -15,15 +15,13 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 # Register font (adjust path as needed)
-FONT_DIR = os.path.normpath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "fonts")
-)
-FONT_PATH = os.path.join(FONT_DIR, "DejaVuSans.ttf")
+FONT_DIR = (Path(__file__).parent / ".." / ".." / "fonts").resolve()
+FONT_PATH = FONT_DIR / "DejaVuSans.ttf"
 
 # Default font name used throughout the module
 FONT_NAME = "DejaVuSans"
-if os.path.exists(FONT_PATH):
-    pdfmetrics.registerFont(TTFont(FONT_NAME, FONT_PATH))
+if FONT_PATH.exists():
+    pdfmetrics.registerFont(TTFont(FONT_NAME, str(FONT_PATH)))
 else:
     warnings.warn(
         f"Font file not found: {FONT_PATH}. Falling back to built-in 'Helvetica'.",
