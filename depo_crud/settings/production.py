@@ -12,7 +12,7 @@ DEBUG = False
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", cast=str.strip, default=[])
 if not ALLOWED_HOSTS:
     raise ImproperlyConfigured("ALLOWED_HOSTS environment variable not set")
-ALLOWED_HOSTS = ALLOWED_HOSTS + ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [*ALLOWED_HOSTS, "localhost", "127.0.0.1"]
 
 # 5. CSRF Trusted Origins: Allowed origins for CSRF protection in production
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", cast=str.strip, default=[])
@@ -76,7 +76,7 @@ EMAIL_BACKEND = env.str(
 EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", default=5)
 
 # 11. Middleware: django-axes requires its middleware to run last
-MIDDLEWARE = MIDDLEWARE + [AXES_MIDDLEWARE_PATH]
+MIDDLEWARE = [*MIDDLEWARE, AXES_MIDDLEWARE_PATH]
 assert MIDDLEWARE[-1] == AXES_MIDDLEWARE_PATH, "AxesMiddleware must be last"
 
 # 12. django-vite: resolve built asset URLs via static/manifest.json

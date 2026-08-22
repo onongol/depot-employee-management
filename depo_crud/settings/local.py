@@ -26,14 +26,16 @@ if not NPM_BIN_PATH:
 INTERNAL_IPS = env.list("INTERNAL_IPS", cast=str.strip, default=["127.0.0.1", "::1"])
 
 # 9. Application Definition
-INSTALLED_APPS = INSTALLED_APPS + [
+INSTALLED_APPS = [
+    *INSTALLED_APPS,
     "whitenoise.runserver_nostatic",
     "debug_toolbar",
     "django_browser_reload",
 ]
 
 # 10. Middleware: Hooks into Django's request/response process
-MIDDLEWARE = MIDDLEWARE + [
+MIDDLEWARE = [
+    *MIDDLEWARE,
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     AXES_MIDDLEWARE_PATH,

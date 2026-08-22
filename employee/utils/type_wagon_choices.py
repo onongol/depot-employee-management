@@ -12,6 +12,6 @@ def build_type_wagon_choices(works, *, show_wagon: bool) -> list[str]:
     empty_type_wagon = any(work.type_wagon is None for work in works)
 
     if empty_type_wagon:
-        return [DEFAULT_WAGON_TYPE] + type_wagon_values
+        return [DEFAULT_WAGON_TYPE, *type_wagon_values]
 
     return type_wagon_values

@@ -16,7 +16,7 @@ EXPORT_URLS_WITHOUT_EXTRA_PERMISSION = [
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    "url", EXPORT_URLS_WITHOUT_EXTRA_PERMISSION + ["/material_export_excel/"]
+    "url", [*EXPORT_URLS_WITHOUT_EXTRA_PERMISSION, "/material_export_excel/"]
 )
 def test_export_view_redirects_anonymous_user(client, url):
     response = client.get(url)

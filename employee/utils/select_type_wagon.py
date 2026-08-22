@@ -44,7 +44,7 @@ def get_type_wagon_filter_values(
 
     # Prepend placeholder if forced or if NULL values actually exist.
     if always_include_default or has_null:
-        result = [DEFAULT_WAGON_TYPE] + values
+        result = [DEFAULT_WAGON_TYPE, *values]
     else:
         result = values
 
