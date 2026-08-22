@@ -1,0 +1,6 @@
+# Build output committed to the repo (vite writes here, see vite.config.js)
+static/
+staticfiles/
+
+node_modules/
+package-lock.json
