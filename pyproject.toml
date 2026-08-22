@@ -43,14 +43,9 @@ ignore = [
   # hurts readability, and there is none here.
   "C901",
   "PLR0912",
-  "SLF001",   # TODO: 3 - private member access
-  "SIM105",   # TODO: 3 - together with SIM108
-  "SIM108",
-  "DJ012",    # TODO: 2 - model body ordering
-  "C401",     # TODO: 4 - one-off findings, see git history for locations
-  "N806",
-  "PERF401",
-  "PT011",
+  # All three hits are Model._meta, which Django documents as a public API;
+  # the underscore only keeps it from clashing with a field name.
+  "SLF001",
 ]
 
 [tool.ruff.lint.isort]
