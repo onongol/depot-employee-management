@@ -17,7 +17,7 @@ def get_type_wagon_filter_values(
 
     # Create a unique cache key based on the function parameters
     raw_key = f"{department}:{source_model}:{always_include_default}"
-    cache_key = f"wagon_filter_{hashlib.md5(raw_key.encode()).hexdigest()}"
+    cache_key = f"wagon_filter_{hashlib.md5(raw_key.encode(), usedforsecurity=False).hexdigest()}"
 
     # Try to get the result from cache
     result = cache.get(cache_key)

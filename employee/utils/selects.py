@@ -19,7 +19,9 @@ def get_distinct_values(
 
     # Create a unique cache key based on the function parameters
     raw_key = f"{model._meta.model_name}:{field}:{department}:{only_with_salary}:{extra_filters}"
-    cache_key = f"distinct_{hashlib.md5(raw_key.encode()).hexdigest()}"
+    cache_key = (
+        f"distinct_{hashlib.md5(raw_key.encode(), usedforsecurity=False).hexdigest()}"
+    )
 
     # Try to get the result from cache
     result = cache.get(cache_key)
