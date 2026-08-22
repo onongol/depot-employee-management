@@ -32,8 +32,12 @@ ignore = [
   "TRY",      # TODO: 7 - exception handling style
   "EM",       # TODO: 5 - string literals passed straight to exceptions
   "UP042",    # TODO: 5 - str+Enum classes should be StrEnum
-  "C901",     # TODO: 16 - complexity, together with the PLR09xx below
+  # Kept off by decision, not deferred. The two filter_* functions are flat
+  # chains of optional guards - the metric counts branches, but nesting is what
+  # hurts readability, and there is none here.
+  "C901",
   "PLR0912",
+  # TODO: 10 - five functions take 6-7 arguments; worth revisiting.
   "PLR0913",
   "PLR0917",
   "PTH",      # TODO: 4 - os.path instead of pathlib
