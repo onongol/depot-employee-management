@@ -166,9 +166,10 @@ npm run typecheck
 Who owns what: Prettier formats templates, djLint only lints them. The two cannot both
 format — `djlint --reformat` and Prettier rewrite each other's output indefinitely.
 
-Tool versions are pinned in two places that must stay in sync: hook `rev` values in
-`.pre-commit-config.yaml` against `ruff`/`djlint` in `requirements-dev.txt`, and the hook's
-`additional_dependencies` against `prettier` and its plugins in `package.json`.
+Hook `rev` values for `ruff` and `djlint` in `.pre-commit-config.yaml` must match their
+pins in `requirements-dev.txt`, or a manual run and the hook disagree. Prettier needs no
+such pin: its hook runs from `node_modules`, so `npm ci` has to happen before
+`pre-commit run` on a fresh checkout.
 
 ## Tests
 
