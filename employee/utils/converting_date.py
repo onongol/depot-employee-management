@@ -12,7 +12,8 @@ def format_date(date_str):
         return None
     for fmt in ("%Y-%m-%d", "%B %d, %Y", "%b %d, %Y"):
         try:
-            return datetime.strptime(date_str, fmt).date()
+            # .date() drops the time, so no naive datetime escapes this call.
+            return datetime.strptime(date_str, fmt).date()  # noqa: DTZ007
         except ValueError:
             continue
     return None
