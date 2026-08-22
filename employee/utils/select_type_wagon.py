@@ -12,6 +12,7 @@ SOURCE_MODELS = {"piecework": Piecework, "daily_work": DailyWork}
 def get_type_wagon_filter_values(
     department,
     source_model: str = "work",
+    *,
     always_include_default: bool = False,
 ):
     """Build a distinct list of type_wagon values for a filter widget."""

@@ -21,6 +21,7 @@ def calculate_employee_salaries(
     employees,
     context,
     wagon_number: str | None = None,
+    *,
     include_daily_salary: bool = False,
 ):
     """Calculate employee salary totals from piecework, optionally merging DailySalary aggregates."""

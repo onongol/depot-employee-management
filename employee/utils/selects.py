@@ -8,6 +8,7 @@ def get_distinct_values(
     field,
     department=None,
     department_field=None,
+    *,
     only_with_salary=False,
     extra_filters=None,
 ):
