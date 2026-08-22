@@ -26,7 +26,11 @@ ignore = [
 
   # Pre-existing debt, silenced to get the hooks green on the current code.
   # Counts are from the first full run; each line is its own cleanup task.
-  "DJ001",    # TODO: 7 - null=True on string model fields
+  # Kept off by decision. NULL is meaningful on wagon_number/type_wagon/
+  # type_material: 11 queries filter on isnull=True, a CheckConstraint in
+  # work_models depends on it, and the UI shows those rows under a placeholder.
+  # For NEW string fields still prefer blank=True without null=True.
+  "DJ001",
   "TRY",      # TODO: 7 - exception handling style
   "EM",       # TODO: 5 - string literals passed straight to exceptions
   "UP042",    # TODO: 5 - str+Enum classes should be StrEnum
