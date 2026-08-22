@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.html import format_html_join
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
@@ -43,7 +44,10 @@ def daily_work_delete_bulk(request):
     )
 
     if deleted_count:
-        final_message = mark_safe("<br>".join(parts))
+        # Escape each part: they carry employee and work names straight from the DB.
+        final_message = format_html_join(
+            mark_safe("<br>"), "{}", ((part,) for part in parts)
+        )
         messages.success(request, final_message)
 
     return redirect(request.META.get("HTTP_REFERER") or fallback_url)
