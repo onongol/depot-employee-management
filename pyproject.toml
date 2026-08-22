@@ -34,9 +34,6 @@ ignore = [
   # Django's own ImproperlyConfigured pattern for settings, plus manage.py's
   # startproject template - a class per config error would be absurd.
   "TRY003",
-  # parse_date_range has four returns inside the try; moving only the last one
-  # to an else block would be inconsistent.
-  "TRY300",
   "EM",       # TODO: 5 - string literals passed straight to exceptions
   "UP042",    # TODO: 5 - str+Enum classes should be StrEnum
   # Kept off by decision, not deferred. The two filter_* functions are flat
@@ -48,7 +45,6 @@ ignore = [
   "PLR0913",
   "PLR0917",
   "PTH",      # TODO: 4 - os.path instead of pathlib
-  "BLE001",   # TODO: 3 - blind except Exception
   "SLF001",   # TODO: 3 - private member access
   "SIM105",   # TODO: 3 - together with SIM108
   "SIM108",
