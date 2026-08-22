@@ -142,6 +142,31 @@ Dev-only ports: keep port mappings in docker-compose.override.yml so production 
 - `collectstatic` writes to `staticfiles/` (runtime output, not committed).
 - Before collectstatic, ensure `static/manifest.json` exists (produced by `npm run build`).
 
+## Code style
+
+Ruff (Python), Prettier (templates, CSS, TypeScript), djLint (template linting) and `tsc`
+run automatically through pre-commit. Install the hooks once after `pip install`:
+
+```sh
+pre-commit install --hook-type pre-commit --hook-type pre-push
+```
+
+Both hook types are required: `tsc` checks the whole project at once, so it runs on push
+rather than on every commit.
+
+```sh
+pre-commit run --all-files   # everything, as CI runs it
+ruff check . && ruff format .
+npm run typecheck
+```
+
+Who owns what: Prettier formats templates, djLint only lints them. The two cannot both
+format — `djlint --reformat` and Prettier rewrite each other's output indefinitely.
+
+Tool versions are pinned in two places that must stay in sync: hook `rev` values in
+`.pre-commit-config.yaml` against `ruff`/`djlint` in `requirements.txt`, and the hook's
+`additional_dependencies` against `prettier` and its plugins in `package.json`.
+
 ## Tests
 
 ```sh
