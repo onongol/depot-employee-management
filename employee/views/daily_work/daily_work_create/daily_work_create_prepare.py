@@ -3,8 +3,8 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from employee.forms import PieceworkForm
+from employee.forms.filter_forms import WorkDateForm
 from employee.models import Employee, Piecework, Work
-from employee.utils.converting_date import format_date
 from employee.utils.job_title_choices import build_job_title_choices
 from employee.utils.select_department import get_selected_department
 from employee.utils.type_wagon_choices import build_type_wagon_choices
@@ -20,11 +20,14 @@ def daily_work_piecework_create_prepare(request) -> DailyWorkPieceworkCreateCont
 
     show_wagon = is_wagon_department(department)
 
-    today = timezone.now().date()
+    today = timezone.localdate()
 
-    # Get and format the work_date from GET or POST parameters
+    # Falls back to today so the page never queries with work_date=None, which
+    # is SQL IS NULL and would silently empty the duplicate check.
     raw_work_date = request.GET.get("work_date") or request.POST.get("work_date")
-    work_date = format_date(raw_work_date) if raw_work_date else today
+    work_date = (
+        WorkDateForm.parse({"work_date": raw_work_date}).get("work_date") or today
+    )
 
     employees = []
     works = []
