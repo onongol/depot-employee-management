@@ -20,7 +20,7 @@ def _salary(employee_id, salary_day):
 
 
 @pytest.mark.parametrize(
-    "salary_day, other_salary_day, work_price, amount",
+    ("salary_day", "other_salary_day", "work_price", "amount"),
     [
         # Exact rounding-tie boundaries where the two paths diverged before
         # 3758fbf7 replaced round() with Decimal.quantize(ROUND_HALF_UP).

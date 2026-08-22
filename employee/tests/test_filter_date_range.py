@@ -42,7 +42,7 @@ def _context(range_date):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("filter_func, factory, model", RANGE_FILTERS)
+@pytest.mark.parametrize(("filter_func", "factory", "model"), RANGE_FILTERS)
 def test_range_bounds_are_inclusive(filter_func, factory, model):
     # A range picked as "10th to 20th" has to contain the 10th and the 20th.
     rows = [factory(work_date=day) for day in (FIRST, MIDDLE, LAST)]
@@ -53,7 +53,7 @@ def test_range_bounds_are_inclusive(filter_func, factory, model):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("filter_func, factory, model", RANGE_FILTERS)
+@pytest.mark.parametrize(("filter_func", "factory", "model"), RANGE_FILTERS)
 def test_rows_outside_the_range_are_excluded(filter_func, factory, model):
     inside = factory(work_date=MIDDLE)
     factory(work_date=date(2024, 3, 9))
@@ -65,7 +65,7 @@ def test_rows_outside_the_range_are_excluded(filter_func, factory, model):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("filter_func, factory, model", RANGE_FILTERS)
+@pytest.mark.parametrize(("filter_func", "factory", "model"), RANGE_FILTERS)
 def test_an_unparsable_range_leaves_the_queryset_untouched(filter_func, factory, model):
     # parse_date_range returns (None, None) here, and both bounds are guarded
     # by `if start_date` / `if end_date`. That has to mean "no date filter",
@@ -80,7 +80,7 @@ def test_an_unparsable_range_leaves_the_queryset_untouched(filter_func, factory,
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("filter_func, factory, model", RANGE_FILTERS)
+@pytest.mark.parametrize(("filter_func", "factory", "model"), RANGE_FILTERS)
 def test_an_empty_range_leaves_the_queryset_untouched(filter_func, factory, model):
     factory(work_date=MIDDLE)
 
@@ -90,7 +90,7 @@ def test_an_empty_range_leaves_the_queryset_untouched(filter_func, factory, mode
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("filter_func, factory, model", RANGE_FILTERS)
+@pytest.mark.parametrize(("filter_func", "factory", "model"), RANGE_FILTERS)
 def test_a_single_date_narrows_to_that_one_day(filter_func, factory, model):
     # Flatpickr leaves one date in the box between the two clicks, so this is
     # a real thing users submit.
@@ -104,7 +104,7 @@ def test_a_single_date_narrows_to_that_one_day(filter_func, factory, model):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("filter_func, factory, model", RANGE_FILTERS)
+@pytest.mark.parametrize(("filter_func", "factory", "model"), RANGE_FILTERS)
 def test_a_reversed_range_matches_nothing(filter_func, factory, model):
     # parse_date_range hands back start/end unordered, so this becomes
     # work_date >= 20th AND work_date <= 10th. Nothing is wrong with the

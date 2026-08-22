@@ -77,7 +77,9 @@ def _login_with_department(client, department, groups=(GroupNames.PAYROLLS.value
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("url_name, post_field, make_row, model", DELETE_BULK_VIEWS)
+@pytest.mark.parametrize(
+    ("url_name", "post_field", "make_row", "model"), DELETE_BULK_VIEWS
+)
 def test_delete_bulk_does_not_touch_another_department(
     client, url_name, post_field, make_row, model
 ):
@@ -93,7 +95,9 @@ def test_delete_bulk_does_not_touch_another_department(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("url_name, post_field, make_row, model", DELETE_BULK_VIEWS)
+@pytest.mark.parametrize(
+    ("url_name", "post_field", "make_row", "model"), DELETE_BULK_VIEWS
+)
 def test_delete_bulk_deletes_rows_of_the_selected_department(
     client, url_name, post_field, make_row, model
 ):
@@ -108,7 +112,9 @@ def test_delete_bulk_deletes_rows_of_the_selected_department(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("url_name, post_field, make_row, model", DELETE_BULK_VIEWS)
+@pytest.mark.parametrize(
+    ("url_name", "post_field", "make_row", "model"), DELETE_BULK_VIEWS
+)
 def test_delete_bulk_with_unparsable_ids_deletes_nothing(
     client, url_name, post_field, make_row, model
 ):
@@ -123,7 +129,9 @@ def test_delete_bulk_with_unparsable_ids_deletes_nothing(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("url_name, post_field, make_row, model", DELETE_BULK_VIEWS)
+@pytest.mark.parametrize(
+    ("url_name", "post_field", "make_row", "model"), DELETE_BULK_VIEWS
+)
 def test_delete_bulk_rejects_a_user_without_the_delete_permission(
     client, url_name, post_field, make_row, model
 ):
@@ -136,7 +144,9 @@ def test_delete_bulk_rejects_a_user_without_the_delete_permission(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("url_name, post_field, make_row, model", DELETE_BULK_VIEWS)
+@pytest.mark.parametrize(
+    ("url_name", "post_field", "make_row", "model"), DELETE_BULK_VIEWS
+)
 def test_delete_bulk_rejects_an_anonymous_user(
     client, url_name, post_field, make_row, model
 ):

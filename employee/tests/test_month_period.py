@@ -20,7 +20,7 @@ def test_parse_month_period_normalises_the_new_format(rf, query_string):
 
 
 @pytest.mark.parametrize(
-    "query_string, expected",
+    ("query_string", "expected"),
     [
         ("month_period=1900-01", (1, 1900, "1900-01")),
         ("month_period=9999-12", (12, 9999, "9999-12")),

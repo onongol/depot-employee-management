@@ -11,7 +11,7 @@ SOFT_DELETE_UNIQUE_MODELS = [
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, id_field", SOFT_DELETE_UNIQUE_MODELS)
+@pytest.mark.parametrize(("factory", "id_field"), SOFT_DELETE_UNIQUE_MODELS)
 def test_clean_rejects_a_duplicate_active_id(factory, id_field):
     factory(**{id_field: 42})
 
@@ -22,7 +22,7 @@ def test_clean_rejects_a_duplicate_active_id(factory, id_field):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, id_field", SOFT_DELETE_UNIQUE_MODELS)
+@pytest.mark.parametrize(("factory", "id_field"), SOFT_DELETE_UNIQUE_MODELS)
 def test_clean_does_not_let_an_unchanged_instance_conflict_with_itself(
     factory, id_field
 ):
@@ -32,7 +32,7 @@ def test_clean_does_not_let_an_unchanged_instance_conflict_with_itself(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, id_field", SOFT_DELETE_UNIQUE_MODELS)
+@pytest.mark.parametrize(("factory", "id_field"), SOFT_DELETE_UNIQUE_MODELS)
 def test_clean_allows_a_duplicate_id_when_the_existing_row_is_soft_deleted(
     factory, id_field
 ):
@@ -44,7 +44,7 @@ def test_clean_allows_a_duplicate_id_when_the_existing_row_is_soft_deleted(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, id_field", SOFT_DELETE_UNIQUE_MODELS)
+@pytest.mark.parametrize(("factory", "id_field"), SOFT_DELETE_UNIQUE_MODELS)
 def test_restore_fails_when_the_id_was_taken_while_the_row_was_deleted(
     factory, id_field
 ):
@@ -62,7 +62,7 @@ def test_restore_fails_when_the_id_was_taken_while_the_row_was_deleted(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, id_field", SOFT_DELETE_UNIQUE_MODELS)
+@pytest.mark.parametrize(("factory", "id_field"), SOFT_DELETE_UNIQUE_MODELS)
 def test_save_enforces_uniqueness_without_an_explicit_full_clean(factory, id_field):
     # save() calls full_clean() itself, so a plain create() is guarded too —
     # ModelForms are not the only entry point that has to stay safe.

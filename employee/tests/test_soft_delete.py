@@ -29,7 +29,7 @@ PROFILE_FACTORIES = [
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, model", SOFT_DELETE_MODELS)
+@pytest.mark.parametrize(("factory", "model"), SOFT_DELETE_MODELS)
 def test_objects_hides_deleted_rows_and_all_objects_shows_them(factory, model):
     alive = factory()
     deleted = factory(is_deleted=True)
@@ -39,7 +39,7 @@ def test_objects_hides_deleted_rows_and_all_objects_shows_them(factory, model):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, model", SOFT_DELETE_MODELS)
+@pytest.mark.parametrize(("factory", "model"), SOFT_DELETE_MODELS)
 def test_delete_keeps_the_row_in_the_database(factory, model):
     obj = factory()
 
@@ -50,7 +50,7 @@ def test_delete_keeps_the_row_in_the_database(factory, model):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, model", SOFT_DELETE_MODELS)
+@pytest.mark.parametrize(("factory", "model"), SOFT_DELETE_MODELS)
 def test_restore_brings_a_deleted_row_back(factory, model):
     obj = factory()
     obj.delete()
@@ -61,7 +61,7 @@ def test_restore_brings_a_deleted_row_back(factory, model):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, model", SOFT_DELETE_MODELS)
+@pytest.mark.parametrize(("factory", "model"), SOFT_DELETE_MODELS)
 def test_hard_delete_really_removes_the_row(factory, model):
     obj = factory()
 
@@ -71,7 +71,7 @@ def test_hard_delete_really_removes_the_row(factory, model):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, model", SOFT_DELETE_MODELS)
+@pytest.mark.parametrize(("factory", "model"), SOFT_DELETE_MODELS)
 def test_queryset_exposes_the_alive_and_dead_filters(factory, model):
     # These only exist if the manager actually hands out a SoftDeleteQuerySet.
     alive = factory()
@@ -82,7 +82,7 @@ def test_queryset_exposes_the_alive_and_dead_filters(factory, model):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, model", SOFT_DELETE_MODELS)
+@pytest.mark.parametrize(("factory", "model"), SOFT_DELETE_MODELS)
 def test_queryset_delete_is_soft_like_instance_delete(factory, model):
     # The one that matters: deleting through a queryset must not be a harder
     # delete than deleting the same row through the instance. Anyone folding
@@ -97,7 +97,7 @@ def test_queryset_delete_is_soft_like_instance_delete(factory, model):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, model", SOFT_DELETE_MODELS)
+@pytest.mark.parametrize(("factory", "model"), SOFT_DELETE_MODELS)
 def test_delete_is_not_reachable_from_the_manager(factory, model):
     # Manager.from_queryset() copies every public queryset method onto the
     # manager unless it is flagged queryset_only, which is why Django flags its
@@ -149,7 +149,7 @@ def test_delete_does_not_reactivate_an_already_inactive_user(factory):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("factory, model", SOFT_DELETE_MODELS)
+@pytest.mark.parametrize(("factory", "model"), SOFT_DELETE_MODELS)
 def test_delete_and_restore_are_written_to_history(factory, model):
     # The audit trail is the reason soft delete goes through save() per object:
     # a bulk update(is_deleted=True) never fires post_save, so simple_history

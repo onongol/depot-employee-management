@@ -82,7 +82,7 @@ def test_parse_date_range_accepts_basic_iso_that_format_date_rejects():
 
 
 @pytest.mark.parametrize(
-    "date_str, expected",
+    ("date_str", "expected"),
     [
         ("2024-01-01", date(2024, 1, 1)),
         ("2024-1-1", date(2024, 1, 1)),

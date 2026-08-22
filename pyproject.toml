@@ -26,7 +26,6 @@ ignore = [
 
   # Pre-existing debt, silenced to get the hooks green on the current code.
   # Counts are from the first full run; each line is its own cleanup task.
-  "PT006",    # TODO: 30 - parametrize argnames should be a tuple
   "PLR2004",  # TODO: 26 - magic values in comparisons
   "RET504",   # TODO: 13 - assignment immediately before return
   "PLC0415",  # TODO: 11 - imports inside functions

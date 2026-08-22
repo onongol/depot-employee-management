@@ -28,7 +28,7 @@ def _edges(year, month, last_day):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("year, month, last_day", BOUNDARY_MONTHS)
+@pytest.mark.parametrize(("year", "month", "last_day"), BOUNDARY_MONTHS)
 def test_filter_month_year_includes_both_edges_of_the_month(year, month, last_day):
     before, first, last, after = _edges(year, month, last_day)
     inside = [DailyWorkFactory(work_date=first), DailyWorkFactory(work_date=last)]
@@ -91,7 +91,7 @@ def test_filter_month_year_without_month_or_year_returns_everything():
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("year, month, last_day", BOUNDARY_MONTHS)
+@pytest.mark.parametrize(("year", "month", "last_day"), BOUNDARY_MONTHS)
 def test_date_range_and_denormalised_column_paths_select_the_same_rows(
     year, month, last_day
 ):
@@ -117,7 +117,7 @@ def test_date_range_and_denormalised_column_paths_select_the_same_rows(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("year, month, last_day", BOUNDARY_MONTHS)
+@pytest.mark.parametrize(("year", "month", "last_day"), BOUNDARY_MONTHS)
 def test_calc_totals_for_group_agrees_with_and_without_denormalised_fields(
     year, month, last_day
 ):
