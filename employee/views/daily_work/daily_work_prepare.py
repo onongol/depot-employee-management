@@ -1,3 +1,4 @@
+from employee.forms.filter_forms import WorkDateFilterForm
 from employee.models import DailyWork
 from employee.utils.group_modes import is_detail_group, is_month_group, is_year_group
 from employee.utils.month_period import parse_month_period
@@ -23,8 +24,11 @@ def daily_work_prepare(request) -> DailyWorkContext:
     wagon_number = request.GET.get("wagon_number")
     type_wagon = request.GET.get("type_wagon")
     type_material = request.GET.get("type_material")
+
+    # Dates are parsed here, at the edge; the filters only apply them.
     range_date = request.GET.get("range_date")
-    record_date = request.GET.get("record_date")
+    dates = WorkDateFilterForm.parse(request.GET)
+    date_from, date_to = dates.get("range_date") or (None, None)
 
     # Grouping params
     group = request.GET.get("group")
@@ -72,7 +76,9 @@ def daily_work_prepare(request) -> DailyWorkContext:
         type_wagon=type_wagon,
         type_material=type_material,
         range_date=range_date,
-        record_date=record_date,
+        date_from=date_from,
+        date_to=date_to,
+        record_date=dates.get("record_date"),
         group=group,
         selected_year=selected_year,
         month=month,

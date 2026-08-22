@@ -1,7 +1,6 @@
 from django.db.models import Q
 
 from employee.constants.constants import DEFAULT_WAGON_NUMBER, DEFAULT_WAGON_TYPE
-from employee.utils.converting_date import parse_date_range
 
 
 def filter_daily_works(queryset, context):
@@ -11,7 +10,8 @@ def filter_daily_works(queryset, context):
     type_work = context.type_work
     wagon_number = context.wagon_number
     type_wagon = context.type_wagon
-    range_date = context.range_date
+    date_from = context.date_from
+    date_to = context.date_to
     record_date = context.record_date
 
     if job_title:
@@ -30,12 +30,10 @@ def filter_daily_works(queryset, context):
             queryset = queryset.filter(type_wagon__isnull=True)
         else:
             queryset = queryset.filter(type_wagon=type_wagon)
-    if range_date:
-        start_date, end_date = parse_date_range(range_date)
-        if start_date:
-            queryset = queryset.filter(work_date__gte=start_date)
-        if end_date:
-            queryset = queryset.filter(work_date__lte=end_date)
+    if date_from:
+        queryset = queryset.filter(work_date__gte=date_from)
+    if date_to:
+        queryset = queryset.filter(work_date__lte=date_to)
     if record_date:
         queryset = queryset.filter(record_date__date=record_date)
     return queryset

@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import date
 from typing import Any
 
 
@@ -10,7 +11,11 @@ class WagonContext:
     type_wagon: str | None
     work_name: str | None
     type_work: str | None
+    # range_date is the raw box contents, kept for redisplay; the filter reads
+    # the parsed bounds.
     range_date: str | None
+    date_from: date | None
+    date_to: date | None
     group: str | None
     month: int | None
     year: int | None

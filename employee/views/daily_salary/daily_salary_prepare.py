@@ -1,5 +1,5 @@
+from employee.forms.filter_forms import DailySalaryFilterForm
 from employee.models import DailySalary, Employee
-from employee.utils.converting_date import format_date
 from employee.utils.select_department import get_selected_department
 from employee.utils.selects import get_distinct_values
 from employee.views.daily_salary.daily_salary_context import DailySalaryContext
@@ -26,8 +26,9 @@ def daily_salary_prepare(request) -> DailySalaryContext:
     employee_code = request.GET.get("employee_code")
     employee_name = request.GET.get("employee_name")
     job_title = request.GET.get("job_title")
-    salary_date = format_date(request.GET.get("salary_date"))
-    record_date = format_date(request.GET.get("record_date"))
+    dates = DailySalaryFilterForm.parse(request.GET)
+    salary_date = dates.get("salary_date")
+    record_date = dates.get("record_date")
 
     order_by = request.GET.get("order_by")
     direction = request.GET.get("direction")

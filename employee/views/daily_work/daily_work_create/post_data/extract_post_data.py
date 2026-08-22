@@ -1,12 +1,14 @@
 from employee.constants.constants import DEFAULT_WAGON_NUMBER
-from employee.utils.converting_date import format_date
+from employee.forms.filter_forms import WorkDateForm
 from employee.views.daily_work.daily_work_create.post_data.post_data_context import (
     PostData,
 )
 
 
 def extract_post_data(request) -> PostData:
-    work_date = format_date(request.POST.get("work_date"))
+    # None on an unparsable date; validate_required turns that into an error
+    # rather than letting a raw string reach the ORM.
+    work_date = WorkDateForm.parse(request.POST).get("work_date")
     type_work = request.POST.get("type_work")
     job_title = request.POST.get("job_title")
 

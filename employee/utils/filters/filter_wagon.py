@@ -1,5 +1,4 @@
 from employee.constants.constants import DEFAULT_WAGON_TYPE
-from employee.utils.converting_date import parse_date_range
 
 
 def filter_wagon(queryset, context):
@@ -8,7 +7,8 @@ def filter_wagon(queryset, context):
     type_wagon = context.type_wagon
     work_name = context.work_name
     type_work = context.type_work
-    range_date = context.range_date
+    date_from = context.date_from
+    date_to = context.date_to
 
     if wagon_number:
         queryset = queryset.filter(wagon_number=wagon_number)
@@ -21,10 +21,8 @@ def filter_wagon(queryset, context):
         queryset = queryset.filter(work__work_name__icontains=work_name)
     if type_work:
         queryset = queryset.filter(type_work=type_work)
-    if range_date:
-        start_date, end_date = parse_date_range(range_date)
-        if start_date:
-            queryset = queryset.filter(work_date__gte=start_date)
-        if end_date:
-            queryset = queryset.filter(work_date__lte=end_date)
+    if date_from:
+        queryset = queryset.filter(work_date__gte=date_from)
+    if date_to:
+        queryset = queryset.filter(work_date__lte=date_to)
     return queryset

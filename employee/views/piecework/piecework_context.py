@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import date
 from typing import Any
 
 
@@ -14,8 +15,12 @@ class PieceworkContext:
     type_work: str | None
     wagon_number: str | None
     type_wagon: str | None
+    # range_date is the raw box contents, kept for redisplay; the filter reads
+    # the parsed bounds.
     range_date: str | None
-    record_date: str | None
+    date_from: date | None
+    date_to: date | None
+    record_date: date | None
     group: str | None
     selected_year: str | None
     month: int | None

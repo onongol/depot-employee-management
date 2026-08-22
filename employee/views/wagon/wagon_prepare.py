@@ -1,4 +1,5 @@
 from employee.constants.constants import DEFAULT_WAGON_NUMBER
+from employee.forms.filter_forms import DateRangeFilterForm
 from employee.models import DailyWork
 from employee.utils.group_modes import is_detail_group, is_month_group
 from employee.utils.month_period import parse_month_period
@@ -30,7 +31,13 @@ def wagon_prepare(request) -> WagonContext:
     type_wagon = request.GET.get("type_wagon")
     work_name = request.GET.get("work")
     type_work = request.GET.get("type_work")
+
+    # Dates are parsed here, at the edge; the filter only applies them.
     range_date = request.GET.get("range_date")
+    date_from, date_to = DateRangeFilterForm.parse(request.GET).get("range_date") or (
+        None,
+        None,
+    )
 
     group = request.GET.get("group")
     month, year, month_period = parse_month_period(request)
@@ -53,6 +60,8 @@ def wagon_prepare(request) -> WagonContext:
         work_name=work_name,
         type_work=type_work,
         range_date=range_date,
+        date_from=date_from,
+        date_to=date_to,
         group=group,
         month=month,
         year=year,

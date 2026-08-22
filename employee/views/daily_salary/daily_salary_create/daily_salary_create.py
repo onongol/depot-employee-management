@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from employee.forms.filter_forms import SalaryDateForm
 from employee.views.daily_salary.daily_salary_create.daily_salary_create_prepare import (
     prepare_daily_salary_create,
 )
@@ -31,7 +32,9 @@ def daily_salary_create(request):
     # Handle form submission
     if request.method == "POST":
         selected_ids = [int(emp_id) for emp_id in request.POST.getlist("employee_ids")]
-        salary_date = request.POST.get("salary_date")
+        # Parsed here so no raw string reaches the ORM; None is caught by
+        # validate_daily_salary_required.
+        salary_date = SalaryDateForm.parse(request.POST).get("salary_date")
         hours_per_day = request.POST.get("hours_per_day")
 
         employees_dict, errors = create_daily_salary_records(
