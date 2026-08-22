@@ -111,5 +111,5 @@ def test_parse_month_period_crashes_on_a_non_ascii_digit_in_the_legacy_pair(rf):
     # ?legacy_month=² is a 500, not an ignored filter.
     request = _request(rf, "legacy_month=%C2%B2&legacy_year=2020")
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="invalid literal for int"):
         parse_month_period(request)
