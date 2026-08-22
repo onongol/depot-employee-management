@@ -97,7 +97,7 @@ class Work(
             # Ensure type_wagon is only set for allowed departments
             models.CheckConstraint(
                 name="type_wagon_only_for_allowed_departments",
-                check=Q(department__in=ALLOWED_WAGON_DEPARTMENTS)
+                condition=Q(department__in=ALLOWED_WAGON_DEPARTMENTS)
                 | Q(type_wagon__isnull=True),
             ),
             # Ensure work_name is unique within the same department, only for non-deleted records (soft delete aware, for MySQL)
