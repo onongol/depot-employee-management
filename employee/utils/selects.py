@@ -12,10 +12,7 @@ def get_distinct_values(
     extra_filters=None,
 ):
     """Returns a queryset of distinct values for the specified field and department."""
-    if extra_filters:
-        extra_filters = tuple(sorted(extra_filters.items()))
-    else:
-        extra_filters = None
+    extra_filters = tuple(sorted(extra_filters.items())) if extra_filters else None
 
     # Create a unique cache key based on the function parameters
     raw_key = f"{model._meta.model_name}:{field}:{department}:{only_with_salary}:{extra_filters}"
