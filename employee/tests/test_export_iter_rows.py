@@ -109,10 +109,8 @@ def test_piecework_rows_fall_back_to_related_objects_when_the_snapshot_is_blank(
 
     assert row[1] == 777
     assert row[2] == "Related name"
+    assert row[3] == Department.MECHANIC
     assert row[5] == "Related work"
-    # department has no working fallback - the branch re-reads the same blank
-    # attribute get_value already returned, so the cell stays empty.
-    assert row[3] == ""
 
 
 def test_piecework_rows_use_the_display_properties_for_wagon_columns_when_ungrouped():
