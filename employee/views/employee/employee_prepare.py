@@ -9,7 +9,7 @@ def employee_prepare(request) -> EmployeeContext:
 
     # Without view_employee a user only ever sees their own record.
     if request.user.has_perm("employee.view_employee"):
-        employees = Employee.objects.all()
+        employees = Employee.objects.for_user(request.user)
     else:
         employees = Employee.objects.filter(user=request.user)
 

@@ -8,7 +8,7 @@ from employee.services.admin_log_entries import log_object_change
 
 
 def _set_employee_active_status(request, pk, is_active):
-    employee = get_object_or_404(Employee, pk=pk)
+    employee = get_object_or_404(Employee.objects.for_user(request.user), pk=pk)
     with transaction.atomic():
         employee.is_active = is_active
         employee.save()

@@ -8,6 +8,7 @@ from employee.mixins.context_mixins import EmployeeContextMixin
 from employee.mixins.create_mixin import AdminLoggedCreateMixin
 from employee.mixins.department_mixins import InitialDepartmentMixin
 from employee.mixins.update_mixin import AdminLoggedUpdateMixin
+from employee.models import Employee
 
 
 class EmployeeCreateView(
@@ -43,3 +44,6 @@ class EmployeeUpdateView(
     form_class = UpdateEmployeeForm
     template_name = "employee/employee_update.html"
     success_message = _("Updated")
+
+    def get_queryset(self):
+        return Employee.objects.for_user(self.request.user)
