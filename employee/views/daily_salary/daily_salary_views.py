@@ -18,7 +18,11 @@ class DailySalaryUpdateView(
     UpdateView,
 ):
     permission_required = "employee.change_dailysalary"
-    queryset = DailySalary.objects.select_related("employee")
     form_class = UpdateDailySalaryForm
     template_name = "daily_salary/daily_salary_update.html"
     success_message = _("Updated")
+
+    def get_queryset(self):
+        return DailySalary.objects.for_user(self.request.user).select_related(
+            "employee"
+        )

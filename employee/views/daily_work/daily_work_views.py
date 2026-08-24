@@ -24,10 +24,12 @@ class DailyWorkUpdateView(
     UpdateView,
 ):
     permission_required = "employee.change_dailywork"
-    queryset = DailyWork.objects.select_related("work")
     form_class = UpdateDailyWorkForm
     template_name = "daily_work/daily_work_piecework_update.html"
     success_message = _("Updated")
+
+    def get_queryset(self):
+        return DailyWork.objects.for_user(self.request.user).select_related("work")
 
 
 @login_required
