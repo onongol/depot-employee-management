@@ -31,7 +31,7 @@ class DailyWorkUpdateView(
 
 
 @login_required
-@permission_required("employee.add_dailywork")
+@permission_required("employee.add_dailywork", raise_exception=True)
 def daily_work_create(request):
     """Create daily work entry view. Redirect to piecework creation if department allows wagon work."""
     return daily_work_piecework_create(request)

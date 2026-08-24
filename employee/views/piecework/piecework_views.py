@@ -6,7 +6,7 @@ from employee.views.daily_work.daily_work_create.daily_work_piecework_create imp
 
 
 @login_required
-@permission_required("employee.add_piecework")
+@permission_required("employee.add_piecework", raise_exception=True)
 def piecework_create(request):
     """View to create new piecework records."""
     return daily_work_piecework_create(request)

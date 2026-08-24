@@ -17,12 +17,12 @@ def _set_employee_active_status(request, pk, is_active):
 
 
 @login_required
-@permission_required("employee.change_employee_status")
+@permission_required("employee.change_employee_status", raise_exception=True)
 def employee_activate(request, pk):
     return _set_employee_active_status(request, pk, is_active=True)
 
 
 @login_required
-@permission_required("employee.change_employee_status")
+@permission_required("employee.change_employee_status", raise_exception=True)
 def employee_deactivate(request, pk):
     return _set_employee_active_status(request, pk, is_active=False)

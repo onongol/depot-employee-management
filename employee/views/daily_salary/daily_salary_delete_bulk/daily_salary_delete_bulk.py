@@ -24,7 +24,7 @@ from employee.views.daily_salary.daily_salary_delete_bulk.daily_salary_selectors
 
 @require_POST
 @login_required
-@permission_required("employee.delete_dailysalary")
+@permission_required("employee.delete_dailysalary", raise_exception=True)
 def daily_salary_delete_bulk(request):
     """
     This function handles bulk deletion of DailySalary records selected via checkboxes.

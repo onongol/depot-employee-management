@@ -20,7 +20,7 @@ from employee.views.daily_work.daily_work_delete_bulk.messages_bulk_preview impo
 
 @require_POST
 @login_required
-@permission_required("employee.delete_dailywork")
+@permission_required("employee.delete_dailywork", raise_exception=True)
 def daily_work_delete_bulk(request):
     """
     This code implements a secure and user-friendly bulk delete operation for DailyWork records.

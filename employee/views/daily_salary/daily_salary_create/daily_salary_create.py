@@ -17,7 +17,7 @@ from employee.views.daily_salary.daily_salary_create.daily_salary_messages impor
 
 
 @login_required
-@permission_required("employee.add_dailysalary")
+@permission_required("employee.add_dailysalary", raise_exception=True)
 def daily_salary_create(request):
     """View to create daily salary records for multiple employees, filtered by department."""
     # Build context for the template

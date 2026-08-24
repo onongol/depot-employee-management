@@ -12,7 +12,7 @@ from employee.views.material.material_prepare import material_prepare
 
 
 @login_required
-@permission_required("employee.view_material_report")
+@permission_required("employee.view_material_report", raise_exception=True)
 def material_list(request):
     """View for calculating and listing material usage in piecework records,
     with filtering and pagination."""

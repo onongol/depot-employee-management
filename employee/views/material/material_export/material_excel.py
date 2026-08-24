@@ -11,7 +11,7 @@ from employee.views.material.material_prepare import material_prepare
 
 
 @login_required
-@permission_required("employee.view_material_report")
+@permission_required("employee.view_material_report", raise_exception=True)
 def material_export_excel(request):
     """Export calculation materials data to Excel."""
     context = material_prepare(request)

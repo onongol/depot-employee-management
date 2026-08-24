@@ -19,7 +19,7 @@ from employee.utils.select_department import get_selected_department
 
 @require_POST
 @login_required
-@permission_required("employee.delete_work")
+@permission_required("employee.delete_work", raise_exception=True)
 def work_delete_bulk(request):
     department = get_selected_department(request)
     fallback_url = reverse("work_list")

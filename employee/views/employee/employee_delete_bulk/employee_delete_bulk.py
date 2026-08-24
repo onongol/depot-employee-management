@@ -24,7 +24,7 @@ from employee.views.employee.employee_delete_bulk.selectors import (
 
 @require_POST
 @login_required
-@permission_required("employee.delete_employee")
+@permission_required("employee.delete_employee", raise_exception=True)
 def employee_delete_bulk(request):
     department = get_selected_department(request)
     fallback_url = reverse("employee_list")
