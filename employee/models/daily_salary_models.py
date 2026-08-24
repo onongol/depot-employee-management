@@ -16,7 +16,7 @@ class DailySalary(models.Model):
 
     id = models.AutoField(primary_key=True, editable=False)
 
-    employee = models.ForeignKey(Employee, models.RESTRICT)
+    employee = models.ForeignKey(Employee, on_delete=models.RESTRICT)
 
     employee_code = models.IntegerField(null=False, db_index=True, editable=False)
     employee_name = models.CharField(
