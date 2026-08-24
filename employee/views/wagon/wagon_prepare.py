@@ -18,7 +18,8 @@ def wagon_prepare(request) -> WagonContext:
 
     # Base queryset for dailyworks related to wagons
     daily_works = (
-        DailyWork.objects.select_related("work")
+        DailyWork.objects.for_user(request.user)
+        .select_related("work")
         .exclude(wagon_number__isnull=True)
         .exclude(wagon_number=DEFAULT_WAGON_NUMBER)
     )

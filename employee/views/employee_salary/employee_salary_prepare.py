@@ -13,7 +13,7 @@ def employee_salaries_prepare(request) -> EmployeeSalaryContext:
 
     # Without view_employee a user only ever sees their own record.
     if request.user.has_perm("employee.view_employee"):
-        employees = Employee.objects.filter(is_active=True)
+        employees = Employee.objects.for_user(request.user).filter(is_active=True)
     else:
         employees = Employee.objects.filter(user=request.user, is_active=True)
 

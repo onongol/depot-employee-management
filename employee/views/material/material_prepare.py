@@ -8,7 +8,7 @@ from employee.views.material.marerial_context import MaterialContext
 def material_prepare(request) -> MaterialContext:
     """Prepare the base queryset and filter parameters for materials."""
     # Prepare base queryset: exclude records where material is not used or not set
-    daily_works = DailyWork.objects.exclude(
+    daily_works = DailyWork.objects.for_user(request.user).exclude(
         Q(work__type_material__isnull=True) | Q(work__usage_material=0)
     )
 
