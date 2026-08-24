@@ -95,5 +95,16 @@ jobs:
         run: |
           mysql -h 127.0.0.1 -P 3306 -u root -e "GRANT ALL PRIVILEGES ON \`test\_%\`.* TO '$MYSQL_USER'@'%'; FLUSH PRIVILEGES;"
       - name: Run Tests
+        # The threshold lives here, not in pyproject: a local `pytest --cov -k ...`
+        # measures a subset and would trip the gate on every partial run.
         run: |
-          pytest
+          pytest --cov --cov-report=term-missing --cov-report=xml --cov-fail-under=75
+
+      # Kept on failure too - the report is what explains a threshold miss.
+      - name: Upload Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-xml
+          path: coverage.xml
+          if-no-files-found: error
