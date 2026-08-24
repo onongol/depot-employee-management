@@ -23,7 +23,6 @@ from employee.tests.factories import (
 from employee.utils.filters.filter_daily_salaries import filter_daily_salaries
 from employee.utils.filters.filter_daily_works import filter_daily_works
 from employee.utils.filters.filter_employees import filter_employees
-from employee.utils.filters.filter_employees_salary import filter_employees_salary
 from employee.utils.filters.filter_material import filter_material
 from employee.utils.filters.filter_pieceworks import filter_pieceworks
 from employee.utils.filters.filter_wagon import filter_wagon
@@ -66,9 +65,6 @@ ALL_FILTERS = [
     pytest.param(filter_works, WorkFactory, Work, id="works"),
     pytest.param(filter_employees, EmployeeFactory, Employee, id="employees"),
     pytest.param(
-        filter_employees_salary, EmployeeFactory, Employee, id="employees_salary"
-    ),
-    pytest.param(
         filter_daily_salaries, DailySalaryFactory, DailySalary, id="daily_salaries"
     ),
 ]
@@ -77,12 +73,6 @@ ALL_FILTERS = [
 WORK_RECORD_FILTERS = [
     pytest.param(filter_daily_works, DailyWorkFactory, DailyWork, id="daily_works"),
     pytest.param(filter_pieceworks, PieceworkFactory, Piecework, id="pieceworks"),
-]
-
-# filter_employees and filter_employees_salary are the same function twice.
-EMPLOYEE_FILTERS = [
-    pytest.param(filter_employees, id="employees"),
-    pytest.param(filter_employees_salary, id="employees_salary"),
 ]
 
 # Both models snapshot employee_code/employee_name and keep the FK alongside.
@@ -198,52 +188,48 @@ def test_the_wagon_type_placeholder_selects_the_rows_without_a_type(
     assert list(filter_func(model.objects.all(), context=context)) == [wanted]
 
 
-# --- employee guards (the same function under two names) --------------------
+# --- employee guards --------------------------------------------------------
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("filter_func", EMPLOYEE_FILTERS)
-def test_the_selected_department_hides_the_other_departments(filter_func):
+def test_the_selected_department_hides_the_other_departments():
     wanted = EmployeeFactory(department=Department.ZASVAR_1.value)
     EmployeeFactory(department=Department.MECHANIC.value)
 
     context = make_context(selected_department=Department.ZASVAR_1.value)
 
-    assert list(filter_func(Employee.objects.all(), context=context)) == [wanted]
+    assert list(filter_employees(Employee.objects.all(), context=context)) == [wanted]
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("filter_func", EMPLOYEE_FILTERS)
-def test_an_employee_id_narrows_to_that_employee_code(filter_func):
+def test_an_employee_id_narrows_to_that_employee_code():
     # On Employee itself employee_id IS the human code, not a foreign key.
     wanted = EmployeeFactory(employee_id=1042)
     EmployeeFactory(employee_id=1043)
 
     context = make_context(employee_id=1042)
 
-    assert list(filter_func(Employee.objects.all(), context=context)) == [wanted]
+    assert list(filter_employees(Employee.objects.all(), context=context)) == [wanted]
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("filter_func", EMPLOYEE_FILTERS)
-def test_an_employee_name_matches_a_substring(filter_func):
+def test_an_employee_name_matches_a_substring():
     wanted = EmployeeFactory(employee_name="Batbayar")
     EmployeeFactory(employee_name="Ganbold")
 
     context = make_context(employee_name="atbay")
 
-    assert list(filter_func(Employee.objects.all(), context=context)) == [wanted]
+    assert list(filter_employees(Employee.objects.all(), context=context)) == [wanted]
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("filter_func", EMPLOYEE_FILTERS)
-def test_an_employee_job_title_narrows_to_that_exact_title(filter_func):
+def test_an_employee_job_title_narrows_to_that_exact_title():
     wanted = EmployeeFactory(job_title=JobTitle.GAGNUURCHIN.value)
     EmployeeFactory(job_title=JobTitle.BUDAGCHIN.value)
 
     context = make_context(job_title=JobTitle.GAGNUURCHIN.value)
 
-    assert list(filter_func(Employee.objects.all(), context=context)) == [wanted]
+    assert list(filter_employees(Employee.objects.all(), context=context)) == [wanted]
 
 
 # --- employee columns snapshotted onto a record -----------------------------
