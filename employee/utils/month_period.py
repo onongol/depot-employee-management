@@ -37,7 +37,7 @@ def parse_month_period(
         raw_month = request.GET.get(legacy_month, "").strip()
         raw_year = request.GET.get(legacy_year, "").strip()
 
-        if raw_month.isdigit() and raw_year.isdigit():
+        if raw_month.isdecimal() and raw_year.isdecimal():
             year_int, month_int = int(raw_year), int(raw_month)
 
             if _is_valid_month_period(year_int, month_int):
