@@ -1,4 +1,4 @@
-from employee.utils.filters import filter_employees_salary
+from employee.utils.filters import filter_employees
 from employee.views.employee_salary.calculation.calculate_employee_salaries import (
     calculate_employee_salaries,
 )
@@ -13,7 +13,7 @@ def get_employee_salaries(request):
 
     employees = context.employees
 
-    employees = filter_employees_salary(employees, context=context)
+    employees = filter_employees(employees, context=context)
 
     employee_salaries = calculate_employee_salaries(
         employees,
