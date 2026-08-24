@@ -45,6 +45,11 @@ import sys
 sys.exit(0 if get_user_model().objects.filter(is_superuser=True).exists() else 1)
 ' || python manage.py createsuperuser --noinput --username admin@admin.com --email admin@admin.com
 
+if [ "${SEED_DEMO_DATA:-false}" = "true" ]; then
+    echo "==> [SEED] Loading demo data..."
+    python manage.py seed_demo
+fi
+
 echo "==> [STATIC] Collecting static files..."
 if [ ! -f "static/manifest.json" ]; then
     echo "==> [WARNING] static/manifest.json not found!"

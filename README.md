@@ -125,6 +125,8 @@ Entrypoint (entrypoint.prod.sh) does:
   already exists) - requires `DJANGO_SUPERUSER_PASSWORD` in the environment. Log in
   with `admin@admin.com` (not `admin`) - a save-time signal syncs username to email,
   so that's the username that actually gets persisted
+- loads demo data (employees, works, a week of piecework/salary history) when
+  `SEED_DEMO_DATA=true` - idempotent, safe to leave on for repeated local runs
 - verifies static/manifest.json exists
 - `python manage.py collectstatic --noinput`
 - starts Gunicorn
