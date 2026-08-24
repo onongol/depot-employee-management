@@ -1,4 +1,4 @@
-# depot_depo_employee_project
+# depot-employee-management
 
 ## Overview
 
@@ -43,7 +43,7 @@ Django application for managing employees, jobs, piecework payments, and materia
 
 ```sh
 git clone <repository-url>
-cd depot_depo_employee_project
+cd depot-employee-management
 
 python -m venv .venv
 # Windows:
