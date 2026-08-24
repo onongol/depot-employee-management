@@ -7,7 +7,6 @@ from django.utils import timezone
 from employee.constants.constants import (
     DEFAULT_WAGON_NUMBER,
     DEFAULT_WAGON_TYPE,
-    Department,
     JobTitle,
     TypeWagon,
     TypeWork,
@@ -38,7 +37,6 @@ def make_context(**overrides):
     """Every attribute the eight context filters read, unset by default."""
     context = dict.fromkeys(
         [
-            "selected_department",
             "employee_id",
             "employee_code",
             "employee_name",
@@ -192,16 +190,6 @@ def test_the_wagon_type_placeholder_selects_the_rows_without_a_type(
 
 
 @pytest.mark.django_db
-def test_the_selected_department_hides_the_other_departments():
-    wanted = EmployeeFactory(department=Department.ZASVAR_1.value)
-    EmployeeFactory(department=Department.MECHANIC.value)
-
-    context = make_context(selected_department=Department.ZASVAR_1.value)
-
-    assert list(filter_employees(Employee.objects.all(), context=context)) == [wanted]
-
-
-@pytest.mark.django_db
 def test_an_employee_id_narrows_to_that_employee_code():
     # On Employee itself employee_id IS the human code, not a foreign key.
     wanted = EmployeeFactory(employee_id=1042)
@@ -306,18 +294,6 @@ def test_a_salary_date_narrows_to_that_one_day():
 
 
 # --- work guards ------------------------------------------------------------
-
-
-@pytest.mark.django_db
-def test_a_work_department_hides_the_other_departments():
-    # The only place the works list is scoped by department twice; the base
-    # queryset in work_prepare narrows first, this guard narrows again.
-    wanted = WorkFactory(department=Department.ZASVAR_1.value)
-    WorkFactory(department=Department.MECHANIC.value)
-
-    context = make_context(selected_department=Department.ZASVAR_1.value)
-
-    assert list(filter_works(Work.objects.all(), context=context)) == [wanted]
 
 
 @pytest.mark.django_db

@@ -50,12 +50,12 @@ def test_a_master_without_a_linked_profile_sees_nothing(rf):
 
 
 @pytest.mark.django_db
-def test_a_payroll_sees_every_department_until_one_is_picked(rf):
-    # "All departments" is a consequence of select_department, not of an unset
-    # value - that is the whole point of the boundary.
+def test_a_payroll_sees_nothing_until_a_department_is_picked(rf):
+    # select_department buys the right to switch departments, not the right to
+    # see all of them at once.
     user = UserFactory(groups=[GroupNames.PAYROLLS.value])
     zasvar = EmployeeFactory(department=Department.ZASVAR_1.value)
     EmployeeFactory(department=Department.MECHANIC.value)
 
-    assert len(_list_for(rf, user)) == 2
+    assert _list_for(rf, user) == []
     assert _list_for(rf, user, department=Department.ZASVAR_1.value) == [zasvar]
