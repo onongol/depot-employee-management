@@ -1,0 +1,38 @@
+{% load i18n %}
+{% if show_activation|default:False %}
+  {% if is_active %}
+    <!-- Deactivate -->
+    <a
+      href="{% url 'employee_deactivate' id %}"
+      class="flex cursor-pointer items-center gap-1 rounded bg-gray-100 px-2 py-1 text-gray-700 transition hover:bg-yellow-100 hover:text-yellow-700 focus:ring-1 focus:ring-yellow-400 focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-yellow-700 dark:hover:text-white"
+      aria-label="Deactivate {{ name }}"
+      title="{% trans 'Deactivate' %}"
+      data-modal-open="deactivate"
+      data-id="{{ id }}"
+      data-name="{{ name }}"
+      aria-haspopup="dialog"
+      aria-controls="deactivateModal"
+    >
+      <svg class="size-4" aria-hidden="true">
+        <use href="#archive"></use>
+      </svg>
+    </a>
+  {% else %}
+    <!-- Activate -->
+    <a
+      href="{% url 'employee_activate' id %}"
+      class="flex cursor-pointer items-center gap-1 rounded bg-gray-100 px-2 py-1 text-gray-700 transition hover:bg-green-100 hover:text-green-700 focus:ring-1 focus:ring-green-400 focus:outline-none dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white"
+      aria-label="Activate {{ name }}"
+      title="{% trans 'Activate' %}"
+      data-modal-open="activate"
+      data-id="{{ id }}"
+      data-name="{{ name }}"
+      aria-haspopup="dialog"
+      aria-controls="activateModal"
+    >
+      <svg class="size-4" aria-hidden="true">
+        <use href="#archive"></use>
+      </svg>
+    </a>
+  {% endif %}
+{% endif %}

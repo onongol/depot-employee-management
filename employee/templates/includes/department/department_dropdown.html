@@ -1,0 +1,39 @@
+<!-- Dropdown to select the active department. Expects context: departments (list) and selected_department (string); updates selection via 'set_department' URL. -->
+{% load i18n %}
+<li class="relative mx-4 hidden list-none lg:block" data-dropdown>
+  <button
+    type="button"
+    class="flex w-64 cursor-pointer items-center justify-between gap-2 rounded-2xl bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow transition hover:bg-gray-200 focus:ring-0 focus:outline-none dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-700"
+    data-dropdown-button
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    {% if selected_department %}
+      {{ selected_department }}
+    {% else %}
+      {% trans 'Department' %}
+    {% endif %}
+    <svg class="size-4" aria-hidden="true">
+      <use href="#chevron-down"></use>
+    </svg>
+  </button>
+  <ul
+    class="absolute left-0 z-10 mt-2 hidden w-64 rounded-md border border-gray-200 bg-gray-50 py-2 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-500"
+    data-dropdown-menu
+    role="menu"
+    tabindex="0"
+  >
+    {% for department in departments %}
+      <li>
+        <a
+          href="{% url 'set_department' %}?department={{ department }}"
+          class="{% if department == selected_department %}
+            font-bold bg-gray-300 text-gray-600 dark:bg-gray-900 dark:text-gray-400
+          {% endif %} block w-full px-4 py-2 text-sm transition hover:bg-gray-200 dark:hover:bg-gray-700"
+          {% if department == selected_department %}aria-current="true"{% endif %}
+          >{{ department }}</a
+        >
+      </li>
+    {% endfor %}
+  </ul>
+</li>

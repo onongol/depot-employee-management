@@ -1,0 +1,9 @@
+{% load i18n %}
+<input
+  type="checkbox"
+  id="{{ select_all_id|default:'select-all' }}"
+  data-checkbox-name="{{ checkbox_name|default:'ids' }}"
+  class="size-4 cursor-pointer appearance-none rounded border border-gray-300 bg-gray-50 bg-size-[100%_100%] bg-center bg-no-repeat transition-all checked:border-blue-500 checked:bg-blue-500 checked:bg-[url('data:image/svg+xml,%3Csvg%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%224%22%20viewBox%3D%220%200%2024%2024%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22M5%2013l4%204L19%207%22/%3E%3C/svg%3E')] indeterminate:border-blue-500 indeterminate:bg-blue-500 indeterminate:bg-[url('data:image/svg+xml,%3Csvg%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%224%22%20viewBox%3D%220%200%2024%2024%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22M5%2012h14%22%2F%3E%3C%2Fsvg%3E')] focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:indeterminate:border-blue-500 dark:indeterminate:bg-blue-500"
+  aria-label="{{ aria_label|default:_('Select all') }}"
+/>
+<label for="{{ select_all_id|default:'select-all' }}" class="sr-only">{{ label|default:_('Select all') }}</label>

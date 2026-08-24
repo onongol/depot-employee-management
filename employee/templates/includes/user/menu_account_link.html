@@ -1,0 +1,10 @@
+{% load i18n %}
+<a
+  href="{% url 'account_overview' %}"
+  class="flex items-center gap-3 px-4 py-2 text-sm transition hover:bg-gray-200 dark:hover:bg-gray-700"
+>
+  <svg class="size-5" aria-hidden="true">
+    <use href="#user-circle"></use>
+  </svg>
+  {% trans 'Account' %}
+</a>

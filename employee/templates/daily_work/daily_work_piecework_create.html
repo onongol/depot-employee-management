@@ -1,0 +1,19 @@
+{% extends "forms/create_form.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}Create Daily Work{% endblock %}
+{% block form_alert %}
+  {% if employees %}
+    {% include "includes/alerts/duplicate_warning.html" %}
+  {% endif %}
+{% endblock %}
+{% block form_fields %}
+  <!-- Injects server-side existing pieceworks as JSON for client-side duplicate detection.
+Used by static/js/piecework_form_duplicate.js to validate, warn, and populate includes/modals/save_duplicate.html before submission. -->
+  {{ existing_pieceworks|json_script:"existing-pieceworks" }}
+  {% include "daily_work/daily_work_piecework_create_step_1.html" %}
+  {% if employees %}
+    {% include "daily_work/daily_work_piecework_create_step_2.html" %}
+  {% endif %}
+  {% include "includes/modals/modal_duplicate_piecework.html" %}
+{% endblock %}

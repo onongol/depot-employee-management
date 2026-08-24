@@ -1,0 +1,26 @@
+{
+  "assets/js/main.ts": {
+    "file": "js/main-bundle.js",
+    "name": "main",
+    "src": "assets/js/main.ts",
+    "isEntry": true
+  },
+  "assets/src/flatpickr_init.ts": {
+    "file": "js/flatpickr-bundle.js",
+    "name": "flatpickr",
+    "src": "assets/src/flatpickr_init.ts",
+    "isEntry": true,
+    "css": [
+      "assets/flatpickr-DRf1F60d.css"
+    ]
+  },
+  "assets/src/styles.css": {
+    "file": "assets/styles-b0EivRaT.css",
+    "src": "assets/src/styles.css",
+    "isEntry": true,
+    "name": "styles",
+    "names": [
+      "styles.css"
+    ]
+  }
+}

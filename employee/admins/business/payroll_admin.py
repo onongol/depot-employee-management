@@ -1,0 +1,36 @@
+from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
+from simple_history.admin import SimpleHistoryAdmin
+from unfold.admin import ModelAdmin
+
+from employee.admins.common import ImportExportMixin, SoftDeleteAdminMixin
+from employee.models import Payroll
+
+
+@admin.register(Payroll)
+class PayrollAdmin(
+    SoftDeleteAdminMixin,
+    ModelAdmin,
+    SimpleHistoryAdmin,
+    ImportExportModelAdmin,
+    ImportExportMixin,
+):
+    list_display = (
+        "payroll_id",
+        "payroll_name",
+        "email",
+        "is_active",
+        "is_deleted",
+    )
+    search_fields = (
+        "payroll_id__exact",
+        "payroll_name",
+        "email",
+    )
+    search_help_text = "Search by payroll ID or name"
+    list_filter = ["is_active", "is_deleted"]
+    ordering = ("-payroll_id",)
+    list_display_links = (
+        "payroll_id",
+        "payroll_name",
+    )

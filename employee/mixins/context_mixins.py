@@ -1,35 +1,49 @@
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
-from .mixins import GenericContextMixin
-from employee.models import Employee, Work, DailySalary, Piecework
+from employee.mixins.generic_mixins import GenericContextMixin
+from employee.models import DailySalary, DailyWork, Employee, Piecework, Work
 
-class EmployeeContextMixin(GenericContextMixin):
+
+class ListUrlContextMixin(GenericContextMixin):
+    """Base mixin to derive both success/cancel URLs from one route name."""
+
+    list_url_name = None
+
+    @property
+    def success_url(self):
+        return reverse_lazy(self.list_url_name)
+
+    @property
+    def cancel_url(self):
+        return reverse_lazy(self.list_url_name)
+
+
+class EmployeeContextMixin(ListUrlContextMixin):
     model = Employee
-    object_type = 'Employee'
-    success_url = reverse_lazy('employee_list')
-    cancel_url = reverse_lazy('employee_list')
-    object_name_func = staticmethod(lambda obj: f"{obj.employee_id}/{obj.name}")
+    object_type = _("Employee")
+    list_url_name = "employee_list"
 
 
-class WorkContextMixin(GenericContextMixin):
+class WorkContextMixin(ListUrlContextMixin):
     model = Work
-    object_type = 'Work'
-    success_url = reverse_lazy('work_list')
-    cancel_url = reverse_lazy('work_list')
-    object_name_func = staticmethod(lambda obj: str(obj))
+    object_type = _("Work")
+    list_url_name = "work_list"
 
 
-class DailySalaryContextMixin(GenericContextMixin):
+class DailySalaryContextMixin(ListUrlContextMixin):
     model = DailySalary
-    object_type = 'Daily Salary'
-    success_url = reverse_lazy('daily_salary_list')
-    cancel_url = reverse_lazy('daily_salary_list')
-    object_name_func = staticmethod(lambda obj: f"{obj.employee.employee_id}/{obj.employee.name} - {obj.salary_date}")
+    object_type = _("Daily Salary")
+    list_url_name = "daily_salary_list"
 
 
-class PieceworkContextMixin(GenericContextMixin):
+class DailyWorkContextMixin(ListUrlContextMixin):
+    model = DailyWork
+    object_type = _("Daily Work")
+    list_url_name = "daily_work_list"
+
+
+class PieceworkContextMixin(ListUrlContextMixin):
     model = Piecework
-    object_type = 'Piecework'
-    success_url = reverse_lazy('piecework_list')
-    cancel_url = reverse_lazy('piecework_list')
-    object_name_func = staticmethod(lambda obj: f"{obj.employee.employee_id}/{obj.employee.name} Work: {obj.work.work_name}, Type Work: {obj.type_work}, Work Date:{obj.work_date}")
+    object_type = _("Piecework")
+    list_url_name = "piecework_list"

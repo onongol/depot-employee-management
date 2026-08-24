@@ -1,0 +1,17 @@
+{% load i18n %}
+<button
+  type="button"
+  class="flex w-full cursor-pointer items-center gap-3 px-4 py-2 text-sm transition hover:bg-gray-200 focus:outline-none dark:hover:bg-gray-700"
+  data-open-panel="theme"
+  aria-haspopup="true"
+  aria-expanded="false"
+  data-dropdown-button
+>
+  <svg id="theme-icon" class="size-5 shrink-0">
+    <use href="#sun-fill"></use>
+  </svg>
+  <span id="theme-label">{% trans "Theme" %}</span>
+  <svg class="ml-auto size-4">
+    <use href="#chevron-right"></use>
+  </svg>
+</button>

@@ -1,0 +1,101 @@
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+extend-exclude = ["*/migrations/*.py", "staticfiles/*", "static/*", "venv/*"]
+
+[tool.ruff.lint]
+select = [
+  "A", "ASYNC", "B", "BLE", "C4", "C90", "COM", "DJ", "DTZ", "E", "EM",
+  "ERA", "EXE", "F", "FA", "FBT", "FLY", "G", "I", "ICN", "INP", "INT",
+  "ISC", "N", "PD", "PERF", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "Q",
+  "RET", "RSE", "RUF", "S", "SIM", "SLF", "SLOT", "T10", "T20", "TC",
+  "TID", "TRY", "UP", "W", "YTT",
+]
+ignore = [
+  "RUF012",
+  "S101",
+  "SIM102",
+  # Ruff warns on every run that COM812 conflicts with the formatter.
+  "COM812",
+  # Line length is the formatter's job.
+  "E501",
+  # UI text is Mongolian; Ruff reads Cyrillic as lookalike Latin.
+  "RUF001",
+  "RUF002",
+  "RUF003",
+
+  # Pre-existing debt, silenced to get the hooks green on the current code.
+  # Counts are from the first full run; each line is its own cleanup task.
+  # Kept off by decision. NULL is meaningful on wagon_number/type_wagon/
+  # type_material: 11 queries filter on isnull=True, a CheckConstraint in
+  # work_models depends on it, and the UI shows those rows under a placeholder.
+  # For NEW string fields still prefer blank=True without null=True.
+  "DJ001",
+  # Django's own ImproperlyConfigured pattern for settings, plus manage.py's
+  # startproject template - a class per config error would be absurd.
+  "TRY003",
+  # Only EM101: settings raise ImproperlyConfigured("...") the way Django's own
+  # docs do. EM102/EM103 stay on - interpolating into an exception message
+  # breaks Sentry grouping.
+  "EM101",
+  # Kept off by decision, not deferred. The two filter_* functions are flat
+  # chains of optional guards - the metric counts branches, but nesting is what
+  # hurts readability, and there is none here.
+  "C901",
+  "PLR0912",
+  # All three hits are Model._meta, which Django documents as a public API;
+  # the underscore only keeps it from clashing with a field name.
+  "SLF001",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["depo_crud", "employee"]
+
+[tool.ruff.lint.per-file-ignores]
+# Settings modules and packages are assembled with star imports.
+"depo_crud/settings/*.py" = ["F403", "F405"]
+# In an assertion the literal is the documentation; naming it hides what is checked.
+"employee/tests/*.py" = ["PLR2004"]
+# delete()/hard_delete() mirror Django's Model.delete(using, keep_parents) signature.
+"employee/models/models_mixins/soft_delete_mixin.py" = ["FBT002"]
+# Signals must be connected inside ready(): the app registry is not populated yet.
+"employee/apps.py" = ["PLC0415"]
+# Django's own startproject template, kept verbatim for its ImportError message.
+"manage.py" = ["PLC0415"]
+# Real cycle: the model imports the service, the service needs the models.
+"employee/services/daily_work_sync.py" = ["PLC0415"]
+"employee/services/employee_salary_single.py" = ["PLC0415"]
+"employee/services/department_scope.py" = ["PLC0415"]
+"**/__init__.py" = ["F403", "F405"]
+
+[tool.coverage.run]
+source = ["depo_crud", "employee"]
+branch = true
+omit = [
+  "*/migrations/*",
+  "*/tests/*",
+  "manage.py",
+  "depo_crud/asgi.py",
+  "depo_crud/wsgi.py",
+  # Never imported under DJANGO_SETTINGS_MODULE=depo_crud.settings.test.
+  "depo_crud/settings/local.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_also = [
+  "if TYPE_CHECKING:",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+]
+
+# Lint only. Formatting is Prettier's: djlint --reformat and Prettier rewrite
+# each other's output forever, so the formatter options are deliberately absent.
+[tool.djlint]
+profile = "django"
+extension = "html"
+# H021 (inline styles) is off: mail clients strip <style>, so the email
+# templates under account/email and mfa/email have to inline everything.
+ignore = "H006,H021,H030,H031"
+include = "H017,H035"

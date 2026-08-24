@@ -2,13 +2,8 @@ from django.shortcuts import render
 
 
 def home(request):
-    """View to render the home page."""
-    department = request.GET.get('department') or request.session.get('department')
+    department = request.GET.get("department") or request.session.get("department")
 
-    return render(
-        request, 
-        'home/home.html',
-        {
-            'selected_department': department
-        }
-    )
+    if request.user.is_authenticated:
+        return render(request, "home/home.html", {"selected_department": department})
+    return render(request, "home/home_signin.html")

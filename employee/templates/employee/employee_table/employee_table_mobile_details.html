@@ -1,0 +1,10 @@
+{% load i18n %}
+<div>{{ row.job_title }}</div>
+<div>
+  <span>{% trans "rank:" %}</span>
+  {{ row.rank }}
+</div>
+<div>
+  <span>{% trans "hourly wage:" %}</span>
+  {{ row.money_per_hour|floatformat:2 }}
+</div>

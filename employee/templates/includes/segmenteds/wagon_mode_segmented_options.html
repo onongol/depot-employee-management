@@ -1,0 +1,5 @@
+{% load i18n %}
+{% trans "Daily" as daily_label %}
+{% trans "Monthly" as monthly_label %}
+{% include "includes/segmenteds/segmented_option.html" with href=request.path label=daily_label active=detail_group %}
+{% include "includes/segmenteds/segmented_option.html" with href=request.path|add:'?group='|add:GROUP_MONTH label=monthly_label active=month_group %}

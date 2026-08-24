@@ -1,0 +1,5 @@
+{% load i18n %}
+{% trans "Total" as total_label %}
+{% trans "By Wagon" as wagon_label %}
+{% include "includes/segmenteds/segmented_option.html" with href=request.path label=total_label active=total_group %}
+{% include "includes/segmenteds/segmented_option.html" with href=request.path|add:'?group='|add:GROUP_WAGON label=wagon_label active=wagon_group %}

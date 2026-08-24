@@ -1,16 +1,18 @@
 {% extends "forms/update_form.html" %}
-
+{% load i18n %}
 {% block title %}Update Work{% endblock %}
-
 {% block form_fields %}
   <fieldset class="space-y-4">
     <legend class="sr-only">Update Work Details</legend>
-    {% include "includes/form_input.html" with id=form.type_material.id_for_label label="Type Material" name="type_material" type="text" value=form.type_material.value %}
-
-    {% include "includes/form_input.html" with id=form.usage_material.id_for_label label="Usage Material" name="usage_material" type="number" value=form.usage_material.value step="0.01" form_errors=form.usage_material required=True %}
-
-    {% include "includes/form_input.html" with id=form.standard_time.id_for_label label="Standard Time" name="standard_time" type="number" value=form.standard_time.value step="0.0001" form_errors=form.standard_time required=True %}
-
-    {% include "includes/form_input.html" with id=form.price.id_for_label label="Price" name="price" type="number" value=form.price.value step="0.01" form_errors=form.price required=True %}
+    {% include "includes/form/form_select.html" with id=form.job_title.id_for_label label=_("Position") name="job_title" choices=form.job_title.field.choices selected=form.job_title.value required=True %}
+    {% if is_wagon_department %}
+      {% include "includes/form/form_select.html" with id=form.type_wagon.id_for_label label=_("Wagon Type") name="type_wagon" choices=form.type_wagon.field.choices selected=form.type_wagon.value %}
+    {% endif %}
+    {% if is_mechanic %}
+      {% include "includes/form/form_input.html" with id=form.type_material.id_for_label label=_("Material Type") name="type_material" type="text" value=form.type_material.value placeholder=_("Optional") %}
+      {% include "includes/form/form_input.html" with id=form.usage_material.id_for_label label=_("Material Quantity") name="usage_material" type="number" value=form.usage_material.value|default:"0.0000" step=form.usage_material.field.widget.attrs.step form_errors=form.usage_material required=True placeholder=_("0.00 (optional)") %}
+    {% endif %}
+    {% include "includes/form/form_input.html" with id=form.standard_time.id_for_label label=_("Standard Time") name="standard_time" type="number" value=form.standard_time.value step=form.standard_time.field.widget.attrs.step form_errors=form.standard_time required=True placeholder="0.000001" %}
+    {% include "includes/form/form_input.html" with id=form.price.id_for_label label=_("Price") name="price" type="number" value=form.price.value step=form.price.field.widget.attrs.step form_errors=form.price required=True placeholder="0.01" %}
   </fieldset>
 {% endblock %}

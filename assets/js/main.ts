@@ -1,0 +1,26 @@
+import "htmx.org";
+
+import "./alert/alert_close.ts";
+import "./alert/auto_hide_alert.ts";
+import "./amount/amount_inputs.ts";
+import "./amount/amount_validation.ts";
+import "./auth/password_toggle.ts";
+import "./buttons/table_action_toggle.js";
+import "./checkbox/checkbox_validation.ts";
+import "./checkbox/mobile_select_details.ts";
+import "./checkbox/select_all.ts";
+import "./dropdowns/dropdown.ts";
+import "./filters/filter_toggle.ts";
+import "./filters/table_search.ts";
+import "./forms/form_error_clear.ts";
+import "./forms/form_navigation.ts";
+import "./forms/step_navigation.ts";
+import "./forms/work_date_change.ts";
+import "./modals/confirm_save.ts";
+import "./modals/daily_salary_duplicate_check.ts";
+import "./modals/piecework_duplicate_check.ts";
+import "./modals/modals.ts";
+import "./sidebar/department_sheet.ts";
+import "./sidebar/sidebar_toggle.ts";
+import "./summary/summary_selected.ts";
+import "./theme/theme_switcher.ts";

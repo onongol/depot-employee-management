@@ -1,0 +1,12 @@
+{% load i18n %}
+<div>{{ row.employee.job_title }}</div>
+<div>
+  <span>{% trans "hours:" %}</span>
+  {{ row.hours_per_day }}
+</div>
+{% if perms.employee.view_salary_amount %}
+  <div>
+    <span>{% trans "salary:" %}</span>
+    {{ row.salary_day|floatformat:2 }}
+  </div>
+{% endif %}

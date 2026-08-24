@@ -1,0 +1,20 @@
+{% load i18n %}
+{% if perms.employee.change_work or perms.employee.delete_work %}
+  <th scope="col" class="{{ col_class_checkbox }}">
+    {% include "includes/table/list_select_all_checkbox.html" with select_all_id="select-all-table-works" checkbox_name="work_table_ids" %}
+  </th>
+{% endif %}
+<th scope="col" class="{{ col_class_hidden }}">#</th>
+<th scope="col" class="{{ col_class }}">
+  {% include "includes/table/sort_column.html" with label=_("Work") field="work_name" col_class=col_class selected_department=selected_department htmx_target="#work-list-results" %}
+</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Position" %}</th>
+{% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+  <th scope="col" class="{{ col_class_hidden }}">{% trans "Wagon Type" %}</th>
+{% endif %}
+{% if selected_department == is_mechanic %}
+  <th scope="col" class="{{ col_class_hidden }}">{% trans "Material" %}</th>
+  <th scope="col" class="{{ col_class_hidden }}">{% trans "Quantity" %}</th>
+{% endif %}
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Time" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Price" %}</th>

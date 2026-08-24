@@ -1,0 +1,53 @@
+<div
+  class="overflow-x-auto rounded-md border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900"
+>
+  {% with col_class="px-6 py-3" col_class_hidden="px-6 py-3 hidden md:table-cell" col_class_checkbox="px-6 py-3 text-center align-middle" %}
+    <table
+      class="w-full bg-gray-50 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+      aria-describedby="{{ aria_desc }}"
+    >
+      <thead
+        class="bg-gray-100 text-left text-xs tracking-wide text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400"
+      >
+        <tr>
+          {% include head_template %}
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+        {% if rows %}
+          {% for row in rows %}
+            {% if month_group or year_group %}
+              <tr
+                class="transition-colors odd:bg-white hover:bg-gray-200 dark:odd:bg-gray-900 dark:hover:bg-gray-600"
+                {% for attr, value in row.get_dom_attrs.items %}{{ attr }}="{{ value }}"{% endfor %}
+              >
+                {% include row_grouped_template with row=row %}
+              </tr>
+            {% else %}
+              <tr
+                class="{% if row.is_active == False %}
+                  bg-gray-200 text-gray-400 dark:bg-gray-600 dark:text-gray-500
+                {% else %}
+                  transition-colors odd:bg-white hover:bg-gray-200 has-checked:bg-blue-100 dark:odd:bg-gray-900
+                  dark:hover:bg-gray-600 dark:has-checked:bg-blue-500/20
+                {% endif %}"
+                {% for attr, value in row.get_dom_attrs.items %}{{ attr }}="{{ value }}"{% endfor %}
+              >
+                {% include row_detail_template with row=row %}
+              </tr>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% include empty_template|default:"includes/table/empty_row.html" %}
+        {% endif %}
+      </tbody>
+      {% if rows and footer_template %}
+        <tfoot class="hidden md:table-footer-group">
+          <tr class="bg-blue-100 font-semibold dark:bg-blue-500/20">
+            {% include footer_template %}
+          </tr>
+        </tfoot>
+      {% endif %}
+    </table>
+  {% endwith %}
+</div>

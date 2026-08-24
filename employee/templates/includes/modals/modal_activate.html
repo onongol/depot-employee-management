@@ -1,0 +1,3 @@
+{% load i18n %}
+{% trans "Activate" as modal_title %}
+{% include "includes/modals/base_modal.html" with modal_id="activateModal" modal_label_id="activateModalLabel" modal_title=modal_title body_template="includes/modals/bodies/activate_body.html" actions_template="includes/modals/actions/activate_actions.html" %}

@@ -1,0 +1,23 @@
+{% load i18n %}
+<div
+  id="{{ summary_id }}"
+  class="mb-2 hidden rounded-2xl border border-slate-200 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-500 shadow-sm md:mb-4 dark:border-slate-700 dark:bg-gray-700 dark:text-gray-400"
+  data-summary-id="{{ summary_id }}"
+  data-summary-checkbox-name="{{ checkbox_name }}"
+  data-all-text="{% trans 'All' %}"
+  data-selected-text="{% trans 'selected' %}"
+>
+  <!-- collapsible list -->
+  <details data-summary-details="{{ summary_id }}-details" class="group">
+    <summary class="custom-scrollbar flex cursor-pointer items-center gap-2">
+      <span data-summary-count="{{ summary_id }}-count">0</span>
+      <span data-summary-label="{{ summary_id }}-label" class="tracking-wider">{% trans "selected" %}</span>
+      <svg class="ml-auto size-4 transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
+        <use href="#chevron-down" />
+      </svg>
+    </summary>
+    <div class="px-4 py-2">
+      <div data-summary-list="{{ summary_id }}-list" class="custom-scrollbar max-h-24 overflow-y-auto"></div>
+    </div>
+  </details>
+</div>

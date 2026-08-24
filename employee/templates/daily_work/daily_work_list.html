@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Daily Work{% endblock %}
+{% block content %}
+  {% url 'daily_work_create' as create_url %}
+  <!-- Header -->
+  {% include "includes/components/list_header.html" with header_id="daily-work-list-title" title=selected_department create_url=create_url %}
+  <div id="daily-work-list-control">
+    <div class="mb-2 flex flex-row items-center justify-between gap-2 md:mb-4 md:flex-col md:items-stretch md:gap-4">
+      <div class="flex flex-row items-center justify-between gap-2 md:gap-4">
+        <!-- Segmented  -->
+        {% include "includes/segmenteds/view_mode_segmented.html" with htmx_target="#daily-work-list-control" %}
+        <!-- Export Excel -->
+        <div class="hidden md:block">
+          {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
+        </div>
+      </div>
+      <div class="flex flex-row items-center justify-end gap-2 md:justify-start md:gap-4">
+        <!-- Actions -->
+        {% if detail_group %}
+          {% if perms.employee.change_dailywork %}
+            {% include "includes/table_action_buttons/edit_selected_button.html" %}
+          {% endif %}
+          {% if perms.employee.delete_dailywork %}
+            {% include "includes/table_action_buttons/bulk_delete_button.html" %}
+          {% endif %}
+        {% endif %}
+        <!-- Filters -->
+        {% include "includes/table/list_table_filters.html" with toggle_id="daily-work-filters-toggle" panel_id="daily-work-filters-panel" fields_template="daily_work/daily_work_filters_fields.html" htmx_target="#daily-work-list-control" %}
+        <!-- Export Excel Mobile -->
+        <div class="md:hidden">
+          {% include "includes/export/export_excel_button.html" with url_name='daily_work_export_excel' params=request.GET aria_label="Download filtered daily works as Excel" %}
+        </div>
+      </div>
+    </div>
+    <div id="daily-work-list-results">
+      <!-- Summary -->
+      {% if detail_group %}
+        {% if perms.employee.change_dailywork or perms.employee.delete_dailywork %}
+          {% include "includes/summaries/selected_summary.html" with summary_id="daily-work-summary" checkbox_name="daily_work_ids" %}
+        {% endif %}
+      {% endif %}
+      <form method="post" id="bulkDeleteForm" action="{% url 'daily_work_delete_bulk' %}">
+        {% csrf_token %}
+        <!-- Table -->
+        {% include "daily_work/daily_work_table/daily_work_table.html" %}
+      </form>
+      <!-- Pagination -->
+      {% include "includes/pagination/pagination.html" with htmx_target="#daily-work-list-control" %}
+    </div>
+  </div>
+  <!-- Modals -->
+  {% include "includes/modals/modal_update.html" %}
+  {% include "includes/modals/modal_delete_bulk.html" %}
+{% endblock %}

@@ -1,35 +1,48 @@
 from django import forms
 
+from employee.forms.forms_mixins.job_title_mixins import JobTitleChoicesMixin
+from employee.forms.forms_mixins.name_mixins import NameValidationMixin
 from employee.models import Employee
 
+COMMON_EMPLOYEE_WIDGETS = {
+    "employee_name": forms.TextInput(attrs={"class": "form-control"}),
+    "job_title": forms.Select(attrs={"class": "form-control"}),
+    "rank": forms.Select(attrs={"class": "form-control"}),
+    "money_per_hour": forms.NumberInput(
+        attrs={
+            "class": "form-control",
+            "type": "number",
+            "min": "0.01",
+            "step": "0.01",
+        }
+    ),
+}
 
-class EmployeeForm(forms.ModelForm):
-    """Form to create a new employee."""
+
+class EmployeeForm(NameValidationMixin, JobTitleChoicesMixin, forms.ModelForm):
     class Meta:
         model = Employee
-        fields = '__all__'
+        fields = [
+            "employee_id",
+            "employee_name",
+            "department",
+            "job_title",
+            "rank",
+            "money_per_hour",
+        ]
         widgets = {
-            'employee_id': forms.NumberInput(
-                attrs={
-                    'class': 'form-control', 
-                    'type': 'number', 
-                    'min': '1'
-                }
+            **COMMON_EMPLOYEE_WIDGETS,
+            "employee_id": forms.NumberInput(
+                attrs={"class": "form-control", "type": "number", "min": "1"}
             ),
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'job_title': forms.TextInput(attrs={'class': 'form-control'}),
-            'rank': forms.Select(attrs={'class': 'form-control'}),
+            "department": forms.Select(attrs={"class": "form-control"}),
         }
 
 
-class UpdateEmployeeForm(forms.ModelForm):
-    """Form to update employee details, excluding employee_id."""
+class UpdateEmployeeForm(NameValidationMixin, JobTitleChoicesMixin, forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['name', 'job_title', 'rank']
+        fields = ["employee_name", "job_title", "rank", "money_per_hour"]
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'job_title': forms.TextInput(attrs={'class': 'form-control'}),
-            'rank': forms.Select(attrs={'class': 'form-control'}),
+            **COMMON_EMPLOYEE_WIDGETS,
         }
-     

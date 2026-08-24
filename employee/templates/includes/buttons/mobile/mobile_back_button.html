@@ -1,0 +1,15 @@
+{% load i18n %}
+<button
+  type="button"
+  data-step-action="back"
+  data-step-from="2"
+  data-mobile-step-action="back"
+  class="absolute top-2 left-4 hidden cursor-pointer items-center rounded-md px-3 py-1 text-sm text-blue-700 transition"
+>
+  <span class="flex items-center gap-1">
+    <svg class="size-5" aria-hidden="true">
+      <use href="#back"></use>
+    </svg>
+    <span>{% trans "Back" %}</span>
+  </span>
+</button>

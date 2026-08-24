@@ -1,0 +1,26 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<div data-panel="language" class="hidden">
+  {% include "includes/user/back_menu_button.html" %}
+  {% include "includes/user/menu_divider.html" %}
+  <form method="post" action="{% url 'set_language' %}" class="w-full">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+    <button
+      type="submit"
+      name="language"
+      value="en"
+      class="{% if LANGUAGE_CODE == 'en' %}font-bold bg-gray-300 text-gray-600 dark:bg-gray-900 dark:text-gray-400{% endif %} block w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
+    >
+      {% trans 'English' %}
+    </button>
+    <button
+      type="submit"
+      name="language"
+      value="mn"
+      class="{% if LANGUAGE_CODE == 'mn' %}font-bold bg-gray-300 text-gray-600 dark:bg-gray-900 dark:text-gray-400{% endif %} block w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
+    >
+      {% trans 'Mongolian' %}
+    </button>
+  </form>
+</div>

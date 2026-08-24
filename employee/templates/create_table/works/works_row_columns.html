@@ -1,0 +1,18 @@
+{% load i18n %}
+{% with work_id=row.pk work_name=row.work_name %}
+  <td class="{{ col_class_checkbox }}">
+    {% include "includes/create_table/create_select_row_checkbox.html" with row_id=work_id checkbox_name="work_ids" work_name=work_name %}
+  </td>
+  <td class="{{ col_class }}">
+    <label id="label_{{ work_id }}" for="input_{{ work_id }}" class="sr-only">{{ work_name }}</label>
+    {% include "includes/table/mobile_meta.html" with col_name=work_name details_template="create_table/works/works_details.html" %}
+  </td>
+  <td class="{{ col_class_hidden }}" data-job-title="{{ row.job_title }}">{{ row.job_title }}</td>
+  {% if selected_department in ALLOWED_WAGON_DEPARTMENTS %}
+    <td class="{{ col_class_hidden }}">{{ row.type_wagon_display }}</td>
+  {% endif %}
+  <td class="{{ col_class }}">
+    <label for="amount_{{ row.pk }}" class="sr-only">Amount for {{ work_name }}</label>
+    {% include "includes/create_table/amount_input.html" %}
+  </td>
+{% endwith %}

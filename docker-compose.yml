@@ -1,0 +1,62 @@
+services:
+  db:
+    image: mysql:8.4
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DOCKER_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DOCKER_DATABASE}
+      MYSQL_USER: ${MYSQL_DOCKER_USER}
+      MYSQL_PASSWORD: ${MYSQL_DOCKER_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$${MYSQL_USER} -p$${MYSQL_PASSWORD}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - depot_management_network
+
+  web:
+    build: .
+    image: depot_management:1.0
+    container_name: depot_management
+    restart: always
+    profiles: ["app"]
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ${MYSQL_DOCKER_DATABASE}
+      MYSQL_USER: ${MYSQL_DOCKER_USER}
+      MYSQL_PASSWORD: ${MYSQL_DOCKER_PASSWORD}
+    volumes:
+      - staticfiles:/app/staticfiles
+    stop_grace_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - depot_management_network
+
+volumes:
+  db_data:
+  staticfiles:
+
+networks:
+  depot_management_network:
+    driver: bridge

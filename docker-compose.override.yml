@@ -1,0 +1,7 @@
+services:
+  db:
+    ports:
+      - "3307:3306"
+  web:
+    ports:
+      - "8001:8000"

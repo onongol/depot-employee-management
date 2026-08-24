@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@import "./flatpickr_custom.css";
+
+/* Defines Flatpickr CSS variables for light and dark themes. Used by flatpickr styles and theme JS to control calendar colors ensuring consistent themed appearance and easy overrides across the app. */
+:root {
+  --fp-bg: #f8fafc; /* bg-gray-50 */
+  --fp-text: #364153; /* text-gray-700 */
+  --fp-muted: #6b7280; /* text-gray-500 */
+  --fp-accent: #60a5fa; /* blue-500 */
+  --fp-border: #e5e7eb; /* gray-200 */
+  --fp-hover: #e5e7eb; /* bg-gray-200 */
+  --fp-selected-text: #ffffff; /* text-white */
+  --fp-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); /* shadow-blue-900/10 */
+  --fp-range-bg: #e5e7eb; /* bg-gray-200 */
+}
+
+html.dark {
+  --fp-bg: #1e293b; /* bg-gray-900 */
+  --fp-text: #99a1af; /* text-gray-400 */
+  --fp-muted: #6b7280; /* text-gray-500 */
+  --fp-accent: #60a5fa; /* blue-500 */
+  --fp-border: #334155; /* gray-700 */
+  --fp-hover: rgba(255, 255, 255, 0.07); /* light hover overlay */
+  --fp-selected-text: #ffffff; /* text-white */
+  --fp-shadow: 0 6px 18px rgba(2, 6, 23, 0.6); /* shadow-blue-900/60 */
+  --fp-range-bg: #334155; /* bg-gray-700 */
+}

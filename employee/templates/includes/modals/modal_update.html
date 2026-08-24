@@ -1,0 +1,3 @@
+{% load i18n %}
+{% trans "Update" as modal_title %}
+{% include "includes/modals/base_modal.html" with modal_id="updateModal" modal_label_id="updateModalLabel" modal_title=modal_title body_template="includes/modals/bodies/update_body.html" actions_template="includes/modals/actions/update_actions.html" %}

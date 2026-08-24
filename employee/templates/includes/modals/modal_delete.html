@@ -1,0 +1,3 @@
+{% load i18n %}
+{% trans "Delete" as modal_title %}
+{% include "includes/modals/base_modal.html" with modal_id="deleteModal" modal_label_id="deleteModalLabel" modal_title=modal_title body_template="includes/modals/bodies/delete_body.html" actions_template="includes/modals/actions/delete_actions.html" %}

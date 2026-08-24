@@ -1,0 +1,7 @@
+{% load i18n %}
+{% trans "You are receiving this email because someone tried to register using this email address, but an account already exists for it." %}
+
+{% trans "If this was you and you've forgotten your password, you can reset it here:" %}
+{{ password_reset_url }}
+
+{% trans "If you did not request this, you can ignore this email." %}

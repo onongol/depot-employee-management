@@ -1,0 +1,31 @@
+<!-- Reusable list header with title and "Create" button. -->
+{% load i18n %}
+<div class="mb-6 hidden flex-col items-center justify-between gap-4 sm:flex-row md:flex">
+  <h2 id="{{ header_id }}" class="font-semibold text-gray-700 md:text-lg dark:text-gray-400">
+    {{ title|default:_("Select department") }}
+  </h2>
+  {% if create_url %}
+    <a
+      href="{{ create_url }}"
+      class="hidden items-center gap-2 rounded-3xl bg-blue-700 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 md:inline-flex"
+    >
+      <svg class="size-6" aria-hidden="true">
+        <use href="#plus"></use>
+      </svg>
+      {% trans "Create" as create_default %}
+      {{ create_label|default:create_default }}
+    </a>
+  {% endif %}
+</div>
+{% if create_url %}
+  <a
+    href="{{ create_url }}"
+    class="fixed right-6 bottom-6 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-blue-700 text-white shadow-lg transition hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 focus:outline-none md:hidden"
+    aria-label="{% trans 'Create' %}"
+  >
+    <svg class="size-8" aria-hidden="true">
+      <use href="#plus"></use>
+    </svg>
+    <span class="sr-only">{% trans "Create" %}</span>
+  </a>
+{% endif %}

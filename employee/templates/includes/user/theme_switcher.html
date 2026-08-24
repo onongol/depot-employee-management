@@ -1,0 +1,44 @@
+{% load i18n %}
+<div data-panel="theme" class="hidden">
+  {% include "includes/user/back_menu_button.html" %}
+  {% include "includes/user/menu_divider.html" %}
+  <div class="group relative">
+    <button
+      type="button"
+      class="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-left text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
+      data-theme-value="light"
+      data-label="{% trans 'Light' %}"
+    >
+      <svg class="size-5 shrink-0">
+        <use href="#sun-fill"></use>
+      </svg>
+      {% trans "Light" %}
+    </button>
+  </div>
+  <div>
+    <button
+      type="button"
+      class="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-left text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
+      data-theme-value="dark"
+      data-label="{% trans 'Dark' %}"
+    >
+      <svg class="size-5 shrink-0">
+        <use href="#moon-stars-fill"></use>
+      </svg>
+      {% trans "Dark" %}
+    </button>
+  </div>
+  <div>
+    <button
+      type="button"
+      class="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-left text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
+      data-theme-value="auto"
+      data-label="{% trans 'Device' %}"
+    >
+      <svg class="size-5 shrink-0">
+        <use href="#device"></use>
+      </svg>
+      {% trans "Device" %}
+    </button>
+  </div>
+</div>

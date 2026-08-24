@@ -1,0 +1,16 @@
+{% load i18n %}
+{% if messages %}
+  <div class="pointer-events-none fixed inset-x-0 bottom-20 z-40 flex flex-col items-center p-4 lg:bottom-4">
+    {% for message in messages %}
+      <div class="pointer-events-auto w-full md:max-w-md">
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+          {% include "includes/alerts/alerts_info.html" %}
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+          {% include "includes/alerts/alerts_warning.html" %}
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+          {% include "includes/alerts/alerts_success.html" %}
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

@@ -1,0 +1,11 @@
+{% load i18n %}
+{% load humanize %}
+<div>{{ row.employee.job_title }}</div>
+<div>
+  <span>{% trans "rank:" %}</span>
+  {{ row.employee.rank }}
+</div>
+<div>
+  <span>{% trans "time:" %}</span>
+  {{ row.total_piecework_time|floatformat:2|intcomma }}
+</div>

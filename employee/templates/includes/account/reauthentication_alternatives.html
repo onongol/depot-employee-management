@@ -1,0 +1,16 @@
+{% load i18n %}
+{% if reauthentication_alternatives %}
+  <div class="mt-6 border-t border-gray-100 pt-6 dark:border-gray-700">
+    <p class="mb-3 text-center text-sm text-gray-500 dark:text-gray-400">{% trans "Or confirm using:" %}</p>
+    <div class="flex flex-col gap-2">
+      {% for alt in reauthentication_alternatives %}
+        <a
+          href="{{ alt.url }}"
+          class="w-full cursor-pointer rounded-md border border-gray-300 px-6 py-2 text-center font-semibold text-gray-700 transition hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 focus:outline-none dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
+        >
+          {{ alt.description }}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

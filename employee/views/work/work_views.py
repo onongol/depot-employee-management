@@ -1,75 +1,58 @@
-from django.shortcuts import render
-from django.core.paginator import Paginator
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import CreateView, UpdateView
 
+from employee.forms import UpdateWorkForm, WorkForm
 from employee.mixins.context_mixins import WorkContextMixin
-from employee.mixins.delete_warning_mixins import DeleteProtectionMixin
-from employee.models import Work 
-from employee.models import Piecework
-from employee.forms import WorkForm, UpdateWorkForm
-from employee.utils.select_department import get_selected_department
-from employee.utils.filters import filter_works
-from employee.utils.pagination import paginate_queryset
+from employee.mixins.create_mixin import AdminLoggedCreateMixin
+from employee.mixins.department_form_mixins import FormDepartmentMixin
+from employee.mixins.department_mixins import InitialDepartmentMixin
+from employee.mixins.mechanic_context_mixins import MechanicContextMixin
+from employee.mixins.update_mixin import AdminLoggedUpdateMixin
+from employee.mixins.wagon_context_mixins import WagonContextMixin
+from employee.models import Work
 
 
-class WorkCreateView(WorkContextMixin, CreateView):
+class WorkCreateView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    WorkContextMixin,
+    WagonContextMixin,
+    MechanicContextMixin,
+    SuccessMessageMixin,
+    FormDepartmentMixin,
+    InitialDepartmentMixin,
+    AdminLoggedCreateMixin,
+    CreateView,
+):
+    permission_required = "employee.add_work"
     form_class = WorkForm
-    template_name = "work/work_create.html" 
+    template_name = "work/work_create.html"
+    success_message = _("Created %(object_name)s")
+
+    def get_success_message(self, _cleaned_data):
+        return self.success_message % {
+            "object_name": self.get_object_name(self.object),
+        }
 
 
-class WorkUpdateView(WorkContextMixin, UpdateView):
+class WorkUpdateView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    WorkContextMixin,
+    WagonContextMixin,
+    MechanicContextMixin,
+    SuccessMessageMixin,
+    FormDepartmentMixin,
+    InitialDepartmentMixin,
+    AdminLoggedUpdateMixin,
+    UpdateView,
+):
+    permission_required = "employee.change_work"
     form_class = UpdateWorkForm
     template_name = "work/work_update.html"
+    success_message = _("Updated")
 
-
-class WorkDeleteView(WorkContextMixin, DeleteProtectionMixin, DeleteView):
-    template_name = "work/work_confirm_delete.html"
-
-    # Get related piecework records to check if deletion is allowed.
-    def get_related_objects(self):
-        return Piecework.objects.filter(work=self.object)
-    
-    def get_block_message(self):
-        return (
-            f"Cannot delete <b>{self.object.work_name}</b> because it is associated with piecework records. Please remove the piecework records first."
-        )
-    
-    # Handle the deletion and send a warning.
-    def get_redirect_url(self):
-        return self.success_url
-    
-    def get_object_name(self):
-        return f"{self.object.work_name}"
-
-
-def work_list(request):
-    """View to list all works with filtering and pagination."""
-    works = Work.objects.all()
-
-    # Extract filter parameters from the request
-    department = get_selected_department(request)
-    work_name = request.GET.get('work_name')
-
-    # Apply all filters using a reusable filter function
-    works = filter_works(
-        works, 
-        department=department, 
-        work_name=work_name
-    )
-
-    # Ensure consistent ordering for pagination
-    works = works.order_by('work_name')
-
-    # Paginate the results, 10 records per page
-    page_obj = paginate_queryset(request, works)
-
-    # Render the template with all context data
-    return render(
-        request,
-        'work/work_list.html',
-        {
-            'works': page_obj,
-            'page_obj': page_obj,
-            'selected_department': department,
-        }
-    )
+    def get_queryset(self):
+        return Work.objects.for_user(self.request.user)

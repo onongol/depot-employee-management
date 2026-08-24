@@ -1,0 +1,23 @@
+<nav class="sticky top-0 z-50 bg-gray-50 shadow dark:bg-gray-800" role="navigation" aria-label="Main navigation">
+  {% if is_special_navbar %}
+    <div class="relative flex min-h-10 items-center px-4 py-2 md:hidden">
+      {% if is_back_pages and employees %}
+        {% include "includes/buttons/mobile/mobile_back_button.html" %}
+      {% endif %}
+      {% include "includes/buttons/mobile/mobile_cancel_button.html" %}
+    </div>
+  {% else %}
+    <div class="flex w-full flex-wrap items-center justify-between gap-2 px-4 py-2">
+      {% include "base/navbar/menu_button.html" %}
+      <div class="flex min-w-0 flex-1 items-center gap-2">
+        {% include "base/navbar/logo.html" %}
+        {% if perms.employee.select_department %}
+          {% include "includes/department/department_dropdown.html" %}
+        {% endif %}
+        {% include "base/navbar/mobile_department_title.html" %}
+        {% include "base/navbar/navbar_menu.html" %}
+      </div>
+      {% include "base/navbar/user_menu.html" %}
+    </div>
+  {% endif %}
+</nav>

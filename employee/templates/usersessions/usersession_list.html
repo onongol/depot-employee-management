@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+  <div class="mx-auto mt-10 max-w-2xl">
+    <h2 class="mb-6 text-lg font-semibold text-gray-700 dark:text-gray-400">{% trans 'Active sessions' %}</h2>
+    <div class="space-y-3">
+      {% for session in sessions %}
+        <div
+          class="{% if session.is_current %}
+            border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800
+          {% else %}
+            border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-900
+          {% endif %} flex items-start gap-4 rounded-md border p-4 shadow-sm"
+        >
+          <span
+            class="{% if session.is_current %}
+              bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300
+            {% else %}
+              bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400
+            {% endif %} flex size-10 shrink-0 items-center justify-center rounded-full"
+          >
+            <svg class="size-5" aria-hidden="true">
+              <use href="#signal"></use>
+            </svg>
+          </span>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium text-gray-700 dark:text-gray-300" title="{{ session.user_agent }}">
+              {{ session.user_agent }}
+            </p>
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              {{ session.ip }} ·
+              <span title="{{ session.created_at }}">
+                {% blocktrans with started=session.created_at|date:"F j, Y" %}
+                  Signed in {{ started }}
+                {% endblocktrans %}
+              </span>
+              {% if show_last_seen_at and not session.is_current %}
+                ·
+                <span title="{{ session.last_seen_at }}">
+                  {% blocktrans with last_seen=session.last_seen_at|date:"F j, Y" %}
+                    Last seen {{ last_seen }}
+                  {% endblocktrans %}
+                </span>
+              {% endif %}
+            </p>
+          </div>
+          <div class="shrink-0">
+            {% if session.is_current %}
+              <span
+                class="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300"
+              >
+                {% trans "Your current session" %}
+              </span>
+            {% else %}
+              <form method="post" action="{% url 'end_user_session' session.pk %}">
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="cursor-pointer rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700 hover:bg-red-200 focus:ring-2 focus:ring-red-400 focus:outline-none dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800"
+                  aria-label="{% trans 'Sign out this session' %}"
+                >
+                  {% trans 'Sign out' %}
+                </button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+      <a href="{% url 'account_overview' %}" class="text-blue-700 hover:underline dark:text-blue-400"
+        >{% trans "Back to Account" %}</a
+      >
+    </p>
+  </div>
+{% endblock %}

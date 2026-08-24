@@ -1,90 +1,44 @@
 {% extends "base.html" %}
-
-{% block title %}Daily Salary List{% endblock %}
-
+{% load i18n %}
+{% load static %}
+{% block title %}Daily Salary{% endblock %}
 {% block content %}
-
   {% url 'daily_salary_create' as create_url %}
-
-  {% include "includes/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url create_label="Create" %}
-
-  <!-- Filter Form -->
-  <form method="get" class="mb-6" aria-labelledby="employee-list-title">
-    <div class="flex flex-col md:flex-row gap-4">
-      {% include "includes/filter_input.html" with id="filter-employee-id" label="Employee ID" name="employee_id" type="number" value=request.GET.employee_id placeholder="Employee ID" min="1" %}
-
-      {% include "includes/filter_input.html" with id="filter-employee-name" label="Employee Name" name="employee_name" value=request.GET.employee_name placeholder="Employee Name" %}
-
-      {% include "includes/filter_input.html" with id="filter-salary-date" label="Salary Date" name="salary_date" type="date" value=request.GET.salary_date %}
-
-      {% include "includes/filter_input_group.html" with id="filter-record-date" label="Record Date" name="record_date" type="date" value=request.GET.record_date prefix="Record" %}
-      
-      {% include "includes/filter_button.html" %}
+  <!-- Header -->
+  {% if perms.employee.add_dailysalary %}
+    {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department create_url=create_url %}
+  {% else %}
+    {% include "includes/components/list_header.html" with header_id="daily-salary-list-title" title=selected_department only %}
+  {% endif %}
+  <div id="daily-salary-list-control">
+    <div class="mb-2 flex flex-row items-center justify-end gap-2 md:mb-4 md:justify-start md:gap-4">
+      <!-- Actions -->
+      {% if perms.employee.change_dailysalary %}
+        {% include "includes/table_action_buttons/edit_selected_button.html" %}
+      {% endif %}
+      {% if perms.employee.delete_dailysalary %}
+        {% include "includes/table_action_buttons/bulk_delete_button.html" %}
+      {% endif %}
+      <!-- Filters -->
+      {% include "includes/table/list_table_filters.html" with toggle_id="daily-salary-filters-toggle" panel_id="daily-salary-filters-panel" fields_template="daily_salary/daily_salary_filters_fields.html" htmx_target="#daily-salary-list-control" %}
     </div>
-  </form>
-
-  <!-- Delete Messages -->
-  {% include "includes/delete_attention.html" %}
-
-  <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
-    <table class="w-full text-left text-sm text-gray-500 bg-gray-50" aria-describedby="daily-salary-list-title">
-      <thead class="bg-gray-100 text-left text-xs text-gray-700 uppercase tracking-wide border border-gray-200">
-        <tr>
-          {% with col_class="px-6 py-3" %}
-            <th scope="col" class="{{ col_class }}">#</th>
-            <th scope="col" class="{{ col_class }}">ID</th>
-            <th scope="col" class="{{ col_class }}">Name</th>
-            <th scope="col" class="{{ col_class }}">Department</th>
-            <th scope="col" class="{{ col_class }}">Hours</th>
-            <th scope="col" class="{{ col_class }}">Salary</th>
-            <th scope="col" class="{{ col_class }}">
-              {% include "includes/order_by_column.html" with label="Date" field="salary_date" col_class=col_class selected_department=selected_department %}
-            </th>
-            <th scope="col" class="{{ col_class }}">
-              {% include "includes/order_by_column.html" with label="Record" field="record_date" col_class=col_class selected_department=selected_department %}
-            </th>
-            <th scope="col" class="{{ col_class }}">Actions</th>
-          {% endwith %}
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100">
-        {% if daily_salaries %}
-          {% for daily_salary in daily_salaries %}
-            <tr class="odd:bg-white hover:bg-gray-200">
-              {% with col_class="px-6 py-3" %}
-                <td class="{{ col_class }}">{{ forloop.counter0|add:page_obj.start_index }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.employee.employee_id }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.employee.name }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.employee.department }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.hours_per_day }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.salary_day }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.salary_date|date:"Y.m.d" }}</td>
-                <td class="{{ col_class }}">{{ daily_salary.record_date|date:"Y.m.d H:i" }}</td>
-                <td class="{{ col_class }}">
-                  {% url 'daily_salary_update' daily_salary.pk as update_url %}
-                  {% url 'daily_salary_delete' daily_salary.pk as delete_url %}
-                  {% with salary_date=daily_salary.salary_date|date:"Y.m.d" %}
-                    {% include "includes/table_action_buttons.html" with id=daily_salary.employee.employee_id name=daily_salary.employee.name|add:", "|add:salary_date edit_url=update_url delete_url=delete_url %}
-                  {% endwith %}
-                </td>
-              {% endwith %}
-            </tr>
-          {% endfor %}
-        {% else %}
-          <tr>
-            <td colspan="9" class="text-center px-3 py-4 text-gray-500">No daily salaries found...</td>
-          </tr>
-        {% endif %}
-      </tbody>
-    </table>
+    <div id="daily-salary-list-results">
+      <!-- Summary -->
+      {% if perms.employee.change_dailysalary or perms.employee.delete_dailysalary %}
+        {% include "includes/summaries/selected_summary.html" with summary_id="daily-salary-summary" checkbox_name="daily_salary_ids" %}
+      {% endif %}
+      <!-- Bulk action form: wraps the table checkboxes so selected DailySalary IDs are submitted via POST -->
+      <!-- The Delete button in the modal uses form="bulkDeleteForm" to submit this form without moving the button here. -->
+      <form method="post" id="bulkDeleteForm" action="{% url 'daily_salary_delete_bulk' %}">
+        {% csrf_token %}
+        <!-- Table -->
+        {% include "daily_salary/daily_salary_table/daily_salary_table.html" %}
+      </form>
+      <!-- Pagination -->
+      {% include "includes/pagination/pagination.html" with htmx_target="#daily-salary-list-control" %}
+    </div>
   </div>
-
-  <!-- Include Pagination -->
-  <nav aria-label="Daily salary list pagination" class="mt-6">
-    {% include "includes/pagination.html" %}
-  </nav>
-
-  <!-- Include modals for delete and update -->
-  {% include "includes/modals.html" %}
-
+  <!-- Modal -->
+  {% include "includes/modals/modal_update.html" %}
+  {% include "includes/modals/modal_delete_bulk.html" %}
 {% endblock %}

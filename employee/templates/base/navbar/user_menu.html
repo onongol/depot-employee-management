@@ -1,0 +1,14 @@
+{% load i18n %}
+<div class="ml-auto flex items-center gap-2 lg:order-2">
+  <!-- Login/Logout -->
+  {% if request.user.is_authenticated %}
+    {% include "includes/user/user_dropdown.html" %}
+  {% else %}
+    <a
+      href="{% url 'account_login' %}"
+      class="mr-2 flex items-center gap-2 rounded-2xl bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow transition hover:bg-gray-200 focus:ring-0 focus:outline-none dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-700"
+    >
+      {% trans 'Sign in' %}
+    </a>
+  {% endif %}
+</div>

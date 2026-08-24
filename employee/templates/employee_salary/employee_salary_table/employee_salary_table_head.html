@@ -1,0 +1,19 @@
+{% load i18n %}
+<th scope="col" class="{{ col_class_hidden }}">#</th>
+<th scope="col" class="{{ col_class }}">
+  {% include "includes/table/sort_column.html" with label=_("ID") field="employee_id" col_class=col_class selected_department=selected_department htmx_target="#employee-salary-list-results" %}
+</th>
+<th scope="col" class="{{ col_class }}">{% trans "Name" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Position" %}</th>
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Rank" %}</th>
+{% if wagon_mode %}
+  <th scope="col" class="{{ col_class }}">{% trans "Wagon Number" %}</th>
+{% endif %}
+<th scope="col" class="{{ col_class_hidden }}">{% trans "Time" %}</th>
+<th scope="col" class="{{ col_class }}">{% trans "Salary" %}</th>
+<th scope="col" class="{{ col_class }}">
+  {% include "includes/table/sort_column.html" with label=_("Month") field="month" col_class=col_class selected_department=selected_department htmx_target="#employee-salary-list-results" %}
+</th>
+<th scope="col" class="{{ col_class }}">
+  {% include "includes/table/sort_column.html" with label=_("Year") field="year" col_class=col_class selected_department=selected_department htmx_target="#employee-salary-list-results" %}
+</th>
