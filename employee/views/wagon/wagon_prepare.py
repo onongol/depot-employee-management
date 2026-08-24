@@ -19,14 +19,11 @@ def wagon_prepare(request) -> WagonContext:
     # Base queryset for dailyworks related to wagons
     daily_works = (
         DailyWork.objects.for_user(request.user)
+        .filter(department=department)
         .select_related("work")
         .exclude(wagon_number__isnull=True)
         .exclude(wagon_number=DEFAULT_WAGON_NUMBER)
     )
-
-    # Filter by selected department (was missing)
-    if department:
-        daily_works = daily_works.filter(department=department)
 
     wagon_number = request.GET.get("wagon_number", "").strip()
     type_wagon = request.GET.get("type_wagon")

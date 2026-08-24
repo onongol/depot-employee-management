@@ -8,9 +8,7 @@ from employee.views.work.work_context import WorkContext
 def work_prepare(request) -> WorkContext:
     department = get_selected_department(request)
 
-    works = Work.objects.for_user(request.user)
-    if department:
-        works = works.filter(department=department)
+    works = Work.objects.for_user(request.user).filter(department=department)
 
     job_title = request.GET.get("job_title")
     work_name = request.GET.get("work_name")
