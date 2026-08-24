@@ -5,7 +5,7 @@ from django.views.generic import UpdateView
 
 from employee.forms import UpdatePieceworkForm
 from employee.mixins.context_mixins import PieceworkContextMixin
-from employee.models import DailySalary
+from employee.models import DailySalary, Piecework
 from employee.services.calculate_piecework_update import calculate_piecework_update
 from employee.utils.select_department import get_selected_department
 
@@ -17,6 +17,11 @@ class PieceworkUpdateView(
     form_class = UpdatePieceworkForm
     template_name = "piecework/piecework_update.html"
     success_url = reverse_lazy("piecework_list")
+
+    def get_queryset(self):
+        # Same boundary as the list: a record outside the user's department
+        # is a 404 here, not an editable form.
+        return Piecework.objects.for_user(self.request.user)
 
     def get_form_kwargs(self):
         """Add department to form kwargs for filtering."""
