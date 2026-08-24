@@ -5,3 +5,24 @@ services:
   web:
     ports:
       - "8001:8000"
+
+  # TLS-terminating proxy so `production` settings (SECURE_SSL_REDIRECT,
+  # __Secure- cookies) can be exercised locally instead of worked around.
+  # Browse https://localhost:8443 - add it to CSRF_TRUSTED_ORIGINS in .env.
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["app"]
+    depends_on:
+      - web
+    ports:
+      - "8443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - depot_management_network
+
+volumes:
+  caddy_data:
+  caddy_config:

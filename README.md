@@ -139,6 +139,24 @@ exists from image build. Render a template before that step ever runs and
 
 Dev-only ports: keep port mappings in docker-compose.override.yml so production runs without exposed db/web ports by default.
 
+### HTTPS locally (Caddy)
+
+`production.py` (what Docker runs) forces `SECURE_SSL_REDIRECT` and `__Secure-`
+cookies - both require HTTPS, which plain `http://localhost:8001` can't satisfy.
+Rather than weaken those settings, `docker-compose.override.yml` runs a `caddy`
+service that terminates TLS with its own local CA and forwards
+`X-Forwarded-Proto: https`, the same way Railway's edge does in production.
+
+```sh
+docker compose --profile app up -d --build
+# open https://localhost:8443/
+```
+
+The browser will warn about the certificate the first time (Caddy's CA is
+self-signed, not in your system trust store) - proceed past it. Add
+`https://localhost:8443` to `CSRF_TRUSTED_ORIGINS` in `.env` first, or every
+POST/login will fail CSRF even though the page loads.
+
 ## Static files
 
 - Build source assets into `static/` with npm scripts (`dev` for the Vite dev server, `build` for a production build, `watch` to rebuild on save without a dev server).
