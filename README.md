@@ -198,7 +198,3 @@ Raise that number as coverage grows — it's a ratchet, not a target.
 
 - If entrypoint fails on Windows line endings, ensure LF (git config core.autocrlf=input) or see Dockerfile step normalizing CRLF.
 - For slow builds, use BuildKit and lockfiles: `DOCKER_BUILDKIT=1 npm ci && docker buildx build ...`.
-
-## License
-
-MIT. Ensure a LICENSE file is present in the repository root.
