@@ -8,7 +8,7 @@ from employee.views.work.work_context import WorkContext
 def work_prepare(request) -> WorkContext:
     department = get_selected_department(request)
 
-    works = Work.objects.all()
+    works = Work.objects.for_user(request.user)
     if department:
         works = works.filter(department=department)
 

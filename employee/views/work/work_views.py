@@ -11,6 +11,7 @@ from employee.mixins.department_mixins import InitialDepartmentMixin
 from employee.mixins.mechanic_context_mixins import MechanicContextMixin
 from employee.mixins.update_mixin import AdminLoggedUpdateMixin
 from employee.mixins.wagon_context_mixins import WagonContextMixin
+from employee.models import Work
 
 
 class WorkCreateView(
@@ -52,3 +53,6 @@ class WorkUpdateView(
     form_class = UpdateWorkForm
     template_name = "work/work_update.html"
     success_message = _("Updated")
+
+    def get_queryset(self):
+        return Work.objects.for_user(self.request.user)
