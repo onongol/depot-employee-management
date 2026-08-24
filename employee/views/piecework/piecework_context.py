@@ -7,7 +7,6 @@ from typing import Any
 class PieceworkContext:
     pieceworks: Any
     selected_department: str | None
-    employee_id: str | None
     employee_code: str | None
     employee_name: str | None
     job_title: str | None

@@ -5,7 +5,6 @@ from employee.constants.constants import DEFAULT_WAGON_NUMBER, DEFAULT_WAGON_TYP
 
 def filter_pieceworks(queryset, context):
     """Reusable filter for Piecework queryset."""
-    employee_id = context.employee_id
     employee_code = context.employee_code
     employee_name = context.employee_name
     job_title = context.job_title
@@ -17,8 +16,6 @@ def filter_pieceworks(queryset, context):
     date_to = context.date_to
     record_date = context.record_date
 
-    if employee_id:
-        queryset = queryset.filter(employee_id=employee_id)
     if employee_code:
         queryset = queryset.filter(employee_code=employee_code)
     if employee_name:
