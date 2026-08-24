@@ -105,11 +105,18 @@ def test_parse_month_period_takes_the_last_value_of_a_repeated_param(rf):
     assert parse_month_period(request) == (6, 2025, "2025-06")
 
 
-def test_parse_month_period_crashes_on_a_non_ascii_digit_in_the_legacy_pair(rf):
-    # str.isdigit() is Unicode-aware but int() is not, and unlike the
-    # month_period branch the legacy branch has no try/except. A request for
-    # ?legacy_month=² is a 500, not an ignored filter.
+def test_parse_month_period_ignores_a_non_ascii_digit_in_the_legacy_pair(rf):
+    # "²" passes isdigit() but not int(), and this branch has no try/except, so
+    # it used to be a 500 rather than an ignored filter. isdecimal() is the
+    # predicate that matches what int() actually takes.
     request = _request(rf, "legacy_month=%C2%B2&legacy_year=2020")
 
-    with pytest.raises(ValueError, match="invalid literal for int"):
-        parse_month_period(request)
+    assert parse_month_period(request) == (None, None, "")
+
+
+def test_parse_month_period_still_accepts_non_ascii_decimal_digits(rf):
+    # Narrowing to isdecimal() must not cost the digits int() does accept:
+    # ٧ is ARABIC-INDIC DIGIT SEVEN.
+    request = _request(rf, "legacy_month=%D9%A7&legacy_year=2020")
+
+    assert parse_month_period(request) == (7, 2020, "2020-07")
