@@ -29,12 +29,3 @@ class PieceworkForm(TypeWorkChoicesMixin, forms.ModelForm):
             "employee": forms.Select(attrs={"class": "form-control"}),
             "work": forms.Select(attrs={"class": "form-control"}),
         }
-
-
-class UpdatePieceworkForm(TypeWorkChoicesMixin, forms.ModelForm):
-    class Meta:
-        model = Piecework
-        fields = ["type_work", "wagon_number", "amount", "work_date"]
-        widgets = {
-            **COMMON_PIECEWORK_WIDGETS,
-        }

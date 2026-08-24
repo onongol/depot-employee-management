@@ -32,7 +32,6 @@ from employee.views.employee_salary import (
 from employee.views.home import home
 from employee.views.material import material_export_excel, material_list
 from employee.views.piecework import (
-    PieceworkUpdateView,
     piecework_create,
     piecework_export_excel,
     piecework_list,
@@ -109,11 +108,6 @@ urlpatterns = [
     # Piecework URLs
     path("piecework/", piecework_list, name="piecework_list"),
     path("piecework_create/", piecework_create, name="piecework_create"),
-    path(
-        "piecework_update/<int:pk>/",
-        PieceworkUpdateView.as_view(),
-        name="piecework_update",
-    ),
     path(
         "piecework_export_excel/", piecework_export_excel, name="piecework_export_excel"
     ),
