@@ -125,6 +125,8 @@ Entrypoint (entrypoint.prod.sh) does:
   already exists) - requires `DJANGO_SUPERUSER_PASSWORD` in the environment. Log in
   with `admin@admin.com` (not `admin`) - a save-time signal syncs username to email,
   so that's the username that actually gets persisted
+- loads demo data (employees, works, a week of piecework/salary history) when
+  `SEED_DEMO_DATA=true` - idempotent, safe to leave on for repeated local runs
 - verifies static/manifest.json exists
 - `python manage.py collectstatic --noinput`
 - starts Gunicorn
@@ -138,6 +140,24 @@ exists from image build. Render a template before that step ever runs and
 `{% vite_asset %}` raises `DjangoViteAssetNotFoundError`.
 
 Dev-only ports: keep port mappings in docker-compose.override.yml so production runs without exposed db/web ports by default.
+
+### HTTPS locally (Caddy)
+
+`production.py` (what Docker runs) forces `SECURE_SSL_REDIRECT` and `__Secure-`
+cookies - both require HTTPS, which plain `http://localhost:8001` can't satisfy.
+Rather than weaken those settings, `docker-compose.override.yml` runs a `caddy`
+service that terminates TLS with its own local CA and forwards
+`X-Forwarded-Proto: https`, the same way Railway's edge does in production.
+
+```sh
+docker compose --profile app up -d --build
+# open https://localhost:8443/
+```
+
+The browser will warn about the certificate the first time (Caddy's CA is
+self-signed, not in your system trust store) - proceed past it. Add
+`https://localhost:8443` to `CSRF_TRUSTED_ORIGINS` in `.env` first, or every
+POST/login will fail CSRF even though the page loads.
 
 ## Static files
 
@@ -180,7 +200,7 @@ pytest
 `pytest.ini` already points at `depo_crud.settings.test`, so no `DJANGO_SETTINGS_MODULE` is
 needed. Tests run against the same prod-shaped settings (`DEBUG=False`, manifest-backed
 static assets) as what's actually deployed, plus a fast password hasher and an in-memory
-email backend. Outside Docker, add `DJANGO_READ_DOT_ENV_FILE=1` so the DB credentials in
+email backend. Outside Docker, add `DJANGO_READ_DOT_ENV_FILE=True` so the DB credentials in
 `.env` are picked up.
 
 ### Coverage

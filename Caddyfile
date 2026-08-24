@@ -1,0 +1,6 @@
+# Local-only HTTPS front door for docker compose. Terminates TLS with
+# Caddy's self-signed internal CA and forwards X-Forwarded-Proto: https,
+# mirroring how Railway's edge terminates TLS in front of Gunicorn in prod.
+localhost {
+	reverse_proxy web:8000
+}
