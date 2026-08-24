@@ -41,7 +41,7 @@ jobs:
     env:
       DJANGO_SETTINGS_MODULE: depo_crud.settings.test
       DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-      ALLOWED_HOSTS: .railway.app,.example.com
+      ALLOWED_HOSTS: .example.com
       CSRF_TRUSTED_ORIGINS: https://example.com
       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
       MYSQL_USER: ${{ secrets.MYSQL_USER }}
