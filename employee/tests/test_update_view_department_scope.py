@@ -7,7 +7,6 @@ from employee.tests.factories import (
     DailyWorkFactory,
     EmployeeFactory,
     MasterFactory,
-    PieceworkFactory,
     UserFactory,
     WorkFactory,
 )
@@ -40,15 +39,11 @@ def make_daily_work(department):
     return DailyWorkFactory(work=WorkFactory(department=department))
 
 
-def make_piecework(department):
-    return PieceworkFactory(employee=EmployeeFactory(department=department))
-
-
 def make_daily_salary(department):
     return DailySalaryFactory(employee=EmployeeFactory(department=department))
 
 
-RENDERABLE_PAGES = [
+UPDATE_PAGES = [
     pytest.param(
         "change_employee", make_employee, "/employee_update/{pk}/", id="employee"
     ),
@@ -64,18 +59,12 @@ RENDERABLE_PAGES = [
     ),
 ]
 
-# The piecework page cannot render at all: piecework/piecework_update.html was
-# deleted in 2744c955 while the view and the route stayed, so a GET is a 500.
-# The boundary below still has to hold - a 404 comes before any rendering.
-PIECEWORK_PAGE = pytest.param(
-    "change_piecework", make_piecework, "/piecework_update/{pk}/", id="piecework"
-)
-
-UPDATE_PAGES = [*RENDERABLE_PAGES, PIECEWORK_PAGE]
+# Piecework has no update page of its own: its rows are recalculated when the
+# daily work above them is saved.
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize(("codename", "make_row", "url"), RENDERABLE_PAGES)
+@pytest.mark.parametrize(("codename", "make_row", "url"), UPDATE_PAGES)
 def test_the_update_view_opens_a_record_of_the_own_department(
     client, codename, make_row, url
 ):
