@@ -37,14 +37,14 @@ def test_export_view_allows_any_authenticated_user(client, url):
 
 
 @pytest.mark.django_db
-def test_material_export_excel_redirects_authenticated_user_without_permission(client):
+def test_material_export_excel_forbids_authenticated_user_without_permission(client):
     # Unlike the other 5, its sibling material_list also requires this perm.
     user = UserFactory()
     client.force_login(user)
 
     response = client.get("/material_export_excel/")
 
-    assert response.status_code == 302
+    assert response.status_code == 403
 
 
 @pytest.mark.django_db
