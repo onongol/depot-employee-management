@@ -65,6 +65,7 @@ known-first-party = ["depo_crud", "employee"]
 # Real cycle: the model imports the service, the service needs the models.
 "employee/services/daily_work_sync.py" = ["PLC0415"]
 "employee/services/employee_salary_single.py" = ["PLC0415"]
+"employee/services/department_scope.py" = ["PLC0415"]
 "**/__init__.py" = ["F403", "F405"]
 
 [tool.coverage.run]
