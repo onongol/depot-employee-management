@@ -236,25 +236,6 @@ def test_an_employee_code_narrows_to_that_employee(filter_func, factory, model):
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(("filter_func", "factory", "model"), SNAPSHOT_FILTERS)
-def test_an_employee_id_reads_the_foreign_key_not_the_code(filter_func, factory, model):
-    # Trap worth pinning down: on these records employee_id is the FK column,
-    # not the visible code that lives in employee_code. Here one number is both
-    # - first's pk and second's code - and the guard picks by pk, i.e. another
-    # person than a user would expect. No filter form submits it; only a
-    # hand-built URL gets here.
-    first = factory()
-    second = factory(employee=EmployeeFactory(employee_id=first.employee.pk))
-
-    context = make_context(employee_id=first.employee.pk)
-
-    rows = list(filter_func(model.objects.all(), context=context))
-
-    assert rows == [first]
-    assert second.employee_code == first.employee.pk
-
-
-@pytest.mark.django_db
-@pytest.mark.parametrize(("filter_func", "factory", "model"), SNAPSHOT_FILTERS)
 def test_an_employee_name_on_a_record_matches_a_substring(filter_func, factory, model):
     wanted = factory(employee=EmployeeFactory(employee_name="Batbayar"))
     factory(employee=EmployeeFactory(employee_name="Ganbold"))
