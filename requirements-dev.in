@@ -14,6 +14,7 @@ pip-tools
 # Tests
 factory-boy
 pytest
+pytest-cov
 pytest-django
 
 # Local development aids, wired up only in settings/local.py
