@@ -98,7 +98,7 @@ jobs:
         # The threshold lives here, not in pyproject: a local `pytest --cov -k ...`
         # measures a subset and would trip the gate on every partial run.
         run: |
-          pytest --cov --cov-report=term-missing --cov-report=xml --cov-fail-under=75
+          pytest --cov --cov-report=term-missing --cov-report=xml --cov-fail-under=77
 
       # Kept on failure too - the report is what explains a threshold miss.
       - name: Upload Coverage Report
