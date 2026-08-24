@@ -32,7 +32,11 @@ def iter_rows(qs, context):
                 or getattr(getattr(pw, "employee", None), "employee_name", "")
                 or ""
             )
-            department_val = department_val or getattr(pw, "department", "") or ""
+            department_val = (
+                department_val
+                or getattr(getattr(pw, "employee", None), "department", "")
+                or ""
+            )
             work_name = (
                 work_name or getattr(getattr(pw, "work", None), "work_name", "") or ""
             )
