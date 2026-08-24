@@ -200,7 +200,7 @@ pytest
 `pytest.ini` already points at `depo_crud.settings.test`, so no `DJANGO_SETTINGS_MODULE` is
 needed. Tests run against the same prod-shaped settings (`DEBUG=False`, manifest-backed
 static assets) as what's actually deployed, plus a fast password hasher and an in-memory
-email backend. Outside Docker, add `DJANGO_READ_DOT_ENV_FILE=1` so the DB credentials in
+email backend. Outside Docker, add `DJANGO_READ_DOT_ENV_FILE=True` so the DB credentials in
 `.env` are picked up.
 
 ### Coverage
