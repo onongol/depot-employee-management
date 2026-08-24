@@ -1,7 +1,7 @@
 exclude: '/migrations/|^static/|^staticfiles/|^venv/|package-lock\.json'
 default_stages: [pre-commit]
 default_language_version:
-  python: python3.13
+  python: python3.14
 minimum_pre_commit_version: "3.2.0"
 
 repos:
