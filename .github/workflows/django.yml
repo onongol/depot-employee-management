@@ -3,10 +3,12 @@ name: Django CI
 on:
   push:
     branches:
-      - "feature/django-permissions-migration"
+      - "main"
+      - "feature/**"
   pull_request:
     branches:
-      - "feature/django-permissions-migration"
+      - "main"
+      - "feature/**"
 jobs:
   # Catches what a local --no-verify or an edit through the GitHub web UI skips.
   lint:
