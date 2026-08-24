@@ -191,7 +191,7 @@ pytest --cov --cov-report=term-missing   # or --cov-report=html for htmlcov/inde
 
 What gets measured is configured under `[tool.coverage.*]` in `pyproject.toml`; migrations,
 the tests themselves and the never-imported-under-test modules are excluded. CI runs the
-same command with `--cov-fail-under=77` and uploads `coverage.xml` as a build artifact.
+same command with `--cov-fail-under=80` and uploads `coverage.xml` as a build artifact.
 Raise that number as coverage grows — it's a ratchet, not a target.
 
 ## Troubleshooting
