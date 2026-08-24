@@ -174,10 +174,25 @@ such pin: its hook runs from `node_modules`, so `npm ci` has to happen before
 ## Tests
 
 ```sh
-DJANGO_SETTINGS_MODULE=depo_crud.settings.test python manage.py test
+pytest
 ```
 
-Runs against the same prod-shaped settings (`DEBUG=False`, manifest-backed static assets) as what's actually deployed, plus a fast password hasher and an in-memory email backend. The "Django: Tests" VS Code task already sets this.
+`pytest.ini` already points at `depo_crud.settings.test`, so no `DJANGO_SETTINGS_MODULE` is
+needed. Tests run against the same prod-shaped settings (`DEBUG=False`, manifest-backed
+static assets) as what's actually deployed, plus a fast password hasher and an in-memory
+email backend. Outside Docker, add `DJANGO_READ_DOT_ENV_FILE=1` so the DB credentials in
+`.env` are picked up.
+
+### Coverage
+
+```sh
+pytest --cov --cov-report=term-missing   # or --cov-report=html for htmlcov/index.html
+```
+
+What gets measured is configured under `[tool.coverage.*]` in `pyproject.toml`; migrations,
+the tests themselves and the never-imported-under-test modules are excluded. CI runs the
+same command with `--cov-fail-under=75` and uploads `coverage.xml` as a build artifact.
+Raise that number as coverage grows — it's a ratchet, not a target.
 
 ## Troubleshooting
 

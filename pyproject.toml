@@ -67,6 +67,28 @@ known-first-party = ["depo_crud", "employee"]
 "employee/services/employee_salary_single.py" = ["PLC0415"]
 "**/__init__.py" = ["F403", "F405"]
 
+[tool.coverage.run]
+source = ["depo_crud", "employee"]
+branch = true
+omit = [
+  "*/migrations/*",
+  "*/tests/*",
+  "manage.py",
+  "depo_crud/asgi.py",
+  "depo_crud/wsgi.py",
+  # Never imported under DJANGO_SETTINGS_MODULE=depo_crud.settings.test.
+  "depo_crud/settings/local.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_also = [
+  "if TYPE_CHECKING:",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+]
+
 # Lint only. Formatting is Prettier's: djlint --reformat and Prettier rewrite
 # each other's output forever, so the formatter options are deliberately absent.
 [tool.djlint]
