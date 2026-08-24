@@ -4,6 +4,18 @@
 
 Django application for managing employees, jobs, piecework payments, and materials. Supports filtering and export to Excel/PDF.
 
+Security and admin:
+
+- Email-based auth via django-allauth: mandatory email verification, password reset
+- Two-factor authentication (TOTP + recovery codes)
+- Brute-force login protection (django-axes: lockout after 5 failed attempts)
+- Content-Security-Policy headers (django-csp, currently report-only)
+- Argon2id password hashing (OWASP-recommended, legacy hashes auto-upgrade on login)
+- Audit trail / version history on core records (django-simple-history)
+- Customized admin (django-unfold) with import/export
+- Bilingual interface: English and Mongolian (Django i18n)
+- Sentry error monitoring
+
 ## Project structure
 
 ```
@@ -35,8 +47,8 @@ Django application for managing employees, jobs, piecework payments, and materia
 
 ## Requirements
 
-- Python 3.13
-- Node.js ≥20 (verify with package.json “engines”) and npm 10+
+- Python 3.14
+- Node.js ≥20 (see package.json “engines”) and npm 10+
 - MySQL 8+ (or compatible)
 
 ## Installation (development)
@@ -77,7 +89,15 @@ MYSQL_PASSWORD=pass
 MYSQL_HOST=localhost
 MYSQL_PORT=3306
 
-# Only needed in production/CI - local.py hardcodes permissive defaults.
+# Only needed for `docker compose up` - a different database from the one
+# above, read by docker-compose.yml's `db`/`web` services.
+MYSQL_DOCKER_ROOT_PASSWORD=change-me
+MYSQL_DOCKER_DATABASE=my_db_docker
+MYSQL_DOCKER_USER=my_user_docker
+MYSQL_DOCKER_PASSWORD=change-me
+
+# Only needed in production/CI - local.py hardcodes ALLOWED_HOSTS to "*";
+# CSRF_TRUSTED_ORIGINS stays env-driven even locally (empty by default).
 ALLOWED_HOSTS=127.0.0.1,localhost
 CSRF_TRUSTED_ORIGINS=https://example.com
 
@@ -85,7 +105,7 @@ INTERNAL_IPS=127.0.0.1
 NPM_BIN_PATH=/usr/local/bin/npm   # only if npm isn't on PATH
 
 # Optional - defaults to console/SMTP backend depending on environment.
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+# EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST=smtp.example.com
 EMAIL_PORT=587
 EMAIL_HOST_USER=
@@ -114,8 +134,11 @@ python manage.py runserver
 
 ```sh
 docker compose up -d --build
-# open http://127.0.0.1:8000/
 ```
+
+This starts only `db` - `web` is gated behind the `app` profile (see
+[HTTPS locally (Caddy)](#https-locally-caddy) below) so a production deploy
+can bring up the database without also starting the app on the same host.
 
 Entrypoint (entrypoint.prod.sh) does:
 
@@ -217,4 +240,4 @@ Raise that number as coverage grows — it's a ratchet, not a target.
 ## Troubleshooting
 
 - If entrypoint fails on Windows line endings, ensure LF (git config core.autocrlf=input) or see Dockerfile step normalizing CRLF.
-- For slow builds, use BuildKit and lockfiles: `DOCKER_BUILDKIT=1 npm ci && docker buildx build ...`.
+- For slow builds, use lockfile-based installs and enable BuildKit for the image build: `npm ci && DOCKER_BUILDKIT=1 docker buildx build ...`.
