@@ -1,7 +1,7 @@
 import pytest
 
 from employee.constants.constants import Department, GroupNames
-from employee.tests.factories import EmployeeFactory, UserFactory
+from employee.tests.factories import EmployeeFactory, MasterFactory, UserFactory
 from employee.views.employee.employee_prepare import employee_prepare
 
 
@@ -24,8 +24,9 @@ def test_user_without_view_employee_sees_only_own_record(rf):
 
 
 @pytest.mark.django_db
-def test_masters_group_member_sees_every_record(rf):
+def test_masters_group_member_sees_every_record_of_their_department(rf):
     user = UserFactory(groups=[GroupNames.MASTERS.value])
+    MasterFactory(user=user, department=Department.ZASVAR_1.value)
     EmployeeFactory(department=Department.ZASVAR_1.value)
     EmployeeFactory(department=Department.ZASVAR_1.value)
 
