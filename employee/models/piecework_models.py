@@ -20,6 +20,7 @@ from employee.services.daily_work_calculations import (
     calculate_material_amount,
     calculate_time_amount,
 )
+from employee.services.department_scope import DepartmentScopedManager
 from employee.services.normalizes import (
     normalize_field,
     normalize_str_field,
@@ -116,6 +117,9 @@ class Piecework(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     group_id = models.CharField(max_length=36, blank=True, null=True, db_index=True)
 
     history = HistoricalRecords()
+
+    # Department boundary; see DepartmentScopedQuerySet.for_user().
+    objects = DepartmentScopedManager()
 
     class Meta:
         indexes = [

@@ -12,6 +12,7 @@ from employee.constants.constants import (
     RANK_CHOICES,
 )
 from employee.models.models_mixins.soft_delete_mixin import SoftDeleteMixin
+from employee.services.department_scope import ScopedSoftDeleteManager
 from employee.services.employee_salary_single import (
     get_employee_total_piecework_amount,
     get_employee_total_salary,
@@ -75,7 +76,7 @@ class Employee(SoftDeleteMixin, models.Model):
     history = HistoricalRecords()
 
     # Custom managers to handle soft deletion logic.
-    objects = SoftDeleteManager()
+    objects = ScopedSoftDeleteManager()
     all_objects = SoftDeleteManager(only_alive=False)
 
     # Meta options for database indexing and string representation.

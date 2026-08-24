@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
 from employee.models.employee_models import Employee
+from employee.services.department_scope import DepartmentScopedManager
 
 
 class DailySalary(models.Model):
@@ -53,6 +54,9 @@ class DailySalary(models.Model):
     record_date = models.DateTimeField(auto_now_add=True)
 
     history = HistoricalRecords()
+
+    # Department boundary; see DepartmentScopedQuerySet.for_user().
+    objects = DepartmentScopedManager()
 
     class Meta:
         """

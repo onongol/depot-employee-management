@@ -18,6 +18,7 @@ from employee.models.models_mixins.display_mixins import (
     TypeWagonDisplayMixin,
 )
 from employee.models.models_mixins.soft_delete_mixin import SoftDeleteMixin
+from employee.services.department_scope import ScopedSoftDeleteManager
 from employee.services.soft_delete_manager import SoftDeleteManager
 
 
@@ -77,7 +78,7 @@ class Work(
     history = HistoricalRecords()
 
     # Custom managers to handle soft deletion logic.
-    objects = SoftDeleteManager()
+    objects = ScopedSoftDeleteManager()
     all_objects = SoftDeleteManager(only_alive=False)
 
     class Meta:

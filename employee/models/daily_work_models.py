@@ -22,6 +22,7 @@ from employee.services.daily_work_calculations import (
     calculate_time_amount,
 )
 from employee.services.daily_work_sync import sync_piecework_with_dailywork
+from employee.services.department_scope import DepartmentScopedManager
 from employee.services.normalizes import (
     normalize_field,
     normalize_str_field,
@@ -101,6 +102,9 @@ class DailyWork(TypeWagonDisplayMixin, WagonNumberDisplayMixin, models.Model):
     record_date = models.DateTimeField(auto_now_add=True)
 
     history = HistoricalRecords()
+
+    # Department boundary; see DepartmentScopedQuerySet.for_user().
+    objects = DepartmentScopedManager()
 
     class Meta:
         indexes = [
