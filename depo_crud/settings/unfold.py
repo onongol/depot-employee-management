@@ -12,8 +12,8 @@ UNFOLD = {
     "SITE_FAVICONS": [
         {
             "rel": "icon",
-            "sizes": "32x32",
-            "type": "image/x-icon",
+            "sizes": "any",
+            "type": "image/svg+xml",
             "href": lambda request: static("images/favicon.svg"),
         },
     ],
