@@ -9,6 +9,9 @@ on:
     branches:
       - "main"
       - "feature/**"
+  # Manual re-run from the Actions tab, for when a run needs repeating
+  # without a new commit (flaky infra, updated secrets).
+  workflow_dispatch:
 jobs:
   # Catches what a local --no-verify or an edit through the GitHub web UI skips.
   lint:
