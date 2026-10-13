@@ -18,71 +18,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: depo_crud/settings.py:166
+#: config/settings/base.py:161
 #: employee/templates/includes/user/language_switcher.html:13
 msgid "English"
 msgstr "Англи"
 
-#: depo_crud/settings.py:167
+#: config/settings/base.py:162
 #: employee/templates/includes/user/language_switcher.html:19
 msgid "Mongolian"
 msgstr "Монгол"
 
-#: depo_crud/unfold_settings.py:27
+#: config/settings/unfold.py:27
 msgid "Administration"
 msgstr "Удирдлагын хавтан"
 
-#: depo_crud/unfold_settings.py:30
+#: config/settings/unfold.py:30
 msgid "Log entries"
 msgstr "Бүртгэлийн лог"
 
-#: depo_crud/unfold_settings.py:36
+#: config/settings/unfold.py:36
 msgid "Authentication and Authorization"
 msgstr "Нэвтрэлт болон Эрх олголт"
 
-#: depo_crud/unfold_settings.py:39
+#: config/settings/unfold.py:39
 msgid "Groups"
 msgstr "Бүлгүүд"
 
-#: depo_crud/unfold_settings.py:43
+#: config/settings/unfold.py:43
 msgid "Users"
 msgstr "Хэрэглэгчид"
 
-#: depo_crud/unfold_settings.py:49
+#: config/settings/unfold.py:53
 msgid "Operations"
 msgstr "Үйл ажиллагаа"
 
-#: depo_crud/unfold_settings.py:52
+#: config/settings/unfold.py:56
 msgid "Payrolls"
 msgstr "Цалингийн цэс"
 
-#: depo_crud/unfold_settings.py:56
+#: config/settings/unfold.py:60
 msgid "Masters"
 msgstr "Мастерууд"
 
-#: depo_crud/unfold_settings.py:60
+#: config/settings/unfold.py:64
 #: employee/templates/base/navbar/navbar_menu.html:6
 #: employee/templates/base/sidebar/sidebar_menu.html:3
 #: employee/templates/home/home.html:11
 msgid "Employees"
 msgstr "Ажилтнууд"
 
-#: depo_crud/unfold_settings.py:64
+#: config/settings/unfold.py:68
 #: employee/templates/base/navbar/navbar_menu.html:8
 #: employee/templates/base/sidebar/sidebar_menu.html:5
 #: employee/templates/home/home.html:14
 msgid "Works"
 msgstr "Ажлууд"
 
-#: depo_crud/unfold_settings.py:68
+#: config/settings/unfold.py:72
 msgid "Daily salaries"
 msgstr "Өдрийн цалин"
 
-#: depo_crud/unfold_settings.py:72
+#: config/settings/unfold.py:76
 msgid "Daily works"
 msgstr "Өдөр тутмын ажил"
 
-#: depo_crud/unfold_settings.py:76
+#: config/settings/unfold.py:80
 msgid "Pieceworks"
 msgstr "Хийснээрх ажил"
 
