@@ -20,7 +20,7 @@ Security and admin:
 
 ```
 .
-├── depo_crud/
+├── config/
 │   ├── settings/
 │   │   ├── base.py
 │   │   ├── local.py        # DJANGO_SETTINGS_MODULE default for manage.py
@@ -117,9 +117,9 @@ DEFAULT_FROM_EMAIL=no-reply@example.com
 SENTRY_DSN=
 ```
 
-`DJANGO_SETTINGS_MODULE` picks the environment (`depo_crud.settings.local`/`.production`/`.test`) and must **not** be put in `.env` — `.env` is loaded from inside the settings module itself, after Python has already resolved which one to import. `manage.py` defaults to `.local` when unset; `wsgi.py`/`asgi.py`/the Dockerfile default to `.production`.
+`DJANGO_SETTINGS_MODULE` picks the environment (`config.settings.local`/`.production`/`.test`) and must **not** be put in `.env` — `.env` is loaded from inside the settings module itself, after Python has already resolved which one to import. `manage.py` defaults to `.local` when unset; `wsgi.py`/`asgi.py`/the Dockerfile default to `.production`.
 
-Static settings: STATIC_ROOT=staticfiles, STATICFILES_DIRS includes “static” (see depo_crud/settings/base.py).
+Static settings: STATIC_ROOT=staticfiles, STATICFILES_DIRS includes “static” (see config/settings/base.py).
 
 ## Running (development)
 
@@ -220,7 +220,7 @@ such pin: its hook runs from `node_modules`, so `npm ci` has to happen before
 pytest
 ```
 
-`pytest.ini` already points at `depo_crud.settings.test`, so no `DJANGO_SETTINGS_MODULE` is
+`pytest.ini` already points at `config.settings.test`, so no `DJANGO_SETTINGS_MODULE` is
 needed. Tests run against the same prod-shaped settings (`DEBUG=False`, manifest-backed
 static assets) as what's actually deployed, plus a fast password hasher and an in-memory
 email backend. Outside Docker, add `DJANGO_READ_DOT_ENV_FILE=True` so the DB credentials in
