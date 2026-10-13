@@ -42,7 +42,7 @@ jobs:
         python-version: ["3.14"]
 
     env:
-      DJANGO_SETTINGS_MODULE: depo_crud.settings.test
+      DJANGO_SETTINGS_MODULE: config.settings.test
       DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
       ALLOWED_HOSTS: .example.com
       CSRF_TRUSTED_ORIGINS: https://example.com
@@ -92,7 +92,7 @@ jobs:
           python manage.py collectstatic --noinput
       - name: Deployment Checks
         env:
-          DJANGO_SETTINGS_MODULE: depo_crud.settings.production
+          DJANGO_SETTINGS_MODULE: config.settings.production
         run: |
           python manage.py check --deploy --fail-level WARNING
 

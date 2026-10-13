@@ -49,11 +49,11 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["depo_crud", "employee"]
+known-first-party = ["config", "employee"]
 
 [tool.ruff.lint.per-file-ignores]
 # Settings modules and packages are assembled with star imports.
-"depo_crud/settings/*.py" = ["F403", "F405"]
+"config/settings/*.py" = ["F403", "F405"]
 # In an assertion the literal is the documentation; naming it hides what is checked.
 "employee/tests/*.py" = ["PLR2004"]
 # delete()/hard_delete() mirror Django's Model.delete(using, keep_parents) signature.
@@ -69,16 +69,16 @@ known-first-party = ["depo_crud", "employee"]
 "**/__init__.py" = ["F403", "F405"]
 
 [tool.coverage.run]
-source = ["depo_crud", "employee"]
+source = ["config", "employee"]
 branch = true
 omit = [
   "*/migrations/*",
   "*/tests/*",
   "manage.py",
-  "depo_crud/asgi.py",
-  "depo_crud/wsgi.py",
-  # Never imported under DJANGO_SETTINGS_MODULE=depo_crud.settings.test.
-  "depo_crud/settings/local.py",
+  "config/asgi.py",
+  "config/wsgi.py",
+  # Never imported under DJANGO_SETTINGS_MODULE=config.settings.test.
+  "config/settings/local.py",
 ]
 
 [tool.coverage.report]

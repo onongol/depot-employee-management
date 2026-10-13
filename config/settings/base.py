@@ -75,7 +75,7 @@ MIDDLEWARE = [
 ]
 
 # 5. URL Configuration: The root URL configuration for the project
-ROOT_URLCONF = "depo_crud.urls"
+ROOT_URLCONF = "config.urls"
 
 # Required by django.contrib.sites (allauth dependency); single-site deployment.
 SITE_ID = 1
@@ -104,7 +104,7 @@ TEMPLATES = [
 
 
 # 7. WSGI Application: The WSGI entrypoint for the application callable for deployment
-WSGI_APPLICATION = "depo_crud.wsgi.application"
+WSGI_APPLICATION = "config.wsgi.application"
 
 
 # 8. Database: Database configuration

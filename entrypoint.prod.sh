@@ -13,7 +13,7 @@ import os, sys
 import django
 from django.db import connections
 from django.db.utils import OperationalError
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "depo_crud.settings.production")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
 try:
     django.setup()
     connections["default"].cursor().execute("SELECT 1")
@@ -59,4 +59,4 @@ python manage.py collectstatic --noinput
 echo "==> [SERVER] Starting Gunicorn..."
 WORKERS=${GUNICORN_WORKERS:-3}
 
-exec gunicorn depo_crud.wsgi:application --bind 0.0.0.0:8000 --workers "$WORKERS" --access-logfile - --error-logfile - --timeout 120 --graceful-timeout 30
+exec gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers "$WORKERS" --access-logfile - --error-logfile - --timeout 120 --graceful-timeout 30
